@@ -7,14 +7,31 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    
     extend: {
+      colors: {
+        'black': '#121212',
+        'green': '#24643B',
+        'amber': '#F7C35F',
+        'semi-transparent-greenish': '#2D5F4DBF',
+        'muted-green': '#2D5F4D',
+        'pale': '#CFE2CE7F',
+        'muted': '#CFE2CE',
+        'dark-green': '#344C31',
+      },
+      fontFamily: {
+        'poppins': ['Poppins', 'sans-serif'],
+        'livvic': ['Livvic', 'sans-serif'],
+        'dancing-script': ['Dancing Script', 'cursive']
+      },
       backgroundImage: {
-        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
-        'gradient-conic':
-          'conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))',
+        'hero-pattern': "url('/src/app/images/bannerbg.png')",
+        'about': "url('/public/images/about.png')"
+
       },
     },
   },
+ 
   plugins: [],
 }
 export default config
