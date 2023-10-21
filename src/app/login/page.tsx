@@ -16,7 +16,10 @@ export default function LoginPage() {
 
   return (
     <main className="flex flex-col items-center justify-center border min-h-screen">
-      <div className="border rounded-xl h-[610px] w-[500px] bg-[#F0EEF6]  shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]">
+      <div
+        className="border rounded-xl lg:h-[610px] lg:w-[500px]
+        h-[640px] w-[380px] bg-[#F0EEF6]  shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]"
+      >
         <div className="flex justify-end m-3">
           <button className="mt-1 w-9 border-black text-black text-xl cursor-pointer font-bold">
             X
@@ -26,7 +29,7 @@ export default function LoginPage() {
           <label htmlFor="" className="text-[30px] font-bold">
             Log In
           </label>
-          <div className="label-container">
+          <div className="label-container lg:text-[16px] text-[13px] mr-4">
             <p className="text-left">
               By continuing, you agree to our{" "}
               <span className="text-[#0227EB] cursor-pointer">
@@ -104,7 +107,7 @@ export default function LoginPage() {
             </p>
           </div>
           <div className="ml-4 mr-4 mt-6">
-            <button className="bg-[#4DE69E] hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl w-[470px] h-[50px] font-bold">
+            <button className="bg-[#4DE69E] hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl w-[350px] h-[50px] font-bold lg:w-[470px] lg:h-[50px]">
               Log In
             </button>
           </div>
