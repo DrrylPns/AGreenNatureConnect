@@ -17,7 +17,7 @@ export default function SignupPage() {
     <main className="flex flex-col items-center justify-center border min-h-screen ">
       <div
         className="border rounded-xl md:h-[610px] md:w-[500px]
-        h-[640px] w-[380px]
+        h-[620px] w-[380px]
        bg-[#F0EEF6]  shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]"
       >
         <div className="flex justify-end m-3">
@@ -78,11 +78,11 @@ export default function SignupPage() {
           </div>
           <div className="flex flex-col items-center h-[20px] ml-5 mr-5 mt-10">
             <div className="flex items-center w-full">
-              <div className="flex-grow h-px bg-gray-200 dark:bg-[#00000066]"></div>
-              <p className="text-white dark:text-black text-xs mx-7 font-extrabold">
+              <div className="flex-grow h-px bg-black dark:bg-[#00000066]"></div>
+              <p className="text-black dark:text-black text-xs mx-7 font-extrabold">
                 OR
               </p>
-              <div className="flex-grow h-px bg-gray-200 dark:bg-[#00000066]"></div>
+              <div className="flex-grow h-px bg-black dark:bg-[#00000066]"></div>
             </div>
           </div>
           <div className="h-[40px] grid items-center mt-4 ml-4 mr-4">
