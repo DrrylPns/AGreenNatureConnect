@@ -15,6 +15,7 @@ import HealthIcon from '../../public//images/healthIcon.png'
 import Phone from '../../public//images/phone.png'
 import Email from '../../public//images/email.png'
 import Location from '../../public//images/location.png'
+import Link from 'next/link'
 
 
 export default async function Home() {
@@ -46,7 +47,7 @@ export default async function Home() {
           <h1 className='font-livvic font-bold leading-[70px] text-white text-[50px] self-start'>Good production</h1>
         </div>
         <p className='my-[20px] text-white font-poppins text-[15px]'>Greens in the Streets: Farming for a Better Tomorrow</p>
-        <button className='text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] p-4 border-none rounded-lg'>GET STARTED</button>
+        <Link href="/discussion" className='text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] p-4 border-none rounded-lg'>GET STARTED</Link>
       </div>
     </header>
     {/*SUBHEADING*/}  
