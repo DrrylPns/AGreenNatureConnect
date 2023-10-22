@@ -1,4 +1,3 @@
-
 import Image from 'next/image'
 import Navbar from './components/Navbar/navbar'
 import Footer from './components/Footer/footer'
@@ -20,8 +19,6 @@ import Link from 'next/link'
 
 export default async function Home() {
  
-
-
   return (
     <div className='flex flex-col justify-between'>
     {/*Heading*/}
