@@ -1,13 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 export default function SignupPage() {
-  const router = useRouter();
-
-  const NavigatetoLoginPage = () => {
-    router.push("/login");
-  };
   const [showPassword, setShowPassword] = React.useState(false);
 
   const togglePasswordVisibility = () => {
@@ -78,27 +74,27 @@ export default function SignupPage() {
           </div>
           <div className="flex flex-col items-center h-[20px] ml-5 mr-5 mt-10">
             <div className="flex items-center w-full">
-              <div className="flex-grow h-px bg-black dark:bg-[#00000066]"></div>
+              <div className="flex-grow h-px bg-black/40 dark:bg-[#00000066]"></div>
               <p className="text-black dark:text-black text-xs mx-7 font-extrabold">
                 OR
               </p>
-              <div className="flex-grow h-px bg-black dark:bg-[#00000066]"></div>
+              <div className="flex-grow h-px bg-black/40 dark:bg-[#00000066]"></div>
             </div>
           </div>
           <div className="h-[40px] grid items-center mt-4 ml-4 mr-4">
-            <label className="border rounded-xl  bg-white h-[40px] grid items-center font-bold cursor-pointer">
+            <label className="border rounded-xl bg-white h-[40px] grid items-center font-bold cursor-pointer text-center">
               Continue with Google
             </label>
           </div>
           <div className="labelSignup-container">
             <p className="text-left ml-4 mt-2">
               Already have an account?{" "}
-              <span
-                onClick={NavigatetoLoginPage}
+              <Link
+                href="login"
                 className="text-[#0227EB] cursor-pointer"
               >
                 Log In
-              </span>
+              </Link>
             </p>
           </div>
           <div className="ml-4 mr-4 mt-12">
