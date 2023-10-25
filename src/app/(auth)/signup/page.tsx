@@ -2,6 +2,8 @@
 import React, { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
+import googlesvg from "@/app/discussion/images/google.svg";
 
 export default function SignupPage() {
   const [showPassword, setShowPassword] = React.useState(false);
@@ -81,9 +83,18 @@ export default function SignupPage() {
               <div className="flex-grow h-px bg-black/40 dark:bg-[#00000066]"></div>
             </div>
           </div>
-          <div className="h-[40px] grid items-center mt-4 ml-10 mr-10">
+          <div className="h-[40px] grid items-center mt-3 pl-10 pr-10">
             <label className="border rounded-xl bg-white h-[40px] grid items-center font-bold cursor-pointer text-center">
-              Continue with Google
+              <span className="grid grid-cols-3">
+                <Image
+                  className="ml-2 mt-2 mb-2 "
+                  src={googlesvg}
+                  alt="Google_Icon"
+                />
+                <span className="text-[15px] pr-18 mr-20 mt-2 col-span-2">
+                  Continue with Google
+                </span>
+              </span>
             </label>
           </div>
           <div className="labelSignup-container">
