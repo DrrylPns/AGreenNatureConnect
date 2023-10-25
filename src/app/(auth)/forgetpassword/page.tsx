@@ -46,7 +46,7 @@ const page = () => {
           </div>
           {/** Reset Button */}
           <div className="ml-10 mr-10">
-            <button className="bg-[#4DE69E] hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[520px] md:h-[50px]">
+            <button className="bg-[#4DE69E] hover:bg-opacity-75  duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[520px] md:h-[50px]">
               Reset Password
             </button>
           </div>

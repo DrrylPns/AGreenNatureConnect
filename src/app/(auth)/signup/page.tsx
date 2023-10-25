@@ -106,7 +106,7 @@ export default function SignupPage() {
             </p>
           </div>
           <div className="ml-10 mr-10 mt-12">
-            <button className="bg-[#4DE69E] hover:-translate-y-1 hover:scale-110 duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[420px] md:h-[50px]">
+            <button className="bg-[#4DE69E] hover:bg-opacity-75 duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[420px] md:h-[50px]">
               Sign Up
             </button>
           </div>
