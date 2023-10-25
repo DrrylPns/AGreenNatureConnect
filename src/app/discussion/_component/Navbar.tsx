@@ -1,13 +1,18 @@
+"use client"
+
 import Image from 'next/image'
 import { FiSearch } from "react-icons/fi"
 import LogoIcon from '../images/logo.png'
 import React from 'react'
 import Link from 'next/link'
-import { buttonVariants } from '@/app/components/Ui/Button'
+import { Button, buttonVariants } from '@/app/components/Ui/Button'
+import useRegisterModal from '@/lib/hooks/useRegisterModal'
 
 export default function Navbar() {
+    const registerModal = useRegisterModal();
+
     return (
-        <nav className={`fixed grid grid-cols-12 gap-4 z-50 bg-[#F0EEF6] w-full px-20 py-3 drop-shadow-lg shadow-md`}>
+        <nav className={`fixed grid grid-cols-12 gap-4 bg-[#F0EEF6] w-full px-20 py-3 drop-shadow-lg shadow-md z-10`}>
             <Link href="/" className="col-span-3 my-auto">
                 <Image
                     src={LogoIcon}
@@ -25,9 +30,11 @@ export default function Navbar() {
             </div>
             {/*if user not sign in display SignIn btn else Profile of the user with settings and notif Icons */}
             <div className="col-span-3 drop-shadow-lg text-end my-auto">
-                <Link href="/login" className={buttonVariants({
-                    variant: 'green',
-                })}>Sign In</Link>
+                <Button
+                    variant={'green'}
+                    onClick={registerModal.onOpen}>
+                    Sign In
+                </Button>
             </div>
         </nav>
     )

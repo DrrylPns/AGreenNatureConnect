@@ -16,7 +16,7 @@ export default function SignupPage() {
       <div
         className="border rounded-xl md:h-[610px] md:w-[500px]
         h-[620px] w-[380px]
-       bg-[#F0EEF6]  shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]"
+       bg-[#F0EEF6] shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)]"
       >
         <div className="flex justify-end m-3">
           <button className="mt-1 w-9 border-black text-black text-xl cursor-pointer font-bold">
