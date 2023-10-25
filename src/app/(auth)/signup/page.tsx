@@ -10,7 +10,7 @@ export default function SignupPage() {
     setShowPassword(!showPassword);
   };
   return (
-    <main className="flex flex-col items-center justify-center border min-h-screen ">
+    <main className="flex flex-col items-center justify-center border min-h-screen">
       <div
         className="border rounded-xl md:h-[610px] md:w-[500px]
         h-[620px] w-[380px]
@@ -21,7 +21,7 @@ export default function SignupPage() {
             X
           </button>
         </div>
-        <div className="grid justify-items-start pl-10 pr-10 text-black">
+        <div className="grid justify-items-start pt-2 pl-10 pr-10 text-black">
           <label htmlFor="" className="text-[30px] font-bold">
             Sign Up
           </label>

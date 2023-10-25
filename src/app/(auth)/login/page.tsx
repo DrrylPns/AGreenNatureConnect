@@ -78,7 +78,7 @@ export default function LoginPage() {
           {/** Forget Password Label */}
           <div className="text-right text-black">
             <p className="italic mt-6 mb-4 mr-10 ml-10 cursor-pointer">
-              Forgot Password?
+              <Link href="forgetpassword">Forgot Password?</Link>
             </p>
           </div>
           {/** Or and Line */}
