@@ -1,0 +1,245 @@
+'use client'
+import React, { useState } from 'react';
+import { motion } from 'framer-motion';
+import {
+  BiMenu,
+  BiArrowBack,
+  BiHome,
+  BiStore,
+  BiInfoCircle,
+} from "react-icons/bi"
+import { PiUsersThree, PiCaretDown } from 'react-icons/pi'
+import { AiOutlineQuestionCircle, AiOutlineFileProtect } from 'react-icons/ai'
+import { LuFileSignature } from 'react-icons/lu'
+import Link from 'next/link';
+import { useRouter,usePathname, useSearchParams } from 'next/navigation';
+
+export default function SIdebar() {
+  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+
+  const toggleSideBar = () => {
+    setIsSideBarOpen(!isSideBarOpen)
+  }
+
+
+  const pathname = usePathname()
+  const router = useRouter()
+
+  return (
+    <>
+
+    <div className=''>
+      {/**mobile view */}
+      <div className='fixed w-full z-20 md:relative'>
+        {/**Home, Communities, Marketplace Icons and links */}         
+          <div className='pt-[5rem] w-full flex justify-around bg-white md:hidden'>
+            <Link className={`link ${pathname === '/discussion' ? 'border-b border-yellow-400' : ''} flex justify-center items-center  w-full py-3`}  href={'/discussion'} >
+              <div className='text-icons '>
+                <BiHome />
+               
+              </div>
+            </Link>
+            <button type='button' className='flex justify-center items-center w-full py-3'>
+              <div className='text-icons '>
+                <PiUsersThree />
+              
+              </div>
+              <div className={`font-poppins text-[1rem] ${isSideBarOpen ? 'opacity-100 block' : 'opacity-0 hidden'}`}>
+                <PiCaretDown />
+              </div>
+            </button>
+            <Link className={`link ${pathname === '/marketplace' ? 'border-b border-yellow-400' : ''} flex justify-center items-center  w-full py-3`}  href={'/marketplace'} >
+              <div className='text-icons '>
+                <BiStore />               
+              </div>
+            </Link>
+          </div>
+        </div>       
+      </div>
+      {/**desktop view */}
+        <motion.div
+          initial={{ width: '5%' }} // Initial width when sidebar is open
+          animate={{ width: isSideBarOpen ? '20%' : '5%',}} // Animate width to 0 when collapsed
+          transition={{
+            type: 'tween',
+            duration: 1,
+           }}
+          className={`md:flex md:pt-[6rem]  hidden fixed flex-col pt-4 px-5 bg-white h-full w-[5%] ${isSideBarOpen? 'items-start' : 'items-center'}`}
+        >
+          <button onClick={toggleSideBar} className={`${isSideBarOpen && 'self-end'}`}>
+            {isSideBarOpen ? (
+              <div className='text-icons '>
+                <BiArrowBack/>
+              </div>
+            ) : (
+              <div className='text-icons '> 
+                <BiMenu />
+              </div>
+            )}
+          </button>
+          {/**Home, Communities, Marketplace Icons and links */}
+          <div className='flex flex-col items-start w-full'>
+          <Link href={'/discussion'}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>       
+                <div className='text-icons '>
+                  <BiHome />
+                </div>
+                <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                <motion.p 
+                  initial={{ scale: 0,}} 
+                  animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                  transition={{
+                    type:'tween',
+                    stiffness: 1000,
+                    damping: 20,
+                    duration: 0.6,
+                      
+                  }}
+                  className={`font-poppins text-[1rem] `}
+                  >
+                  Home
+                </motion.p>
+                </div>
+                        
+            </Link>
+            <button type='button'  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>            
+              <div className='text-icons '>
+                <PiUsersThree />
+              </div>
+              <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                <motion.p 
+                  initial={{ scale: 0, }} 
+                  animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                  transition={{
+                    type:'tween',
+                    stiffness: 1000,
+                    damping: 20,
+                    duration: 0.6,
+                      
+                  }}
+                  className={`font-poppins text-[1rem]`}
+                >
+                Community
+                </motion.p>
+              </div>
+              
+              <div className={`font-poppins text-[1rem] ${isSideBarOpen ? 'opacity-100 block' : 'opacity-0 hidden'}`}>
+                <div className='text-icons '>
+                  <PiCaretDown />
+                </div>
+              </div>
+            </button>
+            <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>       
+              <div className='text-icons '>
+                <BiStore />
+              </div>             
+              <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                <motion.p 
+                  initial={{ scale: 0, }} 
+                  animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                  transition={{
+                    type:'tween',
+                    stiffness: 1000,
+                    damping: 20,
+                    duration: 0.6,
+             
+                  }}
+                  className={`font-poppins text-[1rem]`}
+                >
+                Marketplace
+                </motion.p>
+              </div>
+              
+            </Link>
+            <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>                    
+              <div className='text-icons '>
+                  <BiInfoCircle />
+                </div>                
+                <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                  <motion.p 
+                    initial={{ scale: 0,}} 
+                    animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                    transition={{
+                      type:'tween',
+                      stiffness: 1000,
+                      damping: 20,
+                      duration: 0.6,
+              
+                    }}
+                    style={{ display: isSideBarOpen ? 'block' : 'none' }} 
+                    className={`font-poppins text-[1rem]`}
+                  >
+                  About
+                  </motion.p>
+                </div>                
+            </Link>
+            <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>        
+              <div className='text-icons '>
+                  <AiOutlineQuestionCircle />
+                </div>                
+                <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                  <motion.p 
+                    initial={{ scale: 0,}} 
+                    animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                    transition={{
+                      type:'tween',
+                      stiffness: 1000,
+                      damping: 20,
+                      duration: 0.6,
+
+                    }}
+                    style={{ display: isSideBarOpen ? 'block' : 'none' }} 
+                    className={`font-poppins text-[1rem]`}
+                  >
+                  Help
+                  </motion.p>
+                </div> 
+            </Link>
+            <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>        
+              <div className='text-icons '>
+                <AiOutlineFileProtect />
+              </div>                 
+              <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                <motion.p 
+                  initial={{ scale: 0,}} 
+                  animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                  transition={{
+                    type:'tween',
+                    stiffness: 1000,
+                    damping: 20,
+                    duration: 0.6,
+                      
+                  }}
+                  style={{ display: isSideBarOpen ? 'block' : 'none' }} 
+                  className={`font-poppins text-[1rem] line-clamp-1`}
+                >
+                Privacy Policy
+                </motion.p>
+              </div>
+            </Link>
+            <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>       
+              <div className='text-icons '>
+                <LuFileSignature />
+              </div>              
+              <div className={`${isSideBarOpen?'block':'hidden' }`}>
+                <motion.p 
+                  initial={{ scale: 0,}} 
+                  animate={{ scale: isSideBarOpen? 1 : 0, }}  // Target values (opacity: 1, translateY: 0)
+                  transition={{
+                    type:'tween',
+                    stiffness: 1000,
+                    damping: 20,
+                    duration: 0.6,
+                      
+                  }}
+                  style={{ display: isSideBarOpen ? 'block' : 'none' }} 
+                  className={`font-poppins text-[1rem] line-clamp-1`}
+                >
+                User Agreement
+                </motion.p>
+              </div> 
+            </Link>
+          </div>
+        </motion.div>
+      </>
+  );
+}
