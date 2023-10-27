@@ -16,6 +16,13 @@ module.exports = {
       },
     },
     extend: {
+      fontSize:{
+        'icons': '1.5rem',
+        
+      },
+      width:{
+        'userImage': '2.5rem'
+      },
       colors: {
         'black': '#121212',
         'green': '#24643B',
