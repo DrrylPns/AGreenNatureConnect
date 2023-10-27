@@ -3,33 +3,37 @@ import { usePathname, useRouter } from "next/navigation"
 import LandingNavbar from '../components/Navbar/navbar'
 import Navbar from "../components/Navbar"
 import SIdebar from "../components/SIdebar"
+import LoginModal from "../components/modals/LoginModal"
+import RegisterModal from "../components/modals/RegisterModal"
 
 export default function Layout({
-    children,
-  }: {
-    children: React.ReactNode
-  }) {
-    
-    const router = useRouter()
-    const pathname = usePathname()
-    const isRootPath = pathname === '/'
-    const isTermsPolicy = pathname === '/termsPolicy'
-    return (
-        <section className={`${isTermsPolicy ? 'bg-white': 'bg-[#F0EEF6]' }`}>
-            {!isRootPath && (
-              isTermsPolicy?(
-                <>
-                <LandingNavbar/>
-                </>
-              ):(
-              <>
-                <Navbar/>
-                <SIdebar/>
-              </>
-              )
-            
-            )}
-            {children}
-        </section>
-    )
-  }
+  children,
+}: {
+  children: React.ReactNode
+}) {
+
+  const router = useRouter()
+  const pathname = usePathname()
+  const isRootPath = pathname === '/'
+  const isTermsPolicy = pathname === '/termsPolicy'
+  return (
+    <section className={`${isTermsPolicy ? 'bg-white' : 'bg-[#F0EEF6]'}`}>
+      {!isRootPath && (
+        isTermsPolicy ? (
+          <>
+            <LandingNavbar />
+          </>
+        ) : (
+          <>
+            <Navbar />
+            <SIdebar />
+          </>
+        )
+
+      )}
+      <LoginModal />
+      <RegisterModal />
+      {children}
+    </section>
+  )
+}

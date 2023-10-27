@@ -1,15 +1,19 @@
+"use client"
+
 import Image from 'next/image'
 import { FiSearch, FiSettings, FiBell } from "react-icons/fi"
 import LogoIcon from '../../../public/logo.png'
 import React, { useState } from 'react'
 import Link from 'next/link'
-import { buttonVariants } from '@/app/components/Ui/Button'
+import { Button, buttonVariants } from '@/app/components/Ui/Button'
 import DisplayPhoto from '@/app/(pages)/discussion/images/displayphoto.png'
 import { motion } from 'framer-motion';
+import useLoginModal from '@/lib/hooks/useLoginModal'
 
 export default function Navbar() {
-    const [user , setUser] = useState(false)
-  
+    const loginModal = useLoginModal()
+    const [user, setUser] = useState(false)
+
     return (
         <nav className={`fixed flex w-full z-50 justify-between px-3 py-2 min-h-[5rem] mix-h-[5rem] items-center bg-white md:px-20`}>
             <Link href="/" className="w-[3rem] text-center">
@@ -27,50 +31,51 @@ export default function Navbar() {
             </div >
             <div className='sm:hidden flex justify-end w-[60%]'>
                 <button className="bg-[#F0EEF6] p-2 rounded-full sm:hidden ">
-                        <FiSearch />
+                    <FiSearch />
                 </button>
             </div>
-           
+
             {/*if user not sign in display SignIn btn else Profile of the user with settings and notif Icons */}
-            {user? (
+            {user ? (
                 <div className="flex items-center gap-5 justify-between">
                     <motion.button
                         whileHover={{
-                        scale: 1.2,
-                        transition: { duration: 0.3 },
+                            scale: 1.2,
+                            transition: { duration: 0.3 },
                         }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => {}}
-                        className="hidden text-icons md:block"           
+                        onClick={() => { }}
+                        className="hidden text-icons md:block"
                     >
-                        <FiBell/>
+                        <FiBell />
                     </motion.button>
                     <motion.button
                         whileHover={{
-                        scale: 1.2,
-                        transition: { duration: 0.3 },
+                            scale: 1.2,
+                            transition: { duration: 0.3 },
                         }}
                         whileTap={{ scale: 0.9 }}
-                        onClick={() => {}}
-                        className="hidden text-icons md:block"           
+                        onClick={() => { }}
+                        className="hidden text-icons md:block"
                     >
-                        <FiSettings/>
+                        <FiSettings />
                     </motion.button>
-                   <button className=' w-[2.5rem]'>
-                    <Image 
-                        src={DisplayPhoto}
-                        alt='User Image'
-                    />
-                   </button>
+                    <button className=' w-[2.5rem]'>
+                        <Image
+                            src={DisplayPhoto}
+                            alt='User Image'
+                        />
+                    </button>
                 </div>
-            ):(
-                <div className=" w-[]">
-                    <Link href="/login" className={buttonVariants({
-                        variant: 'green',
-                    })}>Sign In</Link>
+            ) : (
+                <div className="w-[]">
+                    <Button
+                        onClick={loginModal.onOpen}
+                        variant={'green'}
+                    >Sign In</Button>
                 </div>
             )}
-           
+
         </nav>
     )
 }
