@@ -32,9 +32,9 @@ export default function LoginPage() {
           <div className="label-container md:text-[16px] text-[13px]">
             <p className="text-left">
               By continuing, you agree to our{" "}
-              <span className="text-[#0227EB] cursor-pointer">
+              <Link href={'/termsPolicy'} className="text-[#0227EB] cursor-pointer">
                 Terms and Conditions
-              </span>{" "}
+              </Link>{" "}
               and acknowledge that you understand{" "}
               <span className="text-[#0227EB] cursor-pointer">
                 Privacy Policy
