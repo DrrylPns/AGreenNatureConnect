@@ -4,6 +4,7 @@ import React from "react";
 import { motion } from "framer-motion";
 import Logo from "../Logo/logo";
 import { useState, useEffect } from "react";
+import { BiMenu } from "react-icons/bi";
 
 export default function navbar() {
   const scrollToSection = (id: string) => {
@@ -42,7 +43,7 @@ export default function navbar() {
         viewport={{ once: true }}
         className="flex w-1/2 justify-end"
       >
-        <ul className="hidden lg:flex flex-row justify-evenly w-3/4">
+        <ul className="flex  flex-row justify-evenly w-3/4 max-sm:hidden">
           <motion.button
             whileHover={{
               scale: 1.2,
@@ -63,7 +64,7 @@ export default function navbar() {
             onClick={() => scrollToSection("aboutus")}
             className="text-white text-sm font-poppins p-1"
           >
-            About Us
+            About
           </motion.button>
           <motion.button
             whileHover={{
@@ -85,10 +86,13 @@ export default function navbar() {
             onClick={() => scrollToSection("contactus")}
             className="text-white text-sm font-poppins p-1"
           >
-            Contact Us
+            Contact
           </motion.button>
         </ul>
       </motion.div>
+      <motion.button className="sm:hidden text-white text-[2rem]">
+        <BiMenu />
+      </motion.button>
     </nav>
   );
 }

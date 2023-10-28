@@ -53,7 +53,7 @@ export default async function Home() {
         </div>
       </header>
       {/*SUBHEADING*/}
-      <section className="flex px-20 py-10 items-center gap-8 bg-gradient-to-b from-semi-transparent-greenish to-transparent">
+      <section className="flex px-20 py-20 items-center gap-8 bg-gradient-to-b from-semi-transparent-greenish to-transparent">
         <div>
           <h1 className="font-livvic font-bold md:text-[40px] text-[20px]">
             Nurtured
@@ -61,7 +61,7 @@ export default async function Home() {
           <h1 className="font-livvic font-bold md:text-[40px] text-[20px]">
             By Quezon City.
           </h1>
-          <p className="md:text-[15px] text-[10px]">
+          <p className="md:text-[15px] text-[15px]">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
@@ -85,11 +85,11 @@ export default async function Home() {
             About Us
           </h1>
           <div className="w-full mb-5">
-            <div className="lg:w-[40%] sm:w-[50%] w-[70%]  rounded-r-full p-10 pr-15 bg-muted-green hover:scale-125 hover:translate-x-16 ease-in-out duration-500">
+            <div className="lg:w-[40%] sm:w-[50%] w-[95%]  rounded-r-full p-10 pr-15 bg-muted-green md:hover:scale-125 md:hover:translate-x-16 ease-in-out duration-500">
               <h3 className="font-livvic font-bold md:text-[25px] text-[20px] text-amber">
                 Vision
               </h3>
-              <p className="font-poppins text-white md:text-[15px] text-[10px] text-justify">
+              <p className="font-poppins text-white md:text-[15px] text-[12px] text-justify">
                 Our vision is to create a city where every community garden is a
                 flourishing space for urban agriculture. We envision a
                 healthier, more self-reliant, and environmentally conscious
@@ -100,11 +100,11 @@ export default async function Home() {
             </div>
           </div>
           <div className="flex justify-end w-full">
-            <div className="lg:w-[40%] sm:w-[50%] w-[70%] rounded-l-full p-10 pl-20 bg-muted-green hover:scale-125 hover:translate-x-[-4rem] ease-in-out duration-500">
+            <div className="lg:w-[40%] sm:w-[50%] w-[95%] rounded-l-full p-10 pl-20 bg-muted-green md:hover:scale-125 md:hover:translate-x-[-4rem] ease-in-out duration-500">
               <h3 className="font-livvic font-bold md:text-[25px] text-[20px] text-amber">
                 Mission
               </h3>
-              <p className="font-poppins text-white md:text-[15px] text-[10px] text-justify">
+              <p className="font-poppins text-white md:text-[15px] text-[12px] text-justify">
                 Our vision is to create a city where every community garden is a
                 flourishing space for urban agriculture. We envision a
                 healthier, more self-reliant, and environmentally conscious
@@ -117,12 +117,12 @@ export default async function Home() {
         </div>
       </section>
       {/*Services*/}
-      <section id="services" className="pt-10">
+      <section id="services" className="py-20">
         <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] mb-10">
           Services
         </h1>
-        <div className="flex md:gap-10 gap-3 justify-center items-center pb-20 px-1">
-          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 w-1/3  hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+        <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-1">
+          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <Image
               className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
               src={LightIcon}
@@ -131,7 +131,7 @@ export default async function Home() {
             <h3 className="font-poppins font-bold md:text-[20px] text-[15px]">
               Shares Ideas
             </h3>
-            <p className="md:text-[12px] text-[10px] font-semibold my-2">
+            <p className="md:text-[13px] text-[12px] font-semibold my-2">
               Are you a farmer looking to grow your business? Reach new
               customers when you join our network.
             </p>
@@ -140,7 +140,7 @@ export default async function Home() {
               <Image src={ArrowIcon} alt="Arrow Icon" />
             </button>
           </div>
-          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 w-1/3 hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <Image
               className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
               src={DeliveryIcon}
@@ -149,7 +149,7 @@ export default async function Home() {
             <h3 className="font-poppins font-bold md:text-[20px] text-[15px]">
               Order Products
             </h3>
-            <p className="md:text-[12px] text-[10px] font-semibold my-2">
+            <p className="md:text-[13px] text-[12px] font-semibold my-2">
               Buy fresh from the farm products. Help local urban farmers to have
               achieve sustainability and efficiency.
             </p>
@@ -158,7 +158,7 @@ export default async function Home() {
               <Image src={ArrowIcon} alt="Arrow Icon" />
             </button>
           </div>
-          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 w-1/3 hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <Image
               className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
               src={KnowledgeIcon}
@@ -167,7 +167,7 @@ export default async function Home() {
             <h3 className="font-poppins font-bold md:text-[20px] text-[15px]">
               Learn Online
             </h3>
-            <p className="md:text-[12px] text-[10px] font-semibold my-2">
+            <p className="md:text-[13px] text-[12px] font-semibold my-2">
               Buy fresh from the farm products. Help local urban farmers to have
               achieve sustainability and efficiency.
             </p>
@@ -178,7 +178,7 @@ export default async function Home() {
           </div>
         </div>
         {/*Features*/}
-        <div className="flex bg-muted-green items-center h-[100vh]">
+        <div className="flex bg-muted-green items-center md:h-[100vh] h-[80vh]">
           <Image
             className="md:block hidden"
             src={Feature}
@@ -242,14 +242,14 @@ export default async function Home() {
       {/*Contact Us*/}
       <section
         id="contactus"
-        className="lg:flex grid px-20 border-b border-black w-full justify-between"
+        className="lg:flex grid lg:px-20 px-1 border-b border-black w-full justify-between"
       >
-        <div className="lg:w-1/2 w-full p-10  ">
+        <div className="lg:w-1/2 w-full p-10 ">
           <h4>CONTACT NOW</h4>
           <h1 className="font-poppins font-bold text-[30px]">
             GET IN TOUCH NOW
           </h1>
-          <p className="font-poppins font-normal text-[15px]">
+          <p className="font-poppins font-normal md:text-[15px]">
             Lorem ipsum dolor sit amet, adipiscing elit. In hac habitasse platea
             dictumst. Duis porta,quam ut finibus ultrices.
           </p>
@@ -266,10 +266,12 @@ export default async function Home() {
               <Image src={Email} alt="Phone icon" />
               <div>
                 <h3>EMAIL</h3>
-                <p>agreennatureconnect@gmail.com</p>
+                <p className="md:text-[16px] text-[13px]">
+                  agreennatureconnect@gmail.com
+                </p>
               </div>
             </div>
-            <div className="flex items-center gap-10 my-10">
+            <div className="flex items-center gap-10 mt-10">
               <Image src={Location} alt="Location icon" />
               <div>
                 <h3>ADDRESS</h3>
@@ -278,7 +280,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="lg:w-1/2 w-full p-10">
+        <div className="lg:w-1/2 w-full sm:p-10 px-1 mb-10">
           <form className="flex flex-col border border-black rounded-lg p-10 shadow-2xl">
             <label
               htmlFor="name"
@@ -329,11 +331,12 @@ export default async function Home() {
                 rows={3}
                 className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
                 defaultValue={""}
+                placeholder=" Your Message"
               />
             </div>
             <button
               type="submit"
-              className="bg-amber text-black w-2/5 mt-5 px-2 py-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100"
+              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100"
             >
               SEND MESSAGE
             </button>
