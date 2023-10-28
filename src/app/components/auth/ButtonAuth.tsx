@@ -1,5 +1,6 @@
 'use client'
 
+import { Loader2 } from "lucide-react";
 import { IconType } from "react-icons";
 
 interface ButtonAuthProps {
@@ -9,6 +10,7 @@ interface ButtonAuthProps {
     outline?: boolean;
     small?: boolean;
     icon?: IconType
+    isLoading?: boolean;
 }
 
 const ButtonAuth: React.FC<ButtonAuthProps> = ({
@@ -17,7 +19,8 @@ const ButtonAuth: React.FC<ButtonAuthProps> = ({
     disabled,
     outline,
     small,
-    icon: Icon
+    icon: Icon,
+    isLoading
 }) => {
     return (
         <button
@@ -50,7 +53,8 @@ const ButtonAuth: React.FC<ButtonAuthProps> = ({
                     "
                 />
             )}
-            {label}
+            {isLoading ? <Loader2 className='mr-2 h-4 animate-spin flex justify-center items-center w-full' /> : label}
+
         </button>
     )
 }

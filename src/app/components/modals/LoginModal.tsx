@@ -7,17 +7,72 @@ import { FcGoogle } from "react-icons/fc"
 import Heading from "../auth/Heading"
 import InputLogin from "../auth/InputLogin"
 import Modal from "./Modal"
+import { signIn } from 'next-auth/react';
+import { User } from "@prisma/client"
+import { useRouter } from 'next/navigation';
+import { zodResolver } from '@hookform/resolvers/zod';
+import {
+    SubmitHandler,
+    useForm
+} from 'react-hook-form'
+import { LoginSchema, LoginType } from "@/lib/validations/loginUserSchema"
+import { toast } from "@/lib/hooks/use-toast"
 
 interface LogInModalProps {
-    // currentUser?: User | null; // Next Auth props
+    currentUser?: User | null;
 }
 
 const LoginModal: React.FC<LogInModalProps> = ({
-    // currentUser // TODO Next Auth props
+    currentUser
 }) => {
+    const router = useRouter();
     const loginModal = useLoginModal()
     const registerModal = useRegisterModal()
     const [isLoading, setIsLoading] = useState(false);
+
+    const {
+        register,
+        handleSubmit,
+        formState: {
+            errors,
+        }
+    } = useForm<LoginType>({
+        resolver: zodResolver(LoginSchema),
+        defaultValues: {
+            email: '',
+            password: '',
+        }
+    })
+
+    const onSubmit: SubmitHandler<LoginType> = (data: LoginType) => {
+        setIsLoading(true)
+
+        signIn('credentials', {
+            ...data,
+            redirect: false,
+        }).then((callback) => {
+            setIsLoading(false)
+
+            if (callback?.error) {
+                toast({
+                    title: "Error",
+                    description: callback.error,
+                    variant: 'destructive'
+                })
+            }
+
+            if (callback?.ok && !callback?.error) {
+                toast({
+                    title: "Success!",
+                    description: "Logged in",
+                    variant: 'default'
+                })
+                router.refresh();
+                loginModal.onClose()
+                registerModal.onClose()
+            }
+        })
+    }
 
     const onToggle = useCallback(() => {
         loginModal.onClose()
@@ -35,18 +90,20 @@ const LoginModal: React.FC<LogInModalProps> = ({
                 label="Email"
                 type="email"
                 disabled={isLoading}
-                // register={register} TODO Auth
+                register={register}
                 required
             />
+            {errors.email && <span className='text-rose-500 ml-1'>{errors.email.message}</span>}
 
             <InputLogin
                 id="password"
                 label="Password"
                 type="password"
                 disabled={isLoading}
-                // register={register} TODO Auth
+                register={register}
                 required
             />
+            {errors.password && <span className='text-rose-500 ml-1'>{errors.password.message}</span>}
 
             <div className="
                     flex 
@@ -84,7 +141,7 @@ const LoginModal: React.FC<LogInModalProps> = ({
                     outline
                     label="Continue with Google"
                     icon={FcGoogle}
-                    onClick={() => { }} // TODO Auth
+                    onClick={() => signIn('google')}
                 />
 
                 <div className="
@@ -120,9 +177,10 @@ const LoginModal: React.FC<LogInModalProps> = ({
             title="Login"
             actionLabel="Sign in"
             onClose={loginModal.onClose}
-            onSubmit={() => { }} // TODO Auth
+            onSubmit={handleSubmit(onSubmit)}
             body={bodyContent}
             footer={footerContent}
+            isLoading={isLoading}
         />
     )
 }

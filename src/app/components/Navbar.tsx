@@ -1,18 +1,37 @@
 "use client"
-
 import Image from 'next/image'
 import { FiSearch, FiSettings, FiBell } from "react-icons/fi"
 import LogoIcon from '../../../public/logo.png'
-import React, { useState } from 'react'
+import React, { useCallback, useState } from 'react'
 import Link from 'next/link'
-import { Button, buttonVariants } from '@/app/components/Ui/Button'
+import { Button } from '@/app/components/Ui/Button'
 import DisplayPhoto from '@/app/(pages)/discussion/images/displayphoto.png'
 import { motion } from 'framer-motion';
 import useLoginModal from '@/lib/hooks/useLoginModal'
+import { useSession, signOut } from "next-auth/react"
+import { Avatar, AvatarFallback, AvatarImage } from './Ui/Avatar'
+import { Loader2 } from 'lucide-react'
+import MenuItem from './MenuItem'
 
 export default function Navbar() {
     const loginModal = useLoginModal()
-    const [user, setUser] = useState(false)
+    const { data: session, status } = useSession();
+    const [isOpen, setIsOpen] = useState(false)
+
+    const toggleOpen = useCallback(() => {
+        setIsOpen((value) => !value);
+    }, [])
+
+    // loading TODO loader loading.tsx ?? 
+    // if (status === "loading") {
+    //     return (
+    //         <>
+    //             <Loader2 className="flex justify-center items-center animate-spin z-50" width={100} height={100} />
+    //         </>
+    //     )
+    // }
+
+    const isImageNull = session?.user.image === null
 
     return (
         <nav className={`fixed flex w-full z-50 justify-between px-3 py-2 min-h-[5rem] mix-h-[5rem] items-center bg-white md:px-20`}>
@@ -36,7 +55,7 @@ export default function Navbar() {
             </div>
 
             {/*if user not sign in display SignIn btn else Profile of the user with settings and notif Icons */}
-            {user ? (
+            {session ? (
                 <div className="flex items-center gap-5 justify-between">
                     <motion.button
                         whileHover={{
@@ -60,12 +79,56 @@ export default function Navbar() {
                     >
                         <FiSettings />
                     </motion.button>
-                    <button className=' w-[2.5rem]'>
-                        <Image
-                            src={DisplayPhoto}
-                            alt='User Image'
-                        />
-                    </button>
+
+                    {/* TODO: ADD DROP DOWN CONTENTS IS DEPENDING ON UI */}
+                    {/* <Avatar>
+                        <AvatarImage
+                            className='cursor-pointer'
+                            src={`${isImageNull ? "/images/avatar-placeholder.jpg" : session?.user.image}`}
+                            width={35}
+                            height={35}
+                            alt='User Profile' />
+                        <AvatarFallback>User Profile</AvatarFallback>
+                    </Avatar> */}
+                    <div
+                        onClick={toggleOpen}
+                        className='flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition'
+                    >
+                        <div className='hidden md:block max-md:block'>
+                            {/* AVATAR */}
+                            <Avatar>
+                                <AvatarImage
+                                    className='cursor-pointer'
+                                    src={`${isImageNull ? "/images/avatar-placeholder.jpg" : session?.user.image}`}
+                                    width={35}
+                                    height={35}
+                                    alt='User Profile' />
+                                <AvatarFallback>User Profile</AvatarFallback>
+                            </Avatar>
+                        </div>
+                    </div>
+                    {isOpen && (
+                        <div className='absolute shadow-md w-[40vw] md:w-[10%] bg-white dark:bg-[#0A0A0A] dark:border overflow-hidden right-0 top-12 text-sm rounded-md'>
+                            <div className='flex flex-col cursor-pointer'>
+                                {session ? (
+                                    <>
+                                        <MenuItem
+                                            onClick={() => { }} // TODO
+                                            label='My Profile'
+                                        />
+                                        <MenuItem
+                                            onClick={() => signOut()}
+                                            label='Log Out'
+                                        />
+                                    </>
+                                ) : (
+                                    <>
+
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    )}
                 </div>
             ) : (
                 <div className="w-[]">
@@ -79,3 +142,4 @@ export default function Navbar() {
         </nav>
     )
 }
+

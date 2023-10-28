@@ -5,6 +5,10 @@ import Navbar from "../components/Navbar"
 import SIdebar from "../components/SIdebar"
 import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
+import Providers from "@/lib/providers/Providers"
+import { Toaster } from "../components/toast/toaster"
+import { Loader2 } from "lucide-react"
+import { useSession } from "next-auth/react"
 
 export default function Layout({
   children,
@@ -18,22 +22,26 @@ export default function Layout({
   const isTermsPolicy = pathname === '/termsPolicy'
   return (
     <section className={`${isTermsPolicy ? 'bg-white' : 'bg-[#F0EEF6]'}`}>
-      {!isRootPath && (
-        isTermsPolicy ? (
-          <>
-            <LandingNavbar />
-          </>
-        ) : (
-          <>
-            <Navbar />
-            <SIdebar />
-          </>
-        )
+      <Providers>
+        {!isRootPath && (
+          isTermsPolicy ? (
+            <>
+              <LandingNavbar />
+            </>
+          ) : (
+            <>
+              <Navbar />
+              <SIdebar />
+            </>
+          )
 
-      )}
-      <LoginModal />
-      <RegisterModal />
-      {children}
+        )}
+        <LoginModal />
+        <RegisterModal />
+        {children}
+
+        <Toaster />
+      </Providers >
     </section>
   )
 }

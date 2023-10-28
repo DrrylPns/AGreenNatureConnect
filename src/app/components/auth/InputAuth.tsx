@@ -1,13 +1,16 @@
 "use client"
 
+import { RegisterType } from "@/lib/validations/registerUserSchema";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+
 interface InputProps {
     id: string;
     label: string;
     type?: string;
     disabled?: boolean;
     required?: boolean;
-    // register: UseFormRegister<RegisterSchema> TODO Auth
-    // errors: FieldErrors TODO Auth
+    register: UseFormRegister<RegisterType>;
+    errors: FieldErrors;
 }
 
 const InputAuth: React.FC<InputProps> = ({
@@ -15,9 +18,9 @@ const InputAuth: React.FC<InputProps> = ({
     label,
     type = "text", //input type on default is text (change if password, email, etc...)
     disabled,
-    // register, TODO Auth
+    register,
     required,
-    // errors TODO Auth
+    errors
 }) => {
     return (
         <div className="w-full relative">
@@ -25,7 +28,8 @@ const InputAuth: React.FC<InputProps> = ({
             <input
                 id={id}
                 disabled={disabled}
-                // {...register(id, { required })} TODO Auth
+                // @ts-ignore
+                {...register(id, { required })}
                 placeholder=" "
                 type={type}
                 className={`

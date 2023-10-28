@@ -1,3 +1,6 @@
+import { LoginType } from "@/lib/validations/loginUserSchema";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+
 interface InputProps {
     id: string;
     label: string;
@@ -5,7 +8,7 @@ interface InputProps {
     disabled?: boolean;
     formatPrice?: boolean;
     required?: boolean;
-    // register: UseFormRegister<logInFormData>, TODO Auth
+    register: UseFormRegister<LoginType>
 }
 
 const InputLogin: React.FC<InputProps> = ({
@@ -13,7 +16,7 @@ const InputLogin: React.FC<InputProps> = ({
     label,
     type = "text",
     disabled,
-    // register TODO Auth
+    register,
     required
 }) => {
     return (
@@ -23,7 +26,7 @@ const InputLogin: React.FC<InputProps> = ({
                 id={id}
                 disabled={disabled}
                 // @ts-ignore
-                // {...register(id, { required })}
+                {...register(id, { required })}
                 placeholder=" "
                 type={type}
                 className={`
