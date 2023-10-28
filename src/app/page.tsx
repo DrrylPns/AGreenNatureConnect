@@ -18,7 +18,7 @@ import Link from "next/link";
 
 export default async function Home() {
   return (
-    <div className="flex flex-col justify-between">
+    <div className="flex-row md:flex-col mx-auto">
       {/*Heading*/}
       <Navbar />
       <header id="home" className="">
@@ -61,7 +61,7 @@ export default async function Home() {
           <h1 className="font-livvic font-bold md:text-[40px] text-[20px]">
             By Quezon City.
           </h1>
-          <p className="md:text-[20px] md:text-[20px]">
+          <p className="md:text-[15px] text-[10px]">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
@@ -242,9 +242,9 @@ export default async function Home() {
       {/*Contact Us*/}
       <section
         id="contactus"
-        className="flex px-20 border-b border-black w-full justify-between"
+        className="lg:flex grid px-20 border-b border-black w-full justify-between"
       >
-        <div className="w-1/2 p-10">
+        <div className="lg:w-1/2 w-full p-10  ">
           <h4>CONTACT NOW</h4>
           <h1 className="font-poppins font-bold text-[30px]">
             GET IN TOUCH NOW
@@ -278,7 +278,7 @@ export default async function Home() {
             </div>
           </div>
         </div>
-        <div className="w-1/2 p-10">
+        <div className="lg:w-1/2 w-full p-10">
           <form className="flex flex-col border border-black rounded-lg p-10 shadow-2xl">
             <label
               htmlFor="name"
@@ -302,7 +302,7 @@ export default async function Home() {
               htmlFor="name"
               className="block text-sm font-poppins font-bold leading-6 text-gray-900"
             >
-              Name
+              Email
             </label>
             <div className="mt-1">
               <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
@@ -312,7 +312,7 @@ export default async function Home() {
                   id="name"
                   autoComplete="name"
                   className="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder="Full Name"
+                  placeholder="Your Email"
                 />
               </div>
             </div>
