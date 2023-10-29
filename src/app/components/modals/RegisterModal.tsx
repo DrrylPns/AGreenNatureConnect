@@ -19,11 +19,14 @@ import { useMutation } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios"
 import { toast } from "@/lib/hooks/use-toast";
 import { useRouter } from "next/navigation";
+import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
+
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const router = useRouter()
+  const [PasswordInputType, ToggleIcon] = usePasswordToggle()
 
   const onToggle = useCallback(() => {
     registerModal.onClose()
@@ -96,9 +99,9 @@ const RegisterModal = () => {
     onSuccess: () => {
       // router push the client to homepage / landing etc..
 
-      router.refresh()
+      // router.refresh()
+      // router.push("/discussion")
       registerModal.onClose()
-      router.push("/discussion")
       loginModal.onOpen
       return toast({
         title: "Success!",
@@ -124,7 +127,6 @@ const RegisterModal = () => {
     <div className="flex flex-col gap-4">
       <Heading
         title="Register"
-        // subtitle="By Continuing you agree to our Terms and Conditions and acknowledge that you understand Privacy Policy"
         subtitle="Create an account to officially join AGreen Nature Connect!"
       />
       <InputAuth
@@ -138,25 +140,30 @@ const RegisterModal = () => {
       />
       {errors.email && <span className='text-rose-500 ml-1'>{errors.email.message}</span>}
 
-      <InputAuth
-        id="password"
-        type="password"
-        label="Password"
-        disabled={isLoading}
-        register={register}
-        errors={errors}
-        required
-      />
-      {errors.password && <span className='text-rose-500 ml-1'>{errors.password.message}</span>}
+      <div>
+        <InputAuth
+          id="password"
+          type={PasswordInputType as string} // text or password value
+          label="Password"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+          icon={ToggleIcon}
+        />
+        {errors.password && <span className='text-rose-500 ml-1'>{errors.password.message}</span>}
+      </div>
+
 
       <InputAuth
         id="confirmPassword"
-        type="password"
+        type={PasswordInputType as string}
         label="Confirm Password"
         disabled={isLoading}
         register={register}
         errors={errors}
         required
+        icon={ToggleIcon}
       />
       {errors.confirmPassword && <span className='text-rose-500 ml-1'>{errors.confirmPassword.message}</span>}
 

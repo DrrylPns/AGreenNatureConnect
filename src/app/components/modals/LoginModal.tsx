@@ -17,6 +17,7 @@ import {
 } from 'react-hook-form'
 import { LoginSchema, LoginType } from "@/lib/validations/loginUserSchema"
 import { toast } from "@/lib/hooks/use-toast"
+import usePasswordToggle from "@/lib/hooks/usePasswordToggle"
 
 interface LogInModalProps {
     currentUser?: User | null;
@@ -25,10 +26,11 @@ interface LogInModalProps {
 const LoginModal: React.FC<LogInModalProps> = ({
     currentUser
 }) => {
-    const router = useRouter();
+    const router = useRouter()
     const loginModal = useLoginModal()
     const registerModal = useRegisterModal()
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(false)
+    const [PasswordInputType, ToggleIcon] = usePasswordToggle()
 
     const {
         register,
@@ -98,10 +100,11 @@ const LoginModal: React.FC<LogInModalProps> = ({
             <InputLogin
                 id="password"
                 label="Password"
-                type="password"
+                type={PasswordInputType as string}
                 disabled={isLoading}
                 register={register}
                 required
+                icon={ToggleIcon}
             />
             {errors.password && <span className='text-rose-500 ml-1'>{errors.password.message}</span>}
 

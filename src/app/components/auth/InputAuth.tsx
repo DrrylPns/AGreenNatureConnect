@@ -1,5 +1,4 @@
 "use client"
-
 import { RegisterType } from "@/lib/validations/registerUserSchema";
 import Link from "next/link";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
@@ -13,6 +12,7 @@ interface InputProps {
     isCheckbox?: boolean;
     register: UseFormRegister<RegisterType>;
     errors: FieldErrors;
+    icon?: string | JSX.Element;
 }
 
 const InputAuth: React.FC<InputProps> = ({
@@ -24,15 +24,16 @@ const InputAuth: React.FC<InputProps> = ({
     required,
     errors,
     isCheckbox,
+    icon,
 }) => {
+
     return (
         <div className="w-full relative">
             {/* input error TODO Auth*/}
             <input
                 id={id}
                 disabled={disabled}
-                // @ts-ignore
-                {...register(id, { required })}
+                {...register(id as "email" | "password" | "confirmPassword" | "terms", { required })}
                 placeholder=" "
                 type={type}
                 className={`
@@ -91,6 +92,7 @@ const InputAuth: React.FC<InputProps> = ({
                 )}
                 <span className={"text-[#FF2222]"}>*</span>
             </label>
+            <span>{icon}</span>
         </div>
     )
 }

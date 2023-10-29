@@ -7,10 +7,6 @@ import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
 import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
-import { Loader2 } from "lucide-react"
-import { useSession } from "next-auth/react"
-import { getAuthSession } from "@/lib/auth"
-import getCurrentUser from "@/lib/actions/getCurrentUser"
 
 export default function Layout({
   children,

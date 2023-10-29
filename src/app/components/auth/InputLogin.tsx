@@ -1,4 +1,5 @@
 import { LoginType } from "@/lib/validations/loginUserSchema";
+import { HTMLInputTypeAttribute } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
@@ -9,6 +10,7 @@ interface InputProps {
     formatPrice?: boolean;
     required?: boolean;
     register: UseFormRegister<LoginType>
+    icon?: string | JSX.Element;
 }
 
 const InputLogin: React.FC<InputProps> = ({
@@ -17,11 +19,11 @@ const InputLogin: React.FC<InputProps> = ({
     type = "text",
     disabled,
     register,
-    required
+    required,
+    icon,
 }) => {
     return (
-        <div className="w-full relative">
-
+        <div className="w-full relative flex justify-between">
             <input
                 id={id}
                 disabled={disabled}
@@ -45,7 +47,7 @@ const InputLogin: React.FC<InputProps> = ({
                     disabled:cursor-not-allowed
                     pl-4
                 `}
-            />
+            ></input>
             <label
                 className={`
                     absolute 
@@ -67,6 +69,7 @@ const InputLogin: React.FC<InputProps> = ({
                 {label}
                 <span className="text-[#FF2222]">*</span>
             </label>
+            <span>{icon}</span>
         </div>
     )
 }

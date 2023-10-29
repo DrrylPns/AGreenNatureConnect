@@ -36,7 +36,7 @@ const ButtonAuth: React.FC<ButtonAuthProps> = ({
                 w-full
                 ${outline ? 'bg-white' : 'bg-[#4DE69E]'}
                 ${outline ? 'border-zinc-200' : 'bg-[#4DE69E]'}
-                ${outline ? 'text-black' : 'text-white'}
+                ${outline ? 'text-black' : 'text-black'}
                 ${small ? 'text-sm' : 'text-md'}
                 ${small ? 'py-1' : 'py-3'}
                 ${small ? 'font-light' : 'font-semibold'}
