@@ -99,8 +99,7 @@ const RegisterModal = () => {
     onSuccess: () => {
       // router push the client to homepage / landing etc..
 
-      // router.refresh()
-      // router.push("/discussion")
+      router.push("/discussion")
       registerModal.onClose()
       loginModal.onOpen
       return toast({
