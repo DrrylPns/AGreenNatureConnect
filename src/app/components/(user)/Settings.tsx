@@ -4,7 +4,7 @@ import {motion} from 'framer-motion'
 import { FiSettings } from 'react-icons/fi'
 export default function settings() {
   return (
- 
+    <div className='md:flex items-center hidden'>
     <motion.button
         whileHover={{
             scale: 1.2,
@@ -16,5 +16,6 @@ export default function settings() {
     >
         <FiSettings />
     </motion.button>
+    </div>
   )
 }
