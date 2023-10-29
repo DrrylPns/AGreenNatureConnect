@@ -41,7 +41,7 @@ export default function navbar() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="flex w-1/2 justify-end"
+        className="flex w-1/5 justify-end"
       >
         <ul className="flex  flex-row justify-evenly w-3/4 max-sm:hidden">
           <motion.button
