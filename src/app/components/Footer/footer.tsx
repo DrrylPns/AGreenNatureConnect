@@ -9,29 +9,29 @@ import Link from 'next/link'
 export default function footer() {
   return (
     <footer className=' '>
-      <div className='flex px-40 py-20 justify-between mx-10 border-b-2 border-black'>     
+      <div className='flex px-40 py-20 justify-between mx-10 border-b-2 border-black'>
         <div>
-          <Logo/>
+          <Logo />
           <div className='flex gap-10 my-3'>
-            <Image 
+            <Image
               src={FacebookLogo}
               alt='Facebook logo'
               width={20}
               height={20}
             />
-            <Image 
+            <Image
               src={TwitterLogo}
               alt='Twitter logo'
               width={20}
               height={20}
             />
-            <Image 
+            <Image
               src={TiktokLogo}
               alt='Tiktok logo'
               width={20}
               height={20}
             />
-            <Image 
+            <Image
               src={InstagramLogo}
               alt='instagram logo'
               width={20}
@@ -55,7 +55,7 @@ export default function footer() {
             <Link href="/">Privacy Policy</Link>
             <Link href="/">Terms and Condition</Link>
           </div>
-        </div>         
+        </div>
       </div>
       <div className='p-3 text-center'>
         <p>© 2023 Agreennatureconnect | Powered by agreennatureconnect</p>

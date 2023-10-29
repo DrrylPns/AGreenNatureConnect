@@ -12,8 +12,9 @@ import { useSession, signOut } from "next-auth/react"
 import { Avatar, AvatarFallback, AvatarImage } from './Ui/Avatar'
 import { Loader2 } from 'lucide-react'
 import MenuItem from './MenuItem'
+import { User } from '@prisma/client'
 
-export default function Navbar() {
+const Navbar = () => {
     const loginModal = useLoginModal()
     const { data: session, status } = useSession();
     const [isOpen, setIsOpen] = useState(false)
@@ -80,16 +81,7 @@ export default function Navbar() {
                         <FiSettings />
                     </motion.button>
 
-                    {/* TODO: ADD DROP DOWN CONTENTS IS DEPENDING ON UI */}
-                    {/* <Avatar>
-                        <AvatarImage
-                            className='cursor-pointer'
-                            src={`${isImageNull ? "/images/avatar-placeholder.jpg" : session?.user.image}`}
-                            width={35}
-                            height={35}
-                            alt='User Profile' />
-                        <AvatarFallback>User Profile</AvatarFallback>
-                    </Avatar> */}
+                    {/* TODO: ADD DROP DOWN CONTENTS IT IS DEPENDING ON UI */}
                     <div
                         onClick={toggleOpen}
                         className='flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition'
@@ -143,3 +135,4 @@ export default function Navbar() {
     )
 }
 
+export default Navbar

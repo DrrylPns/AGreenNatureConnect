@@ -9,6 +9,8 @@ import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
 import { Loader2 } from "lucide-react"
 import { useSession } from "next-auth/react"
+import { getAuthSession } from "@/lib/auth"
+import getCurrentUser from "@/lib/actions/getCurrentUser"
 
 export default function Layout({
   children,
@@ -16,7 +18,7 @@ export default function Layout({
   children: React.ReactNode
 }) {
 
-  const router = useRouter()
+  // const session = await getAuthSession()
   const pathname = usePathname()
   const isRootPath = pathname === '/'
   const isTermsPolicy = pathname === '/termsPolicy'

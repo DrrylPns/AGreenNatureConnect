@@ -49,11 +49,13 @@ const RegisterModal = () => {
       email,
       password,
       confirmPassword,
+      terms
     }: RegisterType) => {
       const payload: RegisterType = {
         email,
         password,
         confirmPassword,
+        terms
       };
       const { data } = await axios.post("api/register", payload);
       return data;
@@ -95,7 +97,9 @@ const RegisterModal = () => {
       // router push the client to homepage / landing etc..
 
       router.refresh()
+      registerModal.onClose()
       router.push("/discussion")
+      loginModal.onOpen
       return toast({
         title: "Success!",
         description: "Account Created Successfully!",
@@ -108,7 +112,8 @@ const RegisterModal = () => {
     const payload: RegisterType = {
       email: data.email,
       password: data.password,
-      confirmPassword: data.confirmPassword
+      confirmPassword: data.confirmPassword,
+      terms: data.terms
     };
 
     registerUser(payload)
@@ -119,7 +124,8 @@ const RegisterModal = () => {
     <div className="flex flex-col gap-4">
       <Heading
         title="Register"
-        subtitle="By Continuing you agree to our Terms and Conditions and acknowledge that you understand Privacy Policy"
+        // subtitle="By Continuing you agree to our Terms and Conditions and acknowledge that you understand Privacy Policy"
+        subtitle="Create an account to officially join AGreen Nature Connect!"
       />
       <InputAuth
         id="email"
@@ -153,6 +159,18 @@ const RegisterModal = () => {
         required
       />
       {errors.confirmPassword && <span className='text-rose-500 ml-1'>{errors.confirmPassword.message}</span>}
+
+      <InputAuth
+        id="terms"
+        type="checkbox"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+        isCheckbox
+      />
+      {errors.terms && <span className='text-rose-500 ml-1'>{errors.terms.message}</span>}
+
 
     </div>
   )
@@ -203,26 +221,6 @@ const RegisterModal = () => {
       </div>
     </div>
 
-    // <div className="flex flex-col gap-4 mt-3">
-    //   <hr />
-    //   <div className="flex items-center justify-center -mt-7">OR</div>
-    //   <ButtonAuth
-    //     outline
-    //     label="Continue with Google"
-    //     icon={FcGoogle}
-    //     onClick={() => { }} // TODO Auth
-    //   />
-    // </div>
-
-    // <div className="flex flex-col items-center h-[20px] mt-5">
-    //   <div className="flex items-center w-full">
-    //     <div className="flex-grow h-px bg-black/20 dark:bg-[#00000066]" />
-    //     <p className="text-black dark:text-black text-xs mx-7 font-extrabold">
-    //       OR
-    //     </p>
-    //     <div className="flex-grow h-px bg-black/20 dark:bg-[#00000066]" />
-    //   </div>
-    // </div>
   )
 
   return (
