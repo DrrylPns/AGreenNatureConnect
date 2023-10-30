@@ -51,17 +51,32 @@ export default function TermsPolicy() {
           )}
           {text === 'PrivacyPolicy' && (
             <div className='text-justify py-20'>
-                <p>PRIVACY POLICY</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Eveniet ea dolorum architecto? Ratione soluta assumenda doloribus ipsum blanditiis rem consequatur consequuntur? Nisi id doloremque, voluptas dolorum iusto sit sequi quam?</p>
+                <p>PRIVACY POLICY</p><br/>
+                <p>Data Collection:</p>
+                <p>By using our urban farming website, you agree to provide us with certain personal information. This information may include your name, email address, location, and other details relevant to our services.</p>
+                <br/>
+                <p>Data Use:</p>
+                <p>We use the collected personal information to enhance your experience on our website and to provide you with information and updates related to urban farming. Your data may also be used for analytics and research purposes to improve our services.</p>
+                <br/>
+                <p>Data Protection:</p>
+                <p>We take data protection seriously. Your personal information is stored securely, and we implement measures to safeguard it from unauthorized access or disclosure.</p>
+                <br/>
+                <p>Third-Party Sharing:</p>
+                <p>At times, we may share your personal information with trusted third parties, such as payment processors or delivery services, for the purpose of fulfilling our services. Rest assured that we only share the necessary information and require these third parties to maintain strict data protection standards.</p>
+                <br/>
+                <p>Data Rights:</p>
+                <p>You have the right to access, correct, or request the deletion of your personal information held by us. Please contact us for assistance with these requests.</p>
+                <br/>
+                <p>Consent:</p>
+                <p>Your use of our website signifies your consent to the collection and use of your personal information as described in this policy. You can withdraw your consent at any time by contacting us.</p>
+                <br/>
+                <p>Updates:</p>
+                <p>We may update this Privacy and Personal Information clause periodically. It is your responsibility to check for any revisions.</p>
+                <br/>
+                <br/>
+                <p>Please review our complete Privacy Policy for a comprehensive understanding of how we handle your personal information and If you have any questions, concerns, or requests related to this Privacy Policy, please contact us at</p>
+                <p>Contact: 09279657750 </p>
+                <p>Email: rodel006.re@gmail.com </p>
             </div>
           )}
         </section>
