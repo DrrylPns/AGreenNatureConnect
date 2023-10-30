@@ -2,6 +2,7 @@
 import React from 'react'
 import {motion} from 'framer-motion'
 import { FiSettings } from 'react-icons/fi'
+import Link from 'next/link'
 export default function settings() {
   return (
     <div className='md:flex items-center hidden'>
@@ -14,7 +15,9 @@ export default function settings() {
         onClick={() => { }}
         className="hidden text-icons md:block"
     >
+      <Link href={'/settings'} >
         <FiSettings />
+      </Link>
     </motion.button>
     </div>
   )

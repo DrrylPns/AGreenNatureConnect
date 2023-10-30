@@ -19,7 +19,7 @@ export default function Navbar() {
     const [user, setUser] = useState(true)
 
     return (
-        <nav className={`fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-sm w-full z-30  px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#F0EEF6] md:px-20`}>
+        <nav className={`fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-30  px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#F0EEF6] md:px-20`}>
             <Link href="/" className="w-[3rem] text-center">
                 <Image
                     src={LogoIcon}
