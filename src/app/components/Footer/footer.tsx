@@ -6,6 +6,7 @@ import TwitterLogo from "../../../../public/images/twitter.png";
 import TiktokLogo from "../../../../public/images/tiktok.png";
 import InstagramLogo from "../../../../public/images/instagram.png";
 import Link from "next/link";
+
 export default function footer() {
   return (
     <footer className=" ">
