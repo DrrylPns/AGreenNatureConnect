@@ -32,9 +32,8 @@ export default function navbar() {
 
   return (
     <nav
-      className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-black w-full h-[70px] px-4 sm:px-20 py-3 shadow transition-color duration-500 ${
-        visible ? "" : "opacity-0"
-      }`}
+      className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-black w-full h-[70px] px-4 sm:px-20 py-3 shadow transition-color duration-500 ${visible ? "" : "opacity-0"
+        }`}
     >
       <Logo />
       <motion.div
@@ -43,7 +42,7 @@ export default function navbar() {
         viewport={{ once: true }}
         className="flex w-1/5 justify-end"
       >
-        <ul className="flex  flex-row justify-evenly w-3/4 max-sm:hidden">
+        <ul className="flex  flex-row justify-evenly w-3/4 m-10 max-sm:hidden ">
           <motion.button
             whileHover={{
               scale: 1.2,
@@ -51,7 +50,7 @@ export default function navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("home")}
-            className="text-white text-sm font-poppins p-1"
+            className="text-white text-sm font-poppins p-2 m-1"
           >
             Home
           </motion.button>
@@ -62,7 +61,7 @@ export default function navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("aboutus")}
-            className="text-white text-sm font-poppins p-1"
+            className="text-white text-sm font-poppins p-2 m-1"
           >
             About
           </motion.button>
@@ -73,7 +72,7 @@ export default function navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("services")}
-            className="text-white text-sm font-poppins p-1"
+            className="text-white text-sm font-poppins p-2 m-1"
           >
             Services
           </motion.button>
