@@ -1,19 +1,20 @@
 
 import React from 'react'
-import {motion} from 'framer-motion'
-import { CustomButtonProps } from '@/app/types'
-const CustomButton: React.FC<CustomButtonProps> = ({title, containerStyles, btnType, handleClick}) => {
-  
+import { motion } from 'framer-motion'
+import { CustomButtonProps } from '@/lib/types'
+
+const CustomButton: React.FC<CustomButtonProps> = ({ title, containerStyles, btnType, handleClick }) => {
+
   return (
-    <button 
+    <button
       className={containerStyles}
       onClick={handleClick}
       type={btnType || 'button'}
     >
-      
-        {title}
-     
-      
+
+      {title}
+
+
     </button>
   )
 }

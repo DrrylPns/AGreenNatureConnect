@@ -1,28 +1,28 @@
 import Image from "next/image";
-import Navbar from "./components/Navbar/navbar";
-import Footer from "./components/Footer/footer";
-import Leaf from "../../public//images/leaf.png";
-import Vector from "../../public/images/Vector.png";
-import Subheading from "../../public//images/subheading.png";
-import LightIcon from "../../public//images/lightbulbIcon.png";
-import DeliveryIcon from "../../public//images/deliveryIcon.png";
-import KnowledgeIcon from "../../public//images/knowledgeIcon.png";
-import ArrowIcon from "../../public//images/arrowRight.png";
-import Feature from "../../public//images/features.png";
-import GrowthIcon from "../../public//images/growthIcon.png";
-import HealthIcon from "../../public//images/healthIcon.png";
-import Phone from "../../public//images/phone.png";
-import Email from "../../public//images/email.png";
-import Location from "../../public//images/location.png";
+import Footer from "../components/Footer/footer";
+import Vector from "/public/images/Vector.png";
+import Subheading from "/public/images/subheading.png";
+import LightIcon from "/public/images/lightbulbIcon.png";
+import DeliveryIcon from "/public/images/deliveryIcon.png";
+import KnowledgeIcon from "/public/images/knowledgeIcon.png";
+import ArrowIcon from "/public/images/arrowRight.png";
+import Feature from "/public/images/features.png";
+import GrowthIcon from "/public/images/growthIcon.png";
+import HealthIcon from "/public/images/healthIcon.png";
+import Phone from "/public/images/phone.png";
+import Email from "/public/images/email.png";
+import Location from "/public/images/location.png";
 import Link from "next/link";
+// import BGBanner from "../../../public/images/bannerbg.png"
+
 
 export default async function Home() {
   return (
     <div className="flex-row md:flex-col mx-auto">
       {/*Heading*/}
-      <Navbar />
+
       <header id="home" className="">
-        <div className=" h-[100vh] bg-cover bg-center bg-[url('../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center">
+        <div className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}>
           <div className=" flex flex-col items-end md:w-[320px] w-[300px]">
             <div className="font-poppins font-bold text-white md:text-[17.5px] leading-[30px] self-start">
               Welcome to New Green Land Farming
@@ -78,7 +78,7 @@ export default async function Home() {
       {/*ABOUT US*/}
       <section
         id="aboutus"
-        className="flex flex-col bg-cover bg-center bg-[url('../../public/images/about.png')] justify-center items-center border-t-[1px] border-black"
+        className="flex flex-col bg-cover bg-center bg-[url('/public/images/about.png')] justify-center items-center border-t-[1px] border-black"
       >
         <div className="w-full h-full py-10 bg-gradient-to-b from-muted to-pale">
           <h1 className="text-center mb-10 font-poppins font-bold md:text-[40px] text-[30px]">
@@ -221,7 +221,7 @@ export default async function Home() {
           </div>
         </div>
         <div className="bg-[#2D5F4D]">
-          <div className="bg-cover bg-center bg-[url('../../public/images/discover.png')]">
+          <div className="bg-cover bg-center bg-[url('/public/images/discover.png')]">
             <div className="bg-gradient-to-r from-[#F7C35FCC] to-[#F7C32929] w-full flex justify-between items-center gap-10 sm:px-40 px-35 py-14">
               <div className="flex items-center gap-5">
                 <div className="ml-5 bg-dark-green p-3 rounded-full">

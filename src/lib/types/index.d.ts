@@ -1,5 +1,5 @@
 'use server'
-import  {MouseEventHandler} from 'react'
+import { MouseEventHandler } from 'react'
 
 export interface CustomButtonProps {
     title: string,

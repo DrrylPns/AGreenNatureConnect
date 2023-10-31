@@ -1,16 +1,16 @@
 "use client"
 
 import Image from 'next/image'
-import LogoIcon from '../../../public/logo.png'
-import React, { useState } from 'react'
+import LogoIcon from '/public/logo.png'
+import React from 'react'
 import Link from 'next/link'
 import { Button } from '@/app/components/Ui/Button'
 import useLoginModal from '@/lib/hooks/useLoginModal'
 import Settings from '@/app/components/(user)/Settings'
-import Notification from './(user)/Notification'
-import Search from './Search'
+import Notification from './Notification'
+import Search from '../Search'
 import { useSession, signOut } from "next-auth/react"
-import UserAccountAvatar from './UserAccountAvatar'
+import UserAccountAvatar from '../UserAccountAvatar'
 
 export default function Navbar() {
     const loginModal = useLoginModal()
