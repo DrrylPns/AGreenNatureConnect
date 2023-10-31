@@ -14,7 +14,6 @@ export default function Layout({
   children: React.ReactNode
 }) {
 
-  // const session = await getAuthSession()
   const pathname = usePathname()
   const isRootPath = pathname === '/'
   const isTermsPolicy = pathname === '/termsPolicy'

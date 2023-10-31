@@ -1,23 +1,19 @@
 "use client"
 
 import Image from 'next/image'
-import { FiSearch, FiSettings, FiBell } from "react-icons/fi"
 import LogoIcon from '../../../public/logo.png'
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
 import { Button } from '@/app/components/Ui/Button'
-import { motion } from 'framer-motion';
 import useLoginModal from '@/lib/hooks/useLoginModal'
 import Settings from '@/app/components/(user)/Settings'
 import Notification from './(user)/Notification'
-import UserPhoto from './(user)/UserPhoto'
 import Search from './Search'
 import { useSession, signOut } from "next-auth/react"
 import UserAccountAvatar from './UserAccountAvatar'
 
 export default function Navbar() {
     const loginModal = useLoginModal()
-    const [user, setUser] = useState(true)
     const { data: session, status } = useSession();
 
     return (
@@ -44,8 +40,6 @@ export default function Navbar() {
                     >Sign In</Button>
                 </div>
             )}
-    </nav>
-  )
+        </nav>
+    )
 }
-
-export default Navbar
