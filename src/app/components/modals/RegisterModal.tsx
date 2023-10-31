@@ -8,53 +8,176 @@ import Heading from "../auth/Heading";
 import InputAuth from "../auth/InputAuth";
 import ButtonAuth from "../auth/ButtonAuth";
 import useLoginModal from "@/lib/hooks/useLoginModal";
+import {
+  SubmitHandler,
+  useForm
+} from 'react-hook-form'
+import { zodResolver } from "@hookform/resolvers/zod"
+import { signIn } from "next-auth/react"
+import { RegisterSchema, RegisterType } from "@/lib/validations/registerUserSchema";
+import { useMutation } from "@tanstack/react-query"
+import axios, { AxiosError } from "axios"
+import { toast } from "@/lib/hooks/use-toast";
+import { useRouter } from "next/navigation";
+import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
+
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter()
+  const [PasswordInputType, ToggleIcon] = usePasswordToggle()
 
   const onToggle = useCallback(() => {
     registerModal.onClose()
     loginModal.onOpen()
   }, [registerModal, loginModal])
 
+  //react hook form
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterType>({
+    resolver: zodResolver(RegisterSchema),
+    defaultValues: {
+      email: '',
+      password: '',
+      confirmPassword: '',
+    }
+  })
+
+  const { mutate: registerUser, isLoading } = useMutation({
+    mutationFn: async ({
+      email,
+      password,
+      confirmPassword,
+      terms
+    }: RegisterType) => {
+      const payload: RegisterType = {
+        email,
+        password,
+        confirmPassword,
+        terms
+      };
+      const { data } = await axios.post("api/register", payload);
+      return data;
+    },
+    onError: (err) => {
+      if (err instanceof AxiosError) {
+        if (err instanceof AxiosError) {
+          if (err.response?.status === 403) {
+            return toast({
+              title: "Creating a user failed",
+              description: "Cannot create a user, you are already logged in!",
+              variant: "destructive"
+            })
+          }
+          if (err.response?.status === 405) {
+            return toast({
+              title: "Invalid Action",
+              description: "Method not allowed",
+              variant: "destructive"
+            })
+          }
+          if (err.response?.status === 409) {
+            return toast({
+              title: "Invalid email",
+              description: "Email already exists. Please use a different one.",
+              variant: "destructive"
+            })
+          }
+        } else {
+          return toast({
+            title: "Error!",
+            description: "Error: Something went wrong!",
+            variant: "destructive"
+          })
+        }
+      }
+    },
+    onSuccess: () => {
+      // router push the client to homepage / landing etc..
+
+      router.push("/discussion")
+      registerModal.onClose()
+      loginModal.onOpen
+      return toast({
+        title: "Success!",
+        description: "Account Created Successfully!",
+        variant: "default"
+      })
+    }
+  })
+
+  const onSubmit: SubmitHandler<RegisterType> = (data: RegisterType) => {
+    const payload: RegisterType = {
+      email: data.email,
+      password: data.password,
+      confirmPassword: data.confirmPassword,
+      terms: data.terms
+    };
+
+    registerUser(payload)
+  }
+
   // Eto yung body content ng Register Modal
   const bodyContent = (
     <div className="flex flex-col gap-4">
       <Heading
         title="Register"
-        subtitle="By Continuing you agree to our Terms and Conditions and acknowledge that you understand Privacy Policy"
+        subtitle="Create an account to officially join AGreen Nature Connect!"
       />
       <InputAuth
         id="email"
         label="Email"
         type="email"
         disabled={isLoading}
-        // register={register} TODO
-        // errors={errors} TODO
+        register={register}
+        errors={errors}
         required
       />
+      {errors.email && <span className='text-rose-500 ml-1'>{errors.email.message}</span>}
 
-      <InputAuth
-        id="password"
-        type="password"
-        label="Password"
-        disabled={isLoading}
-        // register={register} TODO
-        // errors={errors} TODO
-        required
-      />
+      <div>
+        <InputAuth
+          id="password"
+          type={PasswordInputType as string} // text or password value
+          label="Password"
+          disabled={isLoading}
+          register={register}
+          errors={errors}
+          required
+          icon={ToggleIcon}
+        />
+        {errors.password && <span className='text-rose-500 ml-1'>{errors.password.message}</span>}
+      </div>
+
 
       <InputAuth
         id="confirmPassword"
-        type="password"
+        type={PasswordInputType as string}
         label="Confirm Password"
         disabled={isLoading}
-        // register={register} TODO
-        // errors={errors} TODO
+        register={register}
+        errors={errors}
         required
+        icon={ToggleIcon}
       />
+      {errors.confirmPassword && <span className='text-rose-500 ml-1'>{errors.confirmPassword.message}</span>}
+
+      <InputAuth
+        id="terms"
+        type="checkbox"
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+        isCheckbox
+      />
+      {errors.terms && <span className='text-rose-500 ml-1'>{errors.terms.message}</span>}
+
+
     </div>
   )
 
@@ -78,7 +201,7 @@ const RegisterModal = () => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => { }} // TODO Auth
+          onClick={() => signIn('google')}
         />
 
         <div className="
@@ -104,26 +227,6 @@ const RegisterModal = () => {
       </div>
     </div>
 
-    // <div className="flex flex-col gap-4 mt-3">
-    //   <hr />
-    //   <div className="flex items-center justify-center -mt-7">OR</div>
-    //   <ButtonAuth
-    //     outline
-    //     label="Continue with Google"
-    //     icon={FcGoogle}
-    //     onClick={() => { }} // TODO Auth
-    //   />
-    // </div>
-
-    // <div className="flex flex-col items-center h-[20px] mt-5">
-    //   <div className="flex items-center w-full">
-    //     <div className="flex-grow h-px bg-black/20 dark:bg-[#00000066]" />
-    //     <p className="text-black dark:text-black text-xs mx-7 font-extrabold">
-    //       OR
-    //     </p>
-    //     <div className="flex-grow h-px bg-black/20 dark:bg-[#00000066]" />
-    //   </div>
-    // </div>
   )
 
   return (
@@ -133,9 +236,10 @@ const RegisterModal = () => {
       title="Register"
       actionLabel="Sign Up"
       onClose={registerModal.onClose}
-      onSubmit={() => { }} //TODO Auth
+      onSubmit={handleSubmit(onSubmit)}
       body={bodyContent}
       footer={footerContent}
+      isLoading={isLoading}
     />
   )
 }

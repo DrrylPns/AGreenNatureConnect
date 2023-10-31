@@ -1,3 +1,7 @@
+import { LoginType } from "@/lib/validations/loginUserSchema";
+import { HTMLInputTypeAttribute } from "react";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
+
 interface InputProps {
     id: string;
     label: string;
@@ -5,7 +9,8 @@ interface InputProps {
     disabled?: boolean;
     formatPrice?: boolean;
     required?: boolean;
-    // register: UseFormRegister<logInFormData>, TODO Auth
+    register: UseFormRegister<LoginType>
+    icon?: string | JSX.Element;
 }
 
 const InputLogin: React.FC<InputProps> = ({
@@ -13,17 +18,17 @@ const InputLogin: React.FC<InputProps> = ({
     label,
     type = "text",
     disabled,
-    // register TODO Auth
-    required
+    register,
+    required,
+    icon,
 }) => {
     return (
-        <div className="w-full relative">
-
+        <div className="w-full relative flex justify-between">
             <input
                 id={id}
                 disabled={disabled}
                 // @ts-ignore
-                // {...register(id, { required })}
+                {...register(id, { required })}
                 placeholder=" "
                 type={type}
                 className={`
@@ -42,7 +47,7 @@ const InputLogin: React.FC<InputProps> = ({
                     disabled:cursor-not-allowed
                     pl-4
                 `}
-            />
+            ></input>
             <label
                 className={`
                     absolute 
@@ -64,6 +69,7 @@ const InputLogin: React.FC<InputProps> = ({
                 {label}
                 <span className="text-[#FF2222]">*</span>
             </label>
+            <span>{icon}</span>
         </div>
     )
 }

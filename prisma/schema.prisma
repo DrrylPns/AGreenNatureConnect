@@ -1,0 +1,188 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider     = "mysql"
+  url          = env("DATABASE_URL")
+  relationMode = "prisma"
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String?
+  username       String?   @unique
+  email          String?   @unique
+  emailVerified  DateTime?
+  image          String?
+  hashedPassword String?
+  middleName     String?
+  lastName       String?
+  phoneNumber    String?
+  address        String?
+  role           Role      @default(USER)
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  Account         Account[]
+  Session         Session[]
+  posts           Post[]
+  comments        Comment[]
+  likes           Like[]
+  commentLikes    CommentLike[]
+  notifications   Notification[]
+  reportedReports Report[]       @relation("Report")
+  adminReports    Report[]       @relation("StaffHandleReport")
+
+  @@index([id])
+}
+
+enum Role {
+  USER
+  ADMIN
+  STAFF
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Post {
+  id        String   @id @default(cuid())
+  title     String
+  content   Json?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  comments Comment[]
+  likes    Like[]
+  Report   Report[]
+
+  @@index([authorId])
+}
+
+model Comment {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  // add updatedAt if ever magkaron ng functionality na pwede i-edit yung comment
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  replyToId String?
+  replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies   Comment[] @relation("ReplyTo")
+
+  likes     CommentLike[]
+  commentId String
+
+  @@index([authorId])
+  @@index([postId])
+  @@index([replyToId])
+}
+
+model Like {
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  @@id([userId, postId])
+  @@index([userId])
+  @@index([postId])
+}
+
+model CommentLike {
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+  comment   Comment @relation(fields: [commentId], references: [id])
+  commentId String
+
+  @@id([userId, commentId])
+  @@index([userId])
+  @@index([commentId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  body      String
+  createdAt DateTime @default(now())
+
+  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  @@index([userId])
+}
+
+model Report {
+  id          String     @id @default(cuid())
+  type        ReportType
+  description String
+  createdAt   DateTime   @default(now())
+
+  reporter   User   @relation(fields: [reporterId], references: [id], name: "Report")
+  reporterId String
+
+  post   Post   @relation(fields: [postId], references: [id])
+  postId String
+
+  status ReportStatus @default(PENDING)
+
+  staff   User?   @relation(fields: [staffId], references: [id], name: "StaffHandleReport")
+  staffId String?
+
+  @@index([reporterId])
+  @@index([postId])
+  @@index([staffId])
+}
+
+enum ReportType {
+  IRRELEVANT
+  SPAM
+  INAPPROPRIATE_CONTENT
+  HARASSMENT
+  // dagdagan yung report type depende sa mapaguusapan
+}
+
+enum ReportStatus {
+  PENDING
+  RESOLVED
+  REJECTED
+  // dagdagan yung report status depende sa mapaguusapan
+}

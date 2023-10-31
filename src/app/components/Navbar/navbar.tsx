@@ -1,15 +1,16 @@
-'use client'
+"use client";
 
-import React from 'react'
-import { motion } from 'framer-motion'
-import Logo from '../Logo/logo';
-import {useState, useEffect} from 'react'
+import React from "react";
+import { motion } from "framer-motion";
+import Logo from "../Logo/logo";
+import { useState, useEffect } from "react";
+import { BiMenu } from "react-icons/bi";
 
 export default function navbar() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      element.scrollIntoView({ behavior: "smooth" });
     }
   };
 
@@ -23,33 +24,35 @@ export default function navbar() {
   };
 
   useEffect(() => {
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [prevScrollPos, visible]);
-  
+
   return (
-    
-    <nav className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-black w-full h-[70px] px-20 py-3 shadow transition-color duration-500 ${visible ? '' : 'opacity-0'}`}>
-      <Logo/>
+    <nav
+      className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-black w-full h-[70px] px-4 sm:px-20 py-3 shadow transition-color duration-500 ${
+        visible ? "" : "opacity-0"
+      }`}
+    >
+      <Logo />
       <motion.div
-         initial="hidden"
-         whileInView="visible"
-         viewport={{ once: true }}
-        className='flex w-1/2 justify-end'
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex w-1/5 justify-end"
       >
-        <ul className='flex flex-row justify-evenly w-3/4'>
+        <ul className="flex  flex-row justify-evenly w-3/4 max-sm:hidden">
           <motion.button
-              whileHover={{
-                scale: 1.2,
-                transition: { duration: 0.3 },
-              }}
-              whileTap={{ scale: 0.9 }}
-              onClick={() => scrollToSection('home')}
-              className="text-white text-sm font-poppins p-1"
-              
-            >
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollToSection("home")}
+            className="text-white text-sm font-poppins p-1"
+          >
             Home
           </motion.button>
           <motion.button
@@ -58,10 +61,10 @@ export default function navbar() {
               transition: { duration: 0.3 },
             }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => scrollToSection('aboutus')}
+            onClick={() => scrollToSection("aboutus")}
             className="text-white text-sm font-poppins p-1"
           >
-           About Us
+            About
           </motion.button>
           <motion.button
             whileHover={{
@@ -69,10 +72,10 @@ export default function navbar() {
               transition: { duration: 0.3 },
             }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => scrollToSection('services')}
+            onClick={() => scrollToSection("services")}
             className="text-white text-sm font-poppins p-1"
           >
-           Services
+            Services
           </motion.button>
           <motion.button
             whileHover={{
@@ -80,14 +83,16 @@ export default function navbar() {
               transition: { duration: 0.3 },
             }}
             whileTap={{ scale: 0.9 }}
-            onClick={() => scrollToSection('contactus')}
+            onClick={() => scrollToSection("contactus")}
             className="text-white text-sm font-poppins p-1"
           >
-           Contact Us
+            Contact
           </motion.button>
         </ul>
-      </motion.div>  
+      </motion.div>
+      <motion.button className="sm:hidden text-white text-[2rem]">
+        <BiMenu />
+      </motion.button>
     </nav>
-  
-  )
+  );
 }

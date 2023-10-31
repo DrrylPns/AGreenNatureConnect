@@ -5,6 +5,8 @@ import Navbar from "../components/Navbar"
 import SIdebar from "../components/SIdebar"
 import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
+import Providers from "@/lib/providers/Providers"
+import { Toaster } from "../components/toast/toaster"
 
 export default function Layout({
   children,
@@ -12,28 +14,32 @@ export default function Layout({
   children: React.ReactNode
 }) {
 
-  const router = useRouter()
+  // const session = await getAuthSession()
   const pathname = usePathname()
   const isRootPath = pathname === '/'
   const isTermsPolicy = pathname === '/termsPolicy'
   return (
     <section className={`${isTermsPolicy ? 'bg-white' : 'bg-[#F0EEF6]'}`}>
-      {!isRootPath && (
-        isTermsPolicy ? (
-          <>
-            <LandingNavbar />
-          </>
-        ) : (
-          <>
-            <Navbar />
-            <SIdebar />
-          </>
-        )
+      <Providers>
+        {!isRootPath && (
+          isTermsPolicy ? (
+            <>
+              <LandingNavbar />
+            </>
+          ) : (
+            <>
+              <Navbar />
+              <SIdebar />
+            </>
+          )
 
-      )}
-      <LoginModal />
-      <RegisterModal />
-      {children}
+        )}
+        <LoginModal />
+        <RegisterModal />
+        {children}
+
+        <Toaster />
+      </Providers >
     </section>
   )
 }
