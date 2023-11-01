@@ -42,24 +42,24 @@ export default function SIdebar() {
 
     <div className=''>
       {/**mobile view */}
-      <div className='fixed w-full z-20 md:relative'>
-        {/**Home, Communities, Marketplace Icons and links */}         
+      <div className='fixed w-full z-20 md:relative'>        
           <div className='pt-[5rem] w-full flex justify-around bg-white md:hidden'>
             <Link className={`link ${pathname === '/discussion' ? 'border-b border-yellow-400' : ''} flex justify-center items-center  w-full py-3`}  href={'/discussion'} >
               <div className='text-icons '>
                 <BiHome />
-               
               </div>
             </Link>
-            <button type='button' className='flex justify-center items-center w-full py-3'>
+            <Link className={`link ${pathname === '/learningMaterials' ? 'border-b border-yellow-400' : ''} flex justify-center items-center  w-full py-3`}  href={'/learningMaterials'} >
               <div className='text-icons '>
-                <PiUsersThree />
-              
+                <SlNotebook/>
               </div>
-              <div className={`font-poppins text-[1rem] ${isSideBarOpen ? 'opacity-100 block' : 'opacity-0 hidden'}`}>
-                <PiCaretDown />
+            </Link>
+            <Link className={`link ${pathname === '/blogs' ? 'border-b border-yellow-400' : ''} flex justify-center items-center  w-full py-3`}  href={'/blogs'} >
+              <div className='text-icons '>
+                <LiaBlogger/>
               </div>
-            </button>
+            </Link>
+          
             <Link className={`link ${pathname === '/marketplace' ? 'border-b border-yellow-400' : ''} flex justify-center items-center  w-full py-3`}  href={'/marketplace'} >
               <div className='text-icons '>
                 <BiStore />               
