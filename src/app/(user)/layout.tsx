@@ -7,26 +7,27 @@ import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
 import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
+import { getAuthSession } from "@/lib/auth"
 
 const inter = Inter({ subsets: ['latin'] })
 
-//server .... role based
 export const metadata: Metadata = {
   title: 'AGreen Nature Connect',
   description: 'Greens in the Streets: Farming for a Better Tomorrow',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const session = await getAuthSession()
 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
         <Providers>
-          <Navbar />
+          <Navbar session={session} />
           <SIdebar />
 
           <LoginModal />

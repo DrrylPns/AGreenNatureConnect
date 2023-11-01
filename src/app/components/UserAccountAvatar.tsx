@@ -1,14 +1,17 @@
 "use client"
-
 import Link from "next/link"
 import { signOut, useSession } from "next-auth/react"
 import { UserAvatar } from "@/app/components/UserAvatar"
 import { useCallback, useState } from "react"
 import MenuItem from "./MenuItem"
 import { Separator } from "./Ui/Separator"
+import { Session } from "next-auth"
 
-const UserAccountAvatar = () => {
-    const { data: session, status } = useSession();
+interface UserAccountAvatarProps {
+    session: Session | null
+}
+
+const UserAccountAvatar: React.FC<UserAccountAvatarProps> = ({ session }) => {
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleOpen = useCallback(() => {

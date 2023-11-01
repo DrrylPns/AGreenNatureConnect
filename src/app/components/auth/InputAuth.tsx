@@ -80,7 +80,6 @@ const InputAuth: React.FC<InputProps> = ({
                 `}
             >
                 {label}
-
                 {isCheckbox && (
                     <>
                         {/* TODO ADD LINKS OF TERMS AND CONDITIONS AND PRIVACY POLICY */}
