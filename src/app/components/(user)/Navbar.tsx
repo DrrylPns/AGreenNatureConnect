@@ -1,5 +1,4 @@
 "use client"
-
 import Image from 'next/image'
 import LogoIcon from '/public/logo.png'
 import React from 'react'
@@ -12,10 +11,16 @@ import Search from '../Search'
 import { useSession, signOut } from "next-auth/react"
 import UserAccountAvatar from '../UserAccountAvatar'
 import Loader, { RotatingLines } from "react-loader-spinner"; 
+import SignInBtn from './SignInBtn'
+import { Session } from 'next-auth'
 
-export default function Navbar() {
-    const loginModal = useLoginModal()
-    const { data: session, status } = useSession();
+interface NavbarProps {
+    session: Session | null
+}
+
+const Navbar: React.FC<NavbarProps> = ({
+    session
+}) => {
 
     return (
         <nav className="fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-30 px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#F0EEF6] md:px-20">
@@ -55,7 +60,8 @@ export default function Navbar() {
              )}
          </div>
            )}
-            
         </nav>
     )
 }
+
+export default Navbar

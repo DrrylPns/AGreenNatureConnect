@@ -26,13 +26,13 @@ model User {
   role           Role      @default(USER)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
+  createdTopics  Topic[]   @relation("CreatedBy")
 
   Account         Account[]
   Session         Session[]
   posts           Post[]
   comments        Comment[]
   likes           Like[]
-  commentLikes    CommentLike[]
   notifications   Notification[]
   reportedReports Report[]       @relation("Report")
   adminReports    Report[]       @relation("StaffHandleReport")
@@ -40,6 +40,7 @@ model User {
   @@index([id])
 }
 
+// to edit STAFF to EMPLOYEE
 enum Role {
   USER
   ADMIN
@@ -76,7 +77,21 @@ model Session {
   @@index([userId])
 }
 
-// topics to add
+model Topic {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+
+  Creator   User?   @relation("CreatedBy", fields: [creatorId], references: [id])
+  creatorId String?
+
+  @@index([creatorId])
+  @@index([name])
+}
+
+
 model Post {
   id        String   @id @default(cuid())
   title     String
@@ -87,19 +102,22 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
+  Topic   Topic?  @relation(fields: [topicId], references: [id])
+  topicId String?
+
   comments Comment[]
   likes    Like[]
   Report   Report[]
 
   @@index([authorId])
+  @@index([topicId])
 }
 
-// 
 model Comment {
   id        String   @id @default(cuid())
   text      String
   createdAt DateTime @default(now())
-  // add updatedAt if ever magkaron ng functionality na pwede i-edit yung comment
+  updatedAt DateTime @updatedAt
 
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
@@ -111,7 +129,6 @@ model Comment {
   replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies   Comment[] @relation("ReplyTo")
 
-  likes     CommentLike[]
   commentId String
 
   @@index([authorId])
@@ -128,18 +145,6 @@ model Like {
   @@id([userId, postId])
   @@index([userId])
   @@index([postId])
-}
-
-//tanggalin
-model CommentLike {
-  user      User    @relation(fields: [userId], references: [id])
-  userId    String
-  comment   Comment @relation(fields: [commentId], references: [id])
-  commentId String
-
-  @@id([userId, commentId])
-  @@index([userId])
-  @@index([commentId])
 }
 
 model Notification {
