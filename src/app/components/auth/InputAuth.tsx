@@ -29,7 +29,8 @@ const InputAuth: React.FC<InputProps> = ({
 
     return (
         <div className="w-full relative">
-            {/* input error TODO Auth*/}
+        {/* input error TODO Auth */}
+        <div className="flex">
             <input
                 id={id}
                 disabled={disabled}
@@ -37,9 +38,7 @@ const InputAuth: React.FC<InputProps> = ({
                 placeholder=" "
                 type={type}
                 className={`
-                    ${isCheckbox ? `
-                    
-                    ` : `
+                    ${isCheckbox ? `` : `
                     peer
                     w-full
                     p-4
@@ -54,46 +53,52 @@ const InputAuth: React.FC<InputProps> = ({
                     disabled:opacity-70
                     disabled:cursor-not-allowed
                     pl-4
-                    ` }
-                `}
-            />
-            <label
-                className={`
-                    ${isCheckbox ? `
-                        m-3
-                    ` : `
-                        absolute 
-                        text-md
-                        duration-150 
-                        transform 
-                        -translate-y-3 
-                        top-5 
-                        z-10 
-                        origin-[0]
-                        dark:text-[#92929a] 
-                        left-4
-                        peer-placeholder-shown:scale-100 
-                        peer-placeholder-shown:translate-y-0 
-                        peer-focus:scale-75
-                        peer-focus:-translate-y-4
                     `}
                 `}
-            >
-                {label}
-
-                {isCheckbox && (
-                    <>
-                        {/* TODO ADD LINKS OF TERMS AND CONDITIONS AND PRIVACY POLICY */}
-                        <span className="">By Continuing you agree to our
-                            <Link href={""} className="text-[#0227EB] m-1">Terms and Conditions</Link>
-                            and acknowledge that you understand
-                            <Link href={""} className="text-[#0227EB] m-1">Privacy Policy</Link></span>
-                    </>
-                )}
-                <span className={"text-[#FF2222]"}>*</span>
-            </label>
-            <span>{icon}</span>
+            />
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">{icon}</span>
         </div>
+        <label
+            className={`
+                ${isCheckbox ? `
+                    m-3
+                ` : `
+                    absolute 
+                    text-md
+                    duration-150 
+                    transform 
+                    -translate-y-3 
+                    top-5 
+                    z-10 
+                    origin-[0]
+                    dark:text-[#92929a] 
+                    left-4
+                    peer-placeholder-shown:scale-100 
+                    peer-placeholder-shown:translate-y-0 
+                    peer-focus:scale-75
+                    peer-focus:-translate-y-4
+                `}
+            `}
+        >
+            {label}
+            {isCheckbox && (
+    <>
+        {/* TODO ADD LINKS OF TERMS AND CONDITIONS AND PRIVACY POLICY */}
+        <span className="">
+            By Continuing you agree to our
+            <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Terms and Conditions</Link>
+            and acknowledge that you understand
+            <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Privacy Policy</Link>
+        </span>
+    </>
+)}
+
+            <span className={"text-[#FF2222]"}>*</span>
+        </label>
+    </div>
+    
+    
+
     )
 }
 
