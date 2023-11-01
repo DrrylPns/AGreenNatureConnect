@@ -17,7 +17,7 @@ export default function PostButtons() {
         </div>
     </div>
     {/**Like, Comment, Share Buttons */}
-    <div className='flex justify-between items-center border-t-2 border-gray-300 py-2 px-10'>
+    <div className='flex justify-between items-center border-t-2 border-gray-300 py-2 md:px-10 px-3'>
         {/**LIKE BUTTON */}
         <button type='button' className='flex gap-2 items-center'>
             <span className='text-[1.5rem] text-gray-600'>
