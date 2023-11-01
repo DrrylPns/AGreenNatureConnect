@@ -11,6 +11,7 @@ import Notification from './Notification'
 import Search from '../Search'
 import { useSession, signOut } from "next-auth/react"
 import UserAccountAvatar from '../UserAccountAvatar'
+import Loader, { RotatingLines } from "react-loader-spinner"; 
 
 export default function Navbar() {
     const loginModal = useLoginModal()
@@ -26,20 +27,35 @@ export default function Navbar() {
                 />
             </Link>
             <Search />
-            {session ? (
-                <div className="flex items-center gap-3 justify-between">
-                    <Notification />
-                    <Settings />
-                    <UserAccountAvatar />
-                </div>
-            ) : (
-                <div className="w-[]">
-                    <Button
-                        onClick={loginModal.onOpen}
-                        variant={'green'}
-                    >Sign In</Button>
-                </div>
-            )}
+           {status === 'loading'? (
+               <div className='text-center flex justify-center'> 
+               <RotatingLines
+                   strokeColor="green"
+                   strokeWidth="5"
+                   animationDuration="0.75"
+                   width="20"
+                   visible={true}
+               />
+               </div> 
+           ):(
+            
+             <div className="flex items-center gap-3 justify-between">
+             {status === 'authenticated' ? (    
+                 <>
+               
+                 <Notification />
+                 <Settings />
+                 <UserAccountAvatar />
+                 </>
+             ) : (
+             <Button
+                     onClick={loginModal.onOpen}
+                     variant={'green'}
+                 >Sign In</Button>
+             )}
+         </div>
+           )}
+            
         </nav>
     )
 }

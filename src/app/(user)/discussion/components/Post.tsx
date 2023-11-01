@@ -7,6 +7,7 @@ import ImagePost2 from '../images/imagepost2.png'
 import PostButtons from './postButtons';
 import { FaEllipsis } from 'react-icons/fa6'
 
+
 export default function Post() {
     const [expanded, setExpanded] = useState(false);
 
@@ -53,14 +54,13 @@ export default function Post() {
                             <Image
                                 src={ImagePost1}
                                 alt='User posted Image'
-                                layout='responsive'
+                               
                             />
                         </div>
                         <div className='mt-3 rounded-lg'>
                             <Image
                                 src={ImagePost2}
                                 alt='User posted Image'
-                                layout='responsive'
                             />
                         </div>
                     </div>
