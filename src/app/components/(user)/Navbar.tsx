@@ -10,6 +10,8 @@ import Notification from './Notification'
 import Search from '../Search'
 import { useSession, signOut } from "next-auth/react"
 import UserAccountAvatar from '../UserAccountAvatar'
+import SignInBtn from './SignInBtn'
+import { Session } from 'next-auth'
 import Loader, { RotatingLines } from "react-loader-spinner";
 import SignInBtn from './SignInBtn'
 import { Session } from 'next-auth'
@@ -17,6 +19,7 @@ import { Session } from 'next-auth'
 interface NavbarProps {
     session: Session | null
 }
+
 
 const Navbar: React.FC<NavbarProps> = ({
     session
