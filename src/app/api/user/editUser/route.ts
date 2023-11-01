@@ -1,52 +1,47 @@
-// api/user/editUser/route.ts
-
-import { PrismaClient } from "@prisma/client";
+import prisma from "@/lib/db/db"
 import { getServerSession } from "next-auth";
-import { NextApiRequest, NextApiResponse } from "next";
+import { ChangeUserProfileSchema } from "@/lib/validations/changeUserProfile";
 
-const prisma = new PrismaClient();
-
-export default async (req: NextApiRequest, res: NextApiResponse) => {
+export async function POST(req: Request) {
   const session = await getServerSession();
 
   if (!session) {
-    return res.status(401).json({ error: "Unauthorized" });
+    return new Response("Unauthorized", { status: 401 })
   }
 
-  if (req.method === "POST") {
-    const { newUsername } = req.body;
+  const body = req.json();
+  const { newUsername } = ChangeUserProfileSchema.parse(body)
 
-    try {
-      const user = await prisma.user.findUnique({
-        where: { id: session.user.id },
-      });
+  //try catch start
+  try {
+    const user = await prisma.user.findUnique({
+      where: { id: session.user.id },
+    });
 
-      if (!user) {
-        return res.status(404).json({ error: "User not found" });
-      }
-
-      // Check if the new username is available
-      const usernameExists = await prisma.user.findFirst({
-        where: { username: newUsername },
-      });
-
-      if (usernameExists) {
-        return res.status(400).json({ error: "Username is already in use" });
-      }
-
-      // Update the user's username
-      await prisma.user.update({
-        where: { id: user.id },
-        data: {
-          username: newUsername,
-        },
-      });
-
-      return res.status(200).json({ message: "Username updated successfully" });
-    } catch (error) {
-      return res.status(500).json({ error: "An error occurred" });
+    if (!user) {
+      return new Response("User not found", { status: 404 })
     }
-  } else {
-    return res.status(405).json({ error: "Method not allowed" });
+
+    // Check if the new username is available
+    const usernameExists = await prisma.user.findFirst({
+      where: { username: newUsername },
+    });
+
+    if (usernameExists) {
+      return new Response("Username is already in use", { status: 400 })
+    }
+
+    // Update the user's username
+    await prisma.user.update({
+      where: { id: user.id },
+      data: {
+        username: newUsername,
+      },
+    });
+
+    return new Response("Username updated successfully", { status: 200 })
+  } catch (error) {
+    return new Response("An error occurred", { status: 500 })
   }
+
 };

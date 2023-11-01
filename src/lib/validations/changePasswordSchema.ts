@@ -1,5 +1,7 @@
 import { z } from "zod"
 
+export type ChangePasswordType = z.infer<typeof ChangePasswordSchema>
+
 export const ChangePasswordSchema = z.object({
     oldPassword: z.string()
         .min(8, { message: "Minimum password length is 8 characters" })
