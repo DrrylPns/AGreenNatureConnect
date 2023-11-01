@@ -23,12 +23,12 @@ export default async function Home() {
 
       <header id="home" className="">
         <div className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}>
-          <div className=" flex flex-col items-end md:w-[320px] w-[300px]">
-            <div className="font-poppins font-bold text-white md:text-[17.5px] leading-[30px] self-start">
+          <div className=" flex flex-col items-end md:w-[320px] w-[250px]">
+            <div className="font-poppins font-bold text-white md:text-[17.5px] leading-[30px] self-start max-sm:text-[13px]">
               Welcome to New Green Land Farming
             </div>
             <Image
-              className="md:w-[200px] w-[200px] h-[10px]"
+              className="flex md:w-[200px] w-[200px] h-[10px] max-sm:hidden"
               src={Vector}
               alt=""
             />
@@ -117,11 +117,11 @@ export default async function Home() {
         </div>
       </section>
       {/*Services*/}
-      <section id="services" className="py-20">
-        <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] mb-10">
+      <section id="services" className="py-5">
+        <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] mb-5">
           Services
         </h1>
-        <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-1">
+        <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-2">
           <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <Image
               className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
@@ -242,40 +242,40 @@ export default async function Home() {
       {/*Contact Us*/}
       <section
         id="contactus"
-        className="lg:flex grid lg:px-20 px-1 border-b border-black w-full justify-between"
+        className="lg:flex grid lg:px-20 px-3 border-b border-black justify-between"
       >
         <div className="lg:w-1/2 w-full p-10 ">
           <h4>CONTACT NOW</h4>
           <h1 className="font-poppins font-bold text-[30px]">
             GET IN TOUCH NOW
           </h1>
-          <p className="font-poppins font-normal md:text-[15px]">
+          <p className="font-poppins font-normal md:text-[16px] text-[15px]">
             Lorem ipsum dolor sit amet, adipiscing elit. In hac habitasse platea
             dictumst. Duis porta,quam ut finibus ultrices.
           </p>
           <div>
-            <div className="flex items-center gap-10 my-10">
+            <div className=" flex items-center gap-5 my-10 max-sm:w-8 ">
               <Image src={Phone} alt="Phone icon" />
               <div>
                 <h3>PHONE</h3>
-                <p>+639123456789</p>
-                <p>+639987654321</p>
+                <p className="md:text-[16px] text-[13px]">+639123456789</p>
+                <p className="md:text-[16px] text-[13px]">+639987654321</p>
               </div>
             </div>
-            <div className="flex items-center gap-10 my-10">
+            <div className="flex items-center gap-5 my-10 max-sm:w-8">
               <Image src={Email} alt="Phone icon" />
               <div>
                 <h3>EMAIL</h3>
-                <p className="md:text-[16px] text-[13px]">
+                <p className="flex md:text-[16px] text-[13px]">
                   agreennatureconnect@gmail.com
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-10 mt-10">
+            <div className="flex items-center gap-5 mt-10 max-sm:w-8">
               <Image src={Location} alt="Location icon" />
               <div>
                 <h3>ADDRESS</h3>
-                <p>Brgy. Commonwealth, Quezon City.</p>
+                <p className="md:text-[16px] text-[13px]">Brgy. Commonwealth, Quezon City.</p>
               </div>
             </div>
           </div>
@@ -336,9 +336,9 @@ export default async function Home() {
             </div>
             <button
               type="submit"
-              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100"
+              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
             >
-              SEND MESSAGE
+              SUBMIT MESSAGE
             </button>
           </form>
         </div>
