@@ -32,6 +32,7 @@ module.exports = {
         'pale': '#CFE2CE7F',
         'muted': '#CFE2CE',
         'dark-green': '#344C31',
+        'pale-white':'#F0EEF6',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

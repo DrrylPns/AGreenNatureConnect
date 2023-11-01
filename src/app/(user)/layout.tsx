@@ -7,6 +7,7 @@ import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
 import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
+import { Suspense } from "react"
 import { getAuthSession } from "@/lib/auth"
 
 const inter = Inter({ subsets: ['latin'] })
@@ -33,7 +34,6 @@ export default async function RootLayout({
           <LoginModal />
           <RegisterModal />
           {children}
-
           <Toaster />
         </Providers >
       </body>

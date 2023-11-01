@@ -8,7 +8,7 @@ import { Separator } from "./Ui/Separator"
 import { Session } from "next-auth"
 
 interface UserAccountAvatarProps {
-    session: Session | null
+    session?: Session | null
 }
 
 const UserAccountAvatar: React.FC<UserAccountAvatarProps> = ({ session }) => {
