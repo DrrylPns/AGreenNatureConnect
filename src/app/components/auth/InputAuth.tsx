@@ -82,15 +82,15 @@ const InputAuth: React.FC<InputProps> = ({
         >
             {label}
             {isCheckbox && (
-    <>
-        {/* TODO ADD LINKS OF TERMS AND CONDITIONS AND PRIVACY POLICY */}
-        <span className="">
-            By Continuing you agree to our
-            <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Terms and Conditions</Link>
-            and acknowledge that you understand
-            <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Privacy Policy</Link>
-        </span>
-    </>
+            <>
+                {/* TODO ADD LINKS OF TERMS AND CONDITIONS AND PRIVACY POLICY */}
+                <span className="ml-0">
+                    By Continuing you agree to our
+                    <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Terms and Conditions</Link>
+                    and acknowledge that you understand
+                    <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Privacy Policy</Link>
+                </span>
+            </>
 )}
 
             <span className={"text-[#FF2222]"}>*</span>
