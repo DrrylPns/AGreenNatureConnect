@@ -40,6 +40,7 @@ model User {
   @@index([id])
 }
 
+// to edit STAFF to EMPLOYEE
 enum Role {
   USER
   ADMIN
