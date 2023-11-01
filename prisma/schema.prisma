@@ -91,6 +91,7 @@ model Topic {
   @@index([name])
 }
 
+
 model Post {
   id        String   @id @default(cuid())
   title     String

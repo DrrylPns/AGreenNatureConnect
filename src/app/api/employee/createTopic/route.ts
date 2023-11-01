@@ -3,7 +3,6 @@ import prisma from "@/lib/db/db"
 import { TopicSchema } from "@/lib/validations/topicPostScema"
 import { z } from "zod"
 
-//export async function POST(req: NextApiRequest, res:NextApiResonse) {
 export async function POST(req: Request) {
     try {
         // get session
@@ -17,7 +16,7 @@ export async function POST(req: Request) {
         // request body
         const body = await req.json()
 
-        // parse body
+        // parse body using zod parse method
         const { name } = TopicSchema.parse(body)
 
         // does the input exist in the current database?
