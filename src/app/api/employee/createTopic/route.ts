@@ -17,12 +17,12 @@ export async function POST(req: Request) {
         const body = await req.json()
 
         // parse body using zod parse method
-        const { name } = TopicSchema.parse(body)
+        const { topicName } = TopicSchema.parse(body)
 
         // does the input exist in the current database?
         const topicExists = await prisma.topic.findFirst({
             where: {
-                name: name
+                name: topicName
             }
         })
 
@@ -34,7 +34,7 @@ export async function POST(req: Request) {
         // if it passes all error handling create it in the db
         const topic = await prisma.topic.create({
             data: {
-                name,
+                name: topicName,
                 creatorId: session.user.id
             }
         })

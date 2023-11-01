@@ -1,12 +1,16 @@
 import * as React from "react"
 
 import { cn } from "@/lib/utils"
+import { FieldErrors, UseFormRegister } from "react-hook-form"
+import { CreateTopicType } from "@/lib/validations/topicPostScema";
 
 export interface InputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> { }
+  extends React.InputHTMLAttributes<HTMLInputElement> {
+  errors?: FieldErrors;
+}
 
 const Input = React.forwardRef<HTMLInputElement, InputProps>(
-  ({ className, type, ...props }, ref) => {
+  ({ className, type, errors, ...props }, ref) => {
     return (
       <input
         type={type}
