@@ -26,19 +26,21 @@ const Post: React.FC<PostProps> = ({ topicName, post, commentAmt }) => {
             <div className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
                 <div className='flex items-center justify-between'>
                     <div className='flex items-center gap-4'>
-                        <div className='w-userImage rouded-full'>
+                        <div className='w-userImage rounded-full'>
                             {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
-                            {/* <Image
-                                src={post.author.image}
+                            {/* todo ts error fix */}
+                            <Image
+                                src={post.author.image || "/images/avatar-placeholder.jpg"}
                                 alt='User Image'
-                                width={20}
-                                height={20}
-                            /> */}
+                                width={40}
+                                height={40}
+                                className='rounded-full'
+                            />
                         </div>
 
                         <div className='flex items-baseline gap-3'>
                             {/*Username*/}
-                            <h1 className='text-lg font-poppins font-medium'>{post.author.name}</h1>
+                            <h1 className='text-lg font-poppins font-medium'>{post.author.username}</h1>
                             {/*Time created display in hours forx ex. just now, 10m ago, 7h ago */}
                             <h3 className='text-sm font-poppins'>{formatTimeToNow(new Date(post.createdAt))}</h3>
                         </div>
