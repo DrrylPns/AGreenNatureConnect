@@ -34,19 +34,19 @@ export default async function Home() {
             />
           </div>
           <div className="flex flex-col w-full items-end mt-5">
-            <h1 className="font-livvic font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[20px] self-start mt-[-20px]">
+            <h1 className="font-livvic font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] max-sm:text-[23px] text-[20px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
-            <h1 className="font-livvic font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[20px] self-start">
+            <h1 className="font-livvic font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[45px] md:text-[35px] max-sm:text-[19px] text-[20px] self-start">
               Good production
             </h1>
           </div>
-          <p className="my-[20px] text-white font-poppins text-[15px]">
+          <p className="my-[20px] text-white font-poppins max-sm:text-[14px] text-[17px]">
             Greens in the Streets: Farming for a Better Tomorrow
           </p>
           <Link
             href="/discussion"
-            className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-4 p-4 border-none rounded-lg"
+            className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-5 p-3 border-none rounded-lg max-sm:text-[12px] max-sm:w-[112px] text-center "
           >
             GET STARTED
           </Link>
