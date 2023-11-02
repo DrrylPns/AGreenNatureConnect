@@ -15,7 +15,6 @@ interface EditorProps {
     topicId: string;
 }
 
-
 const Editor: React.FC<EditorProps> = ({ topicId }) => {
     //TODO: middleware for this page
     const ref = useRef<EditorJS>();
@@ -61,7 +60,7 @@ const Editor: React.FC<EditorProps> = ({ topicId }) => {
                     linkTool: {
                         class: LinkTool,
                         config: {
-                            endpoint: '/api/link',
+                            endpoint: '/api/user/link',
                         },
                     },
                     image: {
@@ -136,7 +135,7 @@ const Editor: React.FC<EditorProps> = ({ topicId }) => {
                 content,
                 topicId,
             }
-            const { data } = await axios.post('api/user/post/create', payload)
+            const { data } = await axios.post('/api/user/post/create', payload)
             return data
         },
         onError: () => {
@@ -147,16 +146,15 @@ const Editor: React.FC<EditorProps> = ({ topicId }) => {
             });
         },
         onSuccess: () => {
-            // discussion/topic/submit > discussion/topic
+            // redirect to /discussion/topic/topicName
             const newPathname = pathname.split("/").slice(0, -1).join("/");
             router.push(newPathname);
 
-            router.refresh()
-
             return toast({
                 description: "Your post has been published.",
-            })
+            });
         },
+
     })
 
     async function onSubmit(data: CreatePostType) {
@@ -165,7 +163,7 @@ const Editor: React.FC<EditorProps> = ({ topicId }) => {
         const payload: CreatePostType = {
             title: data.title,
             content: blocks,
-            topicId
+            topicId,
         }
 
         createPost(payload)
@@ -196,9 +194,15 @@ const Editor: React.FC<EditorProps> = ({ topicId }) => {
                         className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none'
                     />
 
+                    <div id="editor" className='min-h-[500px]' />
+                    <p className='text-sm text-gray-500'>
+                        Use{' '}
+                        <kbd className='rounded-md border bg-muted px-1 text-xs uppercase'>
+                            Tab
+                        </kbd>{' '}
+                        to open the command menu.
+                    </p>
                 </div>
-
-                <div id="editor" className='min-h-[500px]' />
             </form>
         </div>
     )

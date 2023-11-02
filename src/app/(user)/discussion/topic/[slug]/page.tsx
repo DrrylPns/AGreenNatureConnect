@@ -43,7 +43,7 @@ const page = async ({params}: TopicProps) => {
             {topic.name}
         </h1>
         <TopicCreatePost session={session}/>
-        {/* USER POSTS IN TOPIC TODO */}
+        <TopicPosts  />
     </section>
   )
 }
