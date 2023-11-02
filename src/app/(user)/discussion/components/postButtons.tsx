@@ -2,6 +2,7 @@ import { Like, Post, User } from '@prisma/client';
 import React from 'react'
 import { BiLike, BiComment, BiShare } from 'react-icons/bi'
 
+// tanggalin optional pag ayus na ang discussion homepage
 interface PostButtonsProps {
     commentAmt?: number;
     topicName?: string;
@@ -41,12 +42,14 @@ const PostButtons: React.FC<PostButtonsProps> = ({ commentAmt, topicName, post }
                     Like
                 </button>
                 {/**cOMMENT BUTTON */}
-                <button type='button' className='flex gap-2 items-center'>
-                    <span className='text-[1.5rem] text-gray-600'>
-                        <BiComment />
-                    </span>
-                    Comment
-                </button>
+                <a href={`/discussion/topic/${topicName}/post/${post?.id}`}>
+                    <button type='button' className='flex gap-2 items-center'>
+                        <span className='text-[1.5rem] text-gray-600'>
+                            <BiComment />
+                        </span>
+                        Comment
+                    </button>
+                </a>
                 {/**SHARE BUTTON */}
                 <button type='button' className='flex gap-2 items-center'>
                     <span className='text-[1.5rem] text-gray-600'>

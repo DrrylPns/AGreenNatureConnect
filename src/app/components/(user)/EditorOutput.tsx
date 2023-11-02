@@ -43,4 +43,5 @@ function CustomImageRenderer({ data }: any) {
     )
 }
 
+
 export default EditorOutput

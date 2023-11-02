@@ -21,7 +21,7 @@ const Post: React.FC<PostProps> = ({ topicName, post, commentAmt }) => {
     const pref = useRef<HTMLDivElement>(null)
 
     return (
-        <section className='sm:px-[3%] md:pl-[25%] lg:pr-[25%]'>
+        <section className='w-full'>
             {/*POSTS, use Fetch api here and map through all post and display it depending on the filtering*/}
             <div className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
                 <div className='flex items-center justify-between'>
@@ -59,7 +59,9 @@ const Post: React.FC<PostProps> = ({ topicName, post, commentAmt }) => {
 
                     <div className='relative text-sm max-h-40 w-full overflow-clip' ref={pref}>
 
+                    <a href={`/discussion/topic/${topicName}/post/${post.id}`}>
                         <EditorOutput content={post.content} />
+                    </a>
 
                         {pref.current?.clientHeight === 160 ? (
                             <div
