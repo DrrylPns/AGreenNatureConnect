@@ -33,7 +33,7 @@ export default async function RootLayout({
 
           <LoginModal />
           <RegisterModal />
-          {children}
+            {children}
           <Toaster />
         </Providers >
       </body>
