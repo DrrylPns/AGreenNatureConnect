@@ -14,14 +14,9 @@ import Loader, { RotatingLines } from "react-loader-spinner";
 import SignInBtn from './SignInBtn'
 import { Session } from 'next-auth'
 
-interface NavbarProps {
-    session: Session | null
-}
 
-
-const Navbar: React.FC<NavbarProps> = ({
-    session
-}) => {
+const Navbar= ({}) => {
+    const {data: session, status} = useSession()
     const loginModal = useLoginModal()
     //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit
     return (
