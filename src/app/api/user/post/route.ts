@@ -10,13 +10,13 @@ export async function GET(req: NextRequest) {
         const getAllPost = await prisma.post.findMany({
             include:{
                 author: true,
-                comments:true,
+                comments:{
+                    include:{
+                        author: true
+                    }
+                },
                 likes: true,
-                topic: {
-                   select:{
-                    name:true
-                   }
-                }
+                topic: true
             }
         })
         return new Response(JSON.stringify(getAllPost))
@@ -51,7 +51,7 @@ export async function POST(req: Request) {
     }
 }
 
-//Deleteng new Post
+//Deleteng Post
 export async function DELETE(req: NextRequest){
 
 }

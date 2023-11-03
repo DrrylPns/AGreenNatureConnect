@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface RelativeDateProps {
-  dateString: string;
+  dateString: string ;
 }
 
 const RelativeDate: React.FC<RelativeDateProps> = ({ dateString }) => {

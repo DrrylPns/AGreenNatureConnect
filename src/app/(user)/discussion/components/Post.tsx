@@ -30,7 +30,7 @@ export default function Post() {
     return (
         <section className='sm:px-[3%] md:pl-[25%] lg:pr-[25%]'>
             {posts.map((post: Post) =>(
-                <Link href={`/discussion/${post.id}`}>
+                <Link href={`/discussion/${post.topic.name}/${post.id}`}>
                 <div key={post.id} className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
 
                     <div className='flex items-center justify-between'>
