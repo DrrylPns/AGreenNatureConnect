@@ -54,7 +54,7 @@ export default function Post() {
                             <Image
                                 src={ImagePost1}
                                 alt='User posted Image'
-                               
+
                             />
                         </div>
                         <div className='mt-3 rounded-lg'>

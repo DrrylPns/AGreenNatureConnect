@@ -5,6 +5,7 @@ async function Settings() {
   const session = await getAuthSession()
 
   return (
+    //ginawa ko server session para mas mabilis pag kuha ng data mabagal kasi pag client session hook lang
     <MainSettings session={session} />
   )
 }

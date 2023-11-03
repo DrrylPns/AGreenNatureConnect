@@ -12,21 +12,22 @@ datasource db {
 }
 
 model User {
-  id             String    @id @default(cuid())
-  name           String?
-  username       String?   @unique
-  email          String?   @unique
-  emailVerified  DateTime?
-  image          String?
-  hashedPassword String?
-  middleName     String?
-  lastName       String?
-  phoneNumber    String?
-  address        String?
-  role           Role      @default(USER)
-  createdAt      DateTime  @default(now())
-  updatedAt      DateTime  @updatedAt
-  createdTopics  Topic[]   @relation("CreatedBy")
+  id                 String    @id @default(cuid())
+  name               String?
+  username           String?   @unique
+  email              String?   @unique
+  emailVerified      DateTime?
+  image              String?
+  hashedPassword     String?
+  middleName         String?
+  lastName           String?
+  phoneNumber        String?
+  address            String?
+  role               Role      @default(USER)
+  createdAt          DateTime  @default(now())
+  updatedAt          DateTime  @updatedAt
+  lastUsernameChange DateTime?
+  createdTopics      Topic[]   @relation("CreatedBy")
 
   Account         Account[]
   Session         Session[]
@@ -91,7 +92,6 @@ model Topic {
   @@index([name])
 }
 
-
 model Post {
   id        String   @id @default(cuid())
   title     String
@@ -102,8 +102,8 @@ model Post {
   author   User   @relation(fields: [authorId], references: [id])
   authorId String
 
-  Topic   Topic?  @relation(fields: [topicId], references: [id])
-  topicId String?
+  topic   Topic  @relation(fields: [topicId], references: [id])
+  topicId String
 
   comments Comment[]
   likes    Like[]
