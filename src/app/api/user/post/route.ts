@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
                 author: true,
                 comments:true,
                 likes: true,
-                Topic: {
+                topic: {
                    select:{
                     name:true
                    }

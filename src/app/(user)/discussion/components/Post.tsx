@@ -1,18 +1,17 @@
 'use client'
 import Image from 'next/image';
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef  } from 'react'
 import DisplayPhoto from '@/app/(user)/discussion/images/displayphoto.png'
-import ImagePost1 from '../images/imagepost1.png'
-import ImagePost2 from '../images/imagepost2.png'
 import PostButtons from './postButtons';
 import { FaEllipsis } from 'react-icons/fa6'
 import axios from 'axios';
 import { Post, Block } from '@/lib/types'
 import RelativeDate from '@/app/components/RelativeDate';
 import Link from 'next/link';
+import EditorOutput from '@/app/components/(user)/EditorOutput';
 
 export default function Post() {
-    const [isLoading ,setIsLoading] = useState(true);
+    const pref = useRef<HTMLDivElement>(null)
     const [posts, setPosts] = useState<Post[]>([]); 
 
     useEffect(()=>{
@@ -21,7 +20,7 @@ export default function Post() {
 
     const getAllPosts = async () => {
         try {
-            const response = await axios.get('/api/post/')
+            const response = await axios.get('/api/user/post')
             setPosts(response.data)
         } catch (error) {
             console.log(error)
@@ -63,31 +62,14 @@ export default function Post() {
                     </button>
                 </div>
                 {/**Description & Images */}
-                <div className='mt-2 w-full'>
-                    {/**Description */}
-                    {post.content.blocks.map((block: Block) => (
-                    <>  {block.type === 'paragraph' && (
-                        <div>
-                            <p>{block.data.text}</p>
-                        </div>
-                        )}
-                        {block.data.file?.url && (
-                        <div className={'w-full'}>
-                            <Image
-                                src={block.data.file?.url}
-                                alt={block.data.caption}
-                                width={100}
-                                height={100}
-                                className='w-full h-20 object-fill'
-                                quality={100}
-                            />
-                            {block.data.caption}
-                        </div>
-                        )}
-
-                    </>
-                    ))}
-                    </div>
+                <div className='relative text-sm max-h-40 w-full overflow-clip' ref={pref}>
+                    <EditorOutput content={post.content} />
+                    {pref.current?.clientHeight === 160 ? (
+                        <div
+                            className='absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent'
+                        />
+                    ) : null}
+                </div>
                     {/**Like, Comment, Share(if there is any) Section*/}
                     <PostButtons comments={post.comments.length} likes={post.likes.length} />
                 </div>
