@@ -51,9 +51,9 @@ export interface Post {
 export interface Comment {
     id: string;
     text: string;
-    createdAt: Date;
-    updatedAt: Date;
-    author: User;
+    createdAt: string;
+    updatedAt: string;
+    author: Author;
     authorId: string;
     post: Post;
     postId: string;

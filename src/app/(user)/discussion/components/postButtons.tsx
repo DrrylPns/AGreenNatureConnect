@@ -9,26 +9,27 @@ interface PostButtonsProps {
 }
 
 const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
-
+    console.log(comments)
+    console.log(likes)
   return (
     <div>
   
     {/**Like, Comment, Share Buttons */}
-    <div className='flex items-center justify-end gap-4 border-t-2 border-gray-300 py-2 md:px-10 px-3'>
+    <div className='flex items-center justify-end gap-4 border-t-2 border-gray-300 py-2 md:px-10 px-1'>
         <motion.button 
             whileTap={{ backgroundColor: 'ButtonShadow' }} 
             type='button' 
-            className='flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-pale'
+            className='flex gap-2 items-center justify-center px-3 py-1 font-poppins font-semibold w-[7rem] rounded-3xl bg-pale'
         >
             <span className='text-[1.5rem] text-gray-600'>
                 <BiLike />
             </span>
-            <h3>{comments}</h3>
+            <h3>{likes}</h3>
         </motion.button>
         <motion.button 
             whileTap={{ backgroundColor: 'ButtonShadow' }} 
             type='button' 
-            className='flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-pale'
+            className='flex gap-2 items-center justify-center px-3 py-1 font-poppins font-semibold w-[7rem] rounded-3xl bg-pale'
         >
             <span className='text-[1.5rem] text-gray-600'>
                 <BiComment />
@@ -42,7 +43,7 @@ const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
                     whileTap={{ backgroundColor: 'ButtonShadow' }}
                     className='rounded-3xl font-poppins font-semibold w-[7rem]'
                     >
-                        <Popover.Button type='button' className='flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-pale'>
+                        <Popover.Button type='button' className='flex gap-2 items-center px-3 py-1 font-normal w-full rounded-3xl bg-pale'>
                             <span className='text-[1.5rem] text-gray-600'>
                                 <BiShare />
                             </span>
@@ -58,7 +59,7 @@ const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
                     leaveFrom="opacity-100 translate-y-0"
                     leaveTo="opacity-0 translate-y-1"
                     >
-                    <Popover.Panel className={`absolute md:right-52 lg:right-72 xl:right-80  right-6 flex gap-2 items-center  drop-shadow-sm shadow-sm`}>
+                    <Popover.Panel className={`absolute md:right-52 lg:right-72 xl:right-80 z-40 bg-white right-6 flex gap-2 items-center  drop-shadow-sm shadow-sm`}>
                         
                         <button className='flex rounded-lg items-center px-4 py-2 gap-3 drop-shadow-lg shadow-md hover:bg-pale-white' > <FiLink className='text-[1.5rem]' /> Copy link</button>
                     </Popover.Panel>

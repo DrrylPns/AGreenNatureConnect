@@ -7,8 +7,12 @@ import React, { FC, useEffect, useState } from 'react'
 import DisplayPhoto from '../images/displayphoto.png'
 import { FaEllipsis } from 'react-icons/fa6';
 import PostButtons from '../components/postButtons';
-import { RotatingLines } from 'react-loader-spinner';
+import { RotatingLines, Discuss} from 'react-loader-spinner';
 import Link from 'next/link';
+import { FiPlus } from 'react-icons/fi';
+import { useSession } from 'next-auth/react';
+import Comments from '../components/Comments';
+import { Session } from 'next-auth';
 
 
 interface Props {
@@ -16,27 +20,48 @@ interface Props {
 }
 
 const page: FC<Props> = ({params}) => {
-  const [posts, setPosts] = useState<Post>(); 
+  const [posts, setPosts] = useState<Post>();
+  const [comments, setComments] = useState<Comment>(); 
+
 
   useEffect(() => {
     fetchPost();
-   
   }, [params.postId]);
 
-  
   const fetchPost = async () => {
     try {
-      const response = await axios.get(`/api/post/${params.postId}`);
-      const data = response.data;
-      setPosts(data);
+      await axios.get(`/api/post/${params.postId}`)
+      .then((result) => {
+        const data = result.data;
+        setPosts(data);
+        fetchComments()
+      })
+      .catch((error)=>{
+        setPosts(error)
+      })
     } catch (error) {
       console.error('Error fetching post:', error);
     }
   };
 
+  const fetchComments = async () => {
+    try {
+      await axios.get(`/api/post/${params.postId}/comment`)
+      .then((result)=>{
+        const comments = result.data;
+        setComments(comments)
+      })
+      .catch((error)=>{
+        setComments(error)
+      })
+    } catch (error) {
+      console.error('Error fetching comments:', error);
+    }
+  }
+
  
   return (
-    <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] ">
+    <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20 ">
       {posts ? (
         <>
           <div className='flex items-center justify-between'>
@@ -104,37 +129,38 @@ const page: FC<Props> = ({params}) => {
             </div>
             {/**Like, Comment, Share(if there is any) Section*/}
             <div className='mt-10'>
-              <PostButtons likes={posts.comments.length} comments={posts.likes.length} />
+              <PostButtons likes={posts.likes.length} comments={posts.comments.length} />
             </div>
           </div>
-          {posts.comments.length < 1 ? (
-            <div className='text-gray-400 text-[1.3rem] text-center font-poppins font-semibold py-10'>
-              <h3>There are no more available post right now.</h3>
-            </div>
+          {comments ? (
+            <Comments posts={posts} comments={comments}/>
           ):(
-            <>
-            {posts.comments.map((comment: Comment) =>(
-              <div>
-                <h1>{comment.author}</h1>
-              </div>
-            ))}
-            </>
+            <div className='w-full text-center flex items-center justify-center'>
+              <Discuss
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="comment-loading"
+                wrapperStyle={{}}
+                wrapperClass="comment-wrapper"
+                colors={['green', 'yellow']}
+              />
+            </div>
           )}
         </>
       ):(
         <>
         <div className='text-center flex justify-center'> 
-                    <RotatingLines
-                        strokeColor="grey"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        width="20"
-                        visible={true}
-                    />
-               </div> 
+          <RotatingLines
+              strokeColor="grey"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="20"
+              visible={true}
+          />
+        </div> 
         </>
       )}
-      
     </main>
   )
 }

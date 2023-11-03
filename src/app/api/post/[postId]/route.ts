@@ -12,7 +12,11 @@ export async function GET(req: NextRequest) {
             },
             include:{
                 author: true,
-                comments:true,
+                comments:{
+                    include:{
+                        author: true
+                    }
+                },
                 likes: true,
                 Topic: true,
             }
