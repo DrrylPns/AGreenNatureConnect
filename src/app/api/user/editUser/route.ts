@@ -31,11 +31,20 @@ export async function POST(req: Request) {
       return new Response("Username is already in use", { status: 400 })
     }
 
+    // dipende sa logic natin pero 30days muna. pag nag palit ng username dapat 30days ulit bago makapagpalit
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+
+    if (user.lastUsernameChange && user.lastUsernameChange > thirtyDaysAgo) {
+      return new Response("Username can't be changed again within 30 days", { status: 400 });
+    }
+
     // Update the user's username
     await prisma.user.update({
       where: { id: user.id },
       data: {
         username: newUsername,
+        lastUsernameChange: new Date()
       },
     });
 

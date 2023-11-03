@@ -1,4 +1,5 @@
 import { Popover, Transition } from '@headlessui/react'
+import { Like, Post, User } from '@prisma/client';
 import React, { FC, Fragment } from 'react'
 import { BiLike, BiComment, BiShare } from 'react-icons/bi'
 import { FiLink } from 'react-icons/fi'
@@ -6,9 +7,14 @@ import { motion } from 'framer-motion'
 interface PostButtonsProps {
     comments: number,
     likes: number
+    topicName?: string;
+    post?: Post & {
+        author: User,
+    }
 }
+        
 
-const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
+const PostButtons: FC<PostButtonsProps> = ({comments, likes, topicName, post}) => {
     console.log(comments)
     console.log(likes)
   return (
@@ -34,7 +40,9 @@ const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
             <span className='text-[1.5rem] text-gray-600'>
                 <BiComment />
             </span>
-            <h3>{comments}</h3>
+           <a href={`/discussion/topic/${topicName}/post/${post?.id}`}>
+              <h3>{comments}</h3>
+          </a>
         </motion.button>
         <Popover>
             {({open}) =>(
@@ -72,4 +80,5 @@ const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
 </div>
   )
 }
+
 export default PostButtons
