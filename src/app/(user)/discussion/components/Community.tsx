@@ -4,7 +4,7 @@ import DisplayPhoto1 from '../images/displayphoto3.png'
 
 export default function Community() {
   return (
-    <section className='hidden fixed top-24 left-[77%] bg-[#F0EEF6] h-full w-[21%] lg:block'>
+    <section className='hidden fixed top-24 left-[77%]  h-full w-[21%] lg:block'>
                 <div className='bg-white rounded-xl p-3'>
                     <h3 className='font-poppins font-semibold mb-3'>Community</h3>
                     {/**Post from the community, display maximum of 2*/}

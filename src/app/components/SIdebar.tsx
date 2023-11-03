@@ -77,7 +77,7 @@ export default function SIdebar() {
             type: 'tween',
             duration: 0.5,
            }}
-          className={`md:flex md:pt-[6rem] overflow-hidden min-w-fit  hidden fixed flex-col pt-4 bg-white h-full w-[5%] ${isSideBarOpen? 'items-start' : 'items-center'}`}
+          className={`md:flex md:pt-[6rem] overflow-hidden min-w-fit  hidden fixed flex-col pt-4 shadow-sm drop-shadow-md bg-white h-full w-[5%] ${isSideBarOpen? 'items-start' : 'items-center'}`}
         >
           <button onClick={toggleSideBar} className={`${isSideBarOpen && 'xl:translate-x-56 lg:translate-x-48 md:translate-x-44'} transition-all ease-linear duration-300`}>
             {isSideBarOpen ? (
@@ -146,7 +146,7 @@ export default function SIdebar() {
             </motion.div>
             )}
             </AnimatePresence>   
-            <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>       
+            <Link href={'/marketplace'}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>       
               <div className={`text-icons  ${isSideBarOpen ? 'pl-3': ''}`}>
                 <BiStore />
               </div>             
