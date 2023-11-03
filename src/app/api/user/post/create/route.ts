@@ -1,6 +1,7 @@
 import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db";
 import { PostSchema } from "@/lib/validations/createPostSchema";
+import { NextRequest } from "next/server";
 import { z } from "zod";
 
 export async function POST(req: Request) {
@@ -32,5 +33,26 @@ export async function POST(req: Request) {
         }
 
         return new Response('Could not post to community at this time, please try again later', { status: 500 })
+    }
+}
+
+export async function GET(req: NextRequest) {
+    try {
+        const getAllPost = await prisma.post.findMany({
+            include:{
+                author: true,
+                comments:true,
+                likes: true,
+                Topic: {
+                   select:{
+                    name:true
+                   }
+
+                }
+            }
+        })
+        return new Response(JSON.stringify(getAllPost))
+    } catch (error) {
+        return new Response(JSON.stringify({message: 'Error:', error}))
     }
 }
