@@ -89,7 +89,7 @@ export default function Post() {
                     ))}
                     </div>
                     {/**Like, Comment, Share(if there is any) Section*/}
-                    <PostButtons />
+                    <PostButtons comments={post.comments.length} likes={post.likes.length} />
                 </div>
                 </Link>
             ))}
