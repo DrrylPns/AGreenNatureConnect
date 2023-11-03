@@ -28,7 +28,8 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <Providers>
-          <Navbar session={session} />
+          {/**I removed the session={session} */}
+          <Navbar />
           <SIdebar />
 
           <LoginModal />
