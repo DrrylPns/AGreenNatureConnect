@@ -7,11 +7,9 @@ import MenuItem from "./MenuItem"
 import { Separator } from "./Ui/Separator"
 import { Session } from "next-auth"
 
-interface UserAccountAvatarProps {
-    session?: Session | null
-}
 
-const UserAccountAvatar: React.FC<UserAccountAvatarProps> = ({ session }) => {
+const UserAccountAvatar: React.FC = ({ }) => {
+    const {data: session} = useSession()
     const [isOpen, setIsOpen] = useState(false)
 
     const toggleOpen = useCallback(() => {

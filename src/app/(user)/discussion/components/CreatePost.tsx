@@ -33,7 +33,7 @@ export default function CreatePost() {
                             className="h-8 w-8"
                         />
                     </Link>
-                    <input type="text" placeholder="Create post" className='px-5 py-2 w-[70%] bg-pale rounded-xl '/>
+                    <input type="text" placeholder="Create post" disabled={true} className='px-5 py-2 w-[70%] bg-pale rounded-xl '/>
                     <Link href={'/discussion/create-post'}>
                         <Button variant={'green'}>Create</Button>
                     </Link>

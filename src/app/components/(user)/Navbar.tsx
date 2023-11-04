@@ -20,8 +20,9 @@ interface NavbarProps {
 
 
 const Navbar: React.FC<NavbarProps> = ({
-    session
+    
 }) => {
+    const {data:session, status } = useSession()
     const loginModal = useLoginModal()
     //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit
     return (
