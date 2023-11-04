@@ -1,19 +1,21 @@
 import prisma from "@/lib/db/db"
-import { getServerSession } from "next-auth";
 import { ChangeUserProfileSchema } from "@/lib/validations/changeUserProfile";
+import { getAuthSession } from "@/lib/auth";
 
 export async function POST(req: Request) {
-  const session = await getServerSession();
+  try {
+  const session = await getAuthSession();
 
   if (!session) {
     return new Response("Unauthorized", { status: 401 })
   }
 
-  const body = req.json();
+  const body = await req.json();
   const { newUsername, newPhone, newBirthday, newAddress } = ChangeUserProfileSchema.parse(body)
 
   //try catch start
-  try {
+
+    console.log(session.user.id)
     const user = await prisma.user.findUnique({
       where: { id: session.user.id },
     });
@@ -27,33 +29,33 @@ export async function POST(req: Request) {
       where: { username: newUsername },
     });
 
+    // palabasin sa client conflicting status // done
     if (usernameExists) {
-      return new Response("Username is already in use", { status: 400 })
+      return new Response("Username is already in use", { status: 409 })
     }
 
     // dipende sa logic natin pero 30days muna. pag nag palit ng username dapat 30days ulit bago makapagpalit
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
+    // const thirtyDaysAgo = new Date()
+    // thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30);
 
-    if (user.lastUsernameChange && user.lastUsernameChange > thirtyDaysAgo) {
-      return new Response("Username can't be changed again within 30 days", { status: 400 });
-    }
+    // if (user.lastUsernameChange && user.lastUsernameChange > thirtyDaysAgo) {
+    //   return new Response("Username can't be changed again within 30 days", { status: 400 });
+    // }
 
     // Update the user's username
     await prisma.user.update({
-      where: { id: user.id },
+      where: { id: session.user.id },
       data: {
         username: newUsername,
         phoneNumber: newPhone,
         birthday: newBirthday,
         address: newAddress,
-        lastUsernameChange: new Date()
+        // lastUsernameChange: new Date()
       },
     });
 
     return new Response("Username updated successfully", { status: 200 })
-  } catch (error) {
-    return new Response("An error occurred", { status: 500 })
+  } catch (error: any) {
+    return new Response(`${error.message}`, { status: 500 })
   }
-
 };

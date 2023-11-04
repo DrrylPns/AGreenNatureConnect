@@ -12,7 +12,7 @@ export const ChangeUserProfileSchema = z.object({
             const phMobilePattern = /^(09\d{9})$/;
             return phMobilePattern.test(phone)
         }),
-    newBirthday: z.date(),
+    newBirthday: z.coerce.date(),
     newAddress: z.string()
         .min(5, { message: "Minimum length of address is 5"})
         .max(100, { message: "Maximum length of address is 100"}),

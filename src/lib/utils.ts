@@ -54,3 +54,24 @@ export function formatTimeToNow(date: Date): string {
     },
   })
 }
+
+export function formatDate(birthday: Date) {
+  if (!birthday) return "No birthday set";
+
+  const options = { year: 'numeric', month: 'long', day: '2-digit' };
+  //@ts-ignore TODO
+  return new Date(birthday).toLocaleDateString(undefined, options);
+}
+
+export const calculateAge = (birthday: Date) => {
+  const today = new Date();
+  const birthDate = new Date(birthday);
+  const age = today.getFullYear() - birthDate.getFullYear();
+
+  if (today.getMonth() < birthDate.getMonth() || 
+      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+     return age - 1;
+  }
+
+  return age;
+};

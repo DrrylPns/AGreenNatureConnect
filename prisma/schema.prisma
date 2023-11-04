@@ -24,7 +24,8 @@ model User {
   phoneNumber        String?
   address            String?
   role               Role      @default(USER)
-  gender             Gender?
+  // gender             Gender?
+  gender             String?
   birthday           DateTime?
   createdAt          DateTime  @default(now())
   updatedAt          DateTime  @updatedAt
@@ -50,11 +51,11 @@ enum Role {
   STAFF
 }
 
-enum Gender {
-  MALE
-  FEMALE
-  OTHER
-}
+// enum Gender {
+//   MALE
+//   FEMALE
+//   OTHER
+// }
 
 model Account {
   id                String  @id @default(cuid())
