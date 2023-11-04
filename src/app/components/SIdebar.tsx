@@ -1,6 +1,6 @@
 'use client'
 import React, { useState } from 'react';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import {
   BiMenu,
   BiArrowBack,
@@ -9,6 +9,8 @@ import {
   BiInfoCircle,
 } from "react-icons/bi"
 import { PiUsersThree, PiCaretDown } from 'react-icons/pi'
+import { LiaBookReaderSolid, LiaBlogger } from 'react-icons/lia'
+import { SlNotebook } from 'react-icons/sl'
 import { AiOutlineQuestionCircle, AiOutlineFileProtect } from 'react-icons/ai'
 import { LuFileSignature } from 'react-icons/lu'
 import Link from 'next/link';
@@ -16,9 +18,19 @@ import { useRouter,usePathname, useSearchParams } from 'next/navigation';
 
 export default function SIdebar() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const [isDropdownrOpen, setIsDropdownrOpen] = useState(false);
 
   const toggleSideBar = () => {
+  
     setIsSideBarOpen(!isSideBarOpen)
+    
+  }
+
+  const toggleDropdown = () =>{
+    if(!isSideBarOpen){ 
+      setIsSideBarOpen(!isSideBarOpen)
+    }
+    setIsDropdownrOpen(!isDropdownrOpen)
   }
 
 
@@ -92,7 +104,6 @@ export default function SIdebar() {
                     stiffness: 1000,
                     damping: 20,
                     duration: 0.6,
-                      
                   }}
                   className={`font-poppins text-[1rem] `}
                   >
@@ -101,9 +112,9 @@ export default function SIdebar() {
                 </div>
                         
             </Link>
-            <button type='button'  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>            
+            <button type='button' onClick={toggleDropdown}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>            
               <div className='text-icons '>
-                <PiUsersThree />
+                <LiaBookReaderSolid />
               </div>
               <div className={`${isSideBarOpen?'block':'hidden' }`}>
                 <motion.p 
@@ -118,16 +129,44 @@ export default function SIdebar() {
                   }}
                   className={`font-poppins text-[1rem]`}
                 >
-                Community
+                Read & Learn
                 </motion.p>
               </div>
-              
-              <div className={`font-poppins text-[1rem] ${isSideBarOpen ? 'opacity-100 block' : 'opacity-0 hidden'}`}>
+              <div className={`font-poppins text-[1rem] ${isSideBarOpen ? 'opacity-100 block self-end' : 'opacity-0 hidden'}`}>
                 <div className='text-icons '>
                   <PiCaretDown />
                 </div>
               </div>
             </button>
+            <AnimatePresence>
+            {isDropdownrOpen && (
+              <motion.div 
+              initial={{ opacity: 0, y:-50}} 
+              animate={{ opacity: 1 , y: 0 }} 
+              transition={{
+                stiffness: 100,
+                damping: 20,
+                duration: 0.2,
+                
+              }}
+              exit={{opacity: 0 , y:-50}}
+              className={`${!isSideBarOpen && 'hidden'} ${isDropdownrOpen? 'flex': 'hidden'} flex-col `}>
+                <Link href={'/learningMaterials'} className='flex gap-3 ml-5 py-2 '>
+                <div className='text-icons'>
+                  <SlNotebook/>
+                  
+                </div>        
+                Learning Materials          
+              </Link>
+              <Link href={'/blogs'} className='flex gap-3 ml-5 py-2'>
+                <div className='text-[1.5rem]'>
+                  <LiaBlogger/>
+                </div>
+                Blogs
+              </Link>
+            </motion.div>
+            )}
+            </AnimatePresence>   
             <Link href={''}  className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? 'justify-start': 'justify-center'} hover:bg-pale`}>       
               <div className='text-icons '>
                 <BiStore />

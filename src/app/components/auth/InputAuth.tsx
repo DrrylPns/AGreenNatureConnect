@@ -1,13 +1,18 @@
 "use client"
+import { RegisterType } from "@/lib/validations/registerUserSchema";
+import Link from "next/link";
+import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
     id: string;
-    label: string;
+    label?: string;
     type?: string;
     disabled?: boolean;
     required?: boolean;
-    // register: UseFormRegister<RegisterSchema> TODO Auth
-    // errors: FieldErrors TODO Auth
+    isCheckbox?: boolean;
+    register: UseFormRegister<RegisterType>;
+    errors: FieldErrors;
+    icon?: string | JSX.Element;
 }
 
 const InputAuth: React.FC<InputProps> = ({
@@ -15,20 +20,25 @@ const InputAuth: React.FC<InputProps> = ({
     label,
     type = "text", //input type on default is text (change if password, email, etc...)
     disabled,
-    // register, TODO Auth
+    register,
     required,
-    // errors TODO Auth
+    errors,
+    isCheckbox,
+    icon,
 }) => {
+
     return (
         <div className="w-full relative">
-            {/* input error TODO Auth*/}
+        {/* input error TODO Auth */}
+        <div className="flex">
             <input
                 id={id}
                 disabled={disabled}
-                // {...register(id, { required })} TODO Auth
+                {...register(id as "email" | "password" | "confirmPassword" | "terms", { required })}
                 placeholder=" "
                 type={type}
                 className={`
+                    ${isCheckbox ? `` : `
                     peer
                     w-full
                     p-4
@@ -43,10 +53,16 @@ const InputAuth: React.FC<InputProps> = ({
                     disabled:opacity-70
                     disabled:cursor-not-allowed
                     pl-4
+                    `}
                 `}
             />
-            <label
-                className={`
+            <span className="absolute right-4 top-1/2 transform -translate-y-1/2">{icon}</span>
+        </div>
+        <label
+            className={`
+                ${isCheckbox ? `
+                    m-3
+                ` : `
                     absolute 
                     text-md
                     duration-150 
@@ -62,11 +78,27 @@ const InputAuth: React.FC<InputProps> = ({
                     peer-focus:scale-75
                     peer-focus:-translate-y-4
                 `}
-            >
-                {label}
-                <span className="text-[#FF2222]">*</span>
-            </label>
-        </div>
+            `}
+        >
+            {label}
+            {isCheckbox && (
+            <>
+                {/* TODO ADD LINKS OF TERMS AND CONDITIONS AND PRIVACY POLICY */}
+                <span className="ml-0">
+                    By Continuing you agree to our
+                    <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Terms and Conditions</Link>
+                    and acknowledge that you understand
+                    <Link href={"/termsPolicy"} className="text-[#0227EB] m-1">Privacy Policy</Link>
+                </span>
+            </>
+)}
+
+            <span className={"text-[#FF2222]"}>*</span>
+        </label>
+    </div>
+    
+    
+
     )
 }
 
