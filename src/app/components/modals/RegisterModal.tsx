@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import { FcGoogle } from "react-icons/fc"
+import { FcGoogle } from "react-icons/fc";
 import { useCallback, useState } from "react";
 import useRegisterModal from "@/lib/hooks/useRegisterModal";
 import Modal from "./Modal";
@@ -8,30 +8,29 @@ import Heading from "../auth/Heading";
 import InputAuth from "../auth/InputAuth";
 import ButtonAuth from "../auth/ButtonAuth";
 import useLoginModal from "@/lib/hooks/useLoginModal";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { signIn } from "next-auth/react";
 import {
-  SubmitHandler,
-  useForm
-} from 'react-hook-form'
-import { zodResolver } from "@hookform/resolvers/zod"
-import { signIn } from "next-auth/react"
-import { RegisterSchema, RegisterType } from "@/lib/validations/registerUserSchema";
-import { useMutation } from "@tanstack/react-query"
-import axios, { AxiosError } from "axios"
+  RegisterSchema,
+  RegisterType,
+} from "@/lib/validations/registerUserSchema";
+import { useMutation } from "@tanstack/react-query";
+import axios, { AxiosError } from "axios";
 import { toast } from "@/lib/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
 
-
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
-  const router = useRouter()
-  const [PasswordInputType, ToggleIcon] = usePasswordToggle()
+  const router = useRouter();
+  const [PasswordInputType, ToggleIcon] = usePasswordToggle();
 
   const onToggle = useCallback(() => {
-    registerModal.onClose()
-    loginModal.onOpen()
-  }, [registerModal, loginModal])
+    registerModal.onClose();
+    loginModal.onOpen();
+  }, [registerModal, loginModal]);
 
   //react hook form
   const {
@@ -41,24 +40,24 @@ const RegisterModal = () => {
   } = useForm<RegisterType>({
     resolver: zodResolver(RegisterSchema),
     defaultValues: {
-      email: '',
-      password: '',
-      confirmPassword: '',
-    }
-  })
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
   const { mutate: registerUser, isLoading } = useMutation({
     mutationFn: async ({
       email,
       password,
       confirmPassword,
-      terms
+      terms,
     }: RegisterType) => {
       const payload: RegisterType = {
         email,
         password,
         confirmPassword,
-        terms
+        terms,
       };
       const { data } = await axios.post("api/register", payload);
       return data;
@@ -70,60 +69,60 @@ const RegisterModal = () => {
             return toast({
               title: "Creating a user failed",
               description: "Cannot create a user, you are already logged in!",
-              variant: "destructive"
-            })
+              variant: "destructive",
+            });
           }
           if (err.response?.status === 405) {
             return toast({
               title: "Invalid Action",
               description: "Method not allowed",
-              variant: "destructive"
-            })
+              variant: "destructive",
+            });
           }
           if (err.response?.status === 409) {
             return toast({
               title: "Invalid email",
               description: "Email already exists. Please use a different one.",
-              variant: "destructive"
-            })
+              variant: "destructive",
+            });
           }
         } else {
           return toast({
             title: "Error!",
             description: "Error: Something went wrong!",
-            variant: "destructive"
-          })
+            variant: "destructive",
+          });
         }
       }
     },
     onSuccess: () => {
       // router push the client to homepage / landing etc..
 
-      router.push("/discussion")
-      registerModal.onClose()
-      loginModal.onOpen
+      router.push("/discussion");
+      registerModal.onClose();
+      loginModal.onOpen;
       return toast({
         title: "Success!",
         description: "Account Created Successfully!",
-        variant: "default"
-      })
-    }
-  })
+        variant: "default",
+      });
+    },
+  });
 
   const onSubmit: SubmitHandler<RegisterType> = (data: RegisterType) => {
     const payload: RegisterType = {
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
-      terms: data.terms
+      terms: data.terms,
     };
 
-    registerUser(payload)
-  }
+    registerUser(payload);
+  };
 
   // Eto yung body content ng Register Modal
   const bodyContent = (
-    <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-2">
       <Heading
         title="Register"
         subtitle="Create an account to officially join AGreen Nature Connect!"
@@ -137,7 +136,11 @@ const RegisterModal = () => {
         errors={errors}
         required
       />
-      {errors.email && <span className='text-rose-500 ml-1'>{errors.email.message}</span>}
+      {errors.email && (
+        <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+          {errors.email.message}
+        </span>
+      )}
 
       <div>
         <InputAuth
@@ -150,9 +153,12 @@ const RegisterModal = () => {
           required
           icon={ToggleIcon}
         />
-        {errors.password && <span className='text-rose-500 ml-1'>{errors.password.message}</span>}
+        {errors.password && (
+          <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+            {errors.password.message}
+          </span>
+        )}
       </div>
-
 
       <InputAuth
         id="confirmPassword"
@@ -164,7 +170,11 @@ const RegisterModal = () => {
         required
         icon={ToggleIcon}
       />
-      {errors.confirmPassword && <span className='text-rose-500 ml-1'>{errors.confirmPassword.message}</span>}
+      {errors.confirmPassword && (
+        <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+          {errors.confirmPassword.message}
+        </span>
+      )}
 
       <InputAuth
         id="terms"
@@ -175,59 +185,61 @@ const RegisterModal = () => {
         required
         isCheckbox
       />
-      {errors.terms && <span className='text-rose-500 ml-1'>{errors.terms.message}</span>}
-
-
+      {errors.terms && (
+        <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+          {errors.terms.message}
+        </span>
+      )}
     </div>
-  )
+  );
 
   // Eto naman yung footer content ng Register Modal
   const footerContent = (
-    <div className='flex flex-col w-full'>
-      <div className='relative'>
-        <div className='absolute inset-0 flex items-center'>
-          <span className='w-full border-t' />
+    <div className="flex flex-col w-full">
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <span className="w-full border-t" />
         </div>
 
-        <div className='relative flex justify-center uppercase mt-3'>
-          <span className='bg-background text-[14px] px-2 font-bold w-[100px] text-center text-black'>
+        <div className="relative flex justify-center uppercase mt-3">
+          <span className="bg-background text-[14px] px-2 font-bold w-[100px] text-center text-black">
             OR
           </span>
         </div>
       </div>
 
-      <div className='grid grid-cols-1 gap-6 mt-3 px-9'>
+      <div className="grid grid-cols-1 gap-6 mt-3 px-9">
         <ButtonAuth
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => signIn('google')}
+          onClick={() => signIn("google")}
         />
 
-        <div className="
+        <div
+          className="
           text-neutral-500
           text-center
           font-light
-        ">
+        "
+        >
           <div className="flex flex-row items-center justify-center gap-2">
-            <div>
-              Already have an account?
-            </div>
+            <div>Already have an account?</div>
 
             <div
               onClick={onToggle}
               className="
                 text-[#0227EB]
                 hover:text-[#0227EB]/70
-                cursor-pointer">
+                cursor-pointer"
+            >
               Sign In
             </div>
           </div>
         </div>
       </div>
     </div>
-
-  )
+  );
 
   return (
     <Modal
@@ -241,7 +253,7 @@ const RegisterModal = () => {
       footer={footerContent}
       isLoading={isLoading}
     />
-  )
-}
+  );
+};
 
-export default RegisterModal
+export default RegisterModal;
