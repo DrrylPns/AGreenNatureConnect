@@ -1,12 +1,19 @@
+import { User } from '@prisma/client';
 import { Session } from 'next-auth'
 import React from 'react'
 import { PiCaretDown } from 'react-icons/pi'
 
 interface AccountProps {
-    session: Session | null
+    session: Session | null;
+    user: User | null;
+    isGoogleProvider: boolean;
 }
 
-const Account: React.FC<AccountProps> = ({ session }) => {
+const Account: React.FC<AccountProps> = ({ 
+    session,
+    user,
+    isGoogleProvider
+ }) => {
     return (
         <div className='mt-5 font-poppins'>
             <h1 className='font-bold pl-10 my-5'>Account Setting</h1>
@@ -17,11 +24,11 @@ const Account: React.FC<AccountProps> = ({ session }) => {
                     <p className='text-[0.8rem] text-gray-400 font-normal'>
                         {session ? (
                             <>
-                                {session?.user.email}
+                                {user?.email}
                             </>
                         ) : (
                             <>
-                                TODO NOT ACCESSIBLE DAPAT
+                                {/* TODO NOT ACCESSIBLE DAPAT */}
                             </>
                         )}
                     </p>
@@ -31,7 +38,11 @@ const Account: React.FC<AccountProps> = ({ session }) => {
             <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
                 <div>
                     <h3>Gender</h3>
-                    <p className='text-[0.8rem] text-gray-400 font-normal'>This information may be used to improved your recommendations and ads.</p>
+                    {user?.gender === null || user?.gender === undefined ? (
+                            <p className='text-[0.8rem] text-gray-400 font-normal'>You did not set a gender yet.</p>
+                    ) : (
+                            <p className='text-[0.8rem] text-gray-400 font-normal'>{user?.gender}</p>
+                    )}
                 </div>
                 <button type='button' className='font-semibold pl-10 my-5 flex gap-3 items-center mr-5'>Select <PiCaretDown /></button>
             </div>

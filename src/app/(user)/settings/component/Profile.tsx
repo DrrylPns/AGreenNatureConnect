@@ -1,18 +1,24 @@
+import { User } from '@prisma/client';
 import { Session } from 'next-auth'
 import React from 'react'
 import { PiCaretDown } from 'react-icons/pi'
 
 interface ProfileProps {
-    session: Session | null
+    session: Session | null;
+    user: User | null;
+    isGoogleProvider: boolean;
 }
 
-const Profile: React.FC<ProfileProps> = ({ session }) => {
+const Profile: React.FC<ProfileProps> = ({ 
+    session,
+    user,
+    isGoogleProvider
+ }) => {
     //to add logic and update prisma database
 
-    // const isPhoneNull = session?.user.phone === null;
-    // const isBirthdayNull = session?.user.birthday === null;
-    // const isAgeNull = session?.user.age === null;
-    // const isCountryNull = session?.user.country === null;
+     const isPhoneNull = user?.phoneNumber === null;
+     const isBirthdayNull = user?.birthday === null;
+     const isAddressNull = user?.address === null;
 
     return (
         <div className='relative max-h-full overflow-auto mt-5 font-poppins'>
@@ -24,7 +30,7 @@ const Profile: React.FC<ProfileProps> = ({ session }) => {
                     <p className='text-[0.8rem] text-gray-400 font-normal'>
                         {session ? (
                             <>
-                                {session?.user.username}
+                                {user?.username}
                             </>
                         ) : (
                             <>
@@ -37,25 +43,34 @@ const Profile: React.FC<ProfileProps> = ({ session }) => {
             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                 <div>
                     <h3>Phone</h3>
-                    <p className='text-[0.8rem] text-gray-400  font-normal'>+63912983128</p>
+                    <p className='text-[0.8rem] text-gray-400  font-normal'>
+                        {isPhoneNull ? "You did not set a phone number yet." 
+                            : `${user?.phoneNumber}`}
+                    </p>
                 </div>
             </div>
             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                 <div>
                     <h3>Birthday</h3>
-                    <p className='text-[0.8rem] text-gray-400  font-normal'>February 31, 2001</p>
+                    <p className='text-[0.8rem] text-gray-400  font-normal'>{isBirthdayNull ? "You did not set a birthday yet."
+                        : `${user?.phoneNumber}`}
+                    </p>
                 </div>
             </div>
             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                 <div>
                     <h3>Age</h3>
-                    <p className='text-[0.8rem] text-gray-400  font-normal'>22</p>
+                    <p className='text-[0.8rem] text-gray-400  font-normal'>{isBirthdayNull ? "You did not set your age yet."
+                        : `${user?.phoneNumber}`}
+                    </p>
                 </div>
             </div>
             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                 <div>
-                    <h3>Country</h3>
-                    <p className='text-[0.8rem] text-gray-400 font-normal'>Philippines</p>
+                    <h3>Address</h3>
+                    <p className='text-[0.8rem] text-gray-400 font-normal'>{isAddressNull ? "You did not set an address yet." 
+                        : `${user?.address}`}
+                    </p>
                 </div>
             </div>
 
