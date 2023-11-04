@@ -10,7 +10,7 @@ export async function POST(req: Request) {
   }
 
   const body = req.json();
-  const { newUsername } = ChangeUserProfileSchema.parse(body)
+  const { newUsername, newPhone, newBirthday, newAddress } = ChangeUserProfileSchema.parse(body)
 
   //try catch start
   try {
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
       return new Response("User not found", { status: 404 })
     }
 
-    // Check if the new username is available
+    // Check if the new username is available or already exists
     const usernameExists = await prisma.user.findFirst({
       where: { username: newUsername },
     });
@@ -44,6 +44,9 @@ export async function POST(req: Request) {
       where: { id: user.id },
       data: {
         username: newUsername,
+        phoneNumber: newPhone,
+        birthday: newBirthday,
+        address: newAddress,
         lastUsernameChange: new Date()
       },
     });
