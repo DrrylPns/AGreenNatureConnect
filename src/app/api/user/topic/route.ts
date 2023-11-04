@@ -8,6 +8,9 @@ export async function GET(req: NextRequest) {
     try {
 
         const getAllTopicWithPagination = await prisma.topic.findMany({
+            include:{
+                posts: true
+            },
            orderBy:{
             name: 'asc'
            }

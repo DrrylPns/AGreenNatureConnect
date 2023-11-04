@@ -3,6 +3,7 @@ import { NextRequest } from "next/server";
 import { getAuthSession } from "@/lib/auth";
 import { PostSchema } from "@/lib/validations/createPostSchema";
 import { z } from "zod";
+import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 
 //Getting all post
 export async function GET(req: NextRequest) {
@@ -17,7 +18,11 @@ export async function GET(req: NextRequest) {
                 },
                 likes: true,
                 topic: true
-            }
+            },
+            orderBy:{
+                createdAt: 'desc'
+            },
+           
         })
         return new Response(JSON.stringify(getAllPost))
     } catch (error) {

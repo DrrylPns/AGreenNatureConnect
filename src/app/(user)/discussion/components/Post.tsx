@@ -62,6 +62,15 @@ export default function Post() {
                     </button>
                 </div>
                 {/**Description & Images */}
+                <h1 className='text-[1.5rem] font-poppins font-extrabold'>
+                    {post.title}
+                </h1>
+                <div className='flex items-center font-poppins font-semibold gap-3 text-[0.5rem]'>
+                    <span>Topic:</span>
+                    <span className='text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white'>
+                    {post.topic.name}
+                    </span>
+                </div>
                 <div className='relative text-sm max-h-40 w-full overflow-clip' ref={pref}>
                     <EditorOutput content={post.content} />
                     {pref.current?.clientHeight === 160 ? (
