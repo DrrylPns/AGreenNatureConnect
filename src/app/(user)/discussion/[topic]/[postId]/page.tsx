@@ -13,6 +13,7 @@ import { useSession } from 'next-auth/react';
 import Comments from '../../components/Comments';
 import { Session } from 'next-auth';
 import PostButtons from '../../components/postButtons';
+import EditorOutput from '@/app/components/(user)/EditorOutput';
 
 
 interface Props {
@@ -106,28 +107,7 @@ const page: FC<Props> = ({params}) => {
           <div className='mt-2 w-full'>
             {/**Description */}
             <div className={'w-full'}>
-            {posts.content.blocks.map((block: Block) => (
-              <>  
-                {block.type === 'paragraph' && (
-                  <div>
-                      <p>{block.data.text}</p>
-                  </div>
-                )}
-                {block.data.file?.url && (
-                <div className={'w-full'}>
-                    <Image
-                        src={block.data.file?.url}
-                        alt={block.data.caption}
-                        width={100}
-                        height={100}
-                        className='w-full h-20 object-fill'
-                        quality={100}
-                    />
-                    {block.data.caption}
-                </div>
-                )}
-              </>
-            ))}
+              <EditorOutput content={posts.content} />
             </div>
             {/**Like, Comment, Share(if there is any) Section*/}
             <div className='mt-10'>
