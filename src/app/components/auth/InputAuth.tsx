@@ -114,4 +114,6 @@ const InputAuth: React.FC<InputProps> = ({
   );
 };
 
+
 export default InputAuth;
+

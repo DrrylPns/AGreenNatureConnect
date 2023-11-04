@@ -1,36 +1,49 @@
 'use client'
-import Image from 'next/image'
+
 import React, { useState } from 'react'
-// import DisplayPhoto from '/public/images/displayphoto.png'
-import DisplayPhoto from '@/app/(user)/discussion/images/displayphoto.png'
-import { BiLike, BiComment, BiShare, BiImageAdd, BiPaperclip } from "react-icons/bi"
+import { useSession } from "next-auth/react"
+import {BiImageAdd, BiPaperclip } from "react-icons/bi"
+import { UserAvatar } from '@/app/components/UserAvatar'
+import Link from 'next/link'
+import { Button } from '@/app/components/Ui/Button'
+import { RotatingLines } from "react-loader-spinner"; 
+
 
 export default function CreatePost() {
-    const [user, setUser] = useState(false)
+    const { data: session, status } = useSession();
     return (
         <section className='sm:px-[3%] md:pl-[25%] lg:pr-[25%]'>
-            <div className=" flex justify-between items-center gap-5 bg-white rounded-lg drop-shadow-lg w-full px-5 py-5">
-                {/*User Image, add default image if the user doesn't have DP, user image will comes from the backend*/}
-                <div className="w-[2.5rem]">
-                    {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
-                    <Image
-                        src={DisplayPhoto}
-                        alt='User image'
+            {status === 'loading' ? (
+                <div className='text-center flex justify-center'> 
+                    <RotatingLines
+                        strokeColor="grey"
+                        strokeWidth="5"
+                        animationDuration="0.75"
+                        width="20"
+                        visible={true}
                     />
-                </div>
-                <input type='text' placeholder='Create your post' disabled={true} value={''} className='bg-[#f0eef6] w-[70%] px-10 py-3 rounded-full' />
-                {user ? (
-                    <button type='button' className='col-span-2 flex justify-center gap-5 items-center text-[2.5rem] text-black'>
-                        <BiImageAdd />
-                        <BiPaperclip />
-                    </button>
-                ) : (
-                    <button type='button' className='bg-green text-white font-poppins font-semibold px-3 py-2 rounded-lg'>
-                        Post
-                    </button>
+               </div> 
+            ):(
+            <>
+                {session ? (
+                <Link href={'/discussion/create-post'} className=" flex justify-between items-center gap-5 bg-white rounded-lg drop-shadow-lg w-full px-5 py-5">
+                    <Link href={'/profile'} className="w-[2.5rem]">
+                        <UserAvatar
+                            user={{ name: session?.user.username || null, image: session?.user.image || null }}
+                            className="h-8 w-8"
+                        />
+                    </Link>
+                    <input type="text" placeholder="Create post" disabled={true} className='px-5 py-2 w-[70%] bg-pale rounded-xl '/>
+                    <Link href={'/discussion/create-post'}>
+                        <Button variant={'green'}>Create</Button>
+                    </Link>
+                
+                </Link>
+                ):(
+               <></>
                 )}
-
-            </div>
+            </>
+            )}
         </section>
     )
 }

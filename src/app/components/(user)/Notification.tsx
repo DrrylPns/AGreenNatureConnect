@@ -8,26 +8,23 @@ import Link from 'next/link'
 import Image from 'next/image'
 import DisplayPhoto from '@/app/(user)/discussion/images/displayphoto.png'
 
-
 export default function Notification() {
-
-
-
     return (
         <div className='md:flex items-center hidden'>
             <Menu>
-                <Menu.Button className=' w-[2.5rem]'>
-                    <motion.button
+                <Menu.Button className='w-[2.5rem] hidden text-icons md:block'>
+                    {/* UMIIYAK SI NEXT JS BAT DAW MAY BUTTON SA BUTTON */}
+                    {/* <motion.button
                         whileHover={{
                             scale: 1.2,
                             transition: { duration: 0.3 },
                         }}
                         whileTap={{ scale: 0.9 }}
                         onClick={() => { }}
-                        className="hidden text-icons md:block"
-                    >
-                        <FiBell />
-                    </motion.button>
+                        className=""
+                    > */}
+                    <FiBell />
+                    {/* </motion.button> */}
                 </Menu.Button>
                 <Transition
                     as={Fragment}
