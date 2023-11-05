@@ -53,15 +53,15 @@ export default async function Home() {
         </div>
       </header>
       {/*SUBHEADING*/}
-      <section className="flex px-20 py-20 items-center gap-8 bg-gradient-to-b from-semi-transparent-greenish to-transparent">
+      <section className="flex px-20 py-10 items-center gap-8 max-md:p-10" >
         <div>
-          <h1 className="font-livvic font-bold md:text-[40px] text-[20px]">
+          <h1 className="font-livvic font-bold md:text-[45px] text-[30px]">
             Nurtured
           </h1>
-          <h1 className="font-livvic font-bold md:text-[40px] text-[20px]">
+          <h1 className="font-livvic font-bold md:text-[20px] text-[15px] py-2">
             By Quezon City.
           </h1>
-          <p className="md:text-[15px] text-[15px]">
+          <p className="md:text-[15px] text-justify text-[15px]">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
@@ -76,49 +76,42 @@ export default async function Home() {
         />
       </section>
       {/*ABOUT US*/}
-      <section
-        id="aboutus"
-        className="flex flex-col bg-cover bg-center bg-[url('/public/images/about.png')] justify-center items-center border-t-[1px] border-black"
-      >
-        <div className="w-full h-full py-10 bg-gradient-to-b from-muted to-pale">
-          <h1 className="text-center mb-10 font-poppins font-bold md:text-[40px] text-[30px]">
-            About Us
-          </h1>
-          <div className="w-full mb-5">
-            <div className="lg:w-[40%] sm:w-[50%] w-[95%]  rounded-r-full p-10 pr-15 bg-muted-green md:hover:scale-125 md:hover:translate-x-16 ease-in-out duration-500">
-              <h3 className="font-livvic font-bold md:text-[25px] text-[20px] text-amber">
-                Vision
-              </h3>
-              <p className="font-poppins text-white md:text-[15px] text-[12px] text-justify">
-                Our vision is to create a city where every community garden is a
-                flourishing space for urban agriculture. We envision a
-                healthier, more self-reliant, and environmentally conscious
-                urban environment, where urban farming is not just a trend, but
-                a way of life. Together, we are sowing the seeds of a more
-                sustainable and nourished future for our city and our planet.
+      <section id="aboutus" className=" px-64 py-20 bg-[#CFE2CE] bg-opacity-80  max-md:px-10 max-md:bg-[url('../../../public/images/bgAbout.png')] max-md:text-white max-md:bg-cover"> 
+            <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] pb-10  mb-5">
+              About Us
+            </h1>
+          <div className="flex">
+            <div> 
+              <h2 className="font-livvic font-bold md:text-[30px] text-[18px] py-3">
+                Solo Parent Urban Farming
+              </h2>
+              <p className="md:text-[15px] text-justify text-[15px] pb-10">
+                Solo Parent Urban Farming, the name of community farm of Barangay Bagbag.
+                It is currently manage by Mr. Rodel Edroso, a focal person of Solo Parent 
+                Urban Farming.
               </p>
+
+              <Link href="/Aboutus"
+              className="text-black font-poppins font-semibold bg-amber hover:bg-emerald-300 w-[160px] md:p-5 p-3 
+              border-none rounded-lg max-sm:text-[12px] max-sm:w-[112px] text-center">
+              Read More
+              </Link>
+            </div>
+         
+            <div>
+            <Image
+              className="lg:block hidden w-[900px] pb-10 ml-10"
+              src={Subheading}
+              alt="subheading image"
+              width={600}
+            />  
             </div>
           </div>
-          <div className="flex justify-end w-full">
-            <div className="lg:w-[40%] sm:w-[50%] w-[95%] rounded-l-full p-10 pl-20 bg-muted-green md:hover:scale-125 md:hover:translate-x-[-4rem] ease-in-out duration-500">
-              <h3 className="font-livvic font-bold md:text-[25px] text-[20px] text-amber">
-                Mission
-              </h3>
-              <p className="font-poppins text-white md:text-[15px] text-[12px] text-justify">
-                Our vision is to create a city where every community garden is a
-                flourishing space for urban agriculture. We envision a
-                healthier, more self-reliant, and environmentally conscious
-                urban environment, where urban farming is not just a trend, but
-                a way of life. Together, we are sowing the seeds of a more
-                sustainable and nourished future for our city and our planet.
-              </p>
-            </div>
-          </div>
-        </div>
+          
       </section>
       {/*Services*/}
       <section id="services" className="py-5">
-        <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] mb-5">
+        <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] pt-10 mb-5">
           Services
         </h1>
         <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-2">
@@ -185,8 +178,8 @@ export default async function Home() {
             alt="Feauture Image"
             style={{ width: "50%", height: "100%" }}
           />
-          <div className="md:px-20 md:py-15 px-5 py-5 ">
-            <h2 className="font-poppins font-bold text-[30px] text-white my-10">
+          <div className="lg:px-20  px-5">
+            <h2 className="font-poppins font-bold text-[30px] text-white my-10 text-center ">
               Providing High Quality Products
             </h2>
             <div className="flex items-center gap-3 my-14">
@@ -336,7 +329,7 @@ export default async function Home() {
             </div>
             <button
               type="submit"
-              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
+              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center sm:text-sm"
             >
               SUBMIT MESSAGE
             </button>
