@@ -2,7 +2,7 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
- 
+
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
@@ -58,8 +58,8 @@ export function formatTimeToNow(date: Date): string {
 export function formatDate(birthday: Date) {
   if (!birthday) return "No birthday set";
 
-  const options = { year: 'numeric', month: 'long', day: '2-digit' };
-  //@ts-ignore TODO
+  const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
+
   return new Date(birthday).toLocaleDateString(undefined, options);
 }
 
@@ -68,10 +68,18 @@ export const calculateAge = (birthday: Date) => {
   const birthDate = new Date(birthday);
   const age = today.getFullYear() - birthDate.getFullYear();
 
-  if (today.getMonth() < birthDate.getMonth() || 
-      (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
-     return age - 1;
+  if (today.getMonth() < birthDate.getMonth() ||
+    (today.getMonth() === birthDate.getMonth() && today.getDate() < birthDate.getDate())) {
+    return age - 1;
   }
 
   return age;
 };
+
+export function calculateDaysUntilUsernameChange(lastChangeDate: Date): number {
+  const today = new Date().getTime();
+  const nextChangeDate = new Date(lastChangeDate);
+  nextChangeDate.setDate(nextChangeDate.getDate() + 30);
+
+  return Math.ceil((nextChangeDate.getTime() - today) / (1000 * 60 * 60 * 24));
+}

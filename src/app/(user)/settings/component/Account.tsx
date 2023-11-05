@@ -15,11 +15,11 @@ interface AccountProps {
     isGoogleProvider: boolean;
 }
 
-const Account: React.FC<AccountProps> = ({ 
+const Account: React.FC<AccountProps> = ({
     session,
     user,
     isGoogleProvider
- }) => {
+}) => {
     const [selectedGender, setSelectedGender] = useState<string>("")
     const [profileState, setProfileState] = useState<boolean>(false)
     const router = useRouter()
@@ -58,7 +58,9 @@ const Account: React.FC<AccountProps> = ({
         <div className='mt-5 font-poppins'>
             <h1 className='font-bold pl-10 my-5'>Account Setting</h1>
             <h2 className='pl-5 border-b border-gray-400 text-gray-400 uppercase text-[0.8rem]'>Account Preference</h2>
-            <h2 className='pl-5 mt-5 cursor-pointer' onClick={() => setProfileState((prev) => !prev)}>Edit Profile</h2>
+            <h2 className='pl-5 mt-5 cursor-pointer' onClick={() => setProfileState((prev) => !prev)}>
+                {profileState ? 'Cancel' : 'Edit Profile'}
+            </h2>
             <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
                 <div>
                     <h3>Email Address</h3>
@@ -74,31 +76,31 @@ const Account: React.FC<AccountProps> = ({
                         )}
                     </p>
                 </div>
-                
+
             </div>
             <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
 
-            <div>
-                <h3>Gender</h3>
-                
-                {user?.gender === null || user?.gender === undefined ? (
-                    <p className='text-[0.8rem] text-gray-400 font-normal'>You did not set a gender yet.</p>
-                ) : (
-                    <p className='text-[0.8rem] text-gray-400 font-normal'>{user?.gender}</p>
-                )}
-            </div>
-            {profileState && (
-            <select
-                value={selectedGender || ''}
-                onChange={(e) => setSelectedGender(e.target.value)}
-                >
+                <div>
+                    <h3>Gender</h3>
 
-                <option value="" disabled hidden>Select a gender</option>
-                <option value="MALE">MALE</option>
-                <option value="FEMALE">FEMALE</option>
-                <option value="OTHER">OTHER</option>
-            </select>
-            )}
+                    {user?.gender === null || user?.gender === undefined ? (
+                        <p className='text-[0.8rem] text-gray-400 font-normal'>You did not set a gender yet.</p>
+                    ) : (
+                        <p className='text-[0.8rem] text-gray-400 font-normal'>{user?.gender}</p>
+                    )}
+                </div>
+                {profileState && (
+                    <select
+                        value={selectedGender || ''}
+                        onChange={(e) => setSelectedGender(e.target.value)}
+                    >
+
+                        <option value="" disabled hidden>Select a gender</option>
+                        <option value="MALE">MALE</option>
+                        <option value="FEMALE">FEMALE</option>
+                        <option value="OTHER">OTHER</option>
+                    </select>
+                )}
 
             </div>
             <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
@@ -115,8 +117,8 @@ const Account: React.FC<AccountProps> = ({
                 <button type='button' className='font-semibold pl-10 my-5 mr-5'>Change</button>
             </div>
             {profileState && (
-                <Button 
-                    variant={'green'} 
+                <Button
+                    variant={'green'}
                     className={'ml-5 mb-5'}
                     isLoading={isLoading}
                     disabled={selectedGender.length === 0 || selectedGender === null}
