@@ -13,27 +13,27 @@ export default function TermsPolicy() {
   }
   return (
     <div>
-      <header className='relative px-20 pt-32 pb-20 flex justify-start bg-gradient-to-r from-[#2D5F4D] to-[#2D5F4D80] border-b-[7px] border-black'>
-        <div className='text-center'>
-          <h1 className='font-poppins font-bold text-5xl'>AGreen Nature Connect</h1>
-          <h1 className='font-poppins font-bold text-5xl'>Terms & Conditions</h1>
-          <h3 className='font-poppins font-medium text-3xl'>We value your privacy</h3>
+      <header className='relative px-20 md:pt-32 max-sm:pt-14 max-sm:pl-5 pb-16 flex justify-start bg-gradient-to-r from-[#2D5F4D] to-[#2D5F4D80] border-b-[7px] border-black'>
+        <div className='text-center max-sm:mt-9'>
+          <h1 className='font-poppins font-bold md:text-[30px] max-sm:text-[5x1]'>AGreen Nature Connect</h1>
+          <h1 className='font-poppins font-bold md:text-[30px] max-sm:text-[5x1]'>Terms & Conditions</h1>
+          <h3 className='font-poppins font-medium md:text-[30px] max-sm:text-[5x1]'>We value your privacy</h3>
         </div>
-        <div className='absolute top-[13.5rem] left-0 w-full'>
+        <div className='absolute md:top-[13.5rem] max-sm:top-[9.1rem] left-0 w-full'>
           <Image
             src={Curve}
             alt=''
           />
         </div>
       </header>
-      <section className='flex px-20 gap-10 justify-between items-start'>
-        <div className='flex flex-col w-[40%] justify-center items-center gap-5 mt-20'>
-          <h3 className='font-poppins font-black text-[18px]'>Terms and Policies</h3>
-          <button type='button' onClick={showTermsConditions} className='px-5 py-3 text-[12px] font-poppins font-bold rounded-lg bg-amber w-4/5 hover:bg-orange-200 transition-colors ease-linear duration-500 shadow-sm drop-shadow-sm'>Terms & Conditions</button>
-          <button type='button' onClick={showPrivacyPolicy} className='px-5 py-3 text-[12px] font-poppins font-bold rounded-lg bg-amber w-4/5 hover:bg-orange-200 transition-colors ease-linear duration-500 shadow-sm drop-shadow-sm'>Privacy Policy</button>
+      <section className='flex max-sm:flex-wrap px-20 gap-10 justify-between items-start'>
+        <div className='flex md:flex-col w-[40%] justify-center max-sm:grow-34 items-center gap-5 mt-20'>
+          <h3 className='text-center font-poppins font-black md:text-[18px] max-sm:text-[10px] max-sm:break'>Terms and Policies</h3>
+          <button type='button' onClick={showTermsConditions} className='px-5 py-3 md:text-[12px] text-[5px] font-poppins font-bold rounded-lg bg-amber w-4/5 hover:bg-orange-200 transition-colors ease-linear duration-500 shadow-sm drop-shadow-sm'>Terms & Conditions</button>
+          <button type='button' onClick={showPrivacyPolicy} className='px-5 py-3 md:text-[12px] text-[5px] font-poppins font-bold rounded-lg bg-amber w-4/5 hover:bg-orange-200 transition-colors ease-linear duration-500 shadow-sm drop-shadow-sm'>Privacy Policy</button>
         </div>
         {text === 'Terms&Condition' && (
-          <div className='text-justify text-[25px] py-20'>
+          <div className='max-sm:pt-10 text-justify text-[15px] py-20'>
             <p>TERMS & CONDITIONS</p><br/>
             <p>Acceptance of Terms and Conditions:</p>
             <p>By using AGreen Nature Connect, you agree to these Terms and Conditions. If you don't agree, please refrain from using the Platform.</p><br/>
@@ -69,7 +69,7 @@ export default function TermsPolicy() {
           </div>
         )}
         {text === 'PrivacyPolicy' && (
-          <div className='text-justify text-[25px] py-20'>
+          <div className='text-justify text-[15px] py-20'>
             <p>PRIVACY POLICY</p><br/>
             <p>Data Collection:</p>
             <p>By using our urban farming website, you agree to provide us with certain personal information. This information may include your name, email address, location, and other details relevant to our services.</p><br/>
