@@ -242,6 +242,7 @@ const Profile: React.FC<ProfileProps> = ({
                                         type="date"
                                         defaultValue={user?.birthday ? new Date(user.birthday).toISOString().split('T')[0] : ''}
                                         {...register('newBirthday')}
+                                        max={new Date().toISOString().split('T')[0]}
                                     />
                                     <span className="text-rose-500 ml-1 max-sm:text-[13px]">
                                         {errors.newBirthday && errors.newBirthday.message}

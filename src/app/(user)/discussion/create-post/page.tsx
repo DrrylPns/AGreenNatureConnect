@@ -1,10 +1,9 @@
+"use client"
 import Editor from '@/app/components/(user)/Editor'
 import { Button } from '@/app/components/Ui/Button'
 import React from 'react'
 
-
 const page = async () => {
-
 
     return (
         <div className="flex flex-col items-start gap-6 pt-[8rem] md:pt-[6rem] px-[25%] pb-20">
@@ -13,7 +12,7 @@ const page = async () => {
             </div>
 
             {/* Editor.JS */}
-            <Editor/>
+            <Editor />
 
             <div className='w-full flex justify-end'>
                 <Button

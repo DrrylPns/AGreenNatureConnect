@@ -14,19 +14,16 @@ import { Combobox, Transition } from '@headlessui/react';
 import { Topic } from '@/lib/types';
 import { ChevronsUpDownIcon } from 'lucide-react';
 
-
-
 const Editor = () => {
-    //TODO: middleware for this page
-    const ref = useRef<EditorJS>();
     const [topic, setTopic] = useState<Topic[]>([])
     const [selectedTopic, setSelectedTopic] = useState<Topic>(topic[0])
     const [query, setQuery] = useState('')
+    //TODO: middleware for this page
+    const ref = useRef<EditorJS>();
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const _titleRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter();
     const pathname = usePathname();
-
 
     const {
         register,
@@ -40,13 +37,14 @@ const Editor = () => {
             content: null
         }
     })
+
     const getTopics = async () => {
         try {
             await axios.get('/api/user/topic')
-            .then((result)=>{
-                const data = result.data
-                setTopic(data)
-            })
+                .then((result) => {
+                    const data = result.data
+                    setTopic(data)
+                })
         } catch (error) {
             return toast({
                 title: "Something went wrong",
@@ -181,13 +179,20 @@ const Editor = () => {
     async function onSubmit(data: CreatePostType) {
         const blocks = await ref.current?.save()
 
-        const payload: CreatePostType = {
-            title: data.title,
-            content: blocks,
-            topicId: selectedTopic ? selectedTopic.id : 'No topic was Selected',
+        if (selectedTopic !== undefined && selectedTopic.id !== undefined) {
+            const payload: CreatePostType = {
+                title: data.title,
+                content: blocks,
+                topicId: selectedTopic.id,
+            };
+            createPost(payload);
+        } else {
+            return toast({
+                title: "Invalid Topic",
+                description: "Please choose an existing topic",
+                variant: 'destructive',
+            })
         }
-
-        createPost(payload)
     }
 
     if (!isMounted) {
@@ -196,11 +201,11 @@ const Editor = () => {
 
     const { ref: titleRef, ...rest } = register('title')
 
-    const filteredTopic = 
-    query === ''
-        ? topic
-        : 
-        topic &&
+    const filteredTopic =
+        query === ''
+            ? topic
+            :
+            topic &&
             topic.filter((topic) => {
                 return topic.name.toLowerCase().includes(query.toLowerCase())
             })
@@ -213,20 +218,20 @@ const Editor = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <div className="prose prose-stone dark:prose-invert">
-                <Combobox value={selectedTopic} onChange={setSelectedTopic}>
+                    <Combobox value={selectedTopic} onChange={setSelectedTopic}>
                         <div className="relative mt-1g-transparent">
                             <div className="">
                                 <Combobox.Input
-                                className="py-2 leading-5 outline-none text-gray-900 bg-transparent text-xl"
-                                displayValue={(topic: Topic) => topic.name}
-                                onChange={(event) => setQuery(event.target.value)}
-                                placeholder='Choose topic here'
+                                    className="py-2 leading-5 outline-none text-gray-900 bg-transparent text-xl"
+                                    displayValue={(topic: Topic) => topic.name}
+                                    onChange={(event) => setQuery(event.target.value)}
+                                    placeholder='Choose topic here'
                                 />
                                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-                                <ChevronsUpDownIcon
-                                    className="h-5 w-5 text-gray-400"
-                                    aria-hidden="true"
-                                />
+                                    <ChevronsUpDownIcon
+                                        className="h-5 w-5 text-gray-400"
+                                        aria-hidden="true"
+                                    />
                                 </Combobox.Button>
                             </div>
                             <Transition
@@ -236,38 +241,36 @@ const Editor = () => {
                                 leaveTo="opacity-0"
                                 afterLeave={() => setQuery('')}
                             >
-                            <Combobox.Options className="absolute mt-1 max-h-60 w-full z-50 overflow-auto rounded-md bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                            {filteredTopic.length === 0 && query !== '' ? (
-                                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
-                                Nothing found.
-                                </div>
-                            ) : (
-                                filteredTopic.map((topic: Topic) => (
-                                <Combobox.Option
-                                    key={topic.id}
-                                    className={({ active }) =>
-                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                                        active ? ' bg-muted-green text-white' : 'text-gray-900'
-                                    }`
-                                    }
-                                    value={topic}
-                                >
-                                    {({ selected, active }) => (
-                                    <>
-                                        <span
-                                        className={`block truncate ${
-                                            selected ? 'font-medium' : 'font-normal'
-                                        }`}
-                                        >
-                                        {topic.name}
-                                        </span>
-                                    </>
+                                <Combobox.Options className="absolute mt-1 max-h-60 w-full z-50 overflow-auto rounded-md bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                                    {filteredTopic.length === 0 && query !== '' ? (
+                                        <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                                            Nothing found.
+                                        </div>
+                                    ) : (
+                                        filteredTopic.map((topic: Topic) => (
+                                            <Combobox.Option
+                                                key={topic.id}
+                                                className={({ active }) =>
+                                                    `relative cursor-default select-none py-2 pl-10 pr-4 ${active ? ' bg-muted-green text-white' : 'text-gray-900'
+                                                    }`
+                                                }
+                                                value={topic}
+                                            >
+                                                {({ selected, active }) => (
+                                                    <>
+                                                        <span
+                                                            className={`block truncate ${selected ? 'font-medium' : 'font-normal'
+                                                                }`}
+                                                        >
+                                                            {topic.name}
+                                                        </span>
+                                                    </>
+                                                )}
+                                            </Combobox.Option>
+                                        ))
                                     )}
-                                </Combobox.Option>
-                                ))
-                            )}
-                            </Combobox.Options>
-                        </Transition>
+                                </Combobox.Options>
+                            </Transition>
                         </div>
                     </Combobox>
                     <TextareaAutosize
@@ -280,7 +283,7 @@ const Editor = () => {
                         placeholder='Title'
                         className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none'
                     />
-                      
+
                     <div id="editor" className='min-h-[500px]' />
                     <p className='text-sm text-gray-500'>
                         Use{' '}
