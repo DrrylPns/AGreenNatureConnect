@@ -41,8 +41,9 @@ export interface Post {
   export interface Topic {
     id: string;
     name: string;
-    createdAt: Date;
-    updatedAt: Date;
+    posts: Post[];
+    createdAt: string;
+    updatedAt: string;
     creatorId: string | null;
   }
 
