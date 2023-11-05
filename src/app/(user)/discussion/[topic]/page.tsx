@@ -16,7 +16,6 @@ interface Pageprops {
 
  const page: FC<Pageprops> = ({params}) => {
     const [topic, setTopic] = useState<Topic>()
-    const modifiedTopicName = params.topic.replace(/\s+/g, '-');
     const pref = useRef<HTMLDivElement>(null)
 
     useEffect(()=>{
@@ -25,7 +24,7 @@ interface Pageprops {
 
     const fetchPostsByTopicName = async() =>{
         try {
-            const response = await axios.get(`/api/user/topic/${modifiedTopicName}`)
+            const response = await axios.get(`/api/user/topic/${params.topic}`)
             const data = response.data
             setTopic(data)
         } catch (error) {
@@ -35,12 +34,13 @@ interface Pageprops {
 
   return (
     <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20 ">
+        
         {topic ? (
             <div>
+                <h1 className='text-gray-600 font-bold font-livvic'>There are total of <span className=''>{topic?.posts.length} post/s in {topic?.name} right now!</span></h1>
                 {topic.posts.map((post: Post)=>(
                     <Link href={`/discussion/${topic.name}/${post.id}`}>
                     <div key={post.id} className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
-    
                         <div className='flex items-center justify-between'>
                             <div className='flex items-center gap-4'>
                                 <div className='flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black'>

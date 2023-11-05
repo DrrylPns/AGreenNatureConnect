@@ -1,7 +1,8 @@
 import React from "react";
 import CreatePost from "./components/CreatePost";
 import Post from "./components/Post";
-import Community from "./components/Community";
+import FeaturedTopics from "./components/FeaturedTopics";
+
 
 export default function Discussion() {
   return (
@@ -11,7 +12,7 @@ export default function Discussion() {
         <Post />
       </section>
       <section>
-        <Community />
+        <FeaturedTopics />
       </section>
     </div>
   );

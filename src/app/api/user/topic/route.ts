@@ -11,11 +11,9 @@ export async function GET(req: NextRequest) {
             include:{
                 posts: true
             },
-           orderBy:{
-            name: 'asc'
-           }
         })
-        return new Response(JSON.stringify(getAllTopicWithPagination), {status: 200})
+        const sortedTopics = getAllTopicWithPagination.sort((a, b) => b.posts.length - a.posts.length);
+        return new Response(JSON.stringify(sortedTopics), {status: 200})
     } catch (error) {
         return new Response(JSON.stringify({message: 'Error:', error}))
     }

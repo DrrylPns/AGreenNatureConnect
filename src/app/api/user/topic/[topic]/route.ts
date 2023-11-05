@@ -4,7 +4,9 @@ import { NextRequest } from "next/server";
 
 //Getting all 
 export async function GET(req: NextRequest) {
-    const topicName = req.nextUrl.pathname.split("topic/")[1].replace(/-/g, ' ');
+    const url = req.nextUrl.pathname;
+    const decodeUrl = decodeURIComponent(url)
+    const topicName = decodeUrl.split("topic/")[1]
     try {
         const getTopicByName = await prisma.topic.findUnique({
             where:{
@@ -25,9 +27,7 @@ export async function GET(req: NextRequest) {
          
         })
 
-        if(!getTopicByName){
-            return new Response(JSON.stringify('No post created yet in this topic'), {status: 200})
-        }
+      
         return new Response(JSON.stringify(getTopicByName), {status: 200})
     } catch (error) {
         return new Response(JSON.stringify({message: 'Error:', error}))
