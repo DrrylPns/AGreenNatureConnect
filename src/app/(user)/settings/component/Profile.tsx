@@ -126,9 +126,9 @@ const Profile: React.FC<ProfileProps> = ({
                 <div className='relative max-h-full overflow-auto mt-5 font-poppins'>
                     <h1 className='font-bold pl-10 pb-5'>Customize Profile</h1>
                     <h2 className='pl-5 border-b border-gray-400 text-gray-400 uppercase text-[0.8rem]'>Profile Information</h2>
-                    <h2 className='cursor-pointer' onClick={() => setProfileState((prev) => !prev)}>Edit profile</h2>
+                    <h2 className='pl-5 mt-5 cursor-pointer w-full text-red-500 flex justify-end' onClick={() => setProfileState((prev) => !prev)}>Edit Profile</h2>
                     <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
-                        <div className='flex justify-between'>
+                        <div className='flex justify-between w-full'>
                             <div>
                                 <h3>Username</h3>
                                 <p className='text-[0.8rem] text-gray-400 font-normal'>
@@ -191,7 +191,7 @@ const Profile: React.FC<ProfileProps> = ({
                             <h1 className='font-bold pl-10 pb-5'>Customize Profile</h1>
                             <h2 className='pl-5 border-b border-gray-400 text-gray-400 uppercase text-[0.8rem]'>Profile Information</h2>
 
-                            <h2 className='cursor-pointer' onClick={() => setProfileState((prev) => !prev)}>
+                            <h2 className='pl-5 mt-5 cursor-pointer w-full text-red-500 flex justify-end' onClick={() => setProfileState((prev) => !prev)}>
                                 {profileState ? 'Cancel' : 'Edit Profile'}
                             </h2>
                             <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
@@ -219,6 +219,7 @@ const Profile: React.FC<ProfileProps> = ({
                                             </span>
                                         </div>
                                     </>)}
+                                You can change your username in {daysLeft} {daysLeft === 1 ? 'day' : 'days'}.
                             </div>
                             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                                 <div>

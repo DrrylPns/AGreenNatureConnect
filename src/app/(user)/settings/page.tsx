@@ -12,7 +12,7 @@ async function Settings() {
               id: session.user.id,
             },
             include: {
-              Account: true, // It should be 'accounts', not 'Account'
+              Account: true,
             },
           });
     

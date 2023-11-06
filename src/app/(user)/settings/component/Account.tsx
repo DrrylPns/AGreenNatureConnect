@@ -8,6 +8,7 @@ import axios from 'axios';
 import { toast } from '@/lib/hooks/use-toast';
 import { Button } from '@/app/components/Ui/Button';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 
 interface AccountProps {
     session: Session | null;
@@ -40,15 +41,15 @@ const Account: React.FC<AccountProps> = ({
             setProfileState(false)
             toast({
                 title: "There was an error.",
-                description: `${err.message} asd qwe asd ewq asdqwe` || "An error occured",
+                description: `${err.message}`,
                 variant: 'destructive',
             })
         },
         onSuccess: (data) => {
             setProfileState(false)
             toast({
-                title: "Success!.",
-                description: data,
+                title: "All set!",
+                description: "You successfully updated your account profile!",
             })
             router.refresh()
         }
@@ -58,7 +59,7 @@ const Account: React.FC<AccountProps> = ({
         <div className='mt-5 font-poppins'>
             <h1 className='font-bold pl-10 my-5'>Account Setting</h1>
             <h2 className='pl-5 border-b border-gray-400 text-gray-400 uppercase text-[0.8rem]'>Account Preference</h2>
-            <h2 className='pl-5 mt-5 cursor-pointer' onClick={() => setProfileState((prev) => !prev)}>
+            <h2 className='pl-5 mt-5 cursor-pointer w-full text-red-500 flex justify-end' onClick={() => setProfileState((prev) => !prev)}>
                 {profileState ? 'Cancel' : 'Edit Profile'}
             </h2>
             <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
@@ -109,13 +110,16 @@ const Account: React.FC<AccountProps> = ({
                     <p className='text-[0.8rem] text-gray-400 font-normal'>Add languages youd'd like to see post, community, recommendations, and other content in</p>
                 </div>
             </div>
-            <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
-                <div>
-                    <h3>Change Password</h3>
-                    <p className='text-[0.8rem] text-gray-400 font-normal'>Change your password anytime</p>
+            {!isGoogleProvider && (
+                <div className='flex items-center justify-between font-bold text-[0.8rem] pl-5 my-5'>
+                    <div>
+                        <h3>Change Password</h3>
+                        <p className='text-[0.8rem] text-gray-400 font-normal'>Change your password anytime</p>
+                    </div>
+                    <Link href={"/changepassword"} className='font-semibold pl-10 my-5 mr-5'>Change</Link>
                 </div>
-                <button type='button' className='font-semibold pl-10 my-5 mr-5'>Change</button>
-            </div>
+            )}
+
             {profileState && (
                 <Button
                     variant={'green'}
