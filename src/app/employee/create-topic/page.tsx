@@ -26,7 +26,7 @@ const page = () => {
             const payload: CreateTopicType = {
                 topicName: topic
             }
-            const { data } = await axios.post('api/employee/createTopic', payload)
+            const { data } = await axios.post('/api/employee/createTopic', payload)
             return data as string
         },
         onError: (err) => {
