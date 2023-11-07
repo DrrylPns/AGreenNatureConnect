@@ -13,6 +13,7 @@ import axios from 'axios';
 import { Combobox, Transition } from '@headlessui/react';
 import { Topic } from '@/lib/types';
 import { ChevronsUpDownIcon } from 'lucide-react';
+import '@/lib/styles/editor.css'
 
 const Editor = () => {
     const [topic, setTopic] = useState<Topic[]>([])
@@ -283,7 +284,6 @@ const Editor = () => {
                         placeholder='Title'
                         className='w-full resize-none appearance-none overflow-hidden bg-transparent text-5xl font-bold focus:outline-none'
                     />
-
                     <div id="editor" className='min-h-[500px]' />
                     <p className='text-sm text-gray-500'>
                         Use{' '}

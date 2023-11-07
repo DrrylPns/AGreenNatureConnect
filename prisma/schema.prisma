@@ -21,10 +21,9 @@ model User {
   hashedPassword     String?
   middleName         String?
   lastName           String?
-  phoneNumber        String?
+  phoneNumber        String?   @unique
   address            String?
   role               Role      @default(USER)
-  // gender             Gender?
   gender             String?
   birthday           DateTime?
   createdAt          DateTime  @default(now())
@@ -48,14 +47,9 @@ model User {
 enum Role {
   USER
   ADMIN
-  STAFF
+  EMPLOYEE
 }
 
-// enum Gender {
-//   MALE
-//   FEMALE
-//   OTHER
-// }
 
 model Account {
   id                String  @id @default(cuid())

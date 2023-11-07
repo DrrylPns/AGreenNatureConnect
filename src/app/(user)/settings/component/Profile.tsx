@@ -55,10 +55,10 @@ const Profile: React.FC<ProfileProps> = ({
             newAddress,
         }: ChangeUserProfileType) => {
             const payload: ChangeUserProfileType = {
-                newUsername: newUsername ? newUsername : undefined,
-                newPhone: newPhone ? newPhone : undefined,
-                newBirthday: newBirthday ? newBirthday : undefined,
-                newAddress: newAddress ? newAddress : undefined,
+                newUsername: newUsername,
+                newPhone: newPhone,
+                newBirthday: newBirthday,
+                newAddress: newAddress,
             };
             const { data } = await axios.post("api/user/editUser", payload);
             return data;
@@ -68,8 +68,8 @@ const Profile: React.FC<ProfileProps> = ({
                 if (err instanceof AxiosError) {
                     if (err.response?.status === 400) {
                         return toast({
-                            title: "Action failed!",
-                            description: err.response.data,
+                            title: "Invalid Action",
+                            description: "Phone Number already exists. Please use a different one.",
                             variant: "destructive",
                         });
                     }
@@ -203,6 +203,7 @@ const Profile: React.FC<ProfileProps> = ({
                                             {user?.username}
                                         </p>
                                     </div>
+                                    You can change your username in {daysLeft} {daysLeft === 1 ? 'day' : 'days'}.
                                 </>) :
                                     (<>
                                         <div>
@@ -218,8 +219,9 @@ const Profile: React.FC<ProfileProps> = ({
                                                 {errors.newUsername && errors.newUsername.message}
                                             </span>
                                         </div>
+                                        You can change your username now.
                                     </>)}
-                                You can change your username in {daysLeft} {daysLeft === 1 ? 'day' : 'days'}.
+
                             </div>
                             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                                 <div>
