@@ -55,12 +55,12 @@ export function formatTimeToNow(date: Date): string {
   })
 }
 
-export function formatDate(birthday: Date) {
-  if (!birthday) return "No birthday set";
+export function formatDate(date: Date) {
+  if (!date) return "No date set";
 
   const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: '2-digit' };
 
-  return new Date(birthday).toLocaleDateString(undefined, options);
+  return new Date(date).toLocaleDateString(undefined, options);
 }
 
 export const calculateAge = (birthday: Date) => {

@@ -191,7 +191,6 @@ const Editor = () => {
                 description: "Your post has been published.",
             });
         },
-
     })
 
     async function onSubmit(data: CreatePostType) {
