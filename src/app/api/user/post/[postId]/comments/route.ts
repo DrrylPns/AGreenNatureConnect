@@ -68,17 +68,17 @@ export async function POST(req: NextRequest) {
 //Deleteng comments
 export async function DELETE(req: NextRequest){
     const searchParams = req.nextUrl.searchParams
-
     const commentId = searchParams.get('commentId')
+    console.log(`this is your Id: ${commentId}`)
     try {
-        const deleteComment = async () => {
-            await prisma.comment.delete({
-                where:{
-                    id: commentId as string
-                }
-            })
+        const deleteComment = await prisma.comment.delete({
+            where:{
+                id: commentId as string
+            }
+        })
 
-        }
+
+        console.log(deleteComment)
         return new Response(JSON.stringify(deleteComment), {status: 200})
     } catch (error) {
     console.log(error)
