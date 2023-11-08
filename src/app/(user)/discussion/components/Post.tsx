@@ -31,9 +31,8 @@ export default function Post() {
     return (
         <section className='sm:px-[3%] md:pl-[25%] lg:pr-[25%]'>
             {posts.length > 0 ? posts.map((post: Post) =>(
-            <Link href={`/discussion/${post.topic.name}/${post.id}`}>
+            <Link href={{pathname:`/discussion/${post.topic.name}/${post.id}`, query:{postId: post.id}}}>
                 <div key={post.id} className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
-
                     <div className='flex items-center justify-between'>
                         <div className='flex items-center gap-4'>
                             <div className='flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black'>

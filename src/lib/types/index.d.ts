@@ -38,6 +38,11 @@ export interface Post {
     topic: Topic
   }
 
+  export interface Like {
+    userId: string;
+    postId: string;
+  }
+
   export interface Topic {
     id: string;
     name: string;

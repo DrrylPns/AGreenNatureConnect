@@ -39,7 +39,7 @@ interface Pageprops {
             <div>
                 <h1 className='text-gray-600 font-bold font-livvic'>There are total of <span className=''>{topic?.posts.length} post/s in {topic?.name} right now!</span></h1>
                 {topic.posts.map((post: Post)=>(
-                    <Link href={`/discussion/${topic.name}/${post.id}`}>
+                    <Link href={{ pathname:`/discussion/${topic.name}/${post.id}`, query:{postId: post.id}}}>
                     <div key={post.id} className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
                         <div className='flex items-center justify-between'>
                             <div className='flex items-center gap-4'>
