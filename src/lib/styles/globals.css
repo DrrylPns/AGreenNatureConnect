@@ -72,31 +72,51 @@
   }
   
   h1.ce-header{
-    @apply text-3xl font-bold
+    @apply text-[34px] font-bold leading-9
   }
   h2.ce-header{
-    @apply text-2xl font-semibold
+    @apply text-[30px] font-semibold leading-8
   }
   h3.ce-header{
-    @apply text-xl font-semibold
+    @apply text-[24px] font-semibold leading-7
   }
   h4.ce-header{
-    @apply text-lg font-semibold
+    @apply text-[20px] font-semibold leading-7
   }
   h5.ce-header{
-    @apply text-base font-semibold
+    @apply text-[18px] font-semibold leading-7
   }
   h6.ce-header{
-    @apply text-base font-semibold
+    @apply text-[16px] font-semibold leading-7
   }
+
   h1.custom-header{
+    @apply text-[34px] font-bold leading-9
+  }
+  h2.custom-header{
+    @apply text-[30px] font-semibold leading-8
+  }
+  h3.custom-header{
+    @apply text-[24px] font-semibold leading-7
+  }
+  h4.custom-header{
+    @apply text-[20px] font-semibold leading-7
+  }
+  h5.custom-header{
+    @apply text-[18px] font-semibold leading-7
+  }
+  h6.custom-header{
+    @apply text-[16px] font-semibold leading-7
+  }
+
+  /* h1.custom-header{
     @apply text-3xl font-bold
   }
   h2.custom-header{
     @apply text-2xl font-semibold
   }
   h3.custom-header{
-    @apply text-xl font-semibold
+    @apply text-xl font-semibold 
   }
   h4.custom-header{
     @apply text-lg font-semibold
@@ -106,7 +126,7 @@
   }
   h6.custom-header{
     @apply text-base font-semibold
-  }
+  } */
 
   blockquote {
     @apply text-lg
