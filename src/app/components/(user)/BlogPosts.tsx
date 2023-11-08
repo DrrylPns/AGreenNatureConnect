@@ -1,6 +1,6 @@
 "use client"
 import { Blogs } from '@/lib/types/blogs'
-import { QueryClient, useQuery } from '@tanstack/react-query'
+import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
 import BlogCard from './BlogCard'
@@ -8,10 +8,10 @@ import { Session } from 'next-auth'
 
 interface BlogPostsProps {
     session: Session | null
-    queryClient?: QueryClient;
+
 }
 
-const BlogPosts: React.FC<BlogPostsProps> = ({ session, queryClient }) => {
+const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
     const { data, isLoading, isError } = useQuery({
         queryKey: ['getBlogs'],
         queryFn: async () => {
@@ -31,7 +31,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session, queryClient }) => {
     return (
         <div className='grid grid-cols-1 gap-5'>
             {data.map((blog) => (
-                <BlogCard key={blog.id} {...blog} session={session} queryClient={queryClient} />
+                <BlogCard key={blog.id} {...blog} session={session} />
             ))}
         </div>
     )

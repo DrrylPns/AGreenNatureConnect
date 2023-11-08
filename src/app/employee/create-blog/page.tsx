@@ -18,7 +18,9 @@ const page = () => {
                     className="w-full"
                     variant='green'
                     form='create-blog-form'
-                >Post</Button>
+                >
+                    Post
+                </Button>
             </div>
         </div>
     )

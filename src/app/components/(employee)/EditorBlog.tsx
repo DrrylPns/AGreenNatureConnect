@@ -166,10 +166,10 @@ const EditorBlog = () => {
             });
         },
         onSuccess: () => {
-            // 
-            // redirect to /blogs TODO
-            // const newPathname = pathname.split("/").slice(0, -1).join("/");
-            // router.push(newPathname);
+
+            setTimeout(() => {
+                router.push("/blogs")
+            }, 1000)
 
             return toast({
                 description: "Your post has been published.",
