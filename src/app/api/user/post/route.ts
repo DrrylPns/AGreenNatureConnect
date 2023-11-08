@@ -7,6 +7,7 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 
 //Getting all post
 export async function GET(req: NextRequest) {
+
     try {
         const getAllPost = await prisma.post.findMany({
             include:{

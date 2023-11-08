@@ -9,6 +9,7 @@ import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
 import { Suspense } from "react"
 import { getAuthSession } from "@/lib/auth"
+import { SkeletonTheme } from "react-loading-skeleton"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,15 +28,17 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-        <Providers>
-          <Navbar session={session} />
-          <SIdebar />
+       
+          <Providers>
+            <Navbar session={session} />
+            <SIdebar />
 
-          <LoginModal />
-          <RegisterModal />
-            {children}
-          <Toaster />
-        </Providers >
+            <LoginModal />
+            <RegisterModal />
+              {children}
+            <Toaster />
+          </Providers >
+        
       </body>
     </html>
   )

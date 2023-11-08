@@ -7,6 +7,8 @@ import { UserAvatar } from '@/app/components/UserAvatar'
 import Link from 'next/link'
 import { Button } from '@/app/components/Ui/Button'
 import { RotatingLines } from "react-loader-spinner"; 
+import Skeleton from 'react-loading-skeleton'
+import UserSkeleton from './Skeleton/CreatePost'
 
 
 export default function CreatePost() {
@@ -15,16 +17,11 @@ export default function CreatePost() {
         <section className='sm:px-[3%] md:pl-[25%] lg:pr-[25%]'>
             {status === 'loading' ? (
                 <div className='text-center flex justify-center'> 
-                    <RotatingLines
-                        strokeColor="grey"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        width="20"
-                        visible={true}
-                    />
-               </div> 
+                    <UserSkeleton />
+                </div> 
             ):(
             <>
+             
                 {session ? (
                 <Link href={'/discussion/create-post'} className=" flex justify-between items-center gap-5 bg-white rounded-lg drop-shadow-lg w-full px-5 py-5">
                     <Link href={'/profile'} className="w-[2.5rem]">

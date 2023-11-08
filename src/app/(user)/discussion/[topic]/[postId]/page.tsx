@@ -8,12 +8,13 @@ import DisplayPhoto from '@/../public/images/default-user.jpg'
 import { FaEllipsis } from 'react-icons/fa6';
 import { RotatingLines, Discuss} from 'react-loader-spinner';
 import Link from 'next/link';
-import { FiPlus } from 'react-icons/fi';
+import { FiArrowLeft, FiPlus } from 'react-icons/fi';
 import { useSession } from 'next-auth/react';
 import Comments from '../../components/Comments';
 import { Session } from 'next-auth';
 import PostButtons from '../../components/postButtons';
 import EditorOutput from '@/app/components/(user)/EditorOutput';
+import { useRouter } from 'next/navigation';
 
 
 interface Props {
@@ -23,6 +24,7 @@ interface Props {
 const page: FC<Props> = ({params}) => {
   const [posts, setPosts] = useState<Post>();
   const [comments, setComments] = useState<Comment>(); 
+  const router = useRouter()
 
 
   useEffect(() => {
@@ -33,23 +35,24 @@ const page: FC<Props> = ({params}) => {
 
   const fetchPost = async () => {
     try {
-      await axios.get(`/api/user/post/${params.postId}`)
-      .then((result) => {
-        const data = result.data;
-        setPosts(data);
-        fetchComments()
-      })
-      .catch((error)=>{
-        setPosts(error)
-      })
+      const response = await fetch(`/api/user/post/${params.postId}`, {next: {tags: ['comments'], revalidate: 60}});
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+  
+      const data = await response.json();
+      setPosts(data);
+      fetchComments();
     } catch (error) {
+      
       console.error('Error fetching post:', error);
     }
   };
+  
 
   const fetchComments = async () => {
     try {
-      await axios.get(`/api/user/post/${params.postId}/comment`)
+      await axios.get(`/api/user/post/${params.postId}/comments`)
       .then((result)=>{
         const comments = result.data;
         setComments(comments)
@@ -67,6 +70,10 @@ const page: FC<Props> = ({params}) => {
     <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20 ">
       {posts ? (
         <>
+        <button type='button' onClick={()=> router.back()}>
+        <FiArrowLeft/>
+        </button>
+        
           <div className='flex items-center justify-between'>
             <div className='flex items-center gap-4'>
               <Link href={''} className='flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black'>
@@ -115,7 +122,7 @@ const page: FC<Props> = ({params}) => {
             </div>
           </div>
           {comments ? (
-            <Comments posts={posts} comments={comments}/>
+            <Comments posts={posts}/>
           ):(
         
             <div className='w-full text-center flex items-center justify-center'>

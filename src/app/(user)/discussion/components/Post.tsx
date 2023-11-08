@@ -5,10 +5,11 @@ import DisplayPhoto from '@/app/(user)/discussion/images/displayphoto.png'
 import PostButtons from './postButtons';
 import { FaEllipsis } from 'react-icons/fa6'
 import axios from 'axios';
-import { Post, Block } from '@/lib/types'
+import { Post } from '@/lib/types'
 import RelativeDate from '@/app/components/RelativeDate';
 import Link from 'next/link';
 import EditorOutput from '@/app/components/(user)/EditorOutput';
+import PostSkeleton from './Skeleton/PostSkeleton';
 
 export default function Post() {
     const pref = useRef<HTMLDivElement>(null)
@@ -29,10 +30,9 @@ export default function Post() {
     }
     return (
         <section className='sm:px-[3%] md:pl-[25%] lg:pr-[25%]'>
-            {posts.map((post: Post) =>(
-                <Link href={`/discussion/${post.topic.name}/${post.id}`}>
+            {posts.length > 0 ? posts.map((post: Post) =>(
+            <Link href={{pathname:`/discussion/${post.topic.name}/${post.id}`, query:{postId: post.id}}}>
                 <div key={post.id} className='bg-white w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md'>
-
                     <div className='flex items-center justify-between'>
                         <div className='flex items-center gap-4'>
                             <div className='flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black'>
@@ -82,8 +82,12 @@ export default function Post() {
                     {/**Like, Comment, Share(if there is any) Section*/}
                     <PostButtons comments={post.comments.length} likes={post.likes.length} />
                 </div>
-                </Link>
-            ))}
+            </Link>
+            )) : (
+                <div className='flex gap-3 drop-shadow-xl shadow-xl'>
+                    <PostSkeleton/>
+                </div>
+            )}
             <div className='text-gray-400 text-[1.3rem] text-center font-poppins font-semibold py-10'>
                 <h3>There are no more available post right now.</h3>
             </div>
