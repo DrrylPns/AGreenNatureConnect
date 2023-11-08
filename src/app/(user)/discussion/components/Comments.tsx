@@ -33,10 +33,10 @@ export default function Comments({
   const [comments, setComments] = useState<Comment[]>(); 
 
   const {
-    reset,
     register,
     handleSubmit,
-    formState: { errors },
+    reset,
+    formState: { errors, isSubmitSuccessful  },
 } = useForm<CreateCommentType>({
     resolver: zodResolver(CommentSchema),
     defaultValues: {
@@ -44,6 +44,7 @@ export default function Comments({
         postId: ''
     }
 })
+
 
 useEffect(() => {
   if (Object.keys(errors).length) {
@@ -65,8 +66,10 @@ const { mutate: createPost } = useMutation({
           postId,
       }
       const { data } = await axios.post(`/api/user/post/${posts.id}/comments`, payload)
-
+     
+     
       router.refresh()
+     
       return data
   },
   onError: () => {
@@ -77,7 +80,6 @@ const { mutate: createPost } = useMutation({
       });
   },
   onSuccess: () => {
-      // redirect to /discussion/topic/topicName
       return toast({
           description: "Your comment has been published.",
       });
@@ -90,15 +92,17 @@ async function onSubmit(data: CreateCommentType) {
   const payload: CreateCommentType = {
       text: data.text,
       postId: posts.id,
-
   }
   createPost(payload)
   router.refresh()
-  
 }
+
 useEffect(()=>{
   fetchComments()
-},[comments])
+  if(isSubmitSuccessful){
+    reset()
+  }
+},[ isSubmitSuccessful,comments,reset ])
 
 const fetchComments = async () => {
   try {
@@ -114,6 +118,8 @@ const fetchComments = async () => {
     console.error('Error fetching comments:', error);
   }
 }
+
+
   return (
     <div className={'w-full border-b border-gray-400 pb-5 shadow-sm drop-shadow-sm'}>
       {session ? (
@@ -124,8 +130,6 @@ const fetchComments = async () => {
           <textarea 
             id='text'
             {...register("text", { required: "Error." })}
-            onChange={(e) => setCommentValue(e.target.value)} 
-            value={commentValue} 
             className='bg-pale min-w-full p-4 pb-8 resize-none border border-gray-300 rounded-lg' 
             placeholder='Add your comment here'
           >

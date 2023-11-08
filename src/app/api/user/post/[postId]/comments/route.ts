@@ -29,7 +29,7 @@ export async function GET(req: NextRequest,) {
 
             return new Response(JSON.stringify('There are no comments right now!'))
         }
-    
+        revalidatePath(`/api/user/post/${postId}/comments`)
         return new Response(JSON.stringify(getAllCommentsByPostId), {status: 200})
     } catch (error) {
         return new Response(JSON.stringify({message: 'Error:', error}))
