@@ -66,6 +66,7 @@ const Editor = () => {
         const ImageTool = (await import('@editorjs/image')).default
         const QuoteTool = (await import('@editorjs/quote')).default
         const MarkerTool = (await import('@editorjs/marker')).default
+        const Underline = (await import('@editorjs/underline')).default
 
         if (!ref.current) {
             const editor = new EditorJS({
@@ -112,6 +113,7 @@ const Editor = () => {
                         inlineToolbar: true,
                     },
                     embed: Embed,
+                    underline: Underline,
                     quote: {
                         class: QuoteTool,
                         inlineToolbar: true,
