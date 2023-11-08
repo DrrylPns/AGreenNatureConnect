@@ -17,6 +17,7 @@ const renderers = {
     quote: QuoteRenderer,
     list: CustomListRenderer,
     table: CustomTableRenderer,
+    header: CustomHeaderRenderer,
 }
 
 const style = {
@@ -88,6 +89,17 @@ function CustomTableRenderer({ data }: any) {
                 )}
             </tbody>
         </table>
+    );
+}
+
+function CustomHeaderRenderer({ data }: { data: { text: string, level: number } }) {
+    const { text, level } = data;
+    const HeadingTag = `h${level}` as keyof JSX.IntrinsicElements;
+
+    return (
+        <HeadingTag className="custom-header">
+            {text}
+        </HeadingTag>
     );
 }
 
