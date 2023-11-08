@@ -9,20 +9,23 @@ import {
 import {
     DropdownMenu,
     DropdownMenuContent,
-    DropdownMenuItem,
     DropdownMenuLabel,
-    DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/app/components/Ui/Dropdown-Menu"
 import { toast } from "@/lib/hooks/use-toast"
 
 import type { Blogs } from "@/lib/types/blogs"
 import { formatDate } from "@/lib/utils"
-import { useMutation } from "@tanstack/react-query"
+import { QueryClient, useMutation } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios"
+import Link from "next/link"
 import { FaEllipsis } from 'react-icons/fa6'
 
-const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }: Blogs) => {
+interface BlogCardProps extends Blogs {
+    queryClient: QueryClient | undefined;
+}
+
+const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, queryClient }: BlogCardProps) => {
 
     const { mutate: deleteTask, isLoading: deleteLoading } = useMutation({
         mutationFn: async () => {
@@ -46,18 +49,22 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }:
             });
         },
         onSuccess: () => {
-            return toast({
+            toast({
                 description: "The blog has been deleted.",
             });
+
+            queryClient?.invalidateQueries
         },
     })
 
     return (
-        <Card>
-            <CardHeader>
-                <div className="flex flex-row justify-between">
+        <Card className="">
+            <CardHeader className="h-auto">
+                <div className="flex flex-row justify-between gap-11">
                     <div>
-                        <CardTitle>{title}</CardTitle>
+                        <Link href={`/blogs/${id}`}>
+                            <CardTitle className="custom-card-title h-[30px] max-md:truncate max-md:max-w-[220px]">{title}</CardTitle>
+                        </Link>
                     </div>
                     <div className="cursor-pointer">
                         <DropdownMenu>
@@ -82,8 +89,7 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }:
             <CardFooter className="text-sm text-muted-foreground">
                 {formatDate(createdAt)}
             </CardFooter>
-        </Card>
-
+        </Card >
     )
 }
 

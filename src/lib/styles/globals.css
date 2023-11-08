@@ -109,6 +109,13 @@
     @apply text-[16px] font-semibold leading-7
   }
 
+  .custom-card-title {
+    max-width: 650px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   /* h1.custom-header{
     @apply text-3xl font-bold
   }

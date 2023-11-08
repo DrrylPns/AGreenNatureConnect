@@ -2,7 +2,9 @@ import BlogPosts from '@/app/components/(user)/BlogPosts'
 import { getAuthSession } from '@/lib/auth'
 import React from 'react'
 
-async function Blogs() {
+async function Blogs({ }: {
+
+}) {
 
   const session = await getAuthSession();
 
