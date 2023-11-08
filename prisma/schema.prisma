@@ -39,6 +39,7 @@ model User {
   notifications   Notification[]
   reportedReports Report[]       @relation("Report")
   adminReports    Report[]       @relation("StaffHandleReport")
+  Blog            Blog[]
 
   @@index([id])
 }
@@ -49,7 +50,6 @@ enum Role {
   ADMIN
   EMPLOYEE
 }
-
 
 model Account {
   id                String  @id @default(cuid())
@@ -197,6 +197,19 @@ enum ReportStatus {
   RESOLVED
   REJECTED
   // dagdagan yung report status depende sa mapaguusapan
+}
+
+model Blog {
+  id        String   @id @default(cuid())
+  title     String
+  content   Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  author   User   @relation(fields: [authorId], references: [id])
+  authorId String
+
+  @@index([authorId])
 }
 
 // saka na ecommerce

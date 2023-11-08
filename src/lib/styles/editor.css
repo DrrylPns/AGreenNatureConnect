@@ -64,7 +64,7 @@
   padding-bottom: 0 !important;
 }
 
-h1.ce-header{
+/* h1.ce-header{
   @apply text-3xl font-bold
 }
 h2.ce-header{
@@ -81,4 +81,4 @@ h5.ce-header{
 }
 h6.ce-header{
   @apply text-base font-semibold
-}
+} */

@@ -64,6 +64,8 @@ const Editor = () => {
         const LinkTool = (await import('@editorjs/link')).default
         const InlineCode = (await import('@editorjs/inline-code')).default
         const ImageTool = (await import('@editorjs/image')).default
+        const QuoteTool = (await import('@editorjs/quote')).default
+        const MarkerTool = (await import('@editorjs/marker')).default
 
         if (!ref.current) {
             const editor = new EditorJS({
@@ -100,10 +102,23 @@ const Editor = () => {
                             },
                         },
                     },
-                    list: List,
+                    list: {
+                        class: List,
+                        inlineToolbar: true,
+                    },
                     inlineCode: InlineCode,
-                    table: Table,
+                    table: {
+                        class: Table,
+                        inlineToolbar: true,
+                    },
                     embed: Embed,
+                    quote: {
+                        class: QuoteTool,
+                        inlineToolbar: true,
+                    },
+                    markerTool: {
+                        class: MarkerTool,
+                    }
                 },
             })
         }
