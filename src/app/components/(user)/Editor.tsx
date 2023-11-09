@@ -25,6 +25,7 @@ const Editor = () => {
     const _titleRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter();
     const pathname = usePathname();
+    const MAX_FILE_SIZE_MB = 2;
 
     const {
         register,
@@ -90,14 +91,35 @@ const Editor = () => {
                         config: {
                             uploader: {
                                 async uploadByFile(file: File) {
-                                    //redirect passed img to uploadthing database
-                                    const [res] = await uploadFiles([file], 'imageUploader')
+                                    //NOT WORKING VALIDATION ONLY IN UPLOADTHING TRY TO TEST IN PRODUCTION
+                                    try {
+                                        //redirect passed img to uploadthing database
+                                        const [res] = await uploadFiles({
+                                            endpoint: "imageUploader",
+                                            files: [file],
+                                        })
 
-                                    return {
-                                        success: 1,
-                                        file: {
-                                            url: res.fileUrl,
-                                        },
+                                        return {
+                                            success: 1,
+                                            file: {
+                                                url: res.url,
+                                            }
+                                        }
+                                    } catch (error: any) {
+                                        if (error.response && error.response.data && error.response.data.error && error.response === undefined) {
+                                            toast({
+                                                title: 'Invalid Action.',
+                                                description: 'File size exceeds the allowed limit (2MB)',
+                                                variant: 'destructive',
+                                            })
+                                        } else {
+                                            console.error(error.message);
+                                        }
+
+                                        return {
+                                            success: 0,
+                                            error: 'Upload Error: ' + error.message,
+                                        }
                                     }
                                 },
                             },
