@@ -106,7 +106,7 @@ const Editor = () => {
                                             }
                                         }
                                     } catch (error: any) {
-                                        if (error.response && error.response.data && error.response.data.error && error.response === undefined) {
+                                        if (axios.isAxiosError(error) || error.response?.status === 400) {
                                             toast({
                                                 title: 'Invalid Action.',
                                                 description: 'File size exceeds the allowed limit (2MB)',
@@ -116,10 +116,13 @@ const Editor = () => {
                                             console.error(error.message);
                                         }
 
-                                        return {
-                                            success: 0,
-                                            error: 'Upload Error: ' + error.message,
-                                        }
+                                        return (
+                                            toast({
+                                                title: 'Invalid Action.',
+                                                description: 'File size exceeds the allowed limit (4MB)',
+                                                variant: 'destructive',
+                                            })
+                                        )
                                     }
                                 },
                             },

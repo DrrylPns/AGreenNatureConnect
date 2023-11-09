@@ -13,7 +13,7 @@ const middleware = async () => {
 }
 
 export const ourFileRouter = {
-  imageUploader: f({ image: { maxFileSize: '2MB' } })
+  imageUploader: f({ image: { maxFileSize: '4MB' } })
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
 } satisfies FileRouter
