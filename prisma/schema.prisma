@@ -36,6 +36,7 @@ model User {
   notifications   Notification[]
   reportedReports Report[]       @relation("Report")
   adminReports    Report[]       @relation("StaffHandleReport")
+  Transaction     Transaction[]
 
   @@index([id])
 }
@@ -192,3 +193,44 @@ enum ReportStatus {
 }
 
 // saka na ecommerce
+
+// New model for Products
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  quantity    Int
+  price       Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relationships
+  transactions Transaction[]
+
+  @@index([id])
+}
+
+// New model for Transactions
+model Transaction {
+  id        String          @id @default(cuid())
+  type      TransactionType
+  quantity  Int
+  total     Float
+  createdAt DateTime        @default(now())
+  updatedAt DateTime        @updatedAt
+
+  // Relationships
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+  user      User    @relation(fields: [userId], references: [id])
+  userId    String
+
+  @@index([id])
+  @@index([productId])
+  @@index([userId])
+}
+
+enum TransactionType {
+  SALE
+  PURCHASE
+}
