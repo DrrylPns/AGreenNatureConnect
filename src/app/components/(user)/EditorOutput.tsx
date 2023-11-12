@@ -18,6 +18,7 @@ const renderers = {
     list: CustomListRenderer,
     table: CustomTableRenderer,
     header: CustomHeaderRenderer,
+    anchor: CustomAnchorRenderer,
 }
 
 const style = {
@@ -102,5 +103,16 @@ function CustomHeaderRenderer({ data }: { data: { text: string, level: number } 
         </HeadingTag>
     );
 }
+
+function CustomAnchorRenderer({ data }: any) {
+    const { text, link } = data;
+  
+    return (
+      <a href={link} className="custom-anchor" target="_blank" rel="noopener noreferrer">
+        {text}
+      </a>
+    );
+  }
+  
 
 export default EditorOutput

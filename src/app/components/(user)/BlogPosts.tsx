@@ -1,10 +1,11 @@
 "use client"
 import { Blogs } from '@/lib/types/blogs'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import React from 'react'
 import BlogCard from './BlogCard'
 import { Session } from 'next-auth'
+import { Button } from '../Ui/Button'
 
 interface BlogPostsProps {
     session: Session | null
@@ -12,7 +13,12 @@ interface BlogPostsProps {
 }
 
 const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
-    const { data, isLoading, isError } = useQuery({
+
+    // const queryClient = useQueryClient()
+
+    // queryClient.invalidateQueries({queryKey: ['getBlogs']})
+
+    const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['getBlogs'],
         queryFn: async () => {
             const { data } = await axios.get('api/user/blogs')
@@ -30,8 +36,9 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
 
     return (
         <div className='grid grid-cols-1 gap-5'>
+            {/* <Button onClick={() => refetch()}>Refetch that shi</Button> */}
             {data.map((blog) => (
-                <BlogCard key={blog.id} {...blog} session={session} />
+                <BlogCard key={blog.id} session={session} refetchData={refetch} {...blog} />
             ))}
         </div>
     )
