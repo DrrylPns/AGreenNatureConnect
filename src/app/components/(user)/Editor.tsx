@@ -91,7 +91,6 @@ const Editor = () => {
                         config: {
                             uploader: {
                                 async uploadByFile(file: File) {
-                                    //NOT WORKING VALIDATION ONLY IN UPLOADTHING TRY TO TEST IN PRODUCTION
                                     try {
                                         //redirect passed img to uploadthing database
                                         const [res] = await uploadFiles({
@@ -109,7 +108,7 @@ const Editor = () => {
                                         if (axios.isAxiosError(error) || error.response?.status === 400) {
                                             toast({
                                                 title: 'Invalid Action.',
-                                                description: 'File size exceeds the allowed limit (2MB)',
+                                                description: 'File size exceeds the allowed limit (4MB)',
                                                 variant: 'destructive',
                                             })
                                         } else {
