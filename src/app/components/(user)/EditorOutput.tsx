@@ -5,7 +5,7 @@ import Image from 'next/image'
 import QuoteRenderer from './QuoteRenderer';
 
 const Output = dynamic(
-    async () => (await import('editorjs-react-renderer')).default,
+    async () => (await import('editorjs-react-renderer')).default, {ssr: false}
 )
 
 interface EditorOutputProps {

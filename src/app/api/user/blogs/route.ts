@@ -1,7 +1,7 @@
 import prisma from '@/lib/db/db'
 
 export async function GET(req: Request) {
-    const url = new URL(req.url)
+    // const url = new URL(req.url)
 
     try {
         // const page = parseInt(url.searchParams.get('page') ?? '1', 10);

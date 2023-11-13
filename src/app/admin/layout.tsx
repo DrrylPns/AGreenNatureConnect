@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import '@/lib/styles/globals.css'
 import Providers from '@/lib/providers/Providers'
 import { Toaster } from '../components/toast/toaster'
+import LoginModal from '../components/modals/LoginModal'
+import RegisterModal from '../components/modals/RegisterModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,6 +23,8 @@ export default async function RootLayout({
         <html lang="en">
             <body className={inter.className}>
                 <Providers>
+                    <LoginModal />
+                    <RegisterModal />
                     {children}
                     <Toaster />
                 </Providers>

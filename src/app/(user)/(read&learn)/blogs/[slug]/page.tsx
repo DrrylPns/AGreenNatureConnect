@@ -27,7 +27,10 @@ const page = async ({ params }: PageProps) => {
     return (
             <div className='max-w-4xl flex flex-col m-auto items-center gap-11'>
                 <div className='flex flex-col mt-[120px] gap-5'>
-                    <div>Creator: {blog.author.username}</div>
+                    <div>Creator: 
+                        <span className='font-bold'>{blog.author.username}</span>
+                    </div>
+
                     <div className='text-5xl'>{blog.title}</div>
                     <div className='text-muted-foreground'>Blog Posted At: {formatDate(blog.createdAt)}</div>
                 </div>
