@@ -18,13 +18,22 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode,
 }) {
-
     return (
         <html lang="en">
             <body className={inter.className}>
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
+                    {/* SideBar Render here */}
+                        {/* links === 
+                            dashboard, 
+                            create employee, 
+                            inventory system, 
+                            products, 
+                            transaction history
+                            Logout??
+                        */}
+
                     {children}
                     <Toaster />
                 </Providers>

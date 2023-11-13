@@ -12,24 +12,26 @@ datasource db {
 }
 
 model User {
-  id                 String    @id @default(cuid())
+  id                 String        @id @default(cuid())
   name               String?
-  username           String?   @unique
-  email              String?   @unique
+  username           String?       @unique
+  email              String?       @unique
   emailVerified      DateTime?
   image              String?
   hashedPassword     String?
   middleName         String?
   lastName           String?
-  phoneNumber        String?   @unique
+  phoneNumber        String?       @unique
   address            String?
-  role               Role      @default(USER)
+  role               Role          @default(USER)
   gender             String?
   birthday           DateTime?
-  createdAt          DateTime  @default(now())
-  updatedAt          DateTime  @updatedAt
+  createdAt          DateTime      @default(now())
+  updatedAt          DateTime      @updatedAt
   lastUsernameChange DateTime?
-  createdTopics      Topic[]   @relation("CreatedBy")
+  createdTopics      Topic[]       @relation("CreatedBy")
+  buyerTransactions  Transaction[] @relation("Buyer")
+  sellerTransactions Transaction[] @relation("Seller")
 
   Account         Account[]
   Session         Session[]
@@ -40,6 +42,7 @@ model User {
   reportedReports Report[]       @relation("Report")
   adminReports    Report[]       @relation("StaffHandleReport")
   Blog            Blog[]
+  Product         Product[]
 
   @@index([id])
 }
@@ -213,3 +216,53 @@ model Blog {
 }
 
 // saka na ecommerce
+
+model Product {
+  id                String          @id @default(cuid())
+  name              String
+  description       String
+  price             Float
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  modeOfTransaction TransactionMode
+  // quantity  Int 
+  //        OR
+  // weight    Float
+  // Relationships
+  transactions      Transaction[]
+
+  seller   User   @relation(fields: [sellerId], references: [id])
+  sellerId String
+
+  @@index([id])
+  @@index([sellerId])
+}
+
+enum TransactionMode {
+  EXTERNAL
+  PICK_UP
+}
+
+// New model for Transaction history -emmanuel
+model Transaction {
+  id         String    @id @default(cuid())
+  quantity   Int
+  totalPrice Float
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime? @updatedAt
+  // Relationships
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  buyer   User   @relation("Buyer", fields: [buyerId], references: [id])
+  buyerId String
+
+  seller   User   @relation("Seller", fields: [sellerId], references: [id])
+  sellerId String
+
+  @@index([id])
+  @@index([productId])
+  @@index([sellerId])
+  @@index([buyerId])
+}
