@@ -1,38 +1,54 @@
-"use client"
 import { Blogs } from '@/lib/types/blogs'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import BlogCard from './BlogCard'
 import { Session } from 'next-auth'
+import prisma from '@/lib/db/db'
 
 interface BlogPostsProps {
     session: Session | null
 }
 
-const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
-    const [data, setData] = useState<Blogs[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isError, setIsError] = useState(false);
+const BlogPosts: React.FC<BlogPostsProps> = async ({ session }) => {
+    // const [data, setData] = useState<Blogs[]>([]);
+    // const [isLoading, setIsLoading] = useState(true);
+    // const [isError, setIsError] = useState(false);
+
+    const getBlogs = async () => {
+        const blogs = await prisma.blog.findMany({
+            orderBy: {
+                createdAt: 'desc'
+            },
+            include: {
+                author: true,
+            }
+        })
+
+        return blogs
+    }
+
+    const blogs = await getBlogs();
+    console.log(blogs)
 
     // using manual useEffect
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const response = await axios.get('api/user/getBlogs');
-                setData(response.data);
-            } catch (error) {
-                setIsError(true);
-            } finally {
-                setIsLoading(false);
-            }
-        };
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         try {
+    //             const response = await axios.get('api/user/getBlogs');
+    //             setData(response.data);
+    //         } catch (error) {
+    //             setIsError(true);
+    //         } finally {
+    //             setIsLoading(false);
+    //         }
+    //     };
 
-        fetchData();
-    }, []);
+    //     fetchData();
+    // }, []);
 
-    if (isLoading) return <div>Load blogs...</div>;
-    if (isError) return <>Error fetching blogs...</>;
+    // if (isLoading) return <div>Load blogs...</div>;
+    // if (isError) return <>Error fetching blogs...</>;
 
     // using tanstack query
     // const { data, isLoading, isError, } = useQuery({
@@ -53,7 +69,8 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
     return (
         <div className='grid grid-cols-1 gap-5'>
             {/* <Button onClick={() => refetch()}>Refetch that shi</Button> */}
-            {data.map((blog) => (
+            {blogs.map((blog) => (
+                //@ts-ignore
                 <BlogCard key={blog.id} session={session} {...blog} />
             ))}
         </div>

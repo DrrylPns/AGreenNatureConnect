@@ -7,7 +7,7 @@ export async function POST(req: Request) {
     try {
         const session = await getAuthSession()
 
-        if (!session?.user || session?.user.role !== "EMPLOYEE") {
+        if (!session?.user.role || session?.user.role !== "EMPLOYEE") {
             return new Response("Unauthorized", { status: 401 })
         }
 
