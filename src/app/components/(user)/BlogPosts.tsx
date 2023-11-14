@@ -14,10 +14,6 @@ interface BlogPostsProps {
 
 const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
 
-    // const queryClient = useQueryClient()
-
-    // queryClient.invalidateQueries({queryKey: ['getBlogs']})
-
     const { data, isLoading, isError, refetch } = useQuery({
         queryKey: ['getBlogs'],
         queryFn: async () => {

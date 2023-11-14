@@ -39,10 +39,6 @@ interface BlogCard extends Blogs {
 const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, refetchData }: BlogCard) => {
     const router = useRouter()
 
-    // const queryClient = useQueryClient()
-
-    // queryClient.invalidateQueries({queryKey: ['getBlogs']})
-
     const { mutate: deleteTask, isLoading: deleteLoading } = useMutation({
         mutationFn: async () => {
             await axios.post('api/employee/deleteBlog', { id: id })
@@ -65,14 +61,6 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, r
             });
         },
         onSuccess: () => {
-
-            // not working atm router.refresh or push
-            // router.refresh()
-
-            // location.reload to revise to router.refresh()... TODO
-            // setTimeout(() => {
-            //     location.reload()
-            // }, 1000)
             refetchData()
 
             return toast({
@@ -80,6 +68,10 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, r
             });
         },
     })
+
+    const handleEdit = () => {
+        router.push(`/employee/edit-blog/${id}`)
+    }
 
     return (
         <Dialog>
@@ -100,7 +92,7 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, r
                                 </DropdownMenuTrigger>
 
                                 <DropdownMenuContent className="cursor-pointer">
-                                    <DropdownMenuLabel>Edit</DropdownMenuLabel>
+                                    <DropdownMenuLabel onClick={handleEdit}>Edit</DropdownMenuLabel>
                                     {/* <DAropdownMenuLabel className="text-red-700" </DropdownMenuLabel> */}
                                     <DialogTrigger>
                                         <DropdownMenuLabel className="text-red-700">Delete</DropdownMenuLabel>

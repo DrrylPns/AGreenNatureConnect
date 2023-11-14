@@ -25,22 +25,22 @@ const page = async ({ params }: PageProps) => {
     if (!blog) return notFound()
 
     return (
-            <div className='max-w-4xl flex flex-col m-auto items-center gap-11'>
-                <div className='flex flex-col mt-[120px] gap-5'>
-                    <div>Creator: 
-                        <span className='font-bold'>{blog.author.username}</span>
-                    </div>
-
-                    <div className='text-5xl'>{blog.title}</div>
-                    <div className='text-muted-foreground'>Blog Posted At: {formatDate(blog.createdAt)}</div>
+        <div className='max-w-4xl flex flex-col m-auto gap-11'>
+            <div className='flex flex-col mt-[120px] gap-5'>
+                <div>Creator:
+                    <span className='font-bold'>{blog.author.username}</span>
                 </div>
 
-                <Separator className='bg-zinc-300'/>
-
-                <div className='w-auto h-screen'>
-                    <EditorOutput content={blog.content} />
-                </div>
+                <div className='text-5xl'>{blog.title}</div>
+                <div className='text-muted-foreground'>Blog Posted At: {formatDate(blog.createdAt)}</div>
             </div>
+
+            <Separator className='bg-zinc-300' />
+
+            <div className='w-auto h-screen'>
+                <EditorOutput content={blog.content} />
+            </div>
+        </div>
     )
 }
 

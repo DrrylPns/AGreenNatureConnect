@@ -2,16 +2,33 @@
 import { usePathname, useRouter } from 'next/navigation';
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import type EditorJS from '@editorjs/editorjs';
-import { BlogSchema, CreateBlogType } from '@/lib/validations/createBlog';
+import { BlogSchema, CreateBlogType, UpdateBlogType } from '@/lib/validations/createBlog';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import TextareaAutosize from "react-textarea-autosize"
 import { uploadFiles } from '@/lib/uploadthing';
 import { toast } from '@/lib/hooks/use-toast';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
+import { OutputData } from '@editorjs/editorjs';
 
-const EditorBlog = () => {
+// interface BlogData {
+//     id: string;
+//     title: string;
+//     content: any;
+// }
+
+// interface EditorBlogProps {
+//     initialData?: BlogData
+// }
+
+interface EditorBlogProps {
+    initialData?: OutputData;
+    id?: string;
+    title?: string;
+}
+
+const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     const ref = useRef<EditorJS>();
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const _titleRef = useRef<HTMLTextAreaElement>(null);
@@ -30,6 +47,100 @@ const EditorBlog = () => {
         }
     })
 
+    // const initializeEditor = useCallback(async () => {
+    //     const EditorJS = (await import('@editorjs/editorjs')).default
+    //     const Header = (await import('@editorjs/header')).default
+    //     const Embed = (await import('@editorjs/embed')).default
+    //     const Table = (await import('@editorjs/table')).default
+    //     const List = (await import('@editorjs/list')).default
+    //     const LinkTool = (await import('@editorjs/link')).default
+    //     const InlineCode = (await import('@editorjs/inline-code')).default
+    //     const ImageTool = (await import('@editorjs/image')).default
+    //     const QuoteTool = (await import('@editorjs/quote')).default
+    //     const MarkerTool = (await import('@editorjs/marker')).default
+    //     const Underline = (await import('@editorjs/underline')).default
+
+    //     if (!ref.current) {
+    //         const editor = new EditorJS({
+    //             holder: 'editor',
+    //             onReady() {
+    //                 ref.current = editor
+    //             },
+    //             placeholder: 'Type here to write your post...',
+    //             inlineToolbar: true,
+    //             data: { blocks: [] },
+    //             tools: {
+    //                 header: Header,
+    //                 linkTool: {
+    //                     class: LinkTool,
+    //                     config: {
+    //                         endpoint: '/api/user/link',
+    //                     },
+    //                 },
+    //                 image: {
+    //                     class: ImageTool,
+    //                     config: {
+    //                         uploader: {
+    //                             async uploadByFile(file: File) {
+    //                                 try {
+    //                                     //redirect passed img to uploadthing database
+    //                                     const [res] = await uploadFiles({
+    //                                         endpoint: "imageUploader",
+    //                                         files: [file],
+    //                                     })
+
+    //                                     return {
+    //                                         success: 1,
+    //                                         file: {
+    //                                             url: res.url,
+    //                                         }
+    //                                     }
+    //                                 } catch (error: any) {
+    //                                     if (axios.isAxiosError(error) || error.response?.status === 400) {
+    //                                         toast({
+    //                                             title: 'Invalid Action.',
+    //                                             description: 'File size exceeds the allowed limit (4MB)',
+    //                                             variant: 'destructive',
+    //                                         })
+    //                                     } else {
+    //                                         console.error(error.message);
+    //                                     }
+
+    //                                     return (
+    //                                         toast({
+    //                                             title: 'Invalid Action.',
+    //                                             description: 'File size exceeds the allowed limit (4MB)',
+    //                                             variant: 'destructive',
+    //                                         })
+    //                                     )
+    //                                 }
+    //                             },
+    //                         },
+    //                     },
+    //                 },
+    //                 list: {
+    //                     class: List,
+    //                     inlineToolbar: true,
+    //                 },
+    //                 inlineCode: InlineCode,
+    //                 table: {
+    //                     class: Table,
+    //                     inlineToolbar: true,
+    //                 },
+    //                 embed: Embed,
+    //                 underline: Underline,
+    //                 quote: {
+    //                     class: QuoteTool,
+    //                     inlineToolbar: true,
+    //                 },
+    //                 markerTool: {
+    //                     class: MarkerTool,
+    //                 }
+    //             },
+    //         })
+    //     }
+    // }, [])
+
     const initializeEditor = useCallback(async () => {
         const EditorJS = (await import('@editorjs/editorjs')).default
         const Header = (await import('@editorjs/header')).default
@@ -46,7 +157,18 @@ const EditorBlog = () => {
         if (!ref.current) {
             const editor = new EditorJS({
                 holder: 'editor',
-                onReady() {
+                onReady: () => {
+                    if (initialData) {
+                        if (initialData && _titleRef.current) {
+                            _titleRef.current.value = title || '';
+                        }
+
+                        if (initialData && initialData.blocks) {
+                            //@ts-ignore
+                            editor.render(initialData.blocks);
+                        }
+                    }
+
                     ref.current = editor
                 },
                 placeholder: 'Type here to write your post...',
@@ -122,7 +244,7 @@ const EditorBlog = () => {
                 },
             })
         }
-    }, [])
+    }, [initialData, title])
 
     useEffect(() => {
         if (Object.keys(errors).length) {
@@ -145,22 +267,22 @@ const EditorBlog = () => {
 
     useEffect(() => {
         const init = async () => {
-            await initializeEditor()
+            await initializeEditor();
 
             setTimeout(() => {
-                _titleRef?.current?.focus()
-            }, 0)
-        }
+                _titleRef?.current?.focus();
+            }, 0);
+        };
 
         if (isMounted) {
-            init()
+            init();
 
             return () => {
-                ref.current?.destroy()
-                ref.current = undefined
-            }
+                ref.current?.destroy();
+                ref.current = undefined;
+            };
         }
-    }, [isMounted, initializeEditor])
+    }, [isMounted, initializeEditor]);
 
     const { mutate: createBlog } = useMutation({
         mutationFn: async ({ title, content }: CreateBlogType) => {
@@ -200,6 +322,58 @@ const EditorBlog = () => {
         },
     })
 
+    const { mutate: updateBlog, isLoading, isError } = useMutation({
+        mutationFn: async ({ id, title, content }: UpdateBlogType) => {
+            const payload: UpdateBlogType = {
+                id,
+                title,
+                content,
+            }
+
+            const { data } = await axios.post('/api/employee/updateBlog', payload)
+            return data
+        },
+        onError: (err) => {
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 401) {
+                    return toast({
+                        title: 'Invalid Action!',
+                        description: 'You are not authorized to update the blog.',
+                        variant: 'destructive',
+                    });
+                }
+            }
+
+            return toast({
+                title: 'Something went wrong',
+                description: 'Your blog was not updated, please try again later',
+                variant: 'destructive',
+            });
+        },
+        onSuccess: () => {
+
+            setTimeout(() => {
+                router.push(`/blogs/${id}`);
+            }, 1000);
+
+            return toast({
+                description: 'Your post has been updated.',
+            });
+        }
+    })
+
+    async function onUpdate(data: UpdateBlogType) {
+        const blocks = await ref.current?.save()
+
+        const payload = {
+            id: id,
+            title: data.title,
+            content: blocks,
+        };
+
+        updateBlog(payload)
+    }
+
 
     async function onSubmit(data: CreateBlogType) {
         const blocks = await ref.current?.save()
@@ -221,9 +395,9 @@ const EditorBlog = () => {
     return (
         <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
             <form
-                id="create-blog-form"
+                id={`${initialData ? 'update-blog-form' : 'create-blog-form'}`}
                 className=""
-                onSubmit={handleSubmit(onSubmit)}
+                onSubmit={initialData ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
             >
                 <TextareaAutosize
                     ref={(e) => {
