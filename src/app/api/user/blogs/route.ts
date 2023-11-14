@@ -20,7 +20,11 @@ export async function GET(req: Request) {
             },
         })
 
-        return new Response(JSON.stringify(blogs))
+        return new Response(JSON.stringify(blogs), {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+            },
+        });
     } catch (error) {
         return new Response('Could not fetch posts', { status: 500 })
     }
