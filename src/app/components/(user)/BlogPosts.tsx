@@ -12,7 +12,7 @@ interface BlogPostsProps {
 
 const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
 
-    const { data, isLoading, isError, refetch } = useQuery({
+    const { data, isLoading, isError, } = useQuery({
         queryKey: ['getBlogs'],
         queryFn: async () => {
             const { data } = await axios.get('api/user/blogs')
@@ -31,7 +31,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
         <div className='grid grid-cols-1 gap-5'>
             {/* <Button onClick={() => refetch()}>Refetch that shi</Button> */}
             {data.map((blog) => (
-                <BlogCard key={blog.id} session={session} refetchData={refetch} {...blog} />
+                <BlogCard key={blog.id} session={session} {...blog} />
             ))}
         </div>
     )

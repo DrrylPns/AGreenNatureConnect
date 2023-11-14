@@ -32,12 +32,13 @@ import { useRouter } from "next/navigation"
 import { FaEllipsis } from 'react-icons/fa6'
 import { Button } from "../Ui/Button"
 
-interface BlogCard extends Blogs {
-    refetchData: () => void;
-}
+// interface BlogCard extends Blogs {
+//     refetchData: () => void;
+// }
 
-const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, refetchData }: BlogCard) => {
+const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, }: Blogs) => {
     const router = useRouter()
+    const queryClient = useQueryClient();
 
     const { mutate: deleteTask, isLoading: deleteLoading } = useMutation({
         mutationFn: async () => {
@@ -61,7 +62,7 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, r
             });
         },
         onSuccess: () => {
-            refetchData()
+            queryClient.invalidateQueries(['getBlogs']);
 
             return toast({
                 description: "The blog has been deleted.",
