@@ -312,7 +312,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
             });
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['getBlogs']);
+            //queryClient.invalidateQueries(['getBlogs']);
 
             setTimeout(() => {
                 router.push("/blogs")
@@ -353,7 +353,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
             });
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['getBlogs']);
+            //queryClient.invalidateQueries(['getBlogs']);
 
             setTimeout(() => {
                 router.push(`/blogs/${id}`);

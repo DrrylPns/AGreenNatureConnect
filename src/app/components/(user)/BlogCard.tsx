@@ -62,7 +62,7 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, }
             });
         },
         onSuccess: () => {
-            queryClient.invalidateQueries(['getBlogs']);
+            // queryClient.invalidateQueries(['getBlogs']);
 
             return toast({
                 description: "The blog has been deleted.",

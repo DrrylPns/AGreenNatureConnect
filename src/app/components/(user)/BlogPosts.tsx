@@ -2,7 +2,7 @@
 import { Blogs } from '@/lib/types/blogs'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
 import axios from 'axios'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import BlogCard from './BlogCard'
 import { Session } from 'next-auth'
 
@@ -11,21 +11,43 @@ interface BlogPostsProps {
 }
 
 const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
+    const [data, setData] = useState<Blogs[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [isError, setIsError] = useState(false);
 
-    const { data, isLoading, isError, } = useQuery({
-        queryKey: ['getBlogs'],
-        queryFn: async () => {
-            const { data } = await axios.get('api/user/blogs')
-            // console.log(data)
-            return data as Blogs[]
-        }
-    })
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('api/user/blogs');
+                setData(response.data);
+            } catch (error) {
+                setIsError(true);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, [data]);
+
+    if (isLoading) return <div>Load blogs...</div>;
+    if (isError) return <>Error fetching blogs...</>;
+
+
+    // const { data, isLoading, isError, } = useQuery({
+    //     queryKey: ['getBlogs'],
+    //     queryFn: async () => {
+    //         const { data } = await axios.get('api/user/blogs')
+    //         // console.log(data)
+    //         return data as Blogs[]
+    //     }
+    // })
 
     // if isLoading === pa render nlng ng skeleton or any etc..
-    if (isLoading) return <div>Load blogs...</div>
+    // if (isLoading) return <div>Load blogs...</div>
 
-    // if Error === pa render nlng kung ano mgiging itsura sa ui
-    if (isError) return <>Error fetching blogs...</>
+    // // if Error === pa render nlng kung ano mgiging itsura sa ui
+    // if (isError) return <>Error fetching blogs...</>
 
     return (
         <div className='grid grid-cols-1 gap-5'>
