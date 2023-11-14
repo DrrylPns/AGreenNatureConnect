@@ -34,6 +34,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     const _titleRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter();
     const pathname = usePathname();
+    const queryClient = useQueryClient();
 
     const {
         register,
@@ -311,6 +312,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
             });
         },
         onSuccess: () => {
+            queryClient.invalidateQueries(['getBlogs']);
 
             setTimeout(() => {
                 router.push("/blogs")
@@ -351,6 +353,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
             });
         },
         onSuccess: () => {
+            queryClient.invalidateQueries(['getBlogs']);
 
             setTimeout(() => {
                 router.push(`/blogs/${id}`);

@@ -43,7 +43,7 @@ const page = async ({ params }: PageProps) => {
                     variant='green'
                     form='update-blog-form'
                 >
-                    Post
+                    Update
                 </Button>
             </div>
         </div>

@@ -5,11 +5,9 @@ import axios from 'axios'
 import React from 'react'
 import BlogCard from './BlogCard'
 import { Session } from 'next-auth'
-import { Button } from '../Ui/Button'
 
 interface BlogPostsProps {
     session: Session | null
-
 }
 
 const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
@@ -27,7 +25,6 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
     if (isLoading) return <div>Load blogs...</div>
 
     // if Error === pa render nlng kung ano mgiging itsura sa ui
-
     if (isError) return <>Error fetching blogs...</>
 
     return (
