@@ -1,6 +1,6 @@
 import prisma from '@/lib/db/db'
 
-export async function GET(req: Request) {
+export async function GET() {
     // const url = new URL(req.url)
 
     try {
