@@ -15,6 +15,7 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
     const [isLoading, setIsLoading] = useState(true);
     const [isError, setIsError] = useState(false);
 
+    // using manual useEffect
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,12 +29,12 @@ const BlogPosts: React.FC<BlogPostsProps> = ({ session }) => {
         };
 
         fetchData();
-    }, [data]);
+    }, []);
 
     if (isLoading) return <div>Load blogs...</div>;
     if (isError) return <>Error fetching blogs...</>;
 
-
+    // using tanstack query
     // const { data, isLoading, isError, } = useQuery({
     //     queryKey: ['getBlogs'],
     //     queryFn: async () => {
