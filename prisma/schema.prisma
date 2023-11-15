@@ -25,7 +25,7 @@ model User {
   address            String?
   role               Role          @default(USER)
   gender             String?
-  birthday           DateTime?
+  birthday           DateTime
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   lastUsernameChange DateTime?
@@ -105,10 +105,10 @@ model Post {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
-  topic   Topic  @relation(fields: [topicId], references: [id])
+  topic   Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
   topicId String
 
   comments Comment[]
@@ -125,10 +125,10 @@ model Comment {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 
   replyToId String?
@@ -209,7 +209,7 @@ model Blog {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  author   User   @relation(fields: [authorId], references: [id])
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
   @@index([authorId])

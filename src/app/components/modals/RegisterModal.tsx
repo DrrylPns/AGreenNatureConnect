@@ -20,6 +20,7 @@ import axios, { AxiosError } from "axios";
 import { toast } from "@/lib/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
+import { getMinBirthDate } from "@/lib/utils";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -51,12 +52,14 @@ const RegisterModal = () => {
       email,
       password,
       confirmPassword,
+      birthday,
       terms,
     }: RegisterType) => {
       const payload: RegisterType = {
         email,
         password,
         confirmPassword,
+        birthday,
         terms,
       };
       const { data } = await axios.post("api/register", payload);
@@ -100,7 +103,7 @@ const RegisterModal = () => {
 
       router.push("/discussion");
       registerModal.onClose();
-      loginModal.onOpen;
+      loginModal.onOpen();
       return toast({
         title: "Success!",
         description: "Account Created Successfully!",
@@ -114,11 +117,16 @@ const RegisterModal = () => {
       email: data.email,
       password: data.password,
       confirmPassword: data.confirmPassword,
+      birthday: data.birthday,
       terms: data.terms,
     };
 
     registerUser(payload);
+    console.log(payload)
   };
+
+  // age restriction on input type date
+
 
   // Eto yung body content ng Register Modal
   const bodyContent = (
@@ -173,6 +181,22 @@ const RegisterModal = () => {
       {errors.confirmPassword && (
         <span className="text-rose-500 ml-1 max-sm:text-[13px]">
           {errors.confirmPassword.message}
+        </span>
+      )}
+
+      <InputAuth
+        id="birthday"
+        type="date"
+        label="Date of Birth:"
+        max={getMinBirthDate()}
+        disabled={isLoading}
+        register={register}
+        errors={errors}
+        required
+      />
+      {errors.birthday && (
+        <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+          {errors.birthday.message}
         </span>
       )}
 

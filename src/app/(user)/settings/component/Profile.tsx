@@ -1,7 +1,7 @@
 "use client"
 import { Button } from '@/app/components/Ui/Button';
 import { toast } from '@/lib/hooks/use-toast';
-import { calculateAge, calculateDaysUntilUsernameChange, formatDate } from '@/lib/utils';
+import { calculateAge, calculateDaysUntilUsernameChange, formatDate, getMinBirthDate } from '@/lib/utils';
 import { ChangeUserProfileSchema, ChangeUserProfileType } from '@/lib/validations/changeUserProfile';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { User } from '@prisma/client';
@@ -239,13 +239,13 @@ const Profile: React.FC<ProfileProps> = ({
                             </div>
                             <div className='flex items-center justify-between text-[0.8rem] font-bold pl-5 my-5'>
                                 <div>
-                                    <h3>Birthday</h3>
+                                    <h3>Date of Birth</h3>
                                     <input
                                         id='newBirthday'
                                         type="date"
                                         defaultValue={user?.birthday ? new Date(user.birthday).toISOString().split('T')[0] : ''}
                                         {...register('newBirthday')}
-                                        max={new Date().toISOString().split('T')[0]}
+                                        max={getMinBirthDate()}
                                     />
                                     <span className="text-rose-500 ml-1 max-sm:text-[13px]">
                                         {errors.newBirthday && errors.newBirthday.message}
@@ -256,7 +256,7 @@ const Profile: React.FC<ProfileProps> = ({
                                 <div>
                                     <h3>Age</h3>
                                     <p className='text-[0.8rem] text-gray-400  font-normal'>{isBirthdayNull ? "You did not set your age yet."
-                                        : `Please fill up your birthday.`}
+                                        : `Your date of birth is used to calculate your age.`}
                                     </p>
                                 </div>
                             </div>

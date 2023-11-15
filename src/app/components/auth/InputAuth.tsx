@@ -13,6 +13,7 @@ interface InputProps {
   register: UseFormRegister<RegisterType>;
   errors: FieldErrors;
   icon?: string | JSX.Element;
+  max?: String;
 }
 
 const InputAuth: React.FC<InputProps> = ({
@@ -25,6 +26,7 @@ const InputAuth: React.FC<InputProps> = ({
   errors,
   isCheckbox,
   icon,
+  max,
 }) => {
   return (
     <div className="w-full relative ">
@@ -32,18 +34,18 @@ const InputAuth: React.FC<InputProps> = ({
       <input
         id={id}
         disabled={disabled}
-        {...register(id as "email" | "password" | "confirmPassword" | "terms", {
+        {...register(id as "email" | "password" | "confirmPassword" | "birthday" | "terms", {
           required,
         })}
         placeholder=" "
         type={type}
+        {...(type === 'date' && max ? { max: max as string } : {})}
         className={`
-                    ${
-                      isCheckbox
-                        ? `
+                    ${isCheckbox
+            ? `
                     
                     `
-                        : `
+            : `
                     peer
                     w-full
                     p-4
@@ -59,7 +61,7 @@ const InputAuth: React.FC<InputProps> = ({
                     disabled:cursor-not-allowed
                     pl-4
                     `
-                    }
+          }
                 `}
       />
       {icon && (
@@ -67,12 +69,11 @@ const InputAuth: React.FC<InputProps> = ({
       )}
       <label
         className={`
-                    ${
-                      isCheckbox
-                        ? `
+                    ${isCheckbox
+            ? `
                         p-2
                     `
-                        : `
+            : `
 
                         absolute 
                         text-md
@@ -89,7 +90,7 @@ const InputAuth: React.FC<InputProps> = ({
                         peer-focus:scale-75
                         peer-focus:-translate-y-4
                     `
-                    }
+          }
                 `}
       >
         {label}
