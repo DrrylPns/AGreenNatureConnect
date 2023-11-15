@@ -10,6 +10,7 @@ declare module 'next-auth/jwt' {
         id: UserId
         role: UserRole
         username?: string | null
+        birthday: Date | null
     }
 }
 
@@ -19,6 +20,7 @@ declare module 'next-auth' {
             id: UserId
             role: UserRole
             username?: string | null
+            birthday: Date | null
         }
     }
 }

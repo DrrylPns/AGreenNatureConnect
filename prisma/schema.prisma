@@ -25,7 +25,7 @@ model User {
   address            String?
   role               Role          @default(USER)
   gender             String?
-  birthday           DateTime
+  birthday           DateTime?
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   lastUsernameChange DateTime?

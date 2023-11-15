@@ -59,6 +59,7 @@ export const authOptions: NextAuthOptions = {
                 session.user.image = token.picture
                 session.user.role = token.role
                 session.user.name = token.name
+                session.user.birthday = token.birthday
             }
 
             return session;
@@ -93,6 +94,7 @@ export const authOptions: NextAuthOptions = {
                 picture: dbUser.image,
                 role: dbUser.role,
                 name: dbUser.name,
+                birthday: dbUser.birthday
             }
         },
         // redirect() {

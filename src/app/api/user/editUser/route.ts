@@ -53,7 +53,7 @@ export async function POST(req: Request) {
       return new Response("Username is already in use", { status: 409 })
     }
 
-    // TODO: if kanya yung existing phone number then allow it
+    // DONE: if kanya yung existing phone number then allow it
     const phoneNumberExists = await prisma.user.findFirst({
       where: { phoneNumber: newPhone }
     })
