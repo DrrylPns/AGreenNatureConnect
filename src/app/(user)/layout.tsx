@@ -28,7 +28,9 @@ export default async function RootLayout({
 
   if (session?.user.birthday === null) {
     return (
-      <OnboardingPage />
+      <Providers>
+        <OnboardingPage />
+      </Providers>
     )
   }
 

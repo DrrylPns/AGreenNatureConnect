@@ -14,8 +14,6 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { SubmitHandler, useForm } from "react-hook-form"
 
-
-
 const OnboardingPage = () => {
     const pathname = usePathname()
     const router = useRouter()

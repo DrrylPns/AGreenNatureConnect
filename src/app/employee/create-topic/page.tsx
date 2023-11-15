@@ -67,7 +67,7 @@ const page = () => {
             })
         },
         onSuccess: (data) => {
-            router.push(`/topic/${data}`)
+            router.push(`/discussion/${data}`)
             // this is a dynamic page routing for the generated topic TODO / IMPLEMENT kumbaga ma reredirect si employee don sa ginawa niyang topic tas mkikita don mga posts, etc. pag uusapan pa to not final idea lng
         }
     })
