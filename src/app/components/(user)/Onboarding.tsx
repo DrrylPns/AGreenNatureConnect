@@ -1,90 +1,19 @@
 "use client"
+import { toast } from '@/lib/hooks/use-toast';
+import { getMinBirthDate } from '@/lib/utils';
+import { OnboardingSchema, OnboardingType } from '@/lib/validations/onboardingSchema';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useMutation } from '@tanstack/react-query';
+import axios, { AxiosError } from 'axios';
+import { useRouter } from 'next/navigation';
+import React from 'react'
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { Button } from '../Ui/Button';
+import { X } from 'lucide-react';
+import { signOut } from 'next-auth/react';
 
-import { Button } from "@/app/components/Ui/Button"
-import { toast } from "@/lib/hooks/use-toast"
-import { getMinBirthDate } from "@/lib/utils"
-import { OnboardingSchema, OnboardingType } from "@/lib/validations/onboardingSchema"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { useMutation } from "@tanstack/react-query"
-import axios, { AxiosError } from "axios"
-import { X } from "lucide-react"
-import { Session } from "next-auth"
-import { useSession } from "next-auth/react"
-import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
-import { SubmitHandler, useForm } from "react-hook-form"
-
-const OnboardingPage = () => {
-    const pathname = usePathname()
+export const Onboarding = () => {
     const router = useRouter()
-    const { data: session, status } = useSession()
-
-    // if wala pang record ng birthday pero naka log in, redirect sa onboarding.
-    if (status === "authenticated" && session?.user?.birthday === null && pathname !== "/onboarding") {
-        router.replace("/onboarding");
-        return null;
-    }
-
-    // if not logged in then render...
-    if (status === "loading") {
-        return <div>Loading...</div>;
-    } else if (!session?.user) {
-        return (
-            <div className="h-screen w-full flex flex-col items-center justify-center">
-                Unauthorized
-                <span className="underline">
-                    <Link href="/discussion">Go back to page</Link>
-                </span>
-            </div>
-        );
-    }
-
-    // if inaccess ni user to manually dapat eto lalabas then redirect to discussion page TODO function
-    if (session.user.birthday !== null) {
-        setTimeout(() => {
-            router.push("/discussion")
-        }, 2000)
-        return (
-            <div>
-                Error, you have already done onboarding. Redirecting to the discussion page.
-            </div>
-        );
-    }
-
-    // if (status === "loading") {
-    //     content = <div>Loading...</div>;
-    // } else if (!session?.user) {
-    //     content = (
-    //         <div className="h-screen w-full flex flex-col items-center justify-center">
-    //             Unauthorized
-    //             <span className="underline">
-    //                 <Link href="/discussion">Go back to page</Link>
-    //             </span>
-    //         </div>
-    //     );
-    // } else if (session.user.birthday !== null) {
-    //     content = (
-    //         <div>
-    //             Error, you have already done onboarding. Redirecting to the discussion page.
-    //             {/* PA REDIRECT NALANG SA DISCUSSION PAGE PAG NAG RENDER TONG ELSE IF NA TO */}
-    //         </div>
-    //     );
-    // }
-
-    // //assuming that the user already has a birthday
-    // if (session.user.birthday !== null) {
-    //     return (
-    //         <div>
-    //             Error, you have already done onboarding. Redirecting to discussion page.
-    //         </div>
-    //     )
-    // }
-
-
-    if (pathname !== "/onboarding") {
-        router.replace("/onboarding");
-        return null
-    }
 
     const {
         register,
@@ -170,7 +99,7 @@ const OnboardingPage = () => {
             });
 
             setTimeout(() => {
-                router.push("/discussion")
+                window.location.reload()
             }, 1000)
         }
     })
@@ -190,15 +119,13 @@ const OnboardingPage = () => {
     return (
         <main className="flex flex-col items-center justify-center border min-h-screen">
             <div
-                className="border rounded-xl h-auto w-auto bg-[#F0EEF6] shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)] p-2"
+                className="border rounded-xl bg-[#F0EEF6] shadow-[4.0px_8.0px_8.0px_rgba(0,0,0,0.38)] p-2"
             >
                 {/** X Button */}
                 <div className="flex justify-end m-3">
-                    {/* <Link
-                        href={"/settings"}
-                        className="mt-1 p-1 border-black text-black text-xl cursor-pointer font-bold rounded-full hover:bg-neutral-300">
+                    <Button variant='ghost' className='rounded-full' onClick={() => signOut()}>
                         <X />
-                    </Link> */}
+                    </Button>
                 </div>
                 {/** Labels */}
                 <div className="grid justify-items-start pt-2 pl-10 pr-10 text-black">
@@ -321,5 +248,3 @@ const OnboardingPage = () => {
         </main>
     )
 }
-
-export default OnboardingPage

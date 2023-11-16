@@ -7,10 +7,11 @@ import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
 import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
-import { Suspense } from "react"
+// import { Suspense } from "react"
 import { getAuthSession } from "@/lib/auth"
-import { SkeletonTheme } from "react-loading-skeleton"
-import OnboardingPage from "../(auth)/onboarding/page"
+// import { SkeletonTheme } from "react-loading-skeleton"
+// import OnboardingPage from "../(auth)/onboarding/page"
+import { Onboarding } from "../components/(user)/Onboarding"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,25 +27,37 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession()
 
-  if (session?.user.birthday === null) {
-    return (
-      <Providers>
-        <OnboardingPage />
-      </Providers>
-    )
-  }
+  console.log(session?.user.birthday)
+
+  // if (session?.user.birthday === null) {
+  //   return (
+  //     <Providers>
+  //       <OnboardingPage />
+  //     </Providers>
+  //   )
+  // }
 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
 
         <Providers>
-          <Navbar session={session} />
-          <SIdebar />
+          {session?.user.birthday === null ? (
+            <>
+              <Onboarding />
+            </>
+          )
+            : (<>
+              <Navbar session={session} />
+              <SIdebar />
 
-          <LoginModal />
-          <RegisterModal />
-          {children}
+              <LoginModal />
+              <RegisterModal />
+              {children}
+            </>)
+
+          }
+
           <Toaster />
         </Providers >
 

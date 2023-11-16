@@ -217,6 +217,11 @@ model Blog {
 
 // saka na ecommerce
 
+// dropdown products, to revise
+// saka dapat ang transaction mode wala sa products kung hindi sa transaction history?
+// maiiba ang model ng product at magkakaroon ng postProduct siguro? kasi magiging create topic ang itsura ng Product
+// tas Post Product about lang sa posting talaga ng product
+// tas kapag buy now na, 
 model Product {
   id                String          @id @default(cuid())
   name              String

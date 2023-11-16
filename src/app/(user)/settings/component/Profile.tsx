@@ -73,6 +73,13 @@ const Profile: React.FC<ProfileProps> = ({
                             variant: "destructive",
                         });
                     }
+                    if (err.response?.status === 401) {
+                        return toast({
+                            title: "Invalid Action",
+                            description: "Unauthorized.",
+                            variant: "destructive",
+                        });
+                    }
                     if (err.response?.status === 405) {
                         return toast({
                             title: "Invalid Action",
