@@ -1,7 +1,7 @@
 'use client'
 import Image from 'next/image';
 import React, { useEffect, useState, useRef  } from 'react'
-import DisplayPhoto from '@/app/(user)/discussion/images/displayphoto.png'
+import DisplayPhoto from '@/../public/images/default-user.jpg'
 import PostButtons from './postButtons';
 import { FaEllipsis } from 'react-icons/fa6'
 import axios from 'axios';
@@ -80,7 +80,7 @@ export default function Post() {
                     ) : null}
                 </div>
                     {/**Like, Comment, Share(if there is any) Section*/}
-                    <PostButtons comments={post.comments.length} likes={post.likes.length} />
+                    <PostButtons comments={post.comments.length} postId={post.id} />
                 </div>
             </Link>
             )) : (
