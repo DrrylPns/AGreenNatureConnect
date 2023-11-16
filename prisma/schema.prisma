@@ -14,6 +14,7 @@ datasource db {
 model User {
   id                 String        @id @default(cuid())
   name               String?
+  EmployeeId         String?       @unique
   username           String?       @unique
   email              String?       @unique
   emailVerified      DateTime?
@@ -26,12 +27,15 @@ model User {
   role               Role          @default(USER)
   gender             String?
   birthday           DateTime?
+  bio                String?
   createdAt          DateTime      @default(now())
   updatedAt          DateTime      @updatedAt
   lastUsernameChange DateTime?
   createdTopics      Topic[]       @relation("CreatedBy")
   buyerTransactions  Transaction[] @relation("Buyer")
   sellerTransactions Transaction[] @relation("Seller")
+  buyerOrder         Order[]       @relation("BuyerOrders")
+  sellerOrder        Order[]       @relation("SellerOrders")
 
   Account         Account[]
   Session         Session[]
@@ -42,7 +46,8 @@ model User {
   reportedReports Report[]       @relation("Report")
   adminReports    Report[]       @relation("StaffHandleReport")
   Blog            Blog[]
-  Product         Product[]
+  ProductPost     ProductPost[]
+  Product         Product[]      @relation("CreateProduct")
 
   @@index([id])
 }
@@ -52,6 +57,11 @@ enum Role {
   USER
   ADMIN
   EMPLOYEE
+}
+
+model EmployeeIdCounter {
+  year    Int @id
+  counter Int
 }
 
 model Account {
@@ -203,16 +213,23 @@ enum ReportStatus {
 }
 
 model Blog {
-  id        String   @id @default(cuid())
-  title     String
-  content   Json
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String          @id @default(cuid())
+  title      String
+  content    Json
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  isApproved ApprovalStatus? @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
   @@index([authorId])
+}
+
+enum ApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 // saka na ecommerce
@@ -221,53 +238,110 @@ model Blog {
 // saka dapat ang transaction mode wala sa products kung hindi sa transaction history?
 // maiiba ang model ng product at magkakaroon ng postProduct siguro? kasi magiging create topic ang itsura ng Product
 // tas Post Product about lang sa posting talaga ng product
-// tas kapag buy now na, 
-model Product {
-  id                String          @id @default(cuid())
-  name              String
-  description       String
-  price             Float
-  createdAt         DateTime        @default(now())
-  updatedAt         DateTime        @updatedAt
-  modeOfTransaction TransactionMode
-  // quantity  Int 
-  //        OR
-  // weight    Float
-  // Relationships
-  transactions      Transaction[]
+// tas kapag buy now na,
 
-  seller   User   @relation(fields: [sellerId], references: [id])
+// pano magkaka inventory system, dapat ata may kilo dito 
+// tas yun na yung overall kilo nila kasi ang iniinventory ay products eh?
+
+model Product {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  Creator   User   @relation("CreateProduct", fields: [creatorId], references: [id], onDelete: Cascade)
+  creatorId String
+
+  ProductPost ProductPost[]
+  Transaction Transaction[]
+  Order       Order?        @relation("OrderedProducts", fields: [orderId], references: [id])
+  orderId     String?
+
+  @@index([creatorId])
+  @@index([orderId])
+}
+
+model ProductPost {
+  id             String         @id @default(cuid())
+  name           String
+  description    String
+  price          Float
+  createdAt      DateTime       @default(now())
+  updatedAt      DateTime       @updatedAt
+  ShippingOption ShippingOption
+  kilo           Float
+
+  transactions Transaction[]
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+
+  seller   User    @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId String
+  Order    Order?  @relation("OrderedProductPosts", fields: [orderId], references: [id])
+  orderId  String?
 
   @@index([id])
   @@index([sellerId])
+  @@index([productId])
+  @@index([orderId])
 }
 
-enum TransactionMode {
-  EXTERNAL
+enum ShippingOption {
   PICK_UP
+  JNT
 }
 
 // New model for Transaction history -emmanuel
 model Transaction {
-  id         String    @id @default(cuid())
-  quantity   Int
-  totalPrice Float
-  createdAt  DateTime  @default(now())
-  updatedAt  DateTime? @updatedAt
+  id        String    @id @default(cuid())
+  createdAt DateTime  @default(now())
+  updatedAt DateTime? @updatedAt
   // Relationships
 
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
-  buyer   User   @relation("Buyer", fields: [buyerId], references: [id])
+  productPost   ProductPost @relation(fields: [productPostId], references: [id], onDelete: Cascade)
+  productPostId String
+
+  buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
 
-  seller   User   @relation("Seller", fields: [sellerId], references: [id])
+  seller   User   @relation("Seller", fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId String
 
+  Order   Order?  @relation("OrderTransactions", fields: [orderId], references: [id])
+  orderId String?
+
   @@index([id])
-  @@index([productId])
+  @@index([productPostId])
   @@index([sellerId])
   @@index([buyerId])
+  @@index([productId])
+  @@index([orderId])
+}
+
+// eto yung parang payment intent pero magcchat lang sila users dapat hahaha
+model Order {
+  id              String        @id @default(cuid())
+  orderNumber     String        @unique
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime?     @updatedAt
+  shippingAddress String
+  paymentMethod   String // GCash, CoD, etc.
+  paymentStatus   String // Pending, Completed, Failed, Cancelled, etc.
+  orderStatus     String // Pending, Shipped, Delivered, etc.
+  // Relationships
+  transactions    Transaction[] @relation("OrderTransactions")
+  buyer           User          @relation("BuyerOrders", fields: [buyerId], references: [id])
+  buyerId         String
+  seller          User          @relation("SellerOrders", fields: [sellerId], references: [id])
+  sellerId        String
+  product         Product[]     @relation("OrderedProducts")
+  productPost     ProductPost[] @relation("OrderedProductPosts")
+
+  @@index([id])
+  @@index([buyerId])
+  @@index([sellerId])
 }
