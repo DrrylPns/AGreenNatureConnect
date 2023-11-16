@@ -17,11 +17,7 @@ const nextConfig = {
 
   images:{
     //To be be replace...
-<<<<<<< HEAD
-    domains: [ 'uploadthing.com','tse2.mm.bing.net', 'lh3.googleusercontent.com', 'images.genius.com', 'wallpapercave.com','www.celebritynetworth123.com'],
-=======
     domains: [ 'uploadthing.com','tse2.mm.bing.net', 'lh3.googleusercontent.com', 'images.genius.com', 'wallpapercave.com','www.celebritynetworth123.com','utfs.io'],
->>>>>>> 41155b53a9e126fc82710a8367a953d39098d8ab
   },
 }
 
