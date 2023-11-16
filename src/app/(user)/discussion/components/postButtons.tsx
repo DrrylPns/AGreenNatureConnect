@@ -3,27 +3,19 @@ import React, { FC, Fragment } from 'react'
 import { BiLike, BiComment, BiShare } from 'react-icons/bi'
 import { FiLink } from 'react-icons/fi'
 import { motion } from 'framer-motion'
+import LikeButton from './LikeButton'
 interface PostButtonsProps {
     comments: number,
-    likes: number
+    postId: string
 }
 
-const PostButtons: FC<PostButtonsProps> = ({comments, likes}) => {
+const PostButtons: FC<PostButtonsProps> = ({postId, comments}) => {
 
   return (
     <div>
     {/**Like, Comment, Share Buttons */}
     <div className='flex items-center justify-end gap-4 border-t-2 border-gray-300 py-2 md:px-10 px-3'>
-        <motion.button 
-            whileTap={{ backgroundColor: 'ButtonShadow' }} 
-            type='button' 
-            className='flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-pale'
-        >
-            <span className='text-[1.5rem] text-gray-600'>
-                <BiLike />
-            </span>
-            <h3>{likes}</h3>
-        </motion.button>
+        <LikeButton postId={postId}/>
         <motion.button 
             whileTap={{ backgroundColor: 'ButtonShadow' }} 
             type='button' 

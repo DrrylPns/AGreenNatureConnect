@@ -118,7 +118,7 @@ const page: FC<Props> = ({params}) => {
             </div>
             {/**Like, Comment, Share(if there is any) Section*/}
             <div className='mt-10'>
-              <PostButtons likes={posts.likes.length} comments={posts.comments.length} />
+              <PostButtons postId={posts.id} comments={posts.comments.length} />
             </div>
           </div>
           {comments ? (
