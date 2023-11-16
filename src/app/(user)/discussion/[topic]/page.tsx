@@ -88,7 +88,7 @@ interface Pageprops {
                         ) : null}
                     </div>
                         {/**Like, Comment, Share(if there is any) Section*/}
-                        <PostButtons comments={post.comments.length} likes={post.likes.length} />
+                        {/* <PostButtons comments={post.comments.length} likes={post.likes.length} /> */}
                     </div>
                     </Link>
                 ))}
