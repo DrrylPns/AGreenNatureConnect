@@ -1,7 +1,7 @@
 import prisma from '@/lib/db/db'
 
-export async function GET(req: Request) {
-    const url = new URL(req.url)
+export async function GET() {
+    // const url = new URL(req.url)
 
     try {
         // const page = parseInt(url.searchParams.get('page') ?? '1', 10);
@@ -20,7 +20,11 @@ export async function GET(req: Request) {
             },
         })
 
-        return new Response(JSON.stringify(blogs))
+        return new Response(JSON.stringify(blogs), {
+            headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+            },
+        });
     } catch (error) {
         return new Response('Could not fetch posts', { status: 500 })
     }

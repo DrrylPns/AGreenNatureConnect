@@ -10,6 +10,7 @@ import { Toaster } from "../components/toast/toaster"
 import { Suspense } from "react"
 import { getAuthSession } from "@/lib/auth"
 import { SkeletonTheme } from "react-loading-skeleton"
+import OnboardingPage from "../(auth)/onboarding/page"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,20 +26,28 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession()
 
+  if (session?.user.birthday === null) {
+    return (
+      <Providers>
+        <OnboardingPage />
+      </Providers>
+    )
+  }
+
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-       
-          <Providers>
-            <Navbar session={session} />
-            <SIdebar />
 
-            <LoginModal />
-            <RegisterModal />
-              {children}
-            <Toaster />
-          </Providers >
-        
+        <Providers>
+          <Navbar session={session} />
+          <SIdebar />
+
+          <LoginModal />
+          <RegisterModal />
+          {children}
+          <Toaster />
+        </Providers >
+
       </body>
     </html>
   )

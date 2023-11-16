@@ -25,6 +25,7 @@ const Editor = () => {
     const _titleRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter();
     const pathname = usePathname();
+    const MAX_FILE_SIZE_MB = 2;
 
     const {
         register,
@@ -90,14 +91,37 @@ const Editor = () => {
                         config: {
                             uploader: {
                                 async uploadByFile(file: File) {
-                                    //redirect passed img to uploadthing database
-                                    const [res] = await uploadFiles([file], 'imageUploader')
+                                    try {
+                                        //redirect passed img to uploadthing database
+                                        const [res] = await uploadFiles({
+                                            endpoint: "imageUploader",
+                                            files: [file],
+                                        })
 
-                                    return {
-                                        success: 1,
-                                        file: {
-                                            url: res.fileUrl,
-                                        },
+                                        return {
+                                            success: 1,
+                                            file: {
+                                                url: res.url,
+                                            }
+                                        }
+                                    } catch (error: any) {
+                                        if (axios.isAxiosError(error) || error.response?.status === 400) {
+                                            toast({
+                                                title: 'Invalid Action.',
+                                                description: 'File size exceeds the allowed limit (4MB)',
+                                                variant: 'destructive',
+                                            })
+                                        } else {
+                                            console.error(error.message);
+                                        }
+
+                                        return (
+                                            toast({
+                                                title: 'Invalid Action.',
+                                                description: 'File size exceeds the allowed limit (4MB)',
+                                                variant: 'destructive',
+                                            })
+                                        )
                                     }
                                 },
                             },

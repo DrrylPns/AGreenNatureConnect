@@ -83,3 +83,14 @@ export function calculateDaysUntilUsernameChange(lastChangeDate: Date): number {
 
   return Math.ceil((nextChangeDate.getTime() - today) / (1000 * 60 * 60 * 24));
 }
+
+// age restriction 13
+export function getMinBirthDate() {
+  const today = new Date();
+  const minBirthYear = today.getFullYear() - 13; // change number to any age restriction number
+
+  const minMonth = String(today.getMonth() + 1).padStart(2, '0');
+  const minDay = String(today.getDate()).padStart(2, '0');
+
+  return `${minBirthYear}-${minMonth}-${minDay}`;
+}

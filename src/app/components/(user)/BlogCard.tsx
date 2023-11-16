@@ -25,15 +25,20 @@ import {
 import { toast } from "@/lib/hooks/use-toast"
 import type { Blogs } from "@/lib/types/blogs"
 import { formatDate } from "@/lib/utils"
-import { QueryClient, useMutation } from "@tanstack/react-query"
+import { QueryClient, useMutation, useQueryClient } from "@tanstack/react-query"
 import axios, { AxiosError } from "axios"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 import { FaEllipsis } from 'react-icons/fa6'
 import { Button } from "../Ui/Button"
 
-const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }: Blogs) => {
+// interface BlogCard extends Blogs {
+//     refetchData: () => void;
+// }
+
+const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session, }: Blogs) => {
     const router = useRouter()
+    const queryClient = useQueryClient();
 
     const { mutate: deleteTask, isLoading: deleteLoading } = useMutation({
         mutationFn: async () => {
@@ -57,20 +62,17 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }:
             });
         },
         onSuccess: () => {
-
-            // not working atm router.refresh or push
-            // router.refresh()
-
-            // location.reload to revise to router.refresh()... TODO
-            setTimeout(() => {
-                location.reload()
-            }, 1000)
+            // queryClient.invalidateQueries(['getBlogs']);
 
             return toast({
                 description: "The blog has been deleted.",
             });
         },
     })
+
+    const handleEdit = () => {
+        router.push(`/employee/edit-blog/${id}`)
+    }
 
     return (
         <Dialog>
@@ -91,8 +93,8 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }:
                                 </DropdownMenuTrigger>
 
                                 <DropdownMenuContent className="cursor-pointer">
-                                    <DropdownMenuLabel>Edit</DropdownMenuLabel>
-                                    {/* <DropdownMenuLabel className="text-red-700" </DropdownMenuLabel> */}
+                                    <DropdownMenuLabel onClick={handleEdit}>Edit</DropdownMenuLabel>
+                                    {/* <DAropdownMenuLabel className="text-red-700" </DropdownMenuLabel> */}
                                     <DialogTrigger>
                                         <DropdownMenuLabel className="text-red-700">Delete</DropdownMenuLabel>
                                     </DialogTrigger>
@@ -128,6 +130,7 @@ const BlogCard = ({ id, title, content, createdAt, updatedAt, author, session }:
                     <DialogClose asChild>
                         <Button
                             type="submit"
+                            variant={'destructive'}
                             onClick={() => !deleteLoading && deleteTask()}
                             disabled={deleteLoading}
                             isLoading={deleteLoading}
