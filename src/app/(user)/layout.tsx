@@ -12,7 +12,6 @@ import { getAuthSession } from "@/lib/auth"
 // import { SkeletonTheme } from "react-loading-skeleton"
 // import OnboardingPage from "../(auth)/onboarding/page"
 import { Onboarding } from "../components/(user)/Onboarding"
-import prisma from "@/lib/db/db"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,42 +27,41 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession()
 
-  const user = await prisma.user.findFirst({
-    where: {
-      id: session?.user.id
-    }
-  })
+  console.log(session?.user.birthday)
 
-  console.log(user?.birthday)
-
-  // if null yung birthday redirect sa onboarding
-  // if (user?.birthday === null && session) {
+  // if (session?.user.birthday === null) {
   //   return (
-  //     <html lang="en">
-  //       <body className={`${inter.className}`}>
-  //         <Providers>
-  //           <Onboarding />
-  //           <Toaster />
-  //         </Providers>
-  //       </body>
-  //     </html>
+  //     <Providers>
+  //       <OnboardingPage />
+  //     </Providers>
   //   )
   // }
 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
+
         <Providers>
-          <>
-            <Navbar session={session} />
-            <SIdebar />
-            <LoginModal />
-            <RegisterModal />
-            {children}
-            <Toaster />
-          </>
-        </Providers>
+          {session?.user.birthday === null ? (
+            <>
+              <Onboarding />
+            </>
+          )
+            : (<>
+              <Navbar session={session} />
+              <SIdebar />
+
+              <LoginModal />
+              <RegisterModal />
+              {children}
+            </>)
+
+          }
+
+          <Toaster />
+        </Providers >
+
       </body>
     </html>
-  );
+  )
 }
