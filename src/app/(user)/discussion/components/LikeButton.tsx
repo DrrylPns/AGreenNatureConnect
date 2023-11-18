@@ -25,13 +25,12 @@ export default function LikeButton({postId}:{postId: string}) {
       const data = response.data
       console.log(data)
       data === "Liked"? setNumberOfLikes(prev => prev + 1) : setNumberOfLikes(prev => prev - 1)
-      
     }
 
     function handleClick(){
       likedOrUnlikedPost()
-     
     }
+    
   return (
     <motion.button 
       onClick={handleClick}

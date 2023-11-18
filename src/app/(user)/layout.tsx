@@ -12,6 +12,7 @@ import { getAuthSession } from "@/lib/auth"
 // import { SkeletonTheme } from "react-loading-skeleton"
 // import OnboardingPage from "../(auth)/onboarding/page"
 import { Onboarding } from "../components/(user)/Onboarding"
+import prisma from "@/lib/db/db"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +28,7 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession()
 
-  console.log(session?.user.birthday)
+  // console.log(session?.user.birthday)
 
   // if (session?.user.birthday === null) {
   //   return (
@@ -37,12 +38,20 @@ export default async function RootLayout({
   //   )
   // }
 
+  const user = await prisma.user.findFirst({
+    where: {
+      id: session?.user.id
+    }
+  })
+
+  console.log(user?.birthday)
+
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
 
         <Providers>
-          {session?.user.birthday === null ? (
+          {user?.birthday === null ? (
             <>
               <Onboarding />
             </>
@@ -55,7 +64,6 @@ export default async function RootLayout({
               <RegisterModal />
               {children}
             </>)
-
           }
 
           <Toaster />
