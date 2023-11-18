@@ -37,18 +37,18 @@ export default async function RootLayout({
   console.log(user?.birthday)
 
   // if null yung birthday redirect sa onboarding
-  if (user?.birthday === null && session) {
-    return (
-      <html lang="en">
-        <body className={`${inter.className}`}>
-          <Providers>
-            <Onboarding />
-            <Toaster />
-          </Providers>
-        </body>
-      </html>
-    )
-  }
+  // if (user?.birthday === null && session) {
+  //   return (
+  //     <html lang="en">
+  //       <body className={`${inter.className}`}>
+  //         <Providers>
+  //           <Onboarding />
+  //           <Toaster />
+  //         </Providers>
+  //       </body>
+  //     </html>
+  //   )
+  // }
 
   return (
     <html lang="en">
