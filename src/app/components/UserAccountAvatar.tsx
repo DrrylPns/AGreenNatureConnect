@@ -54,7 +54,12 @@ const UserAccountAvatar: React.FC = ({}) => {
                   {/*<Link href={"/discussion/profile"}>
                     <MenuItem label="My Profile" />
                   </Link>*/}
-
+                  <Link href={"/termsPolicy"} className="md:hidden block">
+                    <MenuItem label="Privacy Policy" />
+                  </Link>
+                  <Link href={"/termsPolicy"} className="md:hidden block">
+                    <MenuItem label="User Agreement" />
+                  </Link>
                   <Link href={"/settings"} className="md:hidden block">
                     <MenuItem label="Settings" />
                   </Link>
