@@ -28,16 +28,6 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession()
 
-  // console.log(session?.user.birthday)
-
-  // if (session?.user.birthday === null) {
-  //   return (
-  //     <Providers>
-  //       <OnboardingPage />
-  //     </Providers>
-  //   )
-  // }
-
   const user = await prisma.user.findFirst({
     where: {
       id: session?.user.id
@@ -46,36 +36,34 @@ export default async function RootLayout({
 
   console.log(user?.birthday)
 
-  if (user?.birthday === null) {
+  // if null yung birthday redirect sa onboarding
+  if (user?.birthday === null && session) {
     return (
       <html lang="en">
         <body className={`${inter.className}`}>
           <Providers>
-            <>
-              <Onboarding />
-              <Toaster />
-            </>
+            <Onboarding />
+            <Toaster />
           </Providers>
         </body>
       </html>
-    );
-  } else {
-    // } else if (!session || user?.birthday !== null) {
-    return (
-      <html lang="en">
-        <body className={`${inter.className}`}>
-          <Providers>
-            <>
-              <Navbar session={session} />
-              <SIdebar />
-              <LoginModal />
-              <RegisterModal />
-              {children}
-              <Toaster />
-            </>
-          </Providers>
-        </body>
-      </html>
-    );
+    )
   }
+
+  return (
+    <html lang="en">
+      <body className={`${inter.className}`}>
+        <Providers>
+          <>
+            <Navbar session={session} />
+            <SIdebar />
+            <LoginModal />
+            <RegisterModal />
+            {children}
+            <Toaster />
+          </>
+        </Providers>
+      </body>
+    </html>
+  );
 }
