@@ -203,7 +203,7 @@ export default function SIdebar() {
             )}
           </AnimatePresence>
           <Link
-            href={""}
+            href={"/marketplace"}
             className={`flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
             } hover:bg-pale`}
