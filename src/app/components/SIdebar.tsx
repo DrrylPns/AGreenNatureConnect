@@ -39,7 +39,7 @@ export default function SIdebar() {
       <div className="">
         {/**mobile view */}
         <div className="fixed w-full z-20 md:relative">
-          {/**Home, Communities, Marketplace Icons and links */}
+          {/**Home, Communities, Markethub Icons and links */}
           <div className="pt-[5rem] w-full flex justify-around bg-white md:hidden">
             <Link
               className={`link ${
@@ -68,9 +68,9 @@ export default function SIdebar() {
             </button>
             <Link
               className={`link ${
-                pathname === "/marketplace" ? "border-b border-yellow-400" : ""
+                pathname === "/markethub" ? "border-b border-yellow-400" : ""
               } flex justify-center items-center  w-full py-3`}
-              href={"/marketplace"}
+              href={"/markethub"}
             >
               <div className="text-icons ">
                 <BiStore />
@@ -105,7 +105,7 @@ export default function SIdebar() {
             </div>
           )}
         </button>
-        {/**Home, Communities, Marketplace Icons and links */}
+        {/**Home, Communities, Markethub Icons and links */}
         <div className="flex flex-col items-start w-full">
           <Link
             href={"/discussion"}
@@ -203,7 +203,7 @@ export default function SIdebar() {
             )}
           </AnimatePresence>
           <Link
-            href={"/marketplace"}
+            href={"/markethub"}
             className={`flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
             } hover:bg-pale`}
@@ -223,7 +223,7 @@ export default function SIdebar() {
                 }}
                 className={`font-poppins text-[1rem]`}
               >
-                Marketplace
+                Markethub
               </motion.p>
             </div>
           </Link>

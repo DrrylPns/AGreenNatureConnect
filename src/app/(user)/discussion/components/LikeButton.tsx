@@ -45,3 +45,4 @@ export default function LikeButton({postId}:{postId: string}) {
     </motion.button>
   )
 }
+
