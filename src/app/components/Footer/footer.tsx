@@ -20,7 +20,7 @@ export default function footer() {
             <Image src={InstagramLogo} alt="instagram logo" />
           </div>
         </div>
-        <div className="flex justify-between w-1/2 text-[10px] 2xl:text-[20px] md:text-[13px]">
+        <div className="flex justify-between w-1/2 text-[10px] 2xl:text-[15px] md:text-[13px]">
           <div className="flex flex-col gap-y-3">
             <h3 className="text-poppins font-bold mr-3">Pages</h3>
             <Link href="/">Home</Link>
