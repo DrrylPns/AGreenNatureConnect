@@ -15,17 +15,18 @@ import Location from "/public/images/location.png";
 import Link from "next/link";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
-
 export default async function Home() {
   return (
     <div className="flex-row md:flex-col mx-auto">
       {/*Heading*/}
 
       <header id="home" className="">
-        <div className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}>
+        <div
+          className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
+        >
           <div className=" flex flex-col items-end md:w-[320px] w-[250px]">
-            <div className="font-poppins font-bold text-white md:text-[17.5px] leading-[30px] self-start max-sm:text-[13px]">
-              Welcome to New Green Land Farming
+            <div className="font-poppins font-bold text-white md:text-[16.5px] leading-[30px] self-start max-sm:text-[13px]">
+              Welcome to Solo Parent Urban Farming
             </div>
             <Image
               className="flex md:w-[200px] w-[200px] h-[10px] max-sm:hidden"
@@ -275,7 +276,9 @@ export default async function Home() {
               <Image src={Location} alt="Location icon" />
               <div>
                 <h3>ADDRESS</h3>
-                <p className="md:text-[16px] text-[13px]">Brgy. Commonwealth, Quezon City.</p>
+                <p className="md:text-[16px] text-[13px]">
+                  Brgy. Commonwealth, Quezon City.
+                </p>
               </div>
             </div>
           </div>
