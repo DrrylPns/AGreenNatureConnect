@@ -13,7 +13,7 @@ import { X } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 
 export const Onboarding = () => {
-    const router = useRouter()
+    // const router = useRouter()
 
     const {
         register,
@@ -115,6 +115,18 @@ export const Onboarding = () => {
         onboardingUpdate(payload)
     }
 
+    const handleSignOut = () => {
+        toast({
+            title: "Logging out",
+            description: "You have been automatically logged out because you cancelled onboarding.",
+            variant: "destructive",
+        });
+
+        setTimeout(() => {
+            signOut()
+        }, 2000)
+    }
+
 
     return (
         <main className="flex flex-col items-center justify-center border min-h-screen">
@@ -123,7 +135,7 @@ export const Onboarding = () => {
             >
                 {/** X Button */}
                 <div className="flex justify-end m-3">
-                    <Button variant='ghost' className='rounded-full' onClick={() => signOut()}>
+                    <Button variant='ghost' className='rounded-full' onClick={handleSignOut}>
                         <X />
                     </Button>
                 </div>

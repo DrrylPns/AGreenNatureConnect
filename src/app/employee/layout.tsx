@@ -5,6 +5,7 @@ import Providers from '@/lib/providers/Providers'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
+import { getAuthSession } from '@/lib/auth'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -18,6 +19,13 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode,
 }) {
+    const session = await getAuthSession()
+
+    if (session?.user.role === null) return <div>Loading...</div>
+
+    if (session?.user.role !== "EMPLOYEE") return <div>Unauthorized</div>
+
+    console.log(session.user.role)
     return (
         <html lang="en">
             <body className={inter.className}>

@@ -7,27 +7,26 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 
 //Getting all post
 export async function GET(req: NextRequest) {
-
     try {
         const getAllPost = await prisma.post.findMany({
-            include:{
+            include: {
                 author: true,
-                comments:{
-                    include:{
+                comments: {
+                    include: {
                         author: true
                     }
                 },
                 likes: true,
                 topic: true
             },
-            orderBy:{
+            orderBy: {
                 createdAt: 'desc'
             },
-           
+
         })
         return new Response(JSON.stringify(getAllPost))
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 }
 
@@ -58,10 +57,10 @@ export async function POST(req: Request) {
 }
 
 //Deleteng Post
-export async function DELETE(req: NextRequest){
+export async function DELETE(req: NextRequest) {
 
 }
 
-export async function HEAD(req: NextRequest){
+export async function HEAD(req: NextRequest) {
 
 }
