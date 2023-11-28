@@ -103,6 +103,7 @@ model Session {
   @@index([userId])
 }
 
+// mga possible idagdag sa community: address, description, etc... consult sa members
 model Community {
   id        String   @id @default(cuid())
   name      String   @unique
