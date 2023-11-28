@@ -18,8 +18,17 @@ import {
 } from "@/app/components/Ui/form"
 import { Input } from '@/app/components/Ui/Input'
 import { Button } from '@/app/components/Ui/Button'
+import { User } from '@prisma/client'
+import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
+import { cn } from '@/lib/utils'
+import { ArrowDownUp, CheckIcon } from 'lucide-react'
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/app/components/Ui/command'
 
-export const CreateCommunity = () => {
+interface CreateCommunityProps {
+    user: User[]
+}
+
+export const CreateCommunity = ({ user }: CreateCommunityProps) => {
     const form = useForm<CommunityType>({
         resolver: zodResolver(CommunitySchema),
         defaultValues: {
@@ -28,8 +37,9 @@ export const CreateCommunity = () => {
     })
 
     const { mutate: createCommunity, isLoading } = useMutation({
-        mutationFn: async ({ name }: CommunityType) => {
+        mutationFn: async ({ users, name }: CommunityType) => {
             const payload: CommunityType = {
+                users,
                 name
             }
 
@@ -64,6 +74,7 @@ export const CreateCommunity = () => {
 
     function onSubmit(values: CommunityType) {
         const payload: CommunityType = {
+            users: values.users,
             name: values.name
         }
 
@@ -73,13 +84,80 @@ export const CreateCommunity = () => {
 
     return (
         <Form {...form}>
-            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
+                <FormField
+                    control={form.control}
+                    name="users"
+                    render={({ field }) => (
+                        <FormItem className="flex flex-col">
+                            <FormLabel>Community Master:</FormLabel>
+                            <Popover>
+                                <PopoverTrigger asChild>
+                                    <FormControl>
+                                        <Button
+                                            variant="outline"
+                                            role="combobox"
+                                            className={cn(
+                                                "w-[200px] justify-between",
+                                                !field.value && "text-muted-foreground"
+                                            )}
+                                        >
+                                            {field.value
+                                                ? user.find(
+                                                    //     (master) => language.value === field.value
+                                                    //   )?.label
+                                                    (master) => master.id === field.value
+                                                )?.name
+                                                : "Select community master"}
+                                            <ArrowDownUp className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                                        </Button>
+                                    </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-[200px] p-0">
+                                    <Command>
+                                        <CommandInput
+                                            placeholder="Search people..."
+                                            className="h-9"
+                                        />
+                                        <CommandEmpty>No people found.</CommandEmpty>
+                                        <CommandGroup>
+                                            {user.map((user) => (
+                                                <CommandItem
+                                                    value={user.name as string}
+                                                    key={user.id}
+                                                    onSelect={() => {
+                                                        form.setValue("users", user.id as string)
+                                                    }}
+                                                >
+                                                    {user.name}
+                                                    <CheckIcon
+                                                        className={cn(
+                                                            "ml-auto h-4 w-4",
+                                                            user.name === field.value
+                                                                ? "opacity-100"
+                                                                : "opacity-0"
+                                                        )}
+                                                    />
+                                                </CommandItem>
+                                            ))}
+                                        </CommandGroup>
+                                    </Command>
+                                </PopoverContent>
+                            </Popover>
+                            <FormDescription>
+                                This is the one who will manage the whole community.
+                            </FormDescription>
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
                 <FormField
                     control={form.control}
                     name="name"
                     render={({ field }) => (
                         <FormItem>
-                            <FormLabel>Rank:</FormLabel>
+                            <FormLabel>Community name:</FormLabel>
                             <FormControl>
                                 <Input placeholder="Enter community" {...field} />
                             </FormControl>

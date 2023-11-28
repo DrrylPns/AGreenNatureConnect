@@ -57,11 +57,9 @@ model User {
   // Product         Product[]      @relation("CreateProduct")
   Product         Product[]
   Article         Article[]
-  community       Community?     @relation(fields: [communityId], references: [id])
-  communityId     String?
+  Community       Community?
 
   @@index([id])
-  @@index([communityId])
 }
 
 // to edit STAFF to EMPLOYEE
@@ -116,7 +114,11 @@ model Community {
   posts    Post[]
   blogs    Blog[]
   articles Article[]
-  users    User[]
+
+  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String? @unique
+
+  @@index([userId])
 }
 
 model Topic {
