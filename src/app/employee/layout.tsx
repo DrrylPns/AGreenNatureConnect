@@ -8,6 +8,7 @@ import { Toaster } from '../components/toast/toaster'
 import { getAuthSession } from '@/lib/auth'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/db/db'
+import Sidebar from './_components/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -37,7 +38,10 @@ export default async function RootLayout({
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
-                    {children}
+                    <Sidebar />
+                    <main className='pl-[350px]'>
+                        {children}
+                    </main>
                     <Toaster />
                 </Providers >
             </body>

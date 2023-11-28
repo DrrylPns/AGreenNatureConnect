@@ -7,6 +7,7 @@ import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { getAuthSession } from '@/lib/auth'
 import Sidebar from '../components/(admin)/Sidebar'
+import { notFound } from 'next/navigation'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,7 +25,9 @@ export default async function RootLayout({
 
     if (session?.user.role === null) return <div>Loading...</div>
 
-    if (session?.user.role !== "ADMIN") return <div>Unauthorized</div>
+    if (session?.user.role !== "ADMIN") {
+        notFound()
+    }
 
     return (
         <html lang="en">
@@ -32,6 +35,7 @@ export default async function RootLayout({
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
+
                     <Sidebar />
                     {/* links === 
                             dashboard, 
@@ -41,8 +45,9 @@ export default async function RootLayout({
                             transaction history
                             Logout??
                         */}
-
-                    {children}
+                    <main className='pl-[350px]'>
+                        {children}
+                    </main>
                     <Toaster />
                 </Providers>
             </body>

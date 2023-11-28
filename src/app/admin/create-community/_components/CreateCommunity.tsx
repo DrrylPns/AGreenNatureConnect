@@ -19,10 +19,10 @@ import {
 import { Input } from '@/app/components/Ui/Input'
 import { Button } from '@/app/components/Ui/Button'
 import { User } from '@prisma/client'
-import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
-import { cn } from '@/lib/utils'
-import { ArrowDownUp, CheckIcon } from 'lucide-react'
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/app/components/Ui/command'
+// import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
+// import { cn } from '@/lib/utils'
+// import { ArrowDownUp, CheckIcon } from 'lucide-react'
+// import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/app/components/Ui/command'
 
 interface CreateCommunityProps {
     user: User[]
@@ -37,10 +37,13 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
     })
 
     const { mutate: createCommunity, isLoading } = useMutation({
-        mutationFn: async ({ users, name }: CommunityType) => {
+        mutationFn: async ({ email, name, middleName, lastName, communityName }: CommunityType) => {
             const payload: CommunityType = {
-                users,
-                name
+                email,
+                name,
+                middleName,
+                lastName,
+                communityName,
             }
 
             const { data } = await axios.post("/api/admin/community", payload)
@@ -48,6 +51,13 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
         },
         onError: (err) => {
             if (err instanceof AxiosError) {
+                if (err.response?.status === 400) {
+                    toast({
+                        title: 'Error',
+                        description: "Email already exists!",
+                        variant: 'destructive',
+                    })
+                }
                 if (err.response?.status === 402) {
                     toast({
                         title: 'Error',
@@ -74,18 +84,21 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
 
     function onSubmit(values: CommunityType) {
         const payload: CommunityType = {
-            users: values.users,
-            name: values.name
+            email: values.email,
+            name: values.name,
+            middleName: values.middleName,
+            lastName: values.lastName,
+            communityName: values.communityName,
         }
 
         createCommunity(payload)
-        // console.log(payload)
+        console.log(payload)
     }
 
     return (
         <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
-                <FormField
+                {/* <FormField
                     control={form.control}
                     name="users"
                     render={({ field }) => (
@@ -150,11 +163,75 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
                             <FormMessage />
                         </FormItem>
                     )}
+                /> */}
+
+                <FormField
+                    control={form.control}
+                    name="email"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Email:</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter email address" {...field} type='email'/>
+                            </FormControl>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
 
                 <FormField
                     control={form.control}
                     name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>First name:</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter first name" {...field} />
+                            </FormControl>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="middleName"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Middle name:</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter middle name" {...field} />
+                            </FormControl>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <FormField
+                    control={form.control}
+                    name="lastName"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Last name:</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter last name" {...field} />
+                            </FormControl>
+
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
+
+                <div className='text-lg border-b font-bold'>
+                    Create the community.
+                </div>
+
+                <FormField
+                    control={form.control}
+                    name="communityName"
                     render={({ field }) => (
                         <FormItem>
                             <FormLabel>Community name:</FormLabel>

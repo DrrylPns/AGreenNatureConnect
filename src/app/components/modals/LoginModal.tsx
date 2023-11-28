@@ -7,7 +7,7 @@ import { FcGoogle } from "react-icons/fc";
 import Heading from "../auth/Heading";
 import InputLogin from "../auth/InputLogin";
 import Modal from "./Modal";
-import { signIn } from "next-auth/react";
+import { getSession, signIn, useSession } from "next-auth/react";
 import { User } from "@prisma/client";
 import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -26,6 +26,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
   const [PasswordInputType, ToggleIcon] = usePasswordToggle();
+  const {data: session, status} = useSession()
 
   const {
     register,
@@ -39,13 +40,45 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
     },
   });
 
-  const onSubmit: SubmitHandler<LoginType> = (data: LoginType) => {
+  // const onSubmit: SubmitHandler<LoginType> = (data: LoginType) => {
+  //   setIsLoading(true);
+
+  //   signIn("credentials", {
+  //     ...data,
+  //     redirect: false,
+  //   }).then((callback) => {
+  //     setIsLoading(false);
+
+  //     if (callback?.error) {
+  //       toast({
+  //         title: "Error",
+  //         description: callback.error,
+  //         variant: "destructive",
+  //       });
+  //     }
+
+  //     if (callback?.ok && !callback?.error) {
+  //       toast({
+  //         title: "Success!",
+  //         description: "Logged in",
+  //         variant: "default",
+  //       });
+  //       router.refresh()
+  //       loginModal.onClose();
+  //       registerModal.onClose();
+  //     }
+  //   });
+  // };
+
+  const onSubmit: SubmitHandler<LoginType> = async (data: LoginType) => {
     setIsLoading(true);
 
-    signIn("credentials", {
-      ...data,
-      redirect: false,
-    }).then((callback) => {
+    try {
+      const callback = await signIn("credentials", {
+        ...data,
+        redirect: false,
+      });
+
       setIsLoading(false);
 
       if (callback?.error) {
@@ -62,12 +95,26 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           description: "Logged in",
           variant: "default",
         });
-        router.refresh();
+
+        // Retrieve the updated session after successful login
+        const updatedSession = await getSession();
+
+        if (updatedSession?.user.role === "EMPLOYEE") {
+          router.push('/employee');
+        } else if (updatedSession?.user.role === "ADMIN") {
+          router.push('/admin');
+        }
+
         loginModal.onClose();
         registerModal.onClose();
       }
-    });
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Error during login:', error);
+      // Handle error as needed
+    }
   };
+  
 
   const onToggle = useCallback(() => {
     loginModal.onClose();

@@ -11,8 +11,8 @@ const CreateCommunityPage = async () => {
 
     return (
         <section className='flex flex-col justify-center p-12 md:max-w-2xl mx-auto gap-5'>
-            <div className='border-b font-bold'>
-                Create a community
+            <div className='text-lg border-b font-bold'>
+                Create community master
             </div>
 
             <CreateCommunity user={user}/>

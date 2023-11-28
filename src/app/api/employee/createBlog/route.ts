@@ -16,9 +16,9 @@ export async function POST(req: Request) {
 
         const { title, content } = BlogSchema.parse(body)
 
-        const user = await prisma.user.findFirst({
+        const community = await prisma.community.findFirst({
             where: {
-                id: session.user.id
+                userId: session.user.id
             }
         })
 
@@ -27,7 +27,7 @@ export async function POST(req: Request) {
                 title,
                 content,
                 authorId: session.user.id,
-                communityId: user?.communityId as string
+                communityId: community?.id as string
             }
         })
 
