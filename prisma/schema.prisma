@@ -11,31 +11,38 @@ datasource db {
   relationMode = "prisma"
 }
 
+// lagyan ng isBannedFromPosting? same logic sa lastUsernameChange DateTime?? this determines kung gano siya katagal naka ban
+// isWarned if may warning tas DateTime
+// numberOfViolations Int - add number of times na ban if 3 na then banned ka na
+// isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                 String        @id @default(cuid())
-  name               String?
-  EmployeeId         String?       @unique
-  username           String?       @unique
-  email              String?       @unique
-  emailVerified      DateTime?
-  image              String?
-  hashedPassword     String?
-  middleName         String?
-  lastName           String?
-  phoneNumber        String?       @unique
-  address            String?
-  role               Role          @default(USER)
-  gender             String?
-  birthday           DateTime?
-  bio                String?
-  createdAt          DateTime      @default(now())
-  updatedAt          DateTime      @updatedAt
-  lastUsernameChange DateTime?
-  createdTopics      Topic[]       @relation("CreatedBy")
-  buyerTransactions  Transaction[] @relation("Buyer")
-  sellerTransactions Transaction[] @relation("Seller")
-  buyerOrder         Order[]       @relation("BuyerOrders")
-  sellerOrder        Order[]       @relation("SellerOrders")
+  id                  String    @id @default(cuid())
+  name                String?
+  EmployeeId          String?   @unique
+  username            String?   @unique
+  email               String?   @unique
+  emailVerified       DateTime?
+  image               String?
+  hashedPassword      String?
+  middleName          String?
+  lastName            String?
+  phoneNumber         String?   @unique
+  address             String?
+  role                Role      @default(USER)
+  gender              String?
+  birthday            DateTime?
+  bio                 String?
+  createdAt           DateTime  @default(now())
+  updatedAt           DateTime  @updatedAt
+  isBanned            Boolean   @default(false)
+  numberOfViolations  Int       @default(0)
+  lastUsernameChange  DateTime?
+  isBannedFromPosting DateTime?
+  createdTopics       Topic[]   @relation("CreatedBy")
+  // buyerTransactions   Transaction[] @relation("Buyer")
+  // sellerTransactions  Transaction[] @relation("Seller")
+  // buyerOrder          Order[]       @relation("BuyerOrders")
+  // sellerOrder         Order[]       @relation("SellerOrders")
 
   Account         Account[]
   Session         Session[]
@@ -46,8 +53,10 @@ model User {
   reportedReports Report[]       @relation("Report")
   adminReports    Report[]       @relation("StaffHandleReport")
   Blog            Blog[]
-  ProductPost     ProductPost[]
-  Product         Product[]      @relation("CreateProduct")
+  // ProductPost     ProductPost[]
+  // Product         Product[]      @relation("CreateProduct")
+  Product         Product[]
+  Article         Article[]
 
   @@index([id])
 }
@@ -94,6 +103,15 @@ model Session {
   @@index([userId])
 }
 
+model Community {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  posts Post[]
+}
+
 model Topic {
   id        String   @id @default(cuid())
   name      String   @unique
@@ -108,10 +126,13 @@ model Topic {
   @@index([name])
 }
 
+// if # of reports in a post reaches 10 then hide the current post and put it under review.
 model Post {
   id        String   @id @default(cuid())
   title     String
   content   Json?
+  reports   Int      @default(0)
+  isVisible Boolean?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -125,8 +146,12 @@ model Post {
   likes    Like[]
   Report   Report[]
 
+  Community   Community? @relation(fields: [communityId], references: [id])
+  communityId String?
+
   @@index([authorId])
   @@index([topicId])
+  @@index([communityId])
 }
 
 model Comment {
@@ -153,11 +178,12 @@ model Comment {
 }
 
 model Like {
-  user      User   @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
   userId    String
-  post      Post   @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id])
   postId    String
-  createdAt DateTime  @default(now())
+  createdAt DateTime @default(now())
+
   @@id([userId, postId])
   @@index([userId])
   @@index([postId])
@@ -226,10 +252,41 @@ model Blog {
   @@index([authorId])
 }
 
+model Article {
+  id         String          @id @default(cuid())
+  title      String
+  content    Json
+  createdAt  DateTime        @default(now())
+  updatedAt  DateTime        @updatedAt
+  isApproved ApprovalStatus? @default(PENDING)
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  @@index([authorId])
+}
+
 enum ApprovalStatus {
   PENDING
   APPROVED
   REJECTED
+}
+
+model Product {
+  id         String  @id @default(cuid())
+  itemNumber Int     @unique @default(autoincrement())
+  name       String  @unique
+  kilo       Float
+  price      Float?
+  isFree     Boolean @default(false)
+
+  creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
+  creatorId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([creatorId])
 }
 
 // saka na ecommerce
@@ -242,106 +299,110 @@ enum ApprovalStatus {
 
 // pano magkaka inventory system, dapat ata may kilo dito 
 // tas yun na yung overall kilo nila kasi ang iniinventory ay products eh?
+// add to cart ? ? ? ? ? orderBy asc
 
-model Product {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// model Product {
+//   id        String   @id @default(cuid())
+//   name      String   @unique
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
 
-  Creator   User   @relation("CreateProduct", fields: [creatorId], references: [id], onDelete: Cascade)
-  creatorId String
+//   Creator   User   @relation("CreateProduct", fields: [creatorId], references: [id], onDelete: Cascade)
+//   creatorId String
 
-  ProductPost ProductPost[]
-  Transaction Transaction[]
-  Order       Order?        @relation("OrderedProducts", fields: [orderId], references: [id])
-  orderId     String?
+//   ProductPost ProductPost[]
+//   Transaction Transaction[]
+//   Order       Order?        @relation("OrderedProducts", fields: [orderId], references: [id])
+//   orderId     String?
 
-  @@index([creatorId])
-  @@index([orderId])
-}
+//   @@index([creatorId])
+//   @@index([orderId])
+// }
 
-model ProductPost {
-  id             String         @id @default(cuid())
-  name           String
-  description    String
-  price          Float
-  createdAt      DateTime       @default(now())
-  updatedAt      DateTime       @updatedAt
-  ShippingOption ShippingOption
-  kilo           Float
+// model ProductPost {
+//   id             String         @id @default(cuid())
+//   name           String
+//   description    String
+//   price          Float
+//   createdAt      DateTime       @default(now())
+//   updatedAt      DateTime       @updatedAt
+//   ShippingOption ShippingOption
+//   kilo           Float
 
-  transactions Transaction[]
+//   transactions Transaction[]
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
+//   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   productId String
 
-  seller   User    @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId String
-  Order    Order?  @relation("OrderedProductPosts", fields: [orderId], references: [id])
-  orderId  String?
+//   seller   User   @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+//   sellerId String
 
-  @@index([id])
-  @@index([sellerId])
-  @@index([productId])
-  @@index([orderId])
-}
+//   Order   Order?  @relation("OrderedProductPosts", fields: [orderId], references: [id])
+//   orderId String?
 
-enum ShippingOption {
-  PICK_UP
-  JNT
-}
+//   @@index([id])
+//   @@index([sellerId])
+//   @@index([productId])
+//   @@index([orderId])
+// }
 
-// New model for Transaction history -emmanuel
-model Transaction {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime? @updatedAt
-  // Relationships
+// enum ShippingOption {
+//   PICK_UP
+//   DELIVERY // GrabPadala, AngkasPadal, Moveit?
+// }
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
+// // New model for Transaction history -emmanuel
+// model Transaction {
+//   id        String    @id @default(cuid())
+//   createdAt DateTime  @default(now())
+//   updatedAt DateTime? @updatedAt
+//   // Relationships
 
-  productPost   ProductPost @relation(fields: [productPostId], references: [id], onDelete: Cascade)
-  productPostId String
+//   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   productId String
 
-  buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
-  buyerId String
+//   productPost   ProductPost @relation(fields: [productPostId], references: [id], onDelete: Cascade)
+//   productPostId String
 
-  seller   User   @relation("Seller", fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId String
+//   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
+//   buyerId String
 
-  Order   Order?  @relation("OrderTransactions", fields: [orderId], references: [id])
-  orderId String?
+//   seller   User   @relation("Seller", fields: [sellerId], references: [id], onDelete: Cascade)
+//   sellerId String
 
-  @@index([id])
-  @@index([productPostId])
-  @@index([sellerId])
-  @@index([buyerId])
-  @@index([productId])
-  @@index([orderId])
-}
+//   Order   Order?  @relation("OrderTransactions", fields: [orderId], references: [id])
+//   orderId String?
 
-// eto yung parang payment intent pero magcchat lang sila users dapat hahaha
-model Order {
-  id              String        @id @default(cuid())
-  orderNumber     String        @unique
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime?     @updatedAt
-  shippingAddress String
-  paymentMethod   String // GCash, CoD, etc.
-  paymentStatus   String // Pending, Completed, Failed, Cancelled, etc.
-  orderStatus     String // Pending, Shipped, Delivered, etc.
-  // Relationships
-  transactions    Transaction[] @relation("OrderTransactions")
-  buyer           User          @relation("BuyerOrders", fields: [buyerId], references: [id])
-  buyerId         String
-  seller          User          @relation("SellerOrders", fields: [sellerId], references: [id])
-  sellerId        String
-  product         Product[]     @relation("OrderedProducts")
-  productPost     ProductPost[] @relation("OrderedProductPosts")
+//   @@index([id])
+//   @@index([productPostId])
+//   @@index([sellerId])
+//   @@index([buyerId])
+//   @@index([productId])
+//   @@index([orderId])
+// }
 
-  @@index([id])
-  @@index([buyerId])
-  @@index([sellerId])
-}
+// // eto yung parang payment intent pero magcchat lang sila users dapat hahaha
+// model Order {
+//   id              String        @id @default(cuid())
+//   orderNumber     String        @unique
+//   createdAt       DateTime      @default(now())
+//   updatedAt       DateTime?     @updatedAt
+//   shippingAddress String
+//   paymentMethod   String // GCash, CoD, etc.
+//   paymentStatus   String // Pending, Cancelled, Delivered
+//   orderStatus     String // Pending, Shipped, Delivered, etc.
+//   // Relationships
+//   transactions    Transaction[] @relation("OrderTransactions")
+//   buyer           User          @relation("BuyerOrders", fields: [buyerId], references: [id])
+//   buyerId         String
+
+//   seller   User   @relation("SellerOrders", fields: [sellerId], references: [id])
+//   sellerId String
+
+//   product     Product[]     @relation("OrderedProducts")
+//   productPost ProductPost[] @relation("OrderedProductPosts")
+
+//   @@index([id])
+//   @@index([buyerId])
+//   @@index([sellerId])
+// }

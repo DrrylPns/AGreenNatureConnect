@@ -6,6 +6,7 @@ import { Toaster } from '../components/toast/toaster'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { getAuthSession } from '@/lib/auth'
+import Sidebar from '../components/(admin)/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,7 +32,7 @@ export default async function RootLayout({
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
-                    {/* SideBar Render here */}
+                    <Sidebar />
                     {/* links === 
                             dashboard, 
                             create employee, 
