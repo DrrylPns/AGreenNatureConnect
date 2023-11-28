@@ -109,7 +109,9 @@ model Community {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  posts Post[]
+  posts    Post[]
+  blogs    Blog[]
+  articles Article[]
 }
 
 model Topic {
@@ -249,7 +251,11 @@ model Blog {
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+
   @@index([authorId])
+  @@index([communityId])
 }
 
 model Article {
@@ -263,7 +269,11 @@ model Article {
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
+  community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+
   @@index([authorId])
+  @@index([communityId])
 }
 
 enum ApprovalStatus {
