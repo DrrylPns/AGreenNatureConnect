@@ -16,11 +16,18 @@ export async function POST(req: Request) {
 
         const { title, content } = BlogSchema.parse(body)
 
+        const user = await prisma.user.findFirst({
+            where: {
+                id: session.user.id
+            }
+        })
+
         await prisma.blog.create({
             data: {
                 title,
                 content,
                 authorId: session.user.id,
+                communityId: user?.communityId as string
             }
         })
 

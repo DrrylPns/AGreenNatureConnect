@@ -9,6 +9,8 @@ const Sidebar = () => {
                 <Link href="/admin/community">Communities</Link>
                 <Link href="/admin/create-community">Create Community</Link>
                 <Link href="/admin/create-employee">Create Employee</Link>
+                <Link href="/admin/create-employee">Blog Requests</Link>
+                <Link href="/admin/create-employee">Article Requests</Link>
                 {/* <Link href="/admin/">Products</Link> */}
                 {/* <Link href="/">Transaction History</Link> */}
             </div>

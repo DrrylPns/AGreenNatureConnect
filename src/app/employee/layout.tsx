@@ -7,6 +7,7 @@ import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
 import { getAuthSession } from '@/lib/auth'
 import { notFound } from 'next/navigation'
+import prisma from '@/lib/db/db'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,6 +28,8 @@ export default async function RootLayout({
     if (session?.user.role !== "EMPLOYEE") {
         notFound()
     }
+
+    
 
     return (
         <html lang="en">
