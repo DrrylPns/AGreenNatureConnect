@@ -48,20 +48,27 @@ const CreateProduct = () => {
         },
         onError: (err) => {
             if (err instanceof AxiosError) {
-                // if (err.response?.status === 400) {
-                //     toast({
-                //         title: 'Error',
-                //         description: "Email already exists!",
-                //         variant: 'destructive',
-                //     })
-                // }
-                // if (err.response?.status === 402) {
-                //     toast({
-                //         title: 'Error',
-                //         description: "Community already exists!",
-                //         variant: 'destructive',
-                //     })
-                // }
+                if (err.response?.status === 401) {
+                    toast({
+                        title: 'Error',
+                        description: "Unauthorized",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 402) {
+                    toast({
+                        title: 'Invalid Action',
+                        description: "Please put a valid price!",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 403) {
+                    toast({
+                        title: 'Invalid Action',
+                        description: "Please put a valid weight!",
+                        variant: 'destructive',
+                    })
+                }
             } else {
                 return toast({
                     title: 'Something went wrong.',

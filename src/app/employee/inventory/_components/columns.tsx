@@ -16,6 +16,8 @@ import { Button } from "@/app/components/Ui/Button"
 import { DataTableColumnHeader } from "./DateTableColumnHeader";
 import { Checkbox } from "@/app/components/Ui/checkbox"
 import { useRouter } from "next/navigation";
+import { User } from "@prisma/client";
+import { toast } from "@/lib/hooks/use-toast";
 
 export type Products = {
     id: string;
@@ -25,6 +27,7 @@ export type Products = {
     price: number;
     createdAt: Date;
     creatorId: string;
+    creator: User;
   }
 
   export const columns: ColumnDef<Products>[] = 
@@ -50,8 +53,6 @@ export type Products = {
           className="translate-y-[2px]"
         />
       ),
-      enableSorting: false,
-      enableHiding: false,
     },
     {
         accessorKey: "itemNumber",
@@ -59,6 +60,23 @@ export type Products = {
             return (
                 <DataTableColumnHeader column={column} title="Item No." />
             )
+        },
+        cell: ({ row }) => {
+          const productId = row.original.id
+          const itemNumber = row.index + 1;
+          return <div
+            className="cursor-pointer"
+            onClick={() => {
+              toast({
+                title: "Success!",
+                description: "Employee ID copied to clipboard.",
+                variant: "default"
+              })
+              navigator.clipboard.writeText(productId)
+            }}
+          >
+            {itemNumber}
+          </div>;
         },
     },
     {
@@ -68,6 +86,23 @@ export type Products = {
             return (
               <DataTableColumnHeader column={column} title="Product" />
             );
+          },
+          cell: ({row}) => {
+            const product = row.original.name
+            const productId = row.original.id
+            return <div
+              onClick={() => {
+                toast({
+                  title: "Success!",
+                  description: "Product ID copied to clipboard.",
+                  variant: "default"
+                })
+                navigator.clipboard.writeText(productId)
+              }}
+              className="cursor-pointer"
+            >
+              {product}
+            </div>
           },
         },
     {
@@ -117,9 +152,22 @@ export type Products = {
         )
       },
       cell: ({row}) => {
-        const creatorId = row.original.creatorId;
-        return <div>{creatorId}</div>
-      }
+        const creator = row.original
+        const creatorName = row.original.creator.name;
+        return <div
+          onClick={() => {
+            toast({
+              title: "Success!",
+              description: "Employee ID copied to clipboard.",
+              variant: "default"
+            })
+            navigator.clipboard.writeText(creator.creatorId)
+          }}
+          className="cursor-pointer"
+        >
+          {creatorName}
+        </div>
+      },
     },
     {
         id: "actions",

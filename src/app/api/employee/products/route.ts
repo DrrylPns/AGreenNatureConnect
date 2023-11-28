@@ -25,6 +25,9 @@ export async function GET() {
             },
             where: {
                 communityId: community?.id
+            },
+            include: {
+                creator: true
             }
         })
 
@@ -56,6 +59,10 @@ export async function POST(req: NextRequest) {
 
         const {name, kilo, price} = CreateProductSchema.parse(body)
 
+        if(price === 0 || price <= 0) return new Response("Please put a valid price", {status: 402})
+
+        if(kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", {status: 403})
+
         await prisma.product.create({
             data: {
                 name,
@@ -82,6 +89,12 @@ export async function PUT(req: NextRequest) {
         }
     })
 
+    const community = await prisma.community.findFirst({
+        where:{
+            userId: user?.id
+        }
+    })
+
     if (user?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
 
     try {
@@ -89,11 +102,15 @@ export async function PUT(req: NextRequest) {
 
         const {id, name, kilo, price} = UpdateProductSchema.parse(body)
 
-        console.log(id)
+        if(price === 0 || price <= 0) return new Response("Please put a valid price", {status: 402})
 
+        if(kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", {status: 403})
+
+        // wag malilito sa batuhan ng id
         await prisma.product.update({
             where: {
-                id
+                id, // product id
+                communityId: community?.id // community id
             },
             data: {
                 name,
