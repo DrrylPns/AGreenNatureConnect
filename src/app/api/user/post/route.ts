@@ -29,7 +29,7 @@ export async function GET(req: NextRequest) {
         return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 }
-
+    
 //Creating new post
 export async function POST(req: Request) {
     try {

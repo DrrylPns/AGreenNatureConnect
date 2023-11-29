@@ -28,7 +28,7 @@ export const CommunityCard = ({
                     <CardTitle>{name}</CardTitle>
                     <CardDescription>Community Master: {user?.name}</CardDescription>
                     <CardContent>
-                        {/* DITO NIYO LAGAY DESIGN UI/UX */}
+                        {/* DITO NIYO LAGAY DESIGN BASED SA UI/UX */}
                         {/* TODO: Add more attributes sa community */}
                         <Separator className='my-3' />
                         <p className='text-muted-foreground text-sm'>

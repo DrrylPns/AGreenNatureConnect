@@ -156,7 +156,7 @@ model Post {
   likes    Like[]
   Report   Report[]
 
-  Community   Community? @relation(fields: [communityId], references: [id])
+  Community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
   @@index([authorId])
@@ -188,9 +188,9 @@ model Comment {
 }
 
 model Like {
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId    String
-  post      Post     @relation(fields: [postId], references: [id])
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String
   createdAt DateTime @default(now())
 
@@ -216,16 +216,16 @@ model Report {
   description String
   createdAt   DateTime   @default(now())
 
-  reporter   User   @relation(fields: [reporterId], references: [id], name: "Report")
+  reporter   User   @relation(fields: [reporterId], references: [id], onDelete: Cascade, name: "Report")
   reporterId String
 
-  post   Post   @relation(fields: [postId], references: [id])
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
 
   status ReportStatus @default(PENDING)
 
   //gawing employee
-  staff   User?   @relation(fields: [staffId], references: [id], name: "StaffHandleReport")
+  staff   User?   @relation(fields: [staffId], references: [id], onDelete: Cascade, name: "StaffHandleReport")
   staffId String?
 
   @@index([reporterId])
@@ -301,10 +301,10 @@ model Product {
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
 
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  community   Community? @relation(fields: [communityId], references: [id])
+  community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
   @@index([creatorId])
