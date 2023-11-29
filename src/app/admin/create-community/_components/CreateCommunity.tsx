@@ -172,7 +172,7 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
                         <FormItem>
                             <FormLabel>Email:</FormLabel>
                             <FormControl>
-                                <Input placeholder="Enter email address" {...field} type='email'/>
+                                <Input placeholder="Enter email address" {...field} type='email' />
                             </FormControl>
 
                             <FormMessage />
@@ -226,7 +226,7 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
                 />
 
                 <div className='text-lg border-b font-bold'>
-                    Create the community.
+                    Create the community
                 </div>
 
                 <FormField
@@ -246,6 +246,7 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
 
                 <Button
                     type="submit"
+                    variant="green"
                     isLoading={isLoading}
                     disabled={isLoading}>Submit</Button>
             </form>
