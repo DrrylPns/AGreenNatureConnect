@@ -1,5 +1,4 @@
 import { getAuthSession } from '@/lib/auth'
-import { getToken } from 'next-auth/jwt'
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
 
 const f = createUploadthing()
@@ -16,6 +15,11 @@ export const ourFileRouter = {
   imageUploader: f({ image: { maxFileSize: '4MB' } })
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
+  changeAvatar: f({
+    image: { maxFileSize: "4MB", maxFileCount: 1 },
+  })
+    .middleware(middleware)
+    .onUploadComplete(async (data) => { }),
 } satisfies FileRouter
 
 export type OurFileRouter = typeof ourFileRouter

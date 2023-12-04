@@ -6,8 +6,17 @@ import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import { Separator } from "./Ui/Separator";
 import { Session } from "next-auth";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/app/components/Ui/Dialog"
 
-const UserAccountAvatar: React.FC = ({}) => {
+
+const UserAccountAvatar: React.FC = ({ }) => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
 
@@ -51,9 +60,9 @@ const UserAccountAvatar: React.FC = ({}) => {
                 <Separator />
 
                 <div className="cursor-pointer">
-                  {/*<Link href={"/discussion/profile"}>
-                    <MenuItem label="My Profile" />
-                  </Link>*/}
+                  <Link href={"/discussion/profile"}>
+                    <MenuItem label="Change Avatar" />
+                  </Link>
                   <Link href={"/termsPolicy"} className="md:hidden block">
                     <MenuItem label="Privacy Policy" />
                   </Link>
