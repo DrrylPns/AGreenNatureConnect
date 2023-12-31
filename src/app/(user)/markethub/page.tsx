@@ -1,11 +1,10 @@
 import React from "react";
+import Carousel from "./components/carousel/page";
 
 export default function Markethub() {
   return (
-    <div>
-      <div className="bg-black border border-black">
-        <p>Hello</p>
-      </div>
+    <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] ">
+        <Carousel/>
     </div>
   );
 }
