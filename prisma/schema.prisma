@@ -44,20 +44,23 @@ model User {
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
 
-  Account         Account[]
-  Session         Session[]
-  posts           Post[]
-  comments        Comment[]
-  likes           Like[]
-  notifications   Notification[]
-  reportedReports Report[]       @relation("Report")
-  adminReports    Report[]       @relation("StaffHandleReport")
-  Blog            Blog[]
+  Account          Account[]
+  Session          Session[]
+  posts            Post[]
+  comments         Comment[]
+  likes            Like[]
+  notifications    Notification[]
+  reportedReports  Report[]           @relation("Report")
+  adminReports     Report[]           @relation("StaffHandleReport")
+  Blog             Blog[]
+  LearningMaterial LearningMaterial[]
+  VideoTutorial    VideoTutorial[]
+  FAQ              FAQ[]
   // ProductPost     ProductPost[]
   // Product         Product[]      @relation("CreateProduct")
-  Product         Product[]
-  Article         Article[]
-  Community       Community?
+  Product          Product[]
+  Article          Article[]
+  Community        Community?
 
   @@index([id])
 }
@@ -116,8 +119,11 @@ model Community {
   articles Article[]
   products Product[]
 
-  user   User?   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String? @unique
+  user             User?              @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId           String?            @unique
+  LearningMaterial LearningMaterial[]
+  VideoTutorial    VideoTutorial[]
+  FAQ              FAQ[]
 
   @@index([userId])
 }
@@ -249,12 +255,12 @@ enum ReportStatus {
 }
 
 model Blog {
-  id         String          @id @default(cuid())
+  id         String             @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime        @default(now())
-  updatedAt  DateTime        @updatedAt
-  isApproved ApprovalStatus? @default(PENDING)
+  createdAt  DateTime           @default(now())
+  updatedAt  DateTime           @updatedAt
+  isApproved BlogApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -264,6 +270,72 @@ model Blog {
 
   @@index([authorId])
   @@index([communityId])
+}
+
+enum BlogApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model LearningMaterial {
+  id         String                 @id @default(cuid())
+  title      String
+  content    Json
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  isApproved MaterialApprovalStatus @default(PENDING)
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+
+  @@index([authorId])
+  @@index([communityId])
+}
+
+model VideoTutorial {
+  id         String                 @id @default(cuid())
+  title      String
+  content    Json
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  isApproved MaterialApprovalStatus @default(PENDING)
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+
+  @@index([authorId])
+  @@index([communityId])
+}
+
+model FAQ {
+  id         String                 @id @default(cuid())
+  question   String
+  answer     Json
+  createdAt  DateTime               @default(now())
+  updatedAt  DateTime               @updatedAt
+  isApproved MaterialApprovalStatus @default(PENDING)
+
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
+
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
+
+  @@index([authorId])
+  @@index([communityId])
+}
+
+enum MaterialApprovalStatus {
+  PENDING
+  APPROVED
+  REJECTED
 }
 
 model Article {
