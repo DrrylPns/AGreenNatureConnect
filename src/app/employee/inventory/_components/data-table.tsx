@@ -99,7 +99,9 @@ export function DataTable<TData, TValue>({
         {/* Visibility function */}
             <Link 
                 href="/employee/create-products"
-                className={cn(buttonVariants(),
+                className={cn(buttonVariants({
+                  variant: "green"
+                }),
                     "ml-3"
                     )}
             >

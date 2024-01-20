@@ -97,65 +97,66 @@ const CreateProduct = () => {
         // console.log(payload)
     }
 
-  return (
-    <Form {...form}>
+    return (
+        <Form {...form}>
             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8 w-full">
 
                 <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                    <FormItem>
-                    <FormLabel>Product Name</FormLabel>
-                    <FormControl>
-                        <Input placeholder="Product Name" {...field} />
-                        {/* <Input placeholder={`${product.id}`} {...field} /> */}
-                    </FormControl>
+                    control={form.control}
+                    name="name"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Product Name</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Product Name" {...field} />
+                                {/* <Input placeholder={`${product.id}`} {...field} /> */}
+                            </FormControl>
 
-                    <FormMessage />
-                    </FormItem>
-                )}
+                            <FormMessage />
+                        </FormItem>
+                    )}
                 />
 
                 <FormField
-                control={form.control}
-                name="price"
-                render={({ field }) => (
-                <FormItem>
-                <FormLabel>Price (PHP)</FormLabel>
-                <FormControl>
-                    <Input placeholder="Enter your price" {...field} type='number' />
-                </FormControl>
+                    control={form.control}
+                    name="price"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Price (PHP)</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Enter your price" {...field} type='number' />
+                            </FormControl>
 
-                <FormMessage />
-                </FormItem>
-            )}
-            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
                 <FormField
-                control={form.control}
-                name="kilo"
-                render={({ field }) => (
-                <FormItem>
-                <FormLabel>Kilo (kg)</FormLabel>
-                <FormControl>
-                    <Input placeholder="Kilo" {...field} type='number' />
-                </FormControl>
+                    control={form.control}
+                    name="kilo"
+                    render={({ field }) => (
+                        <FormItem>
+                            <FormLabel>Kilo (kg)</FormLabel>
+                            <FormControl>
+                                <Input placeholder="Kilo" {...field} type='number' />
+                            </FormControl>
 
-                <FormMessage />
-                </FormItem>
-            )}
-            />
+                            <FormMessage />
+                        </FormItem>
+                    )}
+                />
 
-            <Button 
-                type="submit"
-                isLoading={isLoading}
-                disabled={isLoading}
+                <Button
+                    type="submit"
+                    variant="green"
+                    isLoading={isLoading}
+                    disabled={isLoading}
                 >
                     Submit</Button>
             </form>
         </Form>
-  )
+    )
 }
 
 export default CreateProduct

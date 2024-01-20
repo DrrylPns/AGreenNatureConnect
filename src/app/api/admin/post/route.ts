@@ -5,7 +5,7 @@ export async function GET(req: Request) {
 
     const session = await getAuthSession()
 
-    if(session?.user.role === "USER" || !session?.user) return new Response ("Error: Unauthorized", {status: 401})
+    if(session?.user.role !== "ADMIN" || !session.user) return new Response ("Error: Unauthorized", {status: 401})
 
     try {
         
@@ -13,6 +13,6 @@ export async function GET(req: Request) {
 
         return new Response(JSON.stringify(posts))
     } catch (error) {
-        return new Response('Could not fetch posts', { status: 500 })
+        return new Response('Could not fetch number of posts', { status: 500 })
     }
 }
