@@ -14,7 +14,7 @@ import { SlNotebook } from "react-icons/sl";
 import { AiOutlineQuestionCircle, AiOutlineFileProtect } from "react-icons/ai";
 import { LuFileSignature } from "react-icons/lu";
 import Link from "next/link";
-import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
 
 export default function SIdebar() {
   const [isSideBarOpen, setIsSideBarOpen] = useState(false);
@@ -36,7 +36,7 @@ export default function SIdebar() {
 
   return (
     <>
-      <div className="">
+      <div className="z-50">
         {/**mobile view */}
         <div className="fixed w-full z-20 md:relative">
           {/**Home, Communities, Markethub Icons and links */}
@@ -89,7 +89,7 @@ export default function SIdebar() {
         }}
         className={`md:flex md:pt-[6rem]  hidden fixed flex-col pt-4 px-5 bg-white h-full w-[5%] ${
           isSideBarOpen ? "items-start" : "items-center"
-        }`}
+        } z-30`}
       >
         <button
           onClick={toggleSideBar}
@@ -109,7 +109,9 @@ export default function SIdebar() {
         <div className="flex flex-col items-start w-full">
           <Link
             href={"/discussion"}
-            className={`flex items-center gap-4 w-full py-2 ${
+            className={`link ${
+              pathname === "/discussion" ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4]" : ""
+            } flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
             } hover:bg-pale`}
           >
@@ -204,9 +206,11 @@ export default function SIdebar() {
           </AnimatePresence>
           <Link
             href={"/markethub"}
-            className={`flex items-center gap-4 w-full py-2 ${
+            className={`link ${
+              pathname === "/markethub" ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4]" : ""
+            } flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            } hover:bg-pale `} 
           >
             <div className="text-icons ">
               <BiStore />
