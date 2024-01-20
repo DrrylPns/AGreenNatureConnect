@@ -30,7 +30,7 @@ export default async function RootLayout({
         notFound()
     }
 
-    
+
 
     return (
         <html lang="en">
@@ -39,7 +39,7 @@ export default async function RootLayout({
                     <LoginModal />
                     <RegisterModal />
                     <Sidebar />
-                    <main className='pl-[350px]'>
+                    <main className='pl-[350px] bg-[#E3E1E1] h-screen'>
                         {children}
                     </main>
                     <Toaster />

@@ -363,12 +363,16 @@ enum ApprovalStatus {
 }
 
 model Product {
-  id         String  @id @default(cuid())
-  itemNumber Int     @unique @default(autoincrement())
-  name       String
-  kilo       Float
-  price      Float?
-  isFree     Boolean @default(false)
+  id           String         @id @default(cuid())
+  itemNumber   Int            @unique @default(autoincrement())
+  productImage String         @unique
+  name         String
+  price        Float?
+  category     String         @unique
+  status       ApprovalStatus @default(PENDING)
+  isFree       Boolean        @default(false)
+  Kilo         Kilo[]
+  Pack         PerPack[]
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
@@ -381,6 +385,28 @@ model Product {
 
   @@index([creatorId])
   @@index([communityId])
+}
+
+model Kilo {
+  id    String @id @default(cuid())
+  kilo  Float
+  price Float
+
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  @@index([productId])
+}
+
+model PerPack {
+  id    String @id @default(cuid())
+  pack  Int
+  price Float
+
+  Product   Product? @relation(fields: [productId], references: [id])
+  productId String?
+
+  @@index([productId])
 }
 
 // saka na ecommerce

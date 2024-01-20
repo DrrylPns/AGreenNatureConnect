@@ -42,7 +42,7 @@ export const columns: ColumnDef<Products>[] =
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
-          className="translate-y-[2px]"
+          className="translate-y-[2px] "
         />
       ),
       cell: ({ row }) => (
@@ -84,7 +84,7 @@ export const columns: ColumnDef<Products>[] =
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Product" />
+          <DataTableColumnHeader column={column} title="Name" />
         );
       },
       cell: ({ row }) => {
@@ -110,7 +110,7 @@ export const columns: ColumnDef<Products>[] =
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Kilo" />
+          <DataTableColumnHeader column={column} title="Stock" />
         );
       },
       cell: ({ row }) => {
@@ -138,7 +138,7 @@ export const columns: ColumnDef<Products>[] =
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Inserted at" />
+          <DataTableColumnHeader column={column} title="Date" />
         );
       },
       cell: ({ row }) => {
@@ -200,10 +200,10 @@ export const columns: ColumnDef<Products>[] =
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => router.push(`inventory/${product.id}`)}
-              >Upate Product</DropdownMenuItem>
+              >Edit</DropdownMenuItem>
               <DropdownMenuItem
                 onClick={handleDelete}
-              >Hide Product</DropdownMenuItem>
+              >Archive</DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
         )

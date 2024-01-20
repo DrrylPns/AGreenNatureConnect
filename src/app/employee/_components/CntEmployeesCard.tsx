@@ -1,11 +1,10 @@
 import { Card, Metric, Text } from '@tremor/react'
-import { Loader2 } from 'lucide-react'
 import React from 'react'
 
-export const CntUserCard = () => {
+export const CntEmployeesCard = () => {
     return (
         <Card className="">
-            <Text>Total Number of Users</Text>
+            <Text>Total Number of Employees</Text>
             <Metric>
                 0
             </Metric>

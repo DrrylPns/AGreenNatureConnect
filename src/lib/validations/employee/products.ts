@@ -1,11 +1,12 @@
-import {z} from "zod"
+import { z } from "zod"
 
 export type CreateProductType = z.infer<typeof CreateProductSchema>
 
 export const CreateProductSchema = z.object({
+    productImage: z.string(),
     name: z.string()
-        .min(3, {message: "Minimum product name should be 3 characters"})
-        .max(20, {message: "Maximum product name should be 20 characters"}),
+        .min(3, { message: "Minimum product name should be 3 characters" })
+        .max(20, { message: "Maximum product name should be 20 characters" }),
     kilo: z.coerce.number(),
     price: z.coerce.number(),
 })

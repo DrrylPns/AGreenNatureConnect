@@ -13,7 +13,7 @@ export async function GET() {
     })
 
     const community = await prisma.community.findFirst({
-        where:{
+        where: {
             userId: user?.id
         }
     })
@@ -47,7 +47,7 @@ export async function POST(req: NextRequest) {
     })
 
     const community = await prisma.community.findFirst({
-        where:{
+        where: {
             userId: user?.id
         }
     })
@@ -57,21 +57,23 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const {name, kilo, price} = CreateProductSchema.parse(body)
+        const { productImage, name, kilo, price } = CreateProductSchema.parse(body)
 
-        if(price === 0 || price <= 0) return new Response("Please put a valid price", {status: 402})
+        if (price === 0 || price <= 0) return new Response("Please put a valid price", { status: 402 })
 
-        if(kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", {status: 403})
+        if (kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", { status: 403 })
 
-        await prisma.product.create({
-            data: {
-                name,
-                kilo,
-                price,
-                creatorId: user?.EmployeeId as string,
-                communityId: community?.id
-            }
-        })
+        // await prisma.product.create({
+        //     data: {
+        //         productImage,
+        //         name,
+        //         price,
+
+        //         // isFree = false,
+        //         creatorId: user?.EmployeeId as string,
+        //         communityId: community?.id
+        //     }
+        // })
 
         return new NextResponse(`Successfully added ${name}`)
     } catch (error) {
@@ -90,7 +92,7 @@ export async function PUT(req: NextRequest) {
     })
 
     const community = await prisma.community.findFirst({
-        where:{
+        where: {
             userId: user?.id
         }
     })
@@ -100,11 +102,11 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const {id, name, kilo, price} = UpdateProductSchema.parse(body)
+        const { id, name, kilo, price } = UpdateProductSchema.parse(body)
 
-        if(price === 0 || price <= 0) return new Response("Please put a valid price", {status: 402})
+        if (price === 0 || price <= 0) return new Response("Please put a valid price", { status: 402 })
 
-        if(kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", {status: 403})
+        if (kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", { status: 403 })
 
         // wag malilito sa batuhan ng id
         await prisma.product.update({
@@ -114,7 +116,6 @@ export async function PUT(req: NextRequest) {
             },
             data: {
                 name,
-                kilo,
                 price,
             }
         })
@@ -127,5 +128,5 @@ export async function PUT(req: NextRequest) {
 }
 
 export async function DELETE() {
-    
+
 }

@@ -16,7 +16,7 @@ const page = () => {
                 <Button
                     type="submit"
                     className="w-full"
-                    variant='green'
+                    variant='newGreen'
                     form='create-blog-form'
                 >
                     Post

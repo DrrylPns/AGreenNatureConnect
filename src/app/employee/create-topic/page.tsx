@@ -99,7 +99,7 @@ const page = () => {
                     <div className="flex justify-end gap-4 mt-3">
                         <Button variant='subtle' onClick={() => router.back()}>Cancel</Button>
                         <Button
-                            variant='green'
+                            variant='newGreen'
                             isLoading={isLoading}
                             disabled={isDisabled()}
                             onClick={() => createTopic()}>

@@ -1,12 +1,12 @@
 "use client"
 
 import {
-    ChevronLeftIcon,
-    ChevronRightIcon,
-    ChevronsLeft,
-    ChevronsRight,
-    Settings2,
-  } from "lucide-react"
+  ChevronLeftIcon,
+  ChevronRightIcon,
+  ChevronsLeft,
+  ChevronsRight,
+  Settings2,
+} from "lucide-react"
 
 import {
   ColumnDef,
@@ -55,14 +55,14 @@ export function DataTable<TData, TValue>({
   data,
   isFetching
 }: DataTableProps<TData, TValue>) {
-    const [sorting, setSorting] = useState<SortingState>([])
-    const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
-      []
-    )
-    const [columnVisibility, setColumnVisibility] =
+  const [sorting, setSorting] = useState<SortingState>([])
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    []
+  )
+  const [columnVisibility, setColumnVisibility] =
     React.useState<VisibilityState>({})
 
-    const [rowSelection, setRowSelection] = React.useState({})
+  const [rowSelection, setRowSelection] = React.useState({})
 
   const table = useReactTable({
     data,
@@ -76,10 +76,10 @@ export function DataTable<TData, TValue>({
     onColumnVisibilityChange: setColumnVisibility,
     onRowSelectionChange: setRowSelection,
     state: {
-        sorting,
-        columnFilters,
-        columnVisibility,
-        rowSelection,
+      sorting,
+      columnFilters,
+      columnVisibility,
+      rowSelection,
     }
   })
 
@@ -97,16 +97,16 @@ export function DataTable<TData, TValue>({
         />
 
         {/* Visibility function */}
-            <Link 
-                href="/employee/create-products"
-                className={cn(buttonVariants({
-                  variant: "green"
-                }),
-                    "ml-3"
-                    )}
-            >
-                Add Item
-            </Link>
+        <Link
+          href="/employee/create-products"
+          className={cn(buttonVariants({
+            variant: "newGreen"
+          }),
+            "ml-3 "
+          )}
+        >
+          Add Item
+        </Link>
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
@@ -137,54 +137,54 @@ export function DataTable<TData, TValue>({
         </DropdownMenu>
 
       </div>
-        <div className="rounded-md border">
+      <div className="rounded-md border">
         <Table>
-            <TableHeader>
+          <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow key={headerGroup.id}>
+              <TableRow key={headerGroup.id}>
                 {headerGroup.headers.map((header) => {
-                    return (
+                  return (
                     <TableHead key={header.id}>
-                        {header.isPlaceholder
+                      {header.isPlaceholder
                         ? null
                         : flexRender(
-                            header.column.columnDef.header,
-                            header.getContext()
-                            )}
+                          header.column.columnDef.header,
+                          header.getContext()
+                        )}
                     </TableHead>
-                    )
+                  )
                 })}
-                </TableRow>
+              </TableRow>
             ))}
-            </TableHeader>
-            <TableBody>
+          </TableHeader>
+          <TableBody>
             {table.getRowModel().rows?.length ? (
-                table.getRowModel().rows.map((row) => (
+              table.getRowModel().rows.map((row) => (
                 <TableRow
-                    key={row.id}
-                    data-state={row.getIsSelected() && "selected"}
+                  key={row.id}
+                  data-state={row.getIsSelected() && "selected"}
                 >
-                    {row.getVisibleCells().map((cell) => (
+                  {row.getVisibleCells().map((cell) => (
                     <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                      {flexRender(cell.column.columnDef.cell, cell.getContext())}
                     </TableCell>
-                    ))}
+                  ))}
                 </TableRow>
-                ))
+              ))
             ) : (
-                <TableRow>
+              <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
-                    {isFetching ? (
-                        <div className="text-muted-foreground">Fetching data...</div>
-                    ): (<div>No Results.</div>)}
+                  {isFetching ? (
+                    <div className="text-muted-foreground">Fetching data...</div>
+                  ) : (<div>No Results.</div>)}
                 </TableCell>
-                </TableRow>
+              </TableRow>
             )}
-            </TableBody>
+          </TableBody>
         </Table>
-        </div>
-        <br /> 
-        <DataTablePagination table={table} />
+      </div>
+      <br />
+      <DataTablePagination table={table} />
     </div>
   )
 }

@@ -16,7 +16,7 @@ export const CntProductsCard = () => {
     const count = typeof cntProducts === 'number' ? cntProducts : null;
 
     return (
-        <Card className="" decoration="top" decorationColor="fuchsia">
+        <Card className="">
             <Text>Products</Text>
             <Metric>
                 {isLoading ? (
