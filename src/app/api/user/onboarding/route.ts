@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { username, phoneNumber, birthday, address } = OnboardingSchema.parse(body);
+        const { username, community, phoneNumber, birthday, address } = OnboardingSchema.parse(body);
 
         console.log(session.user.id)
 
@@ -23,7 +23,6 @@ export async function POST(req: Request) {
         if (!user) {
             return new Response("User not found", { status: 404 })
         }
-
 
         const usernameExists = await prisma.user.findFirst({
             where: { username: username },
@@ -51,6 +50,11 @@ export async function POST(req: Request) {
             birthday: birthday,
             address: address,
             lastUsernameChange: new Date(),
+            Community: {
+                create: {
+                    name: community
+                }
+            }
         }
 
         if (daysLeft <= 0) {

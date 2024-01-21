@@ -11,6 +11,15 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { Button } from '../Ui/Button';
 import { X } from 'lucide-react';
 import { signOut } from 'next-auth/react';
+import {
+    Select,
+    SelectContent,
+    SelectGroup,
+    SelectItem,
+    SelectLabel,
+    SelectTrigger,
+    SelectValue,
+} from "@/app/components/Ui/select"
 
 export const Onboarding = () => {
     // const router = useRouter()
@@ -18,6 +27,7 @@ export const Onboarding = () => {
     const {
         register,
         handleSubmit,
+        setValue,
         formState: { errors },
     } = useForm<OnboardingType>({
         resolver: zodResolver(OnboardingSchema),
@@ -28,17 +38,27 @@ export const Onboarding = () => {
         },
     });
 
+    const handleSelectChange = (value: string | null) => {
+        // Check for null and handle accordingly
+        const communityValue = value !== null ? value : ""; // or provide a default value
+
+        setValue('community', communityValue);
+        console.log('Selected community:', communityValue);
+    };
+
     const { mutate: onboardingUpdate, isLoading } = useMutation({
         mutationFn: async ({
             username,
             phoneNumber,
             birthday,
+            community,
             address,
         }: OnboardingType) => {
             const payload: OnboardingType = {
                 username,
                 phoneNumber,
                 birthday,
+                community,
                 address,
             };
             const { data } = await axios.post("api/user/onboarding", payload);
@@ -109,6 +129,7 @@ export const Onboarding = () => {
             username: data.username,
             phoneNumber: data.phoneNumber,
             birthday: data.birthday,
+            community: data.community,
             address: data.address,
         }
 
@@ -224,6 +245,7 @@ export const Onboarding = () => {
                         </span>
                     )}
 
+
                     <div className="input-container grid gap-1 h-[80px] ml-10 mr-10">
                         <div className="relative mb-3">
                             <input
@@ -246,6 +268,42 @@ export const Onboarding = () => {
                             {errors.address.message}
                         </span>
                     )}
+                    <div className='w-full flex items-center justify-center'>
+                        <Select
+                            {...register('community')}
+                            onValueChange={handleSelectChange}
+                        >
+                            <SelectTrigger className="
+                    md:w-[620px]
+                    rounded-full
+                    h-[50px]
+                    p-4
+                    mb-8
+                    dark:bg-[#09090B]
+                    font-light 
+                    bg-white 
+                    border-2
+                    outline-none
+                    transition
+                    disabled:opacity-70
+                    disabled:cursor-not-allowed">
+                                <SelectValue placeholder="Select your community" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                <SelectGroup>
+                                    <SelectLabel>Communities</SelectLabel>
+                                    <SelectItem value="Bagbag">Bagbag</SelectItem>
+                                    <SelectItem value="San Bartolome">San Bartolome</SelectItem>
+                                </SelectGroup>
+                            </SelectContent>
+                        </Select>
+                        {errors.community && (
+                            <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                                {errors.community.message}
+                            </span>
+                        )}
+
+                    </div>
 
                     <div className="ml-10 mr-10">
                         <Button

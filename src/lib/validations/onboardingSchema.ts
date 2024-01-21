@@ -14,6 +14,7 @@ export const OnboardingSchema = z.object({
         }, { message: "Invalid Mobile Number" })
         .optional(),
     birthday: z.coerce.date(),
+    community: z.string(),
     address: z.string()
         .min(5, { message: "Minimum length of address is 5" })
         .max(100, { message: "Maximum length of address is 100" })
