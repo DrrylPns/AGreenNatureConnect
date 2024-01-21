@@ -20,6 +20,7 @@ export async function POST(req: Request) {
             password,
             birthday,
             confirmPassword,
+            community,
             terms,
         } = RegisterSchema.parse(body)
 
@@ -40,6 +41,11 @@ export async function POST(req: Request) {
                 email,
                 hashedPassword,
                 birthday,
+                Community: {
+                    create: {
+                        name: community
+                    }
+                }
             }
         });
 

@@ -21,12 +21,22 @@ import { toast } from "@/lib/hooks/use-toast";
 import { useRouter } from "next/navigation";
 import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
 import { getMinBirthDate } from "@/lib/utils";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/Ui/select"
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
   const loginModal = useLoginModal();
   const router = useRouter();
   const [PasswordInputType, ToggleIcon] = usePasswordToggle();
+  // const community = useState<string>("")
 
   const onToggle = useCallback(() => {
     registerModal.onClose();
@@ -37,6 +47,7 @@ const RegisterModal = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors },
   } = useForm<RegisterType>({
     resolver: zodResolver(RegisterSchema),
@@ -47,12 +58,21 @@ const RegisterModal = () => {
     },
   });
 
+  const handleSelectChange = (value: string | null) => {
+    // Check for null and handle accordingly
+    const communityValue = value !== null ? value : ""; // or provide a default value
+
+    setValue('community', communityValue);
+    console.log('Selected community:', communityValue);
+  };
+
   const { mutate: registerUser, isLoading } = useMutation({
     mutationFn: async ({
       email,
       password,
       confirmPassword,
       birthday,
+      community,
       terms,
     }: RegisterType) => {
       const payload: RegisterType = {
@@ -60,6 +80,7 @@ const RegisterModal = () => {
         password,
         confirmPassword,
         birthday,
+        community,
         terms,
       };
       const { data } = await axios.post("api/register", payload);
@@ -118,11 +139,11 @@ const RegisterModal = () => {
       password: data.password,
       confirmPassword: data.confirmPassword,
       birthday: data.birthday,
+      community: data.community,
       terms: data.terms,
     };
 
     registerUser(payload);
-    console.log(payload)
   };
 
   // age restriction on input type date
@@ -197,6 +218,40 @@ const RegisterModal = () => {
       {errors.birthday && (
         <span className="text-rose-500 ml-1 max-sm:text-[13px]">
           {errors.birthday.message}
+        </span>
+      )}
+
+
+      <Select
+        {...register('community')}
+        onValueChange={handleSelectChange}
+      >
+        <SelectTrigger className="
+                    w-full
+                    h-[70px]
+                    p-4
+                    dark:bg-[#09090B]
+                    font-light 
+                    bg-white 
+                    border-2
+                    rounded-md
+                    outline-none
+                    transition
+                    disabled:opacity-70
+                    disabled:cursor-not-allowed">
+          <SelectValue placeholder="Select your community" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectGroup>
+            <SelectLabel>Communities</SelectLabel>
+            <SelectItem value="Bagbag">Bagbag</SelectItem>
+            <SelectItem value="San Bartolome">San Bartolome</SelectItem>
+          </SelectGroup>
+        </SelectContent>
+      </Select>
+      {errors.community && (
+        <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+          {errors.community.message}
         </span>
       )}
 

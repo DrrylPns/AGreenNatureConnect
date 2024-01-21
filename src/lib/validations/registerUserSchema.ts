@@ -29,6 +29,7 @@ export const RegisterSchema = z.object({
         }, {
             message: "You must be 13 years or older to register. For more information, make sure you've read our terms and conditions",
         }),
+    community: z.string(),
     terms: z.literal(true, {
         errorMap: () => ({ message: "You must accept Terms and Conditions" }),
     }),

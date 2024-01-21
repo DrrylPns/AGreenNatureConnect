@@ -6,8 +6,8 @@ import { Toaster } from '../components/toast/toaster'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { getAuthSession } from '@/lib/auth'
-import Sidebar from '../components/(admin)/Sidebar'
 import { notFound } from 'next/navigation'
+import Sidebar from './_components/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
