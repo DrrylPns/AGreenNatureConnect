@@ -23,10 +23,10 @@ const Sidebar = () => {
                         Dashboard
                     </Link>
 
-                    <Link href="#"
+                    <Link href="/admin/manage-employees"
                         className='flex flex-row gap-3'>
                         <User strokeWidth={1} />
-                        Employee
+                        Employees
                     </Link>
 
                     <Link href="#"

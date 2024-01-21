@@ -6,7 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useMutation } from '@tanstack/react-query'
 import axios, { AxiosError } from 'axios'
 import React from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, } from 'react-hook-form'
+
 import {
     Form,
     FormControl,
@@ -19,10 +20,6 @@ import {
 import { Input } from '@/app/components/Ui/Input'
 import { Button } from '@/app/components/Ui/Button'
 import { User } from '@prisma/client'
-// import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
-// import { cn } from '@/lib/utils'
-// import { ArrowDownUp, CheckIcon } from 'lucide-react'
-// import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from '@/app/components/Ui/command'
 
 interface CreateCommunityProps {
     user: User[]
@@ -91,7 +88,7 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
             communityName: values.communityName,
         }
 
-        createCommunity(payload)
+        // createCommunity(payload)
         console.log(payload)
     }
 
@@ -248,7 +245,8 @@ export const CreateCommunity = ({ user }: CreateCommunityProps) => {
                     type="submit"
                     variant="green"
                     isLoading={isLoading}
-                    disabled={isLoading}>Submit</Button>
+                    disabled={isLoading}>Submit
+                </Button>
             </form>
         </Form>
     )

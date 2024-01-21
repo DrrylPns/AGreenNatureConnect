@@ -274,19 +274,20 @@ export const Onboarding = () => {
                             onValueChange={handleSelectChange}
                         >
                             <SelectTrigger className="
-                    md:w-[620px]
-                    rounded-full
-                    h-[50px]
-                    p-4
-                    mb-8
-                    dark:bg-[#09090B]
-                    font-light 
-                    bg-white 
-                    border-2
-                    outline-none
-                    transition
-                    disabled:opacity-70
-                    disabled:cursor-not-allowed">
+                                md:w-[620px]
+                                rounded-full
+                                h-[50px]
+                                p-4
+                                mb-8
+                                dark:bg-[#09090B]
+                                font-light 
+                                bg-white 
+                                border-2
+                                outline-none
+                                transition
+                                disabled:opacity-70
+                                disabled:cursor-not-allowed"
+                            >
                                 <SelectValue placeholder="Select your community" />
                             </SelectTrigger>
                             <SelectContent>

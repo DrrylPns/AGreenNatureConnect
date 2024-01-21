@@ -45,7 +45,7 @@ export default async function RootLayout({
                             transaction history
                             Logout??
                         */}
-                    <main className='pl-[350px]'>
+                    <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                         {children}
                     </main>
                     <Toaster />

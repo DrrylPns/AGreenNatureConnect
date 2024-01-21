@@ -9,7 +9,7 @@ export async function GET(req: Request) {
         // get the loggedIn user first, to get the community include it
         const loggedIn = await prisma.user.findFirst({
             where: {
-                id: session?.user.id
+                id: session?.user.id,
             },
             include: {
                 Community: true
@@ -18,7 +18,10 @@ export async function GET(req: Request) {
 
         const cntUsers = await prisma.community.count({
             where: {
-                name: loggedIn?.Community?.name
+                name: loggedIn?.Community?.name,
+                user: {
+                    role: "EMPLOYEE"
+                }
             }
         })
 
