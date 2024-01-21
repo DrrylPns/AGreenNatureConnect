@@ -17,6 +17,6 @@ export const UpdateProductSchema = z.object({
     id: z.string().optional(),
     itemNumber: z.coerce.number().optional(),
     name: z.string(),
-    kilo: z.coerce.number(),
+    kilo: z.coerce.number().optional(),
     price: z.coerce.number(),
 })

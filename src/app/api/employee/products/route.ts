@@ -57,11 +57,12 @@ export async function POST(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { productImage, name, kilo, price } = CreateProductSchema.parse(body)
+        // const { productImage, name, kilo, price } = CreateProductSchema.parse(body)
+        const { productImage, name, price } = CreateProductSchema.parse(body)
 
         if (price === 0 || price <= 0) return new Response("Please put a valid price", { status: 402 })
 
-        if (kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", { status: 403 })
+        // if (kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", { status: 403 })
 
         // await prisma.product.create({
         //     data: {
@@ -106,7 +107,7 @@ export async function PUT(req: NextRequest) {
 
         if (price === 0 || price <= 0) return new Response("Please put a valid price", { status: 402 })
 
-        if (kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", { status: 403 })
+        // if (kilo === 0 || kilo <= 0) return new Response("Please put a valid weight", { status: 403 })
 
         // wag malilito sa batuhan ng id
         await prisma.product.update({
