@@ -47,7 +47,7 @@ import { cn } from "@/lib/utils"
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
-  isFetching: boolean
+  isFetching?: boolean
 }
 
 export function DataTable<TData, TValue>({
@@ -96,7 +96,7 @@ export function DataTable<TData, TValue>({
           className="max-w-sm"
         />
 
-        {/* Visibility function */}
+        {/* Add Product */}
         <Link
           href="/employee/create-products"
           className={cn(buttonVariants({
@@ -107,6 +107,8 @@ export function DataTable<TData, TValue>({
         >
           Add Item
         </Link>
+
+        {/* VIEW FUNCTIONALITY */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">

@@ -3,6 +3,7 @@ import prisma from "@/lib/db/db";
 import { CreateEmployeeSchema } from "@/lib/validations/admin/createEmployee";
 import { NextRequest, NextResponse } from "next/server"
 import bcrypt from "bcrypt"
+import { UpdateEmployeeSchema } from "@/lib/validations/admin/updateEmployee";
 
 export async function POST(req: Request) {
     const currentYear = new Date().getFullYear()
@@ -100,6 +101,64 @@ export async function POST(req: Request) {
         })
 
         return new NextResponse(`Successfully created an employee!`)
+    } catch (error) {
+        return new NextResponse('Could not create an employee' + error, { status: 500 })
+    }
+}
+
+export async function PUT(req: NextRequest) {
+    const session = await getAuthSession()
+
+    if (session?.user.role !== "ADMIN") return new Response("Unauthorized", { status: 401 })
+
+    try {
+        const body = await req.json()
+
+        const {
+            address,
+            employeeId,
+            firstname,
+            lastName,
+            phone,
+            avatar,
+            gender,
+        } = UpdateEmployeeSchema.parse(body)
+
+        const phoneNumberExists = await prisma.user.findFirst({
+            where: {
+                phoneNumber: phone
+            }
+        })
+
+        const getEmployeeUpdate = await prisma.user.findFirst({
+            where: {
+                EmployeeId: employeeId,
+            }
+        })
+
+        console.log(employeeId)
+        // get muna yung user na inuupdate tapus if 
+        // yung user na yun ay hindi kaniya ang phonenumberexists then proceed
+
+        if (phoneNumberExists && phoneNumberExists.id !== getEmployeeUpdate?.id) {
+            return new Response("Error: Bad Request, phone number already exists!", { status: 401 })
+        }
+
+        await prisma.user.update({
+            data: {
+                name: firstname,
+                address,
+                lastName,
+                phoneNumber: phone,
+                image: avatar,
+                gender,
+            },
+            where: {
+                EmployeeId: employeeId,
+            }
+        })
+
+        return new NextResponse(`Successfully updated the employee!`)
     } catch (error) {
         return new NextResponse('Could not create an employee' + error, { status: 500 })
     }

@@ -32,9 +32,9 @@ const PPSCard = () => {
     return (
         <>
             <Card className="">
-                <Title>Product Sale Summary</Title>
+                <Title className="mt-4 mb-4">Product Sale Summary</Title>
                 <DonutChart
-                    className="mt-6"
+                    className="mt-10"
                     data={products}
                     category="sales"
                     index="category"

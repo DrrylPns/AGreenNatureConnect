@@ -30,12 +30,6 @@ const Sidebar = ({
 
           <Link href="#"
             className='flex flex-row gap-3'>
-            <User strokeWidth={1} />
-            Employee
-          </Link>
-
-          <Link href="#"
-            className='flex flex-row gap-3'>
             <PlaySquare strokeWidth={1} />
             Video Tutorial
           </Link>

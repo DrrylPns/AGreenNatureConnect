@@ -1,5 +1,6 @@
 "use client"
 
+import { Button } from "@/app/components/Ui/Button";
 import { formatDate } from "@/lib/utils";
 import { Community, User } from "@prisma/client";
 import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text, Title } from '@tremor/react'
@@ -38,37 +39,44 @@ const SearchEmployees: React.FC<SearchEmployeesProps> = ({
                 </MultiSelect>
             </div>
 
-            <Table className="mt-5">
-                <TableHead>
-                    <TableRow>
-                        <TableHeaderCell>Employee ID</TableHeaderCell>
-                        <TableHeaderCell>Firstname</TableHeaderCell>
-                        <TableHeaderCell>Lastname</TableHeaderCell>
-                        <TableHeaderCell>Date Joined</TableHeaderCell>
-                        <TableHeaderCell>Email</TableHeaderCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {employees.filter((employee) => isEmployeeSelected(employee))
-                        .map((employee) => (
-                            <TableRow key={employee.id}>
-                                <TableCell>{employee.EmployeeId}</TableCell>
-                                <TableCell>
-                                    <Text>{employee.name}</Text>
-                                </TableCell>
-                                <TableCell>
-                                    <Text>{employee.lastName}</Text>
-                                </TableCell>
-                                <TableCell>
-                                    <Text>{formatDate(employee.createdAt)}</Text>
-                                </TableCell>
-                                <TableCell>
-                                    <Text>{employee.email}</Text>
-                                </TableCell>
-                            </TableRow>
-                        ))}
-                </TableBody>
-            </Table>
+            <Card className="mt-5 w-full">
+                <Table className="w-full">
+                    <TableHead className="bg-gray-200">
+                        <TableRow>
+                            <TableHeaderCell className="text-black">Employee ID</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Firstname</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Lastname</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Contact Number</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Date Joined</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Email</TableHeaderCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {employees.filter((employee) => isEmployeeSelected(employee))
+                            .map((employee) => (
+                                <TableRow key={employee.id}>
+                                    <TableCell>{employee.EmployeeId}</TableCell>
+                                    <TableCell>
+                                        <Text>{employee.name}</Text>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Text>{employee.lastName}</Text>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Text>{employee.phoneNumber}</Text>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Text>{formatDate(employee.createdAt)}</Text>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Text>{employee.email}</Text>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                    </TableBody>
+                </Table>
+            </Card>
+
         </>
     )
 }

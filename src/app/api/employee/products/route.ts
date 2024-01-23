@@ -121,7 +121,7 @@ export async function PUT(req: NextRequest) {
             }
         })
 
-        return new NextResponse(`Successfully updated item the item`)
+        return new NextResponse(`Successfully updated the item`)
     } catch (error) {
         return new NextResponse('Could not create a product' + error, { status: 500 })
     }

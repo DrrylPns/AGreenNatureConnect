@@ -7,6 +7,8 @@ import { getAuthSession } from '@/lib/auth'
 import Link from 'next/link'
 import { buttonVariants } from '@/app/components/Ui/Button'
 import { Plus } from 'lucide-react'
+import { Employees, columns } from './_components/columns'
+import { DataTable } from './_components/data-table'
 
 const page = async () => {
 
@@ -38,12 +40,16 @@ const page = async () => {
         }
     })
 
+    const dataForDataTable = employees as unknown as Employees[]
+
     return (
-        <div className="mt-6">
-            <Card>
+        <div className="container mx-auto py-10">
+            {/* 1st code tremor table----> */}
+
+            {/* <Card className='bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4]'>
                 <div className='flex flex-row justify-between'>
                     <div>
-                        <Title className='text-[40px] mb-5'>Employees</Title>
+                        <Title className='text-[50px] mb-7 mt-3'>Employees</Title>
                     </div>
 
                     <div className='flex flex-row justify-center items-center'>
@@ -60,6 +66,15 @@ const page = async () => {
                     </div>
                 </div>
                 <SearchEmployees employees={employees} />
+            </Card>
+
+            <Card className='bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] mt-11'>
+                
+            </Card> */}
+
+            {/* shadcn table ----> */}
+            <Card className='bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4]'>
+                <DataTable columns={columns} data={dataForDataTable} employees={employees} isEmployees />
             </Card>
         </div>
     )

@@ -10,7 +10,7 @@ const Sidebar = () => {
     const router = useRouter()
 
     return (
-        <section className='max-w-[320px] flex left-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf]'>
+        <section className='max-w-[320px] flex left-0 fixed py-3 px-11 h-full border-r shadow-sm bg-[#7ef9bf]'>
             <div className='flex flex-col gap-3 justify-between'>
                 <div>
                     <h1 className='text-lg text-[#25643b] font-bold'>AGreen <span className='text-[#f7c25f]'>Nature</span> Connect</h1>

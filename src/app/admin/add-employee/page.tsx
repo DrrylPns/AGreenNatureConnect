@@ -57,11 +57,14 @@ import { ImageDown } from "lucide-react";
 import { useState } from "react";
 import Image from "next/image";
 import { UploadDropzone } from "@/lib/uploadthing";
+import { useRouter } from 'next/navigation';
 
 const page = () => {
     const form = useForm<CreateEmployeeType>({
         resolver: zodResolver(CreateEmployeeSchema),
     })
+
+    const router = useRouter()
 
     const [imageUrl, setImageUrl] = useState<string>('')
 
@@ -126,7 +129,8 @@ const page = () => {
             })
 
             setTimeout(() => {
-                window.location.reload();
+                router.push("/admin/manage-employees")
+                router.refresh()
             }, 1000)
         }
     })

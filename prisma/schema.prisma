@@ -255,12 +255,12 @@ enum ReportStatus {
 }
 
 model Blog {
-  id         String             @id @default(cuid())
+  id         String         @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
-  isApproved BlogApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -272,19 +272,13 @@ model Blog {
   @@index([communityId])
 }
 
-enum BlogApprovalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
-
 model LearningMaterial {
-  id         String                 @id @default(cuid())
+  id         String         @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-  isApproved MaterialApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -297,12 +291,12 @@ model LearningMaterial {
 }
 
 model VideoTutorial {
-  id         String                 @id @default(cuid())
+  id         String         @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-  isApproved MaterialApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -315,12 +309,12 @@ model VideoTutorial {
 }
 
 model FAQ {
-  id         String                 @id @default(cuid())
+  id         String         @id @default(cuid())
   question   String
   answer     Json
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-  isApproved MaterialApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -330,12 +324,6 @@ model FAQ {
 
   @@index([authorId])
   @@index([communityId])
-}
-
-enum MaterialApprovalStatus {
-  PENDING
-  APPROVED
-  REJECTED
 }
 
 model Article {
@@ -359,12 +347,12 @@ model Article {
 enum ApprovalStatus {
   PENDING
   APPROVED
-  REJECTED
+  DECLINED
 }
 
 model Product {
   id           String         @id @default(cuid())
-  itemNumber   Int            @unique @default(autoincrement())
+  // itemNumber   Int            @unique @default(autoincrement())
   productImage String         @unique
   name         String
   price        Float?
@@ -507,7 +495,7 @@ model PerPack {
 //   orderNumber     String        @unique
 //   createdAt       DateTime      @default(now())
 //   updatedAt       DateTime?     @updatedAt
-//   shippingAddress String
+//   shippingAddress String // 
 //   paymentMethod   String // GCash, CoD, etc.
 //   paymentStatus   String // Pending, Cancelled, Delivered
 //   orderStatus     String // Pending, Shipped, Delivered, etc.
