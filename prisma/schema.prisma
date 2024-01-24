@@ -16,34 +16,38 @@ datasource db {
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na
 // isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                  String    @id @default(cuid())
+  id                  String         @id @default(cuid())
   name                String?
-  EmployeeId          String?   @unique
-  username            String?   @unique
-  email               String?   @unique
+  EmployeeId          String?        @unique
+  username            String?        @unique
+  email               String?        @unique
   emailVerified       DateTime?
   image               String?
   hashedPassword      String?
   middleName          String?
   lastName            String?
-  phoneNumber         String?   @unique
+  phoneNumber         String?        @unique
   address             String?
-  role                Role      @default(USER)
+  role                Role           @default(USER)
   gender              String?
   birthday            DateTime?
   bio                 String?
-  createdAt           DateTime  @default(now())
-  updatedAt           DateTime  @updatedAt
-  isBanned            Boolean   @default(false)
-  numberOfViolations  Int       @default(0)
+  createdAt           DateTime       @default(now())
+  updatedAt           DateTime       @updatedAt
+  isBanned            Boolean        @default(false)
+  numberOfViolations  Int            @default(0)
   lastUsernameChange  DateTime?
   isBannedFromPosting DateTime?
-  createdTopics       Topic[]   @relation("CreatedBy")
+  createdTopics       Topic[]        @relation("CreatedBy")
+  buyerTransactions   Transaction[]  @relation("Buyer")
+  sellerTransactions  Transaction[]  @relation("Seller")
+  shippingInfo        ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
 
+  cart             Cart?
   Account          Account[]
   Session          Session[]
   posts            Post[]
@@ -356,7 +360,7 @@ model Product {
   productImage String         @unique
   name         String
   price        Float?
-  category     String         @unique
+  category     String         @unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
   Kilo         Kilo[]
@@ -371,8 +375,66 @@ model Product {
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
+  Cart   Cart?   @relation(fields: [cartId], references: [id])
+  cartId String?
+
+  Transaction Transaction[]
+
   @@index([creatorId])
   @@index([communityId])
+  @@index([cartId])
+}
+
+model Transaction {
+  id          String   @id @default(cuid())
+  referenceId String   @unique
+  amount      Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  buyer   User   @relation("Buyer", fields: [buyerId], references: [id])
+  buyerId String
+
+  seller   User   @relation("Seller", fields: [sellerId], references: [id])
+  sellerId String
+
+  product   Product @relation(fields: [productId], references: [id])
+  productId String
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([productId])
+}
+
+model Cart {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  product Product[]
+
+  @@index([userId])
+}
+
+model ShippingInfo {
+  id          String   @id @default(cuid())
+  name        String
+  address     String
+  phoneNumber String
+  // city      String
+  // state     String
+  // country   String
+  // zipCode   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
+
+  @@index([userId])
 }
 
 model Kilo {
