@@ -7,9 +7,9 @@ function Card({
     productName,
     barangay,
 }:{
-    imageUrl: StaticImageData,
-    productName: String,
-    barangay:String
+    imageUrl: string,
+    productName: string,
+    barangay:string
 }) {
   return (
     <div className='bg-white shadow-md drop-shadow-md rounded-lg h-full w-full'>
@@ -17,6 +17,8 @@ function Card({
         <Image 
             src={imageUrl} 
             alt='Pechay'
+            width={100}
+            height={100}
             className='w-full object-contain mb-3' 
         />
         {/**Product Name */}
