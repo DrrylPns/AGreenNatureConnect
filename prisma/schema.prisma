@@ -41,13 +41,13 @@ model User {
   createdTopics       Topic[]        @relation("CreatedBy")
   buyerTransactions   Transaction[]  @relation("Buyer")
   sellerTransactions  Transaction[]  @relation("Seller")
-  cart                Cart           @relation(fields: [id], references: [userId])
   shippingInfo        ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
 
+  cart             Cart?
   Account          Account[]
   Session          Session[]
   posts            Post[]
@@ -259,12 +259,12 @@ enum ReportStatus {
 }
 
 model Blog {
-  id         String             @id @default(cuid())
+  id         String         @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime           @default(now())
-  updatedAt  DateTime           @updatedAt
-  isApproved BlogApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -276,19 +276,19 @@ model Blog {
   @@index([communityId])
 }
 
-enum BlogApprovalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
+// enum BlogApprovalStatus {
+//   PENDING
+//   APPROVED
+//   REJECTED
+// }
 
 model LearningMaterial {
-  id         String                 @id @default(cuid())
+  id         String         @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-  isApproved MaterialApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -301,12 +301,12 @@ model LearningMaterial {
 }
 
 model VideoTutorial {
-  id         String                 @id @default(cuid())
+  id         String         @id @default(cuid())
   title      String
   content    Json
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-  isApproved MaterialApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -319,12 +319,12 @@ model VideoTutorial {
 }
 
 model FAQ {
-  id         String                 @id @default(cuid())
+  id         String         @id @default(cuid())
   question   String
   answer     Json
-  createdAt  DateTime               @default(now())
-  updatedAt  DateTime               @updatedAt
-  isApproved MaterialApprovalStatus @default(PENDING)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+  isApproved ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -336,11 +336,11 @@ model FAQ {
   @@index([communityId])
 }
 
-enum MaterialApprovalStatus {
-  PENDING
-  APPROVED
-  REJECTED
-}
+// enum MaterialApprovalStatus {
+//   PENDING
+//   APPROVED
+//   REJECTED
+// }
 
 model Article {
   id         String          @id @default(cuid())
@@ -367,12 +367,14 @@ enum ApprovalStatus {
 }
 
 model Product {
-  id         String  @id @default(cuid())
-  itemNumber Int     @unique @default(autoincrement())
+  id         String          @id @default(cuid())
+  image      String
   name       String
   kilo       Float
   price      Float?
-  isFree     Boolean @default(false)
+  category   String // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
+  isFree     Boolean         @default(false)
+  isApproved ApprovalStatus? @default(PENDING)
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
@@ -380,52 +382,67 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  community   Community?    @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
-  Transaction Transaction[]
-  Cart        Cart?         @relation(fields: [cartId], references: [id])
-  cartId      String?
-  Cart        Cart?         @relation(fields: [cartId], references: [id])
 
+  Transaction Transaction[]
+
+  Cart   Cart?   @relation(fields: [cartId], references: [id])
+  cartId String?
 
   @@index([creatorId])
   @@index([communityId])
+  @@index([cartId])
 }
 
 model Transaction {
-  id        String   @id @default(cuid())
-  amount    Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  buyer     User     @relation("Buyer", fields: [buyerId], references: [id])
-  buyerId   String
-  seller    User     @relation("Seller", fields: [sellerId], references: [id])
-  sellerId  String
-  product   Product  @relation(fields: [productId], references: [id])
+  id          String   @id @default(cuid())
+  referenceId String   @unique
+  amount      Float
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  buyer   User   @relation("Buyer", fields: [buyerId], references: [id])
+  buyerId String
+
+  seller   User   @relation("Seller", fields: [sellerId], references: [id])
+  sellerId String
+
+  product   Product @relation(fields: [productId], references: [id])
   productId String
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([productId])
 }
 
 model Cart {
-  id        String    @id @default(cuid())
-  createdAt DateTime  @default(now())
-  updatedAt DateTime  @updatedAt
-  user      User      @relation(fields: [userId], references: [id])
-  userId    String    @unique
-  products  Product[] @relation("CartProduct")
-  Product   Product[]
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String @unique
+
+  product Product[]
+
+  @@index([userId])
 }
 
 model ShippingInfo {
-  id        String   @id @default(cuid())
-  address   String
-  city      String
-  state     String
-  country   String
-  zipCode   String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  id          String   @id @default(cuid())
+  name        String
+  address     String
+  phoneNumber String
+  // city      String
+  // state     String
+  // country   String
+  // zipCode   String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 
   @@index([userId])
 }
