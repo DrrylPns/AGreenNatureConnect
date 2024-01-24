@@ -193,9 +193,13 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                         </div>
 
                                         : <div className="lg:-mb-[64px] lg:-mt-[200px]">
-                                            <Button variant="outline" className="rounded-full w-[140px] h-[140px] border-black/60 border lg:-ml-[77px] -mt-[274px] mb-[104px]">
+                                            {/* <Button variant="outline" className="rounded-full w-[140px] h-[140px] border-black/60 border lg:-ml-[77px] -mt-[274px] mb-[104px]">
                                                 <ImageDown strokeWidth={1} size={32} />
-                                            </Button>
+                                            </Button> */}
+
+                                            <div className="rounded-full w-[140px] h-[140px] border-black/60 border lg:-ml-[77px] -mt-[274px] mb-[104px] cursor-pointer bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+                                                <ImageDown strokeWidth={1} size={32} />
+                                            </div>
                                         </div>}
 
                                 </DrawerTrigger>

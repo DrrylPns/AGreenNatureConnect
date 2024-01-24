@@ -393,9 +393,9 @@ const page = () => {
                                             </div>
 
                                             : <div className="lg:-mb-[64px] lg:-mt-[200px]">
-                                                <Button variant="outline" className="rounded-full w-[70px] h-[70px] border-black/60 border lg:-ml-[62px] mb-[64px]">
+                                                <div className="rounded-full w-[70px] h-[70px] border-black/60 border lg:-ml-[62px] mb-[104px] cursor-pointer bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
                                                     <ImageDown strokeWidth={1} size={32} />
-                                                </Button>
+                                                </div>
                                             </div>}
 
                                     </DrawerTrigger>

@@ -360,6 +360,8 @@ model Product {
   productImage String         @unique
   name         String
   price        Float?
+  stockKilo    Float
+  stockPack    Int
   category     String         @unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
@@ -389,7 +391,7 @@ model Product {
 model Transaction {
   id          String            @id @default(cuid())
   referenceId String            @unique
-  amount      Float             // order total
+  amount      Float // order total
   status      TransactionStatus @default(ON_GOING)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt

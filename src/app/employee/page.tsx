@@ -1,5 +1,5 @@
 import { Article, Blog, Community, Product, User } from '@prisma/client'
-import { Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text, Title } from '@tremor/react'
+import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text, Title } from '@tremor/react'
 import React from 'react'
 import { CntProductsCard } from './_components/CntProductsCard'
 import { CntUserCard } from './_components/CntTopicCard'
@@ -8,6 +8,8 @@ import PPSCard from './_components/PPSCard'
 import prisma from '@/lib/db/db'
 import { getAuthSession } from '@/lib/auth'
 import { formatDate } from '@/lib/utils'
+import CntSales from '../admin/_components/CntSales'
+import SearchEmployees from '../admin/_components/SearchEmployees'
 
 const page = async () => {
 
@@ -39,57 +41,75 @@ const page = async () => {
 
     console.log(employees)
 
-    // const data = [
-    //     {
-    //         name: "Viola Amherd",
-    //         Role: "Federal Councillor",
-    //         departement: "The Federal Department of Defence, Civil Protection and Sport (DDPS)",
-    //         status: "active",
-    //     },
-    //     {
-    //         name: "Simonetta Sommaruga",
-    //         Role: "Federal Councillor",
-    //         departement:
-    //             "The Federal Department of the Environment, Transport, Energy and Communications (DETEC)",
-    //         status: "active",
-    //     },
-    //     {
-    //         name: "Alain Berset",
-    //         Role: "Federal Councillor",
-    //         departement: "The Federal Department of Home Affairs (FDHA)",
-    //         status: "active",
-    //     },
-    //     {
-    //         name: "Ignazio Cassis",
-    //         Role: "Federal Councillor",
-    //         departement: "The Federal Department of Foreign Affairs (FDFA)",
-    //         status: "active",
-    //     },
-    //     {
-    //         name: "Karin Keller-Sutter",
-    //         Role: "Federal Councillor",
-    //         departement: "The Federal Department of Finance (FDF)",
-    //         status: "active",
-    //     },
-    //     {
-    //         name: "Guy Parmelin",
-    //         Role: "Federal Councillor",
-    //         departement: "The Federal Department of Economic Affairs, Education and Research (EAER)",
-    //         status: "active",
-    //     },
-    //     {
-    //         name: "Elisabeth Baume-Schneider",
-    //         Role: "Federal Councillor",
-    //         departement: "The Federal Department of Justice and Police (FDJP)",
-    //         status: "active",
-    //     },
-    // ];
+    const chartdata4 = [
+        {
+            date: "Jan 23",
+            "Fruits": 167,
+            "Vegetables": 145,
+        },
+        {
+            date: "Feb 23",
+            "Fruits": 559,
+            "Vegetables": 410,
+        },
+        {
+            date: "Mar 23",
+            "Fruits": 156,
+            "Vegetables": 149,
+        },
+        {
+            date: "Apr 23",
+            "Fruits": 165,
+            "Vegetables": 112,
+        },
+        {
+            date: "May 23",
+            "Fruits": 153,
+            "Vegetables": 138,
+        },
+        {
+            date: "Jun 23",
+            "Fruits": 200,
+            "Vegetables": 98,
+        },
+        {
+            date: "July 23",
+            "Fruits": 124,
+            "Vegetables": 23,
+        },
+        {
+            date: "Aug 23",
+            "Fruits": 224,
+            "Vegetables": 221,
+        },
+        {
+            date: "Sep 23",
+            "Fruits": 201,
+            "Vegetables": 412,
+        },
+        {
+            date: "Oct 23",
+            "Fruits": 213,
+            "Vegetables": 316,
+        },
+        {
+            date: "Nov 23",
+            "Fruits": 69,
+            "Vegetables": 420,
+        },
+        {
+            date: "Dec 23",
+            "Fruits": 420,
+            "Vegetables": 69,
+        },
+    ];
 
 
     return (
-        <main className='flex flex-col gap-2 h-screen'>
+        <main className='flex flex-col gap-2 h-screen bg-[#E3E1E1]'>
             {/* <Sidebar name={community?.name} /> */}
             {/* TODO: TREMOR GRAPHS */}
+            <Title>{community?.name} Dashboard</Title>
 
             <section className='p-12'>
 
@@ -107,7 +127,7 @@ const page = async () => {
 
                                 <CntEmployeesCard />
 
-                                <CntProductsCard />
+                                <CntSales />
 
 
 
@@ -123,7 +143,17 @@ const page = async () => {
                             <Grid className="gap-6 mt-6" numItems={1} numItemsLg={3}>
                                 <Col numColSpanLg={2}>
                                     <Card>
-                                        <div className='h-40' />
+                                        <div className='h-full'>
+                                            <Title>Sales Report</Title>
+                                            <BarChart
+                                                className="h-72 mt-4"
+                                                data={chartdata4}
+                                                index="date"
+                                                categories={["Fruits", "Vegetables"]}
+                                                colors={["indigo", "gray"]}
+                                                yAxisWidth={30}
+                                            />
+                                        </div>
                                     </Card>
                                 </Col>
 
@@ -139,36 +169,8 @@ const page = async () => {
                                 <Card>
 
                                     <Title>List of Employees</Title>
-                                    <Table className="mt-5">
-                                        <TableHead>
-                                            <TableRow>
-                                                <TableHeaderCell>Employee ID</TableHeaderCell>
-                                                <TableHeaderCell>Firstname</TableHeaderCell>
-                                                <TableHeaderCell>Lastname</TableHeaderCell>
-                                                <TableHeaderCell>Date Joined</TableHeaderCell>
-                                                <TableHeaderCell>Email</TableHeaderCell>
-                                            </TableRow>
-                                        </TableHead>
-                                        <TableBody>
-                                            {employees.map((employee) => (
-                                                <TableRow key={employee.id}>
-                                                    <TableCell>{employee.EmployeeId}</TableCell>
-                                                    <TableCell>
-                                                        <Text>{employee.name}</Text>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Text>{employee.lastName}</Text>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Text>{formatDate(employee.createdAt)}</Text>
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        <Text>{employee.email}</Text>
-                                                    </TableCell>
-                                                </TableRow>
-                                            ))}
-                                        </TableBody>
-                                    </Table>
+
+                                    <SearchEmployees employees={employees} />
 
                                 </Card>
                             </div>

@@ -9,6 +9,7 @@ import { getAuthSession } from '@/lib/auth'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/db/db'
 import Sidebar from './_components/Sidebar'
+import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -34,12 +35,12 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className={cn("bg-[#E3E1E1]", inter.className)}>
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
                     <Sidebar />
-                    <main className='pl-[350px] bg-[#E3E1E1] h-screen'>
+                    <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                         {children}
                     </main>
                     <Toaster />

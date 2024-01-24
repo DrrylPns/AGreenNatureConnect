@@ -18,13 +18,16 @@ import { Checkbox } from "@/app/components/Ui/checkbox"
 import { useRouter } from "next/navigation";
 import { User } from "@prisma/client";
 import { toast } from "@/lib/hooks/use-toast";
+import Image from "next/image";
 
 export type Products = {
   id: string;
-  itemNumber: number;
+  productImage: string;
   name: string;
-  kilo: number;
-  price: number;
+  stockKilo: number;
+  stockPack: number;
+  category: string;
+  status: string;
   createdAt: Date;
   creatorId: string;
   creator: User;
@@ -55,27 +58,34 @@ export const columns: ColumnDef<Products>[] =
     //   ),
     // },
     {
-      accessorKey: "itemNumber",
+      accessorKey: "productImage",
       header: ({ column }) => {
         return (
-          <DataTableColumnHeader column={column} title="Item No." />
+          <DataTableColumnHeader column={column} title="Product Image" />
         )
       },
       cell: ({ row }) => {
-        const productId = row.original.id
-        const itemNumber = row.index + 1;
+        // const productId = row.original.id
+        const ProductImage = row.original.productImage
         return <div
           className="cursor-pointer"
-          onClick={() => {
-            toast({
-              title: "Success!",
-              description: "Employee ID copied to clipboard.",
-              variant: "default"
-            })
-            navigator.clipboard.writeText(productId)
-          }}
+        // onClick={() => {
+        //   toast({
+        //     title: "Success!",
+        //     description: "Employee ID copied to clipboard.",
+        //     variant: "default"
+        //   })
+        //   navigator.clipboard.writeText(productId)
+        // }}
         >
-          {itemNumber}
+          <Image
+            unoptimized
+            quality={100}
+            src={ProductImage}
+            alt="product image"
+            width={40}
+            height={40}
+          />
         </div>;
       },
     },
@@ -94,7 +104,7 @@ export const columns: ColumnDef<Products>[] =
           onClick={() => {
             toast({
               title: "Success!",
-              description: "Product ID copied to clipboard.",
+              description: "Product name copied to clipboard.",
               variant: "default"
             })
             navigator.clipboard.writeText(product)
@@ -106,33 +116,72 @@ export const columns: ColumnDef<Products>[] =
       },
     },
     {
-      accessorKey: "kilo",
+      accessorKey: "stockKilo",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Stock" />
+          <DataTableColumnHeader column={column} title="Stock kg" />
         );
       },
       cell: ({ row }) => {
-        const kilo = row.original.kilo;
-        return <div>{kilo}kg</div>;
+        const stockKilo = row.original.stockKilo;
+        return <div>{stockKilo}kg</div>;
       },
     },
     {
-      accessorKey: "price",
+      accessorKey: "stockPack",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Price" />
+          <DataTableColumnHeader column={column} title="Stock pck" />
         );
       },
       cell: ({ row }) => {
-        const price = row.original.price;
-        const formattedPrice = price.toLocaleString()
-
-        return <div>{formattedPrice}{" "}PHP</div>;
+        const stockKilo = row.original.stockPack;
+        return <div>{stockKilo}pck</div>;
       },
     },
+    {
+      accessorKey: "category",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Category" />
+        );
+      },
+      cell: ({ row }) => {
+        const category = row.original.category;
+        return <div>{category}</div>;
+      },
+    },
+    {
+      accessorKey: "status",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Status" />
+        );
+      },
+      cell: ({ row }) => {
+        const status = row.original.status;
+        return <div>{status}</div>;
+      },
+    },
+    // {
+    //   accessorKey: "price",
+    //   header: ({ column }) => {
+
+    //     return (
+    //       <DataTableColumnHeader column={column} title="Price" />
+    //     );
+    //   },
+    //   cell: ({ row }) => {
+    //     const price = row.original.price;
+    //     const formattedPrice = price.toLocaleString()
+
+    //     return <div>{formattedPrice}{" "}PHP</div>;
+    //   },
+    // },
     {
       accessorKey: "createdAt",
       header: ({ column }) => {

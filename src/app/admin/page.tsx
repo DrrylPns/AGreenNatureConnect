@@ -105,7 +105,6 @@ const page = async () => {
     },
   ];
 
-
   return (
     <main className='flex flex-col gap-2 h-screen bg-[#E3E1E1]'>
       <Title>{community?.name} Dashboard</Title>

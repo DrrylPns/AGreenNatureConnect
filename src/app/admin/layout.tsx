@@ -8,6 +8,7 @@ import RegisterModal from '../components/modals/RegisterModal'
 import { getAuthSession } from '@/lib/auth'
 import { notFound } from 'next/navigation'
 import Sidebar from './_components/Sidebar'
+import { cn } from '@/lib/utils'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,20 +32,11 @@ export default async function RootLayout({
 
     return (
         <html lang="en">
-            <body className={inter.className}>
+            <body className={cn("bg-[#E3E1E1]", inter.className)}>
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
-
                     <Sidebar />
-                    {/* links === 
-                            dashboard, 
-                            create employee, 
-                            inventory system, 
-                            products, 
-                            transaction history
-                            Logout??
-                        */}
                     <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                         {children}
                     </main>

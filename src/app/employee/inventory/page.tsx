@@ -6,17 +6,17 @@ import { DataTable } from './_components/data-table'
 
 const InventoryPage = () => {
 
-    const {data: products, isFetching} = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => {
-          const {data} = await axios.get("/api/employee/products")
-          return data as Products[]
-        }
-      })
+  const { data: products, isFetching } = useQuery({
+    queryKey: ['products'],
+    queryFn: async () => {
+      const { data } = await axios.get("/api/employee/products")
+      return data as Products[]
+    }
+  })
 
   return (
     <div className="container mx-auto py-10">
-        <DataTable columns={columns} data={products ?? []} isFetching={isFetching} />
+      <DataTable columns={columns} data={products ?? []} isFetching={isFetching} />
     </div>
   )
 }

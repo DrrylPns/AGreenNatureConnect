@@ -27,7 +27,9 @@ export async function GET() {
                 communityId: community?.id
             },
             include: {
-                creator: true
+                creator: true,
+                Kilo: true,
+                Pack: true,
             }
         })
 
