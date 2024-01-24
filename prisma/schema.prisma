@@ -40,7 +40,6 @@ model User {
   isBannedFromPosting DateTime?
   createdTopics       Topic[]        @relation("CreatedBy")
   buyerTransactions   Transaction[]  @relation("Buyer")
-  sellerTransactions  Transaction[]  @relation("Seller")
   shippingInfo        ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
@@ -128,6 +127,7 @@ model Community {
   LearningMaterial LearningMaterial[]
   VideoTutorial    VideoTutorial[]
   FAQ              FAQ[]
+  Transaction      Transaction[]
 
   @@index([userId])
 }
@@ -375,10 +375,11 @@ model Product {
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
-  Cart   Cart?   @relation(fields: [cartId], references: [id])
+  Cart   Cart?   @relation(fields: [cartId], references: [id], onDelete: Cascade)
   cartId String?
 
-  Transaction Transaction[]
+  transactions Transaction[]
+  // ProductTransaction ProductTransaction[]
 
   @@index([creatorId])
   @@index([communityId])
@@ -386,32 +387,53 @@ model Product {
 }
 
 model Transaction {
-  id          String   @id @default(cuid())
-  referenceId String   @unique
-  amount      Float
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id          String            @id @default(cuid())
+  referenceId String            @unique
+  amount      Float             // order total
+  status      TransactionStatus @default(ON_GOING)
+  createdAt   DateTime          @default(now())
+  updatedAt   DateTime          @updatedAt
 
-  buyer   User   @relation("Buyer", fields: [buyerId], references: [id])
+  buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
 
-  seller   User   @relation("Seller", fields: [sellerId], references: [id])
+  seller   Community @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId String
 
-  product   Product @relation(fields: [productId], references: [id])
-  productId String
+  products Product[]
+  // ProductTransaction ProductTransaction[]
 
   @@index([buyerId])
   @@index([sellerId])
-  @@index([productId])
 }
+
+enum TransactionStatus {
+  COMPLETED
+  CANCELLED
+  ON_GOING
+}
+
+// model ProductTransaction {
+//   id        String   @id @default(cuid())
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+
+//   productId     String
+//   transactionId String
+
+//   product     Product     @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
+//   @@index([productId])
+//   @@index([transactionId])
+// }
 
 model Cart {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
   product Product[]
@@ -431,7 +453,7 @@ model ShippingInfo {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  user   User   @relation(fields: [userId], references: [id])
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   @@index([userId])
@@ -442,7 +464,7 @@ model Kilo {
   kilo  Float
   price Float
 
-  Product   Product? @relation(fields: [productId], references: [id])
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?
 
   @@index([productId])
@@ -453,7 +475,7 @@ model PerPack {
   pack  Int
   price Float
 
-  Product   Product? @relation(fields: [productId], references: [id])
+  Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?
 
   @@index([productId])
