@@ -356,7 +356,7 @@ enum ApprovalStatus {
 
 model Product {
   id           String         @id @default(cuid())
-  // itemNumber   Int            @unique @default(autoincrement())
+  itemNumber   Int?           @unique @default(autoincrement())
   productImage String         @unique
   name         String
   price        Float?

@@ -38,7 +38,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
     resolver: zodResolver(UpdateProductSchema),
     defaultValues: {
       id: product.id,
-      itemNumber: product.itemNumber,
+      // itemNumber: product.itemNumber as number,
       name: product.name,
       price: Number(product.price),
       // kilo: product.kilo,
@@ -141,7 +141,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
             )}
           />
 
-          <FormField
+          {/* <FormField
             control={form.control}
             name="itemNumber"
             disabled
@@ -150,13 +150,12 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 <FormLabel>Item No.</FormLabel>
                 <FormControl>
                   <Input placeholder="Item Number" {...field} />
-                  {/* <Input placeholder={`${product.id}`} {...field} /> */}
                 </FormControl>
 
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
 
           <FormField
             control={form.control}

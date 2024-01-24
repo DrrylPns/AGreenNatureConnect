@@ -20,9 +20,9 @@ export async function GET() {
 
     try {
         const products = await prisma.product.findMany({
-            orderBy: {
-                itemNumber: 'asc'
-            },
+            // orderBy: {
+            //     itemNumber: 'asc'
+            // },
             where: {
                 communityId: community?.id
             },
