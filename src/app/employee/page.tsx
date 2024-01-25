@@ -111,27 +111,25 @@ const page = async () => {
             {/* TODO: TREMOR GRAPHS */}
             <Title>{community?.name} Dashboard</Title>
 
-            <section className='p-12'>
+            <TabGroup className="mt-6">
+                <TabList>
+                    <Tab>Overview</Tab>
+                    {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
+                    <Tab>Employees</Tab>
+                </TabList>
+                <TabPanels>
+                    <TabPanel>
+                        <Grid numItemsMd={3} numItemsLg={3} className="gap-6 mt-6">
 
-                <TabGroup className="mt-6">
-                    <TabList>
-                        <Tab>Overview</Tab>
-                        {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
-                        <Tab>Employees</Tab>
-                    </TabList>
-                    <TabPanels>
-                        <TabPanel>
-                            <Grid numItemsMd={3} numItemsLg={3} className="gap-6 mt-6">
+                            <CntUserCard />
 
-                                <CntUserCard />
+                            <CntEmployeesCard />
 
-                                <CntEmployeesCard />
-
-                                <CntSales />
+                            <CntSales />
 
 
 
-                                {/* <CntPostCard />
+                            {/* <CntPostCard />
 
                                 <CntUserCard />
 
@@ -139,45 +137,44 @@ const page = async () => {
 
                                 <CntProductCard /> */}
 
-                            </Grid>
-                            <Grid className="gap-6 mt-6" numItems={1} numItemsLg={3}>
-                                <Col numColSpanLg={2}>
-                                    <Card>
-                                        <div className='h-full'>
-                                            <Title>Sales Report</Title>
-                                            <BarChart
-                                                className="h-72 mt-4"
-                                                data={chartdata4}
-                                                index="date"
-                                                categories={["Fruits", "Vegetables"]}
-                                                colors={["indigo", "gray"]}
-                                                yAxisWidth={30}
-                                            />
-                                        </div>
-                                    </Card>
-                                </Col>
-
-                                <PPSCard />
-
-
-                            </Grid>
-                        </TabPanel>
-
-                        {/* code of list of employees */}
-                        <TabPanel>
-                            <div className="mt-6">
+                        </Grid>
+                        <Grid className="gap-6 mt-6" numItems={1} numItemsLg={3}>
+                            <Col numColSpanLg={2}>
                                 <Card>
-
-                                    <Title>List of Employees</Title>
-
-                                    <SearchEmployees employees={employees} />
-
+                                    <div className='h-full'>
+                                        <Title>Sales Report</Title>
+                                        <BarChart
+                                            className="h-72 mt-4"
+                                            data={chartdata4}
+                                            index="date"
+                                            categories={["Fruits", "Vegetables"]}
+                                            colors={["indigo", "gray"]}
+                                            yAxisWidth={30}
+                                        />
+                                    </div>
                                 </Card>
-                            </div>
-                        </TabPanel>
-                    </TabPanels>
-                </TabGroup>
-            </section>
+                            </Col>
+
+                            <PPSCard />
+
+
+                        </Grid>
+                    </TabPanel>
+
+                    {/* code of list of employees */}
+                    <TabPanel>
+                        <div className="mt-6">
+                            <Card>
+
+                                <Title>List of Employees</Title>
+
+                                <SearchEmployees employees={employees} />
+
+                            </Card>
+                        </div>
+                    </TabPanel>
+                </TabPanels>
+            </TabGroup>
         </main>
     )
 }

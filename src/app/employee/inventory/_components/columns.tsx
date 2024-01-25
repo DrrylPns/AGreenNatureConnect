@@ -68,7 +68,7 @@ export const columns: ColumnDef<Products>[] =
         // const productId = row.original.id
         const ProductImage = row.original.productImage
         return <div
-          className="cursor-pointer"
+          className="cursor-pointer flex items-center justify-center"
         // onClick={() => {
         //   toast({
         //     title: "Success!",
@@ -83,8 +83,8 @@ export const columns: ColumnDef<Products>[] =
             quality={100}
             src={ProductImage}
             alt="product image"
-            width={40}
-            height={40}
+            width={50}
+            height={50}
           />
         </div>;
       },

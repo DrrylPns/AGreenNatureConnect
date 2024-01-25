@@ -360,9 +360,9 @@ model Product {
   productImage String         @unique
   name         String
   price        Float?
-  stockKilo    Float
+  stockKilo    Float  
   stockPack    Int
-  category     String         @unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
+  category     String         //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
   Kilo         Kilo[]
@@ -388,7 +388,7 @@ model Product {
   @@index([cartId])
 }
 
-model Transaction {
+model Transaction { 
   id          String            @id @default(cuid())
   referenceId String            @unique
   amount      Float // order total
@@ -462,9 +462,10 @@ model ShippingInfo {
 }
 
 model Kilo {
-  id    String @id @default(cuid())
-  kilo  Float
-  price Float
+  id        String  @id @default(cuid())
+  kilo      Float
+  price     Float
+  estPieces String?
 
   Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?
@@ -473,9 +474,10 @@ model Kilo {
 }
 
 model PerPack {
-  id    String @id @default(cuid())
-  pack  Int
-  price Float
+  id        String  @id @default(cuid())
+  pack      Int
+  price     Float
+  estPieces String?
 
   Product   Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String?

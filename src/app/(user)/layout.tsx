@@ -42,7 +42,7 @@ export default async function RootLayout({
       <body className={`${inter.className}`}>
 
         <Providers>
-          {session?.user.birthday === null ? (
+          {session?.user.birthday === null && session?.user.role === "USER" ? (
             <>
               <Onboarding />
             </>
