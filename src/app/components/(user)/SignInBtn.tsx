@@ -1,20 +1,17 @@
-"use client"
-import { Button } from "../Ui/Button"
-import useLoginModal from '@/lib/hooks/useLoginModal'
+"use client";
+import { Button } from "../Ui/Button";
+import useLoginModal from "@/lib/hooks/useLoginModal";
 
 const SignInBtn = () => {
-    const loginModal = useLoginModal()
+  const loginModal = useLoginModal();
 
-    return (
-        <>
-            <Button
-                onClick={loginModal.onOpen}
-                variant={'green'}
-            >
-                Sign In
-            </Button>
-        </>
-    )
-}
+  return (
+    <>
+      <Button onClick={loginModal.onOpen} variant={"green"}>
+        Sign In
+      </Button>
+    </>
+  );
+};
 
-export default SignInBtn
+export default SignInBtn;
