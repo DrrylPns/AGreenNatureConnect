@@ -30,26 +30,28 @@ export type CreateProductType = z.infer<typeof CreateProductSchema>
 // })
 
 const numberError = { message: "Field must be 0 or more" }
+const variantError = { message: "Variant must be 1 or more" }
 
 export const CreateProductSchema = z.object({
-    productImage: z.string(),
-    name: z.string().min(3).max(20),
-    quantity: z.coerce.number().min(0, numberError),
-    category: z.string().min(2).max(21),
-    perKilo: z.array(
+    productImage: z.string().optional(),
+    name: z.string().min(3).max(20).optional(),
+    quantity: z.coerce.number().min(0, numberError).optional(),
+    category: z.string().min(2).max(21).optional(),
+    typeOfMeasurement: z.string().min(1).max(21).optional(),
+    perMeasurement: z.array(
         z.object({
-            kilo: z.coerce.number().min(0, numberError),
+            measurement: z.coerce.number().min(0, variantError),
             price: z.coerce.number().min(0, numberError),
             estPieces: z.string().min(0, numberError),
         })
-    ),
-    perPack: z.array(
-        z.object({
-            pack: z.coerce.number().min(0, numberError),
-            price: z.coerce.number().min(0, numberError),
-            estPieces: z.string().min(0, numberError),
-        })
-    ),
+    ).optional(),
+    // perPack: z.array(
+    //     z.object({
+    //         pack: z.coerce.number().min(0, numberError),
+    //         price: z.coerce.number().min(0, numberError),
+    //         estPieces: z.string().min(0, numberError),
+    //     })
+    // ),
     // estPiecesKilo: z.number().optional(),
     // estPiecesPack: z.number().optional(),
 });

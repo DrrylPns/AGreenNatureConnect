@@ -16,6 +16,17 @@ import {
     FormLabel,
     FormMessage,
 } from "@/app/components/Ui/form"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/app/components/Ui/alert-dialog"
 import { Input } from '@/app/components/Ui/Input'
 import { Button } from '@/app/components/Ui/Button'
 import { User } from '@prisma/client'
@@ -25,27 +36,78 @@ import Image from 'next/image'
 import { UploadDropzone } from '@/lib/uploadthing'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/Ui/select'
 import { cn } from '@/lib/utils'
-import { ArrowLeft, ArrowRight, Plus } from 'lucide-react'
+import { ArrowLeft, ArrowRight, MinusCircle, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 const CreateProduct = () => {
-    const [imageUrl, setImageUrl] = useState<string>('')
+    const [imageUrl, setImageUrl] = useState<string>('https://utfs.io/f/50b7e3d4-908f-4b4d-b04f-99774099e261-gepqni.jpg')
     const [formStep, setFormStep] = useState(0)
-    const [perKiloSlots, setPerKiloSlots] = useState([{ price: '', estPieces: '' }]);
-    const [perPackSlots, setPerPackSlots] = useState([{ price: '', estPieces: '' }]);
+    const [perMeasurementSlots, setPerMeasurementSlots] = useState([{ measurement: 0, price: 0, estPieces: '' }]);
+    // const [perPackSlots, setPerPackSlots] = useState([{ price: '', estPieces: '' }]);
+    const [prodName, setProdName] = useState<string>("")
+    const [typeMeasurementProd, setTypeMeasurementProd] = useState<string>("")
+    const [quantityProd, setQuantityProd] = useState<number>()
     const router = useRouter()
 
     const imageIsEmpty = imageUrl.length === 0
 
     const form = useForm<CreateProductType>({
         resolver: zodResolver(CreateProductSchema),
-        defaultValues: {
-            productImage: '',
-            name: '',
-            category: '',
-            // price: 0,
-        }
+        // defaultValues: {
+        //     productImage: '',
+        //     // quantity: 1,
+        //     name: 'Pechay',
+        //     category: '',
+        //     // price: 0,
+        // }
     })
+
+    const { formState } = form
+
+    const removePerMeasurementSlot = (indexToRemove: any) => {
+        setPerMeasurementSlots((prevSlots) => prevSlots.filter((_, index) => index !== indexToRemove));
+    };
+
+    const handleMeasurementChange = (index: any, measurement: any) => {
+        setPerMeasurementSlots((prevSlots) =>
+            prevSlots.map((slot, i) =>
+                i === index ? { ...slot, measurement: measurement } : slot
+            )
+        );
+    };
+
+    const handlePriceChange = (index: any, price: any) => {
+        setPerMeasurementSlots((prevSlots) =>
+            prevSlots.map((slot, i) =>
+                i === index ? { ...slot, price: price } : slot
+            )
+        );
+    };
+
+    const handleEstPiecesChange = (index: any, estPieces: string) => {
+        setPerMeasurementSlots((prevSlots) =>
+            prevSlots.map((slot, i) =>
+                i === index ? { ...slot, estPieces: estPieces } : slot
+            )
+        );
+    };
+
+    const getPerMeasurementValues = () => {
+        return perMeasurementSlots.map((slot, index) => ({
+            //@ts-ignore
+            measurement: form.getValues(`perMeasurement[${index}].measurement`),
+            //@ts-ignore
+            price: form.getValues(`perMeasurement[${index}].price`),
+            //@ts-ignore
+            estPieces: form.getValues(`perMeasurement[${index}].estPieces`),
+        }));
+    };
+
+    const perMeasurementValues = getPerMeasurementValues();
+
+    const handleAddSlot = () => {
+        setPerMeasurementSlots([...perMeasurementSlots, { measurement: 0, price: 0, estPieces: '' }]);
+    };
 
     const { mutate: createProduct, isLoading } = useMutation({
         mutationFn: async ({
@@ -53,10 +115,12 @@ const CreateProduct = () => {
             name,
             category,
             quantity,
+            perMeasurement,
+            typeOfMeasurement,
             // estPiecesKilo,
             // estPiecesPack,
-            perKilo,
-            perPack,
+            // perKilo,
+            // perPack,
             // price,
         }: CreateProductType) => {
             const payload: CreateProductType = {
@@ -64,10 +128,12 @@ const CreateProduct = () => {
                 category,
                 name,
                 quantity,
+                perMeasurement,
+                typeOfMeasurement,
                 // estPiecesKilo,
                 // estPiecesPack,
-                perKilo,
-                perPack,
+                // perKilo,
+                // perPack,
                 // price,
             }
 
@@ -116,8 +182,8 @@ const CreateProduct = () => {
             category: values.category,
             name: values.name,
             quantity: values.quantity,
-            perKilo: values.perKilo,
-            perPack: values.perPack,
+            typeOfMeasurement: values.typeOfMeasurement,
+            perMeasurement: values.perMeasurement,
             // estPiecesKilo: values.estPiecesKilo,
             // estPiecesPack: values.estPiecesPack,
             // price: values.price,
@@ -127,9 +193,9 @@ const CreateProduct = () => {
         //     description: JSON.stringify(payload, null, 4)
         // })
 
-        // console.log(payload)
+        console.log("ETO NA ANG RESULTA" + payload)
 
-        createProduct(payload)
+        // createProduct(payload)
     }
 
     // console.log(form.watch())
@@ -176,6 +242,7 @@ const CreateProduct = () => {
                                 console.log('Files: ', res);
                                 if (res && res.length > 0 && res[0].url) {
                                     setImageUrl(res[0].url);
+                                    form.setValue("productImage", res[0].url)
                                 } else {
                                     console.error('Please input a valid product image.', res);
                                     // Handle the case when the response is not as expected
@@ -205,7 +272,7 @@ const CreateProduct = () => {
                     />
 
                     {/*  Quantity */}
-                    <FormField
+                    {/* <FormField
                         control={form.control}
                         name="quantity"
                         render={({ field }) => (
@@ -218,7 +285,7 @@ const CreateProduct = () => {
                                 <FormMessage />
                             </FormItem>
                         )}
-                    />
+                    /> */}
 
                     {/* Category */}
                     <FormField
@@ -247,13 +314,13 @@ const CreateProduct = () => {
 
                 {/* STEP 2 */}
                 <div className={
-                    cn('space-y-6 h-full', {
+                    cn('h-full', {
                         'hidden': formStep == 0
                     })
                 }>
 
                     {/* Per Kilo */}
-                    <div className='flex flex-row justify-between items-center w-full'>
+                    {/* <div className='flex flex-row justify-between items-center w-full'>
                         <h1 className='text-[#f7d126] font-bold'>Per Kilogram</h1>
                         <div className='flex text-[#f7d126] font-bold items-center cursor-pointer'
                             onClick={() => setPerKiloSlots([...perKiloSlots, { price: '', estPieces: '' }])}
@@ -308,48 +375,6 @@ const CreateProduct = () => {
                             />
                         </div>
                     ))}
-
-                    {/* Per Pack */}
-                    {/* <div className='flex flex-row justify-between items-center w-full'>
-                        <h1 className='text-[#f7d126] font-bold'>Per Pack</h1>
-
-                        <div className='flex text-[#f7d126] font-bold items-center cursor-pointer'>
-                            <Plus className='w-4 h-4 mr-1' strokeWidth={3} />
-                            <h1 className=''>Add Slot</h1>
-                        </div>
-                    </div>
-                    <div className='flex justify-between items-center gap-3 w-full'>
-                        <FormField
-                            control={form.control}
-                            name="perPack"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className='text-[#f7d126]'>Price</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Enter pack" {...field} className='w-50% rounded-full' type='number' />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-
-                        <FormField
-                            control={form.control}
-                            name="estPiecesPack"
-                            render={({ field }) => (
-                                <FormItem>
-                                    <FormLabel className='text-[#f7d126]'>Est.Pieces</FormLabel>
-                                    <FormControl>
-                                        <Input placeholder="Enter Estimated Pieces" {...field} className='w-50 rounded-full' />
-                                    </FormControl>
-
-                                    <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                    </div>
-                </div> */}
 
                     <div className='flex flex-row justify-between items-center w-full'>
                         <h1 className='text-[#f7d126] font-bold'>Per Pack</h1>
@@ -407,10 +432,145 @@ const CreateProduct = () => {
                                 )}
                             />
                         </div>
+                    ))} */}
+
+
+                    {/* NEW DRAFT */}
+                    <h1 className='text-[#f7d126] mb-5 font-bold'>
+                        Add stocks to {prodName}
+                    </h1>
+                    <div className='flex flex-row items-center justify-center w-full gap-11 space-x-3 mb-11'>
+                        <FormField
+                            control={form.control}
+                            name="typeOfMeasurement"
+                            render={({ field }) => (
+                                <FormItem className='w-[221px]'>
+                                    <FormLabel className='text-[#f7d126]'>Unit of Measurement</FormLabel>
+                                    <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                        <FormControl>
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select" className='rounded-full' />
+                                            </SelectTrigger>
+                                        </FormControl>
+                                        <SelectContent>
+                                            <SelectItem value="Kilograms">Kilograms</SelectItem>
+                                            <SelectItem value="Grams">Grams</SelectItem>
+                                            <SelectItem value="Miligrams">Miligrams</SelectItem>
+                                            <SelectItem value="Pounds">Pounds (lbs)</SelectItem>
+                                        </SelectContent>
+                                    </Select>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                        <FormField
+                            control={form.control}
+                            name="quantity"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className='text-[#f7d126]'>Total Number of Stocks</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Enter value" {...field} type='number' className='rounded-full' />
+                                    </FormControl>
+
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+                    </div>
+
+                    <div className='h-[1px]' />
+
+                    {perMeasurementSlots.map((slot, index) => (
+                        <div key={`perMeasurement-${index}-price`} className="flex justify-evenly items-center gap-3 mb-3 w-full">
+                            <FormField
+                                control={form.control}
+                                name={`perMeasurement[${index}].measurement` as any}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[#f7d126]">Variants</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Enter Measurement"
+                                                {...field}
+                                                className="rounded-full"
+                                                type='number'
+                                            // onChange={(e) => handleMeasurementChange(index, e.target.value)}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name={`perMeasurement[${index}].price` as any}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[#f7d126]">Price in Pesos</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Enter price"
+                                                {...field}
+                                                className="rounded-full"
+                                                type='number'
+                                            // onChange={(e) => handlePriceChange(index, e.target.value)}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name={`perMeasurement[${index}].estPieces` as any}
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel className="text-[#f7d126]">Est. piece/s</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                placeholder="Enter Estimated Pieces"
+                                                {...field}
+                                                className="rounded-full"
+                                            // onChange={(e) => handleEstPiecesChange(index, e.target.value)}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            {/* {index > 0 && ( */}
+                            <div className="flex items-center justify-center cursor-pointer"
+                                onClick={() => index > 0 && removePerMeasurementSlot(index)}
+                            >
+                                <MinusCircle
+                                    className="w-4 h-4 text-red-500 cursor-pointer flex items-center justify-center mt-9"
+                                    strokeWidth={3}
+                                // onClick={() => removePerMeasurementSlot(index)}
+                                />
+                                {/* <h1 className='mt-1 ml-1 text-red-500 cursor-pointer' onClick={() => removePerMeasurementSlot(index)}>Remove Slot</h1> */}
+                            </div>
+                            {/* )} */}
+                        </div>
                     ))}
+
+                    <div className='flex flex-row justify-start items-center w-full'>
+                        <div className='flex text-[#f7d126] font-bold items-center cursor-pointer'
+                            onClick={() => setPerMeasurementSlots([...perMeasurementSlots, { measurement: 0, price: 0, estPieces: '' }])}
+                        >
+                            <Plus className='w-4 h-4 mr-1' strokeWidth={3} />
+                            <h1 className='mt-1'>Add Slot</h1>
+                        </div>
+                    </div>
                 </div>
 
-                <div className="flex gap-2 justify-end w-full space-y-11">
+                {/* <div className='flex items-center w-full'> */}
+
+                <div className="flex gap-2 justify-end w-full mt-7">
                     <Button
                         type='button'
                         variant="ghost"
@@ -420,7 +580,7 @@ const CreateProduct = () => {
                             })
                         }
                         onClick={() => {
-                            form.trigger(['productImage', 'name', 'quantity', 'category'])
+                            form.trigger(['productImage', 'name', 'category'])
 
                             const imageState = form.getFieldState('productImage')
                             const nameState = form.getFieldState('name')
@@ -435,9 +595,9 @@ const CreateProduct = () => {
                                 })
                             }
                             if (!nameState.isDirty || nameState.invalid) return;
-                            if (!quantityState.isDirty || quantityState.invalid) return;
+                            // if (!quantityState.isDirty || quantityState.invalid) return;
                             if (!categoryState.isDirty || categoryState.invalid) return;
-
+                            setProdName(form.getValues("name") as string)
                             setFormStep(1)
                         }}
                     >
@@ -458,7 +618,136 @@ const CreateProduct = () => {
                     >
                         Back <ArrowLeft className='w-4 h-4 ml-2 font-bold' />
                     </Button>
-                    <Button
+                    <AlertDialog>
+                        <AlertDialogTrigger
+                            className={
+                                cn('bg-[#099073] text-zinc-100 hover:bg-[#099073]/80 active:scale-95 inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 px-10 py-3', {
+                                    'hidden': formStep == 0
+                                })
+                            }
+                            onClick={() => {
+                                setTypeMeasurementProd(form.getValues("typeOfMeasurement") as string)
+                                setQuantityProd(form.getValues("quantity"))
+
+                                // console.log("GEY" + perMeasurementValues)
+                            }}
+                            disabled={
+                                imageIsEmpty || isLoading || !formState.isValid || !formState.dirtyFields
+                            }
+                        >Save</AlertDialogTrigger>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you sure you want to add stock/s?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    <div className='flex flex-row justify-between mt-2'>
+                                        <div>
+                                            Unit of Measurement:
+                                            <span className='font-bold text-black ml-1'>
+                                                {typeMeasurementProd}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            Total Number of Stocks:
+                                            <span className='font-bold text-black ml-1'>
+                                                {quantityProd}
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    {/* <div className='flex flex-col w-full mt-3 mb-1'>
+                                        <div className='flex justify-between font-bold text-black mb-2'>
+                                            <div className='flex-none w-1/3'>
+                                                Variants
+                                            </div>
+                                            <div className='flex-none w-1/3'>
+                                                Price in Pesos
+                                            </div>
+                                            <div className='flex-none w-1/3'>
+                                                Est. Piece/s
+                                            </div>
+                                        </div>
+
+                                        {perMeasurementValues.map((slot, index) => (
+                                            <div key={index} className="flex flex-row justify-between mb-2">
+                                                {slot.measurement > 0 && (
+                                                    <div>
+                                                        <span className="font-bold text-black ml-1">{slot.measurement as number}</span>
+                                                    </div>
+                                                )}
+                                                {slot.price > 0 && (
+                                                    <div>
+                                                        <span className="font-bold text-black ml-1">{slot.price as number}</span>
+                                                    </div>
+                                                )}
+                                                {slot.estPieces && (
+                                                    <div>
+                                                        <span className="font-bold text-black ml-1">{slot.estPieces as string}</span>
+                                                    </div>
+                                                )}
+                                            </div>
+                                        ))}
+                                    </div> */}
+
+                                    <div className='flex flex-col w-full justify-center ml-7 mt-5 mb-3'>
+                                        <div className='flex justify-between font-bold text-black mb-2'>
+                                            <div className='flex-none w-1/3'>
+                                                Variants
+                                            </div>
+                                            <div className='flex-none w-1/3'>
+                                                Price in Pesos
+                                            </div>
+                                            <div className='flex-none w-1/3'>
+                                                Est. Piece/s
+                                            </div>
+                                        </div>
+
+                                        {perMeasurementValues.map((slot, index) => (
+                                            <div key={index} className='flex justify-between mb-2'>
+                                                <div className='flex-none w-1/3'>
+                                                    {slot.measurement as number > 0 && (
+                                                        <div>
+                                                            <span className=' text-black ml-1'>{slot.measurement as number}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className='flex-none w-1/3'>
+                                                    {slot.price as number > 0 && (
+                                                        <div>
+                                                            <span className=' text-black ml-1'>{slot.price as number}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                                <div className='flex-none w-1/3'>
+                                                    {typeof slot.estPieces === 'string' && slot.estPieces && (
+                                                        <div>
+                                                            <span className=' text-black ml-1'>{slot.estPieces}</span>
+                                                        </div>
+                                                    )}
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
+
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className='bg-[#099073] hover:bg-[#099073]/80'>Cancel</AlertDialogCancel>
+                                <Button
+                                    type="submit"
+                                    variant="newGreen"
+                                    className={
+                                        cn('bg-[#099073] hover:bg-[#099073]/80', {
+                                            'hidden': formStep == 0
+                                        })
+                                    }
+                                    isLoading={isLoading}
+                                    disabled={imageIsEmpty || isLoading}
+                                >
+                                    Continue</Button>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                    {/* <Button
                         type="submit"
                         variant="newGreen"
                         className={
@@ -469,8 +758,9 @@ const CreateProduct = () => {
                         isLoading={isLoading}
                         disabled={imageIsEmpty || isLoading}
                     >
-                        Save</Button>
+                        Save</Button> */}
                 </div>
+                {/* </div> */}
 
             </form >
         </Form >

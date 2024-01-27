@@ -359,16 +359,15 @@ model Product {
   itemNumber   Int?           @unique @default(autoincrement())
   productImage String         @unique
   name         String
-  kilogram   Float
-  grams     Float
-  pounds  Float
-  pieces  Float
-  packs Float
-  variants Variant[]
-  category     String         //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
+  kilogram     Float?
+  grams        Float?
+  pounds       Float?
+  pieces       Float?
+  packs        Float?
+  variants     Variant[]
+  category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
-  
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
@@ -391,19 +390,21 @@ model Product {
 }
 
 model Variant {
-  id          String            @id @default(cuid())
+  id                String   @id @default(cuid())
+  unitOfMeasurement String
+  variant           Float
+  price             Float
+  EstimatedPieces   Float
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
-  unitOfMeasurement String
-  variant Float
-  price Float
-  EstimatedPieces Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  
+
+  @@index([productId])
 }
 
-model Transaction { 
+model Transaction {
   id          String            @id @default(cuid())
   referenceId String            @unique
   amount      Float // order total
