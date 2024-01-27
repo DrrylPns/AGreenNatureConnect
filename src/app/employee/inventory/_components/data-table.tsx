@@ -43,17 +43,20 @@ import { DataTablePagination } from "./DataTablePagination"
 import { Input } from "@/app/components/Ui/Input"
 import Link from "next/link"
 import { cn } from "@/lib/utils"
+import { Legend } from "@tremor/react"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
   data: TData[]
   isFetching?: boolean
+  isAdmin?: boolean
 }
 
 export function DataTable<TData, TValue>({
   columns,
   data,
-  isFetching
+  isFetching,
+  isAdmin,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -85,59 +88,72 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4">
-        {/*  search functionality */}
-        <Input
-          placeholder="Search for products"
-          value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("name")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
+      <div className="flex items-center py-4 justify-between">
+        <div className="flex gap-3 w-full">
+          {/*  search functionality */}
+          <Input
+            placeholder="Search for products"
+            value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+            onChange={(event) =>
+              table.getColumn("name")?.setFilterValue(event.target.value)
+            }
+            className="max-w-sm"
+          />
 
-        {/* Add Product */}
-        <Link
-          href="/employee/create-products"
-          className={cn(buttonVariants({
-            variant: "newGreen"
-          }),
-            "ml-3 "
+          {/* Add Product */}
+          {isAdmin ? null : (
+            <Link
+              href="/employee/create-products"
+              className={cn(buttonVariants({
+                variant: "newGreen"
+              }),
+                "ml-3 "
+              )}
+            >
+              Add Item
+            </Link>
           )}
-        >
-          Add Item
-        </Link>
+        </div>
 
-        {/* VIEW FUNCTIONALITY */}
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="outline" className="ml-auto">
-              <Settings2 className="mr-1 w-5 h-5" /> View
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            {table
-              .getAllColumns()
-              .filter(
-                (column) => column.getCanHide()
-              )
-              .map((column) => {
-                return (
-                  <DropdownMenuCheckboxItem
-                    key={column.id}
-                    className="capitalize"
-                    checked={column.getIsVisible()}
-                    onCheckedChange={(value) =>
-                      column.toggleVisibility(!!value)
-                    }
-                  >
-                    {column.id}
-                  </DropdownMenuCheckboxItem>
+        <div className="flex justify-center items-center gap-3">
+          <div className="flex flex-row justify-end items-center w-[200px]">
+            <Legend
+              className="mt-3"
+              categories={["In Stock", "Out of Stock"]}
+              colors={["emerald", "red"]}
+            />
+          </div>
+
+          {/* VIEW FUNCTIONALITY */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                <Settings2 className="mr-1 w-5 h-5" /> View
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                .getAllColumns()
+                .filter(
+                  (column) => column.getCanHide()
                 )
-              })}
-          </DropdownMenuContent>
-        </DropdownMenu>
-
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  )
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
+        </div>
       </div>
       <div className="rounded-md border">
         <Table className="bg-white rounded-lg">
@@ -187,6 +203,6 @@ export function DataTable<TData, TValue>({
       </div>
       <br />
       <DataTablePagination table={table} />
-    </div>
+    </div >
   )
 }

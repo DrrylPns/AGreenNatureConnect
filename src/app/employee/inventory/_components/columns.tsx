@@ -1,5 +1,5 @@
 "use client"
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table"
 import {
   MoreHorizontal,
@@ -99,7 +99,7 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const product = row.original.name
-        const productId = row.original.id
+        const outOfStock = row.original.stockKilo === 0 && row.original.stockPack === 0
         return <div
           onClick={() => {
             toast({
@@ -109,7 +109,9 @@ export const columns: ColumnDef<Products>[] =
             })
             navigator.clipboard.writeText(product)
           }}
-          className="cursor-pointer"
+          className={cn("cursor-pointer font-bold",
+            outOfStock ? "text-rose-500" : "text-emerald-600"
+          )}
         >
           {product}
         </div>

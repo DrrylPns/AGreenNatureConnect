@@ -121,7 +121,7 @@ const CreateProduct = () => {
             // estPiecesKilo: values.estPiecesKilo,
             // estPiecesPack: values.estPiecesPack,
             // price: values.price,
-        }   
+        }
         // toast({
         //     title: "Data",
         //     description: JSON.stringify(payload, null, 4)
@@ -467,7 +467,7 @@ const CreateProduct = () => {
                             })
                         }
                         isLoading={isLoading}
-                        disabled={imageIsEmpty}
+                        disabled={imageIsEmpty || isLoading}
                     >
                         Save</Button>
                 </div>

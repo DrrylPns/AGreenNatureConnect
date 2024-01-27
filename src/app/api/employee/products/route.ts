@@ -18,13 +18,17 @@ export async function GET() {
         }
     })
 
+    console.log()
+
     try {
         const products = await prisma.product.findMany({
             // orderBy: {
             //     itemNumber: 'asc'
             // },
             where: {
-                communityId: community?.id
+                community: {
+                    name: community?.name
+                }
             },
             include: {
                 creator: true,

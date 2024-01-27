@@ -29,25 +29,25 @@ export type CreateProductType = z.infer<typeof CreateProductSchema>
 //     estPiecesPack: z.coerce.number(),
 // })
 
-const numberError = { message: "Field must be 1 or more" }
+const numberError = { message: "Field must be 0 or more" }
 
 export const CreateProductSchema = z.object({
     productImage: z.string(),
     name: z.string().min(3).max(20),
-    quantity: z.coerce.number().min(1, numberError),
+    quantity: z.coerce.number().min(0, numberError),
     category: z.string().min(2).max(21),
     perKilo: z.array(
         z.object({
-            kilo: z.coerce.number().min(1, numberError),
-            price: z.coerce.number().min(1, numberError),
-            estPieces: z.string().min(1, numberError),
+            kilo: z.coerce.number().min(0, numberError),
+            price: z.coerce.number().min(0, numberError),
+            estPieces: z.string().min(0, numberError),
         })
     ),
     perPack: z.array(
         z.object({
-            pack: z.coerce.number().min(1, numberError),
-            price: z.coerce.number().min(1, numberError),
-            estPieces: z.string().min(1, numberError),
+            pack: z.coerce.number().min(0, numberError),
+            price: z.coerce.number().min(0, numberError),
+            estPieces: z.string().min(0, numberError),
         })
     ),
     // estPiecesKilo: z.number().optional(),

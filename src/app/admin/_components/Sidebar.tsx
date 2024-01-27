@@ -56,7 +56,7 @@ const Sidebar = () => {
                         Topics
                     </Link>
 
-                    <Link href="#"
+                    <Link href="/admin/inventory"
                         className='flex flex-row gap-3'>
                         <Store strokeWidth={1} />
                         Market Hub
