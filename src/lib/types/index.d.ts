@@ -88,3 +88,43 @@ export interface Data {
 export interface File {
   url: string
 }
+
+export interface Product {
+  id: string;
+  itemNumber: number;
+  productImage: string;
+  name: string;
+  price: number;
+  category: string;
+  status: string;
+  isFree: string;
+  Kilo: Kilo[];
+  Pack: PerPack[];
+  creatorId: string;
+  createdAt: string;
+  updatedAt: string;
+  community: Community;
+  communityId: string;
+}
+export interface Community {
+  id: string;
+  name: string;
+  createdAt: string;
+  updatedAt: string;
+  posts: Post[];
+  blogs:[];
+}
+export interface Kilo {
+  id: string
+  kilo: number;
+  price: number;
+  Product: Product[];
+  productId: string;
+}
+export interface PerPack {
+  id: string
+  pack: number;
+  price: number;
+  Product: Product[];
+  productId: string;
+}

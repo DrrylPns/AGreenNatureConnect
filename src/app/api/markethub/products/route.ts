@@ -6,7 +6,11 @@ export async function GET(req: NextRequest) {
     try {
 
         const getAllProducts = await prisma.product.findMany({
-        
+            include:{
+                Kilo: true,
+                Pack: true,
+                community: true
+            }
         })
        
         return new Response(JSON.stringify(getAllProducts), {status: 200})

@@ -13,6 +13,7 @@ import Apple from './images/Apple.png';
 import Orange from './images/Orange.png';
 import Guyabano from './images/Guyabano.png';
 import Dalandan from './images/Dalandan.png';
+import Product from "./components/Product";
 
 export default function Markethub() {
 
@@ -25,7 +26,7 @@ export default function Markethub() {
           <BiCaretDown/>
         </button>
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 font-poppins font-medium ">
-          <Card imageUrl={Pechay} productName={'Pechay'} barangay={"Barangay Bagbag"}/>
+          {/*<Card imageUrl={Pechay} productName={'Pechay'} barangay={"Barangay Bagbag"}/>
           <Card imageUrl={Sili} productName={'Sili (Labuyo)'} barangay={"Barangay Bagbag"}/>
           <Card imageUrl={Talong} productName={'Talong'} barangay={"Barangay Bagbag"}/>
           <Card imageUrl={Calamansi} productName={'Calamansi'} barangay={"Barangay Bagbag"}/>
@@ -34,10 +35,10 @@ export default function Markethub() {
           <Card imageUrl={Orange} productName={'Orange'} barangay={"Barangay Bagbag"}/>
           <Card imageUrl={Apple} productName={'Apple'} barangay={"Barangay Bagbag"}/>
           <Card imageUrl={Guyabano} productName={'Guyabano'} barangay={"Barangay Bagbag"}/>
-          <Card imageUrl={Dalandan} productName={'Dalandan'} barangay={"Barangay Bagbag"}/>
-  
+  <Card imageUrl={Dalandan} productName={'Dalandan'} barangay={"Barangay Bagbag"}/>? */}
+         
         </div>
-      
+        <Product />
     </div>
   );
 }

@@ -13,7 +13,7 @@ import Dalandan from '../images/Dalandan.png';
 function Free() {
   return (
     <div className='w-full'>
-        <h1 className='text-lg font-poppins font-semibold mb-5'>Today's Free products</h1>
+        {/**<h1 className='text-lg font-poppins font-semibold mb-5'>Today's Free products</h1>
         <div className='flex w-full gap-5 overflow-x-scroll'>
             <div className='w-[20%] flex-shrink-0'>
                 <Card imageUrl={Banana} productName={'Banana'} barangay={"Barangay Bagbag"}/>
@@ -43,7 +43,7 @@ function Free() {
                 <Card imageUrl={Pechay} productName={'Pechay'} barangay={"Barangay Bagbag"}/>
             </div> 
            
-        </div>
+        </div>**/}
     </div>
   )
 }
