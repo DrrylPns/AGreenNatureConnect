@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { Fragment, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import {
   BiMenu,
@@ -10,18 +10,26 @@ import {
 } from "react-icons/bi";
 import { PiUsersThree, PiCaretDown } from "react-icons/pi";
 import { LiaBookReaderSolid, LiaBlogger } from "react-icons/lia";
+import { RiLogoutBoxLine } from "react-icons/ri";
 import { SlNotebook } from "react-icons/sl";
 import { AiOutlineQuestionCircle, AiOutlineFileProtect } from "react-icons/ai";
 import { LuFileSignature } from "react-icons/lu";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import Logo from "./Logo/logo";
+import UserAccountAvatar from "./UserAccountAvatar";
+import { signOut, useSession } from "next-auth/react";
+import { Transition } from "@headlessui/react";
 
 export default function SIdebar() {
-  const [isSideBarOpen, setIsSideBarOpen] = useState(false);
+  const { data: session } = useSession();
+  const [isShowing, setIsShowing] = useState(false)
+  const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [isDropdownrOpen, setIsDropdownrOpen] = useState(false);
 
   const toggleSideBar = () => {
     setIsSideBarOpen(!isSideBarOpen);
+    setIsShowing(!isShowing)
   };
 
   const toggleDropdown = () => {
@@ -81,30 +89,33 @@ export default function SIdebar() {
       </div>
       {/**desktop view */}
       <motion.div
-        initial={{ width: "5%" }} // Initial width when sidebar is open
-        animate={{ width: isSideBarOpen ? "20%" : "5%" }} // Animate width to 0 when collapsed
+        initial={{ width: "10%" }} // Initial width when sidebar is open
+        animate={{ width: isSideBarOpen ? "20%" : "10%" }} // Animate width to 0 when collapsed
         transition={{
           type: "tween",
           duration: 1,
         }}
-        className={`md:flex md:pt-[6rem]  hidden fixed flex-col pt-4 px-5 bg-white h-full w-[5%] ${
+        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white h-full w-[5%] ${
           isSideBarOpen ? "items-start" : "items-center"
         } z-30`}
       >
-        <button
-          onClick={toggleSideBar}
-          className={`${isSideBarOpen && "self-end"}`}
-        >
-          {isSideBarOpen ? (
-            <div className="text-icons ">
-              <BiArrowBack />
-            </div>
-          ) : (
-            <div className="text-icons ">
-              <BiMenu />
-            </div>
-          )}
+        <button type="button" onClick={toggleSideBar} className="text-center">
+          <Logo/>
         </button>
+        <button
+            onClick={toggleSideBar}
+            className={`${isSideBarOpen && "self-end"}`}
+          >
+            {isSideBarOpen ? (
+              <div className="text-icons ">
+                <BiArrowBack />
+              </div>
+            ) : (
+              <div className="text-icons ">
+                <BiMenu />
+              </div>
+            )}
+          </button>
         {/**Home, Communities, Markethub Icons and links */}
         <div className="flex flex-col items-start w-full">
           <Link
@@ -127,6 +138,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 className={`font-poppins text-[1rem] `}
               >
@@ -153,6 +165,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 className={`font-poppins text-[1rem]`}
               >
@@ -180,6 +193,7 @@ export default function SIdebar() {
                   stiffness: 100,
                   damping: 20,
                   duration: 0.2,
+                  delay: 0.5,
                 }}
                 exit={{ opacity: 0, y: -50 }}
                 className={`${!isSideBarOpen && "hidden"} ${
@@ -224,6 +238,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 className={`font-poppins text-[1rem]`}
               >
@@ -249,6 +264,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 style={{ display: isSideBarOpen ? "block" : "none" }}
                 className={`font-poppins text-[1rem]`}
@@ -275,6 +291,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 style={{ display: isSideBarOpen ? "block" : "none" }}
                 className={`font-poppins text-[1rem]`}
@@ -301,6 +318,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 style={{ display: isSideBarOpen ? "block" : "none" }}
                 className={`font-poppins text-[1rem] line-clamp-1`}
@@ -327,6 +345,7 @@ export default function SIdebar() {
                   stiffness: 1000,
                   damping: 20,
                   duration: 0.6,
+                  delay: 0.5,
                 }}
                 style={{ display: isSideBarOpen ? "block" : "none" }}
                 className={`font-poppins text-[1rem] line-clamp-1`}
@@ -336,6 +355,39 @@ export default function SIdebar() {
             </div>
           </Link>
         </div>
+        <div className="flex mt-auto justify-between gap-2">
+          <UserAccountAvatar/>
+          {isSideBarOpen &&
+            <div className={`${isSideBarOpen ? "block" : "hidden"}`}>
+              <motion.div
+                initial={{ scale: 0 }}
+                animate={{ scale: isSideBarOpen ? 1 : 0 }} // Target values (opacity: 1, translateY: 0)
+                transition={{
+                  type: "tween",
+                  stiffness: 1000,
+                  damping: 20,
+                  duration: 0.6,
+                  delay: 0.5,
+                }}
+                style={{ display: isSideBarOpen ? "block" : "none" }}
+                className={`text-sm font-semibold font-poppins`}
+              >
+                <div>
+                  {session?.user.username}
+                </div>
+                <div className="text-xs text-gray-400 font-poppins">
+                  {session?.user.email}
+                </div>
+              </motion.div>
+            </div>
+          }
+        </div>
+        {isSideBarOpen &&
+        <button type="button" onClick={()=>signOut()} className="w-full border border-black mt-3 flex justify-center items-center text-[1rem]">
+          <RiLogoutBoxLine />
+          <span>Logout</span>
+        </button>
+        }
       </motion.div>
     </>
   );
