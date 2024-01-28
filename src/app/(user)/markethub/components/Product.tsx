@@ -5,8 +5,12 @@ import { Product, Variants } from '@/lib/types'
 import axios from 'axios'
 import { Transition, Dialog, RadioGroup, Tab  } from '@headlessui/react'
 import Image from 'next/image'
+import useLoginModal from '@/lib/hooks/useLoginModal'
+import { useSession } from 'next-auth/react'
 
 function Product() {
+    const {data:session, status } = useSession()
+    const loginModal = useLoginModal()
     const [isOpen, setIsOpen] = useState(false);
     const [fruits, setFruits] = useState<Product[]>([]);
     const [vegetables, setVegetables] = useState<Product[]>([]);
@@ -51,20 +55,20 @@ function Product() {
 
   
   return (
-    <div className='md:mt-[-4.5rem]'>
+    <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-        <Tab.List className="w-full md:w-1/3 text-right border ml-auto mb-10 shadow-lg drop-shadow-lg">
-          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected::bg-transparent border border-black transition-all ease-in-out duration-1000 rounded-l-lg py-3 px-4 w-1/2 md:1/4">
+        <Tab.List className="w-full md:w-1/3 text-right border ml-auto mb-5 shadow-lg drop-shadow-lg">
+          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected::bg-[#F0EEF6] border border-black transition-all ease-in-out duration-1000 rounded-l-lg py-3 px-4 w-1/2 md:1/4">
             Fruits
           </Tab>
-          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected:bg-transparent border border-black transition-all ease-in-out duration-1000 rounded-r-lg py-3 px-4 w-1/2 md:1/4">
+          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected:bg-[#F0EEF6] border border-black transition-all ease-in-out duration-1000 rounded-r-lg py-3 px-4 w-1/2 md:1/4">
             Vegetables
           </Tab>
         </Tab.List>
         <Tab.Panels>
         <Tab.Panel>
           {selectedIndex == 0 &&
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 font-poppins font-medium ">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px]  border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
               {fruits.length > 0 && fruits.map((product: Product) =>{
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
@@ -105,7 +109,7 @@ function Product() {
           </Tab.Panel>
           {selectedIndex == 1 &&
             <Tab.Panel>
-            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4 font-poppins font-medium ">
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
             {vegetables.length > 0 && vegetables.map((product: Product) =>{
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
@@ -172,13 +176,13 @@ function Product() {
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[50rem] max-h[50rem] transform overflow-hidden rounded-t-2xl text-white font-poppins bg-semi-transparent-greenish text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-white font-poppins bg-semi-transparent-greenish text-left align-middle shadow-xl transition-all">
                 <div className='flex justify-end w-full '>
-                  <button type='button' onClick={()=>closeModal()} className='text-white text-[1rem] md:p-5 p-3 '>
+                  <button type='button' onClick={()=>closeModal()} className='text-white text-[1rem] md:px-5 p-3 '>
                       X
                   </button>
                 </div>
-                  <div className=' md:flex gap-10 mt-6 mx-6 '>
+                  <div className=' md:flex gap-10 mx-6 '>
                     {selectedProduct?.productImage && (
                       <Image
                         src={selectedProduct.productImage}
@@ -188,22 +192,22 @@ function Product() {
                         className="w-full md:w-1/2 h-40"
                       />
                     )}
-                    <div className='flex flex-col text text mx-auto'>
+                    <div className='flex flex-col font-poppins text text mx-auto'>
                       <div>
                         <h1 className='text-center font-livvic font-bold text-[2.5rem]'>{selectedProduct?.name}</h1>
                         <h1 className='text-center text-pale-white font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
                       </div>
-                      <span>Available Stocks: 
-                        {String(selectedProduct?.kilogram) === "0" ? "": `${String(selectedProduct?.kilogram)}kg,` }
-                        {String(selectedProduct?.grams) === "0" ? "": `${String(selectedProduct?.kilogram)}g,` }
-                        {String(selectedProduct?.pounds) === "0" ? "": `${String(selectedProduct?.kilogram)}lbs,` }
-                        {String(selectedProduct?.pieces) === "0" ? "": `${String(selectedProduct?.kilogram)}pcs,` }
-                        {String(selectedProduct?.packs) === "0" ? "": `${String(selectedProduct?.kilogram)}packs` }
+                      <span>Available Stocks:( 
+                        {String(selectedProduct?.kilogram) === "0" ? "": `${String(selectedProduct?.kilogram)}kg/` }
+                        {String(selectedProduct?.grams) === "0" ? "": `${String(selectedProduct?.kilogram)}g/` }
+                        {String(selectedProduct?.pounds) === "0" ? "": `${String(selectedProduct?.kilogram)}lbs/` }
+                        {String(selectedProduct?.pieces) === "0" ? "": `${String(selectedProduct?.kilogram)}pcs/` }
+                        {String(selectedProduct?.packs) === "0" ? "": `${String(selectedProduct?.kilogram)}packs` })
                       </span>
                     </div>
                   </div>
                   <div className="mt-5 px-5">
-                    <h2>Select variant</h2>
+                    <h2 className='mb-5'>Select variant</h2>
                     {selectedProduct?.variants && selectedProduct.variants.length > 0 && (
                       <div className=''>
                           {selectedProduct.variants.map((variant: Variants)=>(
@@ -211,7 +215,7 @@ function Product() {
                                   type='button' 
                                   key={variant.id} 
                                   onClick={() =>{setSelectedVariant(variant)}} 
-                                  className={`${selectedVariant === variant? 'bg-blue-200' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 transition-transform transform active:scale-95`}>
+                                  className={`${selectedVariant === variant? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 transition-transform transform active:scale-95`}>
                                     <div className='text-sm font-semibold'>{`${String(variant.variant)} ${variant.unitOfMeasurement}`}</div>
                                     <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
                                 </button>
@@ -219,27 +223,50 @@ function Product() {
                       </div>
                     )}
                   </div>
-                  <div className='w-full bg-white shadow-md drop-shadow-xl mt-36 '>
-                    <span className='text-right font-poppins text-black'>Total Price: ₱ {selectedVariant?.price == undefined ? '0':String(selectedVariant?.price)}</span>
+                  <div className='w-full bg-white shadow-md drop-shadow-xl mt-36 py-5 px-5'>
+                    <span className='text-right text-lg font-poppins text-black'>
+                      Total Price:  
+                      <span className='font-semibold font-poppins text-lg'> ₱ {selectedVariant?.price == undefined ? '0':String(selectedVariant?.price)}
+                      </span>
+                    </span>
                   </div>
-
-                  <div className="w-full ">
-                    <button
-                      type="button"
-                      className="w-1/2 bg-[#FDE63F] py-5"
-                      onClick={closeModal}
-                      disabled={selectedVariant == null ? true : false}
-                    >
-                      Add to Cart
-                    </button>
-                    <button
-                      type="button"
-                      className="w-1/2 bg-[#24643B] py-5"
-                      onClick={closeModal}
-                    >
-                     Buy Now
-                    </button>
-                  </div>
+                  {status === 'authenticated' ? (
+                     <div className="w-full ">
+                     <button
+                       type="button"
+                       className="w-1/2 bg-[#FDE63F] py-5"
+                       onClick={closeModal}
+                       disabled={selectedVariant == null ? true : false}
+                     >
+                       Add to Cart
+                     </button>
+                     <button
+                       type="button"
+                       className="w-1/2 bg-[#24643B] py-5"
+                       onClick={closeModal}
+                     >
+                      Buy Now
+                     </button>
+                   </div>
+                  ):(
+                    <div className="w-full ">
+                     <button
+                       type="button"
+                       className="w-1/2 bg-[#FDE63F] py-5 outline outline-gray-500 hover:outline-1"
+                       onClick={loginModal.onOpen}
+                       disabled={selectedVariant == null ? true : false}
+                     >
+                       Add to Cart
+                     </button>
+                     <button
+                       type="button"
+                       className="w-1/2 bg-[#24643B] py-5 hover:bg-white/40"
+                       onClick={loginModal.onOpen}
+                     >
+                      Buy Now
+                     </button>
+                   </div>
+                  )}
                 </Dialog.Panel>
               </Transition.Child>
             </div>

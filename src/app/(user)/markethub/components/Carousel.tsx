@@ -35,7 +35,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative w-full h-full flex overflow-hidden rounded-[1rem]">
+    <div className="relative w-full h-full flex overflow-hidden rounded-[1rem] border-[2px] border-gray-300 drop-shadow-md shadow-md">
       <div className='flex overflow-hidden'>
         <AnimatePresence>
         {currentImageIndex === 1 && (
