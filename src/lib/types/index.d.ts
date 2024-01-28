@@ -94,12 +94,15 @@ export interface Product {
   itemNumber: number;
   productImage: string;
   name: string;
-  price: number;
+  kilogram: number;
+  grams: number;
+  pounds: number;
+  pieces: number;
+  packs: number;
+  variants: Variants[]
   category: string;
   status: string;
   isFree: string;
-  Kilo: Kilo[];
-  Pack: PerPack[];
   creatorId: string;
   createdAt: string;
   updatedAt: string;
@@ -114,17 +117,13 @@ export interface Community {
   posts: Post[];
   blogs:[];
 }
-export interface Kilo {
+export interface Variants {
   id: string
-  kilo: number;
+  unitOfMeasurement: string;
+  variant: number;
   price: number;
-  Product: Product[];
-  productId: string;
-}
-export interface PerPack {
-  id: string
-  pack: number;
-  price: number;
-  Product: Product[];
-  productId: string;
+  EstimatedPieces: number;
+  createdAt: string;
+  updatedAt: string;
+  Product: Product
 }
