@@ -40,7 +40,6 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       id: product.id,
       // itemNumber: product.itemNumber as number,
       name: product.name,
-      price: Number(product.price),
       // kilo: product.kilo,
     }
   })
