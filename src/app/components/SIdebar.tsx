@@ -20,9 +20,11 @@ import Logo from "./Logo/logo";
 import UserAccountAvatar from "./UserAccountAvatar";
 import { signOut, useSession } from "next-auth/react";
 import { Transition } from "@headlessui/react";
+import useLoginModal from "@/lib/hooks/useLoginModal";
 
 export default function SIdebar() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const loginModal = useLoginModal()
   const [isShowing, setIsShowing] = useState(false)
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [isDropdownrOpen, setIsDropdownrOpen] = useState(false);
@@ -355,6 +357,8 @@ export default function SIdebar() {
             </div>
           </Link>
         </div>
+        {status === 'authenticated'?(
+        <>
         <div className="flex mt-auto justify-between gap-2">
           <UserAccountAvatar/>
           {isSideBarOpen &&
@@ -382,12 +386,24 @@ export default function SIdebar() {
             </div>
           }
         </div>
+          {isSideBarOpen &&
+          <button type="button" onClick={()=>signOut()} className="w-full border border-black mt-3 flex justify-center items-center text-[1rem]">
+            <RiLogoutBoxLine />
+            <span>Logout</span>
+          </button>
+          }
+       
+         
+        </> 
+        ):(
+          <>
         {isSideBarOpen &&
-        <button type="button" onClick={()=>signOut()} className="w-full border border-black mt-3 flex justify-center items-center text-[1rem]">
-          <RiLogoutBoxLine />
-          <span>Logout</span>
+        <button onClick={loginModal.onOpen} className= 'w-full mt-auto text-white py-3 bg-green'>
+            Signin
         </button>
         }
+        </>
+        )}
       </motion.div>
     </>
   );
