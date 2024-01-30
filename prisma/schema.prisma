@@ -378,15 +378,11 @@ model Product {
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
-  Cart   Cart?   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId String?
-
   transactions Transaction[]
   // ProductTransaction ProductTransaction[]
 
   @@index([creatorId])
   @@index([communityId])
-  @@index([cartId])
 }
 
 model Variant {
@@ -401,7 +397,11 @@ model Variant {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
+  Cart   Cart?   @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  cartId String?
+
   @@index([productId])
+  @@index([cartId])
 }
 
 model Transaction {
@@ -454,8 +454,7 @@ model Cart {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
-  product Product[]
-
+  variant Variant[]
   @@index([userId])
 }
 
