@@ -455,6 +455,7 @@ model Cart {
   userId String @unique
 
   variant Variant[]
+  variantId String
   @@index([userId])
 }
 
