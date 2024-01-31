@@ -52,7 +52,7 @@ const Navbar: React.FC<NavbarProps> = ({
                         <div className='flex items-center justify-evenly gap-5 text-[1.5rem] text-yellow-400 font-bold'>
                            {/**  <Notification />
                             <Settings />*/}
-                            <Link href={'/markethub/cart'} className='text-[1.5rem] md:text-[2rem]'>
+                            <Link href={'/cart'} className='text-[1.5rem] md:text-[2rem]'>
                                 <BsCart4 />
                             </Link>
                             <div className='md:hidden'>

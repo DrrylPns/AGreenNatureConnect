@@ -120,6 +120,8 @@ function Product() {
     
   }
 
+  console.log(selectedVariant?.id)
+
   return (
     <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>

@@ -46,7 +46,7 @@ model User {
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
 
-  cart             Cart?
+  cart             Cart[]
   Account          Account[]
   Session          Session[]
   posts            Post[]
@@ -393,15 +393,12 @@ model Variant {
   EstimatedPieces   Float
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
-
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
-
-  Cart   Cart?   @relation(fields: [cartId], references: [id], onDelete: Cascade)
-  cartId String?
+  cart Cart[]
 
   @@index([productId])
-  @@index([cartId])
+
 }
 
 model Transaction {
@@ -454,9 +451,11 @@ model Cart {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @unique
 
-  variant Variant[]
-  variantId String
+  variant Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  variantId String @unique
+  
   @@index([userId])
+  @@index([variantId])
 }
 
 model ShippingInfo {
