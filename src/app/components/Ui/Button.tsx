@@ -22,6 +22,8 @@ const buttonVariants = cva(
         productTable: "bg-transparent text-white hover:text-opacity-50",
         newGreen:
           "bg-[#099073] px-3 py-2 font-medium font-poppins rounded-lg hover:shadow-lg text-black font-bold text-white ",
+        darkGreen:
+          "bg-[#24643b] px-3 py-2 font-medium font-poppins rounded-lg hover:shadow-lg hover:bg-[#24643b]/90 text-white font-bold",
       },
       size: {
         default: "h-10 py-2 px-4",

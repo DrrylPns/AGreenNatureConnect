@@ -45,6 +45,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             <div className="flex items-center justify-evenly gap-5 text-[1.5rem] text-yellow-400 font-bold">
               {/**  <Notification />
                             <Settings />*/}
+              <ThemeToggler />
               <Link
                 href={"/markethub/cart"}
                 className="text-[1.5rem] md:text-[2rem]"
@@ -56,11 +57,13 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
               </div>
             </div>
           ) : (
-            <button onClick={loginModal.onOpen} className="text-white">
-              <BsCart4 />
-            </button>
+            <>
+              <button onClick={loginModal.onOpen} className="text-white">
+                <BsCart4 />
+              </button>
+              <ThemeToggler />
+            </>
           )}
-          <ThemeToggler />
         </div>
       )}
     </nav>
