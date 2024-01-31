@@ -1,33 +1,34 @@
-import "@/lib/styles/globals.css"
-import Navbar from "../components/(user)/Navbar"
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import SIdebar from "../components/SIdebar"
-import LoginModal from "../components/modals/LoginModal"
-import RegisterModal from "../components/modals/RegisterModal"
-import Providers from "@/lib/providers/Providers"
-import { Toaster } from "../components/toast/toaster"
+import "@/lib/styles/globals.css";
+import Navbar from "../components/(user)/Navbar";
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import SIdebar from "../components/SIdebar";
+import LoginModal from "../components/modals/LoginModal";
+import RegisterModal from "../components/modals/RegisterModal";
+import Providers from "@/lib/providers/Providers";
+import { Toaster } from "../components/toast/toaster";
 // import { Suspense } from "react"
-import { getAuthSession } from "@/lib/auth"
+import { getAuthSession } from "@/lib/auth";
 // import { SkeletonTheme } from "react-loading-skeleton"
 // import OnboardingPage from "../(auth)/onboarding/page"
-import { Onboarding } from "../components/(user)/Onboarding"
+import { Onboarding } from "../components/(user)/Onboarding";
+import { ThemeProvider } from "../components/Ui/ThemeProvider";
 
-const inter = Inter({ subsets: ['latin'] })
+const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'AGreen Nature Connect',
-  description: 'Greens in the Streets: Farming for a Better Tomorrow',
-}
+  title: "AGreen Nature Connect",
+  description: "Greens in the Streets: Farming for a Better Tomorrow",
+};
 
 export default async function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const session = await getAuthSession()
+  const session = await getAuthSession();
 
-  console.log(session?.user.birthday)
+  console.log(session?.user.birthday);
 
   // if (session?.user.birthday === null) {
   //   return (
@@ -40,28 +41,33 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <Providers>
+            {session?.user.birthday === null &&
+            session?.user.role === "USER" ? (
+              <>
+                <Onboarding />
+              </>
+            ) : (
+              <>
+                <Navbar session={session} />
+                <SIdebar />
 
-        <Providers>
-          {session?.user.birthday === null && session?.user.role === "USER" ? (
-            <>
-              <Onboarding />
-            </>
-          )
-            : (<>
-              <Navbar session={session} />
-              <SIdebar />
+                <LoginModal />
+                <RegisterModal />
+                {children}
+              </>
+            )}
 
-              <LoginModal />
-              <RegisterModal />
-              {children}
-            </>)
-
-          }
-
-          <Toaster />
-        </Providers >
-
+            <Toaster />
+          </Providers>
+        </ThemeProvider>
       </body>
     </html>
-  )
+  );
 }
