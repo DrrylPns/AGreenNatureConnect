@@ -16,18 +16,28 @@ export async function POST(req: Request) {
 
         const { title, content } = BlogSchema.parse(body)
 
-        const community = await prisma.community.findFirst({
+        const loggedIn = await prisma.user.findFirst({
             where: {
-                userId: session.user.id
+                id: session?.user.id
+            },
+            include: {
+                Community: true
             }
         })
 
+        // const community = await prisma.community.findFirst({
+        //     where: {
+        //         userId: session.user.id
+        //     }
+        // })
+        
+        // TODO
         await prisma.blog.create({
             data: {
                 title,
                 content,
                 authorId: session.user.id,
-                communityId: community?.id as string
+                communityId: loggedIn?.Community?.id as string
             }
         })
 

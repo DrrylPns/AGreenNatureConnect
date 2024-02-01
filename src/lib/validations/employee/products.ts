@@ -57,10 +57,25 @@ export const UpdateProductSchema = z.object({
     category: z.string().min(2).max(21).optional(),
     // typeOfMeasurement: z.string().min(1).max(21),
     // perMeasurement: z.array(
-        // z.object({
-            // measurement: z.coerce.number().min(0, variantError),
-            // price: z.coerce.number().min(0, numberError),
-            // estPieces: z.string().min(0, numberError),
-        // })
+    // z.object({
+    // measurement: z.coerce.number().min(0, variantError),
+    // price: z.coerce.number().min(0, numberError),
+    // estPieces: z.string().min(0, numberError),
+    // })
     // ),
 });
+
+export type AddStocksType = z.infer<typeof AddStocksScehma>
+
+export const AddStocksScehma = z.object({
+    id: z.string().optional(),
+    typeOfMeasurement: z.string().min(1).max(21),
+    quantity: z.coerce.number().min(0, numberError),
+    perMeasurement: z.array(
+        z.object({
+            measurement: z.coerce.number().min(0, variantError),
+            price: z.coerce.number().min(0, numberError),
+            estPieces: z.string().min(0, numberError),
+        })
+    ),
+})

@@ -15,15 +15,29 @@ const page = async () => {
 
     const session = await getAuthSession()
 
-    const community = await prisma.community.findFirst({
+    // const community = await prisma.community.findFirst({
+    //     where: {
+    //         // userId: session?.user.id
+    //         User: {
+    //             some: {
+    //                 id: session?.user.id
+    //             }
+    //         }
+    //     },
+    //     include: {
+    //         User: true,
+    //         products: true,
+    //         blogs: true,
+    //         articles: true,
+    //     }
+    // })
+
+    const loggedInUser = await prisma.user.findFirst({
         where: {
-            userId: session?.user.id
+            id: session?.user.id
         },
         include: {
-            user: true,
-            products: true,
-            blogs: true,
-            articles: true,
+            Community: true
         }
     })
 
@@ -31,7 +45,7 @@ const page = async () => {
         where: {
             role: 'EMPLOYEE',
             Community: {
-                name: community?.name
+                id: loggedInUser?.Community?.id
             }
         },
         include: {
@@ -109,7 +123,7 @@ const page = async () => {
         <main className='flex flex-col gap-2 h-screen bg-[#E3E1E1]'>
             {/* <Sidebar name={community?.name} /> */}
             {/* TODO: TREMOR GRAPHS */}
-            <Title>{community?.name} Dashboard</Title>
+            <Title>{loggedInUser?.Community?.name} Dashboard</Title>
 
             <TabGroup className="mt-6">
                 <TabList>

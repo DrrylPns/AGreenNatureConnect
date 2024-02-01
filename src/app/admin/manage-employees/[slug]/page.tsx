@@ -13,26 +13,33 @@ interface InventoryUpdateProps {
 const page = async ({ params }: InventoryUpdateProps) => {
     const session = await getAuthSession()
 
-    const community = await prisma.community.findFirst({
+    // const community = await prisma.community.findFirst({
+    //     where: {
+    //         userId: session?.user.id
+    //     },
+    //     include: {
+    //         user: true,
+    //         products: true,
+    //         blogs: true,
+    //         articles: true,
+    //     }
+    // })
+
+    const loggedInUser = await prisma.user.findFirst({
         where: {
-            userId: session?.user.id
+            id: session?.user.id
         },
         include: {
-            user: true,
-            products: true,
-            blogs: true,
-            articles: true,
+            Community: true
         }
     })
-
-    // console.log(community)
 
     const employee = await prisma.user.findFirst({
         where: {
             id: params.slug,
             role: 'EMPLOYEE',
             Community: {
-                name: community?.name
+                name: loggedInUser?.Community?.name
             }
         },
         include: {

@@ -28,11 +28,11 @@ const CommunityPage = async () => {
 
     // if (isLoading) return <p>Fetching communities...</p>
 
-    const communities = await prisma.community.findMany({
-        include: {
-            user: true
-        }
-    })
+    // const communities = await prisma.community.findMany({
+    //     include: {
+    //         User: true
+    //     }
+    // })
 
     return (
         <section className='flex flex-col justify-center items-center p-12'>
@@ -41,13 +41,13 @@ const CommunityPage = async () => {
             </div>
 
             <div>
-                {communities?.map((community) => (
-                    <CommunityCard
-                        key={community.id}
-                        name={community.name}
-                        user={community.user}
-                    />
-                ))}
+                {/* {communities?.map((community) => (
+                    // <CommunityCard
+                    //     key={community.id}
+                    //     name={community.name}
+                    //     // user={community.User}
+                    // />
+                ))} */}
             </div>
         </section>
     )

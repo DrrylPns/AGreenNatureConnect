@@ -18,7 +18,13 @@ const page = () => {
 
     return (
         <div className="container mx-auto py-10">
-            <DataTable columns={columns} data={products ?? []} isFetching={isFetching} isAdmin />
+            <DataTable
+                columns={columns}
+                //@ts-ignore
+                data={products ?? []}
+                isFetching={isFetching}
+                isAdmin
+            />
         </div>
     )
 }

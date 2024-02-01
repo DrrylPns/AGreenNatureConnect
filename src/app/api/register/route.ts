@@ -42,7 +42,7 @@ export async function POST(req: Request) {
                 hashedPassword,
                 birthday,
                 Community: {
-                    create: {
+                    connect: {
                         name: community
                     }
                 }
@@ -54,6 +54,6 @@ export async function POST(req: Request) {
         if (error instanceof z.ZodError) {
             return new Response("Invalid POST request data passed", { status: 422 })
         }
-        return new Response("Could not create a user, please try again later!", { status: 500 });
+        return new Response(`${error}, Could not create an account`, { status: 500 });
     }
 }

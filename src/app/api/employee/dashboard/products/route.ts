@@ -8,12 +8,21 @@ export async function GET(req: Request) {
     if (session?.user.role !== "EMPLOYEE" || !session.user) return new Response("Error: Unauthorized", { status: 401 })
 
     try {
-        const community = await prisma.community.findFirst({
+        const loggedIn = await prisma.user.findFirst({
             where: {
-                userId: session?.user.id
+                id: session?.user.id
+            },
+            include: {
+                Community: true
             }
         })
-        
+
+        const community = await prisma.community.findFirst({
+            where: {
+                id: loggedIn?.Community?.id
+            }
+        })
+
         const products = await prisma.product.count({
             where: {
                 communityId: community?.id

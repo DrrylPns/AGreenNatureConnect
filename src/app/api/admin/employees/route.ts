@@ -93,7 +93,7 @@ export async function POST(req: Request) {
                 role: "EMPLOYEE",
                 hashedPassword,
                 Community: {
-                    create: {
+                    connect: {
                         name: getCommunity?.name as string
                     }
                 }

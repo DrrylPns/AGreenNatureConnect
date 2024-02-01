@@ -89,7 +89,7 @@ export async function POST(req: NextRequest) {
         await prisma.community.create({
             data:{
                 name: communityName,
-                userId: user.id,
+                // userId: user.id,
             }
         })
 

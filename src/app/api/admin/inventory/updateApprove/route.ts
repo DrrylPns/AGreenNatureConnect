@@ -8,12 +8,15 @@ export async function PUT(req: NextRequest) {
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
+        },
+        include: {
+            Community: true
         }
     })
 
     const community = await prisma.community.findFirst({
         where: {
-            userId: user?.id
+            id: user?.Community?.id
         }
     })
 

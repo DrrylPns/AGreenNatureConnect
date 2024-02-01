@@ -16,12 +16,10 @@ export async function GET(req: Request) {
             }
         })
 
-        const cntUsers = await prisma.community.count({
+        const cntUsers = await prisma.user.count({
             where: {
-                name: loggedIn?.Community?.name,
-                user: {
-                    role: "USER"
-                }
+                communityId: loggedIn?.Community?.id,
+                role: "USER"
             }
         })
 

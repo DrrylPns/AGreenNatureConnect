@@ -308,8 +308,16 @@ export const columns: ColumnDef<Products>[] =
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
+                onClick={() => router.push(`inventory/addstocks/${product.id}`)}
+              >
+                Add Stocks
+              </DropdownMenuItem>
+              <DropdownMenuItem
                 onClick={() => router.push(`inventory/${product.id}`)}
-              >Edit</DropdownMenuItem>
+              >Edit Product</DropdownMenuItem>
+              {/* <DropdownMenuItem
+                onClick={() => router.push(`inventory/${product.id}`)}
+              >Add Stocks</DropdownMenuItem> */}
               <DropdownMenuItem
                 onClick={handleDelete}
               >Archive</DropdownMenuItem>

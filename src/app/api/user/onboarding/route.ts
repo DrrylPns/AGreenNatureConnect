@@ -51,7 +51,7 @@ export async function POST(req: Request) {
             address: address,
             lastUsernameChange: new Date(),
             Community: {
-                create: {
+                connect: {
                     name: community
                 }
             }
