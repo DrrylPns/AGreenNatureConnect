@@ -258,7 +258,7 @@ const Editor = () => {
         });
   console.log(selectedTopic?.id);
   return (
-    <div className="sm:w-full sm:p-4 p-6  bg-zinc-50 rounded-lg border border-zinc-200">
+    <div className="sm:w-full sm:p-4 p-6 dark:bg-[#242526]  bg-zinc-50 dark: rounded-lg border border-zinc-200">
       <form id="topic-post-form" className="" onSubmit={handleSubmit(onSubmit)}>
         <div className="prose prose-stone dark:prose-invert">
           <Combobox value={selectedTopic} onChange={setSelectedTopic}>
@@ -272,7 +272,7 @@ const Editor = () => {
                 />
                 <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
                   <ChevronsUpDownIcon
-                    className="h-5 w-5 text-gray-400"
+                    className="h-5 w-5 text-gray-400 dark:text-black"
                     aria-hidden="true"
                   />
                 </Combobox.Button>
@@ -284,7 +284,7 @@ const Editor = () => {
                 leaveTo="opacity-0"
                 afterLeave={() => setQuery("")}
               >
-                <Combobox.Options className="absolute mt-1 max-h-60 w-full z-50 overflow-auto rounded-md bg-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                <Combobox.Options className="absolute mt-1 max-h-60 w-full z-50 overflow-auto rounded-md bg-white dark:bg-black py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
                   {filteredTopic.length === 0 && query !== "" ? (
                     <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
                       Nothing found.
@@ -296,7 +296,7 @@ const Editor = () => {
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? " bg-muted-green text-white"
+                              ? " bg-muted-green text-white dark:text-gray-900"
                               : "text-gray-900"
                           }`
                         }
