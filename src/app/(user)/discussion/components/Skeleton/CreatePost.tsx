@@ -2,7 +2,7 @@ import Skeleton from "react-loading-skeleton";
 
 export default function CreatePostSkeleton() {
   return (
-    <div className="flex justify-between items-center gap-5 bg-white dark:bg-[#242526] rounded-lg drop-shadow-lg w-full px-5 py-5">
+    <div className="flex justify-between items-center gap-5 bg-white dark:bg-[#18191A] rounded-lg drop-shadow-lg w-full px-5 py-5">
       <div className="pl-3">
         <Skeleton circle width={32} height={32} />
       </div>
