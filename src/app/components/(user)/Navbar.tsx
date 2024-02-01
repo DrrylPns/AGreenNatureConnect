@@ -25,7 +25,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   const loginModal = useLoginModal();
   //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit
   return (
-    <nav className="fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-50 px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#24643B] md:px-20">
+    <nav className="fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-50 px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#24643B] dark:bg-[#242526] md:px-20">
       <Link href="/" className="w-[3rem] text-center">
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
