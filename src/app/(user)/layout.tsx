@@ -19,6 +19,7 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "AGreen Nature Connect",
   description: "Greens in the Streets: Farming for a Better Tomorrow",
+  manifest: "/manifest.json",
 };
 
 export default async function RootLayout({
