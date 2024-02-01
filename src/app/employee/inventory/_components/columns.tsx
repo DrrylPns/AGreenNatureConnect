@@ -24,8 +24,13 @@ export type Products = {
   id: string;
   productImage: string;
   name: string;
-  stockKilo: number;
-  stockPack: number;
+  // stockKilo: number;
+  // stockPack: number;
+  kilogram: number;
+  grams: number;
+  pounds: number;
+  pieces: number;
+  packs: number;
   category: string;
   status: string;
   createdAt: Date;
@@ -99,7 +104,7 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const product = row.original.name
-        const outOfStock = row.original.stockKilo === 0 && row.original.stockPack === 0
+        const outOfStock = row.original.kilogram === 0 && row.original.packs === 0 && row.original.pieces === 0 && row.original.pounds === 0 && row.original.grams === 0
         return <div
           onClick={() => {
             toast({
@@ -118,20 +123,70 @@ export const columns: ColumnDef<Products>[] =
       },
     },
     {
-      accessorKey: "stockKilo",
+      accessorKey: "kilogram",
       header: ({ column }) => {
-
         return (
           <DataTableColumnHeader column={column} title="Stock kg" />
         );
       },
       cell: ({ row }) => {
-        const stockKilo = row.original.stockKilo;
-        return <div>{stockKilo}kg</div>;
+        const stockKilo = row.original.kilogram;
+        const outOfStock = row.original.kilogram === 0
+        return <div
+          className={`${outOfStock && "text-rose-500"}`}
+        >{stockKilo}kg</div>;
       },
     },
     {
-      accessorKey: "stockPack",
+      accessorKey: "grams",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Stock grams" />
+        );
+      },
+      cell: ({ row }) => {
+        const stockKilo = row.original.grams;
+        const outOfStock = row.original.grams === 0
+        return <div
+          className={`${outOfStock && "text-rose-500"}`}
+        >{stockKilo}g</div>;
+      },
+    },
+    {
+      accessorKey: "pieces",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Stock pcs" />
+        );
+      },
+      cell: ({ row }) => {
+        const stockKilo = row.original.pieces;
+        const outOfStock = row.original.pieces === 0;
+        return <div
+          className={`${outOfStock && "text-rose-500"}`}
+        >{stockKilo}pcs</div>;
+      },
+    },
+    {
+      accessorKey: "pounds",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Stock lbs" />
+        );
+      },
+      cell: ({ row }) => {
+        const stockKilo = row.original.pounds;
+        const outOfStock = row.original.pounds === 0
+        return <div
+          className={`${outOfStock && "text-rose-500"}`}
+        >{stockKilo}lbs</div>;
+      },
+    },
+    {
+      accessorKey: "packs",
       header: ({ column }) => {
 
         return (
@@ -139,8 +194,11 @@ export const columns: ColumnDef<Products>[] =
         );
       },
       cell: ({ row }) => {
-        const stockKilo = row.original.stockPack;
-        return <div>{stockKilo}pck</div>;
+        const stockKilo = row.original.packs;
+        const outOfStock = row.original.packs === 0;
+        return <div
+          className={`${outOfStock && "text-rose-500"}`}
+        >{stockKilo}pck</div>;
       },
     },
     {

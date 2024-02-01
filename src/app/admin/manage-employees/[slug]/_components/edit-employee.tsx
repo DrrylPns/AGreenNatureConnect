@@ -214,33 +214,44 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
 
                                         <DrawerDescription>
                                             <div className='text-rose-500'>Click cancel or outside the drawer if you are done setting up the profile.</div>
-                                        </DrawerDescription>
 
-                                        {imageUrl.length ? <>
-                                        </> : <UploadDropzone
-                                            className="text-green"
-                                            appearance={{
-                                                button: "bg-[#099073] p-2",
-                                                label: "text-green",
-                                                allowedContent: "flex h-8 flex-col items-center justify-center px-2 text-green",
-                                            }}
-                                            endpoint="changeAvatar"
-                                            onClientUploadComplete={(res) => {
-                                                console.log('Files: ', res);
-                                                if (res && res.length > 0 && res[0].url) {
-                                                    setImageUrl(res[0].url);
-                                                } else {
-                                                    console.error('Please input a valid product image.', res);
-                                                }
-                                            }}
-                                            onUploadError={(error: Error) => {
-                                                toast({
-                                                    title: 'Error!',
-                                                    description: error.message,
-                                                    variant: 'destructive',
-                                                })
-                                            }}
-                                        />}
+                                            {imageUrl.length ? <div
+                                                className='flex justify-center items-center flex-col'
+                                            >
+
+                                                <Image
+                                                    alt='Done Upload'
+                                                    src={"/images/employee/done_upload.svg"}
+                                                    width={250}
+                                                    height={250}
+                                                    className='mb-3'
+                                                />
+                                                <h1 className='mt-3 text-gray-500'>Uploaded Successfully</h1>
+                                            </div> : <UploadDropzone
+                                                className="text-green"
+                                                appearance={{
+                                                    button: "bg-[#099073] p-2",
+                                                    label: "text-green",
+                                                    allowedContent: "flex h-8 flex-col items-center justify-center px-2 text-green",
+                                                }}
+                                                endpoint="changeAvatar"
+                                                onClientUploadComplete={(res) => {
+                                                    console.log('Files: ', res);
+                                                    if (res && res.length > 0 && res[0].url) {
+                                                        setImageUrl(res[0].url);
+                                                    } else {
+                                                        console.error('Please input a valid product image.', res);
+                                                    }
+                                                }}
+                                                onUploadError={(error: Error) => {
+                                                    toast({
+                                                        title: 'Error!',
+                                                        description: error.message,
+                                                        variant: 'destructive',
+                                                    })
+                                                }}
+                                            />}
+                                        </DrawerDescription>
                                     </DrawerHeader>
                                     <DrawerFooter>
                                         <div className="flex flex-col gap-3 w-full items-center justify-center">

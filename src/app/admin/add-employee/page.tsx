@@ -372,7 +372,7 @@ const page = () => {
                 <Card className="lg:w-[570px]">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
-                            <h1 className="font-bold text-lg mb-5">Employee Registration</h1>
+                            <h1 className="font-bold text-lg mb-5">Gardener Registration</h1>
                         </div>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full lg:mt-[100px]">
@@ -402,10 +402,21 @@ const page = () => {
                                     <DrawerContent>
                                         <DrawerHeader>
                                             <DrawerTitle>Choose Avatar</DrawerTitle>
-                                            <DrawerDescription>Note: This will be the picture of the employee.</DrawerDescription>
+                                            <DrawerDescription>Note: This will be the picture of the gardener.</DrawerDescription>
 
-                                            {imageUrl.length ? <>
-                                            </> : <UploadDropzone
+                                            {imageUrl.length ? <div
+                                                className='flex justify-center items-center flex-col'
+                                            >
+
+                                                <Image
+                                                    alt='Done Upload'
+                                                    src={"/images/employee/done_upload.svg"}
+                                                    width={250}
+                                                    height={250}
+                                                    className='mb-3'
+                                                />
+                                                <h1 className='mt-3 text-gray-500'>Uploaded Successfully</h1>
+                                            </div> : <UploadDropzone
                                                 className="text-green"
                                                 appearance={{
                                                     button: "bg-[#099073] p-2",

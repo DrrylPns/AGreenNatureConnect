@@ -10,7 +10,7 @@ interface InventoryUpdateProps {
     }
 }
 
-const page = async ({params}: InventoryUpdateProps) => {
+const page = async ({ params }: InventoryUpdateProps) => {
     const session = await getAuthSession()
 
     const user = await prisma.user.findFirst({
@@ -26,24 +26,24 @@ const page = async ({params}: InventoryUpdateProps) => {
     })
 
     const product = await prisma.product.findFirst({
-        where:{
+        where: {
             id: params.slug,
             communityId: community?.id
+        },
+        include: {
+            variants: true
         }
     })
 
-  return (
-    <div className='w-full flex flex-col justify-center items-center h-[80vh]'>
-        <div className='flex flex-col justify-center items-center'>
-            <h1 className='text-3xl font-bold'>Update product</h1>
-            <p className='text-muted-foreground'>Note: You are about to update a product in your respected community.</p>
-        </div>
+    return (
+        <section className='flex flex-col justify-center p-12 md:max-w-2xl mx-auto gap-5'>
+            <div className='text-xl border-b font-bold text-[#348d54]'>
+                Update Product
+            </div>
 
-        <div className='md:w-[30%]'>
-            <UpdateProduct product={product}/>
-        </div>
-    </div>
-  )
+            <UpdateProduct product={product} />
+        </section>
+    )
 }
 
 export default page

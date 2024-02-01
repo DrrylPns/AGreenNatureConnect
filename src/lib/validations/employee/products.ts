@@ -33,35 +33,34 @@ const numberError = { message: "Field must be 0 or more" }
 const variantError = { message: "Variant must be 1 or more" }
 
 export const CreateProductSchema = z.object({
-    productImage: z.string().optional(),
-    name: z.string().min(3).max(20).optional(),
-    quantity: z.coerce.number().min(0, numberError).optional(),
-    category: z.string().min(2).max(21).optional(),
-    typeOfMeasurement: z.string().min(1).max(21).optional(),
+    productImage: z.string(),
+    name: z.string().min(3).max(20),
+    quantity: z.coerce.number().min(0, numberError),
+    category: z.string().min(2).max(21),
+    typeOfMeasurement: z.string().min(1).max(21),
     perMeasurement: z.array(
         z.object({
             measurement: z.coerce.number().min(0, variantError),
             price: z.coerce.number().min(0, numberError),
             estPieces: z.string().min(0, numberError),
         })
-    ).optional(),
-    // perPack: z.array(
-    //     z.object({
-    //         pack: z.coerce.number().min(0, numberError),
-    //         price: z.coerce.number().min(0, numberError),
-    //         estPieces: z.string().min(0, numberError),
-    //     })
-    // ),
-    // estPiecesKilo: z.number().optional(),
-    // estPiecesPack: z.number().optional(),
+    ),
 });
 
 export type UpdateProductType = z.infer<typeof UpdateProductSchema>
 
 export const UpdateProductSchema = z.object({
     id: z.string().optional(),
-    itemNumber: z.coerce.number().optional(),
-    name: z.string(),
-    kilo: z.coerce.number().optional(),
-    price: z.coerce.number(),
-})
+    productImage: z.string().optional(),
+    name: z.string().min(3).max(20).optional(),
+    // quantity: z.coerce.number().min(0, numberError),
+    category: z.string().min(2).max(21).optional(),
+    // typeOfMeasurement: z.string().min(1).max(21),
+    // perMeasurement: z.array(
+        // z.object({
+            // measurement: z.coerce.number().min(0, variantError),
+            // price: z.coerce.number().min(0, numberError),
+            // estPieces: z.string().min(0, numberError),
+        // })
+    // ),
+});

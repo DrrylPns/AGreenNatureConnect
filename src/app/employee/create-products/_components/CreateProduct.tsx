@@ -40,10 +40,9 @@ import { ArrowLeft, ArrowRight, MinusCircle, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
 const CreateProduct = () => {
-    const [imageUrl, setImageUrl] = useState<string>('https://utfs.io/f/50b7e3d4-908f-4b4d-b04f-99774099e261-gepqni.jpg')
+    const [imageUrl, setImageUrl] = useState<string>('')
     const [formStep, setFormStep] = useState(0)
     const [perMeasurementSlots, setPerMeasurementSlots] = useState([{ measurement: 0, price: 0, estPieces: '' }]);
-    // const [perPackSlots, setPerPackSlots] = useState([{ price: '', estPieces: '' }]);
     const [prodName, setProdName] = useState<string>("")
     const [typeMeasurementProd, setTypeMeasurementProd] = useState<string>("")
     const [quantityProd, setQuantityProd] = useState<number>()
@@ -53,43 +52,12 @@ const CreateProduct = () => {
 
     const form = useForm<CreateProductType>({
         resolver: zodResolver(CreateProductSchema),
-        // defaultValues: {
-        //     productImage: '',
-        //     // quantity: 1,
-        //     name: 'Pechay',
-        //     category: '',
-        //     // price: 0,
-        // }
     })
 
     const { formState } = form
 
     const removePerMeasurementSlot = (indexToRemove: any) => {
         setPerMeasurementSlots((prevSlots) => prevSlots.filter((_, index) => index !== indexToRemove));
-    };
-
-    const handleMeasurementChange = (index: any, measurement: any) => {
-        setPerMeasurementSlots((prevSlots) =>
-            prevSlots.map((slot, i) =>
-                i === index ? { ...slot, measurement: measurement } : slot
-            )
-        );
-    };
-
-    const handlePriceChange = (index: any, price: any) => {
-        setPerMeasurementSlots((prevSlots) =>
-            prevSlots.map((slot, i) =>
-                i === index ? { ...slot, price: price } : slot
-            )
-        );
-    };
-
-    const handleEstPiecesChange = (index: any, estPieces: string) => {
-        setPerMeasurementSlots((prevSlots) =>
-            prevSlots.map((slot, i) =>
-                i === index ? { ...slot, estPieces: estPieces } : slot
-            )
-        );
     };
 
     const getPerMeasurementValues = () => {
@@ -105,10 +73,6 @@ const CreateProduct = () => {
 
     const perMeasurementValues = getPerMeasurementValues();
 
-    const handleAddSlot = () => {
-        setPerMeasurementSlots([...perMeasurementSlots, { measurement: 0, price: 0, estPieces: '' }]);
-    };
-
     const { mutate: createProduct, isLoading } = useMutation({
         mutationFn: async ({
             productImage,
@@ -117,11 +81,6 @@ const CreateProduct = () => {
             quantity,
             perMeasurement,
             typeOfMeasurement,
-            // estPiecesKilo,
-            // estPiecesPack,
-            // perKilo,
-            // perPack,
-            // price,
         }: CreateProductType) => {
             const payload: CreateProductType = {
                 productImage,
@@ -130,11 +89,6 @@ const CreateProduct = () => {
                 quantity,
                 perMeasurement,
                 typeOfMeasurement,
-                // estPiecesKilo,
-                // estPiecesPack,
-                // perKilo,
-                // perPack,
-                // price,
             }
 
             const { data } = await axios.post("/api/employee/products", payload)
@@ -184,21 +138,11 @@ const CreateProduct = () => {
             quantity: values.quantity,
             typeOfMeasurement: values.typeOfMeasurement,
             perMeasurement: values.perMeasurement,
-            // estPiecesKilo: values.estPiecesKilo,
-            // estPiecesPack: values.estPiecesPack,
-            // price: values.price,
         }
-        // toast({
-        //     title: "Data",
-        //     description: JSON.stringify(payload, null, 4)
-        // })
 
-        console.log("ETO NA ANG RESULTA" + payload)
-
-        // createProduct(payload)
+        createProduct(payload)
     }
 
-    // console.log(form.watch())
 
     return (
         <Form {...form}>
@@ -245,7 +189,7 @@ const CreateProduct = () => {
                                     form.setValue("productImage", res[0].url)
                                 } else {
                                     console.error('Please input a valid product image.', res);
-                                    // Handle the case when the response is not as expected
+
                                 }
                             }}
                             onUploadError={(error: Error) => {
@@ -455,8 +399,9 @@ const CreateProduct = () => {
                                         <SelectContent>
                                             <SelectItem value="Kilograms">Kilograms</SelectItem>
                                             <SelectItem value="Grams">Grams</SelectItem>
-                                            <SelectItem value="Miligrams">Miligrams</SelectItem>
+                                            <SelectItem value="Pieces">Pieces</SelectItem>
                                             <SelectItem value="Pounds">Pounds (lbs)</SelectItem>
+                                            <SelectItem value="Packs">Packs</SelectItem>
                                         </SelectContent>
                                     </Select>
                                     <FormMessage />
@@ -742,11 +687,31 @@ const CreateProduct = () => {
                                     }
                                     isLoading={isLoading}
                                     disabled={imageIsEmpty || isLoading}
+                                    onClick={() => {
+                                        form.handleSubmit(onSubmit)()
+                                    }}
                                 >
-                                    Continue</Button>
+                                    Continue
+                                </Button>
                             </AlertDialogFooter>
                         </AlertDialogContent>
                     </AlertDialog>
+                    {/* <Button
+                        type="submit"
+                        variant="newGreen"
+                        className={
+                            cn('bg-[#099073] hover:bg-[#099073]/80', {
+                                'hidden': formStep == 0
+                            })
+                        }
+                        isLoading={isLoading}
+                        disabled={imageIsEmpty || isLoading}
+                    // onClick={() => {
+                    //     form.handleSubmit(onSubmit)
+                    // }}
+                    >
+                        Continue
+                    </Button> */}
                     {/* <Button
                         type="submit"
                         variant="newGreen"

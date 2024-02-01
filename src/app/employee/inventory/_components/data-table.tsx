@@ -116,11 +116,11 @@ export function DataTable<TData, TValue>({
         </div>
 
         <div className="flex justify-center items-center gap-3">
-          <div className="flex flex-row justify-end items-center w-[200px]">
+          <div className="flex flex-row justify-end items-center w-[300px]">
             <Legend
               className="mt-3"
-              categories={["In Stock", "Out of Stock"]}
-              colors={["emerald", "red"]}
+              categories={["In Stock", "Out of Stock", "Low Stock"]}
+              colors={["emerald", "red", "yellow"]}
             />
           </div>
 
