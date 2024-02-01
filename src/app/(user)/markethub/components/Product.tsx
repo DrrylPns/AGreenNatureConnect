@@ -7,6 +7,11 @@ import { Transition, Dialog, RadioGroup, Tab  } from '@headlessui/react'
 import Image from 'next/image'
 import useLoginModal from '@/lib/hooks/useLoginModal'
 import { useSession } from 'next-auth/react'
+import { CartSchema, CreateAddToCartType } from '@/lib/validations/addToCartSchema'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm } from 'react-hook-form'
+import { toast } from '@/lib/hooks/use-toast'
+import { useMutation } from '@tanstack/react-query'
 
 function Product() {
     const {data:session, status } = useSession()
@@ -23,7 +28,7 @@ function Product() {
       fetchProductsByVegetables()
       fetchProductsByFruits()
     },[selectedIndex])
-
+    
     function closeModal() {
       setIsOpen(false)
       setSelectedVariant(null)
@@ -34,6 +39,7 @@ function Product() {
       setSelectedProduct(product);
       setIsOpen(true)
     }
+     //getProducts by Category
     const fetchProductsByVegetables = async() =>{
         try {
           const response = await axios.get('/api/markethub/products/vegetables')
@@ -43,6 +49,7 @@ function Product() {
           console.log(error)
         }
     }
+    //getProducts by Category
     const fetchProductsByFruits = async() =>{
       try {
         const response = await axios.get('/api/markethub/products/fruits')
@@ -52,8 +59,69 @@ function Product() {
         console.log(error)
       }
   }
+    const {
+      register,
+      handleSubmit,
+      reset,
+      formState: { errors, isSubmitSuccessful  },
+  } = useForm<CreateAddToCartType>({
+      resolver: zodResolver(CartSchema),
+      defaultValues: {
+          variantId: '',
+      }
+  })
 
-  
+  useEffect(() => {
+    if (Object.keys(errors).length) {
+        for (const [_key, value] of Object.entries(errors)) {
+            value
+            toast({
+                title: 'Something went wrong.',
+                description: (value as { message: string }).message,
+                variant: 'destructive',
+            })
+        }
+    }
+  }, [errors])
+
+  const { mutate: addToCart } = useMutation({
+    mutationFn: async ({ variantId }: CreateAddToCartType) => {
+        const payload: CreateAddToCartType = {
+            variantId
+        }
+        const { data } = await axios.post(`/api/markethub/cart`, payload)
+       
+       
+        closeModal()
+       
+        return data
+    },
+    onError: () => {
+        return toast({
+            title: "Something went wrong",
+            description: "Can't add to cart, please try again later",
+            variant: "destructive",
+        });
+    },
+    onSuccess: () => {
+        return toast({
+            description: "Added to cart, Successfuly!.",
+        });
+    },
+  })
+
+  async function onSubmit(data: CreateAddToCartType) {
+    if(selectedVariant) {
+      const payload: CreateAddToCartType = {
+        variantId: selectedVariant.id
+      }
+      addToCart(payload)
+    }
+    
+  }
+
+  console.log(selectedVariant?.id)
+
   return (
     <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -235,7 +303,7 @@ function Product() {
                      <button
                        type="button"
                        className="w-1/2 bg-[#FDE63F] py-5"
-                       onClick={closeModal}
+                       onClick={handleSubmit(onSubmit)}
                        disabled={selectedVariant == null ? true : false}
                      >
                        Add to Cart

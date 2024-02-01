@@ -115,7 +115,7 @@ export interface Community {
   createdAt: string;
   updatedAt: string;
   posts: Post[];
-  blogs:[];
+  blogs: Blog[];
 }
 export interface Variants {
   id: string
@@ -125,5 +125,12 @@ export interface Variants {
   EstimatedPieces: number;
   createdAt: string;
   updatedAt: string;
-  Product: Product
+  product: Product;
+}
+export interface Cart {
+  id: string
+  createdAt: string;
+  updatedAt: string;
+  user: Author;
+  variant: Variants;
 }
