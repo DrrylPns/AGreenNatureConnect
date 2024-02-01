@@ -59,6 +59,11 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       // })) || [],
       // quantity: ,
       // typeOfMeasurement: product?.variants[0]?.unitOfMeasurement,
+
+      // id: product.id,
+      // itemNumber: product.itemNumber as number,
+      // name: product.name,
+      // kilo: product.kilo,
     }
   })
 

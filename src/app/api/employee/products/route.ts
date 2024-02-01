@@ -344,7 +344,6 @@ export async function POST(req: NextRequest) {
         //         communityId: community?.id
         //     }
         // })
-
         return new NextResponse(`Successfully added product!`);
     } catch (error) {
         return new NextResponse('Could not create a product' + error, { status: 500 })

@@ -27,7 +27,7 @@ const UserAccountAvatar: React.FC = ({ }) => {
   return (
     <>
       <div
-        onClick={toggleOpen}
+       // onClick={toggleOpen}
         className="flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition"
       >
         <div className="hidden md:block max-md:block">

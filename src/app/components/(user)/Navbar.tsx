@@ -13,6 +13,8 @@ import UserAccountAvatar from "../UserAccountAvatar";
 import Loader, { RotatingLines } from "react-loader-spinner";
 import SignInBtn from "./SignInBtn";
 import { Session } from "next-auth";
+import { BsCart4 } from "react-icons/bs";
+import { ThemeToggler } from "../ThemeToggler";
 
 interface NavbarProps {
   session: Session | null;
@@ -23,11 +25,10 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
   const loginModal = useLoginModal();
   //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit
   return (
-    <nav className="fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-50 px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#F0EEF6] md:px-20">
+    <nav className="fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-50 px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#24643B] dark:bg-[#242526] md:px-20">
       <Link href="/" className="w-[3rem] text-center">
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
-      <Search />
       {status === "loading" ? (
         <div className="text-center flex justify-center">
           <RotatingLines
@@ -39,18 +40,29 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           />
         </div>
       ) : (
-        <div className="flex items-center gap-3 justify-between">
+        <div className="flex items-center text-[1.5rem] gap-3 justify-between">
           {status === "authenticated" ? (
-            <>
-              <Notification />
-              <Settings />
-              <UserAccountAvatar />
-              {/* temporary fix dito sa navbar ginawa ko muna optional props yung session sa UserAccountAvatar edit mo nalang ulit base sa codes mo */}
-            </>
+            <div className="flex items-center justify-evenly gap-5 text-[1.5rem] text-yellow-400 font-bold">
+              {/**  <Notification />
+                            <Settings />*/}
+              <ThemeToggler />
+              <Link
+                href={"/markethub/cart"}
+                className="text-[1.5rem] md:text-[2rem]"
+              >
+                <BsCart4 />
+              </Link>
+              <div className="md:hidden">
+                <UserAccountAvatar />
+              </div>
+            </div>
           ) : (
-            <Button onClick={loginModal.onOpen} variant={"green"}>
-              Login
-            </Button>
+            <>
+              <button onClick={loginModal.onOpen} className="text-white">
+                <BsCart4 />
+              </button>
+              <ThemeToggler />
+            </>
           )}
         </div>
       )}
