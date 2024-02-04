@@ -34,6 +34,21 @@ export async function POST(req: Request) {
             return new Response("Email already exists. Please use a different one.", { status: 409 })
         }
 
+        let existingCommunity = await prisma.community.findFirst({
+            where: {
+                name: community
+            }
+        });
+
+        if (!existingCommunity) {
+            existingCommunity = await prisma.community.create({
+                data: {
+                    name: community
+                    
+                }
+            });
+        }
+
         const hashedPassword = await bcrypt.hash(password, 12);
 
         const user = await prisma.user.create({
