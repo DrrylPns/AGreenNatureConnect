@@ -210,6 +210,7 @@ module.exports = {
   ],
   plugins: [
     require("tailwindcss-animate"),
-    require('@headlessui/tailwindcss')
+    require('@headlessui/tailwindcss'),
+    require('tailwind-scrollbar-hide')
   ],
 }

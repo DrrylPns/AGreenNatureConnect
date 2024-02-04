@@ -70,6 +70,7 @@
     "react-textarea-autosize": "^8.5.3",
     "supports-color": "^8.1.1",
     "tailwind-merge": "^1.14.0",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss-animate": "^1.0.7",
     "uploadthing": "^5.7.4",
     "vaul": "^0.8.7",
