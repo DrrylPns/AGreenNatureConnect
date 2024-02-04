@@ -58,8 +58,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
               <button onClick={loginModal.onOpen} className="text-white">
                 <BsCart4 />
               </button>
-              {/** 
-              <ThemeToggler /> */}
+              {/**  <ThemeToggler />  */}
             </>
           )}
         </div>
