@@ -96,7 +96,7 @@ export async function POST(req: Request) {
       return new Response("Invalid POST request data passed", { status: 422 })
     }
 
-    return new Response("Could not create a user, please try again later!", { status: 500 });
+    return new Response("Could not create a user, please try again later!" + error, { status: 500 });
   }
 }
 

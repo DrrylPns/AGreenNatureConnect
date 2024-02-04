@@ -24,26 +24,28 @@ async function seed() {
       },
     });
 
-    // Seed products
-    const product1 = await prisma.product.create({
-      data: {
-        name: 'Product 1',
-        kilo: 2.5,
-        price: 10.99,
-        creatorId: user1.id,
-        // Add other product data as needed
-      },
-    });
+    // temporary comment
 
-    const product2 = await prisma.product.create({
-      data: {
-        name: 'Product 2',
-        kilo: 1.0,
-        price: 5.99,
-        creatorId: user2.id,
-        // Add other product data as needed
-      },
-    });
+    // Seed products
+    // const product1 = await prisma.product.create({
+    //   data: {
+    //     name: 'Product 1',
+    //     kilo: 2.5,
+    //     price: 10.99,
+    //     creatorId: user1.id,
+    //     // Add other product data as needed
+    //   },
+    // });
+
+    // const product2 = await prisma.product.create({
+    //   data: {
+    //     name: 'Product 2',
+    //     kilo: 1.0,
+    //     price: 5.99,
+    //     creatorId: user2.id,
+    //     // Add other product data as needed
+    //   },
+    // });
 
     console.log('Seeding complete!');
   } catch (error) {
