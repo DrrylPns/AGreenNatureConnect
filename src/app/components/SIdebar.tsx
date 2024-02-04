@@ -21,17 +21,18 @@ import UserAccountAvatar from "./UserAccountAvatar";
 import { signOut, useSession } from "next-auth/react";
 import { Transition } from "@headlessui/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
+import { ThemeToggler } from "./ThemeToggler";
 
 export default function SIdebar() {
   const { data: session, status } = useSession();
-  const loginModal = useLoginModal()
-  const [isShowing, setIsShowing] = useState(false)
+  const loginModal = useLoginModal();
+  const [isShowing, setIsShowing] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [isDropdownrOpen, setIsDropdownrOpen] = useState(false);
 
   const toggleSideBar = () => {
     setIsSideBarOpen(!isSideBarOpen);
-    setIsShowing(!isShowing)
+    setIsShowing(!isShowing);
   };
 
   const toggleDropdown = () => {
@@ -50,7 +51,7 @@ export default function SIdebar() {
         {/**mobile view */}
         <div className="fixed w-full z-20 md:relative">
           {/**Home, Communities, Markethub Icons and links */}
-          <div className="pt-[5rem] w-full flex justify-around bg-white md:hidden">
+          <div className="pt-[5rem] w-full flex justify-around bg-white dark:bg-[#242526] md:hidden">
             <Link
               className={`link ${
                 pathname === "/discussion" ? "border-b border-yellow-400" : ""
@@ -97,33 +98,35 @@ export default function SIdebar() {
           type: "tween",
           duration: 1,
         }}
-        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white h-full w-[5%] ${
+        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white dark:bg-[#242526] h-full w-[5%] ${
           isSideBarOpen ? "items-start" : "items-center"
         } z-30`}
       >
         <button type="button" onClick={toggleSideBar} className="text-center">
-          <Logo/>
+          <Logo />
         </button>
         <button
-            onClick={toggleSideBar}
-            className={`${isSideBarOpen && "self-end"}`}
-          >
-            {isSideBarOpen ? (
-              <div className="text-icons ">
-                <BiArrowBack />
-              </div>
-            ) : (
-              <div className="text-icons ">
-                <BiMenu />
-              </div>
-            )}
-          </button>
+          onClick={toggleSideBar}
+          className={`${isSideBarOpen && "self-end"}`}
+        >
+          {isSideBarOpen ? (
+            <div className="text-icons ">
+              <BiArrowBack />
+            </div>
+          ) : (
+            <div className="text-icons ">
+              <BiMenu />
+            </div>
+          )}
+        </button>
         {/**Home, Communities, Markethub Icons and links */}
         <div className="flex flex-col items-start w-full">
           <Link
             href={"/discussion"}
             className={`link ${
-              pathname === "/discussion" ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4]" : ""
+              pathname === "/discussion"
+                ? "border-l-[3px] border-[#4DE69E] dark:bg-[#24643b] bg-[#baebd4]"
+                : ""
             } flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
             } hover:bg-pale`}
@@ -223,10 +226,12 @@ export default function SIdebar() {
           <Link
             href={"/markethub"}
             className={`link ${
-              pathname === "/markethub" ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4]" : ""
+              pathname === "/markethub"
+                ? "border-l-[3px] border-[#4DE69E] dark:bg-[#24643b] bg-[#baebd4]"
+                : ""
             } flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale `} 
+            } hover:bg-pale `}
           >
             <div className="text-icons ">
               <BiStore />
@@ -356,14 +361,15 @@ export default function SIdebar() {
               </motion.p>
             </div>
           </Link>
-        </div>
-        {status === 'authenticated'?(
-        <>
-        <div className="flex mt-auto justify-between gap-2">
-          <UserAccountAvatar/>
-          {isSideBarOpen &&
+          <div
+            className={`flex items-center gap-4 w-full py-2 cursor-pointer ${
+              isSideBarOpen ? "justify-start" : "justify-center"
+            } hover:bg-pale`}
+          >
+            <ThemeToggler />
+
             <div className={`${isSideBarOpen ? "block" : "hidden"}`}>
-              <motion.div
+              <motion.p
                 initial={{ scale: 0 }}
                 animate={{ scale: isSideBarOpen ? 1 : 0 }} // Target values (opacity: 1, translateY: 0)
                 transition={{
@@ -374,35 +380,62 @@ export default function SIdebar() {
                   delay: 0.5,
                 }}
                 style={{ display: isSideBarOpen ? "block" : "none" }}
-                className={`text-sm font-semibold font-poppins`}
+                className={`font-poppins text-[1rem] line-clamp-1`}
               >
-                <div>
-                  {session?.user.username}
-                </div>
-                <div className="text-xs text-gray-400 font-poppins">
-                  {session?.user.email}
-                </div>
-              </motion.div>
+                Themes
+              </motion.p>
             </div>
-          }
+          </div>
         </div>
-          {isSideBarOpen &&
-          <button type="button" onClick={()=>signOut()} className="w-full border border-black mt-3 flex justify-center items-center text-[1rem]">
-            <RiLogoutBoxLine />
-            <span>Logout</span>
-          </button>
-          }
-       
-         
-        </> 
-        ):(
+        {status === "authenticated" ? (
           <>
-        {isSideBarOpen &&
-        <button onClick={loginModal.onOpen} className= 'w-full mt-auto text-white py-3 bg-green'>
-            Signin
-        </button>
-        }
-        </>
+            <div className="flex mt-auto justify-between gap-2">
+              <UserAccountAvatar />
+              {isSideBarOpen && (
+                <div className={`${isSideBarOpen ? "block" : "hidden"}`}>
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: isSideBarOpen ? 1 : 0 }} // Target values (opacity: 1, translateY: 0)
+                    transition={{
+                      type: "tween",
+                      stiffness: 1000,
+                      damping: 20,
+                      duration: 0.6,
+                      delay: 0.5,
+                    }}
+                    style={{ display: isSideBarOpen ? "block" : "none" }}
+                    className={`text-sm font-semibold font-poppins`}
+                  >
+                    <div>{session?.user.username}</div>
+                    <div className="text-xs text-gray-400 font-poppins">
+                      {session?.user.email}
+                    </div>
+                  </motion.div>
+                </div>
+              )}
+            </div>
+            {isSideBarOpen && (
+              <button
+                type="button"
+                onClick={() => signOut()}
+                className="w-full border border-black mt-3 flex justify-center items-center text-[1rem]"
+              >
+                <RiLogoutBoxLine />
+                <span>Logout</span>
+              </button>
+            )}
+          </>
+        ) : (
+          <>
+            {isSideBarOpen && (
+              <button
+                onClick={loginModal.onOpen}
+                className="w-full mt-auto text-white py-3 bg-green"
+              >
+                Signin
+              </button>
+            )}
+          </>
         )}
       </motion.div>
     </>
