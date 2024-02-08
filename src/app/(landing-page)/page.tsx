@@ -133,9 +133,8 @@ export default async function Home() {
               Shares Ideas
             </h3>
             <p className="md:text-[13px] text-[12px] font-semibold my-2">
-              Are you passionate about urban farming and eager to exchange ideas
-              with like-minded individuals? Connect with our network to share
-              insights and collaborate on cultivating urban agriculture success.
+              Connect with our network to share insights and collaborate on
+              cultivating urban agriculture success.
             </p>
             <Link href={"/discussion"}>
               <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px] hover:text-dark-green">
