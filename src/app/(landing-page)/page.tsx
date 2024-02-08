@@ -133,13 +133,16 @@ export default async function Home() {
               Shares Ideas
             </h3>
             <p className="md:text-[13px] text-[12px] font-semibold my-2">
-              Are you a farmer looking to grow your business? Reach new
-              customers when you join our network.
+              Are you passionate about urban farming and eager to exchange ideas
+              with like-minded individuals? Connect with our network to share
+              insights and collaborate on cultivating urban agriculture success.
             </p>
-            <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px] hover:text-dark-green">
-              SEE MORE
-              <Image src={ArrowIcon} alt="Arrow Icon" />
-            </button>
+            <Link href={"/discussion"}>
+              <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px] hover:text-dark-green">
+                SEE MORE
+                <Image src={ArrowIcon} alt="Arrow Icon" />
+              </button>
+            </Link>
           </div>
           <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <Image
@@ -154,10 +157,12 @@ export default async function Home() {
               Buy fresh from the farm products. Help local urban farmers to have
               achieve sustainability and efficiency.
             </p>
-            <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px]  ">
-              SEE MORE
-              <Image src={ArrowIcon} alt="Arrow Icon" />
-            </button>
+            <Link href={"/markethub"}>
+              <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px]  ">
+                SEE MORE
+                <Image src={ArrowIcon} alt="Arrow Icon" />
+              </button>
+            </Link>
           </div>
           <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <Image
@@ -169,13 +174,15 @@ export default async function Home() {
               Learn Online
             </h3>
             <p className="md:text-[13px] text-[12px] font-semibold my-2">
-              Buy fresh from the farm products. Help local urban farmers to have
-              achieve sustainability and efficiency.
+              Discover the world of urban agriculture with our network. Join us
+              in learning and growing together in urban farming.
             </p>
-            <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px]">
-              SEE MORE
-              <Image src={ArrowIcon} alt="Arrow icon" />
-            </button>
+            <Link href={"/learningMaterials"}>
+              <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px]">
+                SEE MORE
+                <Image src={ArrowIcon} alt="Arrow icon" />
+              </button>
+            </Link>
           </div>
         </div>
         {/*Features*/}
