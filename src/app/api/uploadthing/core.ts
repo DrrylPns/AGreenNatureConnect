@@ -20,6 +20,12 @@ export const ourFileRouter = {
   })
     .middleware(middleware)
     .onUploadComplete(async (data) => { }),
+  pdfUploader: f({ pdf: { maxFileSize: '2MB' } })
+    .middleware(middleware)
+    .onUploadComplete(async ({ metadata, file }) => { }),
+  videoUploader: f({ video: { maxFileSize: '32MB' } })
+    .middleware(middleware)
+    .onUploadComplete(async ({ metadata, file }) => { }),
 } satisfies FileRouter
 
 export type OurFileRouter = typeof ourFileRouter

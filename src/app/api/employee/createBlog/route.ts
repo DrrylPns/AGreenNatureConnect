@@ -8,14 +8,6 @@ export async function POST(req: Request) {
 
         const session = await getAuthSession()
 
-        if (!session?.user || session?.user.role !== "EMPLOYEE" || session?.user.role !== "ADMIN") {
-            return new Response("Unauthorized", { status: 401 })
-        }
-
-        const body = await req.json()
-
-        const { title, content } = BlogSchema.parse(body)
-
         const loggedIn = await prisma.user.findFirst({
             where: {
                 id: session?.user.id
@@ -25,17 +17,19 @@ export async function POST(req: Request) {
             }
         })
 
-        // const community = await prisma.community.findFirst({
-        //     where: {
-        //         userId: session.user.id
-        //     }
-        // })
-        
-        // TODO
+        if (loggedIn?.role !== "EMPLOYEE" || !session?.user) {
+            return new Response("Unauthorized", { status: 401 })
+        }
+
+        const body = await req.json()
+
+        const { title, content, thumbnail } = BlogSchema.parse(body)
+
         await prisma.blog.create({
             data: {
                 title,
                 content,
+                thumbnail,
                 authorId: session.user.id,
                 communityId: loggedIn?.Community?.id as string
             }

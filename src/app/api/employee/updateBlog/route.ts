@@ -13,7 +13,7 @@ export async function POST(req: Request) {
 
         const body = await req.json()
 
-        const { id, title, content } = UpdateBlogSchema.parse(body)
+        const { id, title, content, thumbnail } = UpdateBlogSchema.parse(body)
 
         const existingBlog = await prisma.blog.findFirst({
             where: {
@@ -35,7 +35,8 @@ export async function POST(req: Request) {
             },
             data: {
                 title,
-                content
+                thumbnail,
+                content,
             }
         });
 

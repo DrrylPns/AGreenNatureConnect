@@ -22,7 +22,7 @@ export async function GET() {
         }
     })
 
-    console.log()
+    // console.log()
 
     try {
         const products = await prisma.product.findMany({
@@ -80,132 +80,48 @@ export async function POST(req: NextRequest) {
             quantity,
         } = CreateProductSchema.parse(body)
 
-        console.log("PERMESURE" + perMeasurement)
-        console.log(typeOfMeasurement)
+        // console.log("PERMESURE" + perMeasurement)
+        // console.log(typeOfMeasurement)
         // console.log(quantity)
 
+        const createProductData = {
+            productImage,
+            name,
+            category,
+            kilogram: 0,
+            grams: 0,
+            packs: 0,
+            pieces: 0,
+            pounds: 0,
+            creatorId: user?.EmployeeId as string,
+            communityId: community?.id,
+            variants: {
+                create: perMeasurement.map((measure) => ({
+                    unitOfMeasurement: typeOfMeasurement,
+                    variant: measure.measurement,
+                    EstimatedPieces: Number(measure.estPieces),
+                    price: measure.price,
+                }))
+            }
+        };
+
         if (typeOfMeasurement === "Kilograms") {
-            await prisma.product.create({
-                data: {
-                    productImage,
-                    name,
-                    category,
-                    kilogram: quantity,
-                    grams: 0,
-                    packs: 0,
-                    pieces: 0,
-                    pounds: 0,
-                    creatorId: user?.EmployeeId as string,
-                    communityId: community?.id,
-                    variants: {
-                        create: perMeasurement.map((measure) => ({
-                            unitOfMeasurement: typeOfMeasurement,
-                            variant: measure.measurement,
-                            EstimatedPieces: Number(measure.estPieces),
-                            price: measure.price,
-                        }))
-                    }
-                },
-            });
-        }
-        if (typeOfMeasurement === "Grams") {
-            await prisma.product.create({
-                data: {
-                    productImage,
-                    name,
-                    category,
-                    kilogram: 0,
-                    grams: quantity,
-                    packs: 0,
-                    pieces: 0,
-                    pounds: 0,
-                    creatorId: user?.EmployeeId as string,
-                    communityId: community?.id,
-                    variants: {
-                        create: perMeasurement.map((measure) => ({
-                            unitOfMeasurement: typeOfMeasurement,
-                            variant: measure.measurement,
-                            EstimatedPieces: Number(measure.estPieces),
-                            price: measure.price,
-                        }))
-                    }
-                },
-            });
-        }
-        if (typeOfMeasurement === "Pieces") {
-            await prisma.product.create({
-                data: {
-                    productImage,
-                    name,
-                    category,
-                    kilogram: 0,
-                    grams: 0,
-                    packs: 0,
-                    pieces: quantity,
-                    pounds: 0,
-                    creatorId: user?.EmployeeId as string,
-                    communityId: community?.id,
-                    variants: {
-                        create: perMeasurement.map((measure) => ({
-                            unitOfMeasurement: typeOfMeasurement,
-                            variant: measure.measurement,
-                            EstimatedPieces: Number(measure.estPieces),
-                            price: measure.price,
-                        }))
-                    }
-                },
-            });
+            createProductData.kilogram = quantity;
+        } else if (typeOfMeasurement === "Grams") {
+            createProductData.grams = quantity;
+        } else if (typeOfMeasurement === "Pieces") {
+            createProductData.pieces = quantity;
+        } else if (typeOfMeasurement === "Pounds") {
+            createProductData.pounds = quantity;
+        } else if (typeOfMeasurement === "Packs") {
+            createProductData.packs = quantity;
         }
 
-        if (typeOfMeasurement === "Pounds") {
-            await prisma.product.create({
-                data: {
-                    productImage,
-                    name,
-                    category,
-                    kilogram: 0,
-                    grams: 0,
-                    packs: 0,
-                    pieces: 0,
-                    pounds: quantity,
-                    creatorId: user?.EmployeeId as string,
-                    communityId: community?.id,
-                    variants: {
-                        create: perMeasurement.map((measure) => ({
-                            unitOfMeasurement: typeOfMeasurement,
-                            variant: measure.measurement,
-                            EstimatedPieces: Number(measure.estPieces),
-                            price: measure.price,
-                        }))
-                    }
-                },
-            });
-        }
+        const test = await prisma.product.create({
+            //@ts-ignore
+            data: createProductData,
+        });
 
-        if (typeOfMeasurement === "Packs") {
-            await prisma.product.create({
-                data: {
-                    productImage,
-                    name,
-                    category,
-                    kilogram: 0,
-                    grams: 0,
-                    packs: quantity,
-                    pieces: 0,
-                    pounds: 0,
-                    creatorId: user?.EmployeeId as string,
-                    communityId: community?.id,
-                    variants: {
-                        create: perMeasurement.map((measure) => ({
-                            unitOfMeasurement: typeOfMeasurement,
-                            variant: measure.measurement,
-                            EstimatedPieces: Number(measure.estPieces),
-                            price: measure.price,
-                        }))
-                    }
-                },
-            });
-        }
         return new NextResponse(`Successfully added product!`);
     } catch (error) {
         return new NextResponse('Could not create a product' + error, { status: 500 })

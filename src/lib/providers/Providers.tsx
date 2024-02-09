@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
 import { SessionProvider } from "next-auth/react"
+import { NextUIProvider } from '@nextui-org/react'
 
 const Providers = ({ children }: { children: React.ReactNode }) => {
     const queryClient = new QueryClient()
@@ -9,7 +10,9 @@ const Providers = ({ children }: { children: React.ReactNode }) => {
     return (
         <QueryClientProvider client={queryClient}>
             <SessionProvider>
-                {children}
+                <NextUIProvider>
+                    {children}
+                </NextUIProvider>
             </SessionProvider>
         </QueryClientProvider>
     )

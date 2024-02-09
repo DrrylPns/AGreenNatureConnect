@@ -221,7 +221,7 @@ model Notification {
 model Report {
   id          String     @id @default(cuid())
   type        ReportType
-  description String
+  description String     @db.VarChar(1000)
   createdAt   DateTime   @default(now())
 
   reporter   User   @relation(fields: [reporterId], references: [id], onDelete: Cascade, name: "Report")
@@ -259,6 +259,7 @@ enum ReportStatus {
 model Blog {
   id         String         @id @default(cuid())
   title      String
+  thumbnail  String?
   content    Json
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
@@ -275,12 +276,14 @@ model Blog {
 }
 
 model LearningMaterial {
-  id         String         @id @default(cuid())
-  title      String
-  content    Json
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  isApproved ApprovalStatus @default(PENDING)
+  id          String         @id @default(cuid())
+  title       String
+  thumbnail   String?
+  material    String
+  description String         @db.VarChar(1000)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  isApproved  ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -293,12 +296,14 @@ model LearningMaterial {
 }
 
 model VideoTutorial {
-  id         String         @id @default(cuid())
-  title      String
-  content    Json
-  createdAt  DateTime       @default(now())
-  updatedAt  DateTime       @updatedAt
-  isApproved ApprovalStatus @default(PENDING)
+  id          String         @id @default(cuid())
+  title       String
+  thumbnail   String?
+  video       String
+  description String         @db.VarChar(1000)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  isApproved  ApprovalStatus @default(PENDING)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -331,6 +336,7 @@ model FAQ {
 model Article {
   id         String          @id @default(cuid())
   title      String
+  thumbnail  String?
   content    Json
   createdAt  DateTime        @default(now())
   updatedAt  DateTime        @updatedAt
@@ -373,8 +379,8 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId String?
+  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId String
 
   transactions Transaction[]
   // ProductTransaction ProductTransaction[]
@@ -447,8 +453,8 @@ model Cart {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String   @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @unique
 
   variant   Variant? @relation(fields: [variantId], references: [id])
   variantId String?

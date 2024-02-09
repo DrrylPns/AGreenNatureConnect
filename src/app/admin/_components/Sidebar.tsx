@@ -35,7 +35,7 @@ const Sidebar = () => {
                         Video Tutorial
                     </Link>
 
-                    <Link href="#"
+                    <Link href="/admin/material-requests"
                         className='flex flex-row gap-3'>
                         <BookOpen strokeWidth={1} />
                         Learning Material
@@ -44,7 +44,7 @@ const Sidebar = () => {
                     {/* <Link href="#">Blog</Link> */}
                     {/* <Link href="/employee/create-products">Create Products</Link> */}
 
-                    <Link href="#"
+                    <Link href="/admin/blog-requests"
                         className='flex flex-row gap-3'>
                         <FileText strokeWidth={1} />
                         Blog

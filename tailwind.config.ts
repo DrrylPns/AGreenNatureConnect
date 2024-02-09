@@ -1,5 +1,5 @@
 /** @type {import('tailwindcss').Config} */
-import { withUt } from "uploadthing/tw";
+import { nextui } from "@nextui-org/react";
 
 module.exports = {
   darkMode: ["class"],
@@ -9,6 +9,7 @@ module.exports = {
     './app/**/*.{ts,tsx}',
     './src/**/*.{ts,tsx}',
     "./node_modules/@tremor/**/*.{js,ts,jsx,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     transparent: "transparent",
@@ -21,14 +22,14 @@ module.exports = {
       },
     },
     extend: {
-      fontSize:{
+      fontSize: {
         'icons': '1.5rem',
         "tremor-label": ["0.75rem"],
         "tremor-default": ["0.875rem", { lineHeight: "1.25rem" }],
         "tremor-title": ["1.125rem", { lineHeight: "1.75rem" }],
         "tremor-metric": ["1.875rem", { lineHeight: "2.25rem" }],
       },
-      width:{
+      width: {
         'userImage': '2.5rem'
       },
       colors: {
@@ -40,7 +41,7 @@ module.exports = {
         'pale': '#CFE2CE7F',
         'muted': '#CFE2CE',
         'dark-green': '#344C31',
-        'pale-white':'#F0EEF6',
+        'pale-white': '#F0EEF6',
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",
@@ -210,6 +211,7 @@ module.exports = {
   ],
   plugins: [
     require("tailwindcss-animate"),
-    require('@headlessui/tailwindcss')
+    require('@headlessui/tailwindcss'),
+    [nextui()]
   ],
 }

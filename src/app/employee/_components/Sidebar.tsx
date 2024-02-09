@@ -34,7 +34,7 @@ const Sidebar = ({
             Video Tutorial
           </Link>
 
-          <Link href="#"
+          <Link href="/employee/create-materials"
             className='flex flex-row gap-3'>
             <BookOpen strokeWidth={1} />
             Learning Material

@@ -44,7 +44,6 @@ export async function POST(req: Request) {
             existingCommunity = await prisma.community.create({
                 data: {
                     name: community
-                    
                 }
             });
         }

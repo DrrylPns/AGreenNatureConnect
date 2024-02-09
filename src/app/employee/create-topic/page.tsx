@@ -101,9 +101,9 @@ const page = () => {
                         <Button
                             variant='newGreen'
                             isLoading={isLoading}
-                            disabled={isDisabled()}
+                            disabled={isDisabled() || isLoading}
                             onClick={() => createTopic()}>
-                            Create Topic
+                            Create
                         </Button>
                     </div>
                 </div>

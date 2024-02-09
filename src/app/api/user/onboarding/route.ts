@@ -45,14 +45,33 @@ export async function POST(req: Request) {
 
         const daysLeft = calculateDaysUntilUsernameChange(user.lastUsernameChange as Date);
 
+        const existingCommunity = await prisma.community.findFirst({
+            where: { name: community }
+        });
+
         const dataToUpdate: Record<string, any> = {
             phoneNumber: phoneNumber,
             birthday: birthday,
             address: address,
             lastUsernameChange: new Date(),
-            Community: {
+        }
+
+        if (existingCommunity) {
+            dataToUpdate.Community = {
                 connect: {
+                    id: existingCommunity.id
+                }
+            }
+        } else {
+            const newCommunity = await prisma.community.create({
+                data: {
                     name: community
+                }
+            });
+
+            dataToUpdate.Community = {
+                connect: {
+                    id: newCommunity.id
                 }
             }
         }

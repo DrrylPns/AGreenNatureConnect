@@ -6,11 +6,13 @@ import { BlogSchema, CreateBlogType, UpdateBlogType } from '@/lib/validations/cr
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import TextareaAutosize from "react-textarea-autosize"
-import { uploadFiles } from '@/lib/uploadthing';
+import { UploadDropzone, uploadFiles } from '@/lib/uploadthing';
 import { toast } from '@/lib/hooks/use-toast';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { OutputData } from '@editorjs/editorjs';
+import Image from 'next/image';
+import { Button } from '../Ui/Button';
 
 // interface BlogData {
 //     id: string;
@@ -35,6 +37,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     const router = useRouter();
     const pathname = usePathname();
     const queryClient = useQueryClient();
+    const [imageUrl, setImageUrl] = useState<string>('')
 
     const {
         register,
@@ -286,10 +289,11 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     }, [isMounted, initializeEditor]);
 
     const { mutate: createBlog } = useMutation({
-        mutationFn: async ({ title, content }: CreateBlogType) => {
+        mutationFn: async ({ title, content, thumbnail }: CreateBlogType) => {
             const payload: CreateBlogType = {
                 title,
                 content,
+                thumbnail,
             }
             const { data } = await axios.post('/api/employee/createBlog', payload)
             return data
@@ -325,11 +329,12 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     })
 
     const { mutate: updateBlog, isLoading, isError } = useMutation({
-        mutationFn: async ({ id, title, content }: UpdateBlogType) => {
+        mutationFn: async ({ id, title, content, thumbnail }: UpdateBlogType) => {
             const payload: UpdateBlogType = {
                 id,
                 title,
                 content,
+                thumbnail,
             }
 
             const { data } = await axios.post('/api/employee/updateBlog', payload)
@@ -372,6 +377,7 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
             id: id,
             title: data.title,
             content: blocks,
+            thumbnail: imageUrl,
         };
 
         updateBlog(payload)
@@ -384,8 +390,9 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
         const payload: CreateBlogType = {
             title: data.title,
             content: blocks,
+            thumbnail: imageUrl,
         };
-
+        console.log("Create Blog" + payload)
         createBlog(payload);
     }
 
@@ -396,12 +403,72 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     const { ref: titleRef, ...rest } = register('title')
 
     return (
-        <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-            <form
-                id={`${initialData ? 'update-blog-form' : 'create-blog-form'}`}
-                className=""
-                onSubmit={initialData ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
-            >
+        <form
+            id={`${initialData ? 'update-blog-form' : 'create-blog-form'}`}
+            className='w-full'
+            onSubmit={initialData ? handleSubmit(onUpdate) : handleSubmit(onSubmit)}
+        >
+
+            <div className='flex justify-between'>
+                <div className='font-bold'>Thumbnail Image</div>
+
+                {imageUrl && (
+                    <div>
+                        <Button
+                            variant="default"
+                            className='bg-white text-black mb-3 hover:bg-white/80'
+                            onClick={() => {
+                                setImageUrl("")
+                            }}
+                        >
+                            Change Image
+                        </Button>
+                    </div>
+                )}
+            </div>
+            <div>
+                {imageUrl.length ? <div className='w-full flex justify-center items-center flex-col'>
+                    {/* <Button
+                        variant="default"
+                        className='bg-white text-black mb-3 hover:bg-white/80'
+                        onClick={() => {
+                            setImageUrl("")
+                        }}
+                    >
+                        Change Image
+                    </Button> */}
+                    <Image
+                        src={imageUrl}
+                        alt="productImage"
+                        width={376}
+                        height={190}
+                        className='mb-3'
+                    />
+                </div> : <UploadDropzone
+                    className="text-green border-zinc-400 border mb-3"
+                    appearance={{
+                        button: "bg-slate-700 p-2",
+                        label: "text-black",
+                        allowedContent: "flex h-8 flex-col items-center justify-center px-2 text-black",
+                    }}
+                    endpoint="changeAvatar"
+                    onClientUploadComplete={(res) => {
+                        console.log('Files: ', res);
+                        if (res && res.length > 0 && res[0].url) {
+                            setImageUrl(res[0].url);
+                            // form.setValue("productImage", res[0].url)
+                        } else {
+                            console.error('Please input a valid product image.', res);
+
+                        }
+                    }}
+                    onUploadError={(error: Error) => {
+                        alert(`ERROR! ${error.message}`);
+                    }}
+                />}
+            </div>
+
+            <div className="w-full p-4 bg-zinc-50 rounded-lg border border-zinc-200">
                 <TextareaAutosize
                     ref={(e) => {
                         titleRef(e)
@@ -420,8 +487,8 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
                     </kbd>{' '}
                     to open the command menu.
                 </p>
-            </form >
-        </div>
+            </div >
+        </form >
     )
 }
 

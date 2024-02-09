@@ -68,10 +68,15 @@ const BlogPosts: React.FC<BlogPostsProps> = async ({ session }) => {
 
     return (
         <div className='grid grid-cols-1 gap-5'>
+
             {/* <Button onClick={() => refetch()}>Refetch that shi</Button> */}
             {blogs.map((blog) => (
-                //@ts-ignore
-                <BlogCard key={blog.id} session={session} {...blog} />
+                <>
+                    {/* {blog.isApproved === "APPROVED" && ( */}
+                    {/* //@ts-ignore */}
+                    {/* <BlogCard key={blog.id} session={session} {...blog} /> */}
+                    {/* )} */}
+                </>
             ))}
         </div>
     )
