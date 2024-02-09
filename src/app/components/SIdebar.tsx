@@ -23,17 +23,19 @@ import { Transition } from "@headlessui/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { MdOutlineArticle } from "react-icons/md";
 import { MdOutlineSlowMotionVideo } from "react-icons/md";
+import { ThemeToggler } from "./ThemeToggler";
+
 
 export default function SIdebar() {
   const { data: session, status } = useSession();
-  const loginModal = useLoginModal()
-  const [isShowing, setIsShowing] = useState(false)
+  const loginModal = useLoginModal();
+  const [isShowing, setIsShowing] = useState(false);
   const [isSideBarOpen, setIsSideBarOpen] = useState(true);
   const [isDropdownrOpen, setIsDropdownrOpen] = useState(false);
 
   const toggleSideBar = () => {
     setIsSideBarOpen(!isSideBarOpen);
-    setIsShowing(!isShowing)
+    setIsShowing(!isShowing);
   };
 
   const toggleDropdown = () => {
@@ -52,7 +54,7 @@ export default function SIdebar() {
         {/**mobile view */}
         <div className="fixed w-full z-20 md:relative">
           {/**Home, Communities, Markethub Icons and links */}
-          <div className="pt-[5rem] w-full flex justify-around bg-white md:hidden">
+          <div className="pt-[5rem] w-full flex justify-around bg-white dark:bg-[#242526] md:hidden">
             <Link
               className={`link ${pathname === "/discussion" ? "border-b border-yellow-400" : ""
                 } flex justify-center items-center  w-full py-3`}
@@ -96,8 +98,9 @@ export default function SIdebar() {
           type: "tween",
           duration: 1,
         }}
-        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white h-full w-[5%] ${isSideBarOpen ? "items-start" : "items-center"
-          } z-30`}
+        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white dark:bg-[#242526] h-full w-[5%] ${
+          isSideBarOpen ? "items-start" : "items-center"
+        } z-30`}
       >
         <button type="button" onClick={toggleSideBar} className="text-center">
           <Logo />

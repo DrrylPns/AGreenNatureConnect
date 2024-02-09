@@ -212,6 +212,7 @@ module.exports = {
   plugins: [
     require("tailwindcss-animate"),
     require('@headlessui/tailwindcss'),
-    [nextui()]
+    [nextui()],
+    require('tailwind-scrollbar-hide'),
   ],
 }
