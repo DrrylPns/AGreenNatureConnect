@@ -44,7 +44,6 @@ function Product() {
         try {
           const response = await axios.get('/api/markethub/products/vegetables')
           setVegetables(response.data)
-          console.log(response.data)
         } catch (error) {
           console.log(error)
         }
@@ -54,17 +53,14 @@ function Product() {
       try {
         const response = await axios.get('/api/markethub/products/fruits')
         setFruits(response.data)
-        console.log(response.data)
       } catch (error) {
         console.log(error)
       }
   }
     const {
-      register,
       handleSubmit,
-      reset,
       formState: { errors, isSubmitSuccessful  },
-  } = useForm<CreateAddToCartType>({
+    } = useForm<CreateAddToCartType>({
       resolver: zodResolver(CartSchema),
       defaultValues: {
           variantId: '',
@@ -120,8 +116,6 @@ function Product() {
     
   }
 
-  console.log(selectedVariant?.id)
-
   return (
     <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -136,12 +130,12 @@ function Product() {
         <Tab.Panels>
         <Tab.Panel>
           {selectedIndex == 0 &&
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px]  border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
-              {fruits.length > 0 && fruits.map((product: Product) =>{
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
+              {fruits.length > 0 ? fruits.map((product: Product) =>{
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
                 const highestPrice = Math.max(...prices);
-                if(product.kilogram === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
+                if(product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
                     return null
                   } else {
                   return (
@@ -149,7 +143,7 @@ function Product() {
                       type='button'
                       onClick={() => openModal(product)}
                       className='relative'
-                      disabled={product.kilogram === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
+                      disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
                     >
                       
                       <Card 
@@ -159,7 +153,7 @@ function Product() {
                         lowestPrice={lowestPrice}
                         highestPrice={highestPrice}
                       />
-                      {product.kilogram === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
+                      {product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
                       <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
                         <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
                       </div>
@@ -171,18 +165,22 @@ function Product() {
                     </button>
                   )
                 }
-              })}
+              }):(
+              <>
+                There is no products right now!
+              </>
+              )}
             </div>
           }
           </Tab.Panel>
           {selectedIndex == 1 &&
             <Tab.Panel>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
-            {vegetables.length > 0 && vegetables.map((product: Product) =>{
+            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
+            {vegetables.length > 0 ? vegetables.map((product: Product) =>{
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
                 const highestPrice = Math.max(...prices);
-                if(product.kilogram === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
+                if(product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
                     return null
                   } else {
                   return (
@@ -190,7 +188,7 @@ function Product() {
                       type='button'
                       onClick={() => openModal(product)}
                       className='relative'
-                      disabled={product.kilogram === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
+                      disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
                     >
                       
                       <Card 
@@ -200,7 +198,7 @@ function Product() {
                         lowestPrice={lowestPrice}
                         highestPrice={highestPrice}
                       />
-                      {product.kilogram === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
+                      {product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
                       <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
                         <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
                       </div>
@@ -212,7 +210,11 @@ function Product() {
                     </button>
                   )
                 }
-              })}
+              }): ( 
+              <>
+                There is no products right now!
+              </>
+              )}
             </div>
             </Tab.Panel>
           }
@@ -266,11 +268,11 @@ function Product() {
                         <h1 className='text-center text-pale-white font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
                       </div>
                       <span>Available Stocks:( 
-                        {String(selectedProduct?.kilogram) === "0" ? "": `${String(selectedProduct?.kilogram)}kg/` }
-                        {String(selectedProduct?.grams) === "0" ? "": `${String(selectedProduct?.kilogram)}g/` }
-                        {String(selectedProduct?.pounds) === "0" ? "": `${String(selectedProduct?.kilogram)}lbs/` }
-                        {String(selectedProduct?.pieces) === "0" ? "": `${String(selectedProduct?.kilogram)}pcs/` }
-                        {String(selectedProduct?.packs) === "0" ? "": `${String(selectedProduct?.kilogram)}packs` })
+                        {String(selectedProduct?.kilograms) === "0" ? "": `${String(selectedProduct?.kilograms)}kg` }
+                        {String(selectedProduct?.grams) === "0" ? "": `/${String(selectedProduct?.grams)}g` }
+                        {String(selectedProduct?.pounds) === "0" ? "": `/${String(selectedProduct?.pounds)}lbs` }
+                        {String(selectedProduct?.pieces) === "0" ? "": `/${String(selectedProduct?.pieces)}pcs` }
+                        {String(selectedProduct?.packs) === "0" ? "": `/${String(selectedProduct?.packs)}packs` })
                       </span>
                     </div>
                   </div>
@@ -278,16 +280,27 @@ function Product() {
                     <h2 className='mb-5'>Select variant</h2>
                     {selectedProduct?.variants && selectedProduct.variants.length > 0 && (
                       <div className=''>
-                          {selectedProduct.variants.map((variant: Variants)=>(
-                                <button 
-                                  type='button' 
-                                  key={variant.id} 
-                                  onClick={() =>{setSelectedVariant(variant)}} 
-                                  className={`${selectedVariant === variant? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 transition-transform transform active:scale-95`}>
-                                    <div className='text-sm font-semibold'>{`${String(variant.variant)} ${variant.unitOfMeasurement}`}</div>
-                                    <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
-                                </button>
-                          ))}
+                        {selectedProduct.variants.map((variant: Variants) => {
+                          const unitOfMeasurement = variant.unitOfMeasurement.toLowerCase();
+                          const isValidVariant =
+                            unitOfMeasurement === 'kilograms' && selectedProduct.kilograms >= variant.variant ||
+                            unitOfMeasurement === 'grams' && selectedProduct.grams >= variant.variant ||
+                            unitOfMeasurement === 'pieces' && selectedProduct.pieces >= variant.variant ||
+                            unitOfMeasurement === 'pounds' && selectedProduct.pounds >= variant.variant ||
+                            unitOfMeasurement === 'packs' && selectedProduct.packs >= variant.variant;
+
+                          return isValidVariant ? (
+                            <button
+                              type='button'
+                              key={variant.id}
+                              onClick={() => { setSelectedVariant(variant) }}
+                              className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 transition-transform transform active:scale-95`}
+                            >
+                              <div className='text-sm font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
+                              <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
+                            </button>
+                          ) : null;
+                        })}
                       </div>
                     )}
                   </div>

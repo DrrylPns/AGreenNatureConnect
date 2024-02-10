@@ -9,8 +9,22 @@ export async function GET(req: NextRequest) {
             where:{
                 isFree: {
                     equals: false
+                },
+                status:{
+                    equals: 'APPROVED'
+                },
+                category:{
+                    equals:"Vegetables"
+                },
+                variants:{
+                    some: {
+                        variant: {
+                            not: 0
+                        }
+                    }
                 }
             },
+
             include:{
                variants: true,
                community: true
