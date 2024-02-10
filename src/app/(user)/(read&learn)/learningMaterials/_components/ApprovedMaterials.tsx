@@ -77,7 +77,11 @@ export const ApprovedMaterials = () => {
                                         <p className="text-sm text-white/60 underline">{materials.community.name} {" "} Community</p>
                                     </div>
                                 </div>
-                                {/* <Button radius="full" size="sm">Get App</Button> */}
+                                {/* <Button radius="full" size="sm"> */}
+                                <a target="_blank" key={materials.id} href={materials.material} className="text-white">
+                                    View PDF
+                                </a>
+                                {/* </Button> */}
                             </CardFooter>
                         </Card>
                     </div>

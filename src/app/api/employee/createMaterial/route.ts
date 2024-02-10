@@ -31,7 +31,7 @@ export async function POST(req: Request) {
                 description,
                 //@ts-ignore
                 material,
-                thumbnail: "https://utfs.io/f/fdf3292e-e255-4a48-82b0-df1d63f321cf-bne8e7.png",
+                thumbnail: "https://utfs.io/f/cb4fb13b-9590-4c27-a0c3-7cf4a416c854-jw91ob.png",
                 authorId: loggedIn?.id,
                 communityId: loggedIn?.Community?.id as string
             }
