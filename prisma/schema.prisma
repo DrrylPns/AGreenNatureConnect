@@ -363,11 +363,11 @@ model Product {
   itemNumber   Int?           @unique @default(autoincrement())
   productImage String         @unique
   name         String
-  kilogram     Float?
-  grams        Float?
-  pounds       Float?
-  pieces       Float?
-  packs        Float?
+  kilograms    Float @default(0)
+  grams        Float  @default(0)
+  pounds       Float  @default(0)
+  pieces       Float  @default(0)
+  packs        Float  @default(0)
   variants     Variant[]
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)

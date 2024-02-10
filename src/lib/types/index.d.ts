@@ -94,7 +94,7 @@ export interface Product {
   itemNumber: number;
   productImage: string;
   name: string;
-  kilogram: number;
+  kilograms: number;
   grams: number;
   pounds: number;
   pieces: number;

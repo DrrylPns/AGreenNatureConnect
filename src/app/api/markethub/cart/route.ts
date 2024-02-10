@@ -12,6 +12,7 @@ export async function POST(req: Request) {
         if (!session?.user) {
             return new Response("Unauthorized", { status: 401 })
         }
+        console.log(session.user.id)
         const body = await req.json()
         const { variantId } = CartSchema.parse(body)
         await prisma.cart.create({
@@ -39,7 +40,9 @@ export async function GET(req: Request) {
             return new Response("Unauthorized", { status: 401 })
         }
         const getCartItems = await prisma.cart.findMany({
-           
+           where:{
+            userId: session.user.id
+           },
             include:{
                 variant:{
                     include:{
