@@ -12,27 +12,27 @@ export async function POST(req: Request) {
         if (!session?.user) {
             return new Response("Unauthorized", { status: 401 })
         }
-        console.log(session.user.id)
         const body = await req.json()
-        const { variantId } = CartSchema.parse(body)
+        const { variantId, communityId} = CartSchema.parse(body)
         await prisma.cart.create({
             data: {
-                variantId,
                 userId: session.user.id,
+                variantId,
+                communityId: communityId
             }
+           
         })
+        
         return new Response('OK')
     } catch (error) {
         if (error instanceof z.ZodError) {
             return new Response('Invalid POST request data passed', { status: 422 })
         }
-        return new Response('Could not post to community at this time, please try again later', { status: 500 })
+        return new Response('Could not create cart at this time, please try again later', { status: 500 })
     }
 }
 
-
 //Get Cart Items
-
 export async function GET(req: Request) {
     try {
         const session = await getAuthSession()
@@ -40,19 +40,20 @@ export async function GET(req: Request) {
             return new Response("Unauthorized", { status: 401 })
         }
         const getCartItems = await prisma.cart.findMany({
-           where:{
-            userId: session.user.id
-           },
+            where:{
+                userId: session.user.id
+            },
             include:{
                 variant:{
                     include:{
-                        product: {
+                        product:{
                             include:{
-                                community: true
+                                community:true
                             }
                         }
                     }
-                }
+                },
+                community: true
             }
         })
         return new Response(JSON.stringify(getCartItems), {status: 200})

@@ -38,7 +38,7 @@ export default async function RootLayout({
 
               <LoginModal />
               <RegisterModal />
-              <div className="relative pt-[8rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
+              <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
                 {children}
               </div>
             </>

@@ -128,6 +128,7 @@ model Community {
   VideoTutorial    VideoTutorial[]
   FAQ              FAQ[]
   Transaction      Transaction[]
+  cart             Cart[]
 }
 
 model Topic {
@@ -381,8 +382,7 @@ model Product {
 
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
-
-  transactions Transaction[]
+  orderedVariant OrderedVariant[]
   // ProductTransaction ProductTransaction[]
 
   @@index([creatorId])
@@ -401,6 +401,7 @@ model Variant {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
 
+  orderVariant OrderedVariant[]
   Cart Cart[]
 
   @@index([productId])
@@ -410,7 +411,7 @@ model Transaction {
   id          String            @id @default(cuid())
   referenceId String            @unique
   amount      Float // order total
-  status      TransactionStatus @default(ON_GOING)
+  status      TransactionStatus @default(PENDING)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
 
@@ -420,17 +421,37 @@ model Transaction {
   seller   Community @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId String
 
-  products Product[]
-  // ProductTransaction ProductTransaction[]
+  orderedVariant OrderedVariant[]
 
   @@index([buyerId])
   @@index([sellerId])
 }
 
 enum TransactionStatus {
+  PENDING
+  APPROVED
+  PICK_UP
   COMPLETED
   CANCELLED
-  ON_GOING
+}
+
+model OrderedVariant{
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  variantId String
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String
+  
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  transactionId String
+
+  @@index([variantId])
+  @@index([productId])
+  @@index([transactionId])
 }
 
 // model ProductTransaction {
@@ -454,13 +475,17 @@ model Cart {
   updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String @unique
+  userId String 
 
   variant   Variant? @relation(fields: [variantId], references: [id])
   variantId String?
 
+  community   Community? @relation(fields: [communityId], references: [id])
+  communityId String?
+
   @@index([userId])
   @@index([variantId])
+  @@index([communityId])
 }
 
 model ShippingInfo {
@@ -468,6 +493,7 @@ model ShippingInfo {
   name        String
   address     String
   phoneNumber String
+  facebook    String
   // city      String
   // state     String
   // country   String

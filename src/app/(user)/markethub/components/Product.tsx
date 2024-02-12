@@ -12,6 +12,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useForm } from 'react-hook-form'
 import { toast } from '@/lib/hooks/use-toast'
 import { useMutation } from '@tanstack/react-query'
+import { z } from 'zod'
 
 function Product() {
     const {data:session, status } = useSession()
@@ -22,6 +23,7 @@ function Product() {
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null);
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const [isLoading, setIsLoading] = useState(false);
   
     
     useEffect(()=>{
@@ -57,65 +59,38 @@ function Product() {
         console.log(error)
       }
   }
-    const {
-      handleSubmit,
-      formState: { errors, isSubmitSuccessful  },
-    } = useForm<CreateAddToCartType>({
-      resolver: zodResolver(CartSchema),
-      defaultValues: {
-          variantId: '',
-      }
-  })
 
-  useEffect(() => {
-    if (Object.keys(errors).length) {
-        for (const [_key, value] of Object.entries(errors)) {
-            value
-            toast({
-                title: 'Something went wrong.',
-                description: (value as { message: string }).message,
-                variant: 'destructive',
-            })
-        }
-    }
-  }, [errors])
-
-  const { mutate: addToCart } = useMutation({
-    mutationFn: async ({ variantId }: CreateAddToCartType) => {
-        const payload: CreateAddToCartType = {
-            variantId
-        }
-        const { data } = await axios.post(`/api/markethub/cart`, payload)
-       
-       
+  const handleAddToCart = async () =>{
+    try{
+      setIsLoading(true);
+      const addToCart = await axios.post('/api/markethub/cart', {
+        variantId: selectedVariant?.id, communityId: selectedProduct?.communityId
+      }).then(res => {
+        toast({
+          description: "Added to cart, Successfuly!.",
+        })
         closeModal()
-       
-        return data
-    },
-    onError: () => {
-        return toast({
-            title: "Something went wrong",
-            description: "Can't add to cart, please try again later",
-            variant: "destructive",
-        });
-    },
-    onSuccess: () => {
-        return toast({
-            description: "Added to cart, Successfuly!.",
-        });
-    },
-  })
-
-  async function onSubmit(data: CreateAddToCartType) {
-    if(selectedVariant) {
-      const payload: CreateAddToCartType = {
-        variantId: selectedVariant.id
-      }
-      addToCart(payload)
+      })
+    } catch (error) {
+    if (error instanceof z.ZodError) {
+      toast({
+        title: "Something went wrong",
+        description: "Can't add to cart, please try again later",
+        variant: "destructive",
+      })
+      console.error('Validation Error:', error.errors);
+    } else {
+      toast({
+        title: "Something went wrong",
+        description: "Can't add to cart, please try again later",
+        variant: "destructive",
+      })
+      console.error('Error deleting cart item:', error);
+    }} finally {
+      setIsLoading(false)
     }
-    
   }
-
+  
   return (
     <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -135,6 +110,10 @@ function Product() {
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
                 const highestPrice = Math.max(...prices);
+                if(product.variants.length < 1){
+                  return null
+                }
+
                 if(product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
                     return null
                   } else {
@@ -316,10 +295,10 @@ function Product() {
                      <button
                        type="button"
                        className="w-1/2 bg-[#FDE63F] py-5"
-                       onClick={handleSubmit(onSubmit)}
-                       disabled={selectedVariant == null ? true : false}
+                       onClick={() => handleAddToCart()}
+                       disabled={selectedVariant == null || isLoading}
                      >
-                       Add to Cart
+                       {isLoading ? 'Adding to Cart...' : 'Add to Cart'}
                      </button>
                      <button
                        type="button"

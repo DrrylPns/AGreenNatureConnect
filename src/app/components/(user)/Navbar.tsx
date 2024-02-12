@@ -32,7 +32,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
       {status === "loading" ? (
         <div className="text-center flex justify-center">
           <RotatingLines
-            strokeColor="green"
+            strokeColor="yellow"
             strokeWidth="5"
             animationDuration="0.75"
             width="20"

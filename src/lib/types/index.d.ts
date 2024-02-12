@@ -133,4 +133,28 @@ export interface Cart {
   updatedAt: string;
   user: Author;
   variant: Variants;
+  variantId: string;
+  comunity: Community;
+  communityId: string;
+}
+export interface ShippingInfo {
+  id: string
+  createdAt: string;
+  updatedAt: string;
+  name: string;
+  address: string;
+  phoneNumber: string;
+  facebook: string;
+  userId: Author;
+}
+
+export interface ResultItem {
+  communityId: string;
+  products: ProductVariant[]
+
+}
+
+export interface ProductVariant {
+  productId: string,
+  variantId: string
 }
