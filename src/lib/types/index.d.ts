@@ -150,11 +150,11 @@ export interface ShippingInfo {
 
 export interface ResultItem {
   communityId: string;
+  totalPrice: number;
   products: ProductVariant[]
-
 }
 
 export interface ProductVariant {
-  productId: string,
-  variantId: string
+  productId: string;
+  variant: Variants;
 }

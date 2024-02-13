@@ -13,14 +13,16 @@ function transformItems(Items: Cart[]): ResultItem[] {
         if (existingItem) {
             existingItem.products.push({
                 productId: item.variant.product.id,
-                variantId: item.variant.id,
+                variant: item.variant,
             });
+            existingItem.totalPrice += item.variant.price
         } else {
             const newItem: ResultItem = {
                 communityId: item.communityId,
+                totalPrice: item.variant.price,
                 products: [{
                     productId: item.variant.product.id,
-                    variantId: item.variant.id,
+                    variant: item.variant,
                 }],
             };
             
@@ -49,7 +51,7 @@ export async function POST(req: Request) {
             const transaction = await prisma.transaction.create({
                 data: {
                     referenceId,
-                    amount: 0,
+                    amount: item.totalPrice,
                     status: "PENDING",
                     buyerId: session.user.id,
                     sellerId: item.communityId,
@@ -64,7 +66,7 @@ export async function POST(req: Request) {
                     orderedVariant: {
                         createMany: {
                             data: item.products.map((product) => ({
-                                variantId: product.variantId,
+                                variantId: product.variant.id,
                                 productId: product.productId,
                             })),
                         },
@@ -72,15 +74,48 @@ export async function POST(req: Request) {
                 },
             });
 
+
             await prisma.cart.deleteMany({
                 where: {
                     userId: session.user.id,
                     variantId: {
-                        in: item.products.map((product) => product.variantId),
+                        in: item.products.map((product) => product.variant.id),
                     },
                 },
             });
 
+            item.products.forEach(async (product)=>{
+                if(product.variant.unitOfMeasurement === 'Kilograms'){
+                    await prisma.product.update({
+                        where:{id: product.productId},
+                        data:{kilograms: {decrement: product.variant.variant}}
+                    })
+                }
+                if(product.variant.unitOfMeasurement === 'Grams'){
+                    await prisma.product.update({
+                        where:{id: product.productId},
+                        data:{grams: {decrement: product.variant.variant}}
+                    })
+                }
+                if(product.variant.unitOfMeasurement === 'Pounds'){
+                    await prisma.product.update({
+                        where:{id: product.productId},
+                        data:{pounds: {decrement: product.variant.variant}}
+                    })
+                }
+                if(product.variant.unitOfMeasurement === 'Pieces'){
+                    await prisma.product.update({
+                        where:{id:product.productId},
+                        data:{pieces: {decrement: product.variant.variant}}
+                    })
+                }
+                if(product.variant.unitOfMeasurement === 'Packs'){
+                    await prisma.product.update({
+                        where:{id: product.productId},
+                        data:{packs: {decrement: product.variant.variant}}
+                    })
+                }
+            })
             transactions.push(transaction);
         }
 
