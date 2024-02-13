@@ -4,14 +4,16 @@ import axios from 'axios';;
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { FaArrowLeft } from 'react-icons/fa';
 import { z } from 'zod';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import Loading from '../loading';
 
 function CartPage() {
   const [cartItems, setCartItems] = useState<Cart[]>([]);
   const [selectedItems, setSelectedItems ] = useState<Cart[]>([])
+  const [error, setError] = useState<boolean>(false)
   const router = useRouter()
   const { setItem } = useLocalStorage('value')
   
@@ -23,8 +25,8 @@ function CartPage() {
   
   const handleCheckout = (value: Cart[]) =>{
     try{
-      setItem(value)
-      router.push('/cart/checkout')
+        setItem(value)
+        router.push('/cart/checkout')
     } catch (error) {
 
     }
@@ -81,7 +83,6 @@ function CartPage() {
     router.back(); 
   };
 
-  const serializedItems = JSON.stringify(selectedItems);
   
   return (
     <div>
@@ -93,8 +94,14 @@ function CartPage() {
         </div>
         <h1 className='font-bold text-[2rem] text-center'>Cart</h1>
       </div>
-      
+      <Suspense fallback={<Loading/>}>
       <div className='px-3 pb-32'>
+        {cartItems.length < 1 && (
+           <div className='w-full flex flex-col gap-5 justify-center h-[50vh] items-center'>
+            <h1 className='text-center text-2xl text-gray-400 font-medium font-livvic '>Your cart is currently empty right now!</h1>
+            <Link href={'/markethub'} className='px-5 py-2 border-2 rounded-md border-green bg-transparent hover:bg-yellow-400  font-poppins font-medium transition-colors duration-500 ease-in-out mx-auto'>Shop now</Link>
+           </div>
+        )}
         {Object.entries(groupedItems).map(([communityName, communityItems]) => (
           <div key={communityName} className='mb-2 pb-2 bg-gray-50 shadow-sm drop-shadow-md'>
             <div className='flex items-center gap-20 border-y border-black py-2 px-10'>
@@ -151,15 +158,21 @@ function CartPage() {
           </div>
         ))}
       </div>
+      </Suspense>
       {/* Display the subtotal based on selected items */}
       <div className='fixed bottom-0 w-full flex'>
         <div className='w-1/2 flex justify-center items-center bg-green py-5 text-[1rem] text-white text-4xl font-semibold fon font-poppins'>
           <h1 className='text-center'>Sub Total:<span className='text-2xl font-bold ml-10'>₱ {calculateSubtotal(selectedItems).toFixed(2)}</span></h1>
         </div>
-        <button onClick={() => handleCheckout(selectedItems)} className='w-1/2 bg-yellow-400'>
+
+        <button 
+          onClick={() => handleCheckout(selectedItems)}
+          disabled={ selectedItems.length < 1 ? true : false}
+          className={`w-1/2 text-2xl font-bold ${selectedItems.length < 1 ?'bg-yellow-200 text-gray-400' : "bg-yellow-400"} transition-all duration-1000 ease-linear`}>
           Checkout
         </button>
       </div>
+      {}
     </div>
   );
 }

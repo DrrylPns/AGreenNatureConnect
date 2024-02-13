@@ -15,6 +15,7 @@ import { Dialog, Transition } from '@headlessui/react';
 function page() {
     const [checkoutItems, setCheckoutItems ] = useState<Cart[]>([]);
     const [loading, setLoading] = useState<boolean>(true);
+    const [isProcessing, setisProcessing] = useState<boolean>(false)
     const [shippingInfo, setShippingInfo] = useState<ShippingInfo>();
     const { getItem } = useLocalStorage("value");
     const router = useRouter();
@@ -90,6 +91,7 @@ function page() {
         router.push('/checkout')
     };
     const handlePlaceOrder = async() =>{
+        setisProcessing(true)
         await axios.post('/api/markethub/transaction', {Items: checkoutItems})
         .then(res =>{
           router.push('/cart/checkout/success')
@@ -98,7 +100,10 @@ function page() {
 
   return (
     <div>
-        <div className='relative pl-5 w-full'>
+      {isProcessing ?
+      (<div>
+      
+        (<div className='relative pl-5 w-full'>
             <div className='absolute top-3'>
             <button onClick={handleGoBack} >
                 <FaArrowLeft/>
@@ -254,6 +259,12 @@ function page() {
       </Transition>
 
     </div>
+    ) : (
+      <div className="flex justify-center items-center text-2xl font-livvic font-bold">
+        <h1><span className='motion-safe:animate-bounce'>We are</span> <span  className='motion-reduce:animate-bounce'>placing your</span> order...</h1>
+      </div>
+    )}
+  </div>
     
 )}
 

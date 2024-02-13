@@ -105,7 +105,7 @@ function Product() {
         <Tab.Panels>
         <Tab.Panel>
           {selectedIndex == 0 &&
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
+            <div className="grid grid-cols-2 items-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
               {fruits.length > 0 ? fruits.map((product: Product) =>{
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
@@ -145,16 +145,16 @@ function Product() {
                   )
                 }
               }):(
-              <>
-                There is no products right now!
-              </>
+                <div className='flex justify-center'>
+                <h1 className='text-2xl font-livvic font-medium'>There is no available fruits right now!</h1>
+              </div>
               )}
             </div>
           }
           </Tab.Panel>
           {selectedIndex == 1 &&
             <Tab.Panel>
-            <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
+            <div className="grid grid-cols-2 items-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
             {vegetables.length > 0 ? vegetables.map((product: Product) =>{
                 const prices = product.variants.map((variant)=> variant.price);
                 const lowestPrice = Math.min(...prices);
@@ -190,9 +190,9 @@ function Product() {
                   )
                 }
               }): ( 
-              <>
-                There is no products right now!
-              </>
+              <div className='flex justify-center'>
+                <h1 className='text-2xl font-livvic font-medium'>There is no available vegetables right now!</h1>
+              </div>
               )}
             </div>
             </Tab.Panel>
