@@ -1,4 +1,5 @@
 'use server'
+import { Variant } from 'framer-motion';
 import { MouseEventHandler } from 'react'
 
 export interface CustomButtonProps {
@@ -157,4 +158,30 @@ export interface ResultItem {
 export interface ProductVariant {
   productId: string;
   variant: Variants;
+}
+
+export interface Transaction {
+  id: string;
+  referenceId: string;
+  amount: number;
+  status: string;
+  buyer: Author;
+  buyerId: string;
+  seller: Community
+  sellerId: string;
+  orderedVariant: OrderedVariant[]
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface OrderedVariant {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+  variant: Variants;
+  variantId: string;
+  product: Product;
+  productId: string
+  transaction: Transaction;
+  transactionId: string;
 }
