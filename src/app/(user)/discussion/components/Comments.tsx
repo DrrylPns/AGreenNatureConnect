@@ -204,7 +204,7 @@ export default function Comments({ posts }: { posts: Post }) {
                       leaveFrom="transform scale-100 opacity-100"
                       leaveTo="transform scale-95 opacity-0"
                     >
-                      <Popover.Panel className="absolute top-0 bg-white z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+                      <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
                         <button
                           type="button"
                           className="flex gap-1 hover:underline w-full"
