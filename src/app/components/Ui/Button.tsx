@@ -23,7 +23,7 @@ const buttonVariants = cva(
         newGreen:
           "bg-[#099073] px-3 py-2 font-medium font-poppins rounded-lg hover:shadow-lg text-black font-bold text-white ",
         darkGreen:
-          " font-medium font-poppins text-black dark:text-white font-bold bg-transparent",
+          " font-medium font-poppins text-black dark:text-white font-bold bg-transparent top-20",
       },
       size: {
         default: "h-10 py-2 px-4",
@@ -31,6 +31,7 @@ const buttonVariants = cva(
         xs: "h-8 px-1.5 rounded-sm",
         lg: "h-11 px-8 rounded-md",
         darkthemebut: "h-2 pr-[20px] px-0",
+        darkthemebut1: "h-5 pr-[20px] px-0",
       },
     },
     defaultVariants: {

@@ -14,7 +14,7 @@ import Loader, { RotatingLines } from "react-loader-spinner";
 import SignInBtn from "./SignInBtn";
 import { Session } from "next-auth";
 import { BsCart4 } from "react-icons/bs";
-import { ThemeToggler } from "../ThemeToggler";
+import { ThemeToggler1 } from "../_ThemeToggler";
 
 interface NavbarProps {
   session: Session | null;
@@ -44,8 +44,11 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
           {status === "authenticated" ? (
             <div className="flex items-center justify-evenly gap-5 text-[1.5rem] text-yellow-400 font-bold">
               {/**  <Notification />
-                            <Settings />
-               <ThemeToggler /> */}
+                            <Settings />*/}
+              <div className="max-md:block hidden mt-4">
+                <ThemeToggler1 />
+              </div>
+
               <Link href={"/cart"} className="text-[1.5rem] md:text-[2rem]">
                 <BsCart4 />
               </Link>
@@ -55,6 +58,9 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             </div>
           ) : (
             <>
+              <div className="max-md:block hidden mt-4 text-yellow-400">
+                <ThemeToggler1 />
+              </div>
               <button onClick={loginModal.onOpen} className="text-white">
                 <BsCart4 />
               </button>

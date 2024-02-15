@@ -126,17 +126,13 @@ export default function Comments({ posts }: { posts: Post }) {
   };
 
   return (
-    <div
-      className={
-        "w-full border-b border-gray-400 pb-5 shadow-sm drop-shadow-sm"
-      }
-    >
+    <div>
       {session ? (
         <form className="w-full relative" onSubmit={handleSubmit(onSubmit)}>
           <textarea
             id="text"
             {...register("text", { required: "Error." })}
-            className="bg-pale dark:bg-[#4e4f50]  min-w-full p-4 pb-8 resize-none border border-gray-300 rounded-lg"
+            className="bg-[#F0F2F5] dark:bg-[#4e4f50]  min-w-full p-4 pb-8 resize-none border border-gray-300 rounded-2xl"
             placeholder="Add your comment here"
           ></textarea>
 

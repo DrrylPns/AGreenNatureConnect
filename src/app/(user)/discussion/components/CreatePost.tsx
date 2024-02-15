@@ -38,7 +38,7 @@ export default function CreatePost() {
                 type="text"
                 placeholder="Create post"
                 disabled={true}
-                className="px-5 py-2 w-[70%] dark:bg-[#4E4F50] bg-pale rounded-xl "
+                className="px-5 py-2 w-[70%] dark:bg-[#4E4F50] bg-[#F0F2F5] rounded-xl "
               />
               <Link href={"/discussion/create-post"}>
                 <Button variant={"green"}>Create</Button>

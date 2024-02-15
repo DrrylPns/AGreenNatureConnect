@@ -18,7 +18,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
         <motion.button
           whileTap={{ backgroundColor: "ButtonShadow" }}
           type="button"
-          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-pale dark:bg-transparent"
+          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
         >
           <span className="text-[1.5rem] text-gray-600">
             <BiComment />
@@ -34,7 +34,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
               >
                 <Popover.Button
                   type="button"
-                  className="flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-pale dark:bg-transparent"
+                  className="flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
                 >
                   <span className="text-[1.5rem] text-gray-600">
                     <BiShare />

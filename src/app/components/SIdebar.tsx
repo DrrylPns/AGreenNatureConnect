@@ -69,7 +69,7 @@ export default function SIdebar() {
               className="flex justify-center items-center w-full py-3"
             >
               <div className="text-icons ">
-                <PiUsersThree />
+                <LiaBookReaderSolid />
               </div>
               <div
                 className={`font-poppins text-[1rem] ${
