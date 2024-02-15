@@ -127,7 +127,7 @@ export default function SIdebar() {
             href={"/discussion"}
             className={`link ${
               pathname === "/discussion"
-                ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4]"
+                ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                 : ""
             } flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
@@ -208,31 +208,60 @@ export default function SIdebar() {
                 } flex-col `}
               >
                 <Link
+                  href={"/videotutorial"}
+                  className={`link ${
+                    pathname === "/videotutorial"
+                      ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                      : ""
+                  }
+                  flex gap-3 ml-5 py-2`}
+                >
+                  <div className="text-[1.5rem]">
+                    <MdOutlineSlowMotionVideo />
+                  </div>
+                  Video Tutorial
+                </Link>
+                <Link
                   href={"/learningMaterials"}
-                  className="flex gap-3 ml-5 py-2 "
+                  className={`link ${
+                    pathname === "/learningMaterials"
+                      ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                      : ""
+                  }
+                  flex gap-3 ml-5 py-2`}
                 >
                   <div className="text-icons">
                     <SlNotebook />
                   </div>
                   Learning Materials
                 </Link>
-                <Link href={"/blogs"} className="flex gap-3 ml-5 py-2">
+                <Link
+                  href={"/blogs"}
+                  className={`link ${
+                    pathname === "/blogs"
+                      ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                      : ""
+                  }
+                  flex gap-3 ml-5 py-2`}
+                >
                   <div className="text-[1.5rem]">
                     <LiaBlogger />
                   </div>
                   Blogs
                 </Link>
-                <Link href={"/article"} className="flex gap-3 ml-5 py-2">
+                <Link
+                  href={"/article"}
+                  className={`link ${
+                    pathname === "/article"
+                      ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                      : ""
+                  }
+                  flex gap-3 ml-5 py-2`}
+                >
                   <div className="text-[1.5rem]">
                     <MdOutlineArticle />
                   </div>
                   Articles
-                </Link>
-                <Link href={"/videotutorial"} className="flex gap-3 ml-5 py-2">
-                  <div className="text-[1.5rem]">
-                    <MdOutlineSlowMotionVideo />
-                  </div>
-                  Video Tutorial
                 </Link>
               </motion.div>
             )}
@@ -241,7 +270,7 @@ export default function SIdebar() {
             href={"/markethub"}
             className={`link ${
               pathname === "/markethub"
-                ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4]"
+                ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                 : ""
             } flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
