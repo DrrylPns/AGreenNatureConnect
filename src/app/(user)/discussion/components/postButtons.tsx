@@ -32,8 +32,8 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
     document.body.removeChild(tempInput);
 
     toast({
-      title: "Success!",
-      description: "Share Link Copied",
+      title: "Share Success!",
+      description: "Link Copied",
       variant: "default",
     });
   };
