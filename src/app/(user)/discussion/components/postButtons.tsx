@@ -4,12 +4,40 @@ import { BiLike, BiComment, BiShare } from "react-icons/bi";
 import { FiLink } from "react-icons/fi";
 import { motion } from "framer-motion";
 import LikeButton from "./LikeButton";
+import { useToast } from "@/lib/hooks/use-toast";
+
 interface PostButtonsProps {
   comments: number;
   postId: string;
 }
 
 const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
+  const { toast } = useToast();
+  const copyLinkToClipboard = () => {
+    const urlToCopy = window.location.href;
+
+    // Create a temporary input element
+    const tempInput = document.createElement("input");
+    tempInput.value = urlToCopy;
+    document.body.appendChild(tempInput);
+
+    // Select the text in the input element
+    tempInput.select();
+    tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+    // Execute the copy command
+    document.execCommand("copy");
+
+    // Remove the temporary input element
+    document.body.removeChild(tempInput);
+
+    toast({
+      title: "Success!",
+      description: "Link Copied",
+      variant: "default",
+    });
+  };
+
   return (
     <div>
       {/**Like, Comment, Share Buttons */}
@@ -51,11 +79,11 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
                 leaveFrom="opacity-100 translate-y-0"
                 leaveTo="opacity-0 translate-y-1"
               >
-                <Popover.Panel
-                  className={`absolute md:right-52 lg:right-72 xl:right-80  right-6 flex gap-2 items-center  drop-shadow-sm shadow-sm`}
-                >
-                  <button className="flex rounded-lg items-center px-4 py-2 gap-3 drop-shadow-lg shadow-md hover:bg-pale-white">
-                    {" "}
+                <Popover.Panel className="absolute bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+                  <button
+                    onClick={copyLinkToClipboard}
+                    className="flex rounded-lg items-center px-4 py-2 gap-3"
+                  >
                     <FiLink className="text-[1.5rem]" /> Copy link
                   </button>
                 </Popover.Panel>
@@ -67,4 +95,5 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
     </div>
   );
 };
+
 export default PostButtons;
