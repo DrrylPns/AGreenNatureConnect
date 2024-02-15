@@ -15,6 +15,9 @@ import { Session } from "next-auth";
 import PostButtons from "../../components/postButtons";
 import EditorOutput from "@/app/components/(user)/EditorOutput";
 import { useRouter } from "next/navigation";
+import { Popover, Transition } from "@headlessui/react";
+import DeleteDialog from "@/app/components/dialogs/Delete";
+import { AiOutlineEdit } from "react-icons/ai";
 
 interface Props {
   params: { postId: string };
@@ -96,9 +99,28 @@ const page: FC<Props> = ({ params }) => {
                 </h3>
               </div>
             </div>
-            <button type="button" onClick={() => {}}>
-              <FaEllipsis />
-            </button>
+            <Popover>
+              <Popover.Button>
+                <FaEllipsis />
+              </Popover.Button>
+              <Transition
+                enter="transition duration-100 ease-out"
+                enterFrom="transform scale-95 opacity-0"
+                enterTo="transform scale-100 opacity-100"
+                leave="transition duration-75 ease-out"
+                leaveFrom="transform scale-100 opacity-100"
+                leaveTo="transform scale-95 opacity-0"
+              >
+                <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+                  <button
+                    type="button"
+                    className="flex gap-1 hover:underline w-full"
+                  >
+                    <AiOutlineEdit /> Edit
+                  </button>
+                </Popover.Panel>
+              </Transition>
+            </Popover>
           </div>
           <h1 className="text-[1.5rem] font-poppins font-extrabold">
             {posts.title}
