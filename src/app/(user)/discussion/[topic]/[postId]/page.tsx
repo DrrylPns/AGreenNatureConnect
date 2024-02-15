@@ -63,14 +63,14 @@ const page: FC<Props> = ({ params }) => {
   };
 
   return (
-    <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20 dark:bg-[#242526]">
+    <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A] ">
       {posts ? (
-        <>
+        <div className="dark:bg-[#242526] px-10 max-md:px-0 max-md:pt-0 py-5 mt-5 rounded-lg shadow-lg ">
           <button type="button" onClick={() => router.back()}>
             <FiArrowLeft />
           </button>
 
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-between  ">
             <div className="flex items-center gap-4">
               <Link
                 href={""}
@@ -135,7 +135,7 @@ const page: FC<Props> = ({ params }) => {
               />
             </div>
           )}
-        </>
+        </div>
       ) : (
         <>
           <div className="text-center flex justify-center">
