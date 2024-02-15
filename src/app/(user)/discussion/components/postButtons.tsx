@@ -33,7 +33,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
 
     toast({
       title: "Success!",
-      description: "Link Copied",
+      description: "Share Link Copied",
       variant: "default",
     });
   };
@@ -54,42 +54,23 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
           <h3>{comments}</h3>
         </motion.button>
         <Popover>
-          {({ open }) => (
-            <>
-              <motion.button
-                whileTap={{ backgroundColor: "ButtonShadow" }}
-                className="rounded-3xl font-poppins font-semibold w-[7rem]"
+          <>
+            <motion.button
+              whileTap={{ backgroundColor: "ButtonShadow" }}
+              className="rounded-3xl font-poppins font-semibold w-[7rem]"
+            >
+              <Popover.Button
+                type="button"
+                className="flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
+                onClick={copyLinkToClipboard}
               >
-                <Popover.Button
-                  type="button"
-                  className="flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
-                >
-                  <span className="text-[1.5rem] text-gray-600">
-                    <BiShare />
-                  </span>
-                  Share
-                </Popover.Button>
-              </motion.button>
-              <Transition
-                as={Fragment}
-                enter="transition ease-out duration-200"
-                enterFrom="opacity-0 translate-y-1"
-                enterTo="opacity-100 translate-y-0"
-                leave="transition ease-in duration-150"
-                leaveFrom="opacity-100 translate-y-0"
-                leaveTo="opacity-0 translate-y-1"
-              >
-                <Popover.Panel className="absolute bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                  <button
-                    onClick={copyLinkToClipboard}
-                    className="flex rounded-lg items-center px-4 py-2 gap-3"
-                  >
-                    <FiLink className="text-[1.5rem]" /> Copy link
-                  </button>
-                </Popover.Panel>
-              </Transition>
-            </>
-          )}
+                <span className="text-[1.5rem] text-gray-600">
+                  <BiShare />
+                </span>
+                Share
+              </Popover.Button>
+            </motion.button>
+          </>
         </Popover>
       </div>
     </div>
