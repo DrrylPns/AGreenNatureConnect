@@ -95,10 +95,10 @@ function Product() {
     <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <Tab.List className="w-full md:w-1/3 text-right border ml-auto mb-5 shadow-lg drop-shadow-lg">
-          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected::bg-[#F0EEF6] border border-black transition-all ease-in-out duration-1000 rounded-l-lg py-3 px-4 w-1/2 md:1/4">
+          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected: :bg-[#F0EEF6] border border-black transition-all ease-in-out duration-1000 rounded-l-lg py-3 px-4 w-1/2 md:1/4">
             Fruits
           </Tab>
-          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected:bg-[#F0EEF6] border border-black transition-all ease-in-out duration-1000 rounded-r-lg py-3 px-4 w-1/2 md:1/4">
+          <Tab className="ui-selected:bg-green ui-selected:text-white ui-selected:border-white ui-not-selected: :bg-[#F0EEF6] border border-black transition-all ease-in-out duration-1000 rounded-r-lg py-3 px-4 w-1/2 md:1/4">
             Vegetables
           </Tab>
         </Tab.List>
