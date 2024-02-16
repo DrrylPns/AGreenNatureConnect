@@ -3,7 +3,7 @@ import React, { useEffect, useState, Fragment } from 'react'
 import Card from './Card'
 import { Product, Variants } from '@/lib/types'
 import axios from 'axios'
-import { Transition, Dialog, RadioGroup, Tab  } from '@headlessui/react'
+import { Transition, Dialog, RadioGroup, Tab } from '@headlessui/react'
 import Image from 'next/image'
 import useLoginModal from '@/lib/hooks/useLoginModal'
 import { useSession } from 'next-auth/react'
@@ -15,53 +15,53 @@ import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 
 function Product() {
-    const {data:session, status } = useSession()
-    const loginModal = useLoginModal()
-    const [isOpen, setIsOpen] = useState(false);
-    const [fruits, setFruits] = useState<Product[]>([]);
-    const [vegetables, setVegetables] = useState<Product[]>([]);
-    const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
-    const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null);
-    const [selectedIndex, setSelectedIndex] = useState(0)
-    const [isLoading, setIsLoading] = useState(false);
-  
-    
-    useEffect(()=>{
-      fetchProductsByVegetables()
-      fetchProductsByFruits()
-    },[selectedIndex])
-    
-    function closeModal() {
-      setIsOpen(false)
-      setSelectedVariant(null)
-      setSelectedProduct(null)
-    }
-  
-    function openModal(product: Product) {
-      setSelectedProduct(product);
-      setIsOpen(true)
-    }
-     //getProducts by Category
-    const fetchProductsByVegetables = async() =>{
-        try {
-          const response = await axios.get('/api/markethub/products/vegetable')
-          setVegetables(response.data)
-        } catch (error) {
-          console.log(error)
-        }
-    }
-    //getProducts by Category
-    const fetchProductsByFruits = async() =>{
-      try {
-        const response = await axios.get('/api/markethub/products/fruit')
-        setFruits(response.data)
-      } catch (error) {
-        console.log(error)
-      }
+  const { data: session, status } = useSession()
+  const loginModal = useLoginModal()
+  const [isOpen, setIsOpen] = useState(false);
+  const [fruits, setFruits] = useState<Product[]>([]);
+  const [vegetables, setVegetables] = useState<Product[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
+  const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null);
+  const [selectedIndex, setSelectedIndex] = useState(0)
+  const [isLoading, setIsLoading] = useState(false);
+
+
+  useEffect(() => {
+    fetchProductsByVegetables()
+    fetchProductsByFruits()
+  }, [selectedIndex])
+
+  function closeModal() {
+    setIsOpen(false)
+    setSelectedVariant(null)
+    setSelectedProduct(null)
   }
 
-  const handleAddToCart = async () =>{
-    try{
+  function openModal(product: Product) {
+    setSelectedProduct(product);
+    setIsOpen(true)
+  }
+  //getProducts by Category
+  const fetchProductsByVegetables = async () => {
+    try {
+      const response = await axios.get('/api/markethub/products/vegetable')
+      setVegetables(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+  //getProducts by Category
+  const fetchProductsByFruits = async () => {
+    try {
+      const response = await axios.get('/api/markethub/products/prutas')
+      setFruits(response.data)
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  const handleAddToCart = async () => {
+    try {
       setIsLoading(true);
       const addToCart = await axios.post('/api/markethub/cart', {
         variantId: selectedVariant?.id, communityId: selectedProduct?.communityId
@@ -72,25 +72,26 @@ function Product() {
         closeModal()
       })
     } catch (error) {
-    if (error instanceof z.ZodError) {
-      toast({
-        title: "Something went wrong",
-        description: "Can't add to cart, please try again later",
-        variant: "destructive",
-      })
-      console.error('Validation Error:', error.errors);
-    } else {
-      toast({
-        title: "Something went wrong",
-        description: "Can't add to cart, please try again later",
-        variant: "destructive",
-      })
-      console.error('Error deleting cart item:', error);
-    }} finally {
+      if (error instanceof z.ZodError) {
+        toast({
+          title: "Something went wrong",
+          description: "Can't add to cart, please try again later",
+          variant: "destructive",
+        })
+        console.error('Validation Error:', error.errors);
+      } else {
+        toast({
+          title: "Something went wrong",
+          description: "Can't add to cart, please try again later",
+          variant: "destructive",
+        })
+        console.error('Error deleting cart item:', error);
+      }
+    } finally {
       setIsLoading(false)
     }
   }
-  
+
   return (
     <div className='md:mt-[-3rem]'>
       <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
@@ -103,103 +104,103 @@ function Product() {
           </Tab>
         </Tab.List>
         <Tab.Panels>
-        <Tab.Panel>
-          {selectedIndex == 0 &&
-            <div className="grid grid-cols-2 items-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
-              {fruits.length > 0 ? fruits.map((product: Product) =>{
-                const prices = product.variants.map((variant)=> variant.price);
-                const lowestPrice = Math.min(...prices);
-                const highestPrice = Math.max(...prices);
-                if(product.variants.length < 1){
-                  return null
-                }
+          <Tab.Panel>
+            {selectedIndex == 0 &&
+              <div className="grid grid-cols-2 items-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
+                {fruits.length > 0 ? fruits.map((product: Product) => {
+                  const prices = product.variants.map((variant) => variant.price);
+                  const lowestPrice = Math.min(...prices);
+                  const highestPrice = Math.max(...prices);
+                  if (product.variants.length < 1) {
+                    return null
+                  }
 
-                if(product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
+                  if (product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
                     return null
                   } else {
-                  return (
-                  <button
-                      type='button'
-                      onClick={() => openModal(product)}
-                      className='relative'
-                      disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
-                    >
-                      
-                      <Card 
-                        imageUrl={product.productImage} 
-                        productName={product.name}
-                        barangay={product.community?.name}
-                        lowestPrice={lowestPrice}
-                        highestPrice={highestPrice}
-                      />
-                      {product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
-                      <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
-                        <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
-                      </div>
-                    ):(
-                      <div>
+                    return (
+                      <button
+                        type='button'
+                        onClick={() => openModal(product)}
+                        className='relative'
+                        disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
+                      >
 
-                      </div>
-                    )} 
-                    </button>
-                  )
-                }
-              }):(
-                <div className='flex justify-center'>
-                <h1 className='text-2xl font-livvic font-medium'>There is no available fruits right now!</h1>
+                        <Card
+                          imageUrl={product.productImage}
+                          productName={product.name}
+                          barangay={product.community?.name}
+                          lowestPrice={lowestPrice}
+                          highestPrice={highestPrice}
+                        />
+                        {product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
+                          <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
+                            <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
+                          </div>
+                        ) : (
+                          <div>
+
+                          </div>
+                        )}
+                      </button>
+                    )
+                  }
+                }) : (
+                  <div className='flex justify-center'>
+                    <h1 className='text-2xl font-livvic font-medium'>There is no available fruits right now!</h1>
+                  </div>
+                )}
               </div>
-              )}
-            </div>
-          }
+            }
           </Tab.Panel>
           {selectedIndex == 1 &&
             <Tab.Panel>
-            <div className="grid grid-cols-2 items-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
-            {vegetables.length > 0 ? vegetables.map((product: Product) =>{
-                const prices = product.variants.map((variant)=> variant.price);
-                const lowestPrice = Math.min(...prices);
-                const highestPrice = Math.max(...prices);
-                if(product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
+              <div className="grid grid-cols-2 items-start sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 border-x-[1px] min-h-screen border-t-2 p-5 border-gray-300 gap-4 font-poppins font-medium ">
+                {vegetables.length > 0 ? vegetables.map((product: Product) => {
+                  const prices = product.variants.map((variant) => variant.price);
+                  const lowestPrice = Math.min(...prices);
+                  const highestPrice = Math.max(...prices);
+                  if (product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
                     return null
                   } else {
-                  return (
-                  <button
-                      type='button'
-                      onClick={() => openModal(product)}
-                      className='relative'
-                      disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
-                    >
-                      
-                      <Card 
-                        imageUrl={product.productImage} 
-                        productName={product.name}
-                        barangay={product.community?.name}
-                        lowestPrice={lowestPrice}
-                        highestPrice={highestPrice}
-                      />
-                      {product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
-                      <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
-                        <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
-                      </div>
-                    ):(
-                      <div>
+                    return (
+                      <button
+                        type='button'
+                        onClick={() => openModal(product)}
+                        className='relative'
+                        disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
+                      >
 
-                      </div>
-                    )} 
-                    </button>
-                  )
-                }
-              }): ( 
-              <div className='flex justify-center'>
-                <h1 className='text-2xl font-livvic font-medium'>There is no available vegetables right now!</h1>
+                        <Card
+                          imageUrl={product.productImage}
+                          productName={product.name}
+                          barangay={product.community?.name}
+                          lowestPrice={lowestPrice}
+                          highestPrice={highestPrice}
+                        />
+                        {product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? (
+                          <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
+                            <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
+                          </div>
+                        ) : (
+                          <div>
+
+                          </div>
+                        )}
+                      </button>
+                    )
+                  }
+                }) : (
+                  <div className='flex justify-center'>
+                    <h1 className='text-2xl font-livvic font-medium'>There is no available vegetables right now!</h1>
+                  </div>
+                )}
               </div>
-              )}
-            </div>
             </Tab.Panel>
           }
         </Tab.Panels>
       </Tab.Group>
-      
+
       <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={closeModal}>
           <Transition.Child
@@ -226,11 +227,11 @@ function Product() {
                 leaveTo="opacity-0 scale-95"
               >
                 <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-white font-poppins bg-semi-transparent-greenish text-left align-middle shadow-xl transition-all">
-                <div className='flex justify-end w-full '>
-                  <button type='button' onClick={()=>closeModal()} className='text-white text-[1rem] md:px-5 p-3 '>
+                  <div className='flex justify-end w-full '>
+                    <button type='button' onClick={() => closeModal()} className='text-white text-[1rem] md:px-5 p-3 '>
                       X
-                  </button>
-                </div>
+                    </button>
+                  </div>
                   <div className=' md:flex gap-10 mx-6 '>
                     {selectedProduct?.productImage && (
                       <Image
@@ -246,12 +247,12 @@ function Product() {
                         <h1 className='text-center font-livvic font-bold text-[2.5rem]'>{selectedProduct?.name}</h1>
                         <h1 className='text-center text-pale-white font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
                       </div>
-                      <span>Available Stocks:( 
-                        {String(selectedProduct?.kilograms) === "0" ? "": `${String(selectedProduct?.kilograms)}kg` }
-                        {String(selectedProduct?.grams) === "0" ? "": `/${String(selectedProduct?.grams)}g` }
-                        {String(selectedProduct?.pounds) === "0" ? "": `/${String(selectedProduct?.pounds)}lbs` }
-                        {String(selectedProduct?.pieces) === "0" ? "": `/${String(selectedProduct?.pieces)}pcs` }
-                        {String(selectedProduct?.packs) === "0" ? "": `/${String(selectedProduct?.packs)}packs` })
+                      <span>Available Stocks:(
+                        {String(selectedProduct?.kilograms) === "0" ? "" : `${String(selectedProduct?.kilograms)}kg`}
+                        {String(selectedProduct?.grams) === "0" ? "" : `/${String(selectedProduct?.grams)}g`}
+                        {String(selectedProduct?.pounds) === "0" ? "" : `/${String(selectedProduct?.pounds)}lbs`}
+                        {String(selectedProduct?.pieces) === "0" ? "" : `/${String(selectedProduct?.pieces)}pcs`}
+                        {String(selectedProduct?.packs) === "0" ? "" : `/${String(selectedProduct?.packs)}packs`})
                       </span>
                     </div>
                   </div>
@@ -285,47 +286,47 @@ function Product() {
                   </div>
                   <div className='w-full bg-white shadow-md drop-shadow-xl mt-36 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
-                      Total Price:  
-                      <span className='font-semibold font-poppins text-lg'> ₱ {selectedVariant?.price == undefined ? '0':String(selectedVariant?.price)}
+                      Total Price:
+                      <span className='font-semibold font-poppins text-lg'> ₱ {selectedVariant?.price == undefined ? '0' : String(selectedVariant?.price)}
                       </span>
                     </span>
                   </div>
                   {status === 'authenticated' ? (
-                     <div className="w-full ">
-                     <button
-                       type="button"
-                       className="w-1/2 bg-[#FDE63F] py-5"
-                       onClick={() => handleAddToCart()}
-                       disabled={selectedVariant == null || isLoading}
-                     >
-                       {isLoading ? 'Adding to Cart...' : 'Add to Cart'}
-                     </button>
-                     <button
-                       type="button"
-                       className="w-1/2 bg-[#24643B] py-5"
-                       onClick={closeModal}
-                     >
-                      Buy Now
-                     </button>
-                   </div>
-                  ):(
                     <div className="w-full ">
-                     <button
-                       type="button"
-                       className="w-1/2 bg-[#FDE63F] py-5 outline outline-gray-500 hover:outline-1"
-                       onClick={loginModal.onOpen}
-                       disabled={selectedVariant == null ? true : false}
-                     >
-                       Add to Cart
-                     </button>
-                     <button
-                       type="button"
-                       className="w-1/2 bg-[#24643B] py-5 hover:bg-white/40"
-                       onClick={loginModal.onOpen}
-                     >
-                      Buy Now
-                     </button>
-                   </div>
+                      <button
+                        type="button"
+                        className="w-1/2 bg-[#FDE63F] py-5"
+                        onClick={() => handleAddToCart()}
+                        disabled={selectedVariant == null || isLoading}
+                      >
+                        {isLoading ? 'Adding to Cart...' : 'Add to Cart'}
+                      </button>
+                      <button
+                        type="button"
+                        className="w-1/2 bg-[#24643B] py-5"
+                        onClick={closeModal}
+                      >
+                        Buy Now
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="w-full ">
+                      <button
+                        type="button"
+                        className="w-1/2 bg-[#FDE63F] py-5 outline outline-gray-500 hover:outline-1"
+                        onClick={loginModal.onOpen}
+                        disabled={selectedVariant == null ? true : false}
+                      >
+                        Add to Cart
+                      </button>
+                      <button
+                        type="button"
+                        className="w-1/2 bg-[#24643B] py-5 hover:bg-white/40"
+                        onClick={loginModal.onOpen}
+                      >
+                        Buy Now
+                      </button>
+                    </div>
                   )}
                 </Dialog.Panel>
               </Transition.Child>
