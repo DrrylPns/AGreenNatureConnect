@@ -26,7 +26,7 @@ export type Products = {
   name: string;
   // stockKilo: number;
   // stockPack: number;
-  kilogram: number;
+  kilograms: number;
   grams: number;
   pounds: number;
   pieces: number;
@@ -104,7 +104,7 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const product = row.original.name
-        const outOfStock = row.original.kilogram === 0 && row.original.packs === 0 && row.original.pieces === 0 && row.original.pounds === 0 && row.original.grams === 0
+        const outOfStock = row.original.kilograms === 0 && row.original.packs === 0 && row.original.pieces === 0 && row.original.pounds === 0 && row.original.grams === 0
         return <div
           onClick={() => {
             toast({
@@ -130,8 +130,8 @@ export const columns: ColumnDef<Products>[] =
         );
       },
       cell: ({ row }) => {
-        const stockKilo = row.original.kilogram;
-        const outOfStock = row.original.kilogram === 0
+        const stockKilo = row.original.kilograms;
+        const outOfStock = row.original.kilograms === 0
         return <div
           className={`${outOfStock && "text-rose-500"}`}
         >{stockKilo}kg</div>;
