@@ -88,7 +88,7 @@ export async function POST(req: NextRequest) {
             productImage,
             name,
             category,
-            kilogram: 0,
+            kilograms: 0,
             grams: 0,
             packs: 0,
             pieces: 0,
@@ -106,7 +106,7 @@ export async function POST(req: NextRequest) {
         };
 
         if (typeOfMeasurement === "Kilograms") {
-            createProductData.kilogram = quantity;
+            createProductData.kilograms = quantity;
         } else if (typeOfMeasurement === "Grams") {
             createProductData.grams = quantity;
         } else if (typeOfMeasurement === "Pieces") {
