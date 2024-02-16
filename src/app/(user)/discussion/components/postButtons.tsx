@@ -1,47 +1,63 @@
-import { Popover, Transition } from "@headlessui/react";
-import React, { FC, Fragment } from "react";
+import { Popover } from "@headlessui/react";
+import React, { FC, useEffect, useState, useRef } from "react";
 import { BiLike, BiComment, BiShare } from "react-icons/bi";
-import { FiLink } from "react-icons/fi";
 import { motion } from "framer-motion";
 import LikeButton from "./LikeButton";
 import { useToast } from "@/lib/hooks/use-toast";
+import axios from "axios";
+import { Post } from "@/lib/types";
 
 interface PostButtonsProps {
-  comments: number;
   postId: string;
+  comments: number;
 }
 
 const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   const { toast } = useToast();
-  const copyLinkToClipboard = () => {
-    const urlToCopy = window.location.href;
+  const [post, setPost] = useState<Post | null>(null); // Assuming you have a Post type
 
-    // Create a temporary input element
-    const tempInput = document.createElement("input");
-    tempInput.value = urlToCopy;
-    document.body.appendChild(tempInput);
+  useEffect(() => {
+    getPostDetails();
+  }, []);
 
-    // Select the text in the input element
-    tempInput.select();
-    tempInput.setSelectionRange(0, 99999); // For mobile devices
+  const getPostDetails = async () => {
+    try {
+      const response = await axios.get(`/api/user/post/${postId}`);
+      setPost(response.data);
+    } catch (error) {
+      console.error("Failed to fetch post details", error);
+    }
+  };
 
-    // Execute the copy command
-    document.execCommand("copy");
+  const copyLinkToClipboard = async () => {
+    if (!post) {
+      console.error("Post details not available");
+      return;
+    }
 
-    // Remove the temporary input element
-    document.body.removeChild(tempInput);
+    const urlToCopy = `${window.location.origin}/discussion/${post.topic.name}/${post.id}?postId=${post.id}`;
 
-    toast({
-      title: "Share Success!",
-      description: "Link Copied",
-      variant: "default",
-    });
+    try {
+      await navigator.clipboard.writeText(urlToCopy);
+      toast({
+        title: "Share Success!",
+        description: "Link Copied",
+        variant: "default",
+      });
+    } catch (err) {
+      console.error("Failed to copy link to clipboard", err);
+      toast({
+        title: "Share Failed!",
+        description: "Unable to copy link",
+        variant: "destructive",
+      });
+    }
   };
 
   return (
     <div>
       {/**Like, Comment, Share Buttons */}
-      <div className="flex items-center justify-end gap-4 border-t-2 border-gray-300 py-2 md:px-10 px-3">
+      <div className="flex items-center justify-end gap-4 border-t-2 border-gray-300 dark:border-[#18191A] py-2 md:px-10 px-3">
         <LikeButton postId={postId} />
         <motion.button
           whileTap={{ backgroundColor: "ButtonShadow" }}
