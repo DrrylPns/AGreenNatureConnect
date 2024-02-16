@@ -58,7 +58,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("home")}
-            className="text-white text-[18px] font-poppins p-2 m-1"
+            className="text-white text-[14px] lg-text-[14px] md-text-[12px] font-extralight p-2 m-1"
           >
             Home
           </motion.button>
@@ -69,7 +69,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("aboutus")}
-            className="text-white text-[18px] font-poppins p-2 m-1"
+            className="text-white text-[14px] lg-text-[14px] md-text-[12px] font-extralight p-2 m-1"
           >
             About
           </motion.button>
@@ -80,7 +80,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("services")}
-            className="text-white text-[18px] font-poppins p-2 m-1"
+            className="text-white text-[14px] lg-text-[14px] md-text-[12px] font-extralight p-2 m-1"
           >
             Services
           </motion.button>
@@ -91,7 +91,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("contactus")}
-            className="text-white text-[18px] font-poppins p-1 max-md:mr-10"
+            className="text-white text-[14px] lg-text-[14px] md-text-[12px] font-extralight p-1 max-md:mr-10"
           >
             Contact
           </motion.button>
