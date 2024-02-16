@@ -3,10 +3,13 @@ import prisma from "@/lib/db/db";
 
 export async function GET(req: Request) {
     try {
-      
+        const session = await getAuthSession();
+        if (!session?.user) {
+            return new Response("Unauthorized", { status: 401 });
+        }
         const getTransactionByUserId = await prisma.transaction.findMany({
             where:{
-          
+                buyerId: session.user.id,
                 status: "PENDING"
             },
             orderBy:{

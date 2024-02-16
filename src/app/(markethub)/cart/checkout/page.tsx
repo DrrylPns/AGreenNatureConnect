@@ -100,7 +100,7 @@ function page() {
 
   return (
     <div>
-      {isProcessing ?
+      {!isProcessing ?
       (<div>
       
         (<div className='relative pl-5 w-full'>

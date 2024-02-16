@@ -1,6 +1,8 @@
 import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db";
 
+
+
 export async function GET(req: Request) {
     try {
         const session = await getAuthSession();
@@ -9,7 +11,7 @@ export async function GET(req: Request) {
         }
         const getTransactionByUserId = await prisma.transaction.findMany({
             where:{
-                id: session.user.id,
+                buyerId: session.user.id,
                 status:"CANCELLED"
             },
             orderBy:{
@@ -32,3 +34,28 @@ export async function GET(req: Request) {
         return new Response(JSON.stringify({message: 'Error:', error}))
     }
 };   
+
+
+export async function POST(req: Request) {
+    try {
+        const session = await getAuthSession();
+        if (!session?.user) {
+            return new Response("Unauthorized", { status: 401 });
+        }
+        const body = await req.json()
+        const { transactionId }= body
+
+        const cancelOrderById = await prisma.transaction.update({
+            where:{
+                id: transactionId
+            },
+            data:{
+                status: "CANCELLED"
+            }
+        })
+
+        return new Response(JSON.stringify(cancelOrderById));
+    } catch (error) {
+        
+    }
+}

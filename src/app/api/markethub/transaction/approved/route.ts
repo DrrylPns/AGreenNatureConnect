@@ -9,7 +9,7 @@ export async function GET(req: Request) {
         }
         const getTransactionByUserId = await prisma.transaction.findMany({
             where:{
-                id: session.user.id,
+                buyerId: session.user.id,
                 status: "APPROVED"
             },
             orderBy:{

@@ -12,15 +12,15 @@ const RelativeDate: React.FC<RelativeDateProps> = ({ dateString }) => {
     const timeDifferenceInSeconds = Math.floor((now.getTime() - date.getTime()) / 1000);
 
     if (timeDifferenceInSeconds < 60) {
-      return 'just now';
+      return 'Just now';
     } else if (timeDifferenceInSeconds < 3600) {
       const minutes = Math.floor(timeDifferenceInSeconds / 60);
-      return `${minutes}m`;
+      return `${minutes}m ago`;
     } else if (timeDifferenceInSeconds < 86400) {
       const hours = Math.floor(timeDifferenceInSeconds / 3600);
-      return `${hours}h`;
+      return `${hours}h ago`;
     } else if (timeDifferenceInSeconds < 172800) {
-      return 'yesterday';
+      return 'Yesterday';
     } else {
       const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
       return date.toLocaleDateString(undefined, options);
