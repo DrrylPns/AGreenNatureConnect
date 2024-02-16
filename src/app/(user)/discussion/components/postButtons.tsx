@@ -6,6 +6,8 @@ import LikeButton from "./LikeButton";
 import { useToast } from "@/lib/hooks/use-toast";
 import axios from "axios";
 import { Post } from "@/lib/types";
+import { useSession, signOut } from "next-auth/react";
+import useLoginModal from "@/lib/hooks/useLoginModal";
 
 interface PostButtonsProps {
   postId: string;
@@ -13,6 +15,8 @@ interface PostButtonsProps {
 }
 
 const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
+  const { status } = useSession();
+  const loginModal = useLoginModal();
   const { toast } = useToast();
   const [post, setPost] = useState<Post | null>(null); // Assuming you have a Post type
 
@@ -54,6 +58,19 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
     }
   };
 
+  function handleClick() {
+    if (status === "unauthenticated") {
+      loginModal.onOpen();
+      toast({
+        description:
+          "You need to Login or Register first to share the link post.",
+        variant: "destructive",
+      });
+    } else {
+      copyLinkToClipboard();
+    }
+  }
+
   return (
     <div>
       {/**Like, Comment, Share Buttons */}
@@ -78,7 +95,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
               <Popover.Button
                 type="button"
                 className="flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
-                onClick={copyLinkToClipboard}
+                onClick={handleClick}
               >
                 <span className="text-[1.5rem] text-gray-600">
                   <BiShare />
