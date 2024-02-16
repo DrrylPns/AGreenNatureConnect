@@ -49,11 +49,11 @@ const page: FC<Pageprops> = ({ params }) => {
             >
               <div
                 key={post.id}
-                className="bg-white dark:bg-[#242526] w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
+                className="bg-white dark:bg-[#242526] w-full max-md:rounded-none  rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-4">
-                    <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
+                    <div className="flex items-center overflow-hidden justify-center rounded-full border w-userImage h-[2.5rem] border-black">
                       {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                       <Image
                         src={post.author.image || DisplayPhoto}

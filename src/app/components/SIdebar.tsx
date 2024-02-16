@@ -64,12 +64,15 @@ export default function SIdebar() {
                 <BiHome />
               </div>
             </Link>
+
             <button
               type="button"
               className="flex justify-center items-center w-full py-3"
             >
               <div className="text-icons ">
-                <LiaBookReaderSolid />
+                <Link href={"/videotutorial"}>
+                  <LiaBookReaderSolid />
+                </Link>
               </div>
               <div
                 className={`font-poppins text-[1rem] ${
@@ -79,6 +82,7 @@ export default function SIdebar() {
                 <PiCaretDown />
               </div>
             </button>
+
             <Link
               className={`link ${
                 pathname === "/markethub" ? "border-b border-yellow-400" : ""

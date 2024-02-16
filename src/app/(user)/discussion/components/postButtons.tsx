@@ -41,7 +41,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   return (
     <div>
       {/**Like, Comment, Share Buttons */}
-      <div className="flex items-center justify-end gap-4 border-t-2 border-gray-300 py-2 md:px-10 px-3">
+      <div className="flex items-center justify-end gap-4 border-t-2 border-gray-300 dark:border-[#18191A] py-2 md:px-10 px-3">
         <LikeButton postId={postId} />
         <motion.button
           whileTap={{ backgroundColor: "ButtonShadow" }}
