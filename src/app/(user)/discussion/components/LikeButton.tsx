@@ -1,10 +1,16 @@
+"use client";
 import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { BiLike } from "react-icons/bi";
 import axios from "axios";
 import { CreateLikeType } from "@/lib/validations/createLikeSchema";
+import { toast, useToast } from "@/lib/hooks/use-toast";
+import { useSession, signOut } from "next-auth/react";
+import useLoginModal from "@/lib/hooks/useLoginModal";
 
 export default function LikeButton({ postId }: { postId: string }) {
+  const { status } = useSession();
+  const loginModal = useLoginModal();
   const [numberOfLikes, setNumberOfLikes] = useState<number>(0);
 
   useEffect(() => {
@@ -30,10 +36,28 @@ export default function LikeButton({ postId }: { postId: string }) {
     data === "Liked"
       ? setNumberOfLikes((prev) => prev + 1)
       : setNumberOfLikes((prev) => prev - 1);
+
+    if (data === "Liked") {
+      toast({
+        description: "You liked the post.",
+      });
+    } else {
+      toast({
+        description: "You unliked the post.",
+        variant: "destructive",
+      });
+    }
   };
 
   function handleClick() {
     likedOrUnlikedPost();
+    if (status === "unauthenticated") {
+      loginModal.onOpen();
+      toast({
+        description: "You need to Login or Register first to liked the post.",
+        variant: "destructive",
+      });
+    }
   }
 
   return (
