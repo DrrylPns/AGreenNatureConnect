@@ -132,7 +132,7 @@ export default function Comments({ posts }: { posts: Post }) {
           <textarea
             id="text"
             {...register("text", { required: "Error." })}
-            className="bg-[#F0F2F5] dark:bg-[#4e4f50]  min-w-full p-4 pb-8 resize-none border border-gray-300 rounded-2xl"
+            className="bg-[#F0F2F5] dark:bg-[#212121]  min-w-full p-4 pb-8 resize-none border border-gray-300 rounded-2xl"
             placeholder="Add your comment here"
           ></textarea>
 

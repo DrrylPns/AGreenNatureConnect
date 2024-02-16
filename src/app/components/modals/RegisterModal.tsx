@@ -29,7 +29,7 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@/app/components/Ui/select"
+} from "@/app/components/Ui/select";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -62,8 +62,8 @@ const RegisterModal = () => {
     // Check for null and handle accordingly
     const communityValue = value !== null ? value : ""; // or provide a default value
 
-    setValue('community', communityValue);
-    console.log('Selected community:', communityValue);
+    setValue("community", communityValue);
+    console.log("Selected community:", communityValue);
   };
 
   const { mutate: registerUser, isLoading } = useMutation({
@@ -148,7 +148,6 @@ const RegisterModal = () => {
 
   // age restriction on input type date
 
-
   // Eto yung body content ng Register Modal
   const bodyContent = (
     <div className="flex flex-col gap-2">
@@ -221,16 +220,13 @@ const RegisterModal = () => {
         </span>
       )}
 
-
-      <Select
-        {...register('community')}
-        onValueChange={handleSelectChange}
-      >
-        <SelectTrigger className="
+      <Select {...register("community")} onValueChange={handleSelectChange}>
+        <SelectTrigger
+          className="
                     w-full
                     h-[70px]
                     p-4
-                    dark:bg-[#09090B]
+                    dark:bg-[#212121]
                     font-light 
                     bg-white 
                     border-2
@@ -238,7 +234,8 @@ const RegisterModal = () => {
                     outline-none
                     transition
                     disabled:opacity-70
-                    disabled:cursor-not-allowed">
+                    disabled:cursor-not-allowed"
+        >
           <SelectValue placeholder="Select your community" />
         </SelectTrigger>
         <SelectContent>
@@ -281,7 +278,7 @@ const RegisterModal = () => {
         </div>
 
         <div className="relative flex justify-center uppercase mt-3">
-          <span className="bg-background text-[14px] px-2 font-bold w-[100px] text-center text-black">
+          <span className="bg-background text-[14px] px-2 font-bold w-[100px] text-center text-black dark:bg-transparent dark:text-white">
             OR
           </span>
         </div>

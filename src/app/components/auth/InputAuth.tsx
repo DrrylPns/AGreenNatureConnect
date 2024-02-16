@@ -34,23 +34,27 @@ const InputAuth: React.FC<InputProps> = ({
       <input
         id={id}
         disabled={disabled}
-        {...register(id as "email" | "password" | "confirmPassword" | "birthday" | "terms", {
-          required,
-        })}
+        {...register(
+          id as "email" | "password" | "confirmPassword" | "birthday" | "terms",
+          {
+            required,
+          }
+        )}
         placeholder=" "
         type={type}
-        {...(type === 'date' && max ? { max: max as string } : {})}
+        {...(type === "date" && max ? { max: max as string } : {})}
         className={`
-                    ${isCheckbox
-            ? `
+                    ${
+                      isCheckbox
+                        ? `
                     
                     `
-            : `
+                        : `
                     peer
                     w-full
                     p-4
                     pt-6
-                    dark:bg-[#09090B]
+                    dark:bg-[#212121]
                     font-light 
                     bg-white 
                     border-2
@@ -61,7 +65,7 @@ const InputAuth: React.FC<InputProps> = ({
                     disabled:cursor-not-allowed
                     pl-4
                     `
-          }
+                    }
                 `}
       />
       {icon && (
@@ -69,11 +73,12 @@ const InputAuth: React.FC<InputProps> = ({
       )}
       <label
         className={`
-                    ${isCheckbox
-            ? `
+                    ${
+                      isCheckbox
+                        ? `
                         p-2
                     `
-            : `
+                        : `
 
                         absolute 
                         text-md
@@ -90,7 +95,7 @@ const InputAuth: React.FC<InputProps> = ({
                         peer-focus:scale-75
                         peer-focus:-translate-y-4
                     `
-          }
+                    }
                 `}
       >
         {label}
@@ -115,6 +120,4 @@ const InputAuth: React.FC<InputProps> = ({
   );
 };
 
-
 export default InputAuth;
-
