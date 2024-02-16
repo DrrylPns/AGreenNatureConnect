@@ -3,28 +3,28 @@ import { HTMLInputTypeAttribute } from "react";
 import { FieldErrors, UseFormRegister } from "react-hook-form";
 
 interface InputProps {
-    id: string;
-    label: string;
-    type?: string;
-    disabled?: boolean;
-    formatPrice?: boolean;
-    required?: boolean;
-    register: UseFormRegister<LoginType>
-    icon?: string | JSX.Element;
+  id: string;
+  label: string;
+  type?: string;
+  disabled?: boolean;
+  formatPrice?: boolean;
+  required?: boolean;
+  register: UseFormRegister<LoginType>;
+  icon?: string | JSX.Element;
 }
 
 const InputLogin: React.FC<InputProps> = ({
-    id,
-    label,
-    type = "text",
-    disabled,
-    register,
-    required,
-    icon,
+  id,
+  label,
+  type = "text",
+  disabled,
+  register,
+  required,
+  icon,
 }) => {
-    return (
-        <div className="w-full relative flex justify-between">
-    <input
+  return (
+    <div className="w-full relative flex justify-between">
+      <input
         id={id}
         disabled={disabled}
         // @ts-ignore
@@ -36,9 +36,10 @@ const InputLogin: React.FC<InputProps> = ({
             w-full
             p-4
             pt-6
-            dark:bg-[#09090B]
+            dark:bg-[#212121]
             font-light 
             bg-white 
+            dark:border-1
             border-2
             rounded-md
             outline-none
@@ -47,8 +48,8 @@ const InputLogin: React.FC<InputProps> = ({
             disabled:cursor-not-allowed
             pl-4
         `}
-    ></input>
-    <label
+      ></input>
+      <label
         className={`
             absolute 
             text-md
@@ -65,14 +66,15 @@ const InputLogin: React.FC<InputProps> = ({
             peer-focus:scale-75
             peer-focus:-translate-y-4
         `}
-    >
+      >
         {label}
         <span className="text-[#FF2222]">*</span>
-    </label>
-    <span className="block absolute right-4 top-1/2 transform -translate-y-1/2">{icon}</span>
-</div>
+      </label>
+      <span className="block absolute right-4 top-1/2 transform -translate-y-1/2">
+        {icon}
+      </span>
+    </div>
+  );
+};
 
-    )
-}
-
-export default InputLogin
+export default InputLogin;

@@ -26,7 +26,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
   const [PasswordInputType, ToggleIcon] = usePasswordToggle();
-  const {data: session, status} = useSession()
+  const { data: session, status } = useSession();
 
   const {
     register,
@@ -100,9 +100,9 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
         const updatedSession = await getSession();
 
         if (updatedSession?.user.role === "EMPLOYEE") {
-          router.push('/employee');
+          router.push("/employee");
         } else if (updatedSession?.user.role === "ADMIN") {
-          router.push('/admin');
+          router.push("/admin");
         }
 
         loginModal.onClose();
@@ -110,11 +110,10 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
       }
     } catch (error) {
       setIsLoading(false);
-      console.error('Error during login:', error);
+      console.error("Error during login:", error);
       // Handle error as needed
     }
   };
-  
 
   const onToggle = useCallback(() => {
     loginModal.onClose();
@@ -173,12 +172,12 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   const footerContent = (
     <div className="flex flex-col w-full">
       <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t" />
+        <div className="absolute inset-0 flex items-center ">
+          <span className="w-full border-t dark:bg-white" />
         </div>
 
         <div className="relative flex justify-center uppercase mt-3">
-          <span className="bg-background text-[14px] px-2 font-bold w-[100px] text-center text-black">
+          <span className="bg-background text-[14px] px-2 font-bold w-[100px] text-center text-black dark:bg-transparent dark:text-white">
             OR
           </span>
         </div>
