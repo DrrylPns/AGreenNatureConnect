@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { } from "react";
 import Carousel from "./components/Carousel";
 import { BiCaretDown } from "react-icons/bi";
 import Card from "./components/Card";
