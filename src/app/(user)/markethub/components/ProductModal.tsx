@@ -220,7 +220,8 @@ function ProductModal({
                   <div className='w-full bg-white shadow-md drop-shadow-xl mt-36 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
                       Total Price:
-                      <span className='font-semibold font-poppins text-lg'> ₱ {selectedVariant?.price == undefined ? '0' : String(selectedVariant?.price)}
+                      <span className='font-semibold font-poppins text-lg'> ₱ {
+                        selectedProduct?.isFree ? "Free" : selectedVariant?.price == undefined ? '0' : String(selectedVariant?.price)}
                       </span>
                     </span>
                   </div>

@@ -61,7 +61,10 @@ export default async function RootLayout({
 
                 <LoginModal />
                 <RegisterModal />
-                {children}
+                <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#121212] px-3">
+                  {children}  
+                </div>
+                
               </>
             )}
 

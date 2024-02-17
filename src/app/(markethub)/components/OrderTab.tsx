@@ -1,10 +1,13 @@
 "use client"
 import { Tab } from '@headlessui/react'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import RotatingLinesLoading from './RotatingLinesLoading'
 import Orders from './Orders'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
+import { FaArrowLeft } from 'react-icons/fa'
+import { FiRefreshCw } from 'react-icons/fi'
+import Loading from '../loading'
 
 interface Transaction {
     id: string;
@@ -79,14 +82,29 @@ function OrderTab({
         setIsLoading(true)
         await axios.post('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
             router.refresh()
-            setIsLoading(false)
+            
         })
+        setIsLoading(false)
     }
 
+    const handleGoBack = () => {
+        setIsLoading(true)
+        router.push('/markethub'); 
+        setIsLoading(false)
+    };
+
+    
+    
   return (
     <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-        <div className='w-full bg-green px-5 py-3'>
+        <div className='flex justify-between w-full text-white bg-green px-5 py-3'>
+            <button onClick={handleGoBack} >
+                <FaArrowLeft/>
+            </button>
             <h1 className='text-white font-poppins font-bold text-[1.5rem]'>My order</h1>
+            <button onClick={()=>  router.refresh()} className='' >
+                <FiRefreshCw/>
+            </button>
         </div>
         <Tab.List>
             <Tab className="text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
@@ -128,7 +146,7 @@ function OrderTab({
             </Tab.Panel>
             {/**APPROVED */}
             <Tab.Panel>
-               
+                {!isLoading ? (
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={approved} 
@@ -137,11 +155,16 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Approved'
                 />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
           
             </Tab.Panel>
             {/**Pickup */}
             <Tab.Panel>
-               
+               {!isLoading ? (
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={pickup} 
@@ -150,11 +173,16 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Ready to be pickup!'
                 />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
           
             </Tab.Panel>
             {/**COMPLETED */}
             <Tab.Panel>
-               
+               {!isLoading ? (
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={completed} 
@@ -163,20 +191,28 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Completed'
                 />
-          
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
             </Tab.Panel>
             {/**CANCELLED */}
             <Tab.Panel>
-                
-                <Orders 
-                    selectedIndex={selectedIndex} 
-                    transactions={cancelled} 
-                    noOrders='No cancelled orders!'
-                    cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
-                    status='Cancelled'
-                />
-               
+                {!isLoading ? (
+                    <Orders 
+                        selectedIndex={selectedIndex} 
+                        transactions={cancelled} 
+                        noOrders='No cancelled orders!'
+                        cancelBtnDisplay='hidden'
+                        handleCancel={handleCancel}
+                        status='Cancelled'
+                    />  
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
             </Tab.Panel>
         </Tab.Panels>
     </Tab.Group>

@@ -15,11 +15,12 @@ function transformItems(Items: Cart[]): ResultItem[] {
                 productId: item.variant.product.id,
                 variant: item.variant,
             });
-            existingItem.totalPrice += item.variant.price
-        } else {
+            item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.variant.price
+           
+        } else { 
             const newItem: ResultItem = {
                 communityId: item.communityId,
-                totalPrice: item.variant.price,
+                totalPrice: item.variant.product.isFree ? 0 : item.variant.price,
                 products: [{
                     productId: item.variant.product.id,
                     variant: item.variant,
@@ -42,7 +43,6 @@ export async function POST(req: Request) {
         const { Items } = body;
 
         const transformedItems = transformItems(Items);
-  
 
         const transactions = [];
 
@@ -84,6 +84,7 @@ export async function POST(req: Request) {
                 },
             });
 
+            /*
             item.products.forEach(async (product)=>{
                 if(product.variant.unitOfMeasurement === 'Kilograms'){
                     await prisma.product.update({
@@ -115,7 +116,7 @@ export async function POST(req: Request) {
                         data:{packs: {decrement: product.variant.variant}}
                     })
                 }
-            })
+            }) */
             transactions.push(transaction);
         }
 

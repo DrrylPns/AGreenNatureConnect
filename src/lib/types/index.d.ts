@@ -141,13 +141,13 @@ export interface Cart {
 }
 export interface ShippingInfo {
   id: string
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   name: string;
   address: string;
   phoneNumber: string;
   facebook: string;
-  userId: Author;
+  userId: string;
 }
 
 export interface ResultItem {

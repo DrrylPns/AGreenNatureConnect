@@ -32,10 +32,18 @@ function Card({
             {/**Barangay */}
             <h3 className='text-sm font-poppins font-normal'>{barangay}</h3>
         </div>
-        <div className='flex justify-between p-3 border-t-2 border-gray mt-5 px-3'>
-            <span className='text-sm md:text-xs font-poppins'>Price:</span>
-            <span className='text-sm md:text-xs font-poppins'>₱ {lowestPrice} - ₱ {highestPrice}</span>
-        </div>
+        {lowestPrice == 0 && highestPrice == 0 ?(
+            <div className='flex justify-between p-3 border-t-2 border-gray mt-5 px-3 '>
+                <span className='text-sm md:text-xs font-poppins'>Price:</span>
+                <span className='text-sm md:text-xs font-poppins'>Free</span>
+            </div>
+        ):(
+            <div className='flex justify-between p-3 border-t-2 border-gray mt-5 px-3'>
+                <span className='text-sm md:text-xs font-poppins'>Price:</span>
+                <span className='text-sm md:text-xs font-poppins'>₱ {lowestPrice} - ₱ {highestPrice}</span>
+            </div>
+        )}
+        
     </div>
   )
 }

@@ -74,7 +74,10 @@ function CartPage() {
   };
   
   const calculateSubtotal = (selectedItems: Cart[]) => {
-    return selectedItems.reduce((total, item) => total + item.variant.price, 0);
+    return selectedItems.reduce((total, item) => {
+      const priceToAdd = item.variant.product.isFree ? 0 : item.variant.price;
+      return total + priceToAdd;
+    }, 0);
   };
   
   const groupedItems = groupItemsByCommunity();
@@ -145,7 +148,7 @@ function CartPage() {
                   <h3>{item.variant.variant} <span>{item.variant.unitOfMeasurement}</span></h3>
                 </div>
                 <div className='ml-auto'>
-                  <h3>P {item.variant.price}</h3>
+                  <h3 className='font-semibold font-poppins'> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
                 </div>
                 <button  
                   onClick={() => deleteCartItem(item.id)}

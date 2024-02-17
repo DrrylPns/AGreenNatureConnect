@@ -92,7 +92,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                         <p className='font-semibold text-gray-400 text-xs'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span></p>
                                     </div>
                                     <div className='ml-auto font-semibold'>
-                                        <h1>₱ {variant.variant.price}</h1>    
+                                        <h1>{variant.product.isFree ? "Free" :`₱ ${variant.variant.price}`}</h1>    
                                     </div>
                                 </Link>
                             ))}
