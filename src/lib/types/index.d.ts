@@ -92,7 +92,7 @@ export interface File {
 
 export interface Product {
   id: string;
-  itemNumber: number;
+  itemNumber: number | null;
   productImage: string;
   name: string;
   kilograms: number;
@@ -100,21 +100,21 @@ export interface Product {
   pounds: number;
   pieces: number;
   packs: number;
-  variants: Variants[]
+ 
   category: string;
   status: string;
-  isFree: string;
+  isFree: boolean;
   creatorId: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   community: Community;
   communityId: string;
 }
 export interface Community {
   id: string;
   name: string;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   posts: Post[];
   blogs: Blog[];
 }
@@ -124,9 +124,10 @@ export interface Variants {
   variant: number;
   price: number;
   EstimatedPieces: number;
-  createdAt: string;
-  updatedAt: string;
+  createdAt: Date;
+  updatedAt: Date;
   product: Product;
+  orderVariant: OrderedVariant[];
 }
 export interface Cart {
   id: string
