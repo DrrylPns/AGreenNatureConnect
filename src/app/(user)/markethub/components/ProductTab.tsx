@@ -52,10 +52,10 @@ function ProductTab({
     <div>
         <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <Tab.List>
-                <Tab className="flex justify-center items-center min-w-fit text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+                <Tab className="text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                     <h1>Fruits</h1>
                 </Tab>
-                <Tab className="flex justify-center items-center min-w-fit text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+                <Tab className="text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                     <h1>Vegetables</h1>
                 </Tab>
             </Tab.List>

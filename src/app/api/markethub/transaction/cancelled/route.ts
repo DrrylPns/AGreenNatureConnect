@@ -1,5 +1,6 @@
 import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db";
+import { revalidatePath } from "next/cache";
 
 
 
@@ -53,7 +54,7 @@ export async function POST(req: Request) {
                 status: "CANCELLED"
             }
         })
-
+        revalidatePath('/(markethub)/order-status', 'page')
         return new Response(JSON.stringify(cancelOrderById));
     } catch (error) {
         

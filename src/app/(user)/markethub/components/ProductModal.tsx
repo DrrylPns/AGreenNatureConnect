@@ -113,7 +113,7 @@ function ProductModal({
       <button
         type='button'
         onClick={() => openModal(product)}
-        className='relative'
+        className='relative w-40 h-56'
         disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
       >
         <Card
