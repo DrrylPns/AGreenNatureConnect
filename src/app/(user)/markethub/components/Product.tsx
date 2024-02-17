@@ -3,18 +3,15 @@ import React, { useEffect, useState, Fragment } from 'react'
 import Card from './Card'
 import { Product, Variants } from '@/lib/types'
 import axios from 'axios'
-import { Transition, Dialog, RadioGroup, Tab } from '@headlessui/react'
+import { Transition, Dialog, Tab } from '@headlessui/react'
 import Image from 'next/image'
 import useLoginModal from '@/lib/hooks/useLoginModal'
 import { useSession } from 'next-auth/react'
-import { CartSchema, CreateAddToCartType } from '@/lib/validations/addToCartSchema'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { useForm } from 'react-hook-form'
 import { toast } from '@/lib/hooks/use-toast'
 import { useMutation } from '@tanstack/react-query'
 import { z } from 'zod'
 
-function Product() {
+function ProductItem() {
   const { data: session, status } = useSession()
   const loginModal = useLoginModal()
   const [isOpen, setIsOpen] = useState(false);
@@ -338,4 +335,4 @@ function Product() {
   )
 }
 
-export default Product
+export default ProductItem

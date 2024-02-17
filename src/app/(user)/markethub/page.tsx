@@ -1,21 +1,8 @@
 import React, { } from "react";
 import Carousel from "./components/Carousel";
-import { BiCaretDown } from "react-icons/bi";
-import Card from "./components/Card";
-import Free from "./components/Free";
-import Pechay from "./images/Pechay.png";
-import Sili from "./images/Sili(Labuyo).png";
-import Talong from "./images/Talong.png";
-import Calamansi from "./images/Calamansi.png";
-import Carrots from "./images/Carrots.png";
-import Banana from "./images/Banana.png";
-import Apple from "./images/Apple.png";
-import Orange from "./images/Orange.png";
-import Guyabano from "./images/Guyabano.png";
-import Dalandan from "./images/Dalandan.png";
-import Product from "./components/Product";
 import BarangayDropdown from "./components/BarangayDropdown";
 import Logo from "@/app/components/Logo/logo";
+import ProductItem from "./components/Product";
 
 export default function Markethub() {
   return (
@@ -35,7 +22,7 @@ export default function Markethub() {
         <BarangayDropdown />
       </div>
 
-      <Product />
+      <ProductItem />
     </div>
   );
 }
