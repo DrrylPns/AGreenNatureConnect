@@ -35,7 +35,7 @@ export default function Markethub() {
         <BarangayDropdown />
       </div>
 
-    
+      <Product />
     </div>
   );
 }
