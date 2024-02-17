@@ -8,9 +8,7 @@ export async function GET(req: NextRequest) {
                 isFree: {
                     equals: false
                 },
-                status:{
-                    equals: 'APPROVED'
-                },
+                
                 category:{
                     equals:"Fruits"
                 },
