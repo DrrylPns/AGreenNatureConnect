@@ -6,7 +6,7 @@ import { ApprovedMaterials } from './_components/ApprovedMaterials'
 
 function LearningMaterials() {
   return (
-    <div className='md:px-64 px-5 py-36 w-full h-screen'>
+    <div className='md:pl-64 px-5 py-36 w-full h-screen'>
       {/* <div className=''> */}
       {/* <InformationImage
                 src='https://utfs.io/f/004ab6ca-9251-4611-a71e-71dd5e0705a7-k9bc7k.png'
