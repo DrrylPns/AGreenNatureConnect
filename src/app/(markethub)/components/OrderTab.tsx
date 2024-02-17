@@ -102,9 +102,7 @@ function OrderTab({
         <Tab.Panels>
             {/**PENDING */}
             <Tab.Panel>
-                {isLoading ? (
-                    <RotatingLinesLoading/>
-                ):(
+                
                     <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={pending} 
@@ -113,14 +111,12 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Waiting to be approve.'
                     />
-                )}
+            
                 
             </Tab.Panel>
             {/**APPROVED */}
             <Tab.Panel>
-                {isLoading ? (
-                    <RotatingLinesLoading/>
-                ):(
+               
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={approved} 
@@ -129,13 +125,11 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Approved'
                 />
-                )}
+          
             </Tab.Panel>
             {/**Pickup */}
             <Tab.Panel>
-                {isLoading ? (
-                    <RotatingLinesLoading/>
-                ):(
+               
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={pickup} 
@@ -144,13 +138,11 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Ready to be pickup!'
                 />
-                )}
+          
             </Tab.Panel>
             {/**COMPLETED */}
             <Tab.Panel>
-                {isLoading ? (
-                    <RotatingLinesLoading/>
-                ):(
+               
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={completed} 
@@ -159,13 +151,11 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Completed'
                 />
-                )}
+          
             </Tab.Panel>
             {/**CANCELLED */}
             <Tab.Panel>
-                {isLoading ? (
-                    <RotatingLinesLoading/>
-                ):(
+                
                 <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={cancelled} 
@@ -174,7 +164,7 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Cancelled'
                 />
-                )}
+               
             </Tab.Panel>
         </Tab.Panels>
     </Tab.Group>
