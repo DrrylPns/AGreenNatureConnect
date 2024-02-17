@@ -44,7 +44,7 @@ function Product() {
   //getProducts by Category
   const fetchProductsByVegetables = async () => {
     try {
-      const response = await axios.get('/api/markethub/products/vegetable')
+      const response = await axios.get('/api/markethub/products/vegetables')
       setVegetables(response.data)
     } catch (error) {
       console.log(error)
@@ -53,7 +53,7 @@ function Product() {
   //getProducts by Category
   const fetchProductsByFruits = async () => {
     try {
-      const response = await axios.get('/api/markethub/products/prutas')
+      const response = await axios.get('/api/markethub/products/fruits')
       setFruits(response.data)
     } catch (error) {
       console.log(error)
