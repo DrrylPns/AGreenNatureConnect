@@ -129,9 +129,9 @@ function page() {
                 <FaLocationDot/>
             </div>
             <div className='ml-10 text-sm md:text-md lg:text-lg'>
-                <h3>Full Name:{shippingInfo.name}</h3>
-                <h3 className='text text-wrap'>Address: {shippingInfo.address} </h3>
-                <h3>Email: {}</h3>
+                <h3>Full Name:</h3>
+                <h3 className='text text-wrap'>Address: asdasdasdsadsadasdasdasdasdasdas asdasdas dasd asd asdasd asd</h3>
+                <h3>Email:</h3>
                 <h3>Contact Number:</h3>
                 <h3>Facebook:</h3>
             </div>
