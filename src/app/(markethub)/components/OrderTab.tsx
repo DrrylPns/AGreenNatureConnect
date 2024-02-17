@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import RotatingLinesLoading from './RotatingLinesLoading'
 import Orders from './Orders'
 import axios from 'axios'
+import { useRouter } from 'next/navigation'
 
 interface Transaction {
     id: string;
@@ -70,11 +71,16 @@ function OrderTab({
     cancelled: Transaction[],
     completed: Transaction[]
 }) {
+    const router = useRouter()
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const [isLoading, setIsLoading ] = useState<boolean>(true)
+    const [isLoading, setIsLoading ] = useState<boolean>(false)
 
     const handleCancel = async(transactionId : string)=>{
-        await axios.post('/api/markethub/transaction/cancelled', transactionId)
+        setIsLoading(true)
+        await axios.post('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
+            router.refresh()
+            setIsLoading(false)
+        })
     }
 
   return (
@@ -102,7 +108,7 @@ function OrderTab({
         <Tab.Panels>
             {/**PENDING */}
             <Tab.Panel>
-                
+                {!isLoading ? (
                     <Orders 
                     selectedIndex={selectedIndex} 
                     transactions={pending} 
@@ -111,6 +117,12 @@ function OrderTab({
                     handleCancel={handleCancel}
                     status='Waiting to be approve.'
                     />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
+                    
             
                 
             </Tab.Panel>

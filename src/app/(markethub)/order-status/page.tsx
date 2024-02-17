@@ -54,7 +54,7 @@ async function page() {
             status: "PICK_UP"
         },
         orderBy:{
-            updatedAt: 'desc'
+            updatedAt: 'asc'
         },
         include:{
             buyer: true,
