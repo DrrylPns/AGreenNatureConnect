@@ -162,7 +162,7 @@ export default function Comments({ posts }: { posts: Post }) {
         </div>
       )}
       {comments ? (
-        <div className="p-2 w-full">
+        <div className="p-2 mt-5 w-full">
           {Array.isArray(comments) &&
             comments.map((comment: Comment) => (
               <>
