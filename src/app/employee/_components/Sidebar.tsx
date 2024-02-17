@@ -17,9 +17,14 @@ const Sidebar = ({
   return (
     <section className='max-w-[320px] flex left-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf]'>
       <div className='flex flex-col gap-3 justify-between'>
-        <div>
+        {/* <div>
           <h1 className='text-lg text-[#25643b] font-bold'>AGreen <span className='text-[#f7c25f]'>Nature</span> Connect</h1>
-          {/* <h1 className='text-lg'>{name} Community Dashboard</h1> */}
+          <h1 className='text-lg'>{name} Community Dashboard</h1>
+        </div> */}
+        <div>
+          <Link href={"/discussion"}>
+            <h1 className='text-lg text-[#25643b] font-bold'>AGreen <span className='text-[#f7c25f]'>Nature</span> Connect</h1>
+          </Link>
         </div>
 
         <div className='flex flex-col text-[16px] gap-7 mb-[350px]'>
