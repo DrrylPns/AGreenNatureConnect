@@ -100,7 +100,7 @@ export interface Product {
   pounds: number;
   pieces: number;
   packs: number;
- 
+  variants: Variants[]
   category: string;
   status: string;
   isFree: boolean;
