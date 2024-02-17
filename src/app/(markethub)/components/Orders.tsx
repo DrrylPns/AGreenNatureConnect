@@ -1,6 +1,4 @@
-import RelativeDate from '@/app/components/RelativeDate';
-import { Transaction } from '@/lib/types';
-import axios from 'axios';
+import RelativeDate from '@/app/components/RelativeDate';;
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -13,6 +11,58 @@ interface OrdersProps {
     handleCancel: (transactionId: string) => void;
     status: string;
   }
+  interface Transaction {
+    id: string;
+    referenceId: string;
+    amount: number;
+    status: string;
+    buyer: Buyer;
+    seller: Community
+    orderedVariant: OrderedVariant[]
+    createdAt: Date;
+    updatedAt: Date;
+}
+interface Community {
+    id: string;
+    name: string;
+}
+interface Buyer {
+    id: string;
+    name: string | null;
+    username: string| null;
+    email: string | null;
+    image: string | null;
+    middleName: string | null;
+    lastName: string | null;
+    phoneNumber: string | null;
+    address: string | null;
+}
+interface OrderedVariant {
+    id: string;
+    product: Product;
+    variant: Variants
+}
+interface Variants {
+    id: string
+    unitOfMeasurement: string;
+    variant: number;
+    price: number;
+    EstimatedPieces: number;
+}
+interface Product {
+    id: string;
+    productImage: string;
+    name: string;
+    kilograms: number;
+    grams: number;
+    pounds: number;
+    pieces: number;
+    packs: number;
+    category: string;
+    status: string;
+    isFree: boolean;
+}
+ 
 
 const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transactions, cancelBtnDisplay, handleCancel }) =>{
 
@@ -24,7 +74,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                 <div className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
                     <div className='flex justify-between items-center w-full px-5 md:px-10 py-5 border-gray-200 border-b-2'>
                         <h1 className='text-green font-semibold text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
-                        <h1 className='text-sm text-gray-400' >Ordered on <RelativeDate dateString={transaction.createdAt} /></h1>
+                        {/*<h1 className='text-sm text-gray-400' >Ordered on <RelativeDate dateString={transaction.createdAt} /></h1>*/}
                     </div>
                     <div className='flex px-5 md:px-10 w-full my-5 gap-10 md:gap-x-20 items-center justify-center lg:justify-around transition-all ease-in-out duration-500'>
                         <div className='w-full'>

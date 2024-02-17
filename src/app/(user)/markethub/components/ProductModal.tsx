@@ -172,6 +172,7 @@ function ProductModal({
                         width={300}
                         height={300}
                         className="w-full md:w-1/2 h-40"
+                        loading='eager'
                       />
                     )}
                     <div className='flex flex-col font-poppins text text mx-auto'>
@@ -206,7 +207,7 @@ function ProductModal({
                               type='button'
                               key={variant.id}
                               onClick={() => { setSelectedVariant(variant) }}
-                              className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 transition-transform transform active:scale-95`}
+                              className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 mt-3 transition-transform transform active:scale-95`}
                             >
                               <div className='text-sm font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
                               <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
