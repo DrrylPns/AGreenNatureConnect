@@ -157,7 +157,7 @@ function CheckoutModal({
                 {Object.entries(groupedItems).map(([communityName, communityItems]) => (
                 <div key={communityName} className='mb-5 pb-2 bg-gray-50 shadow-sm drop-shadow-md'>
                     <div className='flex items-center gap-20 border-y-2 bg-gray-100 border-gray-300 py-2 px-10'>
-                        <h2 id={`selectAll_${communityName}`} className='text-[1rem] font-poppins font-bold'>
+                        <h2 id={`selectAll_${communityName}`} className='text-[0.7rem] sm:text-[1rem] font-poppins font-bold'>
                             Barangay {communityName}
                         </h2>   
                     </div>
@@ -166,19 +166,20 @@ function CheckoutModal({
                         <Image 
                         src={item.variant.product.productImage}
                         alt={item.variant.product.name}
-                        height={100}
-                        width={100}
+                        height={50}
+                        width={50}
+                        className='w-[20%]'
                         />
-                        <div>
+                        <div className='text-[0.6rem] sm:text-sm '>
                         <h3>{item.variant.product.name}</h3>
                         <h3>{item.variant.variant} <span>{item.variant.unitOfMeasurement}</span></h3>
                         </div>
                         <div className='ml-auto'>
-                            <h3 className='font-semibold font-poppins'> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
+                            <h3 className='font-semibold text-[0.6rem] sm:text-sm font-poppins'> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
                         </div>
                     </div>
                     ))}
-                    <div className='p-5 font-semibold text-md md:text-lg'>
+                    <div className='p-5 font-semibold text-[0.6rem] md:text-lg'>
                         <h1 className=''>Order Total: <span>P {subtotalByBarangay[communityName]}</span></h1>
                     </div>
                 </div>
@@ -198,10 +199,10 @@ function CheckoutModal({
         )}
         {/* Display the subtotal based on selected items */}
         <div className='fixed bottom-0 w-full flex'>
-        <div className='w-1/2 flex justify-center items-center bg-green py-5 text-[1rem] text-white text-4xl font-semibold fon font-poppins'>
-            <h1 className='text-center'>Sub Total:<span className='text-2xl font-bold ml-10'>₱ {totalSum.toFixed(2)}</span></h1>
+        <div className='w-1/2 flex justify-center items-center bg-green py-5 text-[1rem] text-white font-semibold fon font-poppins'>
+            <h1 className='text-center'>Sub Total:<span className='text-xs sm:text-2xl font-bold ml-10'>₱ {totalSum.toFixed(2)}</span></h1>
         </div>
-        <button onClick={openModal} disabled={loading ? true : false} className='w-1/2 bg-yellow-400'>
+        <button onClick={openModal} disabled={loading ? true : false} className='w-1/2 text-xs sm:text-2xl bg-yellow-400'>
             Place Order
         </button>
         </div>

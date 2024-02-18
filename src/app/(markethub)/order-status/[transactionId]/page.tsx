@@ -2,6 +2,7 @@
 import prisma from '@/lib/db/db';
 import React, { FC, Suspense } from 'react'
 import Loading from '../../loading';
+import ArrowBack from '../../components/ArrowBack';
 
 interface Props {
     params: { transactionId: string };
@@ -33,14 +34,16 @@ const page: FC<Props> = async({ params }) => {
           return date.toLocaleDateString(undefined, options);
         }
     }
-    
-    
+
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
-  
+
   return (
     <div>
-        <div className='w-full bg-green px-5 py-3'>
-            <h1 className='text-white font-poppins font-bold text-[1.5rem]'>Order Details</h1>
+        <div className='relative w-full bg-green px-5 py-3 text-white'>
+            <h1 className='text-center text-white font-poppins font-bold text-xs sm:text-[1.5rem]'>Order Details</h1>
+            <div className='absolute top-3 left-3'>
+                <ArrowBack/>
+            </div>
         </div>
         <Suspense fallback={<Loading/>}>
             <div>

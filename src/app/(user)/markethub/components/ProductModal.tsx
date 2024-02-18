@@ -123,7 +123,7 @@ function ProductModal({
           highestPrice={highestPrice}
         />
         {product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1 ? (
-          <div className={`absolute top-10 left-10 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
+          <div className={`absolute top-5 left-5 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
             <span className='text-lg font-poppins text-white font-semibold'>Sold out</span>
           </div>
         ) : (

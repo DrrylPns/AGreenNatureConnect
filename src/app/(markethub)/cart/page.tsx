@@ -98,7 +98,7 @@ function CartPage() {
         <h1 className='font-bold text-[2rem] text-center'>Cart</h1>
       </div>
       <Suspense fallback={<Loading/>}>
-      <div className='px-3 pb-32'>
+      <div className='sm:px-3 pb-32'>
         {cartItems.length < 1 && (
            <div className='w-full flex flex-col gap-5 justify-center h-[50vh] items-center'>
             <h1 className='text-center text-2xl text-gray-400 font-medium font-livvic '>Your cart is currently empty right now!</h1>
@@ -108,7 +108,7 @@ function CartPage() {
         {Object.entries(groupedItems).map(([communityName, communityItems]) => (
           <div key={communityName} className='mb-2 pb-2 bg-gray-50 shadow-sm drop-shadow-md'>
             <div className='flex items-center gap-20 border-y border-black py-2 px-10'>
-              <h2 id={`selectAll_${communityName}`} className='text-[1rem] font-poppins font-bold'>
+              <h2 id={`selectAll_${communityName}`} className='text-[0.6rem] sm:text-[1rem] font-poppins font-bold'>
                 Barangay {communityName}
               </h2>
             </div>
@@ -140,19 +140,20 @@ function CartPage() {
                 <Image 
                   src={item.variant.product.productImage}
                   alt={item.variant.product.name}
-                  height={100}
-                  width={100}
+                  height={50}
+                  width={50}
+                  className='border-black border'
                 />
-                <div>
+                <div className='text-[0.5rem]'>
                   <h3>{item.variant.product.name}</h3>
                   <h3>{item.variant.variant} <span>{item.variant.unitOfMeasurement}</span></h3>
                 </div>
                 <div className='ml-auto'>
-                  <h3 className='font-semibold font-poppins'> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
+                  <h3 className='text-[0.4rem] sm:text-sm '> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
                 </div>
                 <button  
                   onClick={() => deleteCartItem(item.id)}
-                  className='bg-red-500 text-white px-3 py-2 rounded'
+                  className='bg-red-500 text-white px-1 text-[0.6rem] sm:px-3 sm:py-2 rounded'
                 >
                   Delete
                 </button>
@@ -164,14 +165,14 @@ function CartPage() {
       </Suspense>
       {/* Display the subtotal based on selected items */}
       <div className='fixed bottom-0 w-full flex'>
-        <div className='w-1/2 flex justify-center items-center bg-green py-5 text-[1rem] text-white text-4xl font-semibold fon font-poppins'>
-          <h1 className='text-center'>Sub Total:<span className='text-2xl font-bold ml-10'>₱ {calculateSubtotal(selectedItems).toFixed(2)}</span></h1>
+        <div className='w-1/2 flex justify-center items-center bg-green py-5 text-[1rem] text-white font-semibold fon font-poppins'>
+          <h1 className='text-center'>Sub Total:<span className='text-xs font-bold ml-10'>₱ {calculateSubtotal(selectedItems).toFixed(2)}</span></h1>
         </div>
 
         <button 
           onClick={() => handleCheckout(selectedItems)}
           disabled={ selectedItems.length < 1 ? true : false}
-          className={`w-1/2 text-2xl font-bold ${selectedItems.length < 1 ?'bg-yellow-200 text-gray-400' : "bg-yellow-400"} transition-all duration-1000 ease-linear`}>
+          className={`w-1/2 text-xs sm:text-2xl font-bold ${selectedItems.length < 1 ?'bg-yellow-200 text-gray-400' : "bg-yellow-400"} transition-all duration-1000 ease-linear`}>
           Checkout
         </button>
       </div>

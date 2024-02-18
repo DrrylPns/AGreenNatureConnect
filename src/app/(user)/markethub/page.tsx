@@ -25,8 +25,11 @@ export default async function Markethub() {
         <Carousel />
       </div>
       <div className="my-5 md:flex justify-between items-center">
-        <BarangayDropdown />
-        <SearchBar allProduct={AllProducts}/>
+          <BarangayDropdown />
+ 
+     
+          <SearchBar allProduct={AllProducts}/>
+    
       </div>
       <ProductItem />
     </div>

@@ -72,11 +72,11 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
         <div className=' '>
             {transactions.length > 0 ? transactions.map((transaction: Transaction)=>(
                 <div className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
-                    <div className='flex justify-between items-center w-full px-5 md:px-10 py-5 border-gray-200 border-b-2'>
-                        <h1 className='text-green font-semibold text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
+                    <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
+                        <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
                         {/*<h1 className='text-sm text-gray-400' >Ordered on <RelativeDate dateString={transaction.createdAt} /></h1>*/}
                     </div>
-                    <div className='flex px-5 md:px-10 w-full my-5 gap-10 md:gap-x-20 items-center justify-center lg:justify-around transition-all ease-in-out duration-500'>
+                    <div className='flex px-5 md:px-10 w-full my-5 gap-7 sm:gap-10 md:gap-x-20 items-center justify-center lg:justify-around transition-all ease-in-out duration-500'>
                         <div className='w-full'>
                             {transaction.orderedVariant.map((variant)=>(
                                 <Link href={`/order-status/${transaction.id}`} className='w-full flex text-sm flex-1 gap-5 sm:gap-10 justify-between items-center transition-all ease-in-out duration-500'>
@@ -88,10 +88,10 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                         className=''
                                     />  
                                     <div className=''>
-                                        <h1 className='font-semibold'>{variant.product.name}</h1>
-                                        <p className='font-semibold text-gray-400 text-xs'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span></p>
+                                        <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{variant.product.name}</h1>
+                                        <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span></p>
                                     </div>
-                                    <div className='ml-auto font-semibold'>
+                                    <div className='ml-auto font-semibold text-[0.6rem] sm:text-xs md:text-lg'>
                                         <h1>{variant.product.isFree ? "Free" :`₱ ${variant.variant.price}`}</h1>    
                                     </div>
                                 </Link>
@@ -99,16 +99,16 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                         </div>
                         <div className={`${cancelBtnDisplay}`}>
                             <button 
-                                className={`${cancelBtnDisplay} px-5 py-2 md:px-10 md:py-3 rounded-md text-sm md:text-xl bg-red-500 text-white font-medium font-poppins transition-all ease-in-out duration-500`}
+                                className={`${cancelBtnDisplay} px-3 py-1 sm:px-5 sm:py-2 md:px-10 md:py-3 rounded-md text-sm md:text-xl bg-red-500 text-white font-medium font-poppins transition-all ease-in-out duration-500`}
                                 onClick={() => handleCancel(transaction.id)}
                                 >
                                     Cancel
-                                </button>
+                            </button>
                         </div>
                     </div>
                     <div className='flex justify-between w-full border-y-2 text-right border-gray-300 bg-gray-200 px-5 md:px-10 py-2 md:py-4 transition-all ease-in-out duration-500'>
-                        <h1 className='text-sm text-gray-400 font-semibold'>{status}</h1>
-                        <h1 className=''>Order Total: <span>₱ {transaction.amount}</span></h1>
+                        <h1 className='text-[0.5rem] sm:text-sm text-gray-400 font-semibold'>{status}</h1>
+                        <h1 className='text-[0.5rem] sm:text-sm font-semibold'>Order Total: <span>₱ {transaction.amount}</span></h1>
                     </div>
                 </div>
                 )):(

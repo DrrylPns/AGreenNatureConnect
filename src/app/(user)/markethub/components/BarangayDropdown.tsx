@@ -26,9 +26,12 @@ function BarangayDropdown() {
     }
   return (
     <Menu>
-        <Menu.Button className="relative  ui-open:shadow-xl flex items-center justify-between w-full md:w-1/4 px-5 py-3 bg-white dark:bg-[#242526] drop-shadow-sm shadow-md border border-gray-300 rounded-md">Barangay <span><BiCaretDown/></span></Menu.Button>
-        <Transition></Transition>
-        <Menu.Items className='absolute flex flex-col bg-white dark:bg-[#242526] px-3 py-2 z-40 w-[95%] md:w-1/4  min-h-fit border border-gray-300'>
+      <div className='relative w-full'>
+        <Menu.Button className="relative flex ui-open:shadow-xl items-center justify-between w-full md:w-1/2 m-h-fit px-5 py-3 bg-white dark:bg-[#242526] drop-shadow-sm shadow-md border border-gray-300 rounded-md">
+          Barangay <span><BiCaretDown/></span>
+        </Menu.Button>
+        
+        <Menu.Items className='absolute flex flex-col bg-white dark:bg-[#242526] px-3 py-2 z-40 w-full md:w-1/2  min-h-fit border border-gray-300'>
             {communities.length > 0 && communities.map((community: Community) =>(
             <Menu.Item key={community.id} as={Fragment} >
                 <Link 
@@ -40,6 +43,7 @@ function BarangayDropdown() {
             ))}
             
         </Menu.Items>
+        </div>
     </Menu>
 
   )

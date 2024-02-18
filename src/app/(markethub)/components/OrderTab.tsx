@@ -111,33 +111,34 @@ function OrderTab({
     
   return (
     <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-        <div className='flex justify-between w-full text-white bg-green px-5 py-3'>
+        <div className='relative'>
+        <div className='fixed z-30 top-20 flex justify-between w-full text-white bg-green px-5 py-3'>
             <button onClick={handleGoBack} >
                 <FaArrowLeft/>
             </button>
-            <h1 className='text-white font-poppins font-bold text-[1.5rem]'>My order</h1>
+            <h1 className='text-white font-poppins font-bold text-[1rem] sm:text-[1.5rem]'>My order</h1>
             <button onClick={()=>  handelRefresh()} className={`${animate ? 'animate-spin text-yellow-400': ''} transition-all duration-1000 ease-in-out hover:scale-110`} >
                 <FiRefreshCw/>
             </button>
         </div>
-        <Tab.List>
-            <Tab className="text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+        <Tab.List className={`fixed top-32 md:top-[8rem] w-full z-30 bg-white drop-shadow-md shadow-lg`}>
+            <Tab className="text-[0.5rem] sm:text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Orders
             </Tab>
-            <Tab className="text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+            <Tab className="text-[0.5rem] sm:text-sm  md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Approved
             </Tab>
-            <Tab className="text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+            <Tab className="text-[0.5rem] sm:text-sm  md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Pick Up
             </Tab>
-            <Tab className="text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+            <Tab className="text-[0.5rem] sm:text-sm  md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Completed
             </Tab>
-            <Tab className="text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
+            <Tab className="text-[0.5rem] sm:text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Cancelled
             </Tab>
         </Tab.List>
-        <Tab.Panels>
+        <Tab.Panels className={`pt-24 z-10`}>
             {/**PENDING */}
             <Tab.Panel>
                 {!isLoading ? (
@@ -154,9 +155,6 @@ function OrderTab({
                         <RotatingLinesLoading/>
                     </div>
                 )}
-                    
-            
-                
             </Tab.Panel>
             {/**APPROVED */}
             <Tab.Panel>
@@ -229,6 +227,7 @@ function OrderTab({
                 )}
             </Tab.Panel>
         </Tab.Panels>
+        </div>
     </Tab.Group>
   )
 }

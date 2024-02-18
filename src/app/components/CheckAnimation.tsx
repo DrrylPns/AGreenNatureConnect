@@ -9,9 +9,9 @@ const CheckAnimation = () => {
       animate={{ opacity: 1, scale: 4 }}
       exit={{ opacity: 0, scale: 2 }}
       transition={{ duration: 1, ease: 'easeInOut' }}
-      className="flex items-center justify-center"
+      className="flex items-center text-xs md:text-2xl justify-center"
     >
-      <FaCheck size={32} color="#00cc00" />
+      <FaCheck color="#00cc00" />
     </motion.div>
   );
 };
