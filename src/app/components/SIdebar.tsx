@@ -53,10 +53,10 @@ export default function SIdebar() {
         {/**mobile view */}
         <div className="fixed w-full z-20 md:relative">
           {/**Home, Communities, Markethub Icons and links */}
-          <div className="pt-[5rem] w-full flex justify-around bg-white dark:bg-[#242526] md:hidden">
+          <div className="pt-[5rem] w-full flex justify-around bg-white dark:bg-[#242526] md:hidden shadow-md drop-shadow-md">
             <Link
               className={`link ${
-                pathname === "/discussion" ? "border-b border-yellow-400" : ""
+                pathname === "/discussion" ? "border-b-2 border-yellow-400" : ""
               } flex justify-center items-center  w-full py-3`}
               href={"/discussion"}
             >
@@ -65,27 +65,52 @@ export default function SIdebar() {
               </div>
             </Link>
 
-            <button
-              type="button"
-              className="flex justify-center items-center w-full py-3"
-            >
-              <div className="text-icons ">
-                <Link href={"/videotutorial"}>
-                  <LiaBookReaderSolid />
-                </Link>
-              </div>
-              <div
-                className={`font-poppins text-[1rem] ${
-                  isSideBarOpen ? "opacity-100 block" : "opacity-0 hidden"
-                }`}
-              >
-                <PiCaretDown />
-              </div>
-            </button>
-
             <Link
               className={`link ${
-                pathname === "/markethub" ? "border-b border-yellow-400" : ""
+                pathname === "/videotutorial" ? "border-b-2 border-yellow-400" : ""
+              } flex justify-center items-center  w-full py-3`}
+              href={"/videotutorial"}
+            >
+              <div className="text-[1.5rem]">
+                <MdOutlineSlowMotionVideo />
+              </div>
+            </Link>
+            
+            <Link
+              className={`link ${
+                pathname === "/learningMaterials" ? "border-b-2 border-yellow-400" : ""
+              } flex justify-center items-center  w-full py-3`}
+              href={"/learningMaterials"}
+            >
+              <div className="text-icons">
+                <SlNotebook />
+              </div>
+            </Link>
+            
+            <Link
+              className={`link ${
+                pathname === "/blogs" ? "border-b-2 border-yellow-400" : ""
+              } flex justify-center items-center  w-full py-3`}
+              href={"/blogs"}
+            >
+              <div className="text-[1.5rem]">
+                <LiaBlogger />
+              </div>
+            </Link>
+            
+            <Link
+              className={`link ${
+                pathname === "/article" ? "border-b-2 border-yellow-400" : ""
+              } flex justify-center items-center  w-full py-3`}
+              href={"/article"}
+            >
+              <div className="text-[1.5rem]">
+                <MdOutlineArticle />
+              </div>
+            </Link>
+            <Link
+              className={`link ${
+                pathname === "/markethub" ? "border-b-2 border-yellow-400" : ""
               } flex justify-center items-center  w-full py-3`}
               href={"/markethub"}
             >
