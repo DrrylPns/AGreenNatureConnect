@@ -12,7 +12,6 @@ type Blog = {
     thumbnail: string;
     createdAt: Date;
     updatedAt: Date;
-    // isApproved: EnumValues;
     author: User;
     community: Community;
 };
@@ -48,6 +47,17 @@ export const ApprovedBlogs = () => {
 
     if (isError) return <>Error fetching Blogs...</>
 
+    if (blogs.length === 0) return <div className="flex flex-col items-center">
+        <Image
+            alt="No result found."
+            className="w-96 h-96"
+            src="../../../../../../undraw/no-result-found.svg"
+        />
+        <div className="text-muted-foreground">
+            No results found.
+        </div>
+    </div>;
+
 
     return (
         <div className="max-w-full gap-5 grid grid-cols-1 grid-rows-1 px-8 mb-11">
@@ -56,10 +66,6 @@ export const ApprovedBlogs = () => {
                     <div>
 
                         <Card isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-7 rounded-lg shadow-md border border-[#a2a2a2]/30">
-                            {/* <CardHeader className="absolute z-10 top-1 flex-col items-start">
-                        <p className="text-tiny text-white/60 uppercase font-bold">{blog.title}</p>
-                        <h4 className="text-white/90 font-medium text-xl">Your checklist for better sleep</h4>
-                    </CardHeader> */}
                             <Image
                                 removeWrapper
                                 alt="blog app background"
@@ -78,7 +84,6 @@ export const ApprovedBlogs = () => {
                                         <p className="text-sm text-white/60 underline">{blog.community.name} {" "} Community</p>
                                     </div>
                                 </div>
-                                {/* <Button radius="full" size="sm">Get App</Button> */}
                             </CardFooter>
                         </Card>
                     </div>
