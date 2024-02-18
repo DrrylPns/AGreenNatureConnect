@@ -50,7 +50,7 @@ export default async function RootLayout({
         >
           <Providers>
             {session?.user.birthday === null &&
-              session?.user.role === "USER" ? (
+            session?.user.role === "USER" ? (
               <>
                 <Onboarding />
               </>
@@ -61,10 +61,9 @@ export default async function RootLayout({
 
                 <LoginModal />
                 <RegisterModal />
-                <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#121212] px-3 h-full">
+                <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
                   {children}
                 </div>
-
               </>
             )}
 
