@@ -5,7 +5,7 @@ import React from "react";
 
 const page = async () => {
   return (
-    <div className="flex flex-col items-start gap-6 pt-[8rem] md:pt-[6rem] w-full max-sm:px-[0%] px-[25%] pb-20 dark:bg-[#18191A]">
+    <div className="flex flex-col items-start gap-6 pt-[2rem] md:pt-[4rem] w-full max-sm:px-[0%] px-[25%] pb-20 dark:bg-[#18191A]">
       <div className="w-full text-center border-b border-gray-200  pb-5">
         <h3 className="font-bold font-livvic text-center text-xl leading-6 text-gray-900 dark:text-white ">
           Create Post
