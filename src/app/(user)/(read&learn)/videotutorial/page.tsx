@@ -2,6 +2,8 @@
 import Link from 'next/link'
 import { InformationImage } from '../components/information-image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Ui/tabs'
+import { Separator } from '@/app/components/Ui/Separator'
+import { VideoTutorials } from './_components/VideoTutorials'
 
 const page = () => {
 
@@ -16,32 +18,32 @@ const page = () => {
             {/* </div> */}
             <div>
                 <h1 className='text-4xl font-bold mb-7 pr-0'>Video Tutorials</h1>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda a eveniet amet fuga? Doloremque quaerat dolorum repellat eligendi architecto laborum numquam aspernatur cumque cupiditate! Dolor laudantium minus cupiditate eaque saepe voluptas iste explicabo debitis repellat, sapiente labore culpa aliquid eius similique praesentium. Alias explicabo voluptatem fuga libero magnam expedita beatae molestiae esse minus suscipit debitis dolorum, labore sunt cumque distinctio impedit consequuntur tempora ullam error! Nam cumque quidem tempora qui, sed eaque iste corporis facere aliquam nulla quo, quas error sequi. Non eius quod, aut consectetur commodi similique in nesciunt molestias dignissimos quisquam ea ipsa veritatis, quasi libero veniam fuga?</p>
+                <p className='text-muted-foreground'>Engage with visual guides and step-by-step tutorials, providing hands-on demonstrations for implementing urban farming techniques effectively.</p>
             </div>
 
-            <Tabs defaultValue="videotutorial" className="flex gap-3 mt-7 max-md:hidden" >
+            <Tabs defaultValue="videotutorial" className="flex gap-3 mt-7 flex-col max-md:hidden" >
                 <TabsList className='flex gap-3 w-full justify-evenly h-11'>
                     <TabsTrigger value="videotutorial" >Video Tutorial</TabsTrigger>
-                    <TabsTrigger value="learningmats">
+                    <TabsTrigger value="learningmats" asChild>
                         <Link
                             href={"/learningMaterials"}
                         >
                             Learning Materials
                         </Link>
                     </TabsTrigger>
-                    <TabsTrigger value="blog">
+                    <TabsTrigger value="blog" asChild>
                         <Link href={"/blogs"}>
                             Blogs
                         </Link>
                     </TabsTrigger>
-                    <TabsTrigger value="articles">
+                    <TabsTrigger value="articles" asChild>
                         <Link href={"/article"}>
                             Articles
                         </Link>
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="videotutorial">
-
+                    <VideoTutorials />
                 </TabsContent>
                 <TabsContent value="learningmats">
 
@@ -54,6 +56,12 @@ const page = () => {
                 </TabsContent>
             </Tabs>
 
+            {/* MOBILE VIEW */}
+            <div className='md:hidden'>
+                <Separator className='my-3' />
+                <VideoTutorials />
+                <div className='h-[32px]' />
+            </div>
         </div>
     )
 }

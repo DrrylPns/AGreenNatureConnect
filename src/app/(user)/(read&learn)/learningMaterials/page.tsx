@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { InformationImage } from '../components/information-image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Ui/tabs'
 import { ApprovedMaterials } from './_components/ApprovedMaterials'
+import { Separator } from '@/app/components/Ui/Separator'
 
 
 function LearningMaterials() {
@@ -16,12 +17,12 @@ function LearningMaterials() {
       {/* </div> */}
       <div>
         <h1 className='text-4xl font-bold mb-7'>Learning Materials</h1>
-        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda a eveniet amet fuga? Doloremque quaerat dolorum repellat eligendi architecto laborum numquam aspernatur cumque cupiditate! Dolor laudantium minus cupiditate eaque saepe voluptas iste explicabo debitis repellat, sapiente labore culpa aliquid eius similique praesentium. Alias explicabo voluptatem fuga libero magnam expedita beatae molestiae esse minus suscipit debitis dolorum, labore sunt cumque distinctio impedit consequuntur tempora ullam error! Nam cumque quidem tempora qui, sed eaque iste corporis facere aliquam nulla quo, quas error sequi. Non eius quod, aut consectetur commodi similique in nesciunt molestias dignissimos quisquam ea ipsa veritatis, quasi libero veniam fuga?</p>
+        <p className='text-muted-foreground'>Explore detailed PDF resources on urban farming, covering essential concepts and practical guidance for cultivating sustainable urban environments.</p>
       </div>
 
       <Tabs defaultValue="learningmats" className="flex gap-3 mt-7 flex-col max-md:hidden">
         <TabsList className='flex gap-3 w-full justify-evenly h-11'>
-          <TabsTrigger value="videotutorial" >
+          <TabsTrigger value="videotutorial" asChild>
             <Link href={"/videotutorial"}>
               Video Tutorial
             </Link>
@@ -29,12 +30,12 @@ function LearningMaterials() {
           <TabsTrigger value="learningmats">
             Learning Materials
           </TabsTrigger>
-          <TabsTrigger value="blog">
+          <TabsTrigger value="blog" asChild>
             <Link href={"/blogs"}>
               Blogs
             </Link>
           </TabsTrigger>
-          <TabsTrigger value="articles">
+          <TabsTrigger value="articles" asChild>
             <Link
               href={"/article"}
             >
@@ -58,11 +59,14 @@ function LearningMaterials() {
         </TabsContent>
       </Tabs>
 
-    </div>
+      {/* MOBILE VIEW */}
+      <div className='md:hidden'>
+        <Separator className='my-3' />
+        <ApprovedMaterials />
+        <div className='h-[32px]' />
+      </div>
 
-    // <div className='pl-[0] md:pl-[20%] pt-[8rem] bg-[#F0EEF6] md:pt-[6rem]'>
-    //     <Material/>
-    // </div>
+    </div>
   )
 }
 
