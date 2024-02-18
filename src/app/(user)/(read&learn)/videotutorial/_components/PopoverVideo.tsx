@@ -27,16 +27,11 @@ export function PopoverVideo({ onSelectCommunity }: any) {
         }
     })
 
-    React.useEffect(() => {
-        if (communities && communities.length > 0) {
-            setValue(communities[0].id);
-        }
-    }, [communities]);
-
     const handleSelectCommunity = (currentValue: any) => {
         setValue(currentValue === value ? "" : currentValue);
         setOpen(false);
         onSelectCommunity(currentValue);
+        console.log(currentValue)
     };
 
     return (

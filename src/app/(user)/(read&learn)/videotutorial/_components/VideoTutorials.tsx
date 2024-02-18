@@ -1,10 +1,9 @@
 "use client"
 import { Separator } from '@/app/components/Ui/Separator';
-import prisma from '@/lib/db/db';
 import { Card, CardFooter, Image } from '@nextui-org/react'
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import React, { useMemo } from 'react'
+import React from 'react'
 import { EnumValues } from 'zod';
 
 type Community = {
@@ -35,32 +34,6 @@ type User = {
     VideoTutorial: VideoTutorial[];
 };
 
-// type VideoTutorials = {
-//     id: string;
-//     title: string;
-//     video: string;
-//     description: string;
-//     thumbnail: string;
-//     createdAt: Date;
-//     updatedAt: Date;
-//     isApproved: EnumValues;
-//     author: User;
-//     community: Community;
-// };
-
-// type User = {
-//     id: string;
-//     name?: string;
-//     lastName?: string;
-//     VideoTutorial: VideoTutorial[];
-// };
-
-// type Community = {
-//     id: string;
-//     name: string;
-//     VideoTutorial: VideoTutorial[];
-// };
-
 export const VideoTutorials = ({ selectedCommunity }: any) => {
     const { isLoading, isError, data: communities } = useQuery({
         queryKey: ['videoTutorials-approved', selectedCommunity],
@@ -73,10 +46,6 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
             }
         }
     })
-
-    console.log('isLoading:', isLoading);
-    console.log('isError:', isError);
-    console.log('communities:', communities);
 
     if (isLoading) return <>Fetching Learning Materials...</>
     if (isError) return <>Error fetching Learning Materials...</>
@@ -96,16 +65,13 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
         );
     }
 
-    console.log('Before filter - Selected Community:', selectedCommunity);
-
-    const filteredVideoTutorials = communities.filter((community) => {
-        console.log('Video Community:', community);
-        return community.id === selectedCommunity;
-    });
-
-    console.log('After filter - Filtered Video Tutorials:', filteredVideoTutorials);
+    const filteredVideoTutorials =
+        selectedCommunity === null || selectedCommunity === ""
+            ? communities
+            : communities.filter((community) => community.id === selectedCommunity);
 
     if (filteredVideoTutorials.every((community) => community.VideoTutorial.length === 0)) {
+        console.log('No video tutorials found for the selected community.');
         return (
             <div className="flex flex-col items-center">
                 <Image
@@ -135,11 +101,6 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
                                 />
                                 <CardFooter className="absolute bg-black/40 bottom-0 z-10 border-t-1 border-default-600 dark:border-default-100 shadow-md">
                                     <div className="flex flex-grow gap-2 items-center">
-                                        <Image
-                                            alt="Breathing app icon"
-                                            className="rounded-full w-10 h-11 bg-black"
-                                            src="/images/breathing-app-icon.jpeg"
-                                        />
                                         <div className="flex flex-col">
                                             <p className="text-sm text-white/60">A Video Tutorial By</p>
                                             <p className="text-sm text-white/60 underline">{community.name} Community</p>

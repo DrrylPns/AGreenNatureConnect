@@ -7,7 +7,7 @@ export async function GET() {
                 createdAt: 'desc',
             },
             include: {
-                VideoTutorial: {
+                LearningMaterial: {
                     include: {
                         author: true
                     },
