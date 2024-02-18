@@ -68,7 +68,6 @@ export const ApprovedMaterials = () => {
             {materials.map((materials) => (
                 <div className="grid grid-cols-2 grid-rows-1 grid-flow-row gap-2 space-x-7">
                     <div>
-
                         <Card isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-7 rounded-lg shadow-md border border-[#a2a2a2]/30">
                             <Image
                                 removeWrapper
@@ -99,8 +98,8 @@ export const ApprovedMaterials = () => {
 
                     <div className="">
                         <p className="text-lg font-bold">{materials.title}</p>
-                        <p>By {materials.author.name} {" "} {materials.author.lastName}</p>
-                        <p>{materials.description}</p>
+                        <p className="text-muted-foreground">By {materials.author.name} {" "} {materials.author.lastName}</p>
+                        <p className="text-muted-foreground text-[15px] mt-3">{materials.description}</p>
                     </div>
                 </div>
             ))}

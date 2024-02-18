@@ -33,7 +33,7 @@ const Sidebar = ({
             Dashboard
           </Link>
 
-          <Link href="#"
+          <Link href="/employee/create-video"
             className='flex flex-row gap-3'>
             <PlaySquare strokeWidth={1} />
             Video Tutorial
