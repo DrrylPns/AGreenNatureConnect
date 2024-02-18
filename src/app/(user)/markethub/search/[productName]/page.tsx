@@ -35,12 +35,14 @@ const page = async ({
     
   return (
     <div>
-        <div>
-            <SearchBar allProduct={AllProducts}/>
+        <div className='w-full flex justify-center md:justify-start'>
+            <div className='w-1/2'>
+                <SearchBar allProduct={AllProducts}/>
+            </div>
         </div>
         <div className='my-5 text-xl font-poppins font-semibold'>
             <h1>Search result for <span className=''>"{params.productName}".</span></h1>
-            <div className='mt-5 bordeer-2 border-slate-300 rounded-lg'>
+            <div className='grid grid-cols-12 w-full  mt-5 border-2 border-slate-200 rounded-lg'>
                 {getProductByname.length > 0 ? getProductByname.map((product) => {
                     const prices = product.variants.map((variant) => variant.price);
                     const lowestPrice = Math.min(...prices);
@@ -48,13 +50,11 @@ const page = async ({
                     if (product.variants.length < 1) {
                         return null
                     }
-
                     if (product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1) {
                         return null
                     } else {
                         return (
-                            <div key={product.id}>
-
+                            <div key={product.id} className='col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2'>
                                 <ProductModal product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
                             </div>
                         )

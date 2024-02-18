@@ -109,11 +109,10 @@ function ProductModal({
     }
     
   return (
-    <div>
       <button
         type='button'
         onClick={() => openModal(product)}
-        className='relative w-40 h-56'
+        className='relative w-full'
         disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
       >
         <Card
@@ -132,8 +131,7 @@ function ProductModal({
 
           </div>
         )}
-      </button>
-      <Transition appear show={isOpen} as={Fragment}>
+         <Transition appear show={isOpen} as={Fragment}>
         <Dialog as="div" className="relative z-50" onClose={closeModal}>
           <Transition.Child
             as={Fragment}
@@ -268,8 +266,7 @@ function ProductModal({
           </div>
         </Dialog>
       </Transition>
-    </div>
-    
+      </button> 
   )
 }
 

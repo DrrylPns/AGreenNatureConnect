@@ -24,7 +24,7 @@ export default async function Markethub() {
       <div className="hidden md:block">
         <Carousel />
       </div>
-      <div className="my-5 flex justify-between items-center">
+      <div className="my-5 md:flex justify-between items-center">
         <BarangayDropdown />
         <SearchBar allProduct={AllProducts}/>
       </div>
