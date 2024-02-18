@@ -31,7 +31,7 @@ const Sidebar = () => {
                         Employees
                     </Link>
 
-                    <Link href="#"
+                    <Link href="/admin/video-requests"
                         className='flex flex-row gap-3'>
                         <PlaySquare strokeWidth={1} />
                         Video Tutorial
@@ -42,9 +42,6 @@ const Sidebar = () => {
                         <BookOpen strokeWidth={1} />
                         Learning Material
                     </Link>
-
-                    {/* <Link href="#">Blog</Link> */}
-                    {/* <Link href="/employee/create-products">Create Products</Link> */}
 
                     <Link href="/admin/blog-requests"
                         className='flex flex-row gap-3'>

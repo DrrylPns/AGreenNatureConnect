@@ -1,25 +1,27 @@
-
+"use client"
 import Link from 'next/link'
 import { InformationImage } from '../components/information-image'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Ui/tabs'
 import { Separator } from '@/app/components/Ui/Separator'
 import { VideoTutorials } from './_components/VideoTutorials'
+import { PopoverVideo } from './_components/PopoverVideo'
+import { useState } from 'react'
 
 const page = () => {
+    const [selectedCommunity, setSelectedCommunity] = useState<string | null>(null);
+    const handleSelectCommunity = (communityId: string) => {
+        setSelectedCommunity(communityId);
+    };
 
     return (
-        <div className='w-full h-screen'>
-            {/* <div className=''> */}
-            {/* <InformationImage
-                src='https://utfs.io/f/004ab6ca-9251-4611-a71e-71dd5e0705a7-k9bc7k.png'
-                title='Video Tutorials'
-                description='Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur commodi esse ea facere expedita, dolore id error voluptate nostrum blanditiis!'
-            /> */}
-            {/* </div> */}
-            <div>
-                <h1 className='text-4xl font-bold mb-7 pr-0'>Video Tutorials</h1>
-                <p className='text-muted-foreground'>Engage with visual guides and step-by-step tutorials, providing hands-on demonstrations for implementing urban farming techniques effectively.</p>
+        <div className='w-full h-screen max-md:mt-5 overflow-hidden'>
+            <div className='flex justify-between max-sm:flex-col max-sm:items-center max-sm:mb-3'>
+                <div className='text-4xl font-bold mb-7 pr-0'>Video Tutorials</div>
+                <div>
+                    <PopoverVideo onSelectCommunity={handleSelectCommunity} />
+                </div>
             </div>
+            <p className='text-muted-foreground'>Engage with visual guides and step-by-step tutorials, providing hands-on demonstrations for implementing urban farming techniques effectively.</p>
 
             <Tabs defaultValue="videotutorial" className="flex gap-3 mt-7 flex-col max-md:hidden" >
                 <TabsList className='flex gap-3 w-full justify-evenly h-11'>
@@ -43,7 +45,7 @@ const page = () => {
                     </TabsTrigger>
                 </TabsList>
                 <TabsContent value="videotutorial">
-                    <VideoTutorials />
+                    <VideoTutorials selectedCommunity={selectedCommunity} />
                 </TabsContent>
                 <TabsContent value="learningmats">
 
@@ -59,7 +61,7 @@ const page = () => {
             {/* MOBILE VIEW */}
             <div className='md:hidden'>
                 <Separator className='my-3' />
-                <VideoTutorials />
+                <VideoTutorials selectedCommunity={selectedCommunity} />
                 <div className='h-[32px]' />
             </div>
         </div>
