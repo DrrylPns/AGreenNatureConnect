@@ -28,7 +28,7 @@ export default function Post() {
     }
   };
   return (
-    <section className="sm:px-[3%] md:pl-[25%] lg:pr-[25%]">
+    <section className="sm:px-[3%] lg:pr-[30%]">
       {posts.length > 0 ? (
         posts.map((post: Post) => (
           <Link

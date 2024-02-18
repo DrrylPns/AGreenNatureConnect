@@ -31,7 +31,7 @@ const page: FC<Pageprops> = ({ params }) => {
   };
 
   return (
-    <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20">
+    <main className="pb-20">
       {topic ? (
         <div className="dark:bg-[#242526]">
           <h1 className="text-gray-600 font-bold font-livvic">

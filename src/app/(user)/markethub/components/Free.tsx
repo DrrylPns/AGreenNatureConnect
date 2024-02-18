@@ -20,13 +20,18 @@ async function Free({
     })
   return (
     <div className='w-full'>
-        <h1 className='text-lg font-poppins font-semibold mb-5'>Today's Free products</h1>
-        <div className='flex w-full gap-5 overflow-x-scroll'>
-            {getFreeProductByCommunity.map((freeProduct)=>(
-                <div key={freeProduct.id} className='w-[20%] flex-shrink-0'>
+        <h1 className='text-lg font-poppins font-semibold mb-5 border-b-2 border-b-gray-200'>Today's Free products</h1>
+        <div className='flex w-full gap-5 overflow-x-auto'>
+            {getFreeProductByCommunity.length > 0 ? (
+                getFreeProductByCommunity.map((freeProduct)=>(
+                <div key={freeProduct.id} className='w-[20%] pb-5 flex-shrink-0'>
                     <ProductModal product={freeProduct} lowestPrice={0} highestPrice={0} />
                 </div> 
-            ))}
+            ))):(
+                <div className='w-full text-center text-md text-gray-400 font-semibold font-poppins'>
+                    <h1>There are no avaible free products right now!</h1>
+                </div>
+            )}
         </div>
     </div>
   )

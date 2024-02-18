@@ -13,7 +13,7 @@ import UserSkeleton from "./Skeleton/CreatePost";
 export default function CreatePost() {
   const { data: session, status } = useSession();
   return (
-    <section className="sm:px-[3%] md:pl-[25%] lg:pr-[25%]">
+    <section className="sm:px-[3%] lg:pr-[30%]">
       {status === "loading" ? (
         <div className="text-center flex justify-center">
           <UserSkeleton />

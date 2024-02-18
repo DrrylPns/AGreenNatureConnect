@@ -66,7 +66,7 @@ const page: FC<Props> = ({ params }) => {
   };
 
   return (
-    <main className="pt-[8rem] md:px-[25%] md:pt-[6rem] px-[3%] pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A] ">
+    <main className=" pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A] ">
       {posts ? (
         <div className="dark:bg-[#242526] px-10 max-md:px-3 max-md:pt-0 py-5 mt-5 rounded-lg shadow-lg ">
           <button type="button" onClick={() => router.back()}>

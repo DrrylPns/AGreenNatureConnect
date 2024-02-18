@@ -5,7 +5,7 @@ import RotatingLinesLoading from './RotatingLinesLoading'
 import Orders from './Orders'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FaArrowLeft } from 'react-icons/fa'
+import { FaArrowLeft, FaBullseye } from 'react-icons/fa'
 import { FiRefreshCw } from 'react-icons/fi'
 import Loading from '../loading'
 
@@ -76,7 +76,8 @@ function OrderTab({
 }) {
     const router = useRouter()
     const [selectedIndex, setSelectedIndex] = useState(0)
-    const [isLoading, setIsLoading ] = useState<boolean>(false)
+    const [isLoading, setIsLoading ] = useState<boolean>(false);
+    const [animate, setAnimate] = useState<boolean>(false)
 
     const handleCancel = async(transactionId : string)=>{
         setIsLoading(true)
@@ -89,9 +90,22 @@ function OrderTab({
 
     const handleGoBack = () => {
         setIsLoading(true)
-        router.push('/markethub'); 
-        setIsLoading(false)
+        setTimeout(()=>{
+            router.push('/markethub'); 
+
+        },1000)
     };
+
+    const handelRefresh = () => {
+        setIsLoading(true)
+        setAnimate(true)
+        router.refresh()
+        setTimeout(()=>{
+            setIsLoading(false)
+            setAnimate(false)
+        },2000)
+        console.log('clicked')
+    }
 
     
     
@@ -102,7 +116,7 @@ function OrderTab({
                 <FaArrowLeft/>
             </button>
             <h1 className='text-white font-poppins font-bold text-[1.5rem]'>My order</h1>
-            <button onClick={()=>  router.refresh()} className='' >
+            <button onClick={()=>  handelRefresh()} className={`${animate ? 'animate-spin text-yellow-400': ''} transition-all duration-1000 ease-in-out hover:scale-110`} >
                 <FiRefreshCw/>
             </button>
         </div>

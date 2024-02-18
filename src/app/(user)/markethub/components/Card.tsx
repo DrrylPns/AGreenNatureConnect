@@ -16,15 +16,14 @@ function Card({
     highestPrice: number
 }) {
   return (
-    <div className='bg-[] pb-3 max-h-72 shadow-md drop-shadow-md rounded-lg h-fit w-full border border-gray-300'>
+    <div className='bg-[] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out bg-white  pb-3 max-h-72 shadow-md drop-shadow-md rounded-lg h-fit w-full border border-gray-300'>
         {/** */}
         <Image 
             src={imageUrl} 
-            alt='Pechay'
+            alt={productName}
             width={100}
             height={100}
             className='w-full h-1/2 mb-3 border-b-[2px] border-gray-300' 
-            loading="eager"
         />
         {/**Product Name */}
         <div className='px-3'>
