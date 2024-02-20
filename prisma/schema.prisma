@@ -65,6 +65,7 @@ model User {
   Article          Article[]
   Community        Community?         @relation(fields: [communityId], references: [id])
   communityId      String?
+  reactions        Reaction[]
 
   @@index([id])
   @@index([communityId])
@@ -161,9 +162,10 @@ model Post {
   topic   Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
   topicId String
 
-  comments Comment[]
-  likes    Like[]
-  Report   Report[]
+  comments  Comment[]
+  likes     Like[]
+  Report    Report[]
+  reactions Reaction[]
 
   Community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
@@ -194,6 +196,29 @@ model Comment {
   @@index([authorId])
   @@index([postId])
   @@index([replyToId])
+}
+
+model Reaction {
+  id        String       @id @default(cuid())
+  type      ReactionType
+  createdAt DateTime     @default(now())
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String
+
+  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String
+
+  @@unique([userId, postId, type])
+  @@index([userId])
+  @@index([postId])
+}
+
+enum ReactionType {
+  Check
+  Leaf
+  XMark
+  Laugh
 }
 
 model Like {
@@ -364,11 +389,11 @@ model Product {
   itemNumber   Int?           @unique @default(autoincrement())
   productImage String         @unique
   name         String
-  kilograms    Float @default(0)
-  grams        Float  @default(0)
-  pounds       Float  @default(0)
-  pieces       Float  @default(0)
-  packs        Float  @default(0)
+  kilograms    Float          @default(0)
+  grams        Float          @default(0)
+  pounds       Float          @default(0)
+  pieces       Float          @default(0)
+  packs        Float          @default(0)
   variants     Variant[]
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
@@ -380,8 +405,8 @@ model Product {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId String
+  community      Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId    String
   orderedVariant OrderedVariant[]
   // ProductTransaction ProductTransaction[]
 
@@ -402,7 +427,7 @@ model Variant {
   productId String
 
   orderVariant OrderedVariant[]
-  Cart Cart[]
+  Cart         Cart[]
 
   @@index([productId])
 }
@@ -435,17 +460,17 @@ enum TransactionStatus {
   CANCELLED
 }
 
-model OrderedVariant{
+model OrderedVariant {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  
+
   variant   Variant @relation(fields: [variantId], references: [id], onDelete: Cascade)
   variantId String
 
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
   productId String
-  
+
   transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
   transactionId String
 
@@ -475,7 +500,7 @@ model Cart {
   updatedAt DateTime @updatedAt
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String 
+  userId String
 
   variant   Variant? @relation(fields: [variantId], references: [id])
   variantId String?

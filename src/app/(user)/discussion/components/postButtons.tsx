@@ -8,6 +8,7 @@ import axios from "axios";
 import { Post } from "@/lib/types";
 import { useSession, signOut } from "next-auth/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
+import { ReactionButton } from "./ReactionButton";
 
 interface PostButtonsProps {
   postId: string;
@@ -75,7 +76,8 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
     <div>
       {/**Like, Comment, Share Buttons */}
       <div className="flex items-center justify-end gap-4 border-t-2 border-gray-300 dark:border-[#18191A] py-2 md:px-10 px-3">
-        <LikeButton postId={postId} />
+        {/* <LikeButton postId={postId} /> */}
+        <ReactionButton postId={postId}/>
         <motion.button
           whileTap={{ backgroundColor: "ButtonShadow" }}
           type="button"

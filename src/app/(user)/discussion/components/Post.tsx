@@ -64,7 +64,7 @@ export default function Post() {
                     </h3>
                   </div>
                 </div>
-                <button type="button" onClick={() => {}}>
+                <button type="button" onClick={() => { }}>
                   <FaEllipsis />
                 </button>
               </div>

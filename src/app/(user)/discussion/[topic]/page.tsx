@@ -27,7 +27,7 @@ const page: FC<Pageprops> = ({ params }) => {
       const response = await axios.get(`/api/user/topic/${params.topic}`);
       const data = response.data;
       setTopic(data);
-    } catch (error) {}
+    } catch (error) { }
   };
 
   return (
@@ -74,7 +74,7 @@ const page: FC<Pageprops> = ({ params }) => {
                       </h3>
                     </div>
                   </div>
-                  <button type="button" onClick={() => {}}>
+                  <button type="button" onClick={() => { }}>
                     <FaEllipsis />
                   </button>
                 </div>
