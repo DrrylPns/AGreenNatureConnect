@@ -9,7 +9,6 @@ export async function GET(req: NextRequest) {
     const url = new URL(req.url);
     const postIdWithReacts = url.pathname.split("post/")[1];
     const postId = postIdWithReacts.replace("/reactions", "");
-    console.log(postId)
 
     try {
         const session = await getAuthSession();
@@ -58,8 +57,6 @@ export async function POST(req: NextRequest) {
                 userId,
             },
         });
-
-        console.log(`Passed type:${type} vs existingReactionType: ${existingReaction?.type}`)
 
         if (type === existingReaction?.type) {
             await prisma.reaction.delete({

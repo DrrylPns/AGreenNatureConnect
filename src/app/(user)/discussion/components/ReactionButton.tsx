@@ -6,11 +6,15 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/pop
 import { Check, Laugh, LeafyGreen, SmilePlus, X } from 'lucide-react';
 import axios from 'axios';
 import { useReactionStore } from '@/lib/hooks/useReaction';
+import { useSession } from 'next-auth/react';
+import useLoginModal from '@/lib/hooks/useLoginModal';
 
 
 export const ReactionButton = ({ postId }: { postId: string }) => {
     const [userReacted, setUserReacted] = useState({ type: '' });
     const [isLoading, setIsLoading] = useState(false);
+    const loginModal = useLoginModal();
+    const { status } = useSession();
 
     useEffect(() => {
         const fetchReactionStatus = async () => {
@@ -35,11 +39,21 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
         };
 
         fetchReactionStatus();
-        // }, [postId, setUserReacted, userReacted]);
-    }, [postId]);
+    }, [postId, setUserReacted, userReacted]);
+    // }, [postId]);
 
     const handleReaction = async (type: string) => {
         setIsLoading(true);
+
+        if (status === "unauthenticated") {
+            loginModal.onOpen();
+            toast({
+                description: "You need to Login or Register first to liked the post.",
+                variant: "destructive",
+            });
+
+            return
+        }
 
         try {
             const response = await fetch(`/api/user/post/${postId}/reactions`, {
@@ -68,6 +82,7 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
             setIsLoading(false);
         }
     };
+
 
     return (
         <motion.button
