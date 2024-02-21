@@ -30,8 +30,8 @@ import Filter from "bad-words";
 
 export default function Comments({ posts }: { posts: Post }) {
   const router = useRouter();
-  const loginModal = useLoginModal();
   const { data: session } = useSession();
+  const loginModal = useLoginModal();
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>();
   const filter = new Filter();
@@ -102,27 +102,48 @@ export default function Comments({ posts }: { posts: Post }) {
     router.refresh();
   }
 
+  // useEffect(() => {
+  //   fetchComments();
+  //   if (isSubmitSuccessful) {
+  //     reset();
+  //   }
+  // }, [isSubmitSuccessful, comments, reset]);
+
   useEffect(() => {
     fetchComments();
     if (isSubmitSuccessful) {
       reset();
     }
-  }, [isSubmitSuccessful, comments, reset]);
+  }, [isSubmitSuccessful, reset]);
+
+  // const fetchComments = async () => {
+  //   try {
+  //     await axios
+  //       .get(`/api/user/post/${posts.id}/comments`)
+  //       .then((result) => {
+  //         const comments = result.data;
+  //         setComments(comments);
+  //       })
+  //       .catch((error) => {
+  //         setComments(error);
+  //       });
+  //   } catch (error) {
+  //     console.error("Error fetching comments:", error);
+  //   }
+  // };
 
   const fetchComments = async () => {
     try {
-      await axios
-        .get(`/api/user/post/${posts.id}/comments`)
-        .then((result) => {
-          const comments = result.data;
-          setComments(comments);
-        })
-        .catch((error) => {
-          setComments(error);
-        });
+      const result = await axios.get(`/api/user/post/${posts.id}/comments`);
+      const comments = result.data;
+      setComments(comments);
     } catch (error) {
-      console.error("Error fetching comments:", error);
+      console.error('Error fetching comments:', error);
     }
+  };
+
+  const handleCommentDeleted = () => {
+    fetchComments();
   };
 
   return (
@@ -192,29 +213,35 @@ export default function Comments({ posts }: { posts: Post }) {
                   <div className="text-gray-400 text-[0.7rem]">
                     <RelativeDate dateString={comment.createdAt} />
                   </div>
-                  <Popover>
-                    <Popover.Button>
-                      <AiOutlineEllipsis />
-                    </Popover.Button>
-                    <Transition
-                      enter="transition duration-100 ease-out"
-                      enterFrom="transform scale-95 opacity-0"
-                      enterTo="transform scale-100 opacity-100"
-                      leave="transition duration-75 ease-out"
-                      leaveFrom="transform scale-100 opacity-100"
-                      leaveTo="transform scale-95 opacity-0"
-                    >
-                      <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                        <button
-                          type="button"
-                          className="flex gap-1 hover:underline w-full"
-                        >
-                          <AiOutlineEdit /> Edit
-                        </button>
-                        <DeleteDialog commentId={comment.id} />
-                      </Popover.Panel>
-                    </Transition>
-                  </Popover>
+                  {comment.author.id === session?.user?.id && (
+                    <Popover>
+                      <Popover.Button>
+                        <AiOutlineEllipsis />
+                      </Popover.Button>
+                      <Transition
+                        enter="transition duration-100 ease-out"
+                        enterFrom="transform scale-95 opacity-0"
+                        enterTo="transform scale-100 opacity-100"
+                        leave="transition duration-75 ease-out"
+                        leaveFrom="transform scale-100 opacity-100"
+                        leaveTo="transform scale-95 opacity-0"
+                      >
+                        <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+
+                          <>
+                            <button
+                              type="button"
+                              className="flex gap-1 hover:underline w-full"
+                            >
+                              <AiOutlineEdit /> Edit
+                            </button>
+                            <DeleteDialog commentId={comment.id} onDelete={handleCommentDeleted} />
+                          </>
+
+                        </Popover.Panel>
+                      </Transition>
+                    </Popover>
+                  )}
                 </div>
                 <div className="flex gap-5">
                   <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 mt-2">
