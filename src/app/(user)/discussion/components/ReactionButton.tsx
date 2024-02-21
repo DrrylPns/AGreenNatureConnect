@@ -73,7 +73,7 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
         <motion.button
             whileTap={{ backgroundColor: "ButtonShadow" }}
             type="button"
-            className={`flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent 
+            className={`flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80
                         ${userReacted ? '' : ''
                 }`}
         >

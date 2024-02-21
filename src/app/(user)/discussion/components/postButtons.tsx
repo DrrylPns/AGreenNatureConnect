@@ -1,14 +1,14 @@
 import { Popover } from "@headlessui/react";
 import React, { FC, useEffect, useState, useRef } from "react";
-import { BiLike, BiComment, BiShare } from "react-icons/bi";
+import { BiComment, BiShare } from "react-icons/bi";
 import { motion } from "framer-motion";
-import LikeButton from "./LikeButton";
 import { useToast } from "@/lib/hooks/use-toast";
 import axios from "axios";
 import { Post } from "@/lib/types";
-import { useSession, signOut } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { ReactionButton } from "./ReactionButton";
+import { ReactionList } from "./ReactionList";
 
 interface PostButtonsProps {
   postId: string;
@@ -73,17 +73,20 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   }
 
   return (
-    <div>
+    <div className="border-t-2 border-gray-300 dark:border-[#18191A] mb-3 lg:flex items-center">
+
+      <ReactionList />
+
       {/**Like, Comment, Share Buttons */}
-      <div className="flex items-center justify-end gap-4 border-t-2 border-gray-300 dark:border-[#18191A] py-2 md:px-10 px-3">
+      <div className="flex items-center justify-end gap-4 py-2 md:px-10 px-3">
         {/* <LikeButton postId={postId} /> */}
-        <ReactionButton postId={postId}/>
+        <ReactionButton postId={postId} />
         <motion.button
           whileTap={{ backgroundColor: "ButtonShadow" }}
           type="button"
-          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
+          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
         >
-          <span className="text-[1.5rem] text-gray-600">
+          <span className="text-[1.5rem] text-gray-600 dark:text-white">
             <BiComment />
           </span>
           <h3>{comments}</h3>
@@ -92,14 +95,14 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
           <>
             <motion.button
               whileTap={{ backgroundColor: "ButtonShadow" }}
-              className="rounded-3xl font-poppins font-semibold w-[7rem]"
+              className="rounded-3xl font-poppins font-semibold w-[7rem] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
             >
               <Popover.Button
                 type="button"
                 className="flex gap-2 items-center px-4 py-2 font-normal w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent"
                 onClick={handleClick}
               >
-                <span className="text-[1.5rem] text-gray-600">
+                <span className="text-[1.5rem] text-gray-600 dark:text-white">
                   <BiShare />
                 </span>
                 Share
