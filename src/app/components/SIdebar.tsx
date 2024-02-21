@@ -8,6 +8,7 @@ import {
   BiStore,
   BiInfoCircle,
 } from "react-icons/bi";
+import { PiPlant } from "react-icons/pi";
 import { PiUsersThree, PiCaretDown } from "react-icons/pi";
 import { LiaBookReaderSolid, LiaBlogger } from "react-icons/lia";
 import { RiLogoutBoxLine } from "react-icons/ri";
@@ -67,7 +68,9 @@ export default function SIdebar() {
 
             <Link
               className={`link ${
-                pathname === "/videotutorial" ? "border-b-2 border-yellow-400" : ""
+                pathname === "/videotutorial"
+                  ? "border-b-2 border-yellow-400"
+                  : ""
               } flex justify-center items-center  w-full py-3`}
               href={"/videotutorial"}
             >
@@ -75,10 +78,12 @@ export default function SIdebar() {
                 <MdOutlineSlowMotionVideo />
               </div>
             </Link>
-            
+
             <Link
               className={`link ${
-                pathname === "/learningMaterials" ? "border-b-2 border-yellow-400" : ""
+                pathname === "/learningMaterials"
+                  ? "border-b-2 border-yellow-400"
+                  : ""
               } flex justify-center items-center  w-full py-3`}
               href={"/learningMaterials"}
             >
@@ -86,7 +91,7 @@ export default function SIdebar() {
                 <SlNotebook />
               </div>
             </Link>
-            
+
             <Link
               className={`link ${
                 pathname === "/blogs" ? "border-b-2 border-yellow-400" : ""
@@ -97,7 +102,7 @@ export default function SIdebar() {
                 <LiaBlogger />
               </div>
             </Link>
-            
+
             <Link
               className={`link ${
                 pathname === "/article" ? "border-b-2 border-yellow-400" : ""
@@ -295,6 +300,36 @@ export default function SIdebar() {
               </motion.div>
             )}
           </AnimatePresence>
+          <Link
+            href={"/searchplant"}
+            className={`link ${
+              pathname === "/searchplant"
+                ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                : ""
+            } flex items-center gap-4 w-full py-2 ${
+              isSideBarOpen ? "justify-start" : "justify-center"
+            } hover:bg-pale `}
+          >
+            <div className="text-icons ">
+              <PiPlant />
+            </div>
+            <div className={`${isSideBarOpen ? "block" : "hidden"}`}>
+              <motion.p
+                initial={{ scale: 0 }}
+                animate={{ scale: isSideBarOpen ? 1 : 0 }} // Target values (opacity: 1, translateY: 0)
+                transition={{
+                  type: "tween",
+                  stiffness: 1000,
+                  damping: 20,
+                  duration: 0.6,
+                  delay: 0.5,
+                }}
+                className={`font-poppins text-[1rem]`}
+              >
+                Search a Plant
+              </motion.p>
+            </div>
+          </Link>
           <Link
             href={"/markethub"}
             className={`link ${
