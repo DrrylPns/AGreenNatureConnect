@@ -9,7 +9,7 @@ import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem } from "
 import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { EnumValues } from "zod"
-import { Community, VideoTutorial } from "@prisma/client"
+import { Community } from "@prisma/client"
 
 export function PopoverVideo({ onSelectCommunity }: any) {
     const [open, setOpen] = React.useState(false)
@@ -19,7 +19,7 @@ export function PopoverVideo({ onSelectCommunity }: any) {
         queryKey: ['video-tutorial-by-community'],
         queryFn: async () => {
             try {
-                const { data } = await axios.get("/api/user/getVideoTutorials");
+                const { data } = await axios.get("/api/user/getVT");
                 return data as Community[];
             } catch (error: any) {
                 throw new Error(`Error fetching communities: ${error.message}`);

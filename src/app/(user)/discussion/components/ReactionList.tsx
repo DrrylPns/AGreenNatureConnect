@@ -8,8 +8,9 @@ import { CheckReactList } from './_reactions/CheckReactList';
 import { XMarkReactList } from './_reactions/XMarkReactList';
 import { LeafReactList } from './_reactions/LeafReactList';
 import { LaughReactList } from './_reactions/LaughReactList';
+import { PostIdProps } from '@/lib/types/extendedpost';
 
-export const ReactionList = () => {
+export const ReactionList = ({ postId }: PostIdProps) => {
     return (
         <Dialog>
             <DialogTrigger className="w-full">
@@ -46,16 +47,16 @@ export const ReactionList = () => {
                             </TabsTrigger>
                         </TabsList>
                         <TabsContent value="check">
-                            <CheckReactList />
+                            <CheckReactList postId={postId} />
                         </TabsContent>
                         <TabsContent value="xmark">
-                            <XMarkReactList />
+                            <XMarkReactList postId={postId} />
                         </TabsContent>
                         <TabsContent value="leaf">
-                            <LeafReactList />
+                            <LeafReactList postId={postId} />
                         </TabsContent>
                         <TabsContent value="laugh">
-                            <LaughReactList />
+                            <LaughReactList postId={postId} />
                         </TabsContent>
                     </Tabs>
                 </ScrollArea>

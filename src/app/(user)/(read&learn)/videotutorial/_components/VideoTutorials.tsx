@@ -39,7 +39,7 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
         queryKey: ['videoTutorials-approved', selectedCommunity],
         queryFn: async () => {
             try {
-                const { data } = await axios.get("/api/user/getVideoTutorials");
+                const { data } = await axios.get("/api/user/getVT");
                 return data as Community[];
             } catch (error: any) {
                 throw new Error(`Error fetching communities: ${error.message}`);
@@ -87,7 +87,7 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
     }
 
     return (
-        <div className="">
+        <div className="h-full">
             {filteredVideoTutorials.map((community) => (
                 <div key={community.id} className="">
                     {community.VideoTutorial.map((video) => (

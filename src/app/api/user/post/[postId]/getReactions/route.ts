@@ -3,15 +3,22 @@ import prisma from '@/lib/db/db'
 import { NextRequest } from 'next/server';
 
 export async function POST(req: NextRequest) {
-    try {
+    const url = new URL(req.url);
+    const postIdWithReacts = url.pathname.split("post/")[1];
+    const postId = postIdWithReacts.replace("/reactions", "");
 
+    try {
+        const session = await getAuthSession()
         const body = await req.json()
 
         const { type, postId } = body
-        console.log("Post ID:" + postId);
+        console.log('Type:', type);
+
+        const userId = session?.user.id
 
         const reactions = await prisma.reaction.findMany({
             where: {
+                userId,
                 postId,
                 type,
             }, include: {

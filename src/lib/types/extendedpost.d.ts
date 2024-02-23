@@ -11,3 +11,8 @@ export type ExtendedPost = Post & {
 export type ExtendedUser = User & {
     accounts: Account
 }
+
+export interface PostIdProps {
+    postId: string;
+  }
+  

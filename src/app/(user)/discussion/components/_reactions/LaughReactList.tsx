@@ -1,6 +1,7 @@
 "use client"
 import { Avatar, AvatarFallback, AvatarImage } from '@/app/components/Ui/Avatar';
 import { Separator } from '@/app/components/Ui/Separator';
+import { PostIdProps } from '@/lib/types/extendedpost';
 import { Image } from '@nextui-org/react';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
@@ -20,13 +21,14 @@ type User = {
     username: string;
 };
 
-export const LaughReactList = () => {
+export const LaughReactList = ({ postId }: PostIdProps) => {
     const { isLoading, isError, data: reactors } = useQuery({
         queryKey: ['reactors'],
         queryFn: async () => {
             try {
-                const { data } = await axios.post("/api/user/getReactions", {
+                const { data } = await axios.post(`/api/user/getReactions`, {
                     type: "Laugh",
+                    postId: postId
                 })
                 return data as Reaction[];
             } catch (error: any) {
