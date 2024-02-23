@@ -94,6 +94,18 @@ export default function Comments({ posts }: { posts: Post }) {
   });
 
   async function onSubmit(data: CreateCommentType) {
+    const isInvalidComment = filter.isProfane(data.text);
+
+    if (isInvalidComment) {
+      toast({
+        title: "Comment Invalid",
+        description:
+          "Your commment is invalid because you are using foul word!",
+        variant: "destructive",
+      });
+      return;
+    }
+
     const payload: CreateCommentType = {
       text: data.text,
       postId: posts.id,
@@ -138,7 +150,7 @@ export default function Comments({ posts }: { posts: Post }) {
       const comments = result.data;
       setComments(comments);
     } catch (error) {
-      console.error('Error fetching comments:', error);
+      console.error("Error fetching comments:", error);
     }
   };
 
@@ -227,7 +239,6 @@ export default function Comments({ posts }: { posts: Post }) {
                         leaveTo="transform scale-95 opacity-0"
                       >
                         <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-
                           <>
                             <button
                               type="button"
@@ -235,9 +246,11 @@ export default function Comments({ posts }: { posts: Post }) {
                             >
                               <AiOutlineEdit /> Edit
                             </button>
-                            <DeleteDialog commentId={comment.id} onDelete={handleCommentDeleted} />
+                            <DeleteDialog
+                              commentId={comment.id}
+                              onDelete={handleCommentDeleted}
+                            />
                           </>
-
                         </Popover.Panel>
                       </Transition>
                     </Popover>
