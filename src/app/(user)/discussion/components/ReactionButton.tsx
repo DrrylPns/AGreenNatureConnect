@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { motion } from "framer-motion"
 import { toast } from '@/lib/hooks/use-toast';
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
-import { Check, Laugh, LeafyGreen, SmilePlus, X } from 'lucide-react';
+import { Check, Heart, Laugh, LeafyGreen, SmilePlus, ThumbsDown, ThumbsUp, X } from 'lucide-react';
 import axios from 'axios';
 import { useSession } from 'next-auth/react';
 import useLoginModal from '@/lib/hooks/useLoginModal';
@@ -14,6 +14,7 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
     const [isLoading, setIsLoading] = useState(false);
     const loginModal = useLoginModal();
     const { status } = useSession();
+    const [rerenderKey, setRerenderKey] = useState(0); //
 
     const fetchReactionStatus = async () => {
         try {
@@ -29,6 +30,10 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
     useEffect(() => {
         fetchReactionStatus();
     }, [postId]);
+
+    useEffect(() => {
+
+    }, [userReacted]);
 
 
     const handleReaction = async (type: string) => {
@@ -57,6 +62,7 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
             });
 
             fetchReactionStatus();
+            setRerenderKey((prevKey) => prevKey + 1); //
 
             toast({
                 description: `You reacted to the post.`,
@@ -71,37 +77,62 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
 
     return (
         <motion.button
+            key={rerenderKey}
             whileTap={{ backgroundColor: "ButtonShadow" }}
             type="button"
-            className={`flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80
-                        ${userReacted ? '' : ''
-                }`}
+            className={`flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl 
+            ${userReacted.type === "Check" ? 'bg-blue-500' :
+                    userReacted.type === "XMark" ? "bg-rose-500" :
+                        userReacted.type === "Leaf" ? "bg-pink-500" :
+                            userReacted.type === "Laugh" ? "bg-amber/80" : "bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+                }
+                `}
         >
             <Popover>
                 <PopoverTrigger className='font-normal flex gap-2 items-center'>
-                    <SmilePlus className='w-5 h-5' />
-                    React
+                    {
+                        userReacted.type === "Check" ? (<div className='flex flex-row gap-1'>
+                            <ThumbsUp className='w-5 h-5' />
+                            Liked
+                        </div>) :
+                            userReacted.type === "XMark" ? (<>
+                                <ThumbsDown className='w-5 h-5' />
+                                Disliked
+                            </>) :
+                                userReacted.type === "Leaf" ? (<>
+                                    <Heart className='w-5 h-5' />
+                                    Loved
+                                </>) :
+                                    userReacted.type === "Laugh" ? (<>
+                                        <Laugh className='w-5 h-5' />
+                                        Laughed
+                                    </>) : (<>
+                                        <SmilePlus className='w-5 h-5' />
+                                        React</>)
+                    }
+                    {/* {userReacted.type = "Check" ? 'Reacted' : 'React'} */}
+
                 </PopoverTrigger>
 
                 <PopoverContent className='flex gap-2 justify-evenly'>
-                    <Check
+                    <ThumbsUp
                         //@ts-ignore
-                        className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'Check' ? "bg-gray-200 rounded-full text-lime-500" : ""}`}
+                        className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'Check' ? "bg-gray-200 rounded-full text-blue-500" : ""}`}
                         onClick={() => handleReaction('Check')}
                     />
-                    <X
+                    <ThumbsDown
                         //@ts-ignore
                         className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'XMark' ? "bg-gray-200 rounded-full text-rose-500" : ""}`}
                         onClick={() => handleReaction('XMark')}
                     />
-                    <LeafyGreen
+                    <Heart
                         //@ts-ignore
-                        className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'Leaf' ? "bg-gray-200 rounded-full text-lime-600" : ""}`}
+                        className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'Leaf' ? "bg-gray-200 rounded-full text-rose-500" : ""}`}
                         onClick={() => handleReaction('Leaf')}
                     />
                     <Laugh
                         //@ts-ignore
-                        className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'Laugh' ? "bg-gray-200 rounded-full text-yellow-500/80" : ""}`}
+                        className={` cursor-pointer hover:rounded-full hover:bg-gray-200 p-1 w-8 h-8 ${userReacted && userReacted.type === 'Laugh' ? "bg-gray-200 rounded-full text-yellow-600" : ""}`}
                         onClick={() => handleReaction('Laugh')}
                     />
                 </PopoverContent>
