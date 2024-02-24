@@ -24,45 +24,42 @@ export default async function Home() {
         <div
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
-          <div className=" flex flex-col items-end md:w-[420px] w-[350px]">
-            <div className="font-poppins font-bold text-white md:text-[14.5px] leading-[30px] self-start max-sm:text-[13px]">
+          <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
+            <div className="font-mono  text-white md:text-[17.5px] leading-[30px] self-start max-sm:text-[13px]">
               Welcome to AGreen Nature Connect  Urban Farming
             </div>
             <Image
-              className="flex md:w-[250px] w-[200px] h-[3px] max-sm:hidden mx-28"
+              className="flex md:w-[300px] w-[300px] h-[5px] max-sm:hidden mx-60"
               src={Vector}
               alt=""
             />
           </div>
           <div className="flex flex-col w-full items-end mt-5 py-3">
-            <h1 className="font-Inter font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[20px] self-start mt-[-20px]">
+            <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[60px] md:text-[40px] text-[20px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
-            <h1 className="font-Inter font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[20px] self-start">
-              Good production
+            <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[60px] md:text-[40px] text-[20px] self-start">
+              Good Production
             </h1>
           </div>
-          <p className="my-[20px] text-white font-poppins text-[15px]">
+          <p className="my-[20px] text-white font-mono text-[16px] py-3">
             Greens in the Streets: Farming for a Better Tomorrow
           </p>
           <Link
             href="/discussion"
-            className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-4 p-4 border-none rounded-lg"
+            className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] md:p-3 p-3 border-none rounded-lg text-center "
           >
             GET STARTED
           </Link>
         </div>
       </header>
       {/*SUBHEADING*/}
-      <section className="flex px-10 py-20 items-center gap-8 bg-gradient-to-b from-semi-transparent-greenish to-transparent">
-        <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify ">
-          <h1 className="font-livvic font-bold md:text-[40px] text-[20px] ">
-            Nurtured
+      <section className="flex px-16 py-16 items-center gap-8">
+        <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify m-10 ">
+          <h1 className="font-livvic font-bold md:text-[40px] text-[20px] max-md:py-3 mb-5">
+            Nurtured: Quezon City.
           </h1>
-          <h1 className="font-livvic font-bold md:text-[40px] text-[20px] max-md:py-3">
-            By Quezon City.
-          </h1>
-          <p className="md:text-[12px] text-[15px] max-sm:text-[10] ">
+          <p className="md:text-[16px] text-[15px] max-sm:text-[12] ">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
@@ -70,30 +67,47 @@ export default async function Home() {
           </p>
         </div>
         <Image
-          className="lg:block hidden"
+          className="lg:block hidden "
           src={Subheading}
           alt="subheading image"
-          width={350}
+          width={400}
         />
       </section>
       {/*ABOUT US*/}
       <section
         id="aboutus"
         className="flex flex-col lg:px-20 px-3 bg-cover bg-center bg-[url('/public/images/about.png')] justify-center items-center border-t-[1px] border-black bg-[#CFE2CE]">
-        <div className="w-full h-full py-10 from-muted">
+        <div className="w-full h-full from-muted py-20">
           <h1 className="text-center mb-10 font-poppins font-bold md:text-[40px] text-[30px]">
             About Us
           </h1>
+          <div className="flex mx-10">   
+                <div className="m-5 flex flex-col">
+                    <div className="text-justify">
+                          <h2 className="font-poppins font-bold text-[30px] mb-5">
+                            Quezon City Urban Farming
+                          </h2>
+                          <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
+                            AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
+                          </p>
+                          <p className="font-poppins font-normal md:text-[16px] text-[15px]">
+                            We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
+                          </p>
+                    </div>
 
-          <div className="lg:w-1/2 w-full p-10 m-5">
-              <h2 className="font-poppins font-bold text-[30px]">
-                Quezon City Urban Farming
-              </h2>
-              <p className="font-poppins font-normal md:text-[16px] text-[15px]">
-                Solo Parent Urban Farming, the name of community farm of Barangay Bagbag. It is currently manage by Mr. Rodel Edroso, a focal person of Solo Parent Urban Farming.
-              </p>
+                    <Link href="/about"
+                    className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center ">
+                    Read More
+                    </Link>
+                </div>    
+                <div className="m-5">
+                      <Image
+                      className="lg:block hidden"
+                      src={Subheading}
+                      alt="about.png"
+                      width={1300}/>
+                </div>
           </div>
-         
         </div>
       </section>
       {/*Services*/}
