@@ -27,7 +27,7 @@ const UserAccountAvatar: React.FC = ({ }) => {
   return (
     <>
       <div
-       // onClick={toggleOpen}
+        onClick={toggleOpen}
         className="flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition"
       >
         <div className="hidden md:block max-md:block">
@@ -62,6 +62,9 @@ const UserAccountAvatar: React.FC = ({ }) => {
                 <div className="cursor-pointer">
                   <Link href={"/discussion/profile"}>
                     <MenuItem label="Change Avatar" />
+                  </Link>
+                  <Link href={"/order-status"}>
+                    <MenuItem label="Transaction History" />
                   </Link>
                   <Link href={"/termsPolicy"} className="md:hidden block">
                     <MenuItem label="Privacy Policy" />

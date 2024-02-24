@@ -13,16 +13,19 @@ import Phone from "/public/images/phone.png";
 import Email from "/public/images/email.png";
 import Location from "/public/images/location.png";
 import Link from "next/link";
+import Carousel from "./components/Carousel";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
 export default async function Home() {
   return (
-    <div className="flex-row md:flex-col mx-auto">
+    <div className="relative flex-row md:flex-col mx-auto">
       {/*Heading*/}
-
-      <header id="home" className="">
+      <div className="absolute top-16 sm:top-24">
+          <Carousel />
+      </div>
+      <header id="home" className="relative">
         <div
-          className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
+          className={`h-[100vh] bg-cover bg-center md:px-20 px-10 flex flex-col justify-center`}
         >
           <div className=" flex flex-col items-end md:w-[320px] w-[250px]">
             <div className="font-poppins font-bold text-white md:text-[16.5px] leading-[30px] self-start max-sm:text-[13px]">
@@ -53,6 +56,7 @@ export default async function Home() {
           </Link>
         </div>
       </header>
+      
       {/*SUBHEADING*/}
       <section className="flex px-20 py-20 items-center gap-8 bg-gradient-to-b from-semi-transparent-greenish to-transparent">
         <div>

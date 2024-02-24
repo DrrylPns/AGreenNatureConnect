@@ -112,7 +112,7 @@ function ProductModal({
       <button
         type='button'
         onClick={() => openModal(product)}
-        className='relative w-full'
+        className='relative w-full z-10'
         disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
       >
         <Card
@@ -245,19 +245,13 @@ function ProductModal({
                     <div className="w-full ">
                       <button
                         type="button"
-                        className="w-1/2 bg-[#FDE63F] py-5 outline outline-gray-500 hover:outline-1"
+                        className="w-full bg-[#FDE63F] py-5  outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={loginModal.onOpen}
                         disabled={selectedVariant == null ? true : false}
                       >
                         Add to Cart
                       </button>
-                      <button
-                        type="button"
-                        className="w-1/2 bg-[#24643B] py-5 hover:bg-white/40"
-                        onClick={loginModal.onOpen}
-                      >
-                        Buy Now
-                      </button>
+      
                     </div>
                   )}
                 </Dialog.Panel>
