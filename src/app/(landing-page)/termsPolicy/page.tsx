@@ -37,37 +37,33 @@ export default function TermsPolicy() {
         {text === 'Terms&Condition' && (
           <div className='text-justify font-serif md:text-[15px] max-sm:text-[10px] md:py-20 max-sm:pb-3'>
             <p className='font-bold'>TERMS & CONDITIONS</p><br/>
-            <p className='font-semibold'>Acceptance of Terms and Conditions:</p>
-            <p>By using AGreen Nature Connect, you agree to these Terms and Conditions. If you don't agree, please refrain from using the Platform.</p><br/>
-            <p className='font-semibold'> Changes to Terms:</p>
-            <p>We may update these Terms without notice. Please review them periodically.</p><br/>
-            <p className='font-semibold'>Use of Platform:</p>
-            <p> You're responsible for your account and activities.</p>
-            <p>Do not violate laws, use the Platform for illegal purposes, transmit - malware, or access unauthorized areas.</p><br/>
-            <p className='font-semibold'>MarketHub and Urban Farming:</p>
-            <p>The MarketHub facilitates user interactions related to urban farming.</p>
-            <p>Users in the MarketHub must follow relevant laws.</p>
-            <p>AGreen Nature Connect is not responsible for user transactions.</p><br/>
-            <p className='font-semibold'>User-Generated Content:</p>
-            <p>Users can post content on the Platform.</p>
-            <p>Do not post any offensive or illegal content.</p>
-            <p>You grant AGreen Nature Connect a license to use submitted content.</p><br/>
-            <p className='font-semibold'>Privacy Policy:</p>
-            <p>Your data is governed by our Privacy Policy, available on the Platform.</p><br/>
-            <p className='font-semibold'>Intellectual Property:</p>
-            <p>All content on the Platform belongs to AGreen Nature Connect and is protected by Copyright.</p><br/>
-            <p className='font-semibold'>Termination:</p>
-            <p> AGreen Nature Connect reserves the right to terminate or suspend your access to the Platform at its discretion, without notice.</p><br/>
-            <p className='font-semibold'>Disclaimer:</p>
-            <p>AGreen Nature Connect makes no warranties or representations about the accuracy or completeness of the information on the Platform and is not responsible for any errors or omissions.</p><br/>
-            <p className='font-semibold'>Limitation of Liability:</p>
-            <p>We are not liable for damages resulting from your use of the Platform.</p><br/>
-            <p className='font-semibold'>Governing Law:</p>
-            <p>These Terms are governed by the laws of Brgy. Bagbag, Philippines.</p><br/>
-            <p className='font-semibold'>Entire Agreement:</p>
-            <p>These Terms and Conditions represent the entire agreement between you and AGreen Nature Connect regarding the Platform.</p><br/>
-            <p className='font-semibold'>Contact Information:</p>
-            <p>For questions, contact us at 📞09279657750 or at  ✉️rodel006.re@gmail.com.</p><br/>
+            <p className='font-semibold'>Acceptance of Terms</p>
+            <p>By accessing or using Agreen-Connect, you agree to comply with and be bound by these terms and conditions. If you do not agree with any part of these terms, you may not use the website.</p><br/>
+            <p className='font-semibold'>Discussion Forum</p>
+            <p>Our website hosts a discussion forum where users can engage in conversations related to urban farming. Users can react to posts using various reactions. While participating in the forum, users must adhere to the following guidelines:</p><br/>
+            <p>-Respect other users and their opinions.</p>
+            <p>-Avoid posting offensive, abusive, or inappropriate content.</p>
+            <p>-Do not engage in spamming or promotional activities unrelated to urban farming.</p>
+            <p>-Agreen Nature Connect reserves the right to moderate and remove any content that violates these guidelines.</p><br/>
+            <p className='font-semibold'>Information Forum</p>
+            <p>We provide an information forum featuring video tutorials on planting and other relevant topics. Users can access and utilize these resources for educational purposes.</p><br/>
+            <p>- Blogs</p>
+            <p>Beneficiaries of Agreen-Connect have the opportunity to share their experiences, insights through blogs and make an update on their community status. While posting blogs, users must ensure that the content is relevant to urban farming and does not violate any laws or regulations. Agreen Nature Connect reserves the right to remove any blog that breaches these terms.</p><br/>
+            <p>- Learning Materials and Articles</p><br/>
+            <p className='font-semibold'>MarketHub</p>
+            <p>The Market Hub enables users to buy crops from our beneficiaries and allows beneficiaries to sell their crops. Users engaging in transactions through the Market Hub must adhere to the following guidelines:</p>
+            <p>- Negotiate and agree upon delivery or pickup arrangements directly with the beneficiary.</p>
+            <p>- Provide accurate information when buying crops.</p>
+            <p>- Respect the terms set by sellers regarding payment, delivery, and product quality.</p>
+            <p>- Agreen Nature Connect is not responsible for coordinating or facilitating delivery arrangements and is not liable for any issues arising from the delivery process.</p><br/>
+            <p className='font-semibold'>Limitation of Liability</p>
+            <p>Agreen Nature Connect is not liable for any damages or losses resulting from the use of the website or the inability to access it. We do not guarantee the accuracy or completeness of the information provided on the website.</p><br/>
+            <p className='font-semibold'>Modification of Terms</p>
+            <p>Agreen Nature Connect reserves the right to modify these terms and conditions at any time without prior notice. Users are responsible for regularly reviewing the terms to stay informed of any changes.</p><br/>
+            
+            <p>By using Agreen Nature Connect, you acknowledge that you have read, understood, and agree to abide by these terms and conditions.</p><br/>
+            
+            <p>If you have any questions or concerns regarding these terms, please contact us at ✉️natureagreen@gmail.com</p><br/>
           </div>
         )}
         {text === 'PrivacyPolicy' && (
