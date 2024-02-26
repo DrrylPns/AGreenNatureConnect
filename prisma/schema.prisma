@@ -519,10 +519,7 @@ model ShippingInfo {
   address     String
   phoneNumber String
   facebook    String
-  // city      String
-  // state     String
-  // country   String
-  // zipCode   String
+  email       String
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
