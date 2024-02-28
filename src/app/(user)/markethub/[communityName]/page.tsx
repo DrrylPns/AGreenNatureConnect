@@ -2,6 +2,7 @@
 import prisma from '@/lib/db/db'
 import Free from '../components/Free';
 import ProductTab from '../components/ProductTab';
+import { ShadcnCarousel } from '../components/sCarousel';
 
 const page = async ({ 
   params,
@@ -89,6 +90,9 @@ const page = async ({
   return (
     <div className='relative drop-shadow-sm shadow-md'>
        <h1 className='text-2xl font-poppins font-bold'>Barangay {communityName} market</h1>
+       <div>
+          <ShadcnCarousel/>
+       </div>
        <div className='border-2 border-gray-300 px-5 pt-5 min-h-40 rounded-md bg-gray- shadow-lg drop-shadow-sm '>
           <Free communityId={searchParams?.communityId}/>
        </div>

@@ -1,9 +1,13 @@
+'use client'
 import React from 'react'
+
+import RotatingLinesLoading from './components/RotatingLinesLoading';
 
 function Loading() {
   return (
-    <div>
-        <h1 className='text-4xl text-black'>Loading...</h1>
+    <div className='w-full h-dvh text-center mt-auto'>
+     <RotatingLinesLoading/>
+        
     </div>
   )
 }
