@@ -1,11 +1,11 @@
 
 import CheckoutModal from "../../components/CheckooutModal"
-import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db"
+import { useSession } from "next-auth/react";
 
 
 async function page() {
-  const session = await getAuthSession()
+  const { data: session, status } = useSession();
 
   const getShippingInfo = await prisma.shippingInfo.findFirst({
     where:{

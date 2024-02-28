@@ -10,7 +10,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import axios from 'axios';
 import { Dialog, Transition } from '@headlessui/react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { getAuthSession } from '@/lib/auth';
+
 
 function CheckoutModal({
     shippingInfoProp
@@ -86,6 +86,7 @@ function CheckoutModal({
     const handleAddShippingInfo = () =>{
         router.push('/shipping-information')
     };
+
     const handlePlaceOrder = async() =>{
         setDisableBtn(true)
         setisProcessing(true)
@@ -126,7 +127,7 @@ function CheckoutModal({
           </div>
         </div>
         ):(
-          <div  className='flex justify-center items-center w-full'>
+        <div  className='flex justify-center items-center w-full'>
           <div className='flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5'>
               <p className='text-gray-400 text-center'>If you intend to ship your order using courier(ex. lalamove, grab, etc.) and for faster transaction.</p>
               <button onClick={handleAddShippingInfo} className='' >
@@ -136,7 +137,7 @@ function CheckoutModal({
                   </div>
               </button>
           </div>
-      </div>
+        </div>
         
         )}
         
