@@ -1,4 +1,5 @@
 'use client'
+import Link from 'next/link'
 import React, { Fragment, useEffect, useState } from 'react'
 import { FaLocationDot } from 'react-icons/fa6'
 import { IoIosAddCircleOutline } from "react-icons/io";
@@ -11,7 +12,6 @@ import axios from 'axios';
 import { Dialog, Transition } from '@headlessui/react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
-
 function CheckoutModal({
     shippingInfoProp
 }:{
@@ -21,12 +21,14 @@ function CheckoutModal({
     const [loading, setLoading] = useState<boolean>(true);
     const [isProcessing, setisProcessing] = useState<boolean>(false)
     const [disableBtn, setDisableBtn] = useState<boolean>(false)
+    const [shippingInfo, setShippingInfo] = useState<ShippingInfo>();
     const { getItem } = useLocalStorage("value");
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(()=>{
         setItems()
+        fetchShippingInfo()
         setTimeout(() => {
             setLoading(false); 
         }, 2000); 
@@ -35,6 +37,16 @@ function CheckoutModal({
     const setItems = () => {
         setCheckoutItems(getItem);
     };
+
+    //get Shipping info from db
+    const fetchShippingInfo = async () => {
+        try {
+          const response = await axios.get('/api/markethub/shippingInfo');
+          setShippingInfo(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
 
       //Close the modal
     function closeModal() {
@@ -84,9 +96,8 @@ function CheckoutModal({
 
 
     const handleAddShippingInfo = () =>{
-        router.push('/shipping-information')
+        router.push('/checkout')
     };
-
     const handlePlaceOrder = async() =>{
         setDisableBtn(true)
         setisProcessing(true)
@@ -108,37 +119,36 @@ function CheckoutModal({
             </div>
             <h1 className='font-bold text-[2rem] text-center'>Checkout</h1>
         </div>
-        {shippingInfoProp != null ? (
-        <div className='flex bg-muted-green min-w-full px-5 md:px-10 py-5 text-white'>
-          <div className="text-4xl text-red-600">
-            <FaLocationDot/>
-          </div>
-          <div className='ml-10 text-sm md:text-md lg:text-lg'>
-              <h3>Full Name: {shippingInfoProp?.name}</h3>
-              <h3 className='text text-wrap'>Address: {shippingInfoProp?.address}</h3>
-              <h3>Email: {shippingInfoProp?.email}</h3>
-              <h3>Contact Number: {shippingInfoProp?.phoneNumber}</h3>
-              <h3>Facebook: {shippingInfoProp?.facebook}</h3>
-          </div>
-          <div className='flex justify-center items-center ml-auto'>
-            <button onClick={handleAddShippingInfo} className='bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black'>
-                Edit
-            </button>
-          </div>
+        {shippingInfo == null ? (
+        <div  className='flex justify-center items-center w-full'>
+            <div className='flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5'>
+                <p className='text-gray-400 text-center'>If you intend to ship your order using courier(ex. lalamove, grab, etc.) and for faster transaction.</p>
+                <button onClick={handleAddShippingInfo} className='' >
+                    <div className='text-2xl text-yellow-400 flex items-center'>
+                        <IoIosAddCircleOutline/>
+                        <span>Add shipping information</span>
+                    </div>
+                </button>
+            </div>
         </div>
         ):(
-        <div  className='flex justify-center items-center w-full'>
-          <div className='flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5'>
-              <p className='text-gray-400 text-center'>If you intend to ship your order using courier(ex. lalamove, grab, etc.) and for faster transaction.</p>
-              <button onClick={handleAddShippingInfo} className='' >
-                  <div className='text-2xl text-yellow-400 flex items-center'>
-                      <IoIosAddCircleOutline/>
-                      <span>Add shipping information</span>
-                  </div>
-              </button>
-          </div>
+        <div className='flex bg-muted-green min-w-full px-5 md:px-10 py-5 text-white'>
+            <div className="text-4xl text-red-600">
+                <FaLocationDot/>
+            </div>
+            <div className='ml-10 text-sm md:text-md lg:text-lg'>
+                <h3>Full Name:{}</h3>
+                <h3 className='text text-wrap'>Address: </h3>
+                <h3>Email:</h3>
+                <h3>Contact Number:</h3>
+                <h3>Facebook:</h3>
+            </div>
+            <div className='flex justify-center items-center ml-auto'>
+                <button onClick={()=>{}} className='bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black'>
+                    Edit
+                </button>
+            </div>
         </div>
-        
         )}
         
         {loading != true ? (
