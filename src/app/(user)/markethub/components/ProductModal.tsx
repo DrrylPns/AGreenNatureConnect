@@ -9,6 +9,7 @@ import Image from 'next/image';
 import React, { Fragment, useState } from 'react'
 import { z } from 'zod';
 import Card from './Card';
+import { useCart } from '@/contexts/CartContext';
 
 interface Product {
   id: string;
@@ -56,6 +57,7 @@ function ProductModal({
   lowestPrice: number,
   highestPrice: number
 }) {
+    const { cartNumber, setCartNumber} = useCart();
     const { data: session, status } = useSession()
     const loginModal = useLoginModal()
     const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +87,7 @@ function ProductModal({
           toast({
             description: "Added to cart, Successfuly!.",
           })
-  
+          setCartNumber((prevCartNumber) => prevCartNumber + 1);
         })
       } catch (error) {
         if (error instanceof z.ZodError) {

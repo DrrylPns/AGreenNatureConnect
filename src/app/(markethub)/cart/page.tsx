@@ -9,8 +9,10 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { z } from 'zod';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import Loading from '../loading';
+import { useCart } from '@/contexts/CartContext';
 
 function CartPage() {
+  const { cartNumber, setCartNumber} = useCart();
   const [cartItems, setCartItems] = useState<Cart[]>([]);
   const [selectedItems, setSelectedItems ] = useState<Cart[]>([])
   const [error, setError] = useState<boolean>(false)
@@ -45,7 +47,7 @@ function CartPage() {
   const deleteCartItem = async (cartItemId: string) => {
     try {  
       const response = await axios.post(`/api/markethub/cart/deleteCartItem`, {id: cartItemId} );
-      // Optionally, you can fetch updated cart items after deletion
+      setCartNumber((prevCartNumber) => prevCartNumber - 1);
       fetchCartItems();
     } catch (error) {
       if (error instanceof z.ZodError) {

@@ -13,9 +13,7 @@ import { Dialog, Transition } from '@headlessui/react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 
 function CheckoutModal({
-    shippingInfoProp
 }:{
-    shippingInfoProp: ShippingInfo | null
 }) {
     const [checkoutItems, setCheckoutItems ] = useState<Cart[]>([]);
     const [loading, setLoading] = useState<boolean>(true);

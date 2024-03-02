@@ -145,6 +145,7 @@ export interface ShippingInfo {
   updatedAt: Date;
   name: string;
   address: string;
+  email: string;
   phoneNumber: string;
   facebook: string;
   userId: string;

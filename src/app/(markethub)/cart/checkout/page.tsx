@@ -1,20 +1,15 @@
-import { Prisma } from "@prisma/client"
+
 import CheckoutModal from "../../components/CheckooutModal"
-import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db"
+import { useSession } from "next-auth/react";
 
 
-async function page() {
-  const session = await getAuthSession()
+function page() {
+ 
 
-  const getShippingInfo = await prisma.shippingInfo.findUnique({
-    where:{
-        id: session?.user.id
-    },
-})
   return (
     <div>
-      <CheckoutModal shippingInfoProp={getShippingInfo}/>
+      <CheckoutModal/>
     </div>
     
 )}

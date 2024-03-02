@@ -15,6 +15,7 @@ import SignInBtn from "./SignInBtn";
 import { Session } from "next-auth";
 import { BsCart4 } from "react-icons/bs";
 import { ThemeToggler1 } from "../_ThemeToggler";
+import CartIcon from "./CartIcon";
 
 interface NavbarProps {
   session: Session | null;
@@ -50,7 +51,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
               </div>
 
               <Link href={"/cart"} className="text-[1.5rem] md:text-[2rem]">
-                <BsCart4 />
+                <CartIcon/>
               </Link>
               <div className="md:hidden">
                 <UserAccountAvatar />
