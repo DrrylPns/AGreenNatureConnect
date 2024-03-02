@@ -19,7 +19,7 @@ const images = [FreeImage, Image2, Image3, Image4];
 
 export function ShadcnCarousel() {
   const plugin = React.useRef(
-    Autoplay({ delay: 5000})
+    Autoplay({ delay: 3000, stopOnInteraction: false })
   )
 
   return (
