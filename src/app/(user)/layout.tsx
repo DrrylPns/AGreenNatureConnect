@@ -13,6 +13,7 @@ import { getAuthSession } from "@/lib/auth";
 // import OnboardingPage from "../(auth)/onboarding/page"
 import { Onboarding } from "../components/(user)/Onboarding";
 import { ThemeProvider } from "../components/Ui/ThemeProvider";
+import { CartProvider } from "@/contexts/CartContext";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -42,6 +43,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
+      <CartProvider>
         <ThemeProvider
           attribute="class"
           defaultTheme="light"
@@ -56,7 +58,9 @@ export default async function RootLayout({
               </>
             ) : (
               <>
+              
                 <Navbar session={session} />
+             
                 <SIdebar />
 
                 <LoginModal />
@@ -70,6 +74,7 @@ export default async function RootLayout({
             <Toaster />
           </Providers>
         </ThemeProvider>
+        </CartProvider>
       </body>
     </html>
   );

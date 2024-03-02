@@ -11,6 +11,7 @@ import { getAuthSession } from "@/lib/auth"
 import { Onboarding } from "../components/(user)/Onboarding"
 import { Suspense } from "react"
 import Loading from "./loading"
+import { CartProvider } from "@/contexts/CartContext"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -29,6 +30,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
+        <CartProvider>
         <Providers>
           {session?.user.birthday === null && session?.user.role === "USER" ? (
             <>
@@ -50,7 +52,7 @@ export default async function RootLayout({
           }
           <Toaster />
         </Providers >
-
+      s</CartProvider>
       </body>
     </html>
   )
