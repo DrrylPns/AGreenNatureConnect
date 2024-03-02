@@ -19,27 +19,29 @@ const images = [FreeImage, Image2, Image3, Image4];
 
 export function ShadcnCarousel() {
   const plugin = React.useRef(
-    Autoplay({ delay: 1000, stopOnInteraction: true })
+    Autoplay({ delay: 5000})
   )
 
   return (
     <Carousel
         plugins={[plugin.current]}
-      className="w-full max-w-xs"
+      className="w-full"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
-      <CarouselContent>
+      <CarouselContent className="w-full">
         {images.map((image, index) => (
-          <CarouselItem key={index}>
-            <div className="p-1">
-              <Image src={image} alt={`Image ${index + 1}`} className="w-full" />
+          <CarouselItem 
+            key={index}
+            className="w-full"
+          >
+            <div className="">
+              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[50vh]" />
             </div>
           </CarouselItem>
         ))}
       </CarouselContent>
-      <CarouselPrevious />
-      <CarouselNext />
+      
     </Carousel>
   )
 }
