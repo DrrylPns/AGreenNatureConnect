@@ -54,7 +54,7 @@ export const XMarkReactList = ({ postId }: PostIdProps) => {
 
     return (
         <div>
-            <h2>Users who reacted with X:</h2>
+            <h2>Users who reacted with dislike:</h2>
             <ul>
                 {reactors?.map((reactor) => (
                     <div className='flex gap-3 my-4'>

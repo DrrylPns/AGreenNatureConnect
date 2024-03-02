@@ -54,7 +54,7 @@ export const CheckReactList = ({ postId }: PostIdProps) => {
 
     return (
         <div>
-            <h2>Users who reacted with verify:</h2>
+            <h2>Users who reacted with like:</h2>
             <ul>
                 {reactors?.map((reactor) => (
                     <div className='flex gap-3 my-4'>

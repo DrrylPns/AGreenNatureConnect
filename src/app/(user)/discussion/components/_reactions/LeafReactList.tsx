@@ -54,7 +54,7 @@ export const LeafReactList = ({ postId }: PostIdProps) => {
 
     return (
         <div>
-            <h2>Users who reacted with greenify:</h2>
+            <h2>Users who reacted with heart:</h2>
             <ul>
                 {reactors?.map((reactor) => (
                     <div className='flex gap-3 my-4'>

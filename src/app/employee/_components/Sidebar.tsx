@@ -1,5 +1,5 @@
 "use client"
-import { BookOpen, FileText, Home, LogOut, PlaySquare, Speech, Store, User } from 'lucide-react'
+import { BookOpen, FileText, Home, ListChecks, LogOut, PlaySquare, Speech, Store, User } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { signOut } from 'next-auth/react';
@@ -64,6 +64,12 @@ const Sidebar = ({
             className='flex flex-row gap-3'>
             <Store strokeWidth={1} />
             Market Hub
+          </Link>
+
+          <Link href="/orders"
+            className='flex flex-row gap-3'>
+            <ListChecks strokeWidth={1} />
+            Orders Approval
           </Link>
 
         </div>

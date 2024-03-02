@@ -10,7 +10,7 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 });
         }
         const body = await req.json()
-        const { transactionId }= body
+        const { transactionId } = body
 
         const cancelOrderById = await prisma.transaction.update({
             where:{
@@ -20,7 +20,7 @@ export async function POST(req: Request) {
                 status: "CANCELLED"
             }
         })
-        revalidatePath('/(markethub)', 'layout')
+        revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(cancelOrderById));
     } catch (error) {
         

@@ -242,7 +242,8 @@ const RegisterModal = () => {
           <SelectGroup>
             <SelectLabel>Communities</SelectLabel>
             <SelectItem value="Bagbag">Bagbag</SelectItem>
-            <SelectItem value="San Bartolome">San Bartolome</SelectItem>
+            <SelectItem value="Nova Proper">Nova Proper</SelectItem>
+            <SelectItem value="Bagong Silangan">Bagong Silangan</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
