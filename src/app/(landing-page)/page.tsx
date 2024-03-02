@@ -84,14 +84,20 @@ export default async function Home() {
           <div className="flex mx-10">   
                 <div className="m-5 flex flex-col">
                     <div className="text-justify">
-                          <h2 className="font-poppins font-bold text-[30px] mb-5">
+                          <h2 className="font-poppins font-bold text-[30px] mb-8 text-center">
                             Quezon City Urban Farming
                           </h2>
                           <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
                             AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
                           </p>
-                          <p className="font-poppins font-normal md:text-[16px] text-[15px]">
+                          <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
                             We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
+                          </p>
+                          <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
+                          Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
+                          </p>
+                          <p className="font-poppins font-normal md:text-[16px] text-[15px]">
+                          Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
                           </p>
                     </div>
 
@@ -100,12 +106,12 @@ export default async function Home() {
                     Read More
                     </Link>
                 </div>    
-                <div className="m-5">
+                <div className="m-10 mt-16">
                       <Image
-                      className="lg:block hidden"
+                      className="lg:block hidden mt-9"
                       src={Subheading}
                       alt="about.png"
-                      width={1300}/>
+                      width={1700}/>
                 </div>
           </div>
         </div>
