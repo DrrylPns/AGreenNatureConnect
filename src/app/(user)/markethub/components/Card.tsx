@@ -23,7 +23,7 @@ function Card({
             alt={productName}
             width={100}
             height={100}
-            className='w-full max-h-[50%] h-1/2 mb-3 border-b-[2px] border-gray-300' 
+            className='w-full object-scale-down max-h-[50%] h-1/2 mb-3 border-b-[2px] border-gray-300' 
         />
         {/**Product Name */}
         <div className='px-3'>
