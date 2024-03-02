@@ -84,29 +84,29 @@ export const ReactionButton = ({ postId }: { postId: string }) => {
             ${userReacted.type === "Check" ? 'bg-blue-500' :
                     userReacted.type === "XMark" ? "bg-rose-500" :
                         userReacted.type === "Leaf" ? "bg-pink-500" :
-                            userReacted.type === "Laugh" ? "bg-amber/80" : "bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+                            userReacted.type === "Laugh" ? "bg-amber" : "bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
                 }
                 `}
         >
             <Popover>
                 <PopoverTrigger className='font-normal flex gap-2 items-center'>
                     {
-                        userReacted.type === "Check" ? (<div className='flex flex-row gap-1'>
+                        userReacted.type === "Check" ? (<div className='flex flex-row gap-1 text-white'>
                             <ThumbsUp className='w-5 h-5' />
                             Liked
                         </div>) :
-                            userReacted.type === "XMark" ? (<>
+                            userReacted.type === "XMark" ? (<div className='flex flex-row gap-1 text-white'>
                                 <ThumbsDown className='w-5 h-5' />
                                 Disliked
-                            </>) :
-                                userReacted.type === "Leaf" ? (<>
+                            </div>) :
+                                userReacted.type === "Leaf" ? (<div className='flex flex-row gap-1 text-white'>
                                     <Heart className='w-5 h-5' />
                                     Loved
-                                </>) :
-                                    userReacted.type === "Laugh" ? (<>
+                                </div>) :
+                                    userReacted.type === "Laugh" ? (<div className='flex flex-row gap-1 text-white'>
                                         <Laugh className='w-5 h-5' />
                                         Laughed
-                                    </>) : (<>
+                                    </div>) : (<>
                                         <SmilePlus className='w-5 h-5' />
                                         React</>)
                     }

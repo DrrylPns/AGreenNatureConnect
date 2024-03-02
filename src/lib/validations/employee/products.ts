@@ -79,3 +79,16 @@ export const AddStocksScehma = z.object({
         })
     ),
 })
+
+
+export type FormType = z.infer<typeof DeclineProductSchema>
+
+export const DeclineProductSchema = z.object({
+    transactionId: z.string().optional(),
+    type: z.enum(["LackOfProducts", "EnvironmentalProblem", "others"], {
+        required_error: "You need to select a reason for cancelling.",
+    }),
+    otherReason: z.string({
+        required_error: "Specifying a reason is required. This will help us improve our service."
+    }).min(5, {message: "Reason for cancelling must atleast contain (5) characters"}).max(500, {message: "Error: You've reached the maximum of 500 characters."}),
+})

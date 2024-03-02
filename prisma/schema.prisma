@@ -439,6 +439,8 @@ model Transaction {
   status      TransactionStatus @default(PENDING)
   createdAt   DateTime          @default(now())
   updatedAt   DateTime          @updatedAt
+  cancelReason String?
+  cancelType   CancelType?
 
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
@@ -450,6 +452,12 @@ model Transaction {
 
   @@index([buyerId])
   @@index([sellerId])
+}
+
+enum CancelType {
+  LackOfProducts
+  EnvironmentalProblem
+  others
 }
 
 enum TransactionStatus {
