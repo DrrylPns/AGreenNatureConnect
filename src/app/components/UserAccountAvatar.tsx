@@ -43,22 +43,27 @@ const UserAccountAvatar: React.FC = ({}) => {
         </div>
       </div>
       <div className="block max-md:hidden">
-        <div className="flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition">
-          <div className="hidden md:block max-md:block">
-            {/* AVATAR */}
-            <UserAvatar
-              user={{
-                name: session?.user.username || null,
-                image: session?.user.image || null,
-              }}
-              className="h-8 w-8"
-            />
+        <div
+          onClick={toggleOpen}
+          className="flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition"
+        >
+          <div className="flex flex-row items-center rounded-full cursor-pointer hover:shadow-md transition">
+            <div className="hidden md:block max-md:block">
+              {/* AVATAR */}
+              <UserAvatar
+                user={{
+                  name: session?.user.username || null,
+                  image: session?.user.image || null,
+                }}
+                className="h-8 w-8"
+              />
+            </div>
           </div>
         </div>
       </div>
 
       {isOpen && (
-        <div className="absolute shadow-md w-[40vw] md:w-[12%] bg-white dark:bg-[#0A0A0A] dark:border overflow-hidden right-0 top-12 text-sm rounded-md gap-2 p-3 border border-zinc-300 text-black dark:text-white">
+        <div className="absolute shadow-md w-[40vw] lg:w-[100%] bg-white dark:bg-[#0A0A0A]  overflow-hidden max-md:right-0 right-15 max-md:top-12 top-[40rem] text-sm rounded-md gap-2 p-3 border dark:border-black border-zinc-300 text-black dark:text-white">
           <div className="flex flex-col space-y-1 leading-none">
             {session ? (
               <>
