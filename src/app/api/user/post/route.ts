@@ -11,12 +11,13 @@ export async function GET(req: Request, res: NextApiResponse) {
     try {
         const {searchParams} = new URL(req.url);
         const param = searchParams.get("cursor");
-
+        const limit = 5
         const getAllPost = await prisma.post.findMany({
            cursor: param ?{
             id:param
            }: undefined,
-           take: 5,
+           take: limit,
+           skip: param === '' ? 0 : 1,
             include: {
                 author: true,
                 comments: {
@@ -32,7 +33,7 @@ export async function GET(req: Request, res: NextApiResponse) {
             },
 
         })
-        const myCursor = getAllPost.length > 0 ? getAllPost[getAllPost.length - 1].id : null;
+        const myCursor = getAllPost.length === limit ? getAllPost[getAllPost.length - 1].id : undefined;
         return new Response(JSON.stringify({getAllPost, nextId: myCursor}))
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))

@@ -38,7 +38,7 @@ export default function Post() {
             throw new Error(`Error fetching post: ${error.message}`);
         }
     },
-    getNextPageParam:(lastPage) => lastPage.nextId ?? false
+    getNextPageParam:(lastPage) => lastPage.nextId || undefined
 })
 
 if(isLoading) return 
