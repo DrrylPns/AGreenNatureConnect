@@ -83,7 +83,6 @@ function OrderTab({
         setIsLoading(true)
         await axios.post('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
             router.refresh()
-            
         })
         setIsLoading(false)
     }

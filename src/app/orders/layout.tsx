@@ -8,8 +8,9 @@ import { Toaster } from '../components/toast/toaster'
 import { getAuthSession } from '@/lib/auth'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/db/db'
-import Sidebar from './_components/Sidebar'
 import { cn } from '@/lib/utils'
+import { CartProvider } from '@/contexts/CartContext'
+import Navbar from './_components/Navbar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,20 +32,20 @@ export default async function RootLayout({
         notFound()
     }
 
-
-
     return (
         <html lang="en">
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
+            <CartProvider>
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
-                    <Sidebar/>
-                    <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
+                    <Navbar session={session} />
+                    <main className='bg-[#E3E1E1] h-screen'>
                         {children}
                     </main> 
                     <Toaster />
                 </Providers >
+            </CartProvider>
             </body>
         </html>
     )
