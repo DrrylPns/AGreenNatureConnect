@@ -16,8 +16,7 @@ export async function GET(req: Request, res: NextApiResponse) {
            cursor: param ?{
             id:param
            }: undefined,
-           take: 2,
-           skip: param === '' ? 0 : 1,  
+           take: 5,
             include: {
                 author: true,
                 comments: {
@@ -33,8 +32,7 @@ export async function GET(req: Request, res: NextApiResponse) {
             },
 
         })
-        const lastPostInResults = getAllPost[1] 
-        const myCursor = lastPostInResults.id 
+        const myCursor = getAllPost.length > 0 ? getAllPost[getAllPost.length - 1].id : null;
         return new Response(JSON.stringify({getAllPost, nextId: myCursor}))
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))
