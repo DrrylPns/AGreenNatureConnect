@@ -11,6 +11,7 @@ import { FaArrowLeft } from 'react-icons/fa';
 import axios from 'axios';
 import { Dialog, Transition } from '@headlessui/react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
+import { useQuery } from '@tanstack/react-query';
 
 function CheckoutModal({
 }:{
@@ -19,14 +20,12 @@ function CheckoutModal({
     const [loading, setLoading] = useState<boolean>(true);
     const [isProcessing, setisProcessing] = useState<boolean>(false)
     const [disableBtn, setDisableBtn] = useState<boolean>(false)
-    const [shippingInfo, setShippingInfo] = useState<ShippingInfo>();
     const { getItem } = useLocalStorage("value");
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
 
     useEffect(()=>{
         setItems()
-        fetchShippingInfo()
         setTimeout(() => {
             setLoading(false); 
         }, 2000); 
@@ -37,16 +36,19 @@ function CheckoutModal({
     };
 
     //get Shipping info from db
-    const fetchShippingInfo = async () => {
+    const { data:shippingInfo, isFetching, isLoading} = useQuery({
+      queryKey:['shippingInfo'],
+      queryFn: async()=>{
         try {
-          const response = await axios.get('/api/markethub/shippingInfo');
-          setShippingInfo(response.data);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-
-      //Close the modal
+          const res = (await axios.get(`/api/markethub/shippingInfo`)).data
+          return res
+        } catch (error: any) {
+          throw new Error(`Error fetching Shipping info: ${error.message}`);
+      }
+        
+      }
+    })
+    //Close the modal
     function closeModal() {
         setIsOpen(false)
     }
@@ -94,7 +96,7 @@ function CheckoutModal({
 
 
     const handleAddShippingInfo = () =>{
-        router.push('/checkout')
+        router.push('/shipping-information')
     };
     const handlePlaceOrder = async() =>{
         setDisableBtn(true)
@@ -104,7 +106,6 @@ function CheckoutModal({
           router.replace('/cart/checkout/success')
         })
     }
-
   return (
     <div>
       {!isProcessing ?
@@ -117,7 +118,7 @@ function CheckoutModal({
             </div>
             <h1 className='font-bold text-[2rem] text-center'>Checkout</h1>
         </div>
-        {shippingInfo == null ? (
+        {shippingInfo === undefined ? (
         <div  className='flex justify-center items-center w-full'>
             <div className='flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5'>
                 <p className='text-gray-400 text-center'>If you intend to ship your order using courier(ex. lalamove, grab, etc.) and for faster transaction.</p>
@@ -135,14 +136,14 @@ function CheckoutModal({
                 <FaLocationDot/>
             </div>
             <div className='ml-10 text-sm md:text-md lg:text-lg'>
-                <h3>Full Name:{}</h3>
-                <h3 className='text text-wrap'>Address: </h3>
-                <h3>Email:</h3>
-                <h3>Contact Number:</h3>
-                <h3>Facebook:</h3>
+                <h3>Full Name : {shippingInfo.name}</h3>
+                <h3 className='text text-wrap'>Address: {shippingInfo.address} </h3>
+                <h3>Email : {shippingInfo.email}</h3>
+                <h3>Contact Number : {shippingInfo.phoneNumber}</h3>
+                <h3>Facebook : {shippingInfo.facebook}</h3>
             </div>
             <div className='flex justify-center items-center ml-auto'>
-                <button onClick={()=>{}} className='bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black'>
+                <button onClick={()=>{router.push(`/shipping-information`)}} className='bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black'>
                     Edit
                 </button>
             </div>
