@@ -12,6 +12,7 @@ import axios from 'axios';
 import { Dialog, Transition } from '@headlessui/react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import { useQuery } from '@tanstack/react-query';
+import { useCart } from '@/contexts/CartContext';
 
 function CheckoutModal({
 }:{
@@ -23,6 +24,7 @@ function CheckoutModal({
     const { getItem } = useLocalStorage("value");
     const router = useRouter();
     const [isOpen, setIsOpen] = useState(false);
+    const { cartNumber, setCartNumber} = useCart();
 
     useEffect(()=>{
         setItems()
@@ -104,6 +106,7 @@ function CheckoutModal({
         await axios.post('/api/markethub/transaction', {Items: checkoutItems})
         .then(res =>{
           router.replace('/cart/checkout/success')
+          setCartNumber((prevCartNumber) => prevCartNumber - checkoutItems.length);
         })
     }
     
