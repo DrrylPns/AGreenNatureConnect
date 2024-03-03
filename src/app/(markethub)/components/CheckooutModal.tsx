@@ -106,6 +106,7 @@ function CheckoutModal({
           router.replace('/cart/checkout/success')
         })
     }
+    
   return (
     <div>
       {!isProcessing ?
@@ -118,7 +119,7 @@ function CheckoutModal({
             </div>
             <h1 className='font-bold text-[2rem] text-center'>Checkout</h1>
         </div>
-        {shippingInfo === undefined ? (
+        {shippingInfo === null || shippingInfo === undefined ? (
         <div  className='flex justify-center items-center w-full'>
             <div className='flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5'>
                 <p className='text-gray-400 text-center'>If you intend to ship your order using courier(ex. lalamove, grab, etc.) and for faster transaction.</p>
