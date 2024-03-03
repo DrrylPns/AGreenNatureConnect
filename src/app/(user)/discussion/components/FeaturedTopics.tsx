@@ -39,7 +39,7 @@ export default function FeaturedTopics() {
           </div>
         )}
         {featuredTopics.map((topic) => (
-          <Link href={`discussion/${topic.name}`}>
+          <Link href={`discussion/${topic.name}`} key={topic.id}>
             <div className="flex items-center gap-3">
               <MdOutlineTopic />
               <div className="w-full">

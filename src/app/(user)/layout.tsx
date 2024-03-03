@@ -15,6 +15,7 @@ import { Onboarding } from "../components/(user)/Onboarding";
 import { ThemeProvider } from "../components/Ui/ThemeProvider";
 import { CartProvider } from "@/contexts/CartContext";
 
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -31,50 +32,45 @@ export default async function RootLayout({
   const session = await getAuthSession();
 
   console.log(session?.user.birthday);
-
-  // if (session?.user.birthday === null) {
-  //   return (
-  //     <Providers>
-  //       <OnboardingPage />
-  //     </Providers>
-  //   )
-  // }
+ 
 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-      <CartProvider>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="light"
-          enableSystem
-          disableTransitionOnChange
-        >
-          <Providers>
-            {session?.user.birthday === null &&
-            session?.user.role === "USER" ? (
-              <>
-                <Onboarding />
-              </>
-            ) : (
-              <>
+       
+          <CartProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="light"
+            enableSystem
+            disableTransitionOnChange
+          >
+            <Providers>
+              {session?.user.birthday === null &&
+              session?.user.role === "USER" ? (
+                <>
+                  <Onboarding />
+                </>
+              ) : (
+                <>
+                
+                  <Navbar session={session} />
               
-                <Navbar session={session} />
-             
-                <SIdebar />
+                  <SIdebar />
 
-                <LoginModal />
-                <RegisterModal />
-                <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
-                  {children}
-                </div>
-              </>
-            )}
+                  <LoginModal />
+                  <RegisterModal />
+                  <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
+                    {children}
+                  </div>
+                </>
+              )}
 
-            <Toaster />
-          </Providers>
-        </ThemeProvider>
-        </CartProvider>
+              <Toaster />
+            </Providers>
+          </ThemeProvider>
+          </CartProvider>
+       
       </body>
     </html>
   );

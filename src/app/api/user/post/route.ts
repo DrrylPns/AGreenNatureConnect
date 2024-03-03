@@ -4,11 +4,20 @@ import { getAuthSession } from "@/lib/auth";
 import { PostSchema } from "@/lib/validations/createPostSchema";
 import { z } from "zod";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
+import { NextApiRequest, NextApiResponse } from "next";
 
 //Getting all post
-export async function GET(req: NextRequest) {
+export async function GET(req: Request, res: NextApiResponse) {
     try {
+        const {searchParams} = new URL(req.url);
+        const param = searchParams.get("cursor");
+
         const getAllPost = await prisma.post.findMany({
+           cursor: param ?{
+            id:param
+           }: undefined,
+           take: 2,
+           skip: param === '' ? 0 : 1,  
             include: {
                 author: true,
                 comments: {
@@ -24,7 +33,9 @@ export async function GET(req: NextRequest) {
             },
 
         })
-        return new Response(JSON.stringify(getAllPost))
+        const lastPostInResults = getAllPost[1] 
+        const myCursor = lastPostInResults.id 
+        return new Response(JSON.stringify({getAllPost, nextId: myCursor}))
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))
     }
