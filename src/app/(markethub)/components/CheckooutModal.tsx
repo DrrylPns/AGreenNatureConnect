@@ -44,8 +44,8 @@ function CheckoutModal({}: {}) {
     queryKey: ["shippingInfo"],
     queryFn: async () => {
       try {
-        const res = (await axios.get(`/api/markethub/shippingInfo`)).data;
-        return res;
+        const res = await axios.get(`/api/markethub/shippingInfo/getShippingInfo`);
+        return res.data;
       } catch (error: any) {
         throw new Error(`Error fetching Shipping info: ${error.message}`);
       }
