@@ -51,6 +51,7 @@ function CheckoutModal({}: {}) {
       }
     },
   });
+  console.log(shippingInfo)
   //Close the modal
   function closeModal() {
     setIsOpen(false);
@@ -128,7 +129,7 @@ function CheckoutModal({}: {}) {
             </div>
             <h1 className="font-bold text-[2rem] text-center">Checkout</h1>
           </div>
-          {shippingInfo === null || shippingInfo === undefined ? (
+          {shippingInfo == null || shippingInfo == undefined ? (
             <div className="flex justify-center items-center w-full">
               <div className="flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5">
                 <p className="text-gray-400 text-center">
