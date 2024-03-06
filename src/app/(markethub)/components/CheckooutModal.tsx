@@ -46,7 +46,7 @@ function CheckoutModal({}: {}) {
       throw new Error(`Error fetching Shipping info: ${error.message}`);
     }
   }
-  console.log(shippingInfo)
+  console.log(`This is the shipping Info: ${shippingInfo}`)
   //Close the modal
   function closeModal() {
     setIsOpen(false);
@@ -124,7 +124,7 @@ function CheckoutModal({}: {}) {
             </div>
             <h1 className="font-bold text-[2rem] text-center">Checkout</h1>
           </div>
-          {shippingInfo == null || shippingInfo == undefined ? (
+          {!shippingInfo ? (
             <div className="flex justify-center items-center w-full">
               <div className="flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5">
                 <p className="text-gray-400 text-center">
