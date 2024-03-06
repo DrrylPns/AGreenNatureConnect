@@ -17,6 +17,7 @@ import { useCart } from "@/contexts/CartContext";
 function CheckoutModal({}: {}) {
   const [checkoutItems, setCheckoutItems] = useState<Cart[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [shippingInfo , setShippingInfo] = useState<ShippingInfo>()
   const [isProcessing, setisProcessing] = useState<boolean>(false);
   const [disableBtn, setDisableBtn] = useState<boolean>(false);
   const { getItem } = useLocalStorage("value");
@@ -26,6 +27,7 @@ function CheckoutModal({}: {}) {
 
   useEffect(() => {
     setItems();
+    getShippingInfo()
     setTimeout(() => {
       setLoading(false);
     }, 2000);
@@ -36,21 +38,14 @@ function CheckoutModal({}: {}) {
   };
 
   //get Shipping info from db
-  const {
-    data: shippingInfo,
-    isFetching,
-    isLoading,
-  } = useQuery({
-    queryKey: ["shippingInfo"],
-    queryFn: async () => {
-      try {
-        const res = await axios.get(`/api/markethub/shippingInfo/getShippingInfo`);
-        return res.data;
-      } catch (error: any) {
-        throw new Error(`Error fetching Shipping info: ${error.message}`);
-      }
-    },
-  });
+  const getShippingInfo = async()=>{
+    try {
+      const res = await axios.get(`/api/markethub/shippingInfo`);
+      setShippingInfo(res.data)
+    } catch (error: any) {
+      throw new Error(`Error fetching Shipping info: ${error.message}`);
+    }
+  }
   console.log(shippingInfo)
   //Close the modal
   function closeModal() {
