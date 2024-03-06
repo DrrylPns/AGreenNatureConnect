@@ -102,15 +102,29 @@ function CheckoutModal({}: {}) {
   const handlePlaceOrder = async () => {
     setDisableBtn(true);
     setisProcessing(true);
-    await axios
-      .post("/api/markethub/transaction", { Items: checkoutItems })
-      .then((res) => {
-        router.replace("/cart/checkout/success");
-        setCartNumber(
-          (prevCartNumber) => prevCartNumber - checkoutItems.length
-        );
+  
+    try {
+      const response = await fetch("/api/markethub/transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Items: checkoutItems }),
       });
+  
+      if (response.ok) {
+        // If the response is successful, you can handle the success here
+        router.replace("/cart/checkout/success");
+  
+        setCartNumber((prevCartNumber) => prevCartNumber - checkoutItems.length);
+      } else {
+        console.error("Failed to place order:", response.statusText);
+      }
+    } catch (error) {
+      console.error("Error placing order:", error);
+    }
   };
+  
 
   return (
     <div>
