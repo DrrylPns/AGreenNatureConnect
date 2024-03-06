@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { Fragment, useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosAddCircleOutline } from "react-icons/io";
+<<<<<<< HEAD
 import { useRouter } from "next/navigation";
 import { Cart, ShippingInfo } from "@/lib/types";
 import Image from "next/image";
@@ -32,11 +33,42 @@ function CheckoutModal({}: {}) {
       setLoading(false);
     }, 2000);
   }, []);
+=======
+import { useRouter } from 'next/navigation';
+import { Cart, ShippingInfo } from '@/lib/types';
+import Image from 'next/image';
+import { RotatingLines } from 'react-loader-spinner';
+import { FaArrowLeft } from 'react-icons/fa';
+import axios from 'axios';
+import { Dialog, Transition } from '@headlessui/react';
+import { useLocalStorage } from '../hooks/useLocalStorage';
+
+function CheckoutModal({
+}:{
+}) {
+    const [checkoutItems, setCheckoutItems ] = useState<Cart[]>([]);
+    const [loading, setLoading] = useState<boolean>(true);
+    const [isProcessing, setisProcessing] = useState<boolean>(false)
+    const [disableBtn, setDisableBtn] = useState<boolean>(false)
+    const [shippingInfo, setShippingInfo] = useState<ShippingInfo>();
+    const { getItem } = useLocalStorage("value");
+    const router = useRouter();
+    const [isOpen, setIsOpen] = useState(false);
+
+    useEffect(()=>{
+        setItems()
+        fetchShippingInfo()
+        setTimeout(() => {
+            setLoading(false); 
+        }, 2000); 
+    },[])
+>>>>>>> parent of 36da689 (Fix: shipping information to allow the user to add or edit their shipping info optionally)
 
   const setItems = () => {
     setCheckoutItems(getItem);
   };
 
+<<<<<<< HEAD
   //get Shipping info from db
   const getShippingInfo = async()=>{
     try {
@@ -44,6 +76,21 @@ function CheckoutModal({}: {}) {
       setShippingInfo(res.data)
     } catch (error: any) {
       throw new Error(`Error fetching Shipping info: ${error.message}`);
+=======
+    //get Shipping info from db
+    const fetchShippingInfo = async () => {
+        try {
+          const response = await axios.get('/api/markethub/shippingInfo');
+          setShippingInfo(response.data);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+
+      //Close the modal
+    function closeModal() {
+        setIsOpen(false)
+>>>>>>> parent of 36da689 (Fix: shipping information to allow the user to add or edit their shipping info optionally)
     }
   }
   console.log(`This is the shipping Info: ${shippingInfo}`)
@@ -96,6 +143,7 @@ function CheckoutModal({}: {}) {
     router.back();
   };
 
+<<<<<<< HEAD
   const handleAddShippingInfo = () => {
     router.push("/shipping-information");
   };
@@ -125,6 +173,19 @@ function CheckoutModal({}: {}) {
     }
   };
   
+=======
+    const handleAddShippingInfo = () =>{
+        router.push('/checkout')
+    };
+    const handlePlaceOrder = async() =>{
+        setDisableBtn(true)
+        setisProcessing(true)
+        await axios.post('/api/markethub/transaction', {Items: checkoutItems})
+        .then(res =>{
+          router.replace('/cart/checkout/success')
+        })
+    }
+>>>>>>> parent of 36da689 (Fix: shipping information to allow the user to add or edit their shipping info optionally)
 
   return (
     <div>
@@ -136,6 +197,7 @@ function CheckoutModal({}: {}) {
                 <FaArrowLeft />
               </button>
             </div>
+<<<<<<< HEAD
             <h1 className="font-bold text-[2rem] text-center">Checkout</h1>
           </div>
           {!shippingInfo && (
@@ -150,9 +212,23 @@ function CheckoutModal({}: {}) {
                     <IoIosAddCircleOutline />
                     <span>Add shipping information</span>
                   </div>
+=======
+            <h1 className='font-bold text-[2rem] text-center'>Checkout</h1>
+        </div>
+        {shippingInfo == null ? (
+        <div  className='flex justify-center items-center w-full'>
+            <div className='flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5'>
+                <p className='text-gray-400 text-center'>If you intend to ship your order using courier(ex. lalamove, grab, etc.) and for faster transaction.</p>
+                <button onClick={handleAddShippingInfo} className='' >
+                    <div className='text-2xl text-yellow-400 flex items-center'>
+                        <IoIosAddCircleOutline/>
+                        <span>Add shipping information</span>
+                    </div>
+>>>>>>> parent of 36da689 (Fix: shipping information to allow the user to add or edit their shipping info optionally)
                 </button>
               </div>
             </div>
+<<<<<<< HEAD
           )} 
           
           {shippingInfo && (
@@ -177,6 +253,24 @@ function CheckoutModal({}: {}) {
                   className="bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black"
                 >
                   Edit
+=======
+        </div>
+        ):(
+        <div className='flex bg-muted-green min-w-full px-5 md:px-10 py-5 text-white'>
+            <div className="text-4xl text-red-600">
+                <FaLocationDot/>
+            </div>
+            <div className='ml-10 text-sm md:text-md lg:text-lg'>
+                <h3>Full Name:{}</h3>
+                <h3 className='text text-wrap'>Address: </h3>
+                <h3>Email:</h3>
+                <h3>Contact Number:</h3>
+                <h3>Facebook:</h3>
+            </div>
+            <div className='flex justify-center items-center ml-auto'>
+                <button onClick={()=>{}} className='bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black'>
+                    Edit
+>>>>>>> parent of 36da689 (Fix: shipping information to allow the user to add or edit their shipping info optionally)
                 </button>
               </div>
             </div>
