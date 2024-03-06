@@ -124,7 +124,7 @@ function CheckoutModal({}: {}) {
             </div>
             <h1 className="font-bold text-[2rem] text-center">Checkout</h1>
           </div>
-          {!shippingInfo ? (
+          {!shippingInfo && (
             <div className="flex justify-center items-center w-full">
               <div className="flex flex-col items-center justify-center text-sm md:text-md lg:text-lg mb-5">
                 <p className="text-gray-400 text-center">
@@ -139,7 +139,9 @@ function CheckoutModal({}: {}) {
                 </button>
               </div>
             </div>
-          ) : (
+          )} 
+          
+          {shippingInfo && (
             <div className="flex bg-muted-green min-w-full px-5 md:px-10 py-5 text-white">
               <div className="text-4xl text-red-600">
                 <FaLocationDot />
