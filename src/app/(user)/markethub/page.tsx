@@ -15,7 +15,7 @@ export default function Markethub() {
       </div>
       <div className="my-5 md:flex justify-between items-center">
         <BarangayDropdown />
-
+        <SearchBar/>
       </div>
       <ProductItem />
     </div>
