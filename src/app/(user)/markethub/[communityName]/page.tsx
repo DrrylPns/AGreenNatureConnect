@@ -12,7 +12,7 @@ const page = async ({
   searchParams?: { communityId: string};
 }) => {
   const communityName = params.communityName.replace(/%20/g, ' ');
-  const getProductsByCommunity = await prisma.product.findMany({
+  const allProducts = await prisma.product.findMany({
     where:{
       communityId: searchParams?.communityId,
       isFree: {
@@ -97,7 +97,14 @@ const page = async ({
           <Free communityId={searchParams?.communityId}/>
        </div>
         <div className='sticky top-20 w-full mt-5'>
-          <ProductTab allProducts={getProductsByCommunity} vegetables={vegetables} fruits={fruits} others={others}/>
+          <ProductTab 
+            allProducts={allProducts}
+            vegetables={vegetables} 
+            fruits={fruits} 
+            others={others}
+            isFetching={false}
+            isLoading={false}
+          />
         </div>
     </div>
   )

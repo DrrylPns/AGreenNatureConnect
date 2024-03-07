@@ -48,7 +48,7 @@ function SearchBar({
 }:{
     
 }) {
-    const [selected, setSelected] = useState<Product>()
+    const [selected, setSelected] = useState<Product | null>(null)
     const [query, setQuery] = useState('')
     const router = useRouter()
 
@@ -85,7 +85,7 @@ function SearchBar({
             <Combobox.Label className={'mr-5 text-md text-black font-semibold font-poppins'}>Search products: </Combobox.Label>
             <Combobox.Input
               className="w-full bg-slate-100 rounded-lg border-2 border-slate-400 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              displayValue={(product: Product) => product.name}
+              value={query}
               onChange={(event) => setQuery(event.target.value)}
             />
           </div>

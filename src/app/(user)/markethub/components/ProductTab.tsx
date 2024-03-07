@@ -47,36 +47,22 @@ interface Product {
 
 
 function ProductTab({
-  
+    allProducts,
+    fruits,
+    vegetables,
+    others,
+    isLoading,
+    isFetching,
 }:{
-   
+    allProducts: Product[],
+    fruits: Product[],
+    vegetables: Product[],
+    others: Product[],
+    isLoading: boolean,
+    isFetching: boolean
 }) {
     const [selectedIndex, setSelectedIndex] = useState(0)
     
-    const { data, error, isLoading, refetch, isFetching } = useQuery({
-        queryKey: ['products'],
-        queryFn: async () => {
-          try {
-            const [allProducts, fruits, vegetables, others,] = await Promise.all([
-              axios.get('/api/markethub/products'),
-              axios.get('/api/markethub/products/fruits'),
-              axios.get('/api/markethub/products/vegetables'),
-              axios.get('/api/markethub/products/others'),
-             
-            ]);
-      
-            return {
-                allProducts: allProducts.data,
-                fruits: fruits.data,
-                vegetables: vegetables.data,
-                others: others.data,
-            };
-          } catch (error: any) {
-            throw new Error('Error fetching products: ' + error.message);
-          }
-        },
-      });
-
 
     return (
     <div className='pb-10'>
@@ -99,7 +85,7 @@ function ProductTab({
             <Tab.Panels>
                 <Tab.Panel>
                     {!isLoading ? (
-                        <Products products={data?.allProducts} noProducts='There are no available products right now!' selectedIndex={selectedIndex}/>
+                        <Products products={allProducts} noProducts='There are no available products right now!' selectedIndex={selectedIndex}/>
                     ):(
                         <div>
                             <RotatingLinesLoading/>
@@ -109,7 +95,7 @@ function ProductTab({
                 </Tab.Panel>
                 <Tab.Panel>
                     {!isLoading ? (
-                        <Products products={data?.fruits} noProducts='There are no available fruits right now!' selectedIndex={selectedIndex}/>
+                        <Products products={fruits} noProducts='There are no available fruits right now!' selectedIndex={selectedIndex}/>
                     ):(
                         <div>
                             <RotatingLinesLoading/>
@@ -119,7 +105,7 @@ function ProductTab({
                 </Tab.Panel>
                 <Tab.Panel>
                     {!isLoading ? (
-                        <Products products={data?.vegetables} noProducts='There are no available vegetables right now!' selectedIndex={selectedIndex}/>
+                        <Products products={vegetables} noProducts='There are no available vegetables right now!' selectedIndex={selectedIndex}/>
                     ):(
                         <div>
                             <RotatingLinesLoading/>
@@ -129,7 +115,7 @@ function ProductTab({
                 </Tab.Panel>
                 <Tab.Panel>
                     {!isLoading ? (
-                        <Products products={data?.others} noProducts='There are no available other products right now!' selectedIndex={selectedIndex}/>
+                        <Products products={others} noProducts='There are no available other products right now!' selectedIndex={selectedIndex}/>
                     ):(
                         <div>
                             <RotatingLinesLoading/>
