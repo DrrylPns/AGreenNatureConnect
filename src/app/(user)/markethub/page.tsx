@@ -14,7 +14,8 @@ export default function Markethub() {
         <Carousel />
       </div>
       <div className="my-5 md:flex justify-between items-center">
-        <SearchBar/>
+        <BarangayDropdown />
+
       </div>
       <ProductItem />
     </div>
