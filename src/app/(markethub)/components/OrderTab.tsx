@@ -1,13 +1,13 @@
 "use client"
 import { Tab } from '@headlessui/react'
-import React, { useState } from 'react'
+import React, { Suspense, useState } from 'react'
 import RotatingLinesLoading from './RotatingLinesLoading'
 import Orders from './Orders'
 import axios from 'axios'
 import { useRouter } from 'next/navigation'
-import { FaArrowLeft, } from 'react-icons/fa'
+import { FaArrowLeft, FaBullseye } from 'react-icons/fa'
 import { FiRefreshCw } from 'react-icons/fi'
-import { useQuery } from '@tanstack/react-query'
+import Loading from '../loading'
 
 interface Transaction {
     id: string;
@@ -60,59 +60,54 @@ interface Product {
     status: string;
     isFree: boolean;
 }
-
+ 
 function OrderTab({
+    pending,
+    approved,
+    pickup,
+    cancelled,
+    completed
 }:{
+    pending: Transaction[],
+    approved: Transaction[],
+    pickup:  Transaction[],
+    cancelled: Transaction[],
+    completed: Transaction[]
 }) {
     const router = useRouter()
     const [selectedIndex, setSelectedIndex] = useState(0)
+    const [isLoading, setIsLoading ] = useState<boolean>(false);
     const [animate, setAnimate] = useState<boolean>(false)
 
     const handleCancel = async(transactionId : string)=>{
+        setIsLoading(true)
         await axios.post('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
             router.refresh()
         })
+        setIsLoading(false)
     }
 
     const handleGoBack = () => {
+        setIsLoading(true)
         setTimeout(()=>{
             router.push('/markethub'); 
 
         },1000)
     };
+
     const handelRefresh = () => {
-        refetch()
+        setIsLoading(true)
         setAnimate(true)
         router.refresh()
         setTimeout(()=>{
+            setIsLoading(false)
             setAnimate(false)
         },2000)
         console.log('clicked')
     }
-    const { data, error, isLoading, refetch, isFetching } = useQuery({
-        queryKey: ['transactions'],
-        queryFn: async () => {
-          try {
-            const [pending, approved, pickUp, cancelled, completed] = await Promise.all([
-              axios.get('/api/markethub/transaction/pending'),
-              axios.get('/api/markethub/transaction/approved'),
-              axios.get('/api/markethub/transaction/pickUp'),
-              axios.get('/api/markethub/transaction/cancelled'),
-              axios.get('/api/markethub/transaction/completed'),
-            ]);
-      
-            return {
-              pending: pending.data,
-              approved: approved.data,
-              pickUp: pickUp.data,
-              cancelled: cancelled.data,
-              completed: completed.data,
-            };
-          } catch (error: any) {
-            throw new Error('Error fetching transactions: ' + error.message);
-          }
-        },
-      });
+
+    
+    
   return (
     <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <div className='relative'>
@@ -125,7 +120,6 @@ function OrderTab({
                 <FiRefreshCw/>
             </button>
         </div>
-        
         <Tab.List className={`fixed top-32 md:top-[8rem] w-full z-30 bg-white drop-shadow-md shadow-lg`}>
             <Tab className="text-[0.5rem] sm:text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Orders
@@ -143,102 +137,95 @@ function OrderTab({
                 Cancelled
             </Tab>
         </Tab.List>
-        {!isFetching ? (
-            <Tab.Panels className={`pt-24 z-10`}>
-             {/**PENDING */}
-             <Tab.Panel>
-                 {!isLoading ? (
-                     <Orders 
-                     selectedIndex={selectedIndex} 
-                     transactions={data?.pending} 
-                     noOrders='No pending orders right now!'
-                     cancelBtnDisplay='block'
-                     handleCancel={handleCancel}
-                     status='Waiting to be approve.'
-                     />
-                 ):(
-                     <div>
-                         <RotatingLinesLoading/>
-                     </div>
-                 )}
-             </Tab.Panel>
-             {/**APPROVED */}
-             <Tab.Panel>
-                 {!isLoading ? (
-                 <Orders 
-                     selectedIndex={selectedIndex} 
-                     transactions={data?.approved} 
-                     noOrders='No approved orders right now!'
-                     cancelBtnDisplay='hidden'
-                     handleCancel={handleCancel}
-                     status='Approved'
-                 />
-                 ):(
-                     <div>
-                         <RotatingLinesLoading/>
-                     </div>
-                 )}
-           
-             </Tab.Panel>
-             {/**Pickup */}
-             <Tab.Panel>
+        <Tab.Panels className={`pt-24 z-10`}>
+            {/**PENDING */}
+            <Tab.Panel>
                 {!isLoading ? (
-                 <Orders 
-                     selectedIndex={selectedIndex} 
-                     transactions={data?.pickUp} 
-                     noOrders='No orders are ready to be pick up!'
-                     cancelBtnDisplay='hidden'
-                     handleCancel={handleCancel}
-                     status='Ready to be pickup!'
-                 />
-                 ):(
-                     <div>
-                         <RotatingLinesLoading/>
-                     </div>
-                 )}
-           
-             </Tab.Panel>
-             {/**COMPLETED */}
-             <Tab.Panel>
+                    <Orders 
+                    selectedIndex={selectedIndex} 
+                    transactions={pending} 
+                    noOrders='No pending orders right now!'
+                    cancelBtnDisplay='block'
+                    handleCancel={handleCancel}
+                    status='Waiting to be approve.'
+                    />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
+            </Tab.Panel>
+            {/**APPROVED */}
+            <Tab.Panel>
                 {!isLoading ? (
-                 <Orders 
-                     selectedIndex={selectedIndex} 
-                     transactions={data?.completed} 
-                     noOrders='No completed orders!'
-                     cancelBtnDisplay='hidden'
-                     handleCancel={handleCancel}
-                     status='Completed'
-                 />
-                 ):(
-                     <div>
-                         <RotatingLinesLoading/>
-                     </div>
-                 )}
-             </Tab.Panel>
-             {/**CANCELLED */}
-             <Tab.Panel>
-                 {!isLoading ? (
-                     <Orders 
-                         selectedIndex={selectedIndex} 
-                         transactions={data?.cancelled} 
-                         noOrders='No cancelled orders!'
-                         cancelBtnDisplay='hidden'
-                         handleCancel={handleCancel}
-                         status='Cancelled'
-                     />  
-                 ):(
-                     <div>
-                         <RotatingLinesLoading/>
-                     </div>
-                 )}
-             </Tab.Panel>
-            </Tab.Panels>
-        ):(
-            <div className='flex justify-center items-center '>
-                <RotatingLinesLoading/>
-            </div>
-        )}
-       
+                <Orders 
+                    selectedIndex={selectedIndex} 
+                    transactions={approved} 
+                    noOrders='No approved orders right now!'
+                    cancelBtnDisplay='hidden'
+                    handleCancel={handleCancel}
+                    status='Approved'
+                />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
+          
+            </Tab.Panel>
+            {/**Pickup */}
+            <Tab.Panel>
+               {!isLoading ? (
+                <Orders 
+                    selectedIndex={selectedIndex} 
+                    transactions={pickup} 
+                    noOrders='No orders are ready to be pick up!'
+                    cancelBtnDisplay='hidden'
+                    handleCancel={handleCancel}
+                    status='Ready to be pickup!'
+                />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
+          
+            </Tab.Panel>
+            {/**COMPLETED */}
+            <Tab.Panel>
+               {!isLoading ? (
+                <Orders 
+                    selectedIndex={selectedIndex} 
+                    transactions={completed} 
+                    noOrders='No completed orders!'
+                    cancelBtnDisplay='hidden'
+                    handleCancel={handleCancel}
+                    status='Completed'
+                />
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
+            </Tab.Panel>
+            {/**CANCELLED */}
+            <Tab.Panel>
+                {!isLoading ? (
+                    <Orders 
+                        selectedIndex={selectedIndex} 
+                        transactions={cancelled} 
+                        noOrders='No cancelled orders!'
+                        cancelBtnDisplay='hidden'
+                        handleCancel={handleCancel}
+                        status='Cancelled'
+                    />  
+                ):(
+                    <div>
+                        <RotatingLinesLoading/>
+                    </div>
+                )}
+            </Tab.Panel>
+        </Tab.Panels>
         </div>
     </Tab.Group>
   )
