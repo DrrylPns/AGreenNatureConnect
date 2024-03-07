@@ -6,16 +6,30 @@ import ProductItem from "./components/Product";
 import SearchBar from "./components/SearchBar";
 import prisma from "@/lib/db/db";
 
-export default function Markethub() {
-  
+export default async function Markethub() {
+  const AllProducts = await prisma.product.findMany({
+    where:{
+      status:{
+          equals: "APPROVED"
+      },
+    },
+    include:{
+      community: true,
+      variants: true
+    }
+  })
+
   return (
     <div >
       <div className="hidden md:block">
         <Carousel />
       </div>
       <div className="my-5 md:flex justify-between items-center">
-        <BarangayDropdown />
-        <SearchBar/>
+          <BarangayDropdown />
+ 
+     
+          <SearchBar allProduct={AllProducts}/>
+    
       </div>
       <ProductItem />
     </div>

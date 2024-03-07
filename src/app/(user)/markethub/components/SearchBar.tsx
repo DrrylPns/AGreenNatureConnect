@@ -1,7 +1,5 @@
 'use client'
 import { Combobox, Transition } from '@headlessui/react'
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { Fragment, useState } from 'react'
@@ -44,25 +42,17 @@ interface Product {
   }
 
 function SearchBar({
-   
+    allProduct,
 }:{
-    
+    allProduct: Product[];
 }) {
-    const [selected, setSelected] = useState<Product | null>(null)
+    const [selected, setSelected] = useState<Product>()
     const [query, setQuery] = useState('')
     const router = useRouter()
-
-    const {data: allProduct} = useQuery({
-      queryKey:['Products'],
-      queryFn: async ()=>{
-        const res = (await axios.get(`/api/markethub/products`)).data
-        return res as Product[]
-      }
-    })
     const filteredProduct =
         query === ''
         ? allProduct
-        : allProduct?.filter((product) =>
+        : allProduct.filter((product) =>
             product.name
                 .toLowerCase()
                 .replace(/\s+/g, '')
@@ -85,7 +75,7 @@ function SearchBar({
             <Combobox.Label className={'mr-5 text-md text-black font-semibold font-poppins'}>Search products: </Combobox.Label>
             <Combobox.Input
               className="w-full bg-slate-100 rounded-lg border-2 border-slate-400 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
-              value={query}
+              displayValue={(product: Product) => product.name}
               onChange={(event) => setQuery(event.target.value)}
             />
           </div>
@@ -97,7 +87,7 @@ function SearchBar({
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full z-30 overflow-auto shadow-dark-tremor-input drop-shadow-lg bg-slate-100 rounded-mdpy-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
-              {filteredProduct?.length === 0 && query !== '' ? (
+              {filteredProduct.length === 0 && query !== '' ? (
                 <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                   Nothing found.
                 </div>
@@ -112,7 +102,7 @@ function SearchBar({
                     </Combobox.Option>
                 )}
 
-                {filteredProduct?.map((product) => (
+                {filteredProduct.map((product) => (
                   <Combobox.Option
                     key={product.id}
                     className={({ active }) =>
