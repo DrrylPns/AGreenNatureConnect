@@ -31,7 +31,7 @@ const ProductItem = () => {
 
   return (
     <div className=''>
-      {isFetching ? (
+      {!isFetching ? (
         <ProductTab 
           allProducts={data?.allProducts} 
           fruits={data?.fruits} 
