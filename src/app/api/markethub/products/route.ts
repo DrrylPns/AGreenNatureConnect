@@ -13,9 +13,6 @@ export async function GET(req: NextRequest) {
                 status:{
                     equals: 'APPROVED'
                 },
-                category:{
-                    equals:"Vegetables"
-                },
                 variants:{
                     some: {
                         variant: {

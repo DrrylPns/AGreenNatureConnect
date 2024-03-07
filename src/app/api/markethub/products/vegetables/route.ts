@@ -13,6 +13,13 @@ export async function GET(req: NextRequest) {
                 },
                 category:{
                     equals:"Vegetables"
+                },
+                variants:{
+                    some: {
+                        variant: {
+                            not: 0
+                        }
+                    }
                 }
             },
             include:{

@@ -1,90 +1,49 @@
 
+'use client'
 import prisma from '@/lib/db/db'
 import ProductTab from './ProductTab'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import RotatingLinesLoading from '@/app/(markethub)/components/RotatingLinesLoading'
 
-const ProductItem = async() => {
- 
-  const getAllProducts = await prisma.product.findMany({
-    where:{
-      isFree: {
-        equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-  })
-  const vegetables = await prisma.product.findMany({
-    where:{
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-      category:{
-          equals:"Vegetables"
-      },
-      variants:{
-          some: {
-              variant: {
-                  not: 0
-              }
-          }
+const ProductItem = () => {
+  const {data, isFetching,} = useQuery({
+    queryKey:['Products'],
+    queryFn: async () =>{
+      try {
+        const [allProducts, vegetables, fruits, others] = await Promise.all([
+          axios.get('/api/markethub/products'),
+          axios.get('/api/markethub/products/vegetables'),
+          axios.get('/api/markethub/products/fruits'),
+          axios.get('/api/markethub/products/others'),
+        ]);
+        return {
+          allProducts: allProducts.data,
+          vegetables: vegetables.data,
+          fruits: fruits.data,
+          others: others.data,
+        };
+      } catch (error) {
+        
       }
-    },
-    include:{
-        variants: true,
-        community: true
     }
-  })
-  const others = await prisma.product.findMany({
-    where:{
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-      category:{
-          equals:"Others"
-      },
-      
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-   
-  })
-  
-  const fruits = await prisma.product.findMany({
-    where:{
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-      category:{
-          equals:"Fruits"
-      },
-      
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-   
   })
 
   return (
     <div className=''>
-        <ProductTab allProducts={getAllProducts} fruits={fruits} vegetables={vegetables} others={others}/>
+      {isFetching ? (
+        <ProductTab 
+          allProducts={data?.allProducts} 
+          fruits={data?.fruits} 
+          vegetables={data?.vegetables} 
+          others={data?.others}
+        />
+      ):(
+        <div>
+          <RotatingLinesLoading/>
+        </div>
+      )}
+        
     </div>
   )
 }
