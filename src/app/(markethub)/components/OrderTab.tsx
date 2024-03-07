@@ -113,7 +113,6 @@ function OrderTab({
           }
         },
       });
-
   return (
     <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
         <div className='relative'>

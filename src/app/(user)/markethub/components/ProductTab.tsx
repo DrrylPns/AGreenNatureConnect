@@ -2,6 +2,11 @@
 import { Tab } from '@headlessui/react'
 import React, { useState } from 'react'
 import ProductModal from './ProductModal'
+import Products from './Products'
+import { useQuery } from '@tanstack/react-query'
+import axios from 'axios'
+import RotatingLinesLoading from '@/app/(markethub)/components/RotatingLinesLoading'
+
 
 interface Product {
     id: string;
@@ -40,19 +45,40 @@ interface Product {
     updatedAt: Date;
   }
 
+
 function ProductTab({
-    allProducts,
-    vegetables,
-    fruits,
-    others,
+  
 }:{
-    vegetables: Product[],
-    fruits: Product[],
-    allProducts: Product[],
-    others: Product[],
+   
 }) {
     const [selectedIndex, setSelectedIndex] = useState(0)
-  return (
+    
+    const { data, error, isLoading, refetch, isFetching } = useQuery({
+        queryKey: ['products'],
+        queryFn: async () => {
+          try {
+            const [allProducts, fruits, vegetables, others,] = await Promise.all([
+              axios.get('/api/markethub/products'),
+              axios.get('/api/markethub/products/fruits'),
+              axios.get('/api/markethub/products/vegetables'),
+              axios.get('/api/markethub/products/others'),
+             
+            ]);
+      
+            return {
+                allProducts: allProducts.data,
+                fruits: fruits.data,
+                vegetables: vegetables.data,
+                others: others.data,
+            };
+          } catch (error: any) {
+            throw new Error('Error fetching products: ' + error.message);
+          }
+        },
+      });
+
+
+    return (
     <div className='pb-10'>
         <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <Tab.List className={'w-full flex-row bg-gray-100 dark:text-black'}>
@@ -69,112 +95,54 @@ function ProductTab({
                     <h1>Others</h1>
                 </Tab>
             </Tab.List>
+            {!isFetching ? (
             <Tab.Panels>
                 <Tab.Panel>
-                    <div className="grid grid-cols-12 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
-                        {allProducts.length > 0 ? allProducts.map((product) => {
-                        const prices = product.variants.map((variant) => variant.price);
-                        const lowestPrice = Math.min(...prices);
-                        const highestPrice = Math.max(...prices);
-                        if (product.variants.length < 1) {
-                            return null
-                        }
-
-                        if (product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1) {
-                            return null
-                        } else {
-                            return (
-                            <div key={product.id} className='col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2'>
-                                <ProductModal product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
-                            </div>
-                            )
-                        }
-                        }) : (
-                        <div className='col-span-12 flex justify-center w-full h-1/2 text-center'>
-                            <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available fruits right now!</h1>
+                    {!isLoading ? (
+                        <Products products={data?.allProducts} noProducts='There are no available products right now!' selectedIndex={selectedIndex}/>
+                    ):(
+                        <div>
+                            <RotatingLinesLoading/>
                         </div>
-                        )}
-                    </div> 
+                    )}
+                    
                 </Tab.Panel>
                 <Tab.Panel>
-                    <div className="grid grid-cols-12 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
-                        {fruits.length > 0 ? fruits.map((product) => {
-                        const prices = product.variants.map((variant) => variant.price);
-                        const lowestPrice = Math.min(...prices);
-                        const highestPrice = Math.max(...prices);
-                        if (product.variants.length < 1) {
-                            return null
-                        }
-
-                        if (product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1) {
-                            return null
-                        } else {
-                            return (
-                            <div key={product.id} className='col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2'>
-                                <ProductModal product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
-                            </div>
-                            )
-                        }
-                        }) : (
-                        <div className='col-span-12 flex justify-center w-full h-1/2 text-center'>
-                            <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available fruits right now!</h1>
+                    {!isLoading ? (
+                        <Products products={data?.fruits} noProducts='There are no available fruits right now!' selectedIndex={selectedIndex}/>
+                    ):(
+                        <div>
+                            <RotatingLinesLoading/>
                         </div>
-                        )}
-                    </div> 
+                    )}
+                    
                 </Tab.Panel>
                 <Tab.Panel>
-                    <div className="grid grid-cols-12 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
-                        {vegetables.length > 0 ? vegetables.map((product) => {
-                        const prices = product.variants.map((variant) => variant.price);
-                        const lowestPrice = Math.min(...prices);
-                        const highestPrice = Math.max(...prices);
-                        if (product.variants.length < 1) {
-                            return null
-                        }
-
-                        if (product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
-                            return null
-                        } else {
-                            return (
-                            <div key={product.id} className='col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2'>
-                                <ProductModal product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
-                            </div>
-                            )
-                        }
-                        }) : (
-                        <div className=' col-span-12 flex justify-center w-full h-1/2 text-center'>
-                            <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available vegetables right now!</h1>
+                    {!isLoading ? (
+                        <Products products={data?.vegetables} noProducts='There are no available vegetables right now!' selectedIndex={selectedIndex}/>
+                    ):(
+                        <div>
+                            <RotatingLinesLoading/>
                         </div>
-                        )}
-                    </div>
+                    )}
+                    
                 </Tab.Panel>
                 <Tab.Panel>
-                    <div className="grid grid-cols-12 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
-                        {others.length > 0 ? others.map((product) => {
-                        const prices = product.variants.map((variant) => variant.price);
-                        const lowestPrice = Math.min(...prices);
-                        const highestPrice = Math.max(...prices);
-                        if (product.variants.length < 1) {
-                            return null
-                        }
-
-                        if (product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
-                            return null
-                        } else {
-                            return (
-                            <div key={product.id} className='col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2'>
-                                <ProductModal product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
-                            </div>
-                            )
-                        }
-                        }) : (
-                        <div className='col-span-12 flex justify-center w-full h-1/2 text-center'>
-                            <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available other products right now!</h1>
+                    {!isLoading ? (
+                        <Products products={data?.others} noProducts='There are no available other products right now!' selectedIndex={selectedIndex}/>
+                    ):(
+                        <div>
+                            <RotatingLinesLoading/>
                         </div>
-                        )}
-                    </div>
+                    )}
+                    
                 </Tab.Panel>
             </Tab.Panels>
+            ):(
+                <div>
+                    <RotatingLinesLoading/>
+                </div>
+            )}
         </Tab.Group>
     </div>
   )
