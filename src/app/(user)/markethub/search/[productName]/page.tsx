@@ -19,21 +19,14 @@ const page = async ({
         }
         })
 
-    
     const getProductByname = await prisma.product.findMany({
         where:{
             name:{
                 contains: communityName,
             },
             status:"APPROVED",
-            isFree: false,
-            variants:{
-                some: {
-                    variant: {
-                        not: 0
-                    }
-                }
-            }
+
+            
         },
         include:{
             community: true,
@@ -47,7 +40,7 @@ const page = async ({
     <div>
         <div className='w-full flex justify-center md:justify-start'>
             <div className='w-1/2'>
-                <SearchBar/>
+                <SearchBar allProduct={AllProducts}/>
             </div>
         </div>
         <div className='my-5 text-xl font-poppins font-semibold'>
