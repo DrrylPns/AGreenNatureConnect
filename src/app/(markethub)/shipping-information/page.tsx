@@ -76,16 +76,30 @@ function shippingInfo() {
         }
        
     }
-    const onSubmit: SubmitHandler<FormFields> = async (data) =>{
+    const onSubmit: SubmitHandler<FormFields> = async (data) => {
         try {
-           await axios.post(`/api/markethub/shippingInfo`,{data})
-           .then(()=>{
-            router.replace(`/cart/checkout`)
-           })
+          const response = await fetch(`/api/markethub/shippingInfo`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ data }),
+          });
+      
+          if (response.ok) {
+            // Optionally, you can handle the response data here
+            const responseData = await response.json();
+            
+            // Replace the route after successful submission
+            router.replace(`/cart/checkout`);
+          } else {
+            console.error('Error submitting form:', response.statusText);
+          }
         } catch (error) {
-            console.log(error)
+          console.error('Error submitting form:', error);
         }
-    }
+      };
+      
 
   return (
     <div>

@@ -4,6 +4,37 @@ import { DeclineProductSchema } from "@/lib/validations/employee/products";
 import { revalidatePath } from "next/cache";
 import { NextResponse } from "next/server";
 
+export async function GET(req: Request) {
+    try {
+        const session = await getAuthSession();
+        if (!session?.user) {
+            return new Response("Unauthorized", { status: 401 });
+        }
+        const cancelledTransactions = await prisma.transaction.findMany({
+            where:{
+                buyerId: session.user.id,
+                status: "CANCELLED"
+            },
+            orderBy:{
+                updatedAt: 'desc'
+            },
+            include:{
+                buyer: true,
+                seller: true,
+                orderedVariant: {
+                    include:{
+                        product: true,
+                        variant: true
+                    }
+                }
+            }
+        })
+        return new Response(JSON.stringify(cancelledTransactions), {status: 200})
+    } catch (error) {
+        return new Response(JSON.stringify({message: 'Error:', error}))
+    }
+};
+
 
 export async function PUT(req: Request) {
     try {
@@ -42,3 +73,5 @@ export async function PUT(req: Request) {
         return new NextResponse('Could not update the transaction', { status: 500 });
     }
 }
+
+

@@ -6,7 +6,7 @@ export async function GET(req: Request, res: NextApiResponse) {
     try {
         const {searchParams} = new URL(req.url);
         const communityId = searchParams.get("communityId");
-        const allProducts = await prisma.product.findMany({
+        const fruits = await prisma.product.findMany({
             where:{
               communityId: communityId ? communityId : undefined,
               isFree: {
@@ -15,6 +15,10 @@ export async function GET(req: Request, res: NextApiResponse) {
               status:{
                   equals: "APPROVED"
               },
+              category:{
+                  equals:"Fruits"
+              },
+              
             },
             include:{
               community: true,
@@ -22,7 +26,7 @@ export async function GET(req: Request, res: NextApiResponse) {
             }
            
           })
-        return new Response(JSON.stringify(allProducts))
+        return new Response(JSON.stringify(fruits))
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))
     }

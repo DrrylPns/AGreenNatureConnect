@@ -21,7 +21,6 @@ type PostProps = {
 }
 export default function Post() {
   const pref = useRef<HTMLDivElement>(null);
-  const [posts, setPosts] = useState<Post[]>([]);
   const {ref, inView} = useInView();
   useEffect(() => {
     if(inView && hasNextPage){
