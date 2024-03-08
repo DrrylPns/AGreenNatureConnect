@@ -48,25 +48,25 @@ const page: FC<Props> = async({ params }) => {
         </div>
         <Suspense fallback={<Loading/>}>
             <div>
-                <div className=' py-3 px-3 rounded-2xl mx-72 bg-[#24643B] mt-5'>
-                <div className='border-2 border-black'>
-                    <div><h1 className='bg-[#FAD52F] py-5 text-center font-bold'>Ref No.{transaction?.referenceId}</h1></div>
+                <div className='mt-5 mx-96 font-poppins'>
+                <div className='border-2   border-[#3b754a] shadow-2xl'>
+                    <div><h1 className=' py-5 text-center font-bold border-2 border-b-[#ebefbb] border-white mx-4'>Ref No.{transaction?.referenceId}</h1></div>
                     
-                    <div className='bg-[#ffffff] max-md:px-3 max-md:pt-3 max-md:mx-12 shadow-lg  flex flex-auto'>
-                        <h1 className='text-center py-2 px-3 pr-14'><span className='font-bold'>Barangay:</span> {transaction?.seller.name}</h1>
+                    <div className='bg-[#ffffff] max-md:px-3 max-md:pt-3 max-md:mx-12'>
+                        <h1 className='pt-3 pl-20 pt'><span className='font-bold'>Barangay:</span><span className='text-[#686464] ml-16 pl-2'> {transaction?.seller.name}</span></h1>
                 
-                        <h1 className='text-center py-2 px-3 pl-14'><span className='font-bold'>Date:</span> {getDateFormatted()}</h1>
-                    </div>   
-                        <div className='bg-[#ffffff] py-2 pl-3 border-2 border-t-[#3b3b3b]'><h1>Recepient: {transaction?.buyer.name}</h1></div>
+                        <h1 className='py-3 pl-20'><span className='font-bold'>Date:</span><span className='text-[#686464] ml-28'> {getDateFormatted()}</span></h1>
+                    </div>  <br/>
+                        <div className='bg-[#ffffff] py-2 pl-20'><h1><span className='font-bold'>Recepient:</span><span className='text-[#686464] ml-14 pl-4'> "{transaction?.buyer.name}"</span></h1></div>
                     <div className='bg-[#ffffff]'>
-                            <h1 className='text-center py-3 bg-[#d1e6d9]'><span className='font-bold'>Status:</span> {transaction?.status}</h1>
-                        <div  className='bg-[#D9D9D9] rounded-full border-2 border-black text-center mt-2 py-2 font-bold mx-40'><h1>Total: {transaction?.amount}</h1></div><br/>
-                        <h1 className=' px-5 text-justify'>"Please claim your purchase on {getDateFormatted()} at Barangay {transaction?.seller.name} "</h1><br/>          
+                            <h1 className='py-3 pl-20'><span className='font-bold'>Status:</span><span className='text-[#686464] ml-24 pl-1'> {transaction?.status}</span></h1><br/>
+                        <div  className='border-2 border-t-grey border-white mt-2 py-2 pl-20 font-bold'><h1>Total: <span className='text-[#205330] ml-28 px-5 border-2 border-b-black border-white'> {transaction?.amount}</span></h1></div><br/><br/>
+                        <h1 className=' mx-5 py-2 text-center text-[#459d62] border-2 border-t-[#2c2d22] border-white'>"Please claim your purchase on {getDateFormatted()} at Barangay {transaction?.seller.name} "</h1>        
                     </div>
                     </div>
                 </div>
 
-            </div>
+            </div><br/>
         </Suspense>
     </div>
   )
