@@ -10,6 +10,8 @@ import React, { Fragment, useState } from 'react'
 import { z } from 'zod';
 import Card from './Card';
 import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
+import { useLocalStorage } from '@/app/(markethub)/hooks/useLocalStorage';
 
 interface Product {
   id: string;
@@ -63,8 +65,9 @@ function ProductModal({
     const [isOpen, setIsOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null);
-
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState(false);
+    const { setItem } = useLocalStorage('product')
 
 
     function closeModal() {
@@ -108,6 +111,11 @@ function ProductModal({
       } finally {
         setIsLoading(false)
       }
+    }
+
+    const handleBuyNow = async ()=>{
+      router.push('/buy-now')
+      setItem({selectedProduct, selectedVariant})
     }
     
   return (
@@ -238,7 +246,7 @@ function ProductModal({
                       <button
                         type="button"
                         className="w-1/2 bg-[#24643B] py-5"
-                        onClick={closeModal}
+                        onClick={() => handleBuyNow()}
                       >
                         Buy Now
                       </button>

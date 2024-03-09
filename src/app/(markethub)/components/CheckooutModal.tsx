@@ -59,7 +59,7 @@ function CheckoutModal({}: {}) {
       throw new Error(`Error fetching Shipping info: ${error.message}`);
     }
   }
-  console.log(`This is the shipping Info: ${shippingInfo}`)
+
   //Close the modal
   function closeModal() {
     setIsOpen(false);
