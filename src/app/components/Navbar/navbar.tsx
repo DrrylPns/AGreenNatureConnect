@@ -16,6 +16,7 @@ export default function Navbar() {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -97,6 +98,7 @@ export default function Navbar() {
           </motion.button>
         </ul>
       </motion.div>
+      
       <motion.button
         className="sm:hidden text-white text-[2rem]"
         onClick={toggleMobileMenu}

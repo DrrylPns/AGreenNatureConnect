@@ -85,7 +85,7 @@ export type FormType = z.infer<typeof DeclineProductSchema>
 
 export const DeclineProductSchema = z.object({
     transactionId: z.string().optional(),
-    type: z.enum(["LackOfProducts", "EnvironmentalProblem", "others"], {
+    type: z.enum(["OutOfStock", "PaymentIssues", "AddressVerification", "SellerError", "NonResponsiveBuyer", "ViolationOfPolicies", "ShippingRestrictions", "ProductDiscontinuation", "SystemErrors", "Others"], {
         required_error: "You need to select a reason for cancelling.",
     }),
     otherReason: z.string({

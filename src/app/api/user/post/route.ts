@@ -68,7 +68,7 @@ export async function POST(req: Request) {
 
 //Deleteng Post
 export async function DELETE(req: NextRequest) {
-
+    
 }
 
 export async function HEAD(req: NextRequest) {
