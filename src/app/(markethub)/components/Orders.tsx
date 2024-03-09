@@ -2,13 +2,13 @@ import RelativeDate from '@/app/components/RelativeDate';;
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
+import { CancelDrawer } from './CancelDrawer';
 
 interface OrdersProps {
     selectedIndex: number;
     noOrders: string;
     transactions: Transaction[];
     cancelBtnDisplay: "block" | "hidden";
-    handleCancel: (transactionId: string) => void;
     status: string;
   }
   interface Transaction {
@@ -64,7 +64,7 @@ interface Product {
 }
  
 
-const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transactions, cancelBtnDisplay, handleCancel }) =>{
+const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transactions, cancelBtnDisplay }) =>{
 
   return (
     <div className='w-full min-h-screen font-poppins transition-all ease-in-out duration-500 '>
@@ -98,12 +98,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             ))}
                         </div>
                         <div className={`${cancelBtnDisplay}`}>
-                            <button 
-                                className={`${cancelBtnDisplay} px-3 py-1 sm:px-5 sm:py-2 md:px-10 md:py-3 rounded-md text-sm md:text-xl bg-red-500 text-white font-medium font-poppins transition-all ease-in-out duration-500`}
-                                onClick={() => handleCancel(transaction.id)}
-                                >
-                                    Cancel
-                            </button>
+                            <CancelDrawer/>
                         </div>
                     </div>
                     <div className='flex justify-between w-full border-y-2 text-right border-gray-300 bg-gray-200 px-5 md:px-10 py-2 md:py-4 transition-all ease-in-out duration-500'>
