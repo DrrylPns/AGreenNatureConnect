@@ -27,6 +27,7 @@ const page: FC<Props> = ({ params }) => {
   const [posts, setPosts] = useState<Post>();
   const [comments, setComments] = useState<Comment>();
   const router = useRouter();
+  const { data: session } = useSession();
 
   useEffect(() => {
     fetchPost();
@@ -99,28 +100,36 @@ const page: FC<Props> = ({ params }) => {
                 </h3>
               </div>
             </div>
-            <Popover>
-              <Popover.Button>
-                <FaEllipsis />
-              </Popover.Button>
-              <Transition
-                enter="transition duration-100 ease-out"
-                enterFrom="transform scale-95 opacity-0"
-                enterTo="transform scale-100 opacity-100"
-                leave="transition duration-75 ease-out"
-                leaveFrom="transform scale-100 opacity-100"
-                leaveTo="transform scale-95 opacity-0"
-              >
-                <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                  <button
-                    type="button"
-                    className="flex gap-1 hover:underline w-full"
-                  >
-                    <AiOutlineEdit /> Edit
-                  </button>
-                </Popover.Panel>
-              </Transition>
-            </Popover>
+            {posts.authorId === session?.user?.id && (
+              <Popover>
+                <Popover.Button>
+                  <FaEllipsis />
+                </Popover.Button>
+                <Transition
+                  enter="transition duration-100 ease-out"
+                  enterFrom="transform scale-95 opacity-0"
+                  enterTo="transform scale-100 opacity-100"
+                  leave="transition duration-75 ease-out"
+                  leaveFrom="transform scale-100 opacity-100"
+                  leaveTo="transform scale-95 opacity-0"
+                >
+                  <Popover.Panel className="absolute top-0 max-md:right-2 right-0  bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+                    <button
+                      type="button"
+                      className="flex gap-1 hover:underline w-full"
+                    >
+                      <AiOutlineEdit /> Edit
+                    </button>
+                    <button
+                      type="button"
+                      className="flex gap-1 hover:underline w-full"
+                    >
+                      <AiOutlineEdit /> Delete
+                    </button>
+                  </Popover.Panel>
+                </Transition>
+              </Popover>
+            )}
           </div>
           <h1 className="text-[1.5rem] font-poppins font-extrabold">
             {posts.title}

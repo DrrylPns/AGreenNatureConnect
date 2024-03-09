@@ -265,7 +265,7 @@ const Editor = () => {
             <div className="relative mt-1g-transparent">
               <div className="">
                 <Combobox.Input
-                  className="py-2 leading-5 outline-none text-gray-900 bg-transparent text-xl"
+                  className="py-2 leading-5 outline-none text-gray-900 dark:text-white bg-transparent text-xl"
                   displayValue={(topic: Topic) => topic.name}
                   onChange={(event) => setQuery(event.target.value)}
                   placeholder="Choose topic here"
@@ -284,9 +284,9 @@ const Editor = () => {
                 leaveTo="opacity-0"
                 afterLeave={() => setQuery("")}
               >
-                <Combobox.Options className="absolute mt-1 max-h-60 w-full z-50 overflow-auto rounded-md bg-white dark:bg-black py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                <Combobox.Options className="absolute mt-1 max-h-60 w-full z-50 overflow-auto rounded-md bg-white dark:bg-black dark:text-white py-1 text-base ring-1 ring-black/5 focus:outline-none sm:text-sm">
                   {filteredTopic.length === 0 && query !== "" ? (
-                    <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                    <div className="relative cursor-default select-none py-2 px-4 text-gray-700 dark:text-white">
                       Nothing found.
                     </div>
                   ) : (
@@ -296,8 +296,8 @@ const Editor = () => {
                         className={({ active }) =>
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
-                              ? " bg-muted-green text-white dark:text-gray-900"
-                              : "text-gray-900"
+                              ? " bg-muted-green text-white dark:text-white"
+                              : "text-white"
                           }`
                         }
                         value={topic}
