@@ -81,7 +81,7 @@ function OrderTab({
 
     const handleCancel = async(transactionId : string)=>{
         setIsLoading(true)
-        await axios.post('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
+        await axios.put('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
             router.refresh()
         })
         setIsLoading(false)

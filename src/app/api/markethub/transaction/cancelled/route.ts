@@ -11,27 +11,27 @@ export async function GET(req: Request) {
             return new Response("Unauthorized", { status: 401 });
         }
         const cancelledTransactions = await prisma.transaction.findMany({
-            where:{
+            where: {
                 buyerId: session.user.id,
                 status: "CANCELLED"
             },
-            orderBy:{
+            orderBy: {
                 updatedAt: 'desc'
             },
-            include:{
+            include: {
                 buyer: true,
                 seller: true,
                 orderedVariant: {
-                    include:{
+                    include: {
                         product: true,
                         variant: true
                     }
                 }
             }
         })
-        return new Response(JSON.stringify(cancelledTransactions), {status: 200})
+        return new Response(JSON.stringify(cancelledTransactions), { status: 200 })
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 };
 
@@ -70,7 +70,7 @@ export async function PUT(req: Request) {
         return new Response(JSON.stringify(cancelOrderById));
     } catch (error) {
         console.error("Error updating transaction:", error);
-        return new NextResponse('Could not update the transaction', { status: 500 });
+        return new NextResponse(`Could not update transaction: ${error}`, { status: 500 });
     }
 }
 
