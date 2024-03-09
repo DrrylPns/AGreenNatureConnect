@@ -2,17 +2,23 @@
 import Link from "next/link";
 import React, { Fragment, useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
-import { IoIosAddCircleOutline } from "react-icons/io";
+import { IoIosAddCircleOutline, IoIosRadioButtonOff, IoIosRadioButtonOn } from "react-icons/io";
 import { useRouter } from "next/navigation";
 import { Cart, ShippingInfo } from "@/lib/types";
 import Image from "next/image";
 import { RotatingLines } from "react-loader-spinner";
 import { FaArrowLeft } from "react-icons/fa";
 import axios from "axios";
-import { Dialog, Transition } from "@headlessui/react";
+import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useQuery } from "@tanstack/react-query";
 import { useCart } from "@/contexts/CartContext";
+
+const PaymentMethod = [
+  'Cash on delivery',
+  'Gcash',
+ 
+]
 
 function CheckoutModal({}: {}) {
   const [checkoutItems, setCheckoutItems] = useState<Cart[]>([]);
@@ -24,6 +30,13 @@ function CheckoutModal({}: {}) {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const { cartNumber, setCartNumber } = useCart();
+  const [selectedValue, setSelectedValue] = useState('');
+  const [method, setMethod] = useState(PaymentMethod[0])
+
+  // Function to handle the change event of the select element
+  const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedValue(event.target.value);
+  };
 
   useEffect(() => {
     setItems();
@@ -109,7 +122,7 @@ function CheckoutModal({}: {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Items: checkoutItems }),
+        body: JSON.stringify({ Items: checkoutItems, paymentMehthod: method }),
       });
   
       if (response.ok) {
@@ -125,7 +138,6 @@ function CheckoutModal({}: {}) {
     }
   };
   
-
   return (
     <div>
       {!isProcessing ? (
@@ -156,7 +168,9 @@ function CheckoutModal({}: {}) {
           )} 
           
           {shippingInfo && (
-            <div className="flex bg-muted-green min-w-full px-5 md:px-10 py-5 text-white">
+            <div className="border-gray-300 border-2 bg-gray-50 sm:mx-[10%] shadow-md drop-shadow-lg p-5">
+              <h1 className="text-sm md:text-2xl font-poppins font-semibold text-center">Shipping Information</h1>
+            <div className="flex  px-10  md:px-10 py-5 text-black">
               <div className="text-4xl text-red-600">
                 <FaLocationDot />
               </div>
@@ -180,16 +194,20 @@ function CheckoutModal({}: {}) {
                 </button>
               </div>
             </div>
+            </div>
           )}
 
           {loading != true ? (
             <>
-              <div className="px-3 pb-32 md:px-[20%]">
+              <div className="flex flex-col-reverse sm:flex-row sm:justify-around px-3 pb-32 md:px-[5%] md:mt-5">
+                
+                <div className="w-full sm:w-[60%] p-5 rounded-lg border-2 bg-white border-gray-300 shadow-md min-h-[20vh] drop-shadow-lg">
+                <h3 className="text-center font-medium">Check out items</h3>
                 {Object.entries(groupedItems).map(
                   ([communityName, communityItems]) => (
                     <div
                       key={communityName}
-                      className="mb-5 pb-2 bg-gray-50 shadow-sm drop-shadow-md"
+                      className="mb-5 pb-2 w-full bg-gray-50 shadow-sm drop-shadow-md"
                     >
                       <div className="flex items-center gap-20 border-y-2 bg-gray-100 border-gray-300 py-2 px-10">
                         <h2
@@ -228,7 +246,7 @@ function CheckoutModal({}: {}) {
                           </div>
                         </div>
                       ))}
-                      <div className="p-5 font-semibold text-[0.6rem] md:text-lg">
+                      <div className="flex justify-between p-5 font-semibold text-[0.6rem] md:text-lg">
                         <h1 className="">
                           Order Total:{" "}
                           <span>₱ {subtotalByBarangay[communityName]}</span>
@@ -237,6 +255,27 @@ function CheckoutModal({}: {}) {
                     </div>
                   )
                 )}
+                </div>
+                <RadioGroup value={method} onChange={setMethod} className="sm:min-h-32 sm:w-[20%] bg-gray-50 p-5 rounded-lg border-2 border-gray-300 shadow-md min-h-[20vh] drop-shadow-lg">
+                  <RadioGroup.Label className="">Select payment method:</RadioGroup.Label>
+                  {PaymentMethod.map((payment) => (
+                    <RadioGroup.Option key={payment} value={payment} className={`flex ml-5 mt-3 items-center gap-4 text-xl font-poppins`}>
+                       {({ checked }) => (
+                        <>
+                        <span className={`${checked && 'text-green'} text-xl`}>
+                          {checked ? <IoIosRadioButtonOn  /> : <IoIosRadioButtonOff /> }
+                        
+                        </span>
+                        {payment}
+                        </>
+                        )}
+                    </RadioGroup.Option>
+                  ))}
+                  <div>
+                    <h1 className="mt-5">Note:</h1>
+                    <p className="text-[0.8rem] text-gray-500">Each item may originate from a distinct community; therefore, kindly ensure that the selected payment method is acceptable to you. The choice made here will serve as the designated payment method for all items during the checkout process.</p>
+                  </div>
+                </RadioGroup>
               </div>
             </>
           ) : (
@@ -263,7 +302,7 @@ function CheckoutModal({}: {}) {
             <button
               onClick={openModal}
               disabled={loading ? true : false}
-              className="w-1/2 text-xs sm:text-2xl bg-yellow-400"
+              className="w-1/2 text-xs sm:text-2xl tracking-wider font-semibold font-poppins bg-yellow-400"
             >
               Place Order
             </button>
@@ -296,12 +335,12 @@ function CheckoutModal({}: {}) {
                     <Dialog.Panel className="w-full max-w-md transform overflow-hidden rounded-2xl bg-white p-6 text-left align-middle shadow-xl transition-all">
                       <Dialog.Title
                         as="h3"
-                        className="text-lg font-medium leading-6 text-gray-900"
+                        className="text-xl font-bold leading-6 text-gray-900"
                       >
                         Are you sure you want to place your order?
                       </Dialog.Title>
 
-                      <div className="mt-2">
+                      <div className="my-4">
                         <h1 className="text-sm text-black font-poppins font-medium">
                           Note:
                         </h1>
