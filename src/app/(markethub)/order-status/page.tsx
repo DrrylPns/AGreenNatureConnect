@@ -1,50 +1,111 @@
-'use client'
+import prisma from "@/lib/db/db";
 import OrderTab from "../components/OrderTab";
-import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
+import { useSession } from "next-auth/react";
+import { redirect } from "next/navigation";
+import { getAuthSession } from "@/lib/auth";
 
-function page() {
-
-    const {data: Pending} = useQuery({
-        queryKey: ['pending'],
-        queryFn: async() =>{
-            const res = await axios.get(`/api/markethub/transaction/pending`)
-
-            return res.data
+async function page() {
+    const session = await getAuthSession()
+    if(!session){
+        redirect('/markethub')
+    }
+    const Pending = await prisma.transaction.findMany({
+        where:{
+            buyerId: session.user.id,
+            status: "PENDING"
+        },
+        orderBy:{
+            updatedAt: 'desc'
+        },
+        include:{
+            buyer: true,
+            seller: true,
+            orderedVariant: {
+                include:{
+                    product: true,
+                    variant: true
+                }
+            }
         }
     })
-    const {data: Approved} = useQuery({
-        queryKey: ['pending'],
-        queryFn: async() =>{
-            const res = await axios.get(`/api/markethub/transaction/approved`)
-
-            return res.data
+    const Approved = await prisma.transaction.findMany({
+        where:{
+            buyerId: session.user.id,
+            status: "APPROVED"
+        },
+        orderBy:{
+            updatedAt: 'desc'
+        },
+        include:{
+            buyer: true,
+            seller: true,
+            orderedVariant: {
+                include:{
+                    product: true,
+                    variant: true
+                }
+            }
         }
     })
-    const {data: Pickup} = useQuery({
-        queryKey: ['pending'],
-        queryFn: async() =>{
-            const res = await axios.get(`/api/markethub/transaction/pickUp`)
-
-            return res.data
+    const Pickup = await prisma.transaction.findMany({
+        where:{
+            buyerId: session.user.id,
+            status: "PICK_UP"
+        },
+        orderBy:{
+            updatedAt: 'desc'
+        },
+        include:{
+            buyer: true,
+            seller: true,
+            orderedVariant: {
+                include:{
+                    product: true,
+                    variant: true
+                }
+            }
         }
     })
-    const {data: Cancelled} = useQuery({
-        queryKey: ['pending'],
-        queryFn: async() =>{
-            const res = await axios.get(`/api/markethub/transaction/cancelled`)
-
-            return res.data
+    const Completed = await prisma.transaction.findMany({
+        where:{
+            buyerId: session.user.id,
+            status: "COMPLETED"
+        },
+        orderBy:{
+            updatedAt: 'desc'
+        },
+        include:{
+            buyer: true,
+            seller: true,
+            orderedVariant: {
+                include:{
+                    product: true,
+                    variant: true
+                }
+            }
         }
     })
-    const {data: Completed} = useQuery({
-        queryKey: ['pending'],
-        queryFn: async() =>{
-            const res = await axios.get(`/api/markethub/transaction/completed`)
-
-            return res.data
+    const Cancelled = await prisma.transaction.findMany({
+        where:{
+            buyerId: session.user.id,
+            status: "CANCELLED"
+        },
+        orderBy:{
+            updatedAt: 'desc'
+        },
+        include:{
+            buyer: true,
+            seller: true,
+            orderedVariant: {
+                include:{
+                    product: true,
+                    variant: true
+                }
+            }
         }
     })
+   
+    console.log(Pending)
   return (
      <div>
      {Pending === undefined && Approved === undefined && Pickup === undefined && Completed === undefined && Cancelled === undefined ? (
