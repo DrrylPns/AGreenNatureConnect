@@ -75,7 +75,7 @@ interface Product {
 }
 
 
-const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transactions, cancelBtnDisplay, handleCancel }) => {
+const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transactions, cancelBtnDisplay, }) => {
     const form = useForm<z.infer<typeof DeclineProductSchema>>({
         resolver: zodResolver(DeclineProductSchema),
     })
