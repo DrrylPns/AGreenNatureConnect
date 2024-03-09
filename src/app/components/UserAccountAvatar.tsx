@@ -42,6 +42,7 @@ const UserAccountAvatar: React.FC = ({}) => {
           </div>
         </div>
       </div>
+      
       <div className="block max-md:hidden">
         <div
           onClick={toggleOpen}

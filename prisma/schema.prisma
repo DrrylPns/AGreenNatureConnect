@@ -115,11 +115,11 @@ model Session {
 
 // mga possible idagdag sa community: address, description, etc... consult sa members
 model Community {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  qrCode   String?
+  id               String             @id @default(cuid())
+  name             String             @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  qrCode           String?
   posts            Post[]
   blogs            Blog[]
   articles         Article[]
@@ -433,12 +433,12 @@ model Variant {
 }
 
 model Transaction {
-  id          String            @id @default(cuid())
-  referenceId String            @unique
-  amount      Float // order total
-  status      TransactionStatus @default(PENDING)
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
+  id           String            @id @default(cuid())
+  referenceId  String            @unique
+  amount       Float // order total
+  status       TransactionStatus @default(PENDING)
+  createdAt    DateTime          @default(now())
+  updatedAt    DateTime          @updatedAt
   cancelReason String?
   cancelType   CancelType?
 
@@ -455,9 +455,16 @@ model Transaction {
 }
 
 enum CancelType {
-  LackOfProducts
-  EnvironmentalProblem
-  others
+  OutOfStock
+  PaymentIssues
+  AddressVerification
+  SellerError
+  NonResponsiveBuyer
+  ViolationOfPolicies
+  ShippingRestrictions
+  ProductDiscontinuation
+  SystemErrors
+  Others
 }
 
 enum TransactionStatus {

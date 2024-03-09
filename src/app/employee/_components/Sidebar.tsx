@@ -1,5 +1,5 @@
 "use client"
-import { BookOpen, FileText, Home, ListChecks, LogOut, PlaySquare, Speech, Store, User } from 'lucide-react'
+import { BookOpen, FileClock, FileText, History, Home, ListChecks, LogOut, PlaySquare, Speech, Store, User } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { signOut } from 'next-auth/react';
@@ -27,7 +27,7 @@ const Sidebar = ({
           </Link>
         </div>
 
-        <div className='flex flex-col text-[16px] gap-7 mb-[350px]'>
+        <div className='flex flex-col text-[16px] gap-7 mb-[350px] mt-11'>
           <Link className='flex flex-row gap-3' href={"/employee"}>
             <Home strokeWidth={1} />
             Dashboard
@@ -70,6 +70,18 @@ const Sidebar = ({
             className='flex flex-row gap-3'>
             <ListChecks strokeWidth={1} />
             Orders Approval
+          </Link>
+
+          <Link href="/employee/history"
+            className='flex flex-row gap-3'>
+            <FileClock strokeWidth={1} />
+            Transaction History
+          </Link>
+
+          <Link href="/employee/reports"
+            className='flex flex-row gap-3'>
+            <History strokeWidth={1} />
+            Reports
           </Link>
 
         </div>
