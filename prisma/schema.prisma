@@ -402,8 +402,9 @@ model Product {
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  isFreeUntil DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
 
   community      Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId    String
@@ -433,14 +434,15 @@ model Variant {
 }
 
 model Transaction {
-  id           String            @id @default(cuid())
-  referenceId  String            @unique
-  amount       Float // order total
-  status       TransactionStatus @default(PENDING)
-  createdAt    DateTime          @default(now())
-  updatedAt    DateTime          @updatedAt
-  cancelReason String?
-  cancelType   CancelType?
+  id            String            @id @default(cuid())
+  referenceId   String            @unique
+  amount        Float // order total
+  status        TransactionStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  cancelReason  String?
+  cancelType    CancelType?
+  paymentMethod String?
 
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
@@ -455,6 +457,7 @@ model Transaction {
 }
 
 enum CancelType {
+  //Employee side
   OutOfStock
   PaymentIssues
   AddressVerification
@@ -464,6 +467,15 @@ enum CancelType {
   ShippingRestrictions
   ProductDiscontinuation
   SystemErrors
+
+  //user side
+  ChangeOfMind
+  FoundBetterDeal
+  UnavailabilityOfItem
+  DeliveryDelay
+  IncorrectItem
+  CommunicationIssues
+  //ALL
   Others
 }
 

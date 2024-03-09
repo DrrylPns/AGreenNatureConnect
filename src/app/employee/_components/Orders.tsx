@@ -118,7 +118,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
         },
         onSuccess: (data) => {
             toast({
-                description: `Successfully declined product.`,
+                description: `Successfully declined the transaction.`,
                 variant: 'default',
             })
 
@@ -129,15 +129,6 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
     })
 
     function onSubmit(values: FormType, transactionId: string) {
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            ),
-        })
-
         const payload: FormType = {
             transactionId,
             type: values.type,
