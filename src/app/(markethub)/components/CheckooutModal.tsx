@@ -168,10 +168,10 @@ function CheckoutModal({}: {}) {
           )} 
           
           {shippingInfo && (
-            <div className="border-gray-300 border-2 bg-gray-50 sm:mx-[10%] shadow-md drop-shadow-lg p-5">
+            <div className="mx-3 border-gray-300 border-2 bg-gray-50 sm:mx-[10%] shadow-md drop-shadow-lg p-5">
               <h1 className="text-sm md:text-2xl font-poppins font-semibold text-center">Shipping Information</h1>
-            <div className="flex  px-10  md:px-10 py-5 text-black">
-              <div className="text-4xl text-red-600">
+            <div className="block sm:flex px-3  md:px-10 py-5 text-black">
+              <div className="hidden sm:block text-4xl text-red-600">
                 <FaLocationDot />
               </div>
               <div className="ml-10 text-sm md:text-md lg:text-lg">
@@ -202,7 +202,7 @@ function CheckoutModal({}: {}) {
               <div className="flex flex-col-reverse sm:flex-row sm:justify-around px-3 pb-32 md:px-[5%] md:mt-5">
                 
                 <div className="w-full sm:w-[60%] p-5 rounded-lg border-2 bg-white border-gray-300 shadow-md min-h-[20vh] drop-shadow-lg">
-                <h3 className="text-center font-medium">Check out items</h3>
+                <h3 className="text-center  font-medium">Check out items</h3>
                 {Object.entries(groupedItems).map(
                   ([communityName, communityItems]) => (
                     <div

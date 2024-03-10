@@ -115,20 +115,20 @@ function page() {
               )} 
               
               {shippingInfo && (
-                <div className="border-gray-300 border-2 bg-gray-50 sm:mx-[10%] shadow-md drop-shadow-lg p-5">
+                <div className="mx-3 border-gray-300 border-2 bg-gray-50 sm:mx-[10%] shadow-md drop-shadow-lg p-5">
                   <h1 className="text-sm md:text-2xl font-poppins font-semibold text-center">Shipping Information</h1>
-                <div className="flex  px-10  md:px-10 py-5 text-black">
-                  <div className="text-4xl text-red-600">
+                <div className="block sm:flex px-3  md:px-10 py-5 text-black">
+                  <div className="hidden sm:block text-4xl text-red-600">
                     <FaLocationDot />
                   </div>
-                  <div className="ml-10 text-sm md:text-md lg:text-lg">
-                    <h3>Full Name : {shippingInfo.name}</h3>
+                  <div className="sm:ml-10 mb-5 sm:mb-0 text-sm md:text-md lg:text-lg text-gray-500">
+                    <h3>Full Name : <span className='text-black'>{shippingInfo.name}</span></h3>
                     <h3 className="text text-wrap">
-                      Address: {shippingInfo.address}{" "}
+                      Address:{" "} <span className='text-black'>{shippingInfo.address}</span>
                     </h3>
-                    <h3>Email : {shippingInfo.email}</h3>
-                    <h3>Contact Number : {shippingInfo.phoneNumber}</h3>
-                    <h3>Facebook : {shippingInfo.facebook}</h3>
+                    <h3>Email : <span className='text-black'>{shippingInfo.email}</span></h3>
+                    <h3>Contact Number : <span className='text-black'>{shippingInfo.phoneNumber}</span></h3>
+                    <h3>Facebook : <span className='text-black'>{shippingInfo.facebook}</span></h3>
                   </div>
                   <div className="flex justify-center items-center ml-auto">
                     <button
@@ -193,7 +193,9 @@ function page() {
                           <div className="flex justify-between p-5 font-semibold text-[0.6rem] md:text-lg">
                             <h1 className="">
                               Order Total:{" "}
-                              <span>₱ {item?.selectedVariant.price}</span>
+                              <span>₱ {item?.selectedProduct.isFree == true
+                                    ? "Free"
+                                    : `₱ ${item?.selectedVariant.price}`}</span>
                             </h1>
                           </div>
                         </div>
