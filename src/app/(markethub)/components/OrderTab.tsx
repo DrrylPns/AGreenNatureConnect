@@ -79,13 +79,6 @@ function OrderTab({
     const [isLoading, setIsLoading ] = useState<boolean>(false);
     const [animate, setAnimate] = useState<boolean>(false)
 
-    const handleCancel = async(transactionId : string)=>{
-        setIsLoading(true)
-        await axios.put('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
-            router.refresh()
-        })
-        setIsLoading(false)
-    }
 
     const handleGoBack = () => {
         setIsLoading(true)
@@ -146,7 +139,6 @@ function OrderTab({
                     transactions={pending} 
                     noOrders='No pending orders right now!'
                     cancelBtnDisplay='block'
-                    handleCancel={handleCancel}
                     status='Waiting to be approve.'
                     />
                 ):(
@@ -163,7 +155,6 @@ function OrderTab({
                     transactions={approved} 
                     noOrders='No approved orders right now!'
                     cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
                     status='Approved'
                 />
                 ):(
@@ -181,7 +172,6 @@ function OrderTab({
                     transactions={pickup} 
                     noOrders='No orders are ready to be pick up!'
                     cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
                     status='Ready to be pickup!'
                 />
                 ):(
@@ -199,7 +189,6 @@ function OrderTab({
                     transactions={completed} 
                     noOrders='No completed orders!'
                     cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
                     status='Completed'
                 />
                 ):(
@@ -216,7 +205,6 @@ function OrderTab({
                         transactions={cancelled} 
                         noOrders='No cancelled orders!'
                         cancelBtnDisplay='hidden'
-                        handleCancel={handleCancel}
                         status='Cancelled'
                     />  
                 ):(

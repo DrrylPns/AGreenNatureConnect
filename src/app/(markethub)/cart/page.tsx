@@ -10,6 +10,8 @@ import { z } from 'zod';
 import { useLocalStorage } from '../hooks/useLocalStorage';
 import Loading from '../loading';
 import { useCart } from '@/contexts/CartContext';
+import DeleteCartItemModal from '../components/DeleteCartItemModal';
+import { toast } from '@/lib/hooks/use-toast';
 
 function CartPage() {
   const { cartNumber, setCartNumber} = useCart();
@@ -38,16 +40,20 @@ function CartPage() {
     try {
       const response = await axios.get('/api/markethub/cart');
       setCartItems(response.data);
-      console.log(response.data);
     } catch (error) {
       console.log(error);
     }
   };
 
-  const deleteCartItem = async (cartItemId: string) => {
+  const deleteCartItem = async (cartItemId: string, productName: string ) => {
     try {  
       const response = await axios.post(`/api/markethub/cart/deleteCartItem`, {id: cartItemId} );
       setCartNumber((prevCartNumber) => prevCartNumber - 1);
+      toast({
+        title: productName,
+        description: productName + " deleted successfully!",
+        variant: 'default'
+      })
       fetchCartItems();
     } catch (error) {
       if (error instanceof z.ZodError) {
@@ -153,12 +159,7 @@ function CartPage() {
                 <div className='ml-auto'>
                   <h3 className='text-[0.4rem] sm:text-sm '> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
                 </div>
-                <button  
-                  onClick={() => deleteCartItem(item.id)}
-                  className='bg-red-500 text-white px-1 text-[0.6rem] sm:px-3 sm:py-2 rounded'
-                >
-                  Delete
-                </button>
+                <DeleteCartItemModal cartId={item.id} itemName={item.variant.product.name} deleteCartItem={deleteCartItem}/>
               </div>
             ))}
           </div>
