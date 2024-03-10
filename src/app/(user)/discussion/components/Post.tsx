@@ -14,6 +14,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import RotatingLinesLoading from "@/app/(markethub)/components/RotatingLinesLoading";
 import { useSession } from "next-auth/react";
+import { Badge } from "@/components/ui/badge";
 
 type PostProps = {
   getAllPost: Post[];

@@ -73,7 +73,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   }
 
   return (
-    <div className="border-t-2 border-gray-300 dark:border-[#18191A] mb-3 lg:flex items-center">
+    <div className="border-t-4 border-gray-300 dark:border-[#18191A] py-3 lg:flex items-center">
 
       <ReactionList postId={postId} />
 

@@ -1,8 +1,8 @@
 
 import prisma from '@/lib/db/db'
-import Free from '../components/Free';
-import ProductTab from '../components/ProductTab';
-import { ShadcnCarousel } from '../components/sCarousel';
+import Free from '../../components/Free';
+import ProductTab from '../../components/ProductTab';
+import { ShadcnCarousel } from '../../components/sCarousel';
 
 const page = async ({ 
   params,

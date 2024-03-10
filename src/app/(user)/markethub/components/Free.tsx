@@ -22,7 +22,6 @@ async function Free({
                 }
             }
         },
-        take:10,
         include:{
             community:true,
             variants: true

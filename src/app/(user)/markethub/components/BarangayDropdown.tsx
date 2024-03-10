@@ -36,7 +36,7 @@ function BarangayDropdown() {
             <Menu.Item key={community.id} as={Fragment} >
                 <Link 
                   className='hover:bg-pale py-2' 
-                  href={{ pathname:`/markethub/${community.name}`, query:{communityId: community.id}} }>
+                  href={{ pathname:`/markethub/community/${community.name}`, query:{communityId: community.id}} }>
                     {community.name}
                 </Link>
             </Menu.Item>
