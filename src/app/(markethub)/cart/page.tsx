@@ -45,7 +45,7 @@ function CartPage() {
     }
   };
 
-  const deleteCartItem = async (cartItemId: string, productName: string ) => {
+  const deleteCartItem = async (cartItemId: string, productName: string, closeModal:()=>void ) => {
     try {  
       const response = await axios.post(`/api/markethub/cart/deleteCartItem`, {id: cartItemId} );
       setCartNumber((prevCartNumber) => prevCartNumber - 1);
@@ -55,6 +55,7 @@ function CartPage() {
         variant: 'default'
       })
       fetchCartItems();
+      closeModal()
     } catch (error) {
       if (error instanceof z.ZodError) {
         // Handle validation error

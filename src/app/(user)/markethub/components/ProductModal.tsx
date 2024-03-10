@@ -12,6 +12,7 @@ import Card from './Card';
 import { useCart } from '@/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/app/(markethub)/hooks/useLocalStorage';
+import { Button } from '@/components/ui/button';
 
 interface Product {
   id: string;
@@ -82,11 +83,12 @@ function ProductModal({
 
     const handleAddToCart = async () => {
       try {
-      
+        setIsLoading(true)
         const addToCart = await axios.post('/api/markethub/cart', {
           variantId: selectedVariant?.id, communityId: selectedProduct?.communityId
         }).then(res => {
           closeModal()
+          setIsLoading(false)
           toast({
             description: "Added to cart, Successfuly!.",
           })
@@ -235,27 +237,28 @@ function ProductModal({
                   </div>
                   {status === 'authenticated' ? (
                     <div className="w-full ">
-                      <button
+                      <Button
                         type="button"
-                        className="w-1/2 bg-[#FDE63F] py-5"
+                        className="w-1/2 bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleAddToCart()}
                         disabled={selectedVariant == null || isLoading}
                       >
                         {isLoading ? 'Adding to Cart...' : 'Add to Cart'}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
-                        className="w-1/2 bg-[#24643B] py-5"
+                        className="w-1/2 bg-green py-5 outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleBuyNow()}
+                        disabled={selectedVariant == null || isLoading}
                       >
-                        Buy Now
-                      </button>
+                        {isLoading ? 'Processing...' : 'Buy Now'}
+                      </Button>
                     </div>
                   ) : (
                     <div className="w-full ">
                       <button
                         type="button"
-                        className="w-full bg-[#FDE63F] py-5  outline-gray-500 hover:ring-1 hover:outline-1"
+                        className="w-full bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={loginModal.onOpen}
                         disabled={selectedVariant == null ? true : false}
                       >

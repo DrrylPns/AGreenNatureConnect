@@ -4,7 +4,7 @@ import { Fragment, useState } from 'react'
 
 type DeleteCartItemsProp = {
   cartId: string;
-  deleteCartItem: (cartId: string, productName: string) => void;
+  deleteCartItem: (cartId: string, productName: string, closeModal:()=>void) => void;
   itemName: string;
 }
 
@@ -74,7 +74,7 @@ export default function DeleteCartItemModal({cartId, deleteCartItem, itemName }:
                         <button
                           type="button"
                           className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
-                          onClick={()=>deleteCartItem(cartId, itemName)}
+                          onClick={()=>deleteCartItem(cartId, itemName, closeModal)}
                         >
                           Yes
                         </button>
