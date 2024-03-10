@@ -304,9 +304,9 @@ export const columns: ColumnDef<Products>[] =
               variant: "default",
             })
 
-            // setTimeout(() => {
-            //   window.location.reload();
-            // }, 1000);
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
           } catch (error) {
             toast({
               title: "Error",
@@ -420,6 +420,13 @@ export const columns: ColumnDef<Products>[] =
                                       ) : (
                                         <span>Pick a date</span>
                                       )}
+                                      {/* 
+                                      {field.value ? (
+                                        format(field.value, "PPP")
+                                      ) : (
+                                        <span>Pick a date</span>
+                                      )} */}
+
                                       <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
                                     </Button>
                                   </FormControl>
@@ -429,9 +436,16 @@ export const columns: ColumnDef<Products>[] =
                                     mode="single"
                                     selected={field.value}
                                     onSelect={(date) => {
-                                      const localDate = date?.toLocaleString();
-                                      field.onChange(localDate);
-                                      setIsFreeUntil(localDate as any);
+                                      // const isoDate = date?.toISOString();
+                                      // field.onChange(isoDate);
+                                      // setIsFreeUntil(isoDate as any);
+
+                                      // const localDate = date?.toLocaleString();
+                                      // field.onChange(localDate);
+                                      // setIsFreeUntil(localDate as any);
+
+                                      field.onChange(date);
+                                      setIsFreeUntil(date);
                                     }}
                                     disabled={(date) => !isToday(date) && (isBefore(date, today) || isAfter(date, sevenDaysFromNow))}
                                     initialFocus

@@ -91,7 +91,7 @@ export const DeclineProductSchema = z.object({
         //users
         "ChangeOfMind", "FoundBetterDeal", "UnavailabilityOfItem", "DeliveryDelay", "IncorrectItem", "CommunicationIssues",
         //all
-        "Others"], {
+        "Other_Reason"], {
         required_error: "You need to select a reason for cancelling.",
     }),
     otherReason: z.string({

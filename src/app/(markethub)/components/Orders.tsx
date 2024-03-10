@@ -424,7 +424,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
 
                                                                         <FormItem className="flex items-center space-x-3 space-y-0">
                                                                             <FormControl>
-                                                                                <RadioGroupItem value="Others" />
+                                                                                <RadioGroupItem value="Other_Reason" />
                                                                             </FormControl>
                                                                             <FormLabel className="font-normal">
                                                                                 Others
