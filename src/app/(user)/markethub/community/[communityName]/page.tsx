@@ -93,7 +93,7 @@ const page = async ({
        <div className='w-full'>
           <ShadcnCarousel/>
        </div>
-       <div className='border-2 border-gray-300 px-5 pt-5 min-h-40 rounded-md bg-gray- shadow-lg drop-shadow-sm '>
+       <div className='border-2 border-gray-300 px-3 sm:px-5 pt-5 min-h-40 rounded-md bg-gray- shadow-lg drop-shadow-sm '>
           <Free communityId={searchParams?.communityId}/>
        </div>
         <div className='sticky top-20 w-full mt-5'>
