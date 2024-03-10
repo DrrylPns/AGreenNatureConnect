@@ -1,6 +1,7 @@
 import prisma from "@/lib/db/db";
 import { NextRequest } from "next/server";
-import { format, isBefore } from 'date-fns';
+import { format, isBefore, isToday, parseISO, set, startOfDay, startOfToday } from 'date-fns';
+import { utcToZonedTime } from 'date-fns-tz';
 
 export async function POST(req: NextRequest) {
     try {
@@ -13,20 +14,19 @@ export async function POST(req: NextRequest) {
         };
 
         if (isFreeUntil) {
-            const currentDate = new Date();
+            const isFreeUntilDate = new Date(isFreeUntil);
+            const today = startOfToday();  // Import startOfToday from date-fns
 
-            if (isBefore(new Date(isFreeUntil), currentDate)) {
-                updateData = {
-                    ...updateData,
-                    isFree: true,
-                    isFreeUntil: null,
-                };
+            if (isBefore(today, isFreeUntilDate) || isToday(isFreeUntilDate)) {
+                updateData.isFree = true;
+                updateData.isFreeUntil = isFreeUntilDate;
             } else {
-                updateData = {
-                    ...updateData,
-                    isFree: false,
-                };
+                updateData.isFree = false;
+                updateData.isFreeUntil = null;
             }
+        } else {
+            updateData.isFree = false;
+            updateData.isFreeUntil = null;
         }
 
         const updateFreeStatus = await prisma.product.update({

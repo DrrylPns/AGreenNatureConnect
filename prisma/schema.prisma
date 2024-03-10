@@ -398,13 +398,13 @@ model Product {
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
+  isFreeUntil  DateTime?      @db.DateTime()
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
 
-  isFreeUntil DateTime?
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   community      Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId    String
@@ -457,7 +457,6 @@ model Transaction {
 }
 
 enum CancelType {
-  //Employee side
   OutOfStock
   PaymentIssues
   AddressVerification
@@ -467,16 +466,13 @@ enum CancelType {
   ShippingRestrictions
   ProductDiscontinuation
   SystemErrors
-
-  //user side
   ChangeOfMind
   FoundBetterDeal
   UnavailabilityOfItem
   DeliveryDelay
   IncorrectItem
   CommunicationIssues
-  //ALL
-  Others
+  Other_Reason
 }
 
 enum TransactionStatus {
