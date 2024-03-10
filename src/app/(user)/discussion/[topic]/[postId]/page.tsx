@@ -165,7 +165,7 @@ const page: FC<Props> = ({ params }) => {
                   </Transition>
                 </Popover>
               )}
-              {posts.authorId !== session?.user.id && (
+              {posts.authorId !== session?.user.id && session?.user && (
                 <Popover>
                   <Popover.Button>
                     <FaEllipsis />
