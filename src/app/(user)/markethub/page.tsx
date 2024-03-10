@@ -24,12 +24,13 @@ export default async function Markethub() {
       <div className="hidden md:block">
         <Carousel />
       </div>
-      <div className="my-5 md:flex justify-between items-center">
-          <BarangayDropdown />
- 
-     
-          <SearchBar allProduct={AllProducts}/>
-    
+      <div>
+      <h1 className="text-xl font-bold mt-3">Urban Farming Communities:</h1>
+      <BarangayDropdown />
+      </div>
+      <div className="my-5 md:flex justify-between items-center w-full">
+      <h1 className="text-xl font-bold">Urban Farming Communities Products</h1>
+        <SearchBar allProduct={AllProducts}/>
       </div>
       <ProductItem />
     </div>
