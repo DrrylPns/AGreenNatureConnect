@@ -14,6 +14,7 @@ import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
 import RotatingLinesLoading from "@/app/(markethub)/components/RotatingLinesLoading";
 import { useSession } from "next-auth/react";
+import { Badge } from "@/components/ui/badge";
 
 type PostProps = {
   getAllPost: Post[];
@@ -73,22 +74,26 @@ export default function Post() {
                   className="bg-white dark:bg-[#242526] w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
                 >
                   <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
+                    <div className="flex items-center w-full pb-3 gap-4 border-b-4 mb-3 border-gray-300">
+                      <div className="flex items-center overflow-hidden justify-center  rounded-full w-[3.5rem] h-[3.5rem] border-gray-200 border-2 shadow-sm drop-shadow">
                         {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                         <Image
                           src={post.author.image || DisplayPhoto}
                           alt="User Image"
                           width={40}
                           height={40}
+                          className="object-contain"
                         />
                       </div>
 
                       <div className="flex items-baseline gap-3">
                         {/*Username*/}
-                        <h1 className="text-lg font-poppins font-medium">
+                        <div>
+                        <h1 className="text-xl font-poppins font-bold">
                           {post.author.username}
                         </h1>
+                        <Badge variant="secondary" className="text-[0.6rem] border-gray-200">{post.author.role === 'USER'?'Member': post.author.role}</Badge>
+                        </div>
                         {/*Time created display in hours forx ex. just now, 10m ago, 7h ago */}
                         <h3 className="text-[0.7rem] font-poppins">
                           <RelativeDate dateString={post.createdAt} />

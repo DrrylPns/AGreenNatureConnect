@@ -168,9 +168,9 @@ function ProductModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-white font-poppins bg-semi-transparent-greenish text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-black font-poppins bg-gray-50 text-left align-middle shadow-xl transition-all">
                   <div className='flex justify-end w-full '>
-                    <button type='button' onClick={() => closeModal()} className='text-white text-[1rem] md:px-5 p-3 '>
+                    <button type='button' onClick={() => closeModal()} className='text-[1rem] md:px-5 p-3 '>
                       X
                     </button>
                   </div>
@@ -181,8 +181,8 @@ function ProductModal({
                         alt='Product Image'
                         width={300}
                         height={300}
-                        className="w-full md:w-1/2 h-40"
-                        loading='eager'
+                        className="w-full md:w-1/2 h-40 border-gray-300 border-2"
+                        loading= 'lazy'
                       />
                     )}
                     <div className='flex flex-col font-poppins text text mx-auto'>
@@ -227,7 +227,7 @@ function ProductModal({
                       </div>
                     )}
                   </div>
-                  <div className='w-full bg-white shadow-md drop-shadow-xl mt-36 py-5 px-5'>
+                  <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-36 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
                       Total Price:
                       <span className='font-semibold font-poppins text-lg'> ₱ {
@@ -239,7 +239,7 @@ function ProductModal({
                     <div className="w-full ">
                       <Button
                         type="button"
-                        className="w-1/2 bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
+                        className="w-1/2 bg-yellow-300 py-5 h-16 rounded-none outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleAddToCart()}
                         disabled={selectedVariant == null || isLoading}
                       >
@@ -247,7 +247,7 @@ function ProductModal({
                       </Button>
                       <Button
                         type="button"
-                        className="w-1/2 bg-green py-5 outline-gray-500 hover:ring-1 hover:outline-1"
+                        className="w-1/2 bg-green py-5 h-16  rounded-none outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleBuyNow()}
                         disabled={selectedVariant == null || isLoading}
                       >
