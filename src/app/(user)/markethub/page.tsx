@@ -28,8 +28,8 @@ export default async function Markethub() {
       <h1 className="text-xl font-bold mt-3">Urban Farming Communities:</h1>
       <BarangayDropdown />
       </div>
-      <div className="my-5 md:flex justify-between items-center w-full">
-      <h1 className="text-xl font-bold">Urban Farming Communities Products</h1>
+      <div className="my-5 flex flex-col-reverse md:flex justify-between items-center w-full">
+      <h1 className="text-xl font-bold text-center mt-5 md:mt-0 md:text-left">Urban Farming Communities Product</h1>
         <SearchBar allProduct={AllProducts}/>
       </div>
       <ProductItem />
