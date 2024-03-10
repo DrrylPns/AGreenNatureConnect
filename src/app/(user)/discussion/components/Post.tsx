@@ -62,7 +62,6 @@ export default function Post() {
         <div key={post.nextId}>
           {post.getAllPost !== undefined &&
             post.getAllPost.map((post) => {
-
               // PALITAN 5 PAG TAPUS NA TESTING
               const showPost = post.reports < 5;
 
@@ -76,7 +75,7 @@ export default function Post() {
                 >
                   <div
                     key={post.id}
-                    className="bg-gray-50 border-gray-200 border-2 dark:bg-[#242526] w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
+                    className="bg-gray-50 border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -102,7 +101,7 @@ export default function Post() {
                         </div>
                       </div>
                       {post.authorId === session?.user?.id && (
-                        <button type="button" onClick={() => { }}>
+                        <button type="button" onClick={() => {}}>
                           <FaEllipsis />
                         </button>
                       )}
