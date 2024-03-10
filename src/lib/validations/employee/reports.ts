@@ -8,4 +8,8 @@ export const handleReportSchema = z.object({
         "RESOLVED",
         "REJECTED",
     ]),
+    postId: z.string().optional(),
+    reporterId: z.string().optional(),
+    reportedId: z.string().optional(),
+    reportId: z.string().optional(),
 })

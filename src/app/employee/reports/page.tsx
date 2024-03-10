@@ -2,8 +2,9 @@
 import { DataTable } from '../inventory/_components/data-table'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
-import { Post, User } from '@prisma/client';
+import { Topic, User } from '@prisma/client';
 import { columns } from './_components/columns';
+import { string } from 'zod';
 
 export type Reports = {
   id: string;
@@ -13,6 +14,17 @@ export type Reports = {
   reporter: User;
   reported: User;
   post: Post;
+}
+
+type Post = {
+  id: string;
+  title: string
+  content: any;
+  reports: string;
+  isVisible: boolean;
+  createdAt: Date;
+  author: User; // WARNING: not fetched in route.ts tnatamad n ko d nmn ata need hehe.....
+  topic: Topic;
 }
 
 const page = () => {
@@ -25,11 +37,9 @@ const page = () => {
     }
   })
 
-  console.log(reports)
-
   return (
     <div className="container mx-auto py-10">
-      <DataTable columns={columns} data={reports ?? []} isFetching={isFetching} />
+      <DataTable columns={columns} data={reports ?? []} isFetching={isFetching} isReport />
     </div>
   )
 }
