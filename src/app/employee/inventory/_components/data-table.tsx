@@ -51,6 +51,7 @@ interface DataTableProps<TData, TValue> {
   isFetching?: boolean
   isAdmin?: boolean
   isTransaction?: boolean;
+  isReport?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -59,6 +60,7 @@ export function DataTable<TData, TValue>({
   isFetching,
   isAdmin,
   isTransaction,
+  isReport,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -105,19 +107,32 @@ export function DataTable<TData, TValue>({
               }
               className="max-w-sm"
             />
-          ) :
-            <Input
-              placeholder="Search for products"
-              value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
-              onChange={(event) =>
-                table.getColumn("name")?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
-          }
+          ) : (
+            <>
+              {isReport ? (
+                <Input
+                  placeholder="Search"
+                  value={(table.getColumn("type")?.getFilterValue() as string) ?? ""}
+                  onChange={(event) =>
+                    table.getColumn("type")?.setFilterValue(event.target.value)
+                  }
+                  className="max-w-sm"
+                />
+              ) : (
+                <Input
+                  placeholder="Search for products"
+                  value={(table.getColumn("name")?.getFilterValue() as string) ?? ""}
+                  onChange={(event) =>
+                    table.getColumn("name")?.setFilterValue(event.target.value)
+                  }
+                  className="max-w-sm"
+                />
+              )}
+            </>
+          )}
 
           {/* Add Product */}
-          {isAdmin || isTransaction ? null : (
+          {isAdmin || isTransaction || isReport ? null : (
             <Link
               href="/employee/create-products"
               className={cn(buttonVariants({
@@ -129,10 +144,20 @@ export function DataTable<TData, TValue>({
               Add Item
             </Link>
           )}
+          {isReport && (
+            <Link
+              href="/employee/report-history"
+              className={cn(buttonVariants({
+                variant: "newGreen"
+              }), "ml-3")}
+            >
+              Report History
+            </Link>
+          )}
         </div>
 
         <div className="flex justify-center items-center gap-3">
-          {!isTransaction &&
+          {!isTransaction || !isReport &&
             <div className="flex flex-row justify-end items-center w-[300px]">
               <Legend
                 className="mt-3"

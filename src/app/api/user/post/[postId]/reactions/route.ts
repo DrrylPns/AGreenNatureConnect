@@ -13,11 +13,7 @@ export async function GET(req: NextRequest) {
     try {
         const session = await getAuthSession();
 
-        if (!session?.user) {
-            return new Response("Unauthorized", { status: 401 });
-        }
-
-        const userId = session.user.id;
+        const userId = session?.user.id;
 
         const userReacted = await prisma.reaction.findFirst({
             where: {
