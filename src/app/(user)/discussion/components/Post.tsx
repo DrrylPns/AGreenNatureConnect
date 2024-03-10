@@ -76,7 +76,7 @@ export default function Post() {
                 >
                   <div
                     key={post.id}
-                    className="bg-white dark:bg-[#242526] w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
+                    className="bg-gray-50 border-gray-200 border-2 dark:bg-[#242526] w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
                   >
                     <div className="flex items-center justify-between">
                       <div className="flex items-center gap-4">
@@ -108,17 +108,17 @@ export default function Post() {
                       )}
                     </div>
                     {/**Description & Images */}
-                    <h1 className="text-[1.5rem] font-poppins font-extrabold">
+                    <h1 className="text-[1.5rem] px-5 font-poppins font-extrabold">
                       {post.title}
                     </h1>
-                    <div className="flex items-center font-poppins font-semibold gap-3 text-[0.5rem]">
+                    <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
                       <span>Topic:</span>
                       <span className="text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white">
                         {post.topic.name}
                       </span>
                     </div>
                     <div
-                      className="relative text-sm max-h-40 w-full overflow-clip"
+                      className="relative text-sm px-5 max-h-40 w-full overflow-clip"
                       ref={pref}
                     >
                       <EditorOutput content={post.content} />
