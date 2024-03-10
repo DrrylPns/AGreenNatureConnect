@@ -83,11 +83,12 @@ function ProductModal({
 
     const handleAddToCart = async () => {
       try {
-      
+        setIsLoading(true)
         const addToCart = await axios.post('/api/markethub/cart', {
           variantId: selectedVariant?.id, communityId: selectedProduct?.communityId
         }).then(res => {
           closeModal()
+          setIsLoading(false)
           toast({
             description: "Added to cart, Successfuly!.",
           })
@@ -238,7 +239,7 @@ function ProductModal({
                     <div className="w-full ">
                       <Button
                         type="button"
-                        className="w-1/2 bg-[#FDE63F] py-5"
+                        className="w-1/2 bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleAddToCart()}
                         disabled={selectedVariant == null || isLoading}
                       >
@@ -246,11 +247,11 @@ function ProductModal({
                       </Button>
                       <Button
                         type="button"
-                        className="w-1/2 bg-green py-5"
+                        className="w-1/2 bg-green py-5 outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleBuyNow()}
                         disabled={selectedVariant == null || isLoading}
                       >
-                        Buy Now
+                        {isLoading ? 'Processing...' : 'Buy Now'}
                       </Button>
                     </div>
                   ) : (
