@@ -17,6 +17,7 @@ import { CartProvider } from "@/contexts/CartContext";
 import prisma from "@/lib/db/db";
 import { User } from "@prisma/client";
 import { OnboardingUser } from "./_components/OnboardingUser";
+import { UserBanned } from "@/components/UserBanned";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -64,6 +65,10 @@ export default async function RootLayout({
                 ) : session?.user.name === null && session?.user.role === "USER" ? (
                   <>
                     <OnboardingUser />
+                  </>
+                ) : session?.user && session.user.numberOfViolations >= 3 ? (
+                  <>
+                    <UserBanned />
                   </>
                 ) : (
                   <>
