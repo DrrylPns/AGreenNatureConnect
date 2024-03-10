@@ -3,7 +3,7 @@ import RelativeDate from "@/app/components/RelativeDate";
 import { Post, Comment, Block } from "@/lib/types";
 import axios from "axios";
 import Image from "next/image";
-import React, { FC, useEffect, useState } from "react";
+import React, { FC, useCallback, useEffect, useState } from "react";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
 import { FaEllipsis } from "react-icons/fa6";
 import { RotatingLines, Discuss } from "react-loader-spinner";
@@ -29,11 +29,44 @@ const page: FC<Props> = ({ params }) => {
   const router = useRouter();
   const { data: session } = useSession();
 
-  useEffect(() => {
-    fetchPost();
-  }, [params.postId]);
+  // useEffect(() => {
+  //   fetchPost();
+  // }, [params.postId]);
 
-  const fetchPost = async () => {
+  // const fetchPost = async () => {
+  //   try {
+  //     const response = await fetch(`/api/user/post/${params.postId}`, {
+  //       next: { tags: ["comments"], revalidate: 60 },
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Network response was not ok");
+  //     }
+
+  //     const data = await response.json();
+  //     setPosts(data);
+  //     fetchComments();
+  //   } catch (error) {
+  //     console.error("Error fetching post:", error);
+  //   }
+  // };
+
+  // const fetchComments = async () => {
+  //   try {
+  //     await axios
+  //       .get(`/api/user/post/${params.postId}/comments`)
+  //       .then((result) => {
+  //         const comments = result.data;
+  //         setComments(comments);
+  //       })
+  //       .catch((error) => {
+  //         setComments(error);
+  //       });
+  //   } catch (error) {
+  //     console.error("Error fetching comments:", error);
+  //   }
+  // };
+
+  const fetchPost = useCallback(async () => {
     try {
       const response = await fetch(`/api/user/post/${params.postId}`, {
         next: { tags: ["comments"], revalidate: 60 },
@@ -48,23 +81,21 @@ const page: FC<Props> = ({ params }) => {
     } catch (error) {
       console.error("Error fetching post:", error);
     }
-  };
+  }, [params.postId]);
 
-  const fetchComments = async () => {
+  const fetchComments = useCallback(async () => {
     try {
-      await axios
-        .get(`/api/user/post/${params.postId}/comments`)
-        .then((result) => {
-          const comments = result.data;
-          setComments(comments);
-        })
-        .catch((error) => {
-          setComments(error);
-        });
+      const result = await axios.get(`/api/user/post/${params.postId}/comments`);
+      const comments = result.data;
+      setComments(comments);
     } catch (error) {
       console.error("Error fetching comments:", error);
     }
-  };
+  }, [params.postId]);
+
+  useEffect(() => {
+    fetchPost();
+  }, [fetchPost]);
 
   return (
     <main className=" pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A] ">

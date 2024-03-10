@@ -83,19 +83,57 @@ const page: FC<Props> = async({ params }) => {
             <span className="text-gray-700">{transaction?.amount}</span>
           </div>
         </div>
-        <div className="grid gap-4 p-7 border-t border-gray-200">
-          <div className="flex justify-between">
-            <span className="font-semibold text-gray-600">If Cancelled:</span>
-          </div>
-          <div className="flex justify-between">
-            <span className="font-medium text-gray-600">Type:</span>
-            <span className="text-gray-700">{transaction?.cancelType}</span>
-          </div>
-          <div className="flex justify-between border-t border-gray-200 pt-2">
-            <span className="font-medium text-gray-600">Reason: </span><br/>
-            <span className="text-gray-700 text-justify"><br/> {transaction?.cancelReason}</span>
-          </div>
+        {transaction?.status === 'CANCELLED' && (
+      <div className="grid gap-4 p-7 border-t border-gray-200">
+        <div className="flex justify-between">
+          <span className="font-semibold text-gray-600">If Cancelled:</span>
         </div>
+        <div className="flex justify-between">
+          <span className="font-medium text-gray-600">Type:</span>
+          <span className="text-gray-700">
+            {transaction?.cancelType === 'ChangeOfMind'
+              ? 'Change of Mind'
+              : transaction?.cancelType === 'FoundBetterDeal'
+              ? 'Found Better Deal'
+              : transaction?.cancelType === 'PaymentIssues'
+              ? 'Payment Issues'
+              : transaction?.cancelType === 'AddressVerification'
+              ? 'Address Verification'
+              : transaction?.cancelType === 'SellerError'
+              ? 'Seller Error'
+              : transaction?.cancelType === 'NonResponsiveBuyer'
+              ? 'Non Responsive Buyer'
+              : transaction?.cancelType === 'ViolationOfPolicies'
+              ? 'ViolationOf Policies'
+              : transaction?.cancelType === 'ShippingRestrictions'
+              ? 'Shipping Restrictions'
+              : transaction?.cancelType === 'ProductDiscontinuation'
+              ? 'Product Discontinuation'
+              : transaction?.cancelType === 'SystemErrors'
+              ? 'System Errors'
+              : transaction?.cancelType === 'OutOfStock'
+              ? 'Out Of Stock'
+              : transaction?.cancelType === 'UnavailabilityOfItem'
+              ? 'Unavailability of Item'
+              : transaction?.cancelType === 'DeliveryDelay'
+              ? 'Delivery Delay'
+              : transaction?.cancelType === 'IncorrectItem'
+              ? 'Incorrect Item'
+              : transaction?.cancelType === 'CommunicationIssues'
+              ? 'Communication Issues'
+              : transaction?.cancelType === 'Others'
+              ? 'Other Reason'
+              : transaction?.cancelType}
+          </span>
+        </div>
+        <div className="flex justify-between border-t border-gray-200 pt-2">
+          <span className="font-medium text-gray-600">Reason:</span>
+          <span className="text-gray-700 text-justify">
+            <br /> {transaction?.cancelReason}
+          </span>
+        </div>
+      </div>
+    )}
       </CardContent>
       <CardFooter className="flex justify-center p-4 border-t border-gray-200">
         <p className="text-sm text-gray-600 italic">"Please claim your purchase on {getDateFormatted()} at Barangay {transaction?.seller.name}"</p>

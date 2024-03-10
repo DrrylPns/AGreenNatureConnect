@@ -1,14 +1,13 @@
 "use client"
 import { toast } from '@/lib/hooks/use-toast';
 import { getMinBirthDate } from '@/lib/utils';
-import { OnboardingSchema, OnboardingType } from '@/lib/validations/onboardingSchema';
+import { OnboardingUserSchema, OnboardingUserType } from '@/lib/validations/onboardingSchema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import React from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form';
-import { Button } from '../Ui/Button';
 import { X } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import {
@@ -20,18 +19,16 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/app/components/Ui/select"
-import { User } from '@prisma/client';
+import { Button } from '@/app/components/Ui/Button';
 
-export const Onboarding = () => {
-    // const router = useRouter()
-
+export const OnboardingUser = () => {
     const {
         register,
         handleSubmit,
         setValue,
         formState: { errors },
-    } = useForm<OnboardingType>({
-        resolver: zodResolver(OnboardingSchema),
+    } = useForm<OnboardingUserType>({
+        resolver: zodResolver(OnboardingUserSchema),
         defaultValues: {
             username: "",
             phoneNumber: "",
@@ -39,34 +36,24 @@ export const Onboarding = () => {
         },
     });
 
-    const handleSelectChange = (value: string | null) => {
-        // Check for null and handle accordingly
-        const communityValue = value !== null ? value : ""; // or provide a default value
-
-        setValue('community', communityValue);
-        console.log('Selected community:', communityValue);
-    };
-
     const { mutate: onboardingUpdate, isLoading } = useMutation({
         mutationFn: async ({
             username,
             phoneNumber,
             birthday,
-            community,
             address,
             lastName,
             name,
-        }: OnboardingType) => {
-            const payload: OnboardingType = {
+        }: OnboardingUserType) => {
+            const payload: OnboardingUserType = {
                 username,
                 phoneNumber,
                 birthday,
-                community,
                 address,
                 lastName,
                 name,
             };
-            const { data } = await axios.post("api/user/onboarding", payload);
+            const { data } = await axios.post("api/user/onboardingUser", payload);
             return data
         },
         onError: (err) => {
@@ -129,12 +116,11 @@ export const Onboarding = () => {
         }
     })
 
-    const onSubmit: SubmitHandler<OnboardingType> = (data: OnboardingType) => {
-        const payload: OnboardingType = {
+    const onSubmit: SubmitHandler<OnboardingUserType> = (data: OnboardingUserType) => {
+        const payload: OnboardingUserType = {
             username: data.username,
             phoneNumber: data.phoneNumber,
             birthday: data.birthday,
-            community: data.community,
             address: data.address,
             lastName: data.lastName,
             name: data.name,
@@ -154,7 +140,6 @@ export const Onboarding = () => {
             signOut()
         }, 2000)
     }
-
 
     return (
         <main className="flex flex-col items-center justify-center border min-h-screen">
@@ -311,46 +296,6 @@ export const Onboarding = () => {
                             {errors.address.message}
                         </span>
                     )}
-
-                    <div className='w-full flex items-center justify-center'>
-                        <Select
-                            {...register('community')}
-                            onValueChange={handleSelectChange}
-                        >
-                            <SelectTrigger className="
-                                md:w-[620px]
-                                rounded-full
-                                h-[50px]
-                                p-4
-                                mb-8
-                                dark:bg-[#09090B]
-                                font-light 
-                                bg-white 
-                                border-2
-                                outline-none
-                                transition
-                                disabled:opacity-70
-                                disabled:cursor-not-allowed"
-                            >
-                                <SelectValue placeholder="Select your community" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                <SelectGroup>
-                                    <SelectLabel>Communities</SelectLabel>
-                                    <SelectItem value="Bagbag">Bagbag</SelectItem>
-                                    <SelectItem value="Nova Proper">Nova Proper</SelectItem>
-                                    <SelectItem value="Bagong Silangan">Bagong Silangan</SelectItem>
-                                </SelectGroup>
-                            </SelectContent>
-                        </Select>
-                        {errors.community && (
-                            <span className="text-rose-500 ml-1 max-sm:text-[13px]">
-                                {errors.community.message}
-                            </span>
-                        )}
-
-                    </div>
-
 
                     <div className="ml-10 mr-10">
                         <Button
