@@ -43,7 +43,7 @@ export const authOptions: NextAuthOptions = {
                 const passwordMatch = await bcrypt.compare(credentials.password, dbUser.hashedPassword)
 
                 if (!passwordMatch) {
-                    throw new Error("Incorrect Password")
+                    throw new Error("Incorrect Email or Password")
                 }
 
                 return dbUser
@@ -60,6 +60,8 @@ export const authOptions: NextAuthOptions = {
                 session.user.role = token.role
                 session.user.name = token.name
                 session.user.birthday = token.birthday
+                session.user.isBanned = token.isBanned
+                session.user.numberOfViolations = token.numberOfViolations
             }
 
             return session;
@@ -94,7 +96,9 @@ export const authOptions: NextAuthOptions = {
                 picture: dbUser.image,
                 role: dbUser.role,
                 name: dbUser.name,
-                birthday: dbUser.birthday
+                birthday: dbUser.birthday,
+                isBanned: dbUser.isBanned,
+                numberOfViolations: dbUser.numberOfViolations,
             }
         },
         // redirect() {

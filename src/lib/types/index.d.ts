@@ -23,12 +23,15 @@ export interface Author {
     role: string;
     createdAt: string;
     updatedAt: string;
+    isBanned: boolean;
+    numberOfViolations: number;
   }
 
 export interface Post {
     id: string;
     title: string;
     content: Content;
+    reports: number;
     createdAt: string;
     updatedAt: string;
     authorId: string;
