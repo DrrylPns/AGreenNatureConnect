@@ -25,8 +25,8 @@ function CartIcon() {
   }
   return (
     <div className='relative'>
-      <div className='absolute top-[-10px] right-0 text-xs px-2 py-1 bg-red-600 rounded-full text-white'>
-        <h1 className=''>{cartNumber}</h1>
+      <div className='absolute top-[-10px] right-[-3px] text-[0.6rem] sm:text-xs px-2 py-1 bg-red-600 rounded-full text-white'>
+        <h1 className=''>{cartNumber > 99 ? "99+" : cartNumber}</h1>
       </div>
       <BsCart4 />
    

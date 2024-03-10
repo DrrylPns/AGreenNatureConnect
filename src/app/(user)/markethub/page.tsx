@@ -25,14 +25,14 @@ export default async function Markethub() {
         <Carousel />
       </div>
       <div>
-      <h1 className="text-sm tmd:text-xl font-bold mt-3">Communities:</h1>
+      <h1 className="text-sm md:text-xl font-bold mt-3">Communities:</h1>
       <BarangayDropdown />
       </div>
-      <div className="my-5 flex flex-col-reverse md:flex justify-between items-center w-full">
-      <h1 className="text-xl font-bold text-center mt-5 md:mt-0 md:text-left">Community Products</h1>
+      <div className="my-5 flex flex-col-reverse md:flex-row md:flex justify-between items-center w-full">
+        <h1 className="text-xl font-bold text-center mt-5 md:mt-0 md:text-left self-end">Community Products</h1>
         <SearchBar allProduct={AllProducts}/>
       </div>
-      <ProductItem />
+        <ProductItem />
     </div>
   );
 }
