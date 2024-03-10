@@ -1,6 +1,6 @@
 import prisma from "@/lib/db/db"
 import { getAuthSession } from "@/lib/auth";
-import { OnboardingSchema } from "@/lib/validations/onboardingSchema";
+import { OnboardingUserSchema } from "@/lib/validations/onboardingSchema";
 import { calculateDaysUntilUsernameChange } from "@/lib/utils";
 
 export async function POST(req: Request) {
@@ -12,9 +12,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { username, community, phoneNumber, birthday, address, lastName, name } = OnboardingSchema.parse(body);
-
-        console.log(session.user.id)
+        const { username, phoneNumber, birthday, address, lastName, name } = OnboardingUserSchema.parse(body);
 
         const user = await prisma.user.findUnique({
             where: { id: session.user.id },
@@ -45,10 +43,6 @@ export async function POST(req: Request) {
 
         const daysLeft = calculateDaysUntilUsernameChange(user.lastUsernameChange as Date);
 
-        const existingCommunity = await prisma.community.findFirst({
-            where: { name: community }
-        });
-
         const dataToUpdate: Record<string, any> = {
             phoneNumber: phoneNumber,
             birthday: birthday,
@@ -56,26 +50,6 @@ export async function POST(req: Request) {
             lastUsernameChange: new Date(),
             lastName: lastName,
             name: name,
-        }
-
-        if (existingCommunity) {
-            dataToUpdate.Community = {
-                connect: {
-                    id: existingCommunity.id
-                }
-            }
-        } else {
-            const newCommunity = await prisma.community.create({
-                data: {
-                    name: community
-                }
-            });
-
-            dataToUpdate.Community = {
-                connect: {
-                    id: newCommunity.id
-                }
-            }
         }
 
         if (daysLeft <= 0) {
