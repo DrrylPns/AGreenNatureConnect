@@ -455,6 +455,8 @@ model Transaction {
   cancelReason  String?
   cancelType    CancelType?
   paymentMethod String?
+  gcashReciept  String?
+  paymentStatus String?           @default("Not Paid")
 
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String

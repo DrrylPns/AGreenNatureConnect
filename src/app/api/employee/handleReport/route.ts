@@ -3,6 +3,23 @@ import prisma from "@/lib/db/db";
 import { handleReportSchema } from "@/lib/validations/employee/reports";
 import { NextRequest, NextResponse } from "next/server";
 
+export async function GET() {
+    try {
+
+        await prisma.report.findMany({
+            include: {
+                post: true,
+                reported: true,
+                reporter: true,
+            }
+        })
+
+        return new NextResponse("Successfully fetched reports")
+    } catch (error) {
+        return new NextResponse("Can't get reports" + error, { status: 500 })
+    }
+}
+
 export async function PUT(req: NextRequest) {
     try {
         const session = await getAuthSession()
