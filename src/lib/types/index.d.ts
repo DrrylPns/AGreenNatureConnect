@@ -20,6 +20,7 @@ export interface Author {
     lastName: string | null;
     phoneNumber: string | null;
     address: string | null;
+    bio: string
     role: string;
     createdAt: string;
     updatedAt: string;

@@ -112,7 +112,7 @@ const page: FC<Props> = ({ params }) => {
             <div className="flex items-center justify-between  ">
               <div className="flex items-center gap-4">
                 <Link
-                  href={""}
+                  href={{pathname:`/discussion/user/${posts.author.username}`, query:{id:posts.authorId}}}
                   className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black"
                 >
                   {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
