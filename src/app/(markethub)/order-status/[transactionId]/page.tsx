@@ -121,7 +121,7 @@ const page: FC<Props> = async({ params }) => {
               ? 'Incorrect Item'
               : transaction?.cancelType === 'CommunicationIssues'
               ? 'Communication Issues'
-              : transaction?.cancelType === 'Other_Reason'
+              : ""
               ? 'Other Reason'
               : transaction?.cancelType}
           </span>
