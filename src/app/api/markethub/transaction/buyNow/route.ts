@@ -21,6 +21,7 @@ export async function POST(req: Request){
                 paymentMethod: paymentMethod,
                 orderedVariant:{
                     create:{
+                        price: amount,
                         variantId,
                         productId
                     }

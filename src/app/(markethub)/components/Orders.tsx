@@ -6,16 +6,7 @@ import axios, { AxiosError } from 'axios';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/app/components/Ui/Dialog';
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/app/components/Ui/alert-dialog';
 import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '@/app/components/Ui/form';
-import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-  } from "@/components/ui/drawer"
+
 import Image from 'next/image';
 import Link from 'next/link';
 import React from 'react'
@@ -24,6 +15,7 @@ import { z } from 'zod';
 import { RadioGroup, RadioGroupItem } from '@/app/components/Ui/radio-group';
 import { Textarea } from '@/app/components/Ui/textarea';
 import { Button } from '@/app/components/Ui/Button';
+import QrCodeDrawer from './QrCodeDrawer';
 
 interface OrdersProps {
     selectedIndex: number;
@@ -38,9 +30,9 @@ interface Transaction {
     amount: number;
     status: string;
     buyer: Buyer;
-    paymentMethod: string;
-    paymentStatus: string;
-    gcashReciept: string;
+    paymentMethod: string | null;
+    paymentStatus: string | null;
+    gcashReciept: string | null;
     seller: Community
     orderedVariant: OrderedVariant[]
     createdAt: Date;
@@ -49,7 +41,7 @@ interface Transaction {
 interface Community {
     id: string;
     name: string;
-    qrCode: string;
+    qrCode: string | null;
 }
 interface Buyer {
     id: string;
@@ -153,38 +145,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
                                 <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
                                 {transaction.paymentMethod === 'Gcash' ? (
-                                    <Drawer>
-                                    <DrawerTrigger>Pay now</DrawerTrigger>
-                                    <DrawerContent>
-                                      <DrawerHeader>
-                                        <DrawerTitle>
-                                            <h1 className='text-center'>Scan this QR code to pay!</h1></DrawerTitle>
-                                        <DrawerDescription>
-                                            <div className="bg-gray-200 md:p-10 shadow-md drop-shadow-md p-5">
-                                                <div className="w-full bg-white text-center">
-                                                    <Image
-                                                    src={transaction.seller.qrCode}
-                                                    width={100}
-                                                    height={100}
-                                                    alt={`Qr code for ${transaction.seller.name}`}
-                                                    className='w w-56 h-56 mx-auto'
-                                                    />
-                                                    <h1 className="font-semibold text-center md:text-3xl">{transaction.seller.name}</h1>
-                                                </div>
-                                                <div className='text-xl mt-10'>
-                                                    <h1>Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {transaction.amount}</span></h1>
-                                                </div>
-                                            </div>
-                                        </DrawerDescription>
-                                      </DrawerHeader>
-                                      <DrawerFooter>
-                                        <Button>Submit</Button>
-                                        <DrawerClose>
-                                          <Button variant="outline">Cancel</Button>
-                                        </DrawerClose>
-                                      </DrawerFooter>
-                                    </DrawerContent>
-                                  </Drawer>
+                                    <QrCodeDrawer transaction={transaction}/>
                                 ):(
                                     null
                                 )}

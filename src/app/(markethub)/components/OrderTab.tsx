@@ -15,6 +15,9 @@ interface Transaction {
     amount: number;
     status: string;
     buyer: Buyer;
+    paymentMethod: string | null;
+    paymentStatus: string | null;
+    gcashReciept: string | null;
     seller: Community
     orderedVariant: OrderedVariant[]
     createdAt: Date;
@@ -23,11 +26,12 @@ interface Transaction {
 interface Community {
     id: string;
     name: string;
+    qrCode: string | null;
 }
 interface Buyer {
     id: string;
     name: string | null;
-    username: string| null;
+    username: string | null;
     email: string | null;
     image: string | null;
     middleName: string | null;
@@ -38,7 +42,8 @@ interface Buyer {
 interface OrderedVariant {
     id: string;
     product: Product;
-    variant: Variants
+    variant: Variants;
+    price: number;
 }
 interface Variants {
     id: string
@@ -60,6 +65,8 @@ interface Product {
     status: string;
     isFree: boolean;
 }
+
+
  
 function OrderTab({
     pending,
