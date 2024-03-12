@@ -80,18 +80,17 @@ function page({
         {!loading && item &&
           item.map((cartItem: Cart) => {
             const communityName = cartItem.community.name;
-            
-            // Check if the community name has already been rendered
-            if (!renderedCommunityNames.has(communityName)) {
-              renderedCommunityNames.add(communityName);
-
-              const totalAmount = calculateTotalAmount(communityName);
-              if(cartItem.community.qrCode === null){
+            if(cartItem.community.qrCode === null){
               return (<div>
                 <h1>GCach payment for Community {cartItem.community.name} is not Available right now!</h1>
               </div>)
             }
 
+            // Check if the community name has already been rendered
+            if (!renderedCommunityNames.has(communityName)) {
+              renderedCommunityNames.add(communityName);
+
+              const totalAmount = calculateTotalAmount(communityName);
 
               return (
                 <div key={cartItem.id} className="bg-gray-200 md:p-10 shadow-md drop-shadow-md p-5">
@@ -120,7 +119,7 @@ function page({
         <Button 
          
           className='bg-yellow-300 w-1/3 h-12 text-black hover:text-white' 
-          onClick={handlePlaceOrder}
+          onClick={()=> router.push('/order-status')}
           disabled={isProcessing ? true: false}
         >
           Done

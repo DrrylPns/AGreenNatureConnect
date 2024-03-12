@@ -183,6 +183,7 @@ export interface Transaction {
 
 export interface OrderedVariant {
   id: string;
+  price: number;
   createdAt: string;
   updatedAt: string;
   variant: Variants;

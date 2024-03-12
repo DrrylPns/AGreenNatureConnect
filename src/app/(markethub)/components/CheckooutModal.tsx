@@ -13,6 +13,7 @@ import { Dialog, RadioGroup, Transition } from "@headlessui/react";
 import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useQuery } from "@tanstack/react-query";
 import { useCart } from "@/contexts/CartContext";
+import { Button } from "@/components/ui/button";
 
 const PaymentMethod = [
   'Cash on delivery',
@@ -108,14 +109,10 @@ function CheckoutModal({}: {}) {
     0
   );
 
-  //Arrow back fuction
-  const handleGoBack = () => {
-    router.back();
-  };
-
   const handleAddShippingInfo = () => {
     router.push("/shipping-information");
   };
+
   const handlePlaceOrder = async () => {
     if(method === ''){
       setError("You must select a payment method first!")
@@ -134,9 +131,11 @@ function CheckoutModal({}: {}) {
       });
   
       if (response.ok) {
-        // If the response is successful, you can handle the success here
-        router.replace("/cart/checkout/success");
-  
+        if(method==="Gcash"){
+          router.replace(`checkout/payment/${method}`)
+        } else {
+          router.replace("/cart/checkout/success");
+        }
         setCartNumber((prevCartNumber) => prevCartNumber - checkoutItems.length);
       } else {
         console.error("Failed to place order:", response.statusText);
@@ -152,9 +151,9 @@ function CheckoutModal({}: {}) {
         <div>
           <div className="relative pl-5 w-full">
             <div className="absolute top-3">
-              <button onClick={handleGoBack}>
+              <Link href={'/cart'} >
                 <FaArrowLeft />
-              </button>
+              </Link>
             </div>
             <h1 className="font-bold text-[2rem] text-center">Checkout</h1>
           </div>
@@ -367,23 +366,13 @@ function CheckoutModal({}: {}) {
                         >
                           No
                         </button>
-                        {method === "Gcash" ? (
-                          <Link
-                            href={`/cart/checkout/payment/${method}`}
-                            className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
+                        <button
+                          type="button"
+                          onClick={handlePlaceOrder}
+                          className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
                           >
                           Yes
-                        </Link>
-                        ):(
-                          <button
-                            type="button"
-                            className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
-                            onClick={handlePlaceOrder}
-                            disabled={disableBtn}
-                          >
-                            Yes
-                          </button>
-                        )}
+                        </button>
                         
                       </div>
                     </Dialog.Panel>

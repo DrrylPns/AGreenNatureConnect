@@ -67,6 +67,7 @@ export async function POST(req: Request) {
                     orderedVariant: {
                         createMany: {
                             data: item.products.map((product) => ({
+                                price: product.variant.price,
                                 variantId: product.variant.id,
                                 productId: product.productId,
                             })),
