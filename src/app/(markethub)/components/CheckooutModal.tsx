@@ -127,7 +127,7 @@ function CheckoutModal({}: {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Items: checkoutItems, paymentMehthod: method }),
+        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method }),
       });
   
       if (response.ok) {
@@ -144,6 +144,8 @@ function CheckoutModal({}: {}) {
       console.error("Error placing order:", error);
     }
   };
+
+  console.log(method)
   
   return (
     <div>
