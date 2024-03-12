@@ -117,6 +117,7 @@ export interface Product {
 export interface Community {
   id: string;
   name: string;
+  qrCode: string;
   createdAt: Date;
   updatedAt: Date;
   posts: Post[];
@@ -140,7 +141,7 @@ export interface Cart {
   user: Author;
   variant: Variants;
   variantId: string;
-  comunity: Community;
+  community: Community;
   communityId: string;
 }
 export interface ShippingInfo {

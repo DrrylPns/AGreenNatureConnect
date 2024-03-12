@@ -48,6 +48,11 @@ function CartPage() {
   const deleteCartItem = async (cartItemId: string, productName: string, closeModal:()=>void ) => {
     try {  
       const response = await axios.post(`/api/markethub/cart/deleteCartItem`, {id: cartItemId} );
+      // Update the cart items without the deleted item
+    setCartItems((prevItems) => prevItems.filter((item) => item.id !== cartItemId));
+
+    // Update the selected items without the deleted item
+    setSelectedItems((prevSelectedItems) => prevSelectedItems.filter((item) => item.id !== cartItemId));
       setCartNumber((prevCartNumber) => prevCartNumber - 1);
       toast({
         title: productName,

@@ -31,7 +31,8 @@ function CheckoutModal({}: {}) {
   const [isOpen, setIsOpen] = useState(false);
   const { cartNumber, setCartNumber } = useCart();
   const [selectedValue, setSelectedValue] = useState('');
-  const [method, setMethod] = useState(PaymentMethod[0])
+  const [method, setMethod] = useState("")
+  const [error, setError] = useState("")
 
   // Function to handle the change event of the select element
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -45,6 +46,9 @@ function CheckoutModal({}: {}) {
       setLoading(false);
     }, 2000);
   }, []);
+  useEffect(()=>{
+    setError('')
+  },[method])
 
   const setItems = () => {
     setCheckoutItems(getItem);
@@ -113,9 +117,13 @@ function CheckoutModal({}: {}) {
     router.push("/shipping-information");
   };
   const handlePlaceOrder = async () => {
+    if(method === ''){
+      setError("You must select a payment method first!")
+      closeModal()
+      return
+    }
     setDisableBtn(true);
     setisProcessing(true);
-  
     try {
       const response = await fetch("/api/markethub/transaction", {
         method: "POST",
@@ -271,6 +279,7 @@ function CheckoutModal({}: {}) {
                         )}
                     </RadioGroup.Option>
                   ))}
+                  <h1 className={`${method === '' ? "block":"hidden"} text-sm text-red-500`}>{error}</h1>
                   <div>
                     <h1 className="mt-5">Note:</h1>
                     <p className="text-[0.8rem] text-gray-500">Each item may originate from a distinct community; therefore, kindly ensure that the selected payment method is acceptable to you. The choice made here will serve as the designated payment method for all items during the checkout process.</p>
@@ -358,14 +367,24 @@ function CheckoutModal({}: {}) {
                         >
                           No
                         </button>
-                        <button
-                          type="button"
-                          className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
-                          onClick={handlePlaceOrder}
-                          disabled={disableBtn}
-                        >
+                        {method === "Gcash" ? (
+                          <Link
+                            href={`/cart/checkout/payment/${method}`}
+                            className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
+                          >
                           Yes
-                        </button>
+                        </Link>
+                        ):(
+                          <button
+                            type="button"
+                            className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
+                            onClick={handlePlaceOrder}
+                            disabled={disableBtn}
+                          >
+                            Yes
+                          </button>
+                        )}
+                        
                       </div>
                     </Dialog.Panel>
                   </Transition.Child>
