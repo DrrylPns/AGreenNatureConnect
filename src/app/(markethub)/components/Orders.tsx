@@ -166,7 +166,12 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                                 <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span></p>
                                             </div>
                                             <div className='ml-auto font-semibold text-[0.6rem] sm:text-xs md:text-lg'>
-                                                <h1>₱ {variant.price}</h1>
+                                                {variant.price === 0 ? (
+                                                    <h1>Free</h1>
+                                                ) : (
+                                                    <h1>₱ {variant.price}</h1>
+                                                )}
+                                               
                                             </div>
                                         </Link>
                                     ))}
