@@ -297,7 +297,7 @@ const Editor = () => {
                           `relative cursor-default select-none py-2 pl-10 pr-4 ${
                             active
                               ? " bg-muted-green text-white dark:text-white"
-                              : "text-white"
+                              : "text-black dark:text-gray-400"
                           }`
                         }
                         value={topic}
