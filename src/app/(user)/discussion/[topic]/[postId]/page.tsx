@@ -68,6 +68,15 @@ const page: FC<Props> = ({ params }) => {
   //   }
   // };
 
+  const fetchPostss = async () => {
+    try {
+      const result = await axios.get(`/api/user/post/`);
+      const Post = result.data;
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
   const fetchPost = useCallback(async () => {
     try {
       const response = await fetch(`/api/user/post/${params.postId}`, {
@@ -108,7 +117,7 @@ const page: FC<Props> = ({ params }) => {
   }
 
   const handlePostDeleted = () => {
-    fetchPost();
+    fetchPostss();
   };
 
   return (
