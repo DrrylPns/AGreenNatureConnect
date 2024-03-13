@@ -67,6 +67,24 @@ export async function POST(req: Request) {
 }
 
 // Deleting Post
+export async function DELETE(req: NextRequest){
+    const searchParams = req.nextUrl.searchParams
+    const postId = searchParams.get('postId')
+    console.log(`this is your Id: ${postId}`)
+    try {
+        const deletePost = await prisma.post.delete({
+            where:{
+                id: postId as string
+            }
+        })
+
+
+        console.log(deletePost)
+        return new Response(JSON.stringify(deletePost), {status: 200})
+    } catch (error) {
+    console.log(error)
+}
+}
 
 
 export async function HEAD(req: NextRequest) {

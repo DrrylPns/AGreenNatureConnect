@@ -107,6 +107,10 @@ const page: FC<Props> = ({ params }) => {
     throw new Error("Function not implemented.");
   }
 
+  const handlePostDeleted = () => {
+    fetchPost();
+  };
+
   return (
     <main className="pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A]">
       {posts ? (
@@ -297,7 +301,10 @@ const page: FC<Props> = ({ params }) => {
                         type="button"
                         className="flex gap-1 hover:underline w-full"
                       ></button>
-                      <DeleteDialog postId={posts.id} onDelete={handleDelete} />
+                      <DeleteDialog
+                        postId={posts.id}
+                        onDelete={handlePostDeleted}
+                      />
                     </Popover.Panel>
                   </Transition>
                 </Popover>
