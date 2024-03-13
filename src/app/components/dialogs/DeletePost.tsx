@@ -17,20 +17,25 @@ const DeleteDialog: FC<DeleteDialogProps> = ({ postId, onDelete }) => {
   const router = useRouter();
 
   const handleDelete = async () => {
-    const deleteComment = await axios
-      .delete(`/api/user/post/${postId}?postId=${postId}`)
-      .then(() => {
+    try {
+      const response = await axios.delete(
+        `/api/user/post/${postId}?postId=${postId}`
+      );
+      // Assuming the deletion was successful based on HTTP response status
+      if (response.status === 200) {
         toast({
           description: "Your post has been deleted",
           variant: "destructive",
-        }),
-          router.back();
+        });
         setIsOpen(false);
         onDelete();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+        router.back();
+      } else {
+        // Handle unexpected response status here if needed
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const closeModal = () => {

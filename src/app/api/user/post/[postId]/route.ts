@@ -34,6 +34,7 @@ export async function PUT(req: NextRequest) {
 }
 
 // Deleting Post
+// Deleting Post
 export async function DELETE(req: NextRequest){
     const searchParams = req.nextUrl.searchParams
     const postId = searchParams.get('postId')
@@ -45,11 +46,12 @@ export async function DELETE(req: NextRequest){
             }
         })
 
-
-        console.log(deletePost)
-        return new Response(JSON.stringify(deletePost), {status: 200})
+        console.log(deletePost);
+        return new Response(JSON.stringify(deletePost), { status: 200 });
     } catch (error) {
-    console.log(error)
+        console.error(error);
+        return new Response(JSON.stringify({ error: 'Failed to delete post' }), { status: 500 });
+    }
 }
-}
+
 
