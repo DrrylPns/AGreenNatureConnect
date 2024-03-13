@@ -34,25 +34,22 @@ export async function PUT(req: NextRequest) {
 }
 
 // Deleting Post
-export async function DELETE(req: NextRequest) {
-    const searchParams = req.nextUrl.searchParams;
-    const postId = searchParams.get('postId');
-    console.log(`this is your Id: ${postId}`);
-
+export async function DELETE(req: NextRequest){
+    const searchParams = req.nextUrl.searchParams
+    const postId = searchParams.get('postId')
+    console.log(`this is your Id: ${postId}`)
     try {
         const deletePost = await prisma.post.delete({
-            where: {
-                id: postId as string,
-            },
-        });
+            where:{
+                id: postId as string
+            }
+        })
 
-        console.log(deletePost);
-        return new Response(JSON.stringify(deletePost), { status: 200 });
+
+        console.log(deletePost)
+        return new Response(JSON.stringify(deletePost), {status: 200})
     } catch (error) {
-        console.error(error);
-
-        // Handle the case when the post does not exist
-      
-        return new Response('Internal Server Error', { status: 500 });
-    }
+    console.log(error)
 }
+}
+

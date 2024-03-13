@@ -18,7 +18,7 @@ const DeleteDialog: FC<DeleteDialogProps> = ({ postId, onDelete }) => {
 
   const handleDelete = async () => {
     const deleteComment = await axios
-      .delete(`/api/user/post/${postId}?postId=${postId}`)
+      .delete(`/api/user/post/${postId}`)
       .then(() => {
         toast({
           description: "Your post has been deleted",
