@@ -66,16 +66,21 @@ function page() {
         sellerId:item?.selectedProduct.communityId,
         variantId: item?.selectedVariant.id,
         productId: item?.selectedProduct.id,
-        paymentMehthod: method, 
+        paymentMethod: method, 
         amount: item?.selectedVariant.price
-    })
-
+    }).then(res=>{
+      console.log(res)
+      if(method === 'Gcash'){
+        router.push(`/buy-now/payment/${method}`)
+      } else {
         router.replace("/cart/checkout/success");
-  
+      }
+    })
     } catch (error) {
       console.error("Error placing order:", error);
     }
   };
+  console.log(method)
   
     useEffect(()=>{
         setItem(getItem)
@@ -193,7 +198,7 @@ function page() {
                           <div className="flex justify-between p-5 font-semibold text-[0.6rem] md:text-lg">
                             <h1 className="">
                               Order Total:{" "}
-                              <span>₱ {item?.selectedProduct.isFree == true
+                              <span> {item?.selectedProduct.isFree == true
                                     ? "Free"
                                     : `₱ ${item?.selectedVariant.price}`}</span>
                             </h1>

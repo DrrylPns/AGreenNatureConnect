@@ -144,7 +144,9 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                         <div className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
                             <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
                                 <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
-                                {transaction.paymentMethod === 'Gcash' ? (
+                                {transaction.paymentMethod !== 'Gcash' || selectedIndex === 4 ? (
+                                   null
+                                ):(
                                     <>
                                     {transaction.paymentStatus === 'Not Paid'? (
                                         <QrCodeDrawer transaction={transaction}/>
@@ -153,8 +155,6 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                     )}
                                     
                                     </>
-                                ):(
-                                    null
                                 )}
                             </div>
                             <div className='flex px-5 md:px-10 w-full my-5 gap-7 sm:gap-10 md:gap-x-20 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>

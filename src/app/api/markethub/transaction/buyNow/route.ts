@@ -17,8 +17,9 @@ export async function POST(req: Request){
                 amount,
                 status: "PENDING",
                 buyerId: session.user.id,
+                paymentStatus: 'Not Paid',
                 sellerId,
-                paymentMethod: paymentMethod,
+                paymentMethod,
                 orderedVariant:{
                     create:{
                         price: amount,
@@ -28,7 +29,7 @@ export async function POST(req: Request){
                 }
             },
         });
-        return new Response(JSON.stringify(transaction));
+        return new Response(JSON.stringify(paymentMethod));
     } catch (error) {
         return new Response(JSON.stringify(error), { status: 500 });
     }

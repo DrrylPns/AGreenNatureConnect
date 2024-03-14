@@ -17,7 +17,7 @@ import { Button } from "@/components/ui/button";
 
 const PaymentMethod = [
   'Cash on delivery',
-  'Gcash',
+  'Gcash', 
  
 ]
 
