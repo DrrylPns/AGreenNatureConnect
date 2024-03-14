@@ -88,61 +88,13 @@ function QrCodeDrawer({
     const [imageUrl, setImageUrl] = useState<string>('')
     const imageIsEmpty = imageUrl.length === 0
 
-    const { mutate: updateTransaction, isLoading } = useMutation({
-    mutationFn: async ({
-        receipt,
-        transactionId
-    }: PaymentGcashType) => {
-        const payload: PaymentGcashType = {
-            receipt,
-            transactionId
+    const handleSubmit = async(transactionId: string) => {
+        try {
+            const res = await axios.post('api/markethub/qrcode', {imageUrl, transactionId})
+        } catch (error) {
+            console.log(error)
         }
-
-        const { data } = await axios.post("/api/markethub/qrcode", payload)
-        return data
-    },
-    onError: (err) => {
-        if (err instanceof AxiosError) {
-            if (err.response?.status === 400) {
-                toast({
-                    title: 'Error',
-                    description: "Can't upload your receipt!",
-                    variant: 'destructive',
-                })
-            }
-            if (err.response?.status === 401) {
-                toast({
-                    title: 'Error',
-                    description: "401",
-                    variant: 'destructive',
-                })
-            }
-        } else {
-            return toast({
-                title: 'Something went wrong.',
-                description: "Error",
-                variant: 'destructive',
-            })
-        }
-    },
-    onSuccess: (data) => {
-        toast({
-            title: 'Success!',
-            description: `${data}`,
-            variant: 'default',
-        })
-
-    }
-    })
-
-    function onSubmit(transactionId: string) {
-        const payload: PaymentGcashType = {
-            receipt: imageUrl,
-            transactionId: transactionId
-        }
-        updateTransaction(payload)
-        // console.log('Form submitted with values:', payload);
-        // console.log(payload)
+       
     }
 
   return (
@@ -224,8 +176,8 @@ function QrCodeDrawer({
         <DrawerFooter className="mt-0">
             <Button 
                 type="submit" 
-                onClick={()=>{onSubmit(transaction.id)}}
-                disabled={isLoading? true: false || imageIsEmpty}
+                onClick={()=>{handleSubmit(transaction.id)}}
+                disabled={imageIsEmpty}
             >Submit</Button>
             <DrawerClose>
             <Button variant="outline" onClick={()=>{setImageUrl('')}}>Cancel</Button>
