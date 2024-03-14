@@ -144,8 +144,15 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                         <div className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
                             <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
                                 <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
-                                {transaction.paymentStatus === 'PENDING' ? (
-                                    <QrCodeDrawer transaction={transaction}/>
+                                {transaction.paymentMethod === 'Gcash' ? (
+                                    <>
+                                    {transaction.paymentStatus === 'Not Paid'? (
+                                        <QrCodeDrawer transaction={transaction}/>
+                                    ):(
+                                        <h1>Paid</h1>
+                                    )}
+                                    
+                                    </>
                                 ):(
                                     null
                                 )}
@@ -307,7 +314,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                     </div>
                                     <div className='text-[0.6rem] sm:text-lg mt-5'>
                                         <h1 className='text-gray-400'>Payment method: <span className='text-gray-700'>{transaction.paymentMethod} </span></h1>
-                                        <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{transaction.status}</span></h1>
+                                        <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{transaction.paymentStatus}</span></h1>
                                     </div>
                                 </div>
 
