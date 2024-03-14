@@ -91,7 +91,7 @@ function shippingInfo() {
             const responseData = await response.json();
             
             // Replace the route after successful submission
-            router.replace(`/cart/checkout`);
+            router.back();
           } else {
             console.error('Error submitting form:', response.statusText);
           }
