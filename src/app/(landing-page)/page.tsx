@@ -25,16 +25,16 @@ export default async function Home() {
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
           <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
-            <div className="font-mono  text-white md:text-[17.5px] leading-[30px] self-start max-sm:text-[13px]">
-              Welcome to AGreen Nature Connect  Urban Farming
+            <div className="font-mono  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px]">
+              Welcome to AGreen Nature Connect Urban Farming
             </div>
             <Image
-              className="flex md:w-[300px] w-[300px] h-[5px] max-sm:hidden mx-60"
+              className="flex md:w-[300px] w-[400px] h-[10px] max-sm:hidden mx-60"
               src={Vector}
               alt=""
             />
           </div>
-          <div className="flex flex-col w-full items-end mt-5 py-3">
+          <div className="flex flex-col w-full items-end mt-2 py-3">
             <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[60px] md:text-[40px] text-[20px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
@@ -56,10 +56,10 @@ export default async function Home() {
       {/*SUBHEADING*/}
       <section className="flex px-16 py-16 items-center gap-8">
         <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify m-10 ">
-          <h1 className="font-livvic font-bold md:text-[40px] text-[20px] max-md:py-3 mb-5">
+          <h1 className="font-livvic font-bold md:text-[44px] text-[20px] max-md:py-3 mb-5">
             Nurtured: Quezon City.
           </h1>
-          <p className="md:text-[16px] text-[15px] max-sm:text-[12] ">
+          <p className="md:text-[18px] text-[15px] max-sm:text-[12] ">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
@@ -78,25 +78,25 @@ export default async function Home() {
         id="aboutus"
         className="flex flex-col lg:px-20 px-3 bg-cover bg-center bg-[url('/public/images/about.png')] justify-center items-center border-t-[1px] border-black bg-[#CFE2CE]">
         <div className="w-full h-full from-muted py-20">
-          <h1 className="text-center mb-10 font-poppins font-bold md:text-[40px] text-[30px]">
+          <h1 className="text-center mb-10 font-poppins font-bold md:text-[44px] text-[30px]">
             About Us
           </h1>
           <div className="flex mx-10">   
                 <div className="m-5 flex flex-col">
                     <div className="text-justify">
-                          <h2 className="font-poppins font-bold text-[30px] mb-8 text-center">
+                          <h2 className="font-poppins font-bold text-[32px] mb-8 text-center">
                             Quezon City Urban Farming
                           </h2>
-                          <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
+                          <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
                             AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
                           </p>
-                          <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
+                          <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
                             We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
                           </p>
-                          <p className="font-poppins font-normal md:text-[16px] text-[15px] mb-5">
+                          <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
                           Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
                           </p>
-                          <p className="font-poppins font-normal md:text-[16px] text-[15px]">
+                          <p className="font-poppins font-normal md:text-[18px] text-[15px]">
                           Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
                           </p>
                     </div>
@@ -118,7 +118,7 @@ export default async function Home() {
       </section>
       {/*Services*/}
       <section id="services" className="py-5">
-        <h1 className="text-center font-poppins font-bold md:text-[40px] text-[30px] mb-5">
+        <h1 className="text-center font-poppins font-bold md:text-[44px] text-[30px] mb-5">
           Services
         </h1>
         <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-2">
@@ -128,15 +128,15 @@ export default async function Home() {
               src={LightIcon}
               alt="Light Icon"
             />
-            <h3 className="font-poppins font-bold md:text-[20px] text-[15px]">
+            <h3 className="font-poppins font-bold md:text-[22px] text-[15px]">
               Shares Ideas
             </h3>
-            <p className="md:text-[13px] text-[12px] font-semibold my-2">
+            <p className="md:text-[16px] text-[12px] font-light my-2">
               Connect with our network to share insights and collaborate on
               cultivating urban agriculture success.
             </p>
             <Link href={"/discussion"}>
-              <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px] hover:text-dark-green">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
@@ -148,15 +148,15 @@ export default async function Home() {
               src={DeliveryIcon}
               alt="Delivery icon"
             />
-            <h3 className="font-poppins font-bold md:text-[20px] text-[15px]">
+            <h3 className="font-poppins font-bold md:text-[22px] text-[15px]">
               Order Products
             </h3>
-            <p className="md:text-[13px] text-[12px] font-semibold my-2">
+            <p className="md:text-[16px] text-[12px] font-light my-2">
               Buy fresh from the farm products. Help local urban farmers to have
               achieve sustainability and efficiency.
             </p>
             <Link href={"/markethub"}>
-              <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px]  ">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px]  ">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
@@ -168,15 +168,15 @@ export default async function Home() {
               src={KnowledgeIcon}
               alt="knowledge Icon"
             />
-            <h3 className="font-poppins font-bold md:text-[20px] text-[15px]">
+            <h3 className="font-poppins font-bold md:text-[22px] text-[15px]">
               Learn Online
             </h3>
-            <p className="md:text-[13px] text-[12px] font-semibold my-2">
+            <p className="md:text-[14.5px] text-[12px] font-light my-2">
               Discover the world of urban agriculture with our network. Join us
               in learning and growing together in urban farming.
             </p>
             <Link href={"/learningMaterials"}>
-              <button className="flex gap-2 font-poppins font-bold md:text-[15px] text-[12px]">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px]">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow icon" />
               </button>
@@ -192,7 +192,7 @@ export default async function Home() {
             style={{ width: "50%", height: "100%" }}
           />
           <div className="md:px-20 md:py-15 px-5 py-5 ">
-            <h2 className="font-poppins font-bold text-[30px] text-white my-10">
+            <h2 className="font-poppins font-bold text-[32px] text-white my-10">
               Providing High Quality Products
             </h2>
             <div className="flex items-center gap-3 my-14">
@@ -200,7 +200,7 @@ export default async function Home() {
                 <Image src={GrowthIcon} alt="Growth Icon" />
               </div>
               <div className="">
-                <h4 className="font-poppins font-semibold text-white">
+                <h4 className="font-poppins text-[18px] font-semibold text-white">
                   Our Agriculture Growth
                 </h4>
                 <p className="text-white">
@@ -215,7 +215,7 @@ export default async function Home() {
                 <Image src={HealthIcon} alt="Health Icon" />
               </div>
               <div className="">
-                <h4 className="font-poppins font-semibold text-white">
+                <h4 className="font-poppins text-[18px] font-semibold text-white">
                   Making Healthy Foods
                 </h4>
                 <p className="text-white">
@@ -258,7 +258,7 @@ export default async function Home() {
           <h1 className="font-poppins font-bold text-[30px]">
             GET IN TOUCH NOW
           </h1>
-          <p className="font-poppins font-normal md:text-[16px] text-[15px]">
+          <p className="font-poppins font-normal md:text-[16px] text-[14px]">
             Get in touch with us! Reach out for any inquiries, collaborations,
             or questions. Connect with our team to explore urban farming
             possibilities together.
@@ -348,7 +348,7 @@ export default async function Home() {
             </div>
             <button
               type="submit"
-              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
+              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-lg"
             >
               SUBMIT MESSAGE
             </button>
