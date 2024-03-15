@@ -40,7 +40,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-black w-full h-[70px] px-4 sm:px-20 py-4 shadow transition-color duration-500 ${
+      className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-white w-full h-[62px] px-4 sm:px-20 py-4 shadow transition-color duration-500 ${
         visible ? "" : "opacity-0"
       }`}
     >
@@ -59,7 +59,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("home")}
-            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber "
+            className="text-black text-[16px] font-semibold p-3 m-3 hover:text-amber "
           >
             Home
           </motion.button>
@@ -70,7 +70,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("aboutus")}
-            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber"
+            className="text-black text-[16px] font-semibold p-3 m-3 hover:text-amber"
           >
             About
           </motion.button>
@@ -81,7 +81,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("services")}
-            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber"
+            className="text-black text-[16px] font-semibold p-3 m-3 hover:text-amber"
           >
             Services
           </motion.button>
@@ -92,7 +92,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("contactus")}
-            className="text-white text-[16px] font-light p-3s max-md:mr-10 m-3 mr-28 hover:text-amber"
+            className="text-black text-[16px] font-semibold p-3s max-md:mr-10 m-3 mr-28 hover:text-amber"
           >
             Contact
           </motion.button>
@@ -100,15 +100,15 @@ export default function Navbar() {
       </motion.div>
       
       <motion.button
-        className="sm:hidden text-white text-[2rem]"
+        className="sm:hidden text-black text-[2rem]"
         onClick={toggleMobileMenu}
       >
         <BiMenu />
       </motion.button>
       {/* Mobile dropdown menu */}
       {isMobileMenuOpen && (
-        <div className="sm:hidden fixed left-0 w-full top-[70px] h-[40%] bg-black/90 flex items-center justify-center shadow">
-          <ul className="text-white text-[16px] font-mono hover:text-amber lg-text-[16px] md-text-[14px] max-sm:text-[12px]">
+        <div className="sm:hidden fixed left-0 w-full top-[70px] h-[40%] bg-white/90 flex items-center justify-center shadow">
+          <ul className="text-black text-[16px] font-poppins hover:text-amber lg-text-[16px] md-text-[14px] max-sm:text-[12px]">
             <li
               className=""
               onClick={() => {

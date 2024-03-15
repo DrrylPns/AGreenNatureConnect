@@ -25,7 +25,7 @@ export default async function Home() {
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
           <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
-            <div className="font-mono  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px]">
+            <div className="font-poppins  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px]">
               Welcome to AGreen Nature Connect Urban Farming
             </div>
             <Image
@@ -35,19 +35,19 @@ export default async function Home() {
             />
           </div>
           <div className="flex flex-col w-full items-end mt-2 py-3">
-            <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[60px] md:text-[40px] text-[20px] self-start mt-[-20px]">
+            <h1 className="font-Inter font-poppins font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[60px] md:text-[40px] text-[20px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
-            <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[60px] md:text-[40px] text-[20px] self-start">
+            <h1 className="font-Inter font-poppins font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[60px] md:text-[40px] text-[20px] self-start">
               Good Production
             </h1>
           </div>
-          <p className="my-[20px] text-white font-mono text-[16px] py-3">
+          <p className="my-[20px] pb-35 text-white font-poppins text-[16px] py-3">
             Greens in the Streets: Farming for a Better Tomorrow
           </p>
           <Link
             href="/discussion"
-            className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] md:p-3 p-3 border-none rounded-lg text-center "
+            className="text-black font-poppins font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] md:p-3 p-3 border-none rounded-lg text-center "
           >
             GET STARTED
           </Link>
@@ -348,7 +348,7 @@ export default async function Home() {
             </div>
             <button
               type="submit"
-              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-lg"
+              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins font-bold rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
             >
               SUBMIT MESSAGE
             </button>
