@@ -105,16 +105,6 @@ export default function SIdebar() {
 
             <Link
               className={`link ${
-                pathname === "/article" ? "border-b-2 border-yellow-400" : ""
-              } flex justify-center items-center  w-full py-3`}
-              href={"/article"}
-            >
-              <div className="text-[1.5rem]">
-                <MdOutlineArticle />
-              </div>
-            </Link>
-            <Link
-              className={`link ${
                 pathname === "/markethub" ? "border-b-2 border-yellow-400" : ""
               } flex justify-center items-center  w-full py-3`}
               href={"/markethub"}
@@ -282,20 +272,6 @@ export default function SIdebar() {
                     <LiaBlogger />
                   </div>
                   Blogs
-                </Link>
-                <Link
-                  href={"/article"}
-                  className={`link ${
-                    pathname === "/article"
-                      ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                      : ""
-                  }
-                  flex gap-3 ml-5 py-2`}
-                >
-                  <div className="text-[1.5rem]">
-                    <MdOutlineArticle />
-                  </div>
-                  Articles
                 </Link>
               </motion.div>
             )}
