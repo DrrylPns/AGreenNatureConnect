@@ -25,6 +25,8 @@ const page = () => {
         resolver: zodResolver(CreateVideoSchema),
     })
 
+    const videoUrlIsEmpty = videoUrl.length === 0
+
     const { mutate: createVideoTutorial, isLoading } = useMutation({
         mutationFn: async ({
             description,
@@ -178,7 +180,7 @@ const page = () => {
                                     )}
 
                                 <CardFooter>
-                                    <Button type="submit" variant={"newGreen"} disabled={isLoading}>Submit</Button>
+                                    <Button type="submit" variant={"newGreen"} disabled={isLoading || videoUrlIsEmpty} isLoading={isLoading}>Submit</Button>
                                 </CardFooter>
                             </form>
                         </Form>

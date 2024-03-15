@@ -1,6 +1,6 @@
 import EditorBlog from '@/app/components/(employee)/EditorBlog'
 import { Button } from '@/app/components/Ui/Button'
-import React from 'react'
+import React, { useState } from 'react'
 
 const page = () => {
     return (

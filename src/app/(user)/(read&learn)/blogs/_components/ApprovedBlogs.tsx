@@ -34,21 +34,33 @@ type User = {
     Blog: Blog[];
 };
 
-export const ApprovedBlogs = ({ selectedCommunity }: any) => {
-    const { isLoading, isError, data: communities } = useQuery({
-        queryKey: ['get-approved-blogs', selectedCommunity],
-        queryFn: async () => {
-            try {
-                const { data } = await axios.get("/api/user/getBlogs");
-                return data as Community[];
-            } catch (error: any) {
-                throw new Error(`Error fetching communities: ${error.message}`);
-            }
+type TabBlogsProps = {
+    selectedCommunity: string;
+    communities: Community[] & {
+        Blog: Blog & {
+            author: User
         }
-    })
+    }
+}
 
-    if (isLoading) return <>Fetching Blogs...</>
-    if (isError) return <>Error fetching Blogs...</>
+export const ApprovedBlogs: React.FC<TabBlogsProps> = ({
+    communities,
+    selectedCommunity,
+}) => {
+    // const { isLoading, isError, data: communities } = useQuery({
+    //     queryKey: ['get-approved-blogs', selectedCommunity],
+    //     queryFn: async () => {
+    //         try {
+    //             const { data } = await axios.get("/api/user/getBlogs");
+    //             return data as Community[];
+    //         } catch (error: any) {
+    //             throw new Error(`Error fetching communities: ${error.message}`);
+    //         }
+    //     }
+    // })
+
+    // if (isLoading) return <>Fetching Blogs...</>
+    // if (isError) return <>Error fetching Blogs...</>
 
     if (!communities || communities.length === 0) {
         return (
@@ -87,12 +99,12 @@ export const ApprovedBlogs = ({ selectedCommunity }: any) => {
     }
 
     return (
-        <div className="">
+        <div className="h-full">
             {filteredVideoTutorials.map((community) => (
-                <div key={community.id} className="">
+                <div key={community.id} className="h-full">
                     {community.blogs.map((blog) => (
-                        <div key={blog.id} className='lg:flex lg:flex-row lg:gap-8'>
-                            <Card isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-7 rounded-lg shadow-md border border-[#a2a2a2]/30">
+                        <div key={blog.id} className='flex flex-col md:flex-row gap-11 h-full'>
+                            <Card isFooterBlurred className="md:w-[50%] h-[300px] col-span-12 sm:col-span-7 rounded-lg shadow-md border border-[#a2a2a2]/30 p-0 my-2">
                                 <Image
                                     removeWrapper
                                     alt="blog app background"
@@ -109,7 +121,7 @@ export const ApprovedBlogs = ({ selectedCommunity }: any) => {
                                 </CardFooter>
                             </Card>
 
-                            <div className="max-lg:mt-3">
+                            <div className="max-lg:mt-3 md:w-[50%]">
                                 <p className="text-lg font-bold">{blog.title}</p>
                                 <p className='text-muted-foreground'>By {blog.author.name} {blog.author.lastName}</p>
 
@@ -117,8 +129,6 @@ export const ApprovedBlogs = ({ selectedCommunity }: any) => {
                                     <EditorOutput key={blog.id} content={blog.content} />
                                 </p>
                             </div>
-
-                            <Separator className='lg:hidden block my-3' />
                         </div>
                     ))}
                 </div>
