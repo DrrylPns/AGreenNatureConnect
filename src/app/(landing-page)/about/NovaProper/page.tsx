@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from "next/image";
+import Link from "next/link";
 import Members from "/public/images/Members.png";
 import Footer from '@/app/components/Footer/footer';
 
@@ -8,20 +9,36 @@ import Footer from '@/app/components/Footer/footer';
 function page() {
   return (
     <div className='w-full'>
+        
         <div className='pt-[5%] bg-[#B9DEB7]'>
-            <div className='flex px-20'>
-            <div className='border border-black w-[10%] h-10'>
-
-            </div>
-            <div className='md:ml-[30%]'>
-                <h1 className='font-livvic font-bold text-[36px]'>
+            
+            <div className='w-full'>
+                <h1 className='font-livvic font-bold text-[36px] text-center'>
                     Organizational Chart
                 </h1>
-                <h1 className='font-livvic font-bold text-[36px] text-center drop-shadow-lg shadow-white '>
-                    NOVA PROPER
-                </h1>
             </div>
+
+            <div className='flex flex-row grid-cols-3 gap-52 justify-center m-10'>
+                <div className='shadow-black shadow-lg p-3'>
+                    <Link href="/about/NovaProper"
+                        className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center ">
+                        NOVA PROPER
+                    </Link>
+                </div>
+                <div className='shadow-black shadow-lg p-3'>
+                    <Link href="/about/Bagbag"
+                        className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
+                        BAGBAG
+                    </Link>
+                </div>
+                <div className='shadow-black shadow-lg p-3'>
+                    <Link href="/about/BagongSilangan"
+                        className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
+                        BAGONG SILANGAN
+                    </Link>
+                </div>
             </div>
+
             <div className='flex flex-row justify-center p-5'>
             <div className='mx-10'>
                         <Image
