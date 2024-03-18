@@ -79,10 +79,6 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
         redirect: false,
       });
 
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000)
-
       setIsLoading(false);
 
       if (callback?.error) {
