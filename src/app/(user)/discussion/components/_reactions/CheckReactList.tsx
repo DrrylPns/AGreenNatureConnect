@@ -22,6 +22,7 @@ type User = {
 };
 
 export const CheckReactList = ({ postId }: PostIdProps) => {
+    
     const { isLoading, isError, data: reactors } = useQuery({
         queryKey: ['reactors'],
         queryFn: async () => {

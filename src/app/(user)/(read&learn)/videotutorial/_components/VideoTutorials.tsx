@@ -34,21 +34,30 @@ type User = {
     VideoTutorial: VideoTutorial[];
 };
 
-export const VideoTutorials = ({ selectedCommunity }: any) => {
-    const { isLoading, isError, data: communities } = useQuery({
-        queryKey: ['videoTutorials-approved', selectedCommunity],
-        queryFn: async () => {
-            try {
-                const { data } = await axios.get("/api/user/getVT");
-                return data as Community[];
-            } catch (error: any) {
-                throw new Error(`Error fetching communities: ${error.message}`);
-            }
+interface VideoTutorialsProps {
+    selectedCommunity: string;
+    communities: Community[] & {
+        VideoTutorial: VideoTutorial & {
+            author: User
         }
-    })
+    }
+}
 
-    if (isLoading) return <>Fetching Learning Materials...</>
-    if (isError) return <>Error fetching Learning Materials...</>
+export const VideoTutorials: React.FC<VideoTutorialsProps> = ({ selectedCommunity, communities }) => {
+    // const { isLoading, isError, data: communities } = useQuery({
+    //     queryKey: ['videoTutorials-approved', selectedCommunity],
+    //     queryFn: async () => {
+    //         try {
+    //             const { data } = await axios.get("/api/user/getVT");
+    //             return data as Community[];
+    //         } catch (error: any) {
+    //             throw new Error(`Error fetching communities: ${error.message}`);
+    //         }
+    //     }
+    // })
+
+    // if (isLoading) return <>Fetching Learning Materials...</>
+    // if (isError) return <>Error fetching Learning Materials...</>
 
     if (!communities || communities.length === 0) {
         return (
@@ -91,8 +100,8 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
             {filteredVideoTutorials.map((community) => (
                 <div key={community.id} className="">
                     {community.VideoTutorial.map((video) => (
-                        <div key={video.id} className='lg:flex lg:flex-row lg:gap-8'>
-                            <Card isFooterBlurred className="w-full h-[300px] col-span-12 sm:col-span-7 rounded-lg shadow-md border border-[#a2a2a2]/30">
+                        <div key={video.id} className='flex flex-col md:flex-row gap-11'>
+                            <Card isFooterBlurred className="md:w-[50%] h-[300px] col-span-12 sm:col-span-7 rounded-lg shadow-md border border-[#a2a2a2]/30 p-0 my-2">
                                 <Image
                                     removeWrapper
                                     alt="blog app background"
@@ -112,13 +121,11 @@ export const VideoTutorials = ({ selectedCommunity }: any) => {
                                 </CardFooter>
                             </Card>
 
-                            <div className="max-lg:mt-3">
+                            <div className="max-lg:mt-3 md:w-[50%]">
                                 <p className="text-lg font-bold">{video.title}</p>
                                 <p className='text-muted-foreground'>By {video.author.name} {video.author.lastName}</p>
                                 <p className='text-muted-foreground text-[15px] mt-3'>{video.description}</p>
                             </div>
-
-                            <Separator className='lg:hidden block my-3' />
                         </div>
                     ))}
                 </div>

@@ -40,7 +40,7 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 });
         }
         const body = await req.json();
-        const { Items } = body;
+        const { Items, paymentMethod } = body;
 
         const transformedItems = transformItems(Items);
 
@@ -55,6 +55,7 @@ export async function POST(req: Request) {
                     status: "PENDING",
                     buyerId: session.user.id,
                     sellerId: item.communityId,
+                    paymentMethod: paymentMethod
                 },
             });
 
@@ -66,6 +67,7 @@ export async function POST(req: Request) {
                     orderedVariant: {
                         createMany: {
                             data: item.products.map((product) => ({
+                                price: product.variant.price,
                                 variantId: product.variant.id,
                                 productId: product.productId,
                             })),

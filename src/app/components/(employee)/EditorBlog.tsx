@@ -14,16 +14,6 @@ import { OutputData } from '@editorjs/editorjs';
 import Image from 'next/image';
 import { Button } from '../Ui/Button';
 
-// interface BlogData {
-//     id: string;
-//     title: string;
-//     content: any;
-// }
-
-// interface EditorBlogProps {
-//     initialData?: BlogData
-// }
-
 interface EditorBlogProps {
     initialData?: OutputData;
     id?: string;
@@ -35,8 +25,6 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const _titleRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter();
-    const pathname = usePathname();
-    const queryClient = useQueryClient();
     const [imageUrl, setImageUrl] = useState<string>('')
 
     const {
@@ -318,13 +306,13 @@ const EditorBlog = ({ initialData, id, title }: EditorBlogProps) => {
         onSuccess: () => {
             //queryClient.invalidateQueries(['getBlogs']);
 
-            setTimeout(() => {
-                router.push("/blogs")
-            }, 1000)
-
-            return toast({
+            toast({
                 description: "Your post has been published.",
             });
+
+            setTimeout(() => {
+                window.location.reload()
+            }, 2000)
         },
     })
 

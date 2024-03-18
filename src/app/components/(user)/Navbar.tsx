@@ -16,6 +16,13 @@ import { Session } from "next-auth";
 import { BsCart4 } from "react-icons/bs";
 import { ThemeToggler1 } from "../_ThemeToggler";
 import CartIcon from "./CartIcon";
+import { MdOutlineHistory } from "react-icons/md";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface NavbarProps {
   session: Session | null;
@@ -49,7 +56,20 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
               <div className="max-md:block hidden mt-4">
                 <ThemeToggler1 />
               </div>
-
+              <div className="hidden md:block mt-[10%]">
+              <TooltipProvider >
+                <Tooltip>
+                  <TooltipTrigger>
+                    <Link href={"/order-status"} className="hidden md:block text-[1.5rem] md:text-[2rem]">
+                      <MdOutlineHistory />
+                    </Link>
+                  </TooltipTrigger>
+                  <TooltipContent>
+                    <p>Transaction history</p>
+                  </TooltipContent>
+                </Tooltip>
+              </TooltipProvider>
+              </div>      
               <Link href={"/cart"} className="text-[1.5rem] md:text-[2rem]">
                 <CartIcon/>
               </Link>

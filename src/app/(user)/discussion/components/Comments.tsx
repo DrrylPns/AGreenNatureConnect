@@ -99,8 +99,7 @@ export default function Comments({ posts }: { posts: Post }) {
     if (isInvalidComment) {
       toast({
         title: "Comment Invalid",
-        description:
-          "Your commment is invalid because you are using foul word!",
+        description: "Your commment is invalid because you are using bad word",
         variant: "destructive",
       });
       return;

@@ -32,7 +32,6 @@ import { useState } from "react";
 import Image from "next/image";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { UpdateEmployeeSchema, UpdateEmployeeType } from '@/lib/validations/admin/updateEmployee';
-import { Community, User } from '@prisma/client';
 import { useRouter } from 'next/navigation';
 
 

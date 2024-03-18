@@ -53,8 +53,8 @@ model User {
   comments         Comment[]
   likes            Like[]
   notifications    Notification[]
-  reportedReports  Report[]           @relation("Report")
-  adminReports     Report[]           @relation("StaffHandleReport")
+  reporter         Report[]           @relation("Reporter")
+  reported         Report[]           @relation("Reported")
   Blog             Blog[]
   LearningMaterial LearningMaterial[]
   VideoTutorial    VideoTutorial[]
@@ -115,11 +115,11 @@ model Session {
 
 // mga possible idagdag sa community: address, description, etc... consult sa members
 model Community {
-  id        String   @id @default(cuid())
-  name      String   @unique
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  id               String             @id @default(cuid())
+  name             String             @unique
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  qrCode           String?
   posts            Post[]
   blogs            Blog[]
   articles         Article[]
@@ -245,41 +245,53 @@ model Notification {
 }
 
 model Report {
-  id          String     @id @default(cuid())
-  type        ReportType
-  description String     @db.VarChar(1000)
-  createdAt   DateTime   @default(now())
+  id        String     @id @default(cuid())
+  type      ReportType
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
 
-  reporter   User   @relation(fields: [reporterId], references: [id], onDelete: Cascade, name: "Report")
+  reporter   User   @relation(fields: [reporterId], references: [id], onDelete: Cascade, name: "Reporter")
   reporterId String
 
-  post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
-  postId String
+  post   Post?   @relation(fields: [postId], references: [id], onDelete: Cascade)
+  postId String?
 
   status ReportStatus @default(PENDING)
 
-  //gawing employee
-  staff   User?   @relation(fields: [staffId], references: [id], onDelete: Cascade, name: "StaffHandleReport")
-  staffId String?
+  reported   User   @relation(fields: [reportedId], references: [id], onDelete: Cascade, name: "Reported")
+  reportedId String
 
   @@index([reporterId])
   @@index([postId])
-  @@index([staffId])
+  @@index([reportedId])
 }
 
 enum ReportType {
-  IRRELEVANT
-  SPAM
-  INAPPROPRIATE_CONTENT
-  HARASSMENT
-  // dagdagan yung report type depende sa mapaguusapan
+  IntellectualProperty
+  FraudOrScam
+  MockingVictims
+  Bullying
+  ChildAbuse
+  AnimalAbuse
+  SexualActivity
+  SuicideOrSelfInjury
+  HateSpeech
+  PromotingDrugUse
+  NonConsensualIntimateImages
+  SexualExploitation
+  Harassment
+  UnauthorizedSales
+  Violence
+  IrrelevantContent //d
+  SharingPrivateImages
 }
 
+// if rejected yung report make post reports 0 again and delete the existing reports
+// if resolved add numberOfViolations of user na rineport + 1
 enum ReportStatus {
   PENDING
   RESOLVED
   REJECTED
-  // dagdagan yung report status depende sa mapaguusapan
 }
 
 model Blog {
@@ -398,6 +410,7 @@ model Product {
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
+  isFreeUntil  DateTime?      @db.DateTime()
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
@@ -433,14 +446,17 @@ model Variant {
 }
 
 model Transaction {
-  id          String            @id @default(cuid())
-  referenceId String            @unique
-  amount      Float // order total
-  status      TransactionStatus @default(PENDING)
-  createdAt   DateTime          @default(now())
-  updatedAt   DateTime          @updatedAt
-  cancelReason String?
-  cancelType   CancelType?
+  id            String            @id @default(cuid())
+  referenceId   String            @unique
+  amount        Float // order total
+  status        TransactionStatus @default(PENDING)
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  cancelReason  String?
+  cancelType    CancelType?
+  paymentMethod String?
+  gcashReciept  String?
+  paymentStatus String?           @default("Not Paid")
 
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
@@ -455,9 +471,22 @@ model Transaction {
 }
 
 enum CancelType {
-  LackOfProducts
-  EnvironmentalProblem
-  others
+  OutOfStock
+  PaymentIssues
+  AddressVerification
+  SellerError
+  NonResponsiveBuyer
+  ViolationOfPolicies
+  ShippingRestrictions
+  ProductDiscontinuation
+  SystemErrors
+  ChangeOfMind
+  FoundBetterDeal
+  UnavailabilityOfItem
+  DeliveryDelay
+  IncorrectItem
+  CommunicationIssues
+  Other_Reason
 }
 
 enum TransactionStatus {
@@ -470,6 +499,7 @@ enum TransactionStatus {
 
 model OrderedVariant {
   id        String   @id @default(cuid())
+  price     Float
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 

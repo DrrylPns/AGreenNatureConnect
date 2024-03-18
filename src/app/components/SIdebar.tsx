@@ -105,16 +105,6 @@ export default function SIdebar() {
 
             <Link
               className={`link ${
-                pathname === "/article" ? "border-b-2 border-yellow-400" : ""
-              } flex justify-center items-center  w-full py-3`}
-              href={"/article"}
-            >
-              <div className="text-[1.5rem]">
-                <MdOutlineArticle />
-              </div>
-            </Link>
-            <Link
-              className={`link ${
                 pathname === "/markethub" ? "border-b-2 border-yellow-400" : ""
               } flex justify-center items-center  w-full py-3`}
               href={"/markethub"}
@@ -283,53 +273,9 @@ export default function SIdebar() {
                   </div>
                   Blogs
                 </Link>
-                <Link
-                  href={"/article"}
-                  className={`link ${
-                    pathname === "/article"
-                      ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                      : ""
-                  }
-                  flex gap-3 ml-5 py-2`}
-                >
-                  <div className="text-[1.5rem]">
-                    <MdOutlineArticle />
-                  </div>
-                  Articles
-                </Link>
               </motion.div>
             )}
           </AnimatePresence>
-          <Link
-            href={"/searchplant"}
-            className={`link ${
-              pathname === "/searchplant"
-                ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                : ""
-            } flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale `}
-          >
-            <div className="text-icons ">
-              <PiPlant />
-            </div>
-            <div className={`${isSideBarOpen ? "block" : "hidden"}`}>
-              <motion.p
-                initial={{ scale: 0 }}
-                animate={{ scale: isSideBarOpen ? 1 : 0 }} // Target values (opacity: 1, translateY: 0)
-                transition={{
-                  type: "tween",
-                  stiffness: 1000,
-                  damping: 20,
-                  duration: 0.6,
-                  delay: 0.5,
-                }}
-                className={`font-poppins text-[1rem]`}
-              >
-                Search a Plant
-              </motion.p>
-            </div>
-          </Link>
           <Link
             href={"/markethub"}
             className={`link ${

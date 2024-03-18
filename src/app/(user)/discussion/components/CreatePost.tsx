@@ -21,11 +21,10 @@ export default function CreatePost() {
       ) : (
         <>
           {session ? (
-            <Link
-              href={"/discussion/create-post"}
+            <div
               className=" flex justify-between items-center gap-5 dark:bg-[#242526] bg-white rounded-lg drop-shadow-lg w-full px-5 py-5"
             >
-              <Link href={"/profile"} className="w-[2.5rem]">
+              <Link  href={{pathname:`/discussion/user/${session?.user.username}`, query:{id:session.user.id}}} className="w-[2.5rem]">
                 <UserAvatar
                   user={{
                     name: session?.user.username || null,
@@ -43,7 +42,7 @@ export default function CreatePost() {
               <Link href={"/discussion/create-post"}>
                 <Button variant={"green"}>Create</Button>
               </Link>
-            </Link>
+            </div>
           ) : (
             <></>
           )}

@@ -22,7 +22,7 @@ const page = async ({
     const getProductByname = await prisma.product.findMany({
         where:{
             name:{
-                contains: params.productName,
+                contains: communityName,
             },
             status:"APPROVED",
 

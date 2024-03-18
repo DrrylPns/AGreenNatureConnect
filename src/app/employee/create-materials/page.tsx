@@ -20,6 +20,8 @@ const page = () => {
     const [pdfUrl, setPdfUrl] = useState<string>("")
     const router = useRouter()
 
+    const pdfUrlIsEmpty = pdfUrl.length === 0
+
     const form = useForm<CreateMaterialType>({
         resolver: zodResolver(CreateMaterialSchema),
     })
@@ -173,7 +175,7 @@ const page = () => {
                                 <FormDescription>Note: Only PDFs are allowed.</FormDescription>
 
                                 <CardFooter>
-                                    <Button type="submit" variant={"newGreen"} disabled={isLoading}>Submit</Button>
+                                    <Button type="submit" variant={"newGreen"} disabled={isLoading || pdfUrlIsEmpty} isLoading={isLoading}>Submit</Button>
                                 </CardFooter>
                             </form>
                         </Form>

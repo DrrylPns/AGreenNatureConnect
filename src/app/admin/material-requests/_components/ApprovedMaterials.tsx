@@ -57,9 +57,9 @@ export const ApprovedMaterials = () => {
     }
   })
 
-  if (isLoading) return <>Fetching Blogs...</>
+  if (isLoading) return <>Fetching materials...</>
 
-  if (isError) return <>Error fetching Blogs...</>
+  if (isError) return <>Error fetching materials...</>
 
   const updatedMaterialStatus = async (materialId: string, newStatus: string) => {
     try {

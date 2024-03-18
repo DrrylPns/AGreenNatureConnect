@@ -2,6 +2,7 @@
 import { cn, formatDate } from "@/lib/utils";
 import { ColumnDef } from "@tanstack/react-table"
 import {
+  CalendarIcon,
   MoreHorizontal,
 } from "lucide-react"
 import {
@@ -16,9 +17,21 @@ import { Button } from "@/app/components/Ui/Button"
 import { DataTableColumnHeader } from "./DateTableColumnHeader";
 import { Checkbox } from "@/app/components/Ui/checkbox"
 import { useRouter } from "next/navigation";
-import { User } from "@prisma/client";
+import { Product, User } from "@prisma/client";
 import { toast } from "@/lib/hooks/use-toast";
 import Image from "next/image";
+import Link from "next/link";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Ui/Dialog";
+import { add, addDays, format, isAfter, isBefore, isToday, isValid, startOfToday, sub } from "date-fns";
+import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover";
+import { Calendar } from "@/components/ui/calendar";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
 
 export type Products = {
   id: string;
@@ -36,32 +49,11 @@ export type Products = {
   createdAt: Date;
   creatorId: string;
   creator: User;
+  isFree: boolean;
 }
 
 export const columns: ColumnDef<Products>[] =
   [
-    // {
-    //   id: "select",
-    //   header: ({ table }) => (
-    //     <Checkbox
-    //       checked={
-    //         table.getIsAllPageRowsSelected() ||
-    //         (table.getIsSomePageRowsSelected() && "indeterminate")
-    //       }
-    //       onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
-    //       aria-label="Select all"
-    //       className="translate-y-[2px] "
-    //     />
-    //   ),
-    //   cell: ({ row }) => (
-    //     <Checkbox
-    //       checked={row.getIsSelected()}
-    //       onCheckedChange={(value) => row.toggleSelected(!!value)}
-    //       aria-label="Select row"
-    //       className="translate-y-[2px]"
-    //     />
-    //   ),
-    // },
     {
       accessorKey: "productImage",
       header: ({ column }) => {
@@ -70,18 +62,9 @@ export const columns: ColumnDef<Products>[] =
         )
       },
       cell: ({ row }) => {
-        // const productId = row.original.id
         const ProductImage = row.original.productImage
         return <div
           className="cursor-pointer flex items-center justify-center"
-        // onClick={() => {
-        //   toast({
-        //     title: "Success!",
-        //     description: "Employee ID copied to clipboard.",
-        //     variant: "default"
-        //   })
-        //   navigator.clipboard.writeText(productId)
-        // }}
         >
           <Image
             unoptimized
@@ -215,33 +198,24 @@ export const columns: ColumnDef<Products>[] =
       },
     },
     {
-      accessorKey: "status",
+      accessorKey: "isFree",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Status" />
+          <DataTableColumnHeader column={column} title="Free" />
         );
       },
       cell: ({ row }) => {
-        const status = row.original.status;
+        let status
+        if (row.original.isFree) {
+          status = "Yes"
+        } else {
+          status = "No"
+        }
         return <div>{status}</div>;
       },
     },
-    // {
-    //   accessorKey: "price",
-    //   header: ({ column }) => {
 
-    //     return (
-    //       <DataTableColumnHeader column={column} title="Price" />
-    //     );
-    //   },
-    //   cell: ({ row }) => {
-    //     const price = row.original.price;
-    //     const formattedPrice = price.toLocaleString()
-
-    //     return <div>{formattedPrice}{" "}PHP</div>;
-    //   },
-    // },
     {
       accessorKey: "createdAt",
       header: ({ column }) => {
@@ -284,45 +258,220 @@ export const columns: ColumnDef<Products>[] =
       id: "actions",
       header: "Actions",
       cell: ({ row }) => {
+        const [productData, setProductData] = useState<Product | null>(null);
+        const [isLoading, setIsLoading] = useState(true);
+        const [open, setIsOpen] = useState(false)
+        const [showDeleteDialog, setShowDeleteDialog] = useState(false)
+        const [isFreeUntil, setIsFreeUntil] = useState<Date>()
         const product = row.original
-        const router = useRouter()
+        const today = new Date();
+        const sevenDaysFromNow = addDays(today, 7);
+
+        useEffect(() => {
+          const fetchProductData = async () => {
+            try {
+              const { data } = await axios.get(`/api/employee/products/${product.id}`);
+              setProductData(data as Product);
+              setIsLoading(false);
+            } catch (error) {
+              console.error('Error fetching product data:', error);
+              setIsLoading(false);
+            }
+          };
+
+          fetchProductData();
+        }, [product.id, product]);
+
+        const isFree = productData?.isFree
+
+        const updateProductMutation = async ({ productId, isFree, isFreeUntil }: { productId: string, isFree: boolean, isFreeUntil: Date }) => {
+          try {
+            const response = await fetch(`/api/employee/products/${productId}/updateFree`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({ productId, isFree, isFreeUntil }),
+            });
+
+            if (!response.ok) {
+              throw new Error(`Failed to update product. Status: ${response.status}`);
+            }
+
+            toast({
+              title: "Updated",
+              description: "Successfully updated the product.",
+              variant: "default",
+            })
+
+            setTimeout(() => {
+              window.location.reload();
+            }, 1000);
+          } catch (error) {
+            toast({
+              title: "Error",
+              description: "Something went wrong.",
+              variant: "destructive",
+            })
+          }
+        }
+
+
+        const { mutate: updateProduct } = useMutation(updateProductMutation);
+
+        const handleMakeFree = (productId: string, isFreeUntil: Date) => {
+          updateProduct({ productId, isFree: true, isFreeUntil });
+        }
+
+        const handleMakeNotFree = (productId: string, isFreeUntil: Date) => {
+          updateProduct({ productId, isFree: false, isFreeUntil });
+        }
 
         const handleDelete = () => {
           console.log(`Hiding product with ID: ${product.id}`);
         };
 
+        const formSchema = z.object({
+          freeUntil: z.coerce.date(),
+        })
+
+        const form = useForm<z.infer<typeof formSchema>>({
+          resolver: zodResolver(formSchema),
+        })
+
+        function onSubmit(values: z.infer<typeof formSchema>) {
+          console.log("...")
+        }
+
         return (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" className="h-8 w-8 p-0">
-                <span className="sr-only">Open menu</span>
-                <MoreHorizontal className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>Actions</DropdownMenuLabel>
-              <DropdownMenuItem
-                onClick={() => navigator.clipboard.writeText(product.id)}
-              >
-                Copy Product ID
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                onClick={() => router.push(`inventory/addstocks/${product.id}`)}
-              >
-                Add Stocks
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                onClick={() => router.push(`inventory/${product.id}`)}
-              >Edit Product</DropdownMenuItem>
-              {/* <DropdownMenuItem
-                onClick={() => router.push(`inventory/${product.id}`)}
-              >Add Stocks</DropdownMenuItem> */}
-              <DropdownMenuItem
-                onClick={handleDelete}
-              >Archive</DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" className="h-8 w-8 p-0">
+                  <span className="sr-only">Open menu</span>
+                  <MoreHorizontal className="h-4 w-4" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                <DropdownMenuItem
+                  onClick={() => navigator.clipboard.writeText(product.id)}
+                >
+                  Copy Product ID
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
+                >
+                  <Link href={`inventory/addstocks/${product.id}`}>
+                    Add Stocks
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                // onClick={() => router.push(`inventory/${product.id}`)}
+                >
+                  <Link href={`inventory/${product.id}`}>
+                    Edit Product
+                  </Link>
+                </DropdownMenuItem>
+                {/* <DropdownMenuItem onClick={() => (isFree ? handleMakeNotFree(product.id) : handleMakeFree(product.id))}>
+                
+              </DropdownMenuItem> */}
+                {/* if it is free,  cancel it */}
+                <DropdownMenuItem onSelect={() => (isFree ? handleMakeNotFree(product.id, isFreeUntil as Date) : setIsOpen(true))}>
+                  {isFree ? 'Cancel Free Promo' : 'Free promo'}
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  onClick={handleDelete}
+                >
+                  Archive
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu >
+
+            <Dialog open={open} onOpenChange={setIsOpen}>
+              {/* <DialogTrigger>
+                    {isFree ? 'Cancel Free Promo' : 'Free promo'}
+                  </DialogTrigger> */}
+              <DialogContent>
+                <DialogHeader>
+                  <DialogTitle>Please select a date</DialogTitle>
+                  <DialogDescription>
+                    <Form {...form}>
+                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                        <FormField
+                          control={form.control}
+                          name="freeUntil"
+                          render={({ field }) => (
+                            <FormItem className="flex flex-col mt-4">
+                              <FormLabel>Specify the date until which the product remains available for free.</FormLabel>
+                              <Popover>
+                                <PopoverTrigger asChild>
+                                  <FormControl>
+                                    <Button
+                                      variant={"outline"}
+                                      className={cn(
+                                        "pl-3 text-left font-normal",
+                                        !field.value && "text-muted-foreground"
+                                      )}
+                                    >
+                                      {field.value && isValid(new Date(field.value)) ? (
+                                        format(new Date(field.value), "PPP")
+                                      ) : (
+                                        <span>Pick a date</span>
+                                      )}
+                                      {/* 
+                                      {field.value ? (
+                                        format(field.value, "PPP")
+                                      ) : (
+                                        <span>Pick a date</span>
+                                      )} */}
+
+                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
+                                    </Button>
+                                  </FormControl>
+                                </PopoverTrigger>
+                                <PopoverContent className="w-auto p-0" align="start">
+                                  <Calendar
+                                    mode="single"
+                                    selected={field.value}
+                                    onSelect={(date) => {
+                                      // const isoDate = date?.toISOString();
+                                      // field.onChange(isoDate);
+                                      // setIsFreeUntil(isoDate as any);
+
+                                      // const localDate = date?.toLocaleString();
+                                      // field.onChange(localDate);
+                                      // setIsFreeUntil(localDate as any);
+
+                                      field.onChange(date);
+                                      setIsFreeUntil(date);
+                                    }}
+                                    disabled={(date) => !isToday(date) && (isBefore(date, today) || isAfter(date, sevenDaysFromNow))}
+                                    initialFocus
+                                  />
+                                </PopoverContent>
+                              </Popover>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <Button
+                          type="submit"
+                          variant="newGreen"
+                          onClick={() => (isFree ? "" : handleMakeFree(product.id, isFreeUntil as Date))}
+                          disabled={!isFreeUntil}
+                          isLoading={isLoading}
+                        >
+                          Submit
+                        </Button>
+                      </form>
+                    </Form>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
+          </>
         )
       },
     },

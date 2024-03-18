@@ -132,7 +132,7 @@ function ProductTab({
                             return null
                         }
 
-                        if (product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0) {
+                        if (product.kilograms <= 0 && product.grams <= 0 && product.pounds <= 0 && product.packs <= 0 && product.pieces === 0) {
                             return null
                         } else {
                             return (

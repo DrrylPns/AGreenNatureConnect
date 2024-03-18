@@ -1,9 +1,9 @@
-import { FC, Fragment, useEffect, useState } from 'react'
-import { Dialog, Transition } from '@headlessui/react'
-import axios from 'axios'
-import { useSearchParams, useRouter } from 'next/navigation'
-import { AiOutlineDelete, AiOutlineEdit } from 'react-icons/ai'
-import { toast } from '@/lib/hooks/use-toast'
+import { FC, Fragment, useEffect, useState } from "react";
+import { Dialog, Transition } from "@headlessui/react";
+import axios from "axios";
+import { useSearchParams, useRouter } from "next/navigation";
+import { AiOutlineDelete, AiOutlineEdit } from "react-icons/ai";
+import { toast } from "@/lib/hooks/use-toast";
 
 interface DeleteDialogProps {
   commentId: string;
@@ -13,34 +13,42 @@ interface DeleteDialogProps {
 const DeleteDialog: FC<DeleteDialogProps> = ({ commentId, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
   const searchParams = useSearchParams();
-  const postId = searchParams.get('postId');
+  const postId = searchParams.get("postId");
   const router = useRouter();
 
   const handleDelete = async () => {
-    const deleteComment = await axios.delete(`/api/user/post/${postId}/comments?commentId=${commentId}`)
+    const deleteComment = await axios
+      .delete(`/api/user/post/${postId}/comments?commentId=${commentId}`)
       .then(() => {
         toast({
-          description: "Comment deleted",
+          description: "Your comment has been deleted",
           variant: "destructive",
         }),
-          setIsOpen(false)
+          setIsOpen(false);
         onDelete();
-      }).catch((error) => {
-        console.log(error)
       })
-  }
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   function closeModal() {
-    setIsOpen(false)
+    setIsOpen(false);
   }
 
   function openModal() {
-    setIsOpen(true)
+    setIsOpen(true);
   }
   return (
     <>
       <div className="">
-        <button type='button' onClick={openModal} className='flex gap-1 hover:underline w-full'><AiOutlineDelete /> Delete</button>
+        <button
+          type="button"
+          onClick={openModal}
+          className="flex gap-1 hover:underline w-full"
+        >
+          <AiOutlineDelete /> Delete
+        </button>
       </div>
 
       <Transition appear show={isOpen} as={Fragment}>
@@ -104,7 +112,7 @@ const DeleteDialog: FC<DeleteDialogProps> = ({ commentId, onDelete }) => {
         </Dialog>
       </Transition>
     </>
-  )
-}
+  );
+};
 
-export default DeleteDialog
+export default DeleteDialog;
