@@ -13,41 +13,43 @@ import Phone from "/public/images/phone.png";
 import Email from "/public/images/email.png";
 import Location from "/public/images/location.png";
 import Link from "next/link";
+import { ShadcnCarousel } from "../(user)/markethub/components/sCarousel";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
 export default async function Home() {
   return (
-    <div className="flex-row md:flex-col mx-auto">
+    <div className=" flex-row md:flex-col mx-auto">
       {/*Heading*/}
-
+      
       <header id="home" className="">
-        <div
+      <div 
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
           <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
-            <div className="font-mono  text-white md:text-[17.5px] leading-[30px] self-start max-sm:text-[13px]">
-              Welcome to AGreen Nature Connect  Urban Farming
+          <div className="font-mono  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px] m-2">
+              Welcome to AGreen Nature Connect Urban Farming
             </div>
             <Image
               className="flex md:w-[300px] w-[300px] h-[5px] max-sm:hidden mx-60"
               src={Vector}
               alt=""
             />
+
           </div>
-          <div className="flex flex-col w-full items-end mt-5 py-3">
-            <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[60px] md:text-[40px] text-[20px] self-start mt-[-20px]">
+          <div className="flex flex-col w-full items-end mt-5">
+            <h1 className="font-livvic font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[20px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
-            <h1 className="font-Inter font-dancing-script font-semibold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[60px] md:text-[40px] text-[20px] self-start">
-              Good Production
+            <h1 className="font-livvic font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[20px] self-start">
+              Good production
             </h1>
           </div>
-          <p className="my-[20px] text-white font-mono text-[16px] py-3">
+          <p className="my-[20px] text-white font-poppins text-[15px]">
             Greens in the Streets: Farming for a Better Tomorrow
           </p>
           <Link
             href="/discussion"
-            className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] md:p-3 p-3 border-none rounded-lg text-center "
+            className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-4 p-4 border-none rounded-lg"
           >
             GET STARTED
           </Link>
@@ -70,7 +72,7 @@ export default async function Home() {
           className="lg:block hidden "
           src={Subheading}
           alt="subheading image"
-          width={400}
+          width={500}
         />
       </section>
       {/*ABOUT US*/}
@@ -102,7 +104,7 @@ export default async function Home() {
                     </div>
 
                     <Link href="/about"
-                    className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center ">
+                    className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
                     Read More
                     </Link>
                 </div>    

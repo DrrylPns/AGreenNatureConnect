@@ -1,10 +1,10 @@
 'use client'
 import * as React from "react"
 import Autoplay from "embla-carousel-autoplay"
-import FreeImage from '../images/Free vegetables.png';
-import Image2 from '../images/Image2.png';
-import Image3 from '../images/Image3.png';
-import Image4 from '../images/Image4.png';
+import Slider1 from "/public/images/Slider 1.png";
+import Slider2 from "/public/images/Slider 2.png";
+import Slider3 from "/public/images/Slider 3.png";
+import Slider4 from "/public/images/Slider 4.png";
 
 import {
   Carousel,
@@ -15,11 +15,11 @@ import {
 } from "@/components/ui/carousel"
 import Image from "next/image";
 
-const images = [FreeImage, Image2, Image3, Image4];
+const images = [Slider1, Slider2, Slider3, Slider4];
 
 export function ShadcnCarousel() {
   const plugin = React.useRef(
-    Autoplay({ delay: 3000, stopOnInteraction: false })
+    Autoplay({ delay: 2000, stopOnInteraction: false })
   )
 
   return (
@@ -36,7 +36,7 @@ export function ShadcnCarousel() {
             className="w-full"
           >
             <div className="">
-              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[50vh]" />
+              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[100vh]" />
             </div>
           </CarouselItem>
         ))}
