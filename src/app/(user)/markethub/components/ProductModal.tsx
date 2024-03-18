@@ -10,6 +10,9 @@ import React, { Fragment, useState } from 'react'
 import { z } from 'zod';
 import Card from './Card';
 import { useCart } from '@/contexts/CartContext';
+import { useRouter } from 'next/navigation';
+import { useLocalStorage } from '@/app/(markethub)/hooks/useLocalStorage';
+import { Button } from '@/components/ui/button';
 
 interface Product {
   id: string;
@@ -63,8 +66,9 @@ function ProductModal({
     const [isOpen, setIsOpen] = useState(false);
     const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
     const [selectedVariant, setSelectedVariant] = useState<Variants | null>(null);
-
+    const router = useRouter()
     const [isLoading, setIsLoading] = useState(false);
+    const { setItem } = useLocalStorage('product')
 
 
     function closeModal() {
@@ -79,11 +83,12 @@ function ProductModal({
 
     const handleAddToCart = async () => {
       try {
-      
+        setIsLoading(true)
         const addToCart = await axios.post('/api/markethub/cart', {
           variantId: selectedVariant?.id, communityId: selectedProduct?.communityId
         }).then(res => {
           closeModal()
+          setIsLoading(false)
           toast({
             description: "Added to cart, Successfuly!.",
           })
@@ -108,6 +113,11 @@ function ProductModal({
       } finally {
         setIsLoading(false)
       }
+    }
+
+    const handleBuyNow = async ()=>{
+      router.push('/buy-now')
+      setItem({selectedProduct, selectedVariant})
     }
     
   return (
@@ -158,9 +168,9 @@ function ProductModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-white font-poppins bg-semi-transparent-greenish text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-black font-poppins bg-gray-50 text-left align-middle shadow-xl transition-all">
                   <div className='flex justify-end w-full '>
-                    <button type='button' onClick={() => closeModal()} className='text-white text-[1rem] md:px-5 p-3 '>
+                    <button type='button' onClick={() => closeModal()} className='text-[1rem] md:px-5 p-3 '>
                       X
                     </button>
                   </div>
@@ -171,8 +181,8 @@ function ProductModal({
                         alt='Product Image'
                         width={300}
                         height={300}
-                        className="w-full md:w-1/2 h-40"
-                        loading='eager'
+                        className="w-full md:w-1/2 h-40 border-gray-300 border-2"
+                        loading= 'lazy'
                       />
                     )}
                     <div className='flex flex-col font-poppins text text mx-auto'>
@@ -217,7 +227,7 @@ function ProductModal({
                       </div>
                     )}
                   </div>
-                  <div className='w-full bg-white shadow-md drop-shadow-xl mt-36 py-5 px-5'>
+                  <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-36 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
                       Total Price:
                       <span className='font-semibold font-poppins text-lg'> ₱ {
@@ -227,27 +237,28 @@ function ProductModal({
                   </div>
                   {status === 'authenticated' ? (
                     <div className="w-full ">
-                      <button
+                      <Button
                         type="button"
-                        className="w-1/2 bg-[#FDE63F] py-5"
+                        className="w-1/2 bg-yellow-300 py-5 h-16 rounded-none outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleAddToCart()}
                         disabled={selectedVariant == null || isLoading}
                       >
                         {isLoading ? 'Adding to Cart...' : 'Add to Cart'}
-                      </button>
-                      <button
+                      </Button>
+                      <Button
                         type="button"
-                        className="w-1/2 bg-[#24643B] py-5"
-                        onClick={closeModal}
+                        className="w-1/2 bg-green py-5 h-16  rounded-none outline-gray-500 hover:ring-1 hover:outline-1"
+                        onClick={() => handleBuyNow()}
+                        disabled={selectedVariant == null || isLoading}
                       >
-                        Buy Now
-                      </button>
+                        {isLoading ? 'Processing...' : 'Buy Now'}
+                      </Button>
                     </div>
                   ) : (
                     <div className="w-full ">
                       <button
                         type="button"
-                        className="w-full bg-[#FDE63F] py-5  outline-gray-500 hover:ring-1 hover:outline-1"
+                        className="w-full bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={loginModal.onOpen}
                         disabled={selectedVariant == null ? true : false}
                       >

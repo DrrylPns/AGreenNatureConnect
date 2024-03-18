@@ -11,6 +11,8 @@ declare module 'next-auth/jwt' {
         role: UserRole
         username?: string | null
         birthday: Date | null
+        numberOfViolations: number
+        isBanned: boolean;
     }
 }
 
@@ -21,6 +23,8 @@ declare module 'next-auth' {
             role: UserRole
             username?: string | null
             birthday: Date | null
+            numberOfViolations: number;
+            isBanned: boolean;
         }
     }
 }

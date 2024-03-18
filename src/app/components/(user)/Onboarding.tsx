@@ -20,6 +20,7 @@ import {
     SelectTrigger,
     SelectValue,
 } from "@/app/components/Ui/select"
+import { User } from '@prisma/client';
 
 export const Onboarding = () => {
     // const router = useRouter()
@@ -53,6 +54,8 @@ export const Onboarding = () => {
             birthday,
             community,
             address,
+            lastName,
+            name,
         }: OnboardingType) => {
             const payload: OnboardingType = {
                 username,
@@ -60,6 +63,8 @@ export const Onboarding = () => {
                 birthday,
                 community,
                 address,
+                lastName,
+                name,
             };
             const { data } = await axios.post("api/user/onboarding", payload);
             return data
@@ -131,6 +136,8 @@ export const Onboarding = () => {
             birthday: data.birthday,
             community: data.community,
             address: data.address,
+            lastName: data.lastName,
+            name: data.name,
         }
 
         onboardingUpdate(payload)
@@ -196,6 +203,42 @@ export const Onboarding = () => {
                             {errors.username.message}
                         </span>
                     )}
+
+                    <div className="input-container grid gap-1 h-[80px] ml-10 mr-10 grid-cols-1 lg:grid-cols-2 mb-[64px] lg:mb-0">
+                        <div className="relative mb-3">
+                            <input
+                                type='text'
+                                className="rounded-full peer m-0 block h-[53px] w-full bg-white bg-clip-padding px-3 py-4 text-base font-normal leading-tight text-black transition duration-200 ease-linear placeholder:text-transparent focus:border-primary focus:pb-[0.625rem] focus:pt-[1.625rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary  dark:peer-focus:text-primary [&:not(:placeholder-shown)]:pb-[0.625rem] [&:not(:placeholder-shown)]:pt-[1.625rem]"
+                                id="name"
+                                placeholder=""
+
+                                {...register("name")}
+                            />
+                            <label
+                                htmlFor="name"
+                                className="pointer-events-none absolute left-0 text-[14px] top-0 origin-[0_0] border border-solid border-transparent px-3 py-4 text-[#00000080] transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none dark:peer-focus:text-primary"
+                            >
+                                First Name<span className="text-[#FF2222]">*</span>
+                            </label>
+                        </div>
+
+                        <div className="relative mb-3">
+                            <input
+                                type='text'
+                                className="rounded-full peer m-0 block h-[53px] w-full bg-white bg-clip-padding px-3 py-4 text-base font-normal leading-tight text-black transition duration-200 ease-linear placeholder:text-transparent focus:border-primary focus:pb-[0.625rem] focus:pt-[1.625rem] focus:text-neutral-700 focus:outline-none peer-focus:text-primary  dark:peer-focus:text-primary [&:not(:placeholder-shown)]:pb-[0.625rem] [&:not(:placeholder-shown)]:pt-[1.625rem]"
+                                id="lastName"
+                                placeholder=""
+
+                                {...register("lastName")}
+                            />
+                            <label
+                                htmlFor="lastName"
+                                className="pointer-events-none absolute left-0 text-[14px] top-0 origin-[0_0] border border-solid border-transparent px-3 py-4 text-[#00000080] transition-[opacity,_transform] duration-200 ease-linear peer-focus:-translate-y-2 peer-focus:translate-x-[0.15rem] peer-focus:scale-[0.85] peer-focus:text-primary peer-[:not(:placeholder-shown)]:-translate-y-2 peer-[:not(:placeholder-shown)]:translate-x-[0.15rem] peer-[:not(:placeholder-shown)]:scale-[0.85] motion-reduce:transition-none dark:peer-focus:text-primary"
+                            >
+                                Last Name<span className="text-[#FF2222]">*</span>
+                            </label>
+                        </div>
+                    </div>
 
                     <div className="input-container grid gap-1 h-[80px] ml-10 mr-10">
                         <div className="relative mb-3">
@@ -268,6 +311,7 @@ export const Onboarding = () => {
                             {errors.address.message}
                         </span>
                     )}
+
                     <div className='w-full flex items-center justify-center'>
                         <Select
                             {...register('community')}
@@ -306,6 +350,7 @@ export const Onboarding = () => {
                         )}
 
                     </div>
+
 
                     <div className="ml-10 mr-10">
                         <Button

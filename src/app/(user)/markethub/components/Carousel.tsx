@@ -6,6 +6,7 @@ import Image3 from '../images/Image3.png';
 import Image4 from '../images/Image4.png';
 import Image from 'next/image';
 import { AnimatePresence, motion } from 'framer-motion';
+import Link from 'next/link';
 
 interface ImageRefs {
   [key: number]: React.RefObject<HTMLImageElement>;
@@ -35,7 +36,7 @@ const Carousel = () => {
   };
 
   return (
-    <div className="relative w-full h-full flex overflow-hidden rounded-[1rem] border-[2px] border-gray-300 drop-shadow-md shadow-md">
+    <Link href={'/markethub/free-products'} className="relative w-full h-full flex overflow-hidden rounded-[1rem] border-[2px] border-gray-300 drop-shadow-md shadow-md">
       <div className='flex overflow-hidden'>
         <AnimatePresence>
         {currentImageIndex === 1 && (
@@ -90,7 +91,7 @@ const Carousel = () => {
         </AnimatePresence>
       </div>
      
-    </div>
+    </Link>
   );
 };
 

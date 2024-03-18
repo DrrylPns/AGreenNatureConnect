@@ -20,15 +20,19 @@ export interface Author {
     lastName: string | null;
     phoneNumber: string | null;
     address: string | null;
+    bio: string
     role: string;
     createdAt: string;
     updatedAt: string;
+    isBanned: boolean;
+    numberOfViolations: number;
   }
 
 export interface Post {
     id: string;
     title: string;
     content: Content;
+    reports: number;
     createdAt: string;
     updatedAt: string;
     authorId: string;
@@ -113,6 +117,7 @@ export interface Product {
 export interface Community {
   id: string;
   name: string;
+  qrCode: string;
   createdAt: Date;
   updatedAt: Date;
   posts: Post[];
@@ -136,7 +141,7 @@ export interface Cart {
   user: Author;
   variant: Variants;
   variantId: string;
-  comunity: Community;
+  community: Community;
   communityId: string;
 }
 export interface ShippingInfo {
@@ -178,6 +183,7 @@ export interface Transaction {
 
 export interface OrderedVariant {
   id: string;
+  price: number;
   createdAt: string;
   updatedAt: string;
   variant: Variants;

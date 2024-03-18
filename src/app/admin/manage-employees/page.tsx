@@ -14,20 +14,6 @@ const page = async () => {
 
     const session = await getAuthSession()
 
-    // const community = await prisma.community.findFirst({
-    //     where: {
-    //         userId: session?.user.id
-    //     },
-    //     include: {
-    //         user: true,
-    //         products: true,
-    //         blogs: true,
-    //         articles: true,
-    //     }
-    // })
-
-    // console.log(community)
-
     const loggedInUser = await prisma.user.findFirst({
         where: {
             id: session?.user.id

@@ -12,6 +12,7 @@ import { Onboarding } from "../components/(user)/Onboarding"
 import { Suspense } from "react"
 import Loading from "./loading"
 import { CartProvider } from "@/contexts/CartContext"
+import { UserBanned } from "@/components/UserBanned"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,28 +32,32 @@ export default async function RootLayout({
     <html lang="en">
       <body className={`${inter.className}`}>
         <CartProvider>
-        <Providers>
-          {session?.user.birthday === null && session?.user.role === "USER" ? (
-            <>
-              <Onboarding />
-            </>
-          ):(
-            <>
-              <Navbar session={session} />
+          <Providers>
+            {session?.user.birthday === null && session?.user.role === "USER" ? (
+              <>
+                <Onboarding />
+              </>
+            ) : session?.user && session.user.numberOfViolations >= 3 ? (
+              <>
+                <UserBanned />
+              </>
+            ) : (
+              <>
+                <Navbar session={session} />
 
-              <LoginModal />
-              <RegisterModal />
-              <Suspense fallback={<Loading/>}>
-                <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
-                  {children}
-                </div>
-              </Suspense>
-            </>
+                <LoginModal />
+                <RegisterModal />
+                <Suspense fallback={<Loading />}>
+                  <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
+                    {children}
+                  </div>
+                </Suspense>
+              </>
             )
           }
-          <Toaster />
-        </Providers >
-      </CartProvider>
+            <Toaster />
+          </Providers >
+        </CartProvider>
       </body>
     </html>
   )

@@ -8,7 +8,7 @@ export async function GET() {
             },
             include: {
                 VideoTutorial: {
-                    include: {
+                    include: {  
                         author: true
                     },
                     where: {

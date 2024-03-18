@@ -14,6 +14,10 @@ import { getAuthSession } from "@/lib/auth";
 import { Onboarding } from "../components/(user)/Onboarding";
 import { ThemeProvider } from "../components/Ui/ThemeProvider";
 import { CartProvider } from "@/contexts/CartContext";
+import prisma from "@/lib/db/db";
+import { User } from "@prisma/client";
+import { OnboardingUser } from "./_components/OnboardingUser";
+import { UserBanned } from "@/components/UserBanned";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -31,14 +35,19 @@ export default async function RootLayout({
 }) {
   const session = await getAuthSession();
 
-  console.log(session?.user.birthday);
- 
+  const user = await prisma.user.findFirst({
+    where: {
+      id: session?.user.id,
+    }
+  })
+
+  console.log(session?.user.name)
 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-       
-          <CartProvider>
+
+        <CartProvider>
           <ThemeProvider
             attribute="class"
             defaultTheme="light"
@@ -46,31 +55,39 @@ export default async function RootLayout({
             disableTransitionOnChange
           >
             <Providers>
-              {session?.user.birthday === null &&
-              session?.user.role === "USER" ? (
-                <>
-                  <Onboarding />
-                </>
-              ) : (
-                <>
-                
-                  <Navbar session={session} />
-              
-                  <SIdebar />
-
-                  <LoginModal />
-                  <RegisterModal />
-                  <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
-                    {children}
-                  </div>
-                </>
-              )}
+              {
+                //google
+                session?.user.birthday === null && session?.user.role === "USER" ? (
+                  <>
+                    <Onboarding />
+                  </>
+                  //normal user registration
+                ) : session?.user.name === null && session?.user.role === "USER" ? (
+                  <>
+                    <OnboardingUser />
+                  </>
+                ) : session?.user && session.user.numberOfViolations >= 3 ? (
+                  <>
+                    <UserBanned />
+                  </>
+                ) : (
+                  <>
+                    <Navbar session={session} />
+                    <SIdebar />
+                    <LoginModal />
+                    <RegisterModal />
+                    <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
+                      {children}
+                    </div>
+                  </>
+                )
+              }
 
               <Toaster />
             </Providers>
           </ThemeProvider>
-          </CartProvider>
-       
+        </CartProvider>
+
       </body>
     </html>
   );

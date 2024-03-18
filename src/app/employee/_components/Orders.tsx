@@ -118,7 +118,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
         },
         onSuccess: (data) => {
             toast({
-                description: `Successfully declined product.`,
+                description: `Successfully declined the transaction.`,
                 variant: 'default',
             })
 
@@ -129,17 +129,8 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
     })
 
     function onSubmit(values: FormType, transactionId: string) {
-        toast({
-            title: "You submitted the following values:",
-            description: (
-                <pre className="mt-2 w-[340px] rounded-md bg-slate-950 p-4">
-                    <code className="text-white">{JSON.stringify(values, null, 2)}</code>
-                </pre>
-            ),
-        })
-
         const payload: FormType = {
-            transactionId, 
+            transactionId,
             type: values.type,
             otherReason: values.otherReason,
         }
@@ -261,28 +252,94 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                                                     >
                                                                         <FormItem className="flex items-center space-x-3 space-y-0">
                                                                             <FormControl>
-                                                                                <RadioGroupItem value="LackOfProducts" />
+                                                                                <RadioGroupItem value="OutOfStock" />
                                                                             </FormControl>
                                                                             <FormLabel className="font-normal">
-                                                                                Lack of products
+                                                                                Out of Stock
                                                                             </FormLabel>
                                                                         </FormItem>
+
                                                                         <FormItem className="flex items-center space-x-3 space-y-0">
                                                                             <FormControl>
-                                                                                <RadioGroupItem value="EnvironmentalProblem" />
+                                                                                <RadioGroupItem value="PaymentIssues" />
                                                                             </FormControl>
                                                                             <FormLabel className="font-normal">
-                                                                                Environmental Problem
+                                                                                Payment Issues
                                                                             </FormLabel>
                                                                         </FormItem>
+
                                                                         <FormItem className="flex items-center space-x-3 space-y-0">
                                                                             <FormControl>
-                                                                                <RadioGroupItem value="others" />
+                                                                                <RadioGroupItem value="AddressVerification" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                Address Verification
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="SellerError" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                Seller Error
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="NonResponsiveBuyer" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                Non-Responsive Buyer
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="ViolationOfPolicies" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                Violation Of Policies
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="ShippingRestrictions" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                Shipping Restrictions
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="ProductDiscontinuation" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                Product Discontinuation
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="SystemErrors" />
+                                                                            </FormControl>
+                                                                            <FormLabel className="font-normal">
+                                                                                System Errors
+                                                                            </FormLabel>
+                                                                        </FormItem>
+
+                                                                        <FormItem className="flex items-center space-x-3 space-y-0">
+                                                                            <FormControl>
+                                                                                <RadioGroupItem value="Other_Reason" />
                                                                             </FormControl>
                                                                             <FormLabel className="font-normal">
                                                                                 Others
                                                                             </FormLabel>
                                                                         </FormItem>
+
                                                                     </RadioGroup>
                                                                 </FormControl>
                                                                 <FormMessage />

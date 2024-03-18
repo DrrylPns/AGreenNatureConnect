@@ -7,7 +7,7 @@ export async function GET(req: Request) {
         if (!session?.user) {
             return new Response("Unauthorized", { status: 401 });
         }
-        const getTransactionByUserId = await prisma.transaction.findMany({
+        const pendingTransactions = await prisma.transaction.findMany({
             where:{
                 buyerId: session.user.id,
                 status: "PENDING"
@@ -25,9 +25,9 @@ export async function GET(req: Request) {
                     }
                 }
             }
-        })
+        });
 
-        return new Response(JSON.stringify(getTransactionByUserId), {status: 200})
+        return new Response(JSON.stringify(pendingTransactions), {status: 200})
     } catch (error) {
         return new Response(JSON.stringify({message: 'Error:', error}))
     }

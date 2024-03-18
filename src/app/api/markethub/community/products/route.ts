@@ -1,25 +1,30 @@
-import prisma from "@/lib/db/db";
-import { NextRequest } from "next/server";
+import prisma from "@/lib/db/db"
+import {  NextApiResponse } from "next";
 
-export async function GET(req: NextRequest){
-    const url = req.nextUrl.pathname;
-    const decodeUrl = decodeURIComponent(url)
-    const commmunityName = decodeUrl.split("products/")[1]
-   
+//Getting all products by communityId
+export async function GET(req: Request, res: NextApiResponse) {
     try {
-        const getProductsByCommunity = await prisma.product.findMany({
+        const {searchParams} = new URL(req.url);
+        const communityId = searchParams.get("communityId");
+        const allProducts = await prisma.product.findMany({
             where:{
-                community:{
-                    name: commmunityName
-                }
+              communityId: communityId ? communityId : undefined,
+              isFree: {
+                  equals: false
+              },
+              status:{
+                  equals: "APPROVED"
+              },
             },
             include:{
-               community: true
+              community: true,
+              variants: true
             }
-        })
-        console.log(`This is the community name: ${commmunityName}`)
-        return new Response(JSON.stringify(getProductsByCommunity), {status: 200})
+           
+          })
+        return new Response(JSON.stringify(allProducts))
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 }
+    

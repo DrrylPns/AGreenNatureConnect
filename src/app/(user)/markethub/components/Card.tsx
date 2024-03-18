@@ -18,13 +18,15 @@ function Card({
   return (
     <div className='bg-slate-100  dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 max-h-72 shadow-md drop-shadow-md rounded-sm h-fit w-full border border-gray-300'>
         {/** */}
+        <div className='bg-gray-50'>
         <Image 
             src={imageUrl} 
             alt={productName}
             width={100}
             height={100}
-            className='w-full object-scale-down max-h-[50%] h-1/2 mb-3 border-b-[2px] border-gray-300' 
+            className='w-full object-contain max-h-[50%] h-1/2 mb-3 border-b-[2px] border-gray-300' 
         />
+        </div>
         {/**Product Name */}
         <div className='px-3'>
             <h1 className='font-poppins font-semibold text-xs '>{productName}</h1>

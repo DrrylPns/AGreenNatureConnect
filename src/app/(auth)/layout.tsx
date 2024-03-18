@@ -3,6 +3,8 @@ import { Inter } from 'next/font/google'
 import '@/lib/styles/globals.css'
 import Providers from '@/lib/providers/Providers'
 import { Toaster } from '../components/toast/toaster'
+import { getAuthSession } from '@/lib/auth'
+import { UserBanned } from '@/components/UserBanned'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -16,12 +18,22 @@ export default async function RootLayout({
 }: {
     children: React.ReactNode,
 }) {
+    const session = await getAuthSession()
+
 
     return (
         <html lang="en">
             <body className={inter.className}>
                 <Providers>
-                    {children}
+                    {session?.user && session.user.numberOfViolations >= 3 ? (
+                        <>
+                            <UserBanned />
+                        </>
+                    ) : (
+                        <>
+                            {children}
+                        </>
+                    )}
                     <Toaster />
                 </Providers>
             </body>

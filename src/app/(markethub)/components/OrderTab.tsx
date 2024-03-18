@@ -15,6 +15,9 @@ interface Transaction {
     amount: number;
     status: string;
     buyer: Buyer;
+    paymentMethod: string | null;
+    paymentStatus: string | null;
+    gcashReciept: string | null;
     seller: Community
     orderedVariant: OrderedVariant[]
     createdAt: Date;
@@ -23,11 +26,12 @@ interface Transaction {
 interface Community {
     id: string;
     name: string;
+    qrCode: string | null;
 }
 interface Buyer {
     id: string;
     name: string | null;
-    username: string| null;
+    username: string | null;
     email: string | null;
     image: string | null;
     middleName: string | null;
@@ -38,7 +42,8 @@ interface Buyer {
 interface OrderedVariant {
     id: string;
     product: Product;
-    variant: Variants
+    variant: Variants;
+    price: number;
 }
 interface Variants {
     id: string
@@ -60,6 +65,8 @@ interface Product {
     status: string;
     isFree: boolean;
 }
+
+
  
 function OrderTab({
     pending,
@@ -79,13 +86,6 @@ function OrderTab({
     const [isLoading, setIsLoading ] = useState<boolean>(false);
     const [animate, setAnimate] = useState<boolean>(false)
 
-    const handleCancel = async(transactionId : string)=>{
-        setIsLoading(true)
-        await axios.post('/api/markethub/transaction/cancelled', {transactionId}).then(()=>{
-            router.refresh()
-        })
-        setIsLoading(false)
-    }
 
     const handleGoBack = () => {
         setIsLoading(true)
@@ -146,7 +146,6 @@ function OrderTab({
                     transactions={pending} 
                     noOrders='No pending orders right now!'
                     cancelBtnDisplay='block'
-                    handleCancel={handleCancel}
                     status='Waiting to be approve.'
                     />
                 ):(
@@ -163,7 +162,6 @@ function OrderTab({
                     transactions={approved} 
                     noOrders='No approved orders right now!'
                     cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
                     status='Approved'
                 />
                 ):(
@@ -181,7 +179,6 @@ function OrderTab({
                     transactions={pickup} 
                     noOrders='No orders are ready to be pick up!'
                     cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
                     status='Ready to be pickup!'
                 />
                 ):(
@@ -199,7 +196,6 @@ function OrderTab({
                     transactions={completed} 
                     noOrders='No completed orders!'
                     cancelBtnDisplay='hidden'
-                    handleCancel={handleCancel}
                     status='Completed'
                 />
                 ):(
@@ -216,7 +212,6 @@ function OrderTab({
                         transactions={cancelled} 
                         noOrders='No cancelled orders!'
                         cancelBtnDisplay='hidden'
-                        handleCancel={handleCancel}
                         status='Cancelled'
                     />  
                 ):(
