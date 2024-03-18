@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/lib/auth';
+import { getAuthSession } from '../../lib/auth';
 import prisma from '@/lib/db/db';
 import React from 'react'
 import OrderTab from '../employee/_components/OrderTab';
@@ -9,7 +9,7 @@ const page = async () => {
     if (!session?.user) {
         return new Response("Unauthorized", { status: 401 });
     }
-    
+
     const loggedIn = await prisma.user.findFirst({
         where: {
             id: session?.user.id,

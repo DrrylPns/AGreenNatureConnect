@@ -7,7 +7,8 @@ import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
 import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
-import { getAuthSession } from "@/lib/auth"
+import { getAuthSession } from '../../lib/auth'
+
 import { Onboarding } from "../components/(user)/Onboarding"
 import { Suspense } from "react"
 import Loading from "./loading"
@@ -54,7 +55,7 @@ export default async function RootLayout({
                 </Suspense>
               </>
             )
-          }
+            }
             <Toaster />
           </Providers >
         </CartProvider>

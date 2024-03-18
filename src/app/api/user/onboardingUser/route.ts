@@ -1,5 +1,5 @@
 import prisma from "@/lib/db/db"
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import { OnboardingUserSchema } from "@/lib/validations/onboardingSchema";
 import { calculateDaysUntilUsernameChange } from "@/lib/utils";
 

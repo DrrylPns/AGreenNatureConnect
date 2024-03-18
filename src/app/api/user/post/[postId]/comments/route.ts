@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../../../lib/auth";
 import prisma from "@/lib/db/db"
 import { CommentSchema } from "@/lib/validations/createCommentSchema";
 import { revalidatePath } from "next/cache";
@@ -11,28 +11,28 @@ import { z } from "zod";
 export async function GET(req: NextRequest,) {
     const postIdWithComments = req.url.split("post/")[1];
     const postId = postIdWithComments.replace("/comments", "")
-    
+
     try {
         const getAllCommentsByPostId = await prisma.comment.findMany({
-            where:{
+            where: {
                 postId: postId
             },
-            include:{
+            include: {
                 author: true,
                 replies: true,
             },
-            orderBy:{
+            orderBy: {
                 createdAt: 'desc'
             }
         })
-        if(getAllCommentsByPostId.length < 1){
+        if (getAllCommentsByPostId.length < 1) {
 
             return new Response(JSON.stringify('There are no comments right now!'))
         }
         revalidatePath(`/api/user/post/${postId}/comments`)
-        return new Response(JSON.stringify(getAllCommentsByPostId), {status: 200})
+        return new Response(JSON.stringify(getAllCommentsByPostId), { status: 200 })
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 }
 
@@ -48,7 +48,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json()
         const { text, postId } = CommentSchema.parse(body)
         await prisma.comment.create({
-            data:{
+            data: {
                 text: text,
                 postId: postId,
                 authorId: session.user.id,
@@ -66,25 +66,25 @@ export async function POST(req: NextRequest) {
 }
 
 //Deleteng comments
-export async function DELETE(req: NextRequest){
+export async function DELETE(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const commentId = searchParams.get('commentId')
     console.log(`this is your Id: ${commentId}`)
     try {
         const deleteComment = await prisma.comment.delete({
-            where:{
+            where: {
                 id: commentId as string
             }
         })
 
 
         console.log(deleteComment)
-        return new Response(JSON.stringify(deleteComment), {status: 200})
+        return new Response(JSON.stringify(deleteComment), { status: 200 })
     } catch (error) {
-    console.log(error)
-}
+        console.log(error)
+    }
 }
 
-export async function HEAD(req: NextRequest){
+export async function HEAD(req: NextRequest) {
 
 }

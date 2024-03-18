@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db"
 import { TopicSchema } from "@/lib/validations/topicPostScema"
 import { z } from "zod"

@@ -2,8 +2,9 @@ import React from "react";
 import CreatePost from "./components/CreatePost";
 import Post from "./components/Post";
 import FeaturedTopics from "./components/FeaturedTopics";
-import { getAuthSession } from "@/lib/auth";
+
 import { WarnUser } from "@/components/WarnUser";
+import { getAuthSession } from "../../../lib/auth";
 
 export default async function Discussion() {
   const session = await getAuthSession()

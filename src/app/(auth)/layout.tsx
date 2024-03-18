@@ -3,8 +3,10 @@ import { Inter } from 'next/font/google'
 import '@/lib/styles/globals.css'
 import Providers from '@/lib/providers/Providers'
 import { Toaster } from '../components/toast/toaster'
-import { getAuthSession } from '@/lib/auth'
+
 import { UserBanned } from '@/components/UserBanned'
+import { getAuthSession } from '../../lib/auth'
+import { ThemeProvider } from '../components/Ui/ThemeProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -24,18 +26,25 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={inter.className}>
-                <Providers>
-                    {session?.user && session.user.numberOfViolations >= 3 ? (
-                        <>
-                            <UserBanned />
-                        </>
-                    ) : (
-                        <>
-                            {children}
-                        </>
-                    )}
-                    <Toaster />
-                </Providers>
+                <ThemeProvider
+                    attribute="class"
+                    defaultTheme="light"
+                    enableSystem
+                    disableTransitionOnChange
+                >
+                    <Providers>
+                        {session?.user && session.user.numberOfViolations >= 3 ? (
+                            <>
+                                <UserBanned />
+                            </>
+                        ) : (
+                            <>
+                                {children}
+                            </>
+                        )}
+                        <Toaster />
+                    </Providers>
+                </ThemeProvider>
             </body>
         </html>
     )

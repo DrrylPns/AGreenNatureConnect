@@ -127,7 +127,7 @@ const RegisterModal = () => {
       loginModal.onOpen();
       return toast({
         title: "Success!",
-        description: "Account Created Successfully!",
+        description: "Email verification link has been sent!",
         variant: "default",
       });
     },

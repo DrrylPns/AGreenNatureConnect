@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth"
+import { getAuthSession } from "../../../../../lib/auth"
 import prisma from "@/lib/db/db"
 
 export async function GET(req: Request) {

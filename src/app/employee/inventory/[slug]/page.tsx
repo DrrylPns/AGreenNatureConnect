@@ -2,7 +2,7 @@
 import React from 'react'
 import { UpdateProduct } from './_components/UpdateProduct'
 import prisma from '@/lib/db/db'
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../../../lib/auth'
 
 interface InventoryUpdateProps {
     params: {

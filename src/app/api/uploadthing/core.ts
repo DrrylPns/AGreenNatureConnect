@@ -1,4 +1,4 @@
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../../lib/auth'
 import { createUploadthing, type FileRouter } from 'uploadthing/next'
 
 const f = createUploadthing()

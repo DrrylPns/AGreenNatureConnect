@@ -48,7 +48,6 @@ model User {
 
   cart             Cart[]
   Account          Account[]
-  Session          Session[]
   posts            Post[]
   comments         Comment[]
   likes            Like[]
@@ -69,6 +68,24 @@ model User {
 
   @@index([id])
   @@index([communityId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }
 
 // to edit STAFF to EMPLOYEE
@@ -100,16 +117,6 @@ model Account {
   user User @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   @@unique([provider, providerAccountId])
-  @@index([userId])
-}
-
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
   @@index([userId])
 }
 

@@ -1,5 +1,5 @@
 import prisma from '@/lib/db/db'
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../../../../lib/auth'
 import { AddStocks } from './_components/AddStocks'
 
 interface AddStocksProps {

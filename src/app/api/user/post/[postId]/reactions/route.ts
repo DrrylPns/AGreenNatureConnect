@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { CreateReactionSchema } from "@/lib/validations/reactionSchema";
 import { revalidatePath } from "next/cache";

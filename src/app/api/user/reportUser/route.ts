@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { ReportSchema } from "@/lib/validations/reportSchema";
 import { NextRequest, NextResponse } from "next/server";
@@ -29,14 +29,14 @@ export async function POST(req: NextRequest) {
 
         const updatedPost = await prisma.post.update({
             where: {
-              id: postId,
+                id: postId,
             },
             data: {
-              reports: {
-                increment: 1,
-              },
+                reports: {
+                    increment: 1,
+                },
             },
-          });
+        });
 
         // ILIPAT TONG NUMBER OF VIOLATIONS SA EMPLOYEE SIDE PARA KAPAG 3 NA YUNG NUMBER OF VIOLATIONS
         // I-BAN NA YUNG USER NA YON HAHA 

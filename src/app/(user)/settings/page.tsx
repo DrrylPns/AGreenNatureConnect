@@ -1,33 +1,34 @@
-import { getAuthSession } from "@/lib/auth"
+
+import { getAuthSession } from "../../../lib/auth";
 import MainSettings from "./component/MainSettings"
 import prisma from "@/lib/db/db";
 
 async function Settings() {
   const session = await getAuthSession()
 
-    const getUserProfile = async () => {
-        if (session) {
-          const user = await prisma.user.findUnique({
-            where: {
-              id: session.user.id,
-            },
-            include: {
-              Account: true,
-            },
-          });
-    
-          if (user) {
-            return user;
-          }
-        }
-        return null;
-      };
+  const getUserProfile = async () => {
+    if (session) {
+      const user = await prisma.user.findUnique({
+        where: {
+          id: session.user.id,
+        },
+        include: {
+          Account: true,
+        },
+      });
 
-    const user = await getUserProfile();
+      if (user) {
+        return user;
+      }
+    }
+    return null;
+  };
 
-    const isGoogleProvider = user !== null && user.Account.some(
-        (account) => account.provider === 'google'
-      );
+  const user = await getUserProfile();
+
+  const isGoogleProvider = user !== null && user.Account.some(
+    (account) => account.provider === 'google'
+  );
 
   return (
     //ginawa ko server session para mas mabilis pag kuha ng data mabagal kasi pag client session hook lang

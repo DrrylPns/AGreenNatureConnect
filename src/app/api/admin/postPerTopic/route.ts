@@ -1,11 +1,11 @@
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../../../lib/auth'
 import prisma from '@/lib/db/db'
 
 export async function GET(req: Request) {
 
     const session = await getAuthSession()
 
-    if(session?.user.role === "USER" || !session?.user) return new Response ("Error: Unauthorized", {status: 401})
+    if (session?.user.role === "USER" || !session?.user) return new Response("Error: Unauthorized", { status: 401 })
 
     try {
         const postCounts = await prisma.topic.findMany({
@@ -19,9 +19,9 @@ export async function GET(req: Request) {
             }
         })
 
-          const sortPostPerTopic = postCounts.sort((a,b) => b._count.posts - a._count.posts)
+        const sortPostPerTopic = postCounts.sort((a, b) => b._count.posts - a._count.posts)
 
-          sortPostPerTopic.forEach((topic) => {
+        sortPostPerTopic.forEach((topic) => {
             // SQL QRY IN PlanetScale console
 
             //     SELECT
@@ -34,7 +34,7 @@ export async function GET(req: Request) {
             //     Post p ON t.id = p.topicId
             // GROUP BY
             //     t.id, t.name;
-          });
+        });
 
         return new Response(JSON.stringify(sortPostPerTopic))
     } catch (error) {

@@ -15,6 +15,7 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { LoginSchema, LoginType } from "@/lib/validations/loginUserSchema";
 import { toast } from "@/lib/hooks/use-toast";
 import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
+import Link from "next/link";
 
 interface LogInModalProps {
   currentUser?: User | null;
@@ -26,7 +27,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   const registerModal = useRegisterModal();
   const [isLoading, setIsLoading] = useState(false);
   const [PasswordInputType, ToggleIcon] = usePasswordToggle();
-  const { data: session, status } = useSession();
+  const { data: session, status, update } = useSession();
 
   const {
     register,
@@ -78,7 +79,6 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
         ...data,
         redirect: false,
       });
-
       setIsLoading(false);
 
       if (callback?.error) {
@@ -107,13 +107,45 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
 
         loginModal.onClose();
         registerModal.onClose();
+
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       }
     } catch (error) {
       setIsLoading(false);
       console.error("Error during login:", error);
-      // Handle error as needed
     }
   };
+
+  // const onSubmit: SubmitHandler<LoginType> = (data: LoginType) => {
+  //   setIsLoading(true);
+
+  //   signIn('credentials', {
+  //     ...data,
+  //     redirect: false,
+  //   }).then((callback: any) => {
+  //     setIsLoading(false);
+
+
+  //     if (callback?.ok && !callback?.error) {
+  //       toast({
+  //         description: "Logged In",
+  //       });
+
+  //       loginModal.onClose();
+  //       registerModal.onClose();
+  //     }
+
+  //     if (callback?.error) {
+  //       toast({
+  //         description: callback.error,
+  //         variant: "destructive"
+  //       });
+  //     }
+  //   });
+  // }
+
 
   const onToggle = useCallback(() => {
     loginModal.onClose();
@@ -206,10 +238,23 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
               className="
                             text-[#0227EB]
                             hover:text-[#0227EB]/70
+                            dark:text-white 
+                            dark:hover:text-white/70
                             cursor-pointer"
             >
               Sign up
             </div>
+          </div>
+          <div className="flex flex-row gap-2 items-center justify-center">
+            <div>Forgot your password?</div>
+
+            <Link href="/reset" className="text-[#0227EB] 
+                                                      dark:text-white 
+                                                      dark:hover:text-white/70
+                                                      hover:text-[#0227EB]/70
+                            ">
+              Recover now.
+            </Link>
           </div>
         </div>
       </div>

@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth"
+import { getAuthSession } from "../../../../lib/auth"
 import prisma from "@/lib/db/db"
 import { AddStocksScehma } from "@/lib/validations/employee/products"
 import { NextRequest, NextResponse } from "next/server"

@@ -6,7 +6,6 @@ import {
     TabsList,
     TabsTrigger,
 } from "@/app/components/Ui/tabs";
-import { getAuthSession } from "@/lib/auth";
 import { Separator } from "@/app/components/Ui/Separator";
 import { useState } from "react";
 import { PopoverVideo } from "../../videotutorial/_components/PopoverVideo";

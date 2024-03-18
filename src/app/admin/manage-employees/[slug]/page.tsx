@@ -1,7 +1,7 @@
 
 import React from 'react'
 import prisma from '@/lib/db/db'
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../../../lib/auth'
 import { EditEmployee } from './_components/edit-employee'
 
 interface InventoryUpdateProps {

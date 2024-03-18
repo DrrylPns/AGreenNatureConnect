@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { CreateProductSchema, UpdateProductSchema } from "@/lib/validations/employee/products";
 

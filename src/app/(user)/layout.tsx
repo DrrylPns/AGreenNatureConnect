@@ -8,7 +8,6 @@ import RegisterModal from "../components/modals/RegisterModal";
 import Providers from "@/lib/providers/Providers";
 import { Toaster } from "../components/toast/toaster";
 // import { Suspense } from "react"
-import { getAuthSession } from "@/lib/auth";
 // import { SkeletonTheme } from "react-loading-skeleton"
 // import OnboardingPage from "../(auth)/onboarding/page"
 import { Onboarding } from "../components/(user)/Onboarding";
@@ -18,6 +17,7 @@ import prisma from "@/lib/db/db";
 import { User } from "@prisma/client";
 import { OnboardingUser } from "./_components/OnboardingUser";
 import { UserBanned } from "@/components/UserBanned";
+import { getAuthSession } from "../../lib/auth";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -33,7 +33,7 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getAuthSession();
+  const session = await getAuthSession()
 
   const user = await prisma.user.findFirst({
     where: {

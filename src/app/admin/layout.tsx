@@ -5,10 +5,10 @@ import Providers from '@/lib/providers/Providers'
 import { Toaster } from '../components/toast/toaster'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
-import { getAuthSession } from '@/lib/auth'
 import { notFound } from 'next/navigation'
 import Sidebar from './_components/Sidebar'
 import { cn } from '@/lib/utils'
+import { getAuthSession } from '../../lib/auth'
 
 const inter = Inter({ subsets: ['latin'] })
 

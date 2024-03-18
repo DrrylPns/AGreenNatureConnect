@@ -1,6 +1,6 @@
 import prisma from "@/lib/db/db"
 import { ChangeUserProfileSchema } from "@/lib/validations/changeUserProfile";
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import { calculateDaysUntilUsernameChange } from "@/lib/utils";
 
 export async function POST(req: Request) {

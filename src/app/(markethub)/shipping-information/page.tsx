@@ -1,6 +1,5 @@
 'use client'
 import { Button } from '@/app/components/Ui/Button'
-import { getAuthSession } from '@/lib/auth'
 import prisma from '@/lib/db/db'
 import { ShippingInfo } from '@/lib/types'
 import { zodResolver } from '@hookform/resolvers/zod'

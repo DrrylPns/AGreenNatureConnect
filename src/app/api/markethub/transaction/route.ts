@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { Cart, ResultItem } from "@/lib/types";
 import { TransactionSchema } from "@/lib/validations/transactionSchema";
@@ -6,18 +6,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 function transformItems(Items: Cart[]): ResultItem[] {
     const result: ResultItem[] = [];
-    
+
     Items.forEach((item) => {
         const existingItem = result.find((resultItem) => resultItem.communityId === item.communityId);
-        
+
         if (existingItem) {
             existingItem.products.push({
                 productId: item.variant.product.id,
                 variant: item.variant,
             });
             item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.variant.price
-           
-        } else { 
+
+        } else {
             const newItem: ResultItem = {
                 communityId: item.communityId,
                 totalPrice: item.variant.product.isFree ? 0 : item.variant.price,
@@ -26,7 +26,7 @@ function transformItems(Items: Cart[]): ResultItem[] {
                     variant: item.variant,
                 }],
             };
-            
+
             result.push(newItem);
         }
     });
