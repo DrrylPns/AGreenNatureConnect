@@ -4,10 +4,13 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { BiMenu } from "react-icons/bi";
 import Logo from "../Logo/logo";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
 
 export default function Navbar() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
+    
     if (element) {
       element.scrollIntoView({ behavior: "smooth" });
     }
@@ -16,6 +19,8 @@ export default function Navbar() {
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
+
+  const pathname = usePathname();
 
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
@@ -45,12 +50,14 @@ export default function Navbar() {
       }`}
     >
       <Logo />
-      <motion.div
+      {pathname === '/' ? (
+        <motion.div
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
         className="flex w-1/5 justify-end"
       >
+      
         <ul className="flex  flex-row justify-evenly w-[100%] m-10 max-lg:m-13 max-sm:hidden ">
           <motion.button
             whileHover={{
@@ -98,6 +105,74 @@ export default function Navbar() {
           </motion.button>
         </ul>
       </motion.div>
+
+      ):(
+      <motion.div
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true }}
+        className="flex w-1/5 justify-end"
+      >
+      
+        <ul className="flex  flex-row justify-evenly w-[100%] m-10 max-lg:m-13 max-sm:hidden ">
+          <Link href={'/'}>
+          <motion.button
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollToSection("home")}
+            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber "
+          >
+            Home
+          </motion.button>
+          </Link>
+
+          <Link href={'/'}>
+          <motion.button
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollToSection("aboutus")}
+            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber"
+          >
+            About
+          </motion.button>
+          </Link>
+
+          <Link href={'/'}>
+          <motion.button
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollToSection("services")}
+            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber"
+          >
+            Services
+          </motion.button>
+          </Link>
+
+          <Link href={'/'}>
+          <motion.button
+            whileHover={{
+              scale: 1.2,
+              transition: { duration: 0.3 },
+            }}
+            whileTap={{ scale: 0.9 }}
+            onClick={() => scrollToSection("contactus")}
+            className="text-white text-[16px] font-light p-3s max-md:mr-10 m-3 mr-28 mt-6 hover:text-amber"
+          >
+            Contact
+          </motion.button>
+          </Link>
+        </ul>
+      </motion.div>
+      )}
       
       <motion.button
         className="sm:hidden text-black text-[2rem]"
