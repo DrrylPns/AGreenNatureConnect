@@ -9,13 +9,14 @@ import { Button } from '@/components/ui/button'
 import { DialogDemo } from './_components/QrcodeDialog'
 import { useEffect, useState } from 'react'
 import { Community } from '@/lib/types'
+import { ChangeQR } from './_components/ChangeQR'
 
 
 const page = () => {
-    const [community, setCommunity] = useState<Community>()
-    useEffect(()=>{
-        getCommunity()
-    },[])
+    // const [community, setCommunity] = useState<Community>()
+    // useEffect(()=>{
+    //     getCommunity()
+    // },[])
     const { data: products, isFetching } = useQuery({
         queryKey: ['products'],
         queryFn: async () => {
@@ -24,15 +25,17 @@ const page = () => {
         }
     })
 
-    const getCommunity = async () =>{
-       const res = (await axios.get('/api/admin/community')).data
-       setCommunity(res)
-    }
-
+    // const getCommunity = async () =>{
+    //    const res = (await axios.get('/api/admin/community')).data
+    //    setCommunity(res)
+    // }
 
     return (
         <div className="container mx-auto py-10">
-            <DialogDemo/>
+            <div className='flex gap-3'>
+                <DialogDemo />
+                <ChangeQR />
+            </div>
             <DataTable
                 columns={columns}
                 //@ts-ignore

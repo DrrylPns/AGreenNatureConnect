@@ -11,6 +11,11 @@ datasource db {
   relationMode = "prisma"
 }
 
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output = "../ERD.svg"
+// }
+
 // lagyan ng isBannedFromPosting? same logic sa lastUsernameChange DateTime?? this determines kung gano siya katagal naka ban
 // isWarned if may warning tas DateTime
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na

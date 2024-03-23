@@ -68,6 +68,7 @@ const page = () => {
         },
         onSuccess: (data) => {
             // router.push(`/discussion/${data}`)
+            setTopic("")
             toast({
                 title: "Success!",
                 description: `The ${data} topic was successfully created!`,

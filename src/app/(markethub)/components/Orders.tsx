@@ -145,15 +145,15 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
                                 <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
                                 {transaction.paymentMethod !== 'Gcash' || selectedIndex === 4 ? (
-                                   null
-                                ):(
+                                    null
+                                ) : (
                                     <>
-                                    {transaction.paymentStatus === 'Not Paid'? (
-                                        <QrCodeDrawer transaction={transaction}/>
-                                    ):(
-                                        <h1>Paid</h1>
-                                    )}
-                                    
+                                        {transaction.paymentStatus === 'Not Paid' ? (
+                                            <QrCodeDrawer transaction={transaction} />
+                                        ) : (
+                                            <h1>Paid</h1>
+                                        )}
+
                                     </>
                                 )}
                             </div>
@@ -178,7 +178,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                                 ) : (
                                                     <h1>₱ {variant.price}</h1>
                                                 )}
-                                               
+
                                             </div>
                                         </Link>
                                     ))}
@@ -317,8 +317,8 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                         <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{transaction.paymentStatus}</span></h1>
                                     </div>
                                 </div>
-
                             </div>
+
                             <div className='flex justify-between w-full border-y-2 text-right border-gray-300 bg-gray-200 px-5 md:px-10 py-2 md:py-4 transition-all ease-in-out duration-500'>
                                 <h1 className='text-[0.5rem] sm:text-sm text-gray-400 font-semibold'>{status}</h1>
                                 <h1 className='text-[0.5rem] sm:text-sm font-semibold'>Order Total: <span>₱ {transaction.amount}</span></h1>

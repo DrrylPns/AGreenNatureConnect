@@ -23,6 +23,5 @@ export async function POST(req: Request){
         }
         console.log(error)
         return new Response('Could not update receipt at this time, please try again later', { status: 500 })
-        
     }
 }

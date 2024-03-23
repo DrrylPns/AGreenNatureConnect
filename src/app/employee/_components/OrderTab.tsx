@@ -166,6 +166,7 @@ function OrderTab({
                         {!isLoading ? (
                             <Orders
                                 selectedIndex={selectedIndex}
+                                //@ts-ignore
                                 transactions={pending}
                                 noOrders='No pending orders right now!'
                                 cancelBtnDisplay='block'
@@ -184,6 +185,7 @@ function OrderTab({
                         {!isLoading ? (
                             <Orders
                                 selectedIndex={selectedIndex}
+                                //@ts-ignore
                                 transactions={approved}
                                 noOrders='No approved orders right now!'
                                 cancelBtnDisplay='hidden'
@@ -203,6 +205,7 @@ function OrderTab({
                         {!isLoading ? (
                             <Orders
                                 selectedIndex={selectedIndex}
+                                //@ts-ignore
                                 transactions={pickup}
                                 noOrders='No orders are ready to be pick up!'
                                 cancelBtnDisplay='hidden'
@@ -222,6 +225,7 @@ function OrderTab({
                         {!isLoading ? (
                             <Orders
                                 selectedIndex={selectedIndex}
+                                //@ts-ignore
                                 transactions={completed}
                                 noOrders='No completed orders!'
                                 cancelBtnDisplay='hidden'
@@ -239,6 +243,7 @@ function OrderTab({
                         {!isLoading ? (
                             <Orders
                                 selectedIndex={selectedIndex}
+                                //@ts-ignore
                                 transactions={cancelled}
                                 noOrders='No declined orders!'
                                 cancelBtnDisplay='hidden'

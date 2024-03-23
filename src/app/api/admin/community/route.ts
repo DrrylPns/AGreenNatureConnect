@@ -4,19 +4,28 @@ import { NextRequest, NextResponse } from "next/server"
 import bcrypt from "bcrypt"
 import { getAuthSession } from "../../../../lib/auth"
 
-// export async function GET() {
-//     try {
-//         const communities = await prisma.community.findMany({
-//             include: {
-//                 user: true
-//             }
-//         })
+export async function GET() {
+    try {
+        const session = await getAuthSession()
 
-//         return new NextResponse(JSON.stringify(communities))
-//     } catch (error) {
-//         return new NextResponse('Could not fetch communities' + error, { status: 500 })
-//     }
-// }
+        if (!session) { return new NextResponse("Unauthorized", { status: 401 }) }
+
+        const loggedInUser = await prisma.user.findFirst({
+            where: { id: session.user.id },
+            include: { Community: true }
+        })
+
+        const community = await prisma.community.findFirst({
+            where: {
+                id: loggedInUser?.Community?.id
+            }
+        })
+
+        return new NextResponse(JSON.stringify(community))
+    } catch (error) {
+        return new NextResponse('Could not fetch communities' + error, { status: 500 })
+    }
+}
 
 export async function POST(req: NextRequest) {
     const currentYear = new Date().getFullYear()
