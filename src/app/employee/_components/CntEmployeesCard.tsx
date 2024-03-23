@@ -3,7 +3,6 @@ import { useQuery } from '@tanstack/react-query'
 import { Card, Metric, Text } from '@tremor/react'
 import axios from 'axios'
 import { Loader2 } from 'lucide-react'
-import React from 'react'
 
 export const CntEmployeesCard = () => {
     const { data: cntEmployees, isLoading, isError } = useQuery({

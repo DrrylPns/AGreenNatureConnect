@@ -1,13 +1,18 @@
-"use client"
 import { Card, Metric, Text } from '@tremor/react'
 import React from 'react'
+import { fetchSales } from '../../../../actions/sales'
 
-const CntSales = () => {
+const CntSales = async () => {
+
+    const sales = await fetchSales()
+
+    if (!sales) return <>Error Fetching Sales.</>
+
     return (
         <Card className="">
             <Text>Total Number of Sales</Text>
             <Metric>
-                0
+                {sales as number}
             </Metric>
         </Card>
     )
