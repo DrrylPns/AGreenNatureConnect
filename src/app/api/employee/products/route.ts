@@ -32,6 +32,9 @@ export async function GET() {
             where: {
                 community: {
                     name: community?.name
+                },
+                status: {
+                    not: "ARCHIVED"
                 }
             },
             include: {

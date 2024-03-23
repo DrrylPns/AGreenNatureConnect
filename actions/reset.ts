@@ -1,7 +1,7 @@
 "use server";
 
 import { ResetSchema } from "@/lib/validations/changePasswordSchema";
-import * as z from "zod";
+import z from "zod"
 import { getUserByEmail } from "../data/user";
 import { generatePasswordResetToken } from "@/lib/tokens";
 import { sendPasswordResetEmail } from "@/lib/mail";

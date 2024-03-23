@@ -406,6 +406,7 @@ enum ApprovalStatus {
   PENDING
   APPROVED
   DECLINED
+  ARCHIVED
 }
 
 model Product {

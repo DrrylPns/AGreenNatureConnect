@@ -1,10 +1,6 @@
 "use client"
-import { cn, formatDate } from "@/lib/utils";
-import { ColumnDef } from "@tanstack/react-table"
-import {
-  CalendarIcon,
-  MoreHorizontal,
-} from "lucide-react"
+import { Button } from "@/app/components/Ui/Button";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/app/components/Ui/Dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,33 +8,34 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/app/components/Ui/Dropdown-Menu"
-import { Button } from "@/app/components/Ui/Button"
-import { DataTableColumnHeader } from "./DateTableColumnHeader";
-import { Checkbox } from "@/app/components/Ui/checkbox"
-import { useRouter } from "next/navigation";
-import { Product, User } from "@prisma/client";
-import { toast } from "@/lib/hooks/use-toast";
-import Image from "next/image";
-import Link from "next/link";
-import { useMutation, useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Ui/Dialog";
-import { add, addDays, format, isAfter, isBefore, isToday, isValid, startOfToday, sub } from "date-fns";
+} from "@/app/components/Ui/Dropdown-Menu";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form";
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { useForm } from "react-hook-form";
+import { toast } from "@/lib/hooks/use-toast";
+import { cn, formatDate } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { Product, User } from "@prisma/client";
+import { useMutation } from "@tanstack/react-query";
+import { ColumnDef } from "@tanstack/react-table";
+import axios from "axios";
+import { addDays, format, isAfter, isBefore, isToday, isValid } from "date-fns";
+import {
+  CalendarIcon,
+  MoreHorizontal,
+} from "lucide-react";
+import Image from "next/image";
+import Link from "next/link";
+import { useEffect, useState, useTransition } from "react";
+import { useForm } from "react-hook-form";
 import { z } from "zod";
+import { archiveProduct } from "../../../../../actions/products";
+import { DataTableColumnHeader } from "./DateTableColumnHeader";
 
 export type Products = {
   id: string;
   productImage: string;
   name: string;
-  // stockKilo: number;
-  // stockPack: number;
   kilograms: number;
   grams: number;
   pounds: number;
@@ -215,7 +212,6 @@ export const columns: ColumnDef<Products>[] =
         return <div>{status}</div>;
       },
     },
-
     {
       accessorKey: "createdAt",
       header: ({ column }) => {
@@ -261,8 +257,9 @@ export const columns: ColumnDef<Products>[] =
         const [productData, setProductData] = useState<Product | null>(null);
         const [isLoading, setIsLoading] = useState(true);
         const [open, setIsOpen] = useState(false)
-        const [showDeleteDialog, setShowDeleteDialog] = useState(false)
         const [isFreeUntil, setIsFreeUntil] = useState<Date>()
+        const [isPending, startTransition] = useTransition()
+
         const product = row.original
         const today = new Date();
         const sevenDaysFromNow = addDays(today, 7);
@@ -327,10 +324,6 @@ export const columns: ColumnDef<Products>[] =
           updateProduct({ productId, isFree: false, isFreeUntil });
         }
 
-        const handleDelete = () => {
-          console.log(`Hiding product with ID: ${product.id}`);
-        };
-
         const formSchema = z.object({
           freeUntil: z.coerce.date(),
         })
@@ -374,15 +367,32 @@ export const columns: ColumnDef<Products>[] =
                     Edit Product
                   </Link>
                 </DropdownMenuItem>
-                {/* <DropdownMenuItem onClick={() => (isFree ? handleMakeNotFree(product.id) : handleMakeFree(product.id))}>
-                
-              </DropdownMenuItem> */}
+
                 {/* if it is free,  cancel it */}
-                <DropdownMenuItem onSelect={() => (isFree ? handleMakeNotFree(product.id, isFreeUntil as Date) : setIsOpen(true))}>
+                <DropdownMenuItem className="cursor-pointer" onSelect={() => (isFree ? handleMakeNotFree(product.id, isFreeUntil as Date) : setIsOpen(true))}>
                   {isFree ? 'Cancel Free Promo' : 'Free promo'}
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  onClick={handleDelete}
+                  className="cursor-pointer"
+                  onClick={async () => {
+                    startTransition(() => {
+                      archiveProduct(product.id).then((callback) => {
+                        if (callback.error) {
+                          toast({
+                            description: callback.error,
+                            variant: "destructive"
+                          })
+                        }
+
+                        if (callback.success) {
+                          toast({
+                            description: callback.success
+                          })
+                        }
+
+                      })
+                    })
+                  }}
                 >
                   Archive
                 </DropdownMenuItem>

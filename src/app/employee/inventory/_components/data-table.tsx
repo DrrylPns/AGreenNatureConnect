@@ -52,6 +52,7 @@ interface DataTableProps<TData, TValue> {
   isAdmin?: boolean
   isTransaction?: boolean;
   isReport?: boolean;
+  isArchived?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -61,6 +62,7 @@ export function DataTable<TData, TValue>({
   isAdmin,
   isTransaction,
   isReport,
+  isArchived,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -132,17 +134,28 @@ export function DataTable<TData, TValue>({
           )}
 
           {/* Add Product */}
-          {isAdmin || isTransaction || isReport ? null : (
-            <Link
-              href="/employee/create-products"
-              className={cn(buttonVariants({
-                variant: "newGreen"
-              }),
-                "ml-3 "
-              )}
-            >
-              Add Item
-            </Link>
+          {isAdmin || isTransaction || isReport || isArchived ? null : (
+            <>
+              <Link
+                href="/employee/create-products"
+                className={cn(buttonVariants({
+                  variant: "newGreen"
+                }),
+                  "ml-3 "
+                )}
+              >
+                Add Item
+              </Link>
+
+              <Link
+                href="/employee/archived-products"
+                className={cn(buttonVariants({
+                  variant: "outline"
+                }))}
+              >
+                Archived Products
+              </Link>
+            </>
           )}
           {isReport && (
             <Link

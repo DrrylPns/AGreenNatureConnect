@@ -1,6 +1,5 @@
-import { useState } from "react";
+import prisma from "@/lib/db/db";
 import { TabVT } from "./_components/TabVT";
-import prisma from "@/lib/db/db"
 
 const page = async () => {
 
