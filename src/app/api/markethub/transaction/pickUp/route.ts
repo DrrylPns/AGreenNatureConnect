@@ -76,7 +76,7 @@ export async function POST(req: Request) {
 
         await prisma.notification.create({
             data: {
-                type: "APPROVED",
+                type: "PICK_UP",
                 userId: transaction.buyerId,
                 communityId: transaction.sellerId,
                 transactionId: transaction.id

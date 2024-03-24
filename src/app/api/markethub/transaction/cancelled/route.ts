@@ -94,7 +94,7 @@ export async function PUT(req: Request) {
         if (cancelOrderById) {
             await prisma.notification.create({
                 data: {
-                    type: "APPROVED",
+                    type: "CANCELLED",
                     userId: cancelOrderById.buyerId,
                     communityId: cancelOrderById.sellerId,
                     transactionId: cancelOrderById.id
