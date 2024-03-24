@@ -1,5 +1,6 @@
 import { getAuthSession } from "../../../../../lib/auth";
 import prisma from "@/lib/db/db";
+import { sendApprovedNotification } from "@/lib/mail";
 import { revalidatePath } from "next/cache";
 
 export async function GET(req: Request) {
@@ -47,6 +48,8 @@ export async function POST(req: Request) {
         id: transactionId,
       },
       include: {
+        buyer: true,
+        seller: true,
         orderedVariant: {
           include: {
             variant: true,
@@ -70,6 +73,17 @@ export async function POST(req: Request) {
         status: "APPROVED"
       }
     })
+
+    await prisma.notification.create({
+      data: {
+        type: "APPROVED",
+        userId: transaction.buyerId,
+        communityId: transaction.sellerId,
+        transactionId: transaction.id
+      },
+    })
+
+    sendApprovedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
 
     await Promise.all(
       transaction.orderedVariant.map(async (orderedVariant) => {
@@ -117,6 +131,6 @@ export async function POST(req: Request) {
     revalidatePath('/orders', 'layout')
     return new Response(JSON.stringify(acceptOrderById));
   } catch (error) {
-
+    return new Response(`Error: ${error}`, { status: 500 })
   }
 }

@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { formatDistanceToNowStrict } from 'date-fns'
+import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
 
 export function cn(...inputs: ClassValue[]) {
@@ -94,3 +94,7 @@ export function getMinBirthDate() {
 
   return `${minBirthYear}-${minMonth}-${minDay}`;
 }
+
+export const formatCreatedAt = (createdAt: Date): string => {
+  return formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+};

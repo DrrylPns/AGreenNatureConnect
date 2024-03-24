@@ -1,34 +1,30 @@
 "use client";
-import Image from "next/image";
-import LogoIcon from "/public/logo.png";
-import React from "react";
-import Link from "next/link";
-import { Button } from "@/app/components/Ui/Button";
-import useLoginModal from "@/lib/hooks/useLoginModal";
-import Settings from "@/app/components/(user)/Settings";
-import Notification from "./Notification";
-import Search from "../Search";
-import { useSession, signOut } from "next-auth/react";
-import UserAccountAvatar from "../UserAccountAvatar";
-import Loader, { RotatingLines } from "react-loader-spinner";
-import SignInBtn from "./SignInBtn";
-import { Session } from "next-auth";
-import { BsCart4 } from "react-icons/bs";
-import { ThemeToggler1 } from "../_ThemeToggler";
-import CartIcon from "./CartIcon";
-import { MdOutlineHistory } from "react-icons/md";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
+} from "@/components/ui/tooltip";
+import useLoginModal from "@/lib/hooks/useLoginModal";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import React from "react";
+import { BsCart4 } from "react-icons/bs";
+import { MdOutlineHistory } from "react-icons/md";
+import { RotatingLines } from "react-loader-spinner";
+import UserAccountAvatar from "../UserAccountAvatar";
+import { ThemeToggler1 } from "../_ThemeToggler";
+import CartIcon from "./CartIcon";
+import LogoIcon from "/public/logo.png";
+import { UserNotifs } from "@/components/UserNotifs";
 
 interface NavbarProps {
   session: Session | null;
 }
 
-const Navbar: React.FC<NavbarProps> = ({}) => {
+const Navbar: React.FC<NavbarProps> = ({ }) => {
   const { data: session, status } = useSession();
   const loginModal = useLoginModal();
   //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit
@@ -56,22 +52,27 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
               <div className="max-md:block hidden mt-4">
                 <ThemeToggler1 />
               </div>
+
               <div className="hidden md:block mt-[10%]">
-              <TooltipProvider >
-                <Tooltip>
-                  <TooltipTrigger>
-                    <Link href={"/order-status"} className="hidden md:block text-[1.5rem] md:text-[2rem]">
-                      <MdOutlineHistory />
-                    </Link>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p>Transaction history</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-              </div>      
+                <UserNotifs />
+              </div>
+
+              <div className="hidden md:block mt-[10%]">
+                <TooltipProvider >
+                  <Tooltip>
+                    <TooltipTrigger>
+                      <Link href={"/order-status"} className="hidden md:block text-[1.5rem] md:text-[2rem]">
+                        <MdOutlineHistory />
+                      </Link>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Transaction history</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </TooltipProvider>
+              </div>
               <Link href={"/cart"} className="text-[1.5rem] md:text-[2rem]">
-                <CartIcon/>
+                <CartIcon />
               </Link>
               <div className="md:hidden">
                 <UserAccountAvatar />
