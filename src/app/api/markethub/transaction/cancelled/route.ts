@@ -91,16 +91,20 @@ export async function PUT(req: Request) {
             });
         }
 
-        await prisma.notification.create({
-            data: {
-                type: "APPROVED",
-                userId: transaction.buyerId,
-                communityId: transaction.sellerId,
-                transactionId: transaction.id
-            },
-        })
+        if (cancelOrderById) {
+            await prisma.notification.create({
+                data: {
+                    type: "APPROVED",
+                    userId: cancelOrderById.buyerId,
+                    communityId: cancelOrderById.sellerId,
+                    transactionId: cancelOrderById.id
+                },
+            })
 
-        sendCancelledNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name, transaction.cancelReason, transaction.cancelType)
+            sendCancelledNotification(transaction.buyer.email as string, cancelOrderById.id, transaction.seller.name, cancelOrderById.cancelReason, cancelOrderById.cancelType)
+        }
+
+
 
         revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(cancelOrderById));

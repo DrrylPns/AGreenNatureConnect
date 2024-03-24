@@ -108,9 +108,9 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
         loginModal.onClose();
         registerModal.onClose();
 
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1000)
       }
     } catch (error) {
       setIsLoading(false);
