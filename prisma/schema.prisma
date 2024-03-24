@@ -5,10 +5,18 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// railway and ps ->
+// datasource db {
+//   provider     = "mysql"
+//   url          = env("DATABASE_URL")
+//   relationMode = "prisma"
+// }
+
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
 
 // generator erd {
@@ -442,7 +450,7 @@ model Product {
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
-  isFreeUntil  DateTime?      @db.DateTime()
+  isFreeUntil  DateTime?
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
