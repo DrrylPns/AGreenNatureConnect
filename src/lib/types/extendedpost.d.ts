@@ -16,3 +16,17 @@ export interface PostIdProps {
     postId: string;
   }
   
+
+  export interface NotificationWithRelations {
+    id: string;
+    type: NotificationType;
+    isRead: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+    communityId: string;
+    transactionId: string;
+    user: User;
+    community: Community;
+    transaction: Transaction;
+  }
