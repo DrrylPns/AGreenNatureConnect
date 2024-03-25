@@ -6,7 +6,6 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import useLoginModal from "@/lib/hooks/useLoginModal";
-import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import Link from "next/link";
@@ -20,11 +19,8 @@ import CartIcon from "./CartIcon";
 import LogoIcon from "/public/logo.png";
 import { UserNotifs } from "@/components/UserNotifs";
 
-interface NavbarProps {
-  session: Session | null;
-}
 
-const Navbar: React.FC<NavbarProps> = ({ }) => {
+const Navbar = () => {
   const { data: session, status } = useSession();
   const loginModal = useLoginModal();
   //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit

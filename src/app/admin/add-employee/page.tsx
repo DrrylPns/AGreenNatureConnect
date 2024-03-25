@@ -1,48 +1,7 @@
 "use client"
 
-// import { Button } from "@/app/components/Ui/Button";
-// import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectTrigger, SelectValue } from "@/app/components/Ui/select";
-// import { CreateEmployeeSchema, CreateEmployeeType } from "@/lib/validations/admin/createEmployee";
-// import { zodResolver } from "@hookform/resolvers/zod";
-// import { useState } from "react"
-// import { SubmitHandler, useForm } from "react-hook-form";
-// import {
-//     Drawer,
-//     DrawerClose,
-//     DrawerContent,
-//     DrawerDescription,
-//     DrawerFooter,
-//     DrawerHeader,
-//     DrawerTitle,
-//     DrawerTrigger,
-// } from "@/app/components/Ui/drawer"
-// import Image from "next/image";
-// import { ImageDown } from "lucide-react";
-// import { UploadDropzone } from "@/lib/uploadthing";
-// import { toast } from "@/lib/hooks/use-toast";
-
-
-
-
-import { Input } from '@/app/components/Ui/Input'
-import { Button } from '@/app/components/Ui/Button'
-import {
-    Form,
-    FormControl,
-    FormDescription,
-    FormField,
-    FormItem,
-    FormLabel,
-    FormMessage,
-} from "@/app/components/Ui/form"
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/Ui/select";
-import { toast } from "@/lib/hooks/use-toast";
-import { CreateEmployeeSchema, CreateEmployeeType } from "@/lib/validations/admin/createEmployee";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
-import { Card } from "@tremor/react";
-import axios, { AxiosError } from "axios";
-import { useForm } from "react-hook-form";
+import { Button } from '@/app/components/Ui/Button';
+import { Input } from '@/app/components/Ui/Input';
 import {
     Drawer,
     DrawerClose,
@@ -52,12 +11,28 @@ import {
     DrawerHeader,
     DrawerTitle,
     DrawerTrigger,
-} from "@/app/components/Ui/drawer"
-import { ImageDown } from "lucide-react";
-import { useState } from "react";
-import Image from "next/image";
+} from "@/app/components/Ui/drawer";
+import {
+    Form,
+    FormControl,
+    FormField,
+    FormItem,
+    FormLabel,
+    FormMessage
+} from "@/app/components/Ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/Ui/select";
+import { toast } from "@/lib/hooks/use-toast";
 import { UploadDropzone } from "@/lib/uploadthing";
+import { CreateEmployeeSchema, CreateEmployeeType } from "@/lib/validations/admin/createEmployee";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation } from "@tanstack/react-query";
+import { Card } from "@tremor/react";
+import axios, { AxiosError } from "axios";
+import { ImageDown } from "lucide-react";
+import Image from "next/image";
 import { useRouter } from 'next/navigation';
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 
 const page = () => {
     const form = useForm<CreateEmployeeType>({

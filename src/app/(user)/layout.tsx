@@ -72,7 +72,7 @@ export default async function RootLayout({
                   </>
                 ) : (
                   <>
-                    <Navbar session={session} />
+                    <Navbar />
                     <SIdebar />
                     <LoginModal />
                     <RegisterModal />

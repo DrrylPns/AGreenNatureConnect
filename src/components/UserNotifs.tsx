@@ -1,19 +1,16 @@
 "use client"
 
-import React, { useEffect, useState } from 'react'
-import { CiBellOn } from 'react-icons/ci'
-import Link from 'next/link'
-import { MailIcon } from 'lucide-react'
-import { formatCreatedAt } from '@/lib/utils'
-import { useQuery } from '@tanstack/react-query'
-import { BeatLoader } from 'react-spinners'
-import { GoDotFill } from "react-icons/go";
-import { usePathname } from 'next/navigation'
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
 import { ScrollArea } from '@/app/components/Ui/scroll-area'
 import { NotificationWithUser } from '@/lib/types'
+import { formatCreatedAt } from '@/lib/utils'
+import Link from 'next/link'
+import { usePathname } from 'next/navigation'
+import { useEffect, useState } from 'react'
+import { CiBellOn } from 'react-icons/ci'
+import { GoDotFill } from "react-icons/go"
+import { BeatLoader } from 'react-spinners'
 import { fetchNotifications } from '../../actions/notification'
-import { traceDeprecation } from 'process'
 
 export const UserNotifs = () => {
     const [loading, setLoading] = useState<boolean>(true);
