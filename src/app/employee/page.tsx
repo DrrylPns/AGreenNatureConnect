@@ -98,8 +98,6 @@ const page = async () => {
 
     const salesByDate = await fetchSalesByDate()
 
-    console.log(salesByDate)
-
     if (!salesByDate) return <>Error fetching Sales</>
 
     return (

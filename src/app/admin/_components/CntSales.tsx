@@ -1,12 +1,14 @@
+"use client"
+import { useQuery } from '@tanstack/react-query'
 import { Card, Metric, Text } from '@tremor/react'
-import React from 'react'
 import { fetchSales } from '../../../../actions/sales'
 
-const CntSales = async () => {
+const CntSales = () => {
 
-    const sales = await fetchSales()
-
-    if (!sales) return <>Error Fetching Sales.</>
+    const { data: sales } = useQuery({
+        queryKey: ["sales"],
+        queryFn: () => fetchSales()
+    })
 
     return (
         <Card className="">
