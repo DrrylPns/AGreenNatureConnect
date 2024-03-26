@@ -1,32 +1,31 @@
+import DefaultImage from "@/../public/images/default-user.jpg";
 import RelativeDate from "@/app/components/RelativeDate";
 import { Button } from "@/app/components/Ui/Button";
-import { Post, Comment } from "@/lib/types";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { FiPlus } from "react-icons/fi";
-import DefaultImage from "@/../public/images/default-user.jpg";
-import { BiComment, BiLike } from "react-icons/bi";
+import DeleteDialog from "@/app/components/dialogs/Delete";
+import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
-import { useForm } from "react-hook-form";
+import { Comment, Post } from "@/lib/types";
 import {
   CommentSchema,
   CreateCommentType,
 } from "@/lib/validations/createCommentSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/lib/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  AiOutlineDelete,
-  AiOutlineEdit,
-  AiOutlineEllipsis,
-} from "react-icons/ai";
 import { Popover, Transition } from "@headlessui/react";
-import DeleteDialog from "@/app/components/dialogs/Delete";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import Filter from "bad-words";
+import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import {
+  AiOutlineEdit,
+  AiOutlineEllipsis
+} from "react-icons/ai";
+import { BiComment, BiLike } from "react-icons/bi";
+import { FiPlus } from "react-icons/fi";
 
 export default function Comments({ posts }: { posts: Post }) {
   const router = useRouter();
@@ -34,6 +33,7 @@ export default function Comments({ posts }: { posts: Post }) {
   const loginModal = useLoginModal();
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>();
+  const queryClient = useQueryClient()
   const filter = new Filter();
   const words = require("./extra-words.json");
   filter.addWords(...words);
@@ -87,7 +87,9 @@ export default function Comments({ posts }: { posts: Post }) {
       });
     },
     onSuccess: () => {
-      return toast({
+      queryClient.invalidateQueries({ queryKey: ["comments"] })
+
+      toast({
         description: "Your comment has been published.",
       });
     },

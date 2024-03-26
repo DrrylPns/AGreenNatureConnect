@@ -8,10 +8,10 @@ const usePasswordToggle = () => {
     const Icon = (
         <div onClick={() => isVisible(visibility => !visibility)}>
             {visible && (
-                <EyeOff />
+                <Eye />
             )}
             {!visible && (
-                <Eye />
+                <EyeOff />
             )}
         </div>
     );

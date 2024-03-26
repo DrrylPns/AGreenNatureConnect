@@ -18,6 +18,7 @@ import { User } from "@prisma/client";
 import { OnboardingUser } from "./_components/OnboardingUser";
 import { UserBanned } from "@/components/UserBanned";
 import { getAuthSession } from "../../lib/auth";
+import { UserSettings } from "@/components/UserSettings";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -40,8 +41,6 @@ export default async function RootLayout({
       id: session?.user.id,
     }
   })
-
-  console.log(session?.user.name)
 
   return (
     <html lang="en">
@@ -76,6 +75,7 @@ export default async function RootLayout({
                     <SIdebar />
                     <LoginModal />
                     <RegisterModal />
+                    <UserSettings user={user as User} />
                     <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
                       {children}
                     </div>

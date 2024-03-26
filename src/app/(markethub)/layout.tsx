@@ -1,19 +1,21 @@
+import Providers from "@/lib/providers/Providers"
 import "@/lib/styles/globals.css"
-import Navbar from "../components/(user)/Navbar"
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
-import SIdebar from "../components/SIdebar"
+import { getAuthSession } from '../../lib/auth'
+import Navbar from "../components/(user)/Navbar"
 import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
-import Providers from "@/lib/providers/Providers"
 import { Toaster } from "../components/toast/toaster"
-import { getAuthSession } from '../../lib/auth'
 
-import { Onboarding } from "../components/(user)/Onboarding"
-import { Suspense } from "react"
-import Loading from "./loading"
-import { CartProvider } from "@/contexts/CartContext"
 import { UserBanned } from "@/components/UserBanned"
+import { UserSettings } from "@/components/UserSettings"
+import { CartProvider } from "@/contexts/CartContext"
+import prisma from "@/lib/db/db"
+import { Suspense } from "react"
+import { Onboarding } from "../components/(user)/Onboarding"
+import Loading from "./loading"
+import { User } from "@prisma/client"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,6 +30,12 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   const session = await getAuthSession()
+
+  const user = await prisma.user.findFirst({
+    where: {
+      id: session?.user.id,
+    }
+  })
 
   return (
     <html lang="en">
@@ -48,6 +56,7 @@ export default async function RootLayout({
 
                 <LoginModal />
                 <RegisterModal />
+                <UserSettings user={user as User} />
                 <Suspense fallback={<Loading />}>
                   <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
                     {children}

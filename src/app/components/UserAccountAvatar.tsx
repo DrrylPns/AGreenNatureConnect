@@ -1,23 +1,16 @@
 "use client";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
 import { UserAvatar } from "@/app/components/UserAvatar";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import { Separator } from "./Ui/Separator";
-import { Session } from "next-auth";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/app/components/Ui/Dialog";
+import useSettingsModal from "@/lib/hooks/useSettingsModal";
 
-const UserAccountAvatar: React.FC = ({}) => {
+const UserAccountAvatar: React.FC = ({ }) => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const settingsModal = useSettingsModal()
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -94,9 +87,11 @@ const UserAccountAvatar: React.FC = ({}) => {
                   <Link href={"/termsPolicy"} className="md:hidden block">
                     <MenuItem label="User Agreement" />
                   </Link>
-                  <Link href={"/settings"}>
+                  <div
+                    onClick={settingsModal.onOpen}
+                  >
                     <MenuItem label="Settings" />
-                  </Link>
+                  </div>
 
                   <Separator />
 
