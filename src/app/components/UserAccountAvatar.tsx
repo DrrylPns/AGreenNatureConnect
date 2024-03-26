@@ -57,7 +57,7 @@ const UserAccountAvatar: React.FC = ({ }) => {
       </div>
 
       {isOpen && (
-        <div className="absolute shadow-md w-[40vw] lg:w-[100%] bg-white dark:bg-[#0A0A0A]  overflow-hidden max-md:right-0 right-15 max-md:top-12 top-[42rem] text-sm rounded-md gap-2 p-3 border dark:border-black border-zinc-300 text-black dark:text-white">
+        <div className="absolute shadow-md w-[40vw] lg:w-[100%] bg-white dark:bg-[#0A0A0A] overflow-hidden max-md:right-0 right-15 max-md:top-12 top-[730px] text-sm rounded-md gap-2 p-3 border dark:border-black border-zinc-300 text-black dark:text-white">
           <div className="flex flex-col space-y-1 leading-none">
             {session ? (
               <>
