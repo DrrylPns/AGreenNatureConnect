@@ -75,9 +75,9 @@ const UserAccountAvatar: React.FC = ({ }) => {
                 <Separator />
 
                 <div className="cursor-pointer">
-                  <Link href={"/discussion/profile"}>
+                  {/* <Link href={"/discussion/profile"}>
                     <MenuItem label="Change Avatar" />
-                  </Link>
+                  </Link> */}
                   <Link href={"/order-status"} className="md:hidden block">
                     <MenuItem label="Transaction History" />
                   </Link>
@@ -93,7 +93,7 @@ const UserAccountAvatar: React.FC = ({ }) => {
                     <MenuItem label="Settings" />
                   </div>
 
-                  <Separator />
+                  <Separator className="md:hidden" />
 
                   <div className="md:hidden block">
                     <MenuItem onClick={() => signOut()} label="Log Out" />

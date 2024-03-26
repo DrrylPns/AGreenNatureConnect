@@ -16,6 +16,10 @@ import { Suspense } from "react"
 import { Onboarding } from "../components/(user)/Onboarding"
 import Loading from "./loading"
 import { User } from "@prisma/client"
+import { GenderModal } from "@/components/settings/GenderModal"
+import { AvatarModal } from "@/components/settings/AvatarModal"
+import { ProfileModal } from "@/components/settings/ProfileModal"
+import { UsernameModal } from "@/components/settings/UsernameModal"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -57,6 +61,10 @@ export default async function RootLayout({
                 <LoginModal />
                 <RegisterModal />
                 <UserSettings user={user as User} />
+                <GenderModal user={user as User} />
+                <AvatarModal />
+                <ProfileModal user={user as User} />
+                <UsernameModal user={user as User} />
                 <Suspense fallback={<Loading />}>
                   <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
                     {children}

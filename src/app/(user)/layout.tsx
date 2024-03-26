@@ -19,6 +19,10 @@ import { OnboardingUser } from "./_components/OnboardingUser";
 import { UserBanned } from "@/components/UserBanned";
 import { getAuthSession } from "../../lib/auth";
 import { UserSettings } from "@/components/UserSettings";
+import { GenderModal } from "@/components/settings/GenderModal";
+import { AvatarModal } from "@/components/settings/AvatarModal";
+import { ProfileModal } from "@/components/settings/ProfileModal";
+import { UsernameModal } from "@/components/settings/UsernameModal";
 
 
 const inter = Inter({ subsets: ["latin"] });
@@ -76,6 +80,10 @@ export default async function RootLayout({
                     <LoginModal />
                     <RegisterModal />
                     <UserSettings user={user as User} />
+                    <GenderModal user={user as User} />
+                    <AvatarModal />
+                    <ProfileModal user={user as User} />
+                    <UsernameModal user={user as User} />
                     <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
                       {children}
                     </div>
