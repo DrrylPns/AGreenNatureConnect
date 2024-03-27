@@ -30,10 +30,8 @@ export async function GET(req: NextRequest) {
 // Editing post based on postId
 export async function PUT(req: NextRequest) {
     const postId = req.url.split("post/")[1];
-    // Implement your logic for updating the post
 }
 
-// Deleting Post
 // Deleting Post
 export async function DELETE(req: NextRequest){
     const searchParams = req.nextUrl.searchParams
