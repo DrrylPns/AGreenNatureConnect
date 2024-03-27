@@ -12,7 +12,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const { newUsername, newPhone, newBirthday, newAddress } = ChangeUserProfileSchema.parse(body);
+    // const { newUsername, newPhone, newBirthday, newAddress } = ChangeUserProfileSchema.parse(body);
 
     console.log(session.user.id)
     const user = await prisma.user.findUnique({
@@ -24,7 +24,7 @@ export async function POST(req: Request) {
     }
 
     const usernameExists = await prisma.user.findFirst({
-      where: { username: newUsername },
+      // where: { username: newUsername },
     });
 
     if (usernameExists && usernameExists.id !== session.user.id) {
@@ -33,7 +33,7 @@ export async function POST(req: Request) {
 
     // DONE: if kanya yung existing phone number then allow it
     const phoneNumberExists = await prisma.user.findFirst({
-      where: { phoneNumber: newPhone }
+      // where: { phoneNumber: newPhone }
     })
 
     if (phoneNumberExists && phoneNumberExists.id !== session.user.id) {
@@ -46,14 +46,14 @@ export async function POST(req: Request) {
     const daysLeft = calculateDaysUntilUsernameChange(user.lastUsernameChange as Date);
 
     const dataToUpdate: Record<string, any> = {
-      phoneNumber: newPhone,
-      birthday: newBirthday,
-      address: newAddress,
+      // phoneNumber: newPhone,
+      // birthday: newBirthday,
+      // address: newAddress,
       lastUsernameChange: new Date(),
     }
 
     if (daysLeft <= 0) {
-      dataToUpdate.username = newUsername;
+      // dataToUpdate.username = newUsername;
     }
 
     // Update the user's username

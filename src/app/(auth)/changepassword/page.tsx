@@ -98,7 +98,7 @@ const page = () => {
                 {/** X Button */}
                 <div className="flex justify-end m-3">
                     <Link
-                        href={"/settings"}
+                        href={"/discussion"}
                         className="mt-1 p-1 border-black text-black text-xl cursor-pointer font-bold rounded-full hover:bg-neutral-300">
                         <X />
                     </Link>

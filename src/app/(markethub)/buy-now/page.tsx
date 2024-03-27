@@ -18,8 +18,10 @@ type buyNowType = {
 }
 
 const PaymentMethod = [
+    'Pickup',
     'Cash on delivery',
     'Gcash',
+   
    
   ]
 
@@ -215,6 +217,7 @@ function page() {
                               {checked ? <IoIosRadioButtonOn  /> : <IoIosRadioButtonOff /> }
                             
                             </span>
+                            
                             {payment}
                             </>
                             )}

@@ -1,12 +1,12 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import { motion } from "framer-motion";
-import { BiLike } from "react-icons/bi";
-import axios from "axios";
-import { CreateLikeType } from "@/lib/validations/createLikeSchema";
-import { toast, useToast } from "@/lib/hooks/use-toast";
-import { useSession, signOut } from "next-auth/react";
+import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
+import { CreateLikeType } from "@/lib/validations/createLikeSchema";
+import axios from "axios";
+import { motion } from "framer-motion";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { BiLike } from "react-icons/bi";
 
 export default function LikeButton({ postId }: { postId: string }) {
   const { status } = useSession();

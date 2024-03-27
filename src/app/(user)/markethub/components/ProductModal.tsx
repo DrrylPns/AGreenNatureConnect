@@ -114,6 +114,19 @@ function ProductModal({
         setIsLoading(false)
       }
     }
+    const handleLogin = () =>{
+      closeModal()
+      loginModal.onOpen()
+    }
+
+    const groupedVariants: { [key: string]: Variants[] } = {};
+    selectedProduct?.variants.forEach((variant) => {
+      const unitOfMeasurement = variant.unitOfMeasurement.toLowerCase();
+      if (!groupedVariants[unitOfMeasurement]) {
+        groupedVariants[unitOfMeasurement] = [];
+      }
+      groupedVariants[unitOfMeasurement].push(variant);
+    });
 
     const handleBuyNow = async ()=>{
       router.push('/buy-now')
@@ -203,27 +216,22 @@ function ProductModal({
                     <h2 className='mb-5'>Select variant</h2>
                     {selectedProduct?.variants && selectedProduct.variants.length > 0 && (
                       <div className=''>
-                        {selectedProduct.variants.map((variant: Variants) => {
-                          const unitOfMeasurement = variant.unitOfMeasurement.toLowerCase();
-                          const isValidVariant =
-                            unitOfMeasurement === 'kilograms' && selectedProduct.kilograms >= variant.variant ||
-                            unitOfMeasurement === 'grams' && selectedProduct.grams >= variant.variant ||
-                            unitOfMeasurement === 'pieces' && selectedProduct.pieces >= variant.variant ||
-                            unitOfMeasurement === 'pounds' && selectedProduct.pounds >= variant.variant ||
-                            unitOfMeasurement === 'packs' && selectedProduct.packs >= variant.variant;
-
-                          return isValidVariant ? (
-                            <button
-                              type='button'
-                              key={variant.id}
-                              onClick={() => { setSelectedVariant(variant) }}
-                              className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 mt-3 transition-transform transform active:scale-95`}
-                            >
-                              <div className='text-sm font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
-                              <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
-                            </button>
-                          ) : null;
-                        })}
+                        {/* Iterate over grouped variants */}
+                        {Object.entries(groupedVariants).map(([unitOfMeasurement, variants]) => (
+                          <div key={unitOfMeasurement}>
+                            <h3 className="mb-2">{unitOfMeasurement}</h3>
+                            {variants.map((variant) => (
+                              <button
+                                key={variant.id}
+                                onClick={() => { setSelectedVariant(variant) }}
+                                className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 mt-3 transition-transform transform active:scale-95`}
+                              >
+                                <div className='text-sm font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
+                                <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
+                              </button>
+                            ))}
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
@@ -259,7 +267,7 @@ function ProductModal({
                       <button
                         type="button"
                         className="w-full bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
-                        onClick={loginModal.onOpen}
+                        onClick={()=> handleLogin()}
                         disabled={selectedVariant == null ? true : false}
                       >
                         Add to Cart

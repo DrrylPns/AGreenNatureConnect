@@ -1,21 +1,21 @@
 "use client";
+import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
+import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
 import useRegisterModal from "@/lib/hooks/useRegisterModal";
-import { useState, useCallback } from "react";
-import ButtonAuth from "../auth/ButtonAuth";
+import { LoginSchema, LoginType } from "@/lib/validations/loginUserSchema";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { User } from "@prisma/client";
+import { getSession, signIn, useSession } from "next-auth/react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useCallback, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
+import ButtonAuth from "../auth/ButtonAuth";
 import Heading from "../auth/Heading";
 import InputLogin from "../auth/InputLogin";
 import Modal from "./Modal";
-import { getSession, signIn, useSession } from "next-auth/react";
-import { User } from "@prisma/client";
-import { useRouter } from "next/navigation";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { LoginSchema, LoginType } from "@/lib/validations/loginUserSchema";
-import { toast } from "@/lib/hooks/use-toast";
-import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
-import Link from "next/link";
 
 interface LogInModalProps {
   currentUser?: User | null;
@@ -97,20 +97,20 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
         });
 
         // Retrieve the updated session after successful login
-        const updatedSession = await getSession();
+        // const updatedSession = await getSession();
 
-        if (updatedSession?.user.role === "EMPLOYEE") {
-          router.push("/employee");
-        } else if (updatedSession?.user.role === "ADMIN") {
-          router.push("/admin");
-        }
+        // if (updatedSession?.user.role === "EMPLOYEE") {
+        //   router.push("/employee");
+        // } else if (updatedSession?.user.role === "ADMIN") {
+        //   router.push("/admin");
+        // }
 
         loginModal.onClose();
         registerModal.onClose();
 
-        // setTimeout(() => {
-        //   window.location.reload()
-        // }, 1000)
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
       }
     } catch (error) {
       setIsLoading(false);

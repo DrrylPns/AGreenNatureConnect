@@ -16,6 +16,7 @@ import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 
 const PaymentMethod = [
+  'Pickup',
   'Cash on delivery',
   'Gcash', 
  
