@@ -11,6 +11,7 @@ import Image from 'next/image';
 import Leaf from '@/../public/images/leaf.png';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaArrowLeft } from 'react-icons/fa';
+import { toast } from '@/lib/hooks/use-toast';
 
 type buyNowType = {
     selectedProduct: Product,
@@ -18,7 +19,6 @@ type buyNowType = {
 }
 
 const PaymentMethod = [
-    'Pickup',
     'Cash on delivery',
     'Gcash',
    
@@ -35,7 +35,7 @@ function page() {
     const [disableBtn, setDisableBtn] = useState<boolean>(false);
     const [method, setMethod] = useState(PaymentMethod[0])
     const [loading, setLoading] = useState<boolean>(true);
-  
+
   const getShippingInfo = async()=>{
     try {
       const res = await axios.get(`/api/markethub/shippingInfo`);
@@ -60,9 +60,18 @@ function page() {
     router.push("/shipping-information");
   };
   const handlePlaceOrder = async () => {
+    if(shippingInfo === undefined || shippingInfo === null){
+      closeModal()
+      toast({
+        title: "Not Allowed",
+        description: "Add your shipping information!",
+        variant: "destructive",
+      });
+      return
+    }
     setDisableBtn(true);
     setisProcessing(true);
-  
+    
     try {
       const response = await axios.post("/api/markethub/transaction/buyNow", {
         sellerId:item?.selectedProduct.communityId,

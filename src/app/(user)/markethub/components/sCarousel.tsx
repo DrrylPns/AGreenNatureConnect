@@ -1,9 +1,9 @@
 'use client'
 import Autoplay from "embla-carousel-autoplay"
-import Slider1 from "/public/images/Slider 1.png";
-import Slider2 from "/public/images/Slider 2.png";
-import Slider3 from "/public/images/Slider 3.png";
-import Slider4 from "/public/images/Slider 4.png";
+import Slider1 from '../images/Free vegetables.png';
+import Slider2 from "../images/BagbagImage1.jpg";
+import Slider3 from "../images/NovaProper1.jpg";
+import Slider4 from "../images/BagongSilangan1.jpg";
 
 import {
   Carousel,
@@ -19,25 +19,25 @@ const images = [Slider1, Slider2, Slider3, Slider4];
 
 export function ShadcnCarousel() {
   const plugin = useRef(
-    Autoplay({ delay: 2000, stopOnInteraction: false })
+    Autoplay({ delay: 5000, stopOnInteraction: false })
   )
 
   return (
     <Carousel
-        plugins={[plugin.current]}
+      plugins={[plugin.current]}
       className="w-full"
       onMouseEnter={plugin.current.stop}
       onMouseLeave={plugin.current.reset}
     >
-      <CarouselContent className="w-full">
+      <CarouselContent className="w-full px-0">
         {images.map((image, index) => (
           <CarouselItem 
             key={index}
-            className="w-full"
+            className="w-full "
           >
-            <div className="">
-              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[100vh]" />
-            </div>
+           
+              <Image src={image} alt={`Image ${index + 1}`} className=" h-[50vh]" />
+       
           </CarouselItem>
         ))}
       </CarouselContent>

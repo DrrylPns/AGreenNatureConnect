@@ -5,6 +5,8 @@ import Logo from "@/app/components/Logo/logo";
 import ProductItem from "./components/Product";
 import SearchBar from "./components/SearchBar";
 import prisma from "@/lib/db/db";
+import { ShadcnCarousel } from "./components/sCarousel";
+import Link from "next/link";
 
 export default async function Markethub() {
   const AllProducts = await prisma.product.findMany({
@@ -21,9 +23,9 @@ export default async function Markethub() {
 
   return (
     <div >
-      <div className="hidden md:block">
-        <Carousel />
-      </div>
+      <Link href={'/markethub/free-products'} className="hidden md:block">
+        <ShadcnCarousel/>
+      </Link>
       <div>
       <h1 className="text-sm md:text-xl font-bold mt-3">Communities:</h1>
       <BarangayDropdown />

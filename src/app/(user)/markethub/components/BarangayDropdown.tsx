@@ -31,7 +31,7 @@ function BarangayDropdown() {
       
       {communities.length > 0 && communities.map((community: Community) =>(
           <Link 
-            className=' md:h-32 w-10 h-10  md:w-32 sm:h-16 sm:w-16 flex justify-center text-[0.5rem] sm:text-sm md:text-xl hover:shadow-md scale-105 items-center text-center bg-gray-50 border-gray-200 border rounded-lg' 
+            className=' md:h-32 w-10 h-10  md:w-32 sm:h-16 sm:w-16 flex justify-center text-[0.5rem] sm:text-sm md:text-xl hover:bg-green hover:text-white transition-colors ease-in duration-300 scale-105 items-center text-center bg-gray-50 border-gray-200 border rounded-lg' 
             href={{ pathname:`/markethub/community/${community.name}`, query:{communityId: community.id}} }>
              
                 {community.name}
