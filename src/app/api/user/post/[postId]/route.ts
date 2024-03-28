@@ -33,27 +33,26 @@ export async function PUT(req: NextRequest) {
 }
 
 // Deleting Post
-export async function DELETE(req: NextRequest) {
-    const searchParams = req.nextUrl.searchParams
-    const postId = searchParams.get('postId')
-    console.log(`this is your Id: ${postId}`)
+// export async function DELETE(req: NextRequest) {
+//     const searchParams = req.nextUrl.searchParams 
+//     const postId = searchParams.get('postId') 
+//     console.log(`this is your Id: ${postId}`)
 
-    if (!postId) return new Response("error: no post id")
+//     if (!postId) return new Response("error: no post id")
 
-    // di nag rrun yung prisma
-    try {
-        const deletePost = await prisma.post.delete({
-            where: {
-                id: postId
-            }
-        })
+//     try {
+//         const deletePost = await prisma.post.delete({
+//             where: {
+//                 id: postId
+//             }
+//         })
 
-        console.log(deletePost);
-        return new Response(JSON.stringify(deletePost), { status: 200 });
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ error: `Failed to delete post ${error}` }), { status: 500 });
-    }
-}
+//         console.log(deletePost);
+//         return new Response(JSON.stringify(deletePost), { status: 200 });
+//     } catch (error) {
+//         console.error(error);
+//         return new Response(JSON.stringify({ error: `Failed to delete post ${error}` }), { status: 500 });
+//     }
+// }
 
 
