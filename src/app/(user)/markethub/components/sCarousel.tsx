@@ -1,6 +1,5 @@
 'use client'
 import Autoplay from "embla-carousel-autoplay"
-import Slider1 from '../images/Free vegetables.png';
 import Slider2 from "../images/BagbagImage1.jpg";
 import Slider3 from "../images/NovaProper1.jpg";
 import Slider4 from "../images/BagongSilangan1.jpg";
@@ -15,7 +14,7 @@ import {
 import Image from "next/image";
 import { useRef } from "react";
 
-const images = [Slider1, Slider2, Slider3, Slider4];
+const images = [Slider2, Slider3, Slider4];
 
 export function ShadcnCarousel() {
   const plugin = useRef(
