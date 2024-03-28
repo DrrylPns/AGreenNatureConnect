@@ -40,10 +40,11 @@ export async function DELETE(req: NextRequest) {
 
     if (!postId) return new Response("error: no post id")
 
+    // di nag rrun yung prisma
     try {
         const deletePost = await prisma.post.delete({
             where: {
-                id: postId as string
+                id: postId
             }
         })
 

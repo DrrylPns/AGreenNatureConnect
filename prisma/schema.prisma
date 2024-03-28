@@ -29,8 +29,8 @@ datasource db {
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na
 // isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                  String         @id @default(cuid())
-  name                String?
+  id                  String         @id @default(cuid()) // string
+  name                String? // nullable | optional 
   EmployeeId          String?        @unique
   username            String?        @unique
   email               String?        @unique
