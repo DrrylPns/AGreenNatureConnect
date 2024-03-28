@@ -33,13 +33,16 @@ export async function PUT(req: NextRequest) {
 }
 
 // Deleting Post
-export async function DELETE(req: NextRequest){
+export async function DELETE(req: NextRequest) {
     const searchParams = req.nextUrl.searchParams
     const postId = searchParams.get('postId')
     console.log(`this is your Id: ${postId}`)
+
+    if (!postId) return new Response("error: no post id")
+
     try {
         const deletePost = await prisma.post.delete({
-            where:{
+            where: {
                 id: postId as string
             }
         })
@@ -48,7 +51,7 @@ export async function DELETE(req: NextRequest){
         return new Response(JSON.stringify(deletePost), { status: 200 });
     } catch (error) {
         console.error(error);
-        return new Response(JSON.stringify({ error: 'Failed to delete post' }), { status: 500 });
+        return new Response(JSON.stringify({ error: 'Failed to delete post: error' }), { status: 500 });
     }
 }
 
