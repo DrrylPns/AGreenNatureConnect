@@ -9,7 +9,7 @@ export const sendCancelledNotification = async (email: string, transactionId: st
     const tradeLink = `${domain}/order-status/${transactionId}`
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: `Agreenatureconnect: Your order from ${communityName} was cancelled.`,
         html: `<div>
@@ -25,7 +25,7 @@ export const sendCompletedNotification = async (email: string, transactionId: st
     const tradeLink = `${domain}/order-status/${transactionId}`
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: `Agreenatureconnect: Your order from ${communityName} is completed.`,
         html: `<div>
@@ -39,7 +39,7 @@ export const sendPickUpNotification = async (email: string, transactionId: strin
     const tradeLink = `${domain}/order-status/${transactionId}`
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: `Agreenatureconnect: Your order from ${communityName} has been picked up.`,
         html: `<div>
@@ -53,7 +53,7 @@ export const sendApprovedNotification = async (email: string, transactionId: str
     const tradeLink = `${domain}/order-status/${transactionId}`
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: `Agreenatureconnect: Your order from ${communityName} has been accepted.`,
         html: `<div>
@@ -67,7 +67,7 @@ export const sendPendingOrderNotification = async (email: string, transactionId:
     const tradeLink = `${domain}/order-status/${transactionId}`
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: `Agreenatureconnect: Your order from ${communityName} has been issued.`,
         html: `<div>
@@ -81,7 +81,7 @@ export const sendPasswordResetEmail = async (email: string, token: string) => {
     const resetLink = `${domain}/new-password?token=${token}`
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: "Agreenatureconnect: Reset your password",
         html: `<div>
@@ -96,7 +96,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
     const confirmLink = `${domain}/new-verification?token=${token}`;
 
     await resend.emails.send({
-        from: "onboarding@resend.dev",
+        from: "agreennatureconnect@agreennatureconnect.online",
         to: email,
         subject: "Agreenatureconnect: Confirm your email.",
         html: `<div>
