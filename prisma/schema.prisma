@@ -234,8 +234,8 @@ model Reply {
   comment   Comment @relation(fields: [commentId], references: [id])
   commentId String
 
-  user   User   @relation(fields: [userId], references: [id])
-  userId String
+  author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
+  authorId String
 }
 
 model Reaction {
