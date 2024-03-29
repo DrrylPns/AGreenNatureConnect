@@ -77,7 +77,8 @@ const page: FC<Props> = async ({ params }) => {
             </div>
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Date:</span>
-              <span className="text-gray-700">{getDateFormatted()}</span>
+              <span className="text-gray-700">{transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+</span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Recipient:</span>
@@ -149,10 +150,14 @@ const page: FC<Props> = async ({ params }) => {
           )}
         </CardContent>
         <CardFooter className="flex justify-center p-4 border-t border-gray-200">
+        {transaction?.status === "APPROVED" && (
+          
           <p className="text-sm text-gray-600 italic">
-            "Please claim your purchase on {getDateFormatted()} at Barangay{" "}
-            {transaction?.seller.name}"
+            "Please claim your purchase on {transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at Barangay{" "}
+            {transaction?.seller.name} from {transaction?.updatedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+            "
           </p>
+        )}
         </CardFooter>
       </Card>
       <br />
