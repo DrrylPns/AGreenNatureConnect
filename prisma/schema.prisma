@@ -79,6 +79,7 @@ model User {
   communityId      String?
   reactions        Reaction[]
   reply            Reply[]
+  Review           Review[]
   ReviewLike       ReviewLike[]
   ReviewDislike    ReviewDislike[]
   @@index([id])
@@ -492,6 +493,8 @@ model Review {
   dislike ReviewDislike[]
   product   Product @relation(fields: [productId], references: [id])
   productId String
+  User    User @relation(fields: [userId], references: [id])
+  userId  String
 }
 
 model ReviewLike {
