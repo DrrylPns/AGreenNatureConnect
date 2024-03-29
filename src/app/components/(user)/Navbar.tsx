@@ -49,8 +49,8 @@ const Navbar = () => {
                 <ThemeToggler1 />
               </div>
 
-              <div className="hidden md:block mt-[10%]">
-                <UserNotifs />
+              <div className="hidden md:block mt-[9%] text-5xl decoration-8">
+                <UserNotifs/>
               </div>
 
               <div className="hidden md:block mt-[10%]">
