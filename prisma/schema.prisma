@@ -79,7 +79,8 @@ model User {
   communityId      String?
   reactions        Reaction[]
   reply            Reply[]
-
+  ReviewLike       ReviewLike[]
+  ReviewDislike    ReviewDislike[]
   @@index([id])
   @@index([communityId])
 }
@@ -485,10 +486,28 @@ model Product {
 
 model Review {
   id      String @id @default(cuid())
+  rating  Float
   content String
-
+  like    ReviewLike[]
+  dislike ReviewDislike[]
   product   Product @relation(fields: [productId], references: [id])
   productId String
+}
+
+model ReviewLike {
+  id        String @id @default(cuid())
+  user      User  @relation(fields: [userId], references: [id])
+  userId    String
+  review    Review @relation(fields: [reviewId], references: [id])
+  reviewId  String
+}
+
+model ReviewDislike {
+  id      String @id @default(cuid())
+  user    User  @relation(fields: [userId], references: [id])
+  userId  String
+  review    Review @relation(fields: [reviewId], references: [id])
+  reviewId  String
 }
 
 model Variant {
