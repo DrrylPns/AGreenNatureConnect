@@ -20,10 +20,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  AiOutlineEdit,
-  AiOutlineEllipsis
-} from "react-icons/ai";
+import { AiOutlineEdit, AiOutlineEllipsis } from "react-icons/ai";
 import { BiComment, BiLike } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
 
@@ -33,7 +30,7 @@ export default function Comments({ posts }: { posts: Post }) {
   const loginModal = useLoginModal();
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const filter = new Filter();
   const words = require("./extra-words.json");
   filter.addWords(...words);
@@ -87,7 +84,7 @@ export default function Comments({ posts }: { posts: Post }) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comments"] })
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
 
       toast({
         description: "Your comment has been published.",
@@ -101,7 +98,8 @@ export default function Comments({ posts }: { posts: Post }) {
     if (isInvalidComment) {
       toast({
         title: "Comment Invalid",
-        description: "Your commment is invalid because you are using bad word",
+        description:
+          "Your commment is invalid because you are using a bad word",
         variant: "destructive",
       });
       return;
@@ -262,9 +260,7 @@ export default function Comments({ posts }: { posts: Post }) {
                     <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
                   </div>
                   <div className="w-full">
-                    <p className="font-poppins font-light">
-                      {filter.clean(comment.text)}
-                    </p>
+                    <p className="font-poppins font-light">{comment.text}</p>
                     <div className="w-full flex justify-end">
                       <motion.button
                         whileTap={{ backgroundColor: "ButtonShadow" }}
