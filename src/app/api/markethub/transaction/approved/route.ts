@@ -83,7 +83,9 @@ export async function POST(req: Request) {
       },
     })
 
-    sendApprovedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
+    if (transaction.buyer.isNotificationsEnabled) {
+      sendApprovedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
+    }
 
     await Promise.all(
       transaction.orderedVariant.map(async (orderedVariant) => {

@@ -83,7 +83,9 @@ export async function POST(req: Request) {
             },
         })
 
-        sendCompletedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
+        if (transaction.buyer.isNotificationsEnabled) {
+            sendCompletedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
+        }
 
         revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(acceptOrderById));

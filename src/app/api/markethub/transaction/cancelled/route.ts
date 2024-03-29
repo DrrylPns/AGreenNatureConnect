@@ -101,10 +101,10 @@ export async function PUT(req: Request) {
                 },
             })
 
-            sendCancelledNotification(transaction.buyer.email as string, cancelOrderById.id, transaction.seller.name, cancelOrderById.cancelReason, cancelOrderById.cancelType)
+            if (transaction.buyer.isNotificationsEnabled) {
+                sendCancelledNotification(transaction.buyer.email as string, cancelOrderById.id, transaction.seller.name, cancelOrderById.cancelReason, cancelOrderById.cancelType)
+            }
         }
-
-
 
         revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(cancelOrderById));
