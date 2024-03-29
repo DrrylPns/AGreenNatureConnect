@@ -1,7 +1,9 @@
+"use client"
 import DefaultImage from "@/../public/images/default-user.jpg";
 import RelativeDate from "@/app/components/RelativeDate";
 import { Button } from "@/app/components/Ui/Button";
 import DeleteDialog from "@/app/components/dialogs/Delete";
+import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
 import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { Comment, Post } from "@/lib/types";
@@ -20,7 +22,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { AiOutlineEdit, AiOutlineEllipsis } from "react-icons/ai";
+import { AiOutlineEllipsis } from "react-icons/ai";
 import { BiComment, BiLike } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
 
@@ -239,12 +241,13 @@ export default function Comments({ posts }: { posts: Post }) {
                       >
                         <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
                           <>
-                            <button
-                              type="button"
-                              className="flex gap-1 hover:underline w-full"
-                            >
-                              <AiOutlineEdit /> Edit
-                            </button>
+
+                            <EditCommentDialog
+                              commentId={comment.id}
+                              text={comment.text}
+                              onDelete={handleCommentDeleted}
+                            />
+
                             <DeleteDialog
                               commentId={comment.id}
                               onDelete={handleCommentDeleted}
