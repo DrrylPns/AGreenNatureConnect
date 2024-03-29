@@ -488,7 +488,10 @@ model Product {
 model Review {
   id      String @id @default(cuid())
   rating  Float
-  content String
+  title String
+  description String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
   like    ReviewLike[]
   dislike ReviewDislike[]
   product   Product @relation(fields: [productId], references: [id])
