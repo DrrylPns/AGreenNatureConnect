@@ -488,23 +488,23 @@ model Product {
 }
 
 model Review {
-  id      String @id @default(cuid())
-image String?
-  priceRating Float
-  qualityRating Float
-  serviceRating Float
+  id              String          @id @default(cuid())
+  image           String?
+  priceRating     Float
+  qualityRating   Float
+  serviceRating   Float
   freshnessRating Float
-  overAllRating  Float
-  title String
-  description String?
-  createdAt   DateTime        @default(now())
-  updatedAt   DateTime        @updatedAt
-  like        ReviewLike[]
-  dislike     ReviewDislike[]
-  product     Product         @relation(fields: [productId], references: [id])
-  productId   String
-  User        User            @relation(fields: [userId], references: [id])
-  userId      String
+  overAllRating   Float
+  title           String
+  description     String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  like            ReviewLike[]
+  dislike         ReviewDislike[]
+  product         Product         @relation(fields: [productId], references: [id])
+  productId       String
+  User            User            @relation(fields: [userId], references: [id])
+  userId          String
 }
 
 model ReviewLike {
