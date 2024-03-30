@@ -68,19 +68,25 @@ export const fetchReplies = async (postId: string,) => {
                 comments: true
             }
         })
-
+        
         const comments = await prisma.comment.findMany({
             where: {
                 postId
             },
             include: {
-                replyOnComent: true
+                replyOnComent: {
+                    include: {
+                        user: true
+                    }
+                }
             }
         })
 
+        
+
         console.log(comments.map((comment) => {
             return comment.replyOnComent.map((replies) => {
-                return replies.text
+                return replies.user
             })
         }))
 

@@ -1,5 +1,5 @@
 'use server'
-import { NotificationType, Reply, ReviewDislike, ReviewLike, } from '@prisma/client';
+import { NotificationType, ReviewDislike, ReviewLike, } from '@prisma/client';
 import { Variant } from 'framer-motion';
 import { MouseEventHandler } from 'react'
 
@@ -266,4 +266,13 @@ export interface CommentsWithReplies {
   replyToId: string | null;
   commentId: string;
   replyOnComent: Reply[]
+}
+
+interface Reply {
+  id: string;
+  text: string;
+  createdAt: Date;
+  commentId: string;
+  userId: string;
+  user: User
 }

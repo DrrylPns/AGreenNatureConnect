@@ -125,7 +125,7 @@ export default function Comments({ posts }: { posts: Post }) {
 
   useEffect(() => {
     fetchComments();
-    fetchManyReplies()
+    fetchManyReplies();
     if (isSubmitSuccessful) {
       reset();
     }
@@ -159,7 +159,7 @@ export default function Comments({ posts }: { posts: Post }) {
 
   const fetchManyReplies = async () => {
     try {
-      const result = await fetchReplies(posts.id)
+      const result = await fetchReplies(posts.id);
       //@ts-ignore
       setReplies(result);
     } catch (error) {
@@ -176,14 +176,18 @@ export default function Comments({ posts }: { posts: Post }) {
 
   const handleCommentDeleted = () => {
     fetchComments();
-    fetchManyReplies()
+    fetchManyReplies();
   };
 
-  console.log(replies?.map((comment) => {
-    return comment.replyOnComent.map((reply) => {
-      return reply.text
-    })
-  }))
+  const Reply = async () => {
+    console.log(
+      replies?.map((comment) => {
+        return comment.replyOnComent.map((reply) => {
+          return reply.text;
+        });
+      })
+    );
+  };
 
   return (
     <div>
@@ -298,17 +302,61 @@ export default function Comments({ posts }: { posts: Post }) {
                     <div></div>
                   </div>
                 </div>
-                {replies?.map((comments, index) => (
-                  <div key={index}>
-                    {comments.replyOnComent.map((replies, replyIndex) => (
-                      <div key={replyIndex}>
-                        {replies.commentId === comment.id && (
-                          replies.text
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                ))}
+
+                {replies &&
+                  Array.isArray(replies) &&
+                  replies.map((comments, index) => (
+                    <div className="ml-14" key={index}>
+                      {comments.replyOnComent.map((reply, replyIndex) => (
+                        <div
+                          className="flex w-full items-center"
+                          key={replyIndex}
+                        >
+                          {reply.commentId === comment.id && reply.text && (
+                            <div className="">
+                              <div className="flex items-center gap-2">
+                                <div className="flex items-center w-[2rem] h-[2rem] rounded-full border border-black">
+                                  <Image
+                                    src={reply.user.image || DefaultImage}
+                                    alt={"User Image"}
+                                    width={20}
+                                    height={20}
+                                    className="w-full h-full rounded-full"
+                                  />
+                                </div>
+                                <div>
+                                  <h3 className="text-[1rem] text-gray-500 font-poppins font-light ">
+                                    {reply.user.username}
+                                  </h3>
+                                  {reply.user.role === "STAFF" && (
+                                    <h6 className="text-lg font-poppins font-medium">
+                                      Urban Farming Member
+                                    </h6>
+                                  )}
+                                </div>
+
+                                <div className="text-gray-400 text-[0.7rem] ">
+                                  <RelativeDate
+                                    dateString={reply.createdAt.toISOString()}
+                                  />
+                                </div>
+                              </div>
+                              <div className="flex gap-2">
+                                <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 ml-2 mt-2">
+                                  <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
+                                </div>
+                                <div className="w-full ml-3 mb-4">
+                                  <p className="font-poppins font-light">
+                                    {reply.text}
+                                  </p>
+                                </div>{" "}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
               </>
             ))}
         </div>
