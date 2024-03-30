@@ -7,6 +7,7 @@ import { useInfiniteQuery } from '@tanstack/react-query'
 import { useInView } from 'react-intersection-observer';
 import { useSession } from 'next-auth/react'
 import axios from 'axios'
+import Image from 'next/image'
 
 type ReviewProps = {
     getAllReviews: Reviews[];
@@ -71,12 +72,27 @@ function ReviewContainer({
                             <span className='flex text-gray-400'>Ratings :  <RatingStars readonly={true} average={review.overAllRating} width={100}/></span>
                             <div className='flex gap-x-10 text-gray-400'>
                                 <span>Price: <span className="text-gray-700">{RatingLabels[review.priceRating]}</span></span>
-                                <span>Quality: <span className="text-gray-700">{RatingLabels[review.priceRating]}</span></span>
-                                <span>Freshness: <span className="text-gray-700">{RatingLabels[review.priceRating]}</span></span>
+                                <span>Quality: <span className="text-gray-700">{RatingLabels[review.qualityRating]}</span></span>
+                                <span>Freshness: <span className="text-gray-700">{RatingLabels[review.freshnessRating]}</span></span>
+                                <span>Service: <span className="text-gray-700">{RatingLabels[review.serviceRating]}</span></span>
                             </div>
                             <h1 className='font-semibold text-xl'>{review.title}</h1>
                             <p className='l line-clamp-4'>{review.description}</p>
                         </div>
+                        {review.image !== null ? (
+                            <div className='w-20 ml-auto border border-gray-100 shadow-md drop-shadow-md h-20 rounded-md'>
+                                <Image 
+                                    src={review.image || ''}
+                                    alt=''
+                                    width={100}
+                                    height={100}
+                                    className='object-cover w-full rounded-md'
+                                />  
+                            </div>
+                        ):(
+                            <></>
+                        )}
+                        
                     </div>
                 ))}
                 {isFetchingNextPage && (
