@@ -7,27 +7,24 @@ import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
 import { ReplyComment } from "@/app/components/dialogs/ReplyComment";
 import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
-import { Comment, Post } from "@/lib/types";
+import { Comment, CommentsWithReplies, Post } from "@/lib/types";
 import {
   CommentSchema,
   CreateCommentType,
 } from "@/lib/validations/createCommentSchema";
 import { Popover, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
 import Filter from "bad-words";
-import { motion } from "framer-motion";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { AiOutlineEllipsis } from "react-icons/ai";
-import { BiComment, BiLike } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
 import { fetchReplies } from "../../../../../actions/reply";
-import Loading from "../Loading";
 
 export default function Comments({ posts }: { posts: Post }) {
   const router = useRouter();
@@ -35,6 +32,8 @@ export default function Comments({ posts }: { posts: Post }) {
   const loginModal = useLoginModal();
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>();
+  const [replies, setReplies] = useState<CommentsWithReplies[]>();
+
   const queryClient = useQueryClient();
   const filter = new Filter();
   const words = require("./extra-words.json");
@@ -126,6 +125,7 @@ export default function Comments({ posts }: { posts: Post }) {
 
   useEffect(() => {
     fetchComments();
+    fetchManyReplies()
     if (isSubmitSuccessful) {
       reset();
     }
@@ -157,18 +157,33 @@ export default function Comments({ posts }: { posts: Post }) {
     }
   };
 
-  const { data: replies, isFetching } = useQuery({
-    queryKey: ["replies"],
-    queryFn: async () => fetchReplies(posts.id),
-  });
+  const fetchManyReplies = async () => {
+    try {
+      const result = await fetchReplies(posts.id)
+      //@ts-ignore
+      setReplies(result);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
 
-  if (isFetching) return <Loading />;
+  // const { data: replies, isFetching } = useQuery({
+  //   queryKey: ["replies"],
+  //   queryFn: async () => fetchReplies(posts.id) as CommentsWithReplies
+  // });
 
-  console.log(replies);
+  // console.log(replies)
 
   const handleCommentDeleted = () => {
     fetchComments();
+    fetchManyReplies()
   };
+
+  console.log(replies?.map((comment) => {
+    return comment.replyOnComent.map((reply) => {
+      return reply.text
+    })
+  }))
 
   return (
     <div>
@@ -283,6 +298,17 @@ export default function Comments({ posts }: { posts: Post }) {
                     <div></div>
                   </div>
                 </div>
+                {replies?.map((comments, index) => (
+                  <div key={index}>
+                    {comments.replyOnComent.map((replies, replyIndex) => (
+                      <div key={replyIndex}>
+                        {replies.commentId === comment.id && (
+                          replies.text
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ))}
               </>
             ))}
         </div>

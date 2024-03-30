@@ -29,7 +29,7 @@ export const replyComment = async (commentId: string, text: string) => {
 
         if (!commentId) return { error: "No comment found." }
         console.log(commentId, text)
-    
+
         await prisma.reply.create({
             data: {
                 userId: user.id,
@@ -37,60 +37,62 @@ export const replyComment = async (commentId: string, text: string) => {
                 text: text
             }
         })
-        return { success: "Reply added"}
+        return { success: "Reply added" }
     } catch (error: any) {
         throw new Error(error)
     }
 }
 
 export const fetchReplies = async (postId: string,) => {
-    const session = await getAuthSession()
+    try {
+        const session = await getAuthSession()
 
-    if (!session) return { error: "Unauthorized" }
+        if (!session) return { error: "Unauthorized" }
 
-    const user = await prisma.user.findFirst({
-        where: {
-            id: session?.user.id
-        },
-        include: {
-            Community: true
-        }
-    })
+        const user = await prisma.user.findFirst({
+            where: {
+                id: session?.user.id
+            },
+            include: {
+                Community: true
+            }
+        })
 
-    if (!user) return { error: "No user found!" }
+        if (!user) return { error: "No user found!" }
 
-    const post = await prisma.post.findUnique({
-        where: {
-            id: postId
-        },
-        include: {
-            comments: true
-        }
-    })
+        const post = await prisma.post.findUnique({
+            where: {
+                id: postId
+            },
+            include: {
+                comments: true
+            }
+        })
 
-    const comments = await prisma.comment.findMany({
-        where: {
-            postId
-        },
-        include: {
-            replyOnComent: true
-        }
-    })
+        const comments = await prisma.comment.findMany({
+            where: {
+                postId
+            },
+            include: {
+                replyOnComent: true
+            }
+        })
 
-    console.log(comments)
-    const replies = await prisma.reply.findMany({
-        where: {
-            commentId
-        },
-        include: {
-            user: true,
-        },
-        orderBy: {
-            createdAt: 'desc'
-        }
-        
+        console.log(comments.map((comment) => {
+            return comment.replyOnComent.map((replies) => {
+                return replies.text
+            })
+        }))
+
+        // const replies = await prisma.reply.findMany({
+        //     where: {
+        //         commentId: 
+        //     }
+        // })
+
+
+        return comments
+    } catch (error: any) {
+        throw new Error(error)
     }
-    
-     )
-    return 
 }
