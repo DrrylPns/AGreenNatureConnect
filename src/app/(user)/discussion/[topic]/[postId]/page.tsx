@@ -134,7 +134,7 @@ const page: FC<Props> = ({ params }) => {
   return (
     <main className="pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A]">
       {posts ? (
-        posts.reports >= 4 ? (
+        posts.reports >= 5 ? (
           session?.user.role === "USER" || session?.user.role === undefined ? (
             <PostUnderReview />
           ) : (

@@ -9,9 +9,11 @@ import { Button } from "@/app/components/Ui/Button";
 import { RotatingLines } from "react-loader-spinner";
 import Skeleton from "react-loading-skeleton";
 import UserSkeleton from "./Skeleton/CreatePost";
+import useWarningModal from "@/lib/hooks/useWarningModal";
 
 export default function CreatePost() {
   const { data: session, status } = useSession();
+
   return (
     <section className="sm:px-[3%] lg:pr-[30%]">
       {status === "loading" ? (
@@ -24,7 +26,7 @@ export default function CreatePost() {
             <div
               className=" flex justify-between items-center gap-5 dark:bg-[#242526] bg-white rounded-lg drop-shadow-lg w-full px-5 py-5"
             >
-              <Link  href={{pathname:`/discussion/user/${session?.user.username}`, query:{id:session.user.id}}} className="w-[2.5rem]">
+              <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session.user.id } }} className="w-[2.5rem]">
                 <UserAvatar
                   user={{
                     name: session?.user.username || null,
