@@ -8,8 +8,8 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 //Getting all post
 export async function GET(req: Request, res: NextApiResponse) {
+    const { searchParams } = new URL(req.url);
     try {
-        const { searchParams } = new URL(req.url);
         const param = searchParams.get("cursor");
         const limit = 5
         const getAllPost = await prisma.post.findMany({

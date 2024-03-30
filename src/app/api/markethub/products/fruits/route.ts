@@ -2,8 +2,8 @@ import prisma from "@/lib/db/db";
 import { NextRequest } from "next/server";
 
 export async function GET(req: NextRequest) {
+    const { searchParams } = new URL(req.url);
     try {
-        const { searchParams } = new URL(req.url);
         const param = searchParams.get("cursor");
         const limit = 18
         const getAllProducts = await prisma.product.findMany({
