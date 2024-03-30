@@ -67,7 +67,7 @@ function AllProducts() {
                         )
                     }
             }) : (
-                <div className='col-span-12 flex justify-center w-full h-1/2 text-center'>
+                <div className='flex justify-center w-full h-1/2 text-center'>
                     <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available fruits right now!</h1>
                 </div>
             )}
