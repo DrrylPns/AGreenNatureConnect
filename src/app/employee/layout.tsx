@@ -10,6 +10,8 @@ import { notFound } from 'next/navigation'
 import prisma from '@/lib/db/db'
 import Sidebar from './_components/Sidebar'
 import { cn } from '@/lib/utils'
+import { PageNotFound } from '@/components/PageNotFound'
+import { LoadingComponent } from '@/components/LoadingComponent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,11 +27,9 @@ export default async function RootLayout({
 }) {
     const session = await getAuthSession()
 
-    if (session?.user.role === null) return <div>Loading...</div>
+    if (session?.user.role === null) return <LoadingComponent />
 
-    if (session?.user.role !== "EMPLOYEE") {
-        notFound()
-    }
+    if (session?.user.role !== "EMPLOYEE") if (session?.user.role !== "ADMIN") return <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'><PageNotFound /></div>
 
 
 
