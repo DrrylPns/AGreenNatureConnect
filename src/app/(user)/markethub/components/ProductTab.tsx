@@ -1,7 +1,6 @@
 'use client'
 import { Tab } from '@headlessui/react'
 import React, { useState } from 'react'
-import ProductModal from './ProductModal'
 import AllProducts from './AllProducts';
 import Fruits from './Fruits';
 import Vegetables from './Vegetables';
