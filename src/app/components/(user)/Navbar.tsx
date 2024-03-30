@@ -18,6 +18,8 @@ import { ThemeToggler1 } from "../_ThemeToggler";
 import CartIcon from "./CartIcon";
 import LogoIcon from "/public/logo.png";
 import { UserNotifs } from "@/components/UserNotifs";
+import Search from "../Search";
+
 
 const Navbar = () => {
   const { data: session, status } = useSession();
@@ -28,6 +30,8 @@ const Navbar = () => {
       <Link href="/" className="w-[3rem] text-center">
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
+
+      <Search/>
       {status === "loading" ? (
         <div className="text-center flex justify-center">
           <RotatingLines

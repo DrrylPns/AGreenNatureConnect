@@ -212,7 +212,7 @@ function ProductModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-black font-poppins bg-gray-50 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-[40rem] max-h-fit transform overflow-hidden rounded-t-2xl text-black font-poppins bg-gray-50 text-left align-middle shadow-xl transition-all">
                   <div className='flex justify-end w-full '>
                     <button type='button' onClick={() => closeModal()} className='text-[1rem] md:px-5 p-3 '>
                       X
@@ -220,36 +220,37 @@ function ProductModal({
                   </div>
                   <div className=' md:flex justify-around items-center w-full '>
                     {selectedProduct?.productImage && (
+                      <div className='w-full md:w-[15rem] max-h-[15rem] border-gray-300 border-2'>
                       <Image
                         src={selectedProduct.productImage}
                         alt='Product Image'
                         width={250}
                         height={250}
-                        className="object-contain mx-auto sm:mx-0 border-gray-300 border-2"
-                        loading= 'lazy'
+                        className="object-center w-full min-h-[15rem] max-h-[15rem]  sm:mx-0 "
                       />
+                      </div>
                     )}
                     <div className='flex flex-col justify-start font-poppins'>
                       <div>
-                        <h1 className='text-center font-livvic font-bold text-[2.5rem]'>{selectedProduct?.name}</h1>
+                        <h1 className='text-center font-livvic font-semibold text-3xl'>{selectedProduct?.name}</h1>
                         <h1 className='text-center  font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
                       </div>
-                      <span>Available Stocks:(
+                      <span className='text-center'>Available Stocks:(
                         {String(selectedProduct?.kilograms) === "0" ? "" : `${String(selectedProduct?.kilograms)}kg`}
-                        {String(selectedProduct?.grams) === "0" ? "" : `/${String(selectedProduct?.grams)}g`}
-                        {String(selectedProduct?.pounds) === "0" ? "" : `/${String(selectedProduct?.pounds)}lbs`}
-                        {String(selectedProduct?.pieces) === "0" ? "" : `/${String(selectedProduct?.pieces)}pcs`}
-                        {String(selectedProduct?.packs) === "0" ? "" : `/${String(selectedProduct?.packs)}packs`})
+                        {String(selectedProduct?.grams) === "0" ? "" : ` ${String(selectedProduct?.grams)}g`}
+                        {String(selectedProduct?.pounds) === "0" ? "" : ` ${String(selectedProduct?.pounds)}lbs`}
+                        {String(selectedProduct?.pieces) === "0" ? "" : ` ${String(selectedProduct?.pieces)}pcs`}
+                        {String(selectedProduct?.packs) === "0" ? "" : ` ${String(selectedProduct?.packs)}packs`})
                       </span>
                       {selectedProduct && selectedProduct?.reviews.length > 0 ? (
-                        <Link href={`/markethub/reviews/${product.id}`} className="flex z-30 items-center justify-around my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
+                      <Link href={`/markethub/reviews/${product.id}`} className="flex z-30 items-center justify-center my-2 px-2 gap-5 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
                         {selectedProduct && selectedProduct.reviews.length > 0 && (
                             <RatingStars readonly={true} average={ratingsAverage} width={100}/>
                         )}
                         <h1 className="text-sm  text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
                      </Link>
                       ):(
-                        <h1 className="text-sm  text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
+                        <h1 className="text-sm text-center text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
                       )}
                      
                     </div>
@@ -261,15 +262,15 @@ function ProductModal({
 
                         {Object.entries(groupedVariants).map(([unitOfMeasurement, variants]) => (
                           <div key={unitOfMeasurement}>
-                            <h3 className="my-2 capitalize">{unitOfMeasurement}</h3>
+                            <h3 className="my-2 capitalize font-poppins font-medium">{unitOfMeasurement}</h3>
                             {variants.map((variant) => (
                               <button
                                 key={variant.id}
                                 onClick={() => { setSelectedVariant(variant) }}
-                                className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 mt-3 transition-transform transform active:scale-95`}
+                                className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-3 py-1 w-28 mx-3  transition-transform transform active:scale-95`}
                               >
-                                <div className='text-sm font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
-                                <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
+                                <div className='text-xs font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
+                                <div className='text-[0.6rem] font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
                               </button>
                             ))}
                           </div>
@@ -277,7 +278,7 @@ function ProductModal({
                       </div>
                     )}
                   </div>
-                  <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-36 py-5 px-5'>
+                  <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-10 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
                       Total Price:
                       <span className='font-semibold font-poppins text-lg'> ₱ {

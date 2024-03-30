@@ -4,6 +4,8 @@ import { Dialog, Transition } from "@headlessui/react";
 import { FiSearch } from "react-icons/fi";
 import { BiArrowBack } from "react-icons/bi";
 import { Combobox } from "@headlessui/react";
+
+
 export default function Search() {
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");

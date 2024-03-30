@@ -1,5 +1,4 @@
 
-'use client'
 import React, { } from "react";
 import BarangayDropdown from "./components/BarangayDropdown";
 import ProductItem from "./components/Product";
