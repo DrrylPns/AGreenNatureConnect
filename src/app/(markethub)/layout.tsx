@@ -7,7 +7,7 @@ import Navbar from "../components/(user)/Navbar"
 import LoginModal from "../components/modals/LoginModal"
 import RegisterModal from "../components/modals/RegisterModal"
 import { Toaster } from "../components/toast/toaster"
-
+import '@smastrom/react-rating/style.css'
 import { UserBanned } from "@/components/UserBanned"
 import { UserSettings } from "@/components/UserSettings"
 import { CartProvider } from "@/contexts/CartContext"

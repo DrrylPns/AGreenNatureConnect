@@ -9,7 +9,7 @@ import Providers from "@/lib/providers/Providers";
 import { Toaster } from "../components/toast/toaster";
 // import { Suspense } from "react"
 // import { SkeletonTheme } from "react-loading-skeleton"
-// import OnboardingPage from "../(auth)/onboarding/page"
+import '@smastrom/react-rating/style.css'
 import { Onboarding } from "../components/(user)/Onboarding";
 import { ThemeProvider } from "../components/Ui/ThemeProvider";
 import { CartProvider } from "@/contexts/CartContext";

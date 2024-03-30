@@ -488,9 +488,14 @@ model Product {
 }
 
 model Review {
-  id          String          @id @default(cuid())
-  rating      Float
-  title       String
+  id      String @id @default(cuid())
+image String?
+  priceRating Float
+  qualityRating Float
+  serviceRating Float
+  freshnessRating Float
+  overAllRating  Float
+  title String
   description String?
   createdAt   DateTime        @default(now())
   updatedAt   DateTime        @updatedAt

@@ -4,6 +4,7 @@ import Card from './Card'
 import ProductModal from './ProductModal'
 import { Button } from '@/components/ui/button'
 import SeeMoreBtn from './SeeMoreBtn'
+import Back from './Back'
 
 async function Free({
     communityId
@@ -24,7 +25,8 @@ async function Free({
         },
         include:{
             community:true,
-            variants: true
+            variants: true,
+            reviews: true
         }
     })
   return (  

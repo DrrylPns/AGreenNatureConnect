@@ -13,6 +13,8 @@ import { useCart } from '@/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/app/(markethub)/hooks/useLocalStorage';
 import { Button } from '@/components/ui/button';
+import { RatingStars } from './Rating';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -33,6 +35,22 @@ interface Product {
   updatedAt: Date;
   community: Community;
   communityId: string;
+  reviews: Reviews[]
+}
+interface Reviews {
+  id:     string
+  image: string | null
+  priceRating:  number
+  qualityRating:  number
+  serviceRating:  number
+  freshnessRating: number
+  overAllRating:  number
+  title: string
+  description: string | null
+  createdAt: Date         
+  updatedAt: Date           
+  productId: string
+  userId: string
 }
 interface Community {
   id: string;
@@ -133,6 +151,17 @@ function ProductModal({
       setItem({selectedProduct, selectedVariant})
     }
     
+
+    let sumOfRatings = 0;
+    let totalNumberOfRatings = 0;
+    selectedProduct && selectedProduct.reviews.length > 0 && selectedProduct.reviews.forEach(review => {
+        sumOfRatings += review.overAllRating;
+        totalNumberOfRatings++;
+    });
+
+    const ratingsAverage = selectedProduct && selectedProduct.reviews.length > 0 ? sumOfRatings / totalNumberOfRatings : 0
+        
+    
   return (
       <button
         type='button'
@@ -141,11 +170,13 @@ function ProductModal({
         disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
       >
         <Card
+          productId={product.id}
           imageUrl={product.productImage}
           productName={product.name}
           barangay={product.community?.name}
           lowestPrice={lowestPrice}
           highestPrice={highestPrice}
+          productReviews={product.reviews}
         />
         {product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1 ? (
           <div className={`absolute top-5 left-5 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
@@ -187,21 +218,21 @@ function ProductModal({
                       X
                     </button>
                   </div>
-                  <div className=' md:flex gap-10 mx-6 '>
+                  <div className=' md:flex justify-around items-center w-full '>
                     {selectedProduct?.productImage && (
                       <Image
                         src={selectedProduct.productImage}
                         alt='Product Image'
-                        width={300}
-                        height={300}
-                        className="w-full md:w-1/2 h-40 border-gray-300 border-2"
+                        width={250}
+                        height={250}
+                        className="object-contain mx-auto sm:mx-0 border-gray-300 border-2"
                         loading= 'lazy'
                       />
                     )}
-                    <div className='flex flex-col font-poppins text text mx-auto'>
+                    <div className='flex flex-col justify-start font-poppins'>
                       <div>
                         <h1 className='text-center font-livvic font-bold text-[2.5rem]'>{selectedProduct?.name}</h1>
-                        <h1 className='text-center text-pale-white font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
+                        <h1 className='text-center  font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
                       </div>
                       <span>Available Stocks:(
                         {String(selectedProduct?.kilograms) === "0" ? "" : `${String(selectedProduct?.kilograms)}kg`}
@@ -210,16 +241,27 @@ function ProductModal({
                         {String(selectedProduct?.pieces) === "0" ? "" : `/${String(selectedProduct?.pieces)}pcs`}
                         {String(selectedProduct?.packs) === "0" ? "" : `/${String(selectedProduct?.packs)}packs`})
                       </span>
+                      {selectedProduct && selectedProduct?.reviews.length > 0 ? (
+                        <Link href={`/markethub/reviews/${product.id}`} className="flex z-30 items-center justify-around my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
+                        {selectedProduct && selectedProduct.reviews.length > 0 && (
+                            <RatingStars readonly={true} average={ratingsAverage} width={100}/>
+                        )}
+                        <h1 className="text-sm  text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
+                     </Link>
+                      ):(
+                        <h1 className="text-sm  text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
+                      )}
+                     
                     </div>
                   </div>
                   <div className="mt-5 px-5">
-                    <h2 className='mb-5'>Select variant</h2>
+                   
                     {selectedProduct?.variants && selectedProduct.variants.length > 0 && (
                       <div className=''>
-                        {/* Iterate over grouped variants */}
+
                         {Object.entries(groupedVariants).map(([unitOfMeasurement, variants]) => (
                           <div key={unitOfMeasurement}>
-                            <h3 className="mb-2">{unitOfMeasurement}</h3>
+                            <h3 className="my-2 capitalize">{unitOfMeasurement}</h3>
                             {variants.map((variant) => (
                               <button
                                 key={variant.id}

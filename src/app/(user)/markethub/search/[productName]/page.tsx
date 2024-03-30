@@ -2,6 +2,7 @@
 import prisma from '@/lib/db/db'
 import SearchBar from '../../components/SearchBar';
 import ProductModal from '../../components/ProductModal';
+import Back from '../../components/Back';
 
 const page = async ({ 
     params,
@@ -30,7 +31,8 @@ const page = async ({
         },
         include:{
             community: true,
-            variants: true
+            variants: true,
+            reviews: true
         },
         orderBy:{
         }
@@ -38,6 +40,7 @@ const page = async ({
     
   return (
     <div>
+        <Back/>
         <div className='w-full flex justify-center md:justify-start'>
             <div className='w-1/2'>
                 <SearchBar allProduct={AllProducts}/>
