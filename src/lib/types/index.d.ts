@@ -1,5 +1,5 @@
 'use server'
-import { NotificationType, ReviewDislike, ReviewLike } from '@prisma/client';
+import { NotificationType, Reply, ReviewDislike, ReviewLike, } from '@prisma/client';
 import { Variant } from 'framer-motion';
 import { MouseEventHandler } from 'react'
 
@@ -148,17 +148,17 @@ export interface Cart {
 }
 
 export interface Reviews {
-  id:     string
+  id: string
   image: string | null
-  priceRating:  number
-  qualityRating:  number
-  serviceRating:  number
+  priceRating: number
+  qualityRating: number
+  serviceRating: number
   freshnessRating: number
-  overAllRating:  number
+  overAllRating: number
   title: string
   description: string | null
-  createdAt: Date         
-  updatedAt: Date           
+  createdAt: Date
+  updatedAt: Date
   productId: string
   User: ReviewUser
   userId: string
@@ -166,31 +166,31 @@ export interface Reviews {
   dislike: ReviewDislike[]
 }
 
-export interface ReviewUser{
+export interface ReviewUser {
   image: string | null
   username: string | null;
 }
 
 export interface ReviewDislike {
-  id:        string 
-  user:      Author 
-  userId:    string
-  review:    Review
-  reviewId:  string
+  id: string
+  user: Author
+  userId: string
+  review: Review
+  reviewId: string
 }
 export interface ReviewLike {
-  id:        string 
-  user:      Author 
-  userId:    string
-  review:    Review
-  reviewId:  string
+  id: string
+  user: Author
+  userId: string
+  review: Review
+  reviewId: string
 }
 export interface ReviewDislike {
-  id:        string 
-  user:      User 
-  userId:    string
-  review:    Review
-  reviewId:  string
+  id: string
+  user: User
+  userId: string
+  review: Review
+  reviewId: string
 }
 export interface ShippingInfo {
   id: string
@@ -254,4 +254,16 @@ export interface NotificationWithUser {
   user: User;
   community: Community;
   transaction: Transaction;
+}
+
+export interface CommentsWithReplies {
+  id: string;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+  postId: string;
+  replyToId: string | null;
+  commentId: string;
+  replyOnComent: Reply[]
 }
