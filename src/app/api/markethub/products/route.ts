@@ -4,14 +4,21 @@ import { NextRequest } from "next/server";
 //Getting all products
 export async function GET(req: NextRequest) {
     try {
-
+        const { searchParams } = new URL(req.url);
+        const param = searchParams.get("cursor");
+        const limit = 18
         const getAllProducts = await prisma.product.findMany({
+            cursor: param ? {
+                id: param 
+            } : undefined,
+            take: limit,
+            skip: param === '' ? 0 : 1,
             where:{
                 isFree: {
                     equals: false
                 },
                 status:{
-                    equals: 'APPROVED'
+                    equals: "APPROVED"
                 },
                 variants:{
                     some: {
@@ -21,15 +28,15 @@ export async function GET(req: NextRequest) {
                     }
                 }
             },
-
             include:{
                variants: true,
-               community: true
+               community: true,
+               reviews: true,
             }
         })
-       
-        return new Response(JSON.stringify(getAllProducts), {status: 200})
+        const myCursor = getAllProducts.length === limit ? getAllProducts[getAllProducts.length - 1].id : undefined;
+        return new Response(JSON.stringify({ getAllProducts, nextId: myCursor }))
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 }

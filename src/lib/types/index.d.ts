@@ -1,5 +1,5 @@
 'use server'
-import { NotificationType } from '@prisma/client';
+import { NotificationType, ReviewDislike, ReviewLike } from '@prisma/client';
 import { Variant } from 'framer-motion';
 import { MouseEventHandler } from 'react'
 
@@ -114,6 +114,7 @@ export interface Product {
   updatedAt: Date;
   community: Community;
   communityId: string;
+  reviews: Reviews[]
 }
 export interface Community {
   id: string;
@@ -144,6 +145,52 @@ export interface Cart {
   variantId: string;
   community: Community;
   communityId: string;
+}
+
+export interface Reviews {
+  id:     string
+  image: string | null
+  priceRating:  number
+  qualityRating:  number
+  serviceRating:  number
+  freshnessRating: number
+  overAllRating:  number
+  title: string
+  description: string | null
+  createdAt: Date         
+  updatedAt: Date           
+  productId: string
+  User: ReviewUser
+  userId: string
+  like: ReviewLike[]
+  dislike: ReviewDislike[]
+}
+
+export interface ReviewUser{
+  image: string | null
+  username: string | null;
+}
+
+export interface ReviewDislike {
+  id:        string 
+  user:      Author 
+  userId:    string
+  review:    Review
+  reviewId:  string
+}
+export interface ReviewLike {
+  id:        string 
+  user:      Author 
+  userId:    string
+  review:    Review
+  reviewId:  string
+}
+export interface ReviewDislike {
+  id:        string 
+  user:      User 
+  userId:    string
+  review:    Review
+  reviewId:  string
 }
 export interface ShippingInfo {
   id: string

@@ -16,15 +16,17 @@ import { RadioGroup, RadioGroupItem } from '@/app/components/Ui/radio-group';
 import { Textarea } from '@/app/components/Ui/textarea';
 import { Button } from '@/app/components/Ui/Button';
 import QrCodeDrawer from './QrCodeDrawer';
+import ReviewModal from './ReviewModal';
+import { RatingStars } from './Rating';
 
-interface OrdersProps {
+export interface OrdersProps {
     selectedIndex: number;
     noOrders: string;
     transactions: Transaction[];
     cancelBtnDisplay: "block" | "hidden";
     status: string;
 }
-interface Transaction {
+export interface Transaction {
     id: string;
     referenceId: string;
     amount: number;
@@ -38,12 +40,12 @@ interface Transaction {
     createdAt: Date;
     updatedAt: Date;
 }
-interface Community {
+export interface Community {
     id: string;
     name: string;
     qrCode: string | null;
 }
-interface Buyer {
+export interface Buyer {
     id: string;
     name: string | null;
     username: string | null;
@@ -54,20 +56,20 @@ interface Buyer {
     phoneNumber: string | null;
     address: string | null;
 }
-interface OrderedVariant {
+export interface OrderedVariant {
     id: string;
     product: Product;
     variant: Variants;
     price: number;
 }
-interface Variants {
+export interface Variants {
     id: string
     unitOfMeasurement: string;
     variant: number;
     price: number;
     EstimatedPieces: number;
 }
-interface Product {
+export interface Product {
     id: string;
     productImage: string;
     name: string;
@@ -184,6 +186,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                     ))}
                                 </div>
                                 <div className=' w-1/3 flex flex-col justify-end items-end '>
+                                    <h1 className='text-[0.5rem] sm:text-lg mb-3 text-gray-400 font-semibold'>{status}</h1>
                                     <div className={`flex gap-3`}>
                                         <Dialog>
                                             <DialogTrigger>
@@ -312,6 +315,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                             </DialogContent>
                                         </Dialog>
                                     </div>
+                                   
                                     <div className='text-[0.6rem] sm:text-lg mt-5'>
                                         <h1 className='text-gray-400'>Payment method: <span className='text-gray-700'>{transaction.paymentMethod} </span></h1>
                                         <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{transaction.paymentStatus}</span></h1>
@@ -320,8 +324,12 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             </div>
 
                             <div className='flex justify-between w-full border-y-2 text-right border-gray-300 bg-gray-200 px-5 md:px-10 py-2 md:py-4 transition-all ease-in-out duration-500'>
-                                <h1 className='text-[0.5rem] sm:text-sm text-gray-400 font-semibold'>{status}</h1>
+                                
                                 <h1 className='text-[0.5rem] sm:text-sm font-semibold'>Order Total: <span>₱ {transaction.amount}</span></h1>
+                                {transaction.status === 'COMPLETED' && (
+                                    <ReviewModal orderedVariant={transaction.orderedVariant}/>
+                                )}
+                             
                             </div>
                         </div>
                     )) : (

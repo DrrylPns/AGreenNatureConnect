@@ -48,6 +48,7 @@ model User {
   createdAt           DateTime       @default(now())
   updatedAt           DateTime       @updatedAt
   isBanned            Boolean        @default(false)
+  isNotificationsEnabled  Boolean    @default(false)
   numberOfViolations  Int            @default(0)
   lastUsernameChange  DateTime?
   isBannedFromPosting DateTime?
@@ -487,7 +488,12 @@ model Product {
 
 model Review {
   id      String @id @default(cuid())
-  rating  Float
+  image String?
+  priceRating Float
+  qualityRating Float
+  serviceRating Float
+  freshnessRating Float
+  overAllRating  Float
   title String
   description String?
   createdAt        DateTime           @default(now())

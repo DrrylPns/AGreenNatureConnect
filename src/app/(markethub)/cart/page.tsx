@@ -156,7 +156,7 @@ function CartPage() {
                   alt={item.variant.product.name}
                   height={50}
                   width={50}
-                  className='border-black border'
+                  className='h-10 w-10  border-black border'
                 />
                 <div className='text-[0.5rem]'>
                   <h3>{item.variant.product.name}</h3>

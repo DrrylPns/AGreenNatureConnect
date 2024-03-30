@@ -16,81 +16,7 @@ const page = async ({
   searchParams?: { communityId: string};
 }) => {
   const communityName = params.communityName.replace(/%20/g, ' ');
-  const getProductsByCommunity = await prisma.product.findMany({
-    where:{
-      communityId: searchParams?.communityId,
-      isFree: {
-        equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-  })
-  const fruits = await prisma.product.findMany({
-    where:{
-      communityId: searchParams?.communityId,
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-      category:{
-          equals:"Fruits"
-      },
-      
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-   
-  })
-  const others = await prisma.product.findMany({
-    where:{
-      communityId: searchParams?.communityId,
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-      category:{
-          equals:"Others"
-      },
-      
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-   
-  })
-  const vegetables = await prisma.product.findMany({
-    where:{
-      communityId: searchParams?.communityId,
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
-      category:{
-          equals:"Vegetables"
-      },
-      
-    },
-    include:{
-      community: true,
-      variants: true
-    }
-   
-  })
+  
   return (
     <div className='relative drop-shadow-sm shadow-md'>
       <Back/>
@@ -110,7 +36,7 @@ const page = async ({
         <Free communityId={searchParams?.communityId}/>
       </div>
       <div className='sticky top-20 w-full mt-5'>
-        <ProductTab allProducts={getProductsByCommunity} vegetables={vegetables} fruits={fruits} others={others}/>
+        <ProductTab />
       </div>
     </div>
   )
