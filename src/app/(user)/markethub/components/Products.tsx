@@ -20,6 +20,22 @@ interface Product {
     updatedAt: Date;
     community: Community;
     communityId: string;
+    reviews: Reviews[]
+  }
+  interface Reviews {
+    id:     string
+    image: string | null
+    priceRating:  number
+    qualityRating:  number
+    serviceRating:  number
+    freshnessRating: number
+    overAllRating:  number
+    title: string
+    description: string | null
+    createdAt: Date         
+    updatedAt: Date           
+    productId: string
+    userId: string
   }
   interface Community {
     id: string;
