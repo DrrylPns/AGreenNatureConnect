@@ -113,12 +113,14 @@ export async function POST(req: Request) {
                 },
             })
 
-            sendPendingOrderNotification(
-                loggedInUser?.email as string,
-                transaction.id,
-                community.name,
-            )
-
+            if (loggedInUser?.isNotificationsEnabled) {
+                sendPendingOrderNotification(
+                    loggedInUser?.email as string,
+                    transaction.id,
+                    community.name,
+                )
+            }
+            
             /*
             item.products.forEach(async (product)=>{
                 if(product.variant.unitOfMeasurement === 'Kilograms'){

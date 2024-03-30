@@ -37,8 +37,8 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ user }) => {
     const form = useForm<ChangeUserProfileType>({
         resolver: zodResolver(ChangeUserProfileSchema),
         defaultValues: {
-            newAddress: user.address || "",
-            newPhone: user.phoneNumber || "",
+            newAddress: user?.address || "",
+            newPhone: user?.phoneNumber || "",
             //@ts-ignore
             newBirthday: user?.birthday ? new Date(user.birthday).toISOString().split("T")[0] : "",
         }

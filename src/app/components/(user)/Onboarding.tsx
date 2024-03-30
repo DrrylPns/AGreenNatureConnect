@@ -170,7 +170,7 @@ export const Onboarding = () => {
                 {/** Labels */}
                 <div className="grid justify-items-start pt-2 pl-10 pr-10 text-black">
                     <label htmlFor="" className="text-[30px] font-bold">
-                        Onboarding
+                        Register
                     </label>
                     <div className="label-container md:text-[16px] text-[13px]">
                         <p className="text-left text-neutral-500">

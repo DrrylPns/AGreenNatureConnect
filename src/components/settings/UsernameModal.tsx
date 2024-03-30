@@ -35,7 +35,7 @@ export const UsernameModal: React.FC<ProfileModalProps> = ({ user }) => {
     const form = useForm<ChangeUsernameType>({
         resolver: zodResolver(ChangeUsernameSchema),
         defaultValues: {
-            newUsername: user.username || ""
+            newUsername: user?.username || ""
         }
     })
 

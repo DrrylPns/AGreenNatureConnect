@@ -247,6 +247,7 @@ const CreateProduct = () => {
                                     <SelectContent>
                                         <SelectItem value="Fruits">Fruits</SelectItem>
                                         <SelectItem value="Vegetables">Vegetables</SelectItem>
+                                        <SelectItem value="Others">Others</SelectItem>
                                     </SelectContent>
                                 </Select>
                                 <FormMessage />
@@ -518,6 +519,7 @@ const CreateProduct = () => {
                 <div className="flex gap-2 justify-end w-full mt-7">
                     <Button
                         type='button'
+                        disabled={imageIsEmpty}
                         variant="ghost"
                         className={
                             cn('bg-transparent hover:bg-opacity-30 text-black font-bold', {

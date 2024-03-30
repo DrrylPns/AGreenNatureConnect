@@ -1,7 +1,9 @@
+"use client"
 import DefaultImage from "@/../public/images/default-user.jpg";
 import RelativeDate from "@/app/components/RelativeDate";
 import { Button } from "@/app/components/Ui/Button";
 import DeleteDialog from "@/app/components/dialogs/Delete";
+import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
 import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { Comment, Post } from "@/lib/types";
@@ -20,10 +22,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  AiOutlineEdit,
-  AiOutlineEllipsis
-} from "react-icons/ai";
+import { AiOutlineEllipsis } from "react-icons/ai";
 import { BiComment, BiLike } from "react-icons/bi";
 import { FiPlus } from "react-icons/fi";
 
@@ -33,7 +32,7 @@ export default function Comments({ posts }: { posts: Post }) {
   const loginModal = useLoginModal();
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>();
-  const queryClient = useQueryClient()
+  const queryClient = useQueryClient();
   const filter = new Filter();
   const words = require("./extra-words.json");
   filter.addWords(...words);
@@ -87,7 +86,7 @@ export default function Comments({ posts }: { posts: Post }) {
       });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["comments"] })
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
 
       toast({
         description: "Your comment has been published.",
@@ -101,7 +100,8 @@ export default function Comments({ posts }: { posts: Post }) {
     if (isInvalidComment) {
       toast({
         title: "Comment Invalid",
-        description: "Your commment is invalid because you are using bad word",
+        description:
+          "Your commment is invalid because you are using a bad word",
         variant: "destructive",
       });
       return;
@@ -241,12 +241,13 @@ export default function Comments({ posts }: { posts: Post }) {
                       >
                         <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
                           <>
-                            <button
-                              type="button"
-                              className="flex gap-1 hover:underline w-full"
-                            >
-                              <AiOutlineEdit /> Edit
-                            </button>
+
+                            <EditCommentDialog
+                              commentId={comment.id}
+                              text={comment.text}
+                              onDelete={handleCommentDeleted}
+                            />
+
                             <DeleteDialog
                               commentId={comment.id}
                               onDelete={handleCommentDeleted}
@@ -262,9 +263,7 @@ export default function Comments({ posts }: { posts: Post }) {
                     <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
                   </div>
                   <div className="w-full">
-                    <p className="font-poppins font-light">
-                      {filter.clean(comment.text)}
-                    </p>
+                    <p className="font-poppins font-light">{comment.text}</p>
                     <div className="w-full flex justify-end">
                       <motion.button
                         whileTap={{ backgroundColor: "ButtonShadow" }}
