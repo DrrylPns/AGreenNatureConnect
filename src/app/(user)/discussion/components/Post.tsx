@@ -101,7 +101,7 @@ export default function Post() {
                         </div>
                       </div>
                       {post.authorId === session?.user?.id && (
-                        <button type="button" onClick={() => {}}>
+                        <button type="button" onClick={() => { }}>
                           <FaEllipsis />
                         </button>
                       )}

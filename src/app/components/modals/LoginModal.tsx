@@ -9,13 +9,14 @@ import { User } from "@prisma/client";
 import { getSession, signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import ButtonAuth from "../auth/ButtonAuth";
 import Heading from "../auth/Heading";
 import InputLogin from "../auth/InputLogin";
 import Modal from "./Modal";
+import useWarningModal from "@/lib/hooks/useWarningModal";
 
 interface LogInModalProps {
   currentUser?: User | null;
@@ -28,6 +29,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [PasswordInputType, ToggleIcon] = usePasswordToggle();
   const { data: session, status, update } = useSession();
+  const warningModal = useWarningModal()
 
   const {
     register,
@@ -96,21 +98,34 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           variant: "default",
         });
 
-        // Retrieve the updated session after successful login
-        // const updatedSession = await getSession();
+        router.refresh()
 
-        // if (updatedSession?.user.role === "EMPLOYEE") {
-        //   router.push("/employee");
-        // } else if (updatedSession?.user.role === "ADMIN") {
-        //   router.push("/admin");
-        // }
+        // Retrieve the updated session after successful login
+        const updatedSession = await getSession();
+
+        if (updatedSession?.user.role === "EMPLOYEE") {
+          router.push("/employee");
+        } else if (updatedSession?.user.role === "ADMIN") {
+          router.push("/admin");
+        }
 
         loginModal.onClose();
         registerModal.onClose();
+        warningModal.onOpen();
 
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
+        // setTimeout(() => {
+        //   if (updatedSession?.user.numberOfViolations as number > 0) {
+        //     warningModal.onOpen()
+        //   }
+        // }, 1000);
+
+        // console.log(updatedSession?.user.numberOfViolations)
+
+        // if (updatedSession?.user.numberOfViolations as number > 1) {
+        // }
+        // setTimeout(() => {
+        //   window.location.reload()
+        // }, 1000)
       }
     } catch (error) {
       setIsLoading(false);
