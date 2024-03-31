@@ -2,50 +2,77 @@ import prisma from "@/lib/db/db"
 import { NextRequest } from "next/server";
 import { getAuthSession } from "../../../../lib/auth";
 import { PostSchema } from "@/lib/validations/createPostSchema";
-import { z } from "zod";
+import { EnumValues, z } from "zod";
 import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { NextApiRequest, NextApiResponse } from "next";
+import { ReactionType } from "@prisma/client";
 
 //Getting all post
-export async function POST(req: Request, res: NextApiResponse) {
-
-    const { searchParams } = new URL(req.url);
-    const {filter, userId} = await req.json()
+export async function GET(req: Request, res: NextApiResponse) {
     try {
+        const { searchParams } = new URL(req.url);
+        const userId = searchParams.get("userId");
+        const filter = searchParams.get("filter");
         const param = searchParams.get("cursor");
         const limit = 5
-        
-        const getAllPost = await prisma.post.findMany({
-            cursor: param ? {
-                id: param
-            } : undefined,
-            take: limit,
-            skip: param === '' ? 0 : 1,
-            where:{
-                reactions:{
-                    some:{
-                        userId: filter === "none"? undefined : userId,
-                        type: filter === "none"? undefined : filter
+        if(filter === "none"){
+            const getAllPost = await prisma.post.findMany({
+                cursor: param ? {
+                    id: param
+                } : undefined,
+                take: limit,
+                skip: param === '' ? 0 : 1,
+                include: {
+                    author: true,
+                    comments: {
+                        include: {
+                            author: true
+                        }
                     },
-                }
-            },
-            include: {
-                author: true,
-                comments: {
-                    include: {
-                        author: true
+                    likes: true,
+                    topic: true
+                },
+                orderBy: { 
+                    createdAt: 'desc'
+                },
+    
+            })
+            const myCursor = getAllPost.length === limit ? getAllPost[getAllPost.length - 1].id : undefined;
+            return new Response(JSON.stringify({ getAllPost, nextId: myCursor }))
+        } else {
+            const getAllPost = await prisma.post.findMany({
+                cursor: param ? {
+                    id: param
+                } : undefined,
+                take: limit,
+                skip: param === '' ? 0 : 1,
+                where:{
+                    reactions:{
+                        some:{
+                            userId: userId as string,
+                            type: filter as ReactionType,
+                        },
                     }
                 },
-                likes: true,
-                topic: true
-            },
-            orderBy: { 
-                createdAt: 'desc'
-            },
-
-        })
-        const myCursor = getAllPost.length === limit ? getAllPost[getAllPost.length - 1].id : undefined;
-        return new Response(JSON.stringify({ getAllPost, nextId: myCursor }))
+                include: {
+                    author: true,
+                    comments: {
+                        include: {
+                            author: true
+                        }
+                    },
+                    likes: true,
+                    topic: true
+                },
+                orderBy: { 
+                    createdAt: 'desc'
+                },
+    
+            })
+            const myCursor = getAllPost.length === limit ? getAllPost[getAllPost.length - 1].id : undefined;
+            return new Response(JSON.stringify({ getAllPost, nextId: myCursor }))
+        }
+       
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))
     }
