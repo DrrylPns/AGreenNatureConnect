@@ -87,8 +87,8 @@ export default function Post() {
             <h1 className="text-sm font-semibold">Filter:</h1>
             <Listbox.Button className={'bg-green font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-white shadow-md drop-shadow-md '}>
               {selectedFilter === "Check" && "Liked"} 
-              {selectedFilter === "Leaf" && "Unliked"} 
-              {selectedFilter === "XMark" && "Loved"} 
+              {selectedFilter === "XMark" && "Unliked"} 
+              {selectedFilter === "Leaf" && "Loved"} 
               {selectedFilter === "Laugh" && "Laughed"} 
               {selectedFilter === "none" && "none"} 
               <span className='font-bold text-lg'><TbFilterSearch /></span>
