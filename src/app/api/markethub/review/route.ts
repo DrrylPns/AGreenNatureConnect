@@ -3,9 +3,9 @@ import { NextApiResponse } from "next";
 
 //Getting all post
 export async function POST(req: Request, res: NextApiResponse) {
-    try {
         const { searchParams } = new URL(req.url);
         const { productId } = await req.json()
+    try {
         const param = searchParams.get("cursor");
         const limit = 5
         const getAllReviews = await prisma.review.findMany({

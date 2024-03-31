@@ -2,9 +2,10 @@ import prisma from "@/lib/db/db"
 import {  NextApiResponse } from "next";
 
 //Getting all products by communityId
-export async function GET(req: Request, res: NextApiResponse) {
-    try {
+export async function POST(req: Request, res: NextApiResponse) {
         const {searchParams} = new URL(req.url);
+        const { category } = await req.json()
+    try {
         const communityId = searchParams.get("communityId");
         const allProducts = await prisma.product.findMany({
             where:{
@@ -15,10 +16,14 @@ export async function GET(req: Request, res: NextApiResponse) {
               status:{
                   equals: "APPROVED"
               },
+              category:{
+                equals: category === "All" ? undefined : category
+              }
             },
             include:{
               community: true,
-              variants: true
+              variants: true,
+              reviews: true
             }
            
           })

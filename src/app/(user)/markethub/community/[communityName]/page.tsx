@@ -7,6 +7,7 @@ import { NovaProperCarousel } from '../../components/NovaProperCarousel';
 import { BagongSilanganCarousel } from '../../components/BagongSilanganCarousel';
 import { BagbagCarousel } from '../../components/BagbagCarousel';
 import Back from '../../components/Back';
+import ProductsByCommunity from '../../components/ProductsByCommunity';
 
 const page = async ({ 
   params,
@@ -18,10 +19,10 @@ const page = async ({
   const communityName = params.communityName.replace(/%20/g, ' ');
   
   return (
-    <div className='relative drop-shadow-sm shadow-md'>
+    <div className='relative '>
       <Back/>
-      <h1 className='text-2xl font-poppins font-bold'>Barangay {communityName} market</h1>
-      <div className='w-full'>
+      <h1 className='text-2xl text-center font-poppins font-bold'>{communityName} Urban Farm</h1>
+      <div className='w-full my-5'>
         {communityName === 'Bagbag' && (
           <BagbagCarousel/>
         )}
@@ -35,8 +36,8 @@ const page = async ({
       <div className='border-2 border-gray-300 px-3 sm:px-5 pt-5 min-h-40 rounded-md bg-gray- shadow-lg drop-shadow-sm '>
         <Free communityId={searchParams?.communityId}/>
       </div>
-      <div className='sticky top-20 w-full mt-5'>
-        <ProductTab />
+      <div className='sticky top-20 w-full mt-5 '>
+        <ProductsByCommunity communityId={searchParams?.communityId}/>
       </div>
     </div>
   )

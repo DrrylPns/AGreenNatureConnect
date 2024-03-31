@@ -6,6 +6,7 @@ import { ShadcnCarousel } from "./components/sCarousel";
 import Link from "next/link";
 import SearchBar from "./components/SearchBar";
 import prisma from "@/lib/db/db";
+import AdvertisementDialog from "./components/AdvertisementDialog";
 
 export default async function Markethub() {
   const allProrducts = await prisma.product.findMany({
@@ -32,6 +33,7 @@ export default async function Markethub() {
   })
   return (
     <div >
+      <AdvertisementDialog/>
       <Link href={'/markethub/free-products'} className="hidden md:block">
         <ShadcnCarousel/>
       </Link>
