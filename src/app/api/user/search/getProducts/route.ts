@@ -1,6 +1,6 @@
 import prisma from "@/lib/db/db";
 
-export async function GET(req: Request){
+export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
     try {
         const query = searchParams.get("query");
@@ -28,9 +28,11 @@ export async function GET(req: Request){
                community: true,
                reviews: true,
             }
-        })
-        return new Response(JSON.stringify(products))
+        });
+
+        return new Response(JSON.stringify({products}))
     } catch (error) {
-        return { error: error }
+        return new Response(JSON.stringify({error}))
     }
+   
 }

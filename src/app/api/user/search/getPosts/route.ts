@@ -1,7 +1,8 @@
 import prisma from "@/lib/db/db";
 
-export async function GET(req: Request){
+export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
+   
     try {
         const query = searchParams.get("query");
         const posts = await prisma.post.findMany({
@@ -35,8 +36,9 @@ export async function GET(req: Request){
                 createdAt: 'desc'
             },
         })
-        return new Response(JSON.stringify(posts))
+        return new Response(JSON.stringify({posts}))
     } catch (error) {
-        return { error: error }
+        return new Response(JSON.stringify({error}))
     }
+   
 }

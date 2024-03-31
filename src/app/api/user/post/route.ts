@@ -28,7 +28,7 @@ export async function GET(req: Request, res: NextApiResponse) {
                 likes: true,
                 topic: true
             },
-            orderBy: {
+            orderBy: { 
                 createdAt: 'desc'
             },
 

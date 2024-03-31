@@ -24,11 +24,11 @@ function page({
    const {data:session} = useSession();
    useEffect(()=>{
     const getProducts = async()=>{
-        const res = (await axios.get(`/api/user/search/getProducts?query=${params.query}`)).data;
+        const res = (await axios.get(`/api/search/getProducts?query=${params.query}`)).data;
         setProducts(res)
     }
     const getPosts = async()=>{
-        const res = (await axios.get(`/api/user/search/getPosts?query=${params.query}`)).data;
+        const res = (await axios.get(`/api/search/getPosts?query=${params.query}`)).data;
         setPosts(res)
     }
     getProducts()

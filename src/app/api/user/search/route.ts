@@ -1,8 +1,8 @@
 import prisma from "@/lib/db/db"
-import { NextRequest } from "next/server"
 
-export async function GET(req: Request){
+export async function GET(req: Request) {
     const { searchParams } = new URL(req.url);
+   
     try {
         const query = searchParams.get("query");
         const product = await prisma.product.findMany({
@@ -21,8 +21,8 @@ export async function GET(req: Request){
                     }
                 }
             }
-        })
-        const post = await prisma.post.findMany({
+        });
+        const posts = await prisma.post.findMany({
             where:{
                 OR: [
                     {
@@ -39,9 +39,10 @@ export async function GET(req: Request){
                     }
                 ]
             }
-        })
-        return new Response(JSON.stringify({ product, post }))
+        });
+        return new Response(JSON.stringify({product, posts}))
     } catch (error) {
-        return { error: error }
+        return new Response(JSON.stringify({error}))
     }
+   
 }
