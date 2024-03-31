@@ -47,10 +47,11 @@ const page: FC<Props> = ({ params }) => {
     queryFn: async () => {
       const { data } = await axios.get(`/api/user/post/${params.postId}`)
       return data as Post
-    }
+    },
+    refetchOnWindowFocus: false
   })
 
-  if(isFetching) <LoadingComponent />
+  if (isFetching) <LoadingComponent />
 
   if (isError) return <PageNotFound />
 

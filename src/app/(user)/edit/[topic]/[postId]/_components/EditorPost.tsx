@@ -5,7 +5,7 @@ import { UpdatePostSchema, UpdatePostType } from '@/lib/validations/createPostSc
 import type EditorJS from '@editorjs/editorjs';
 import { OutputData } from '@editorjs/editorjs';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -21,9 +21,11 @@ interface EditorPostProps {
 
 const EditorPost = ({ initialData, id, title, topic }: EditorPostProps) => {
     const ref = useRef<EditorJS>();
+    const isInitialized = useRef<boolean>(false);
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const _titleRef = useRef<HTMLTextAreaElement>(null);
     const router = useRouter();
+    const queryClient = useQueryClient()
 
     const {
         register,
@@ -139,7 +141,7 @@ const EditorPost = ({ initialData, id, title, topic }: EditorPostProps) => {
                 },
             })
         }
-    }, [initialData, title])
+    }, [initialData, title, isMounted])
 
     useEffect(() => {
         if (Object.keys(errors).length) {
@@ -154,30 +156,60 @@ const EditorPost = ({ initialData, id, title, topic }: EditorPostProps) => {
         }
     }, [errors])
 
-    useEffect(() => {
-        if (typeof window !== 'undefined') {
-            setIsMounted(true)
-        }
-    }, [])
+    // useEffect(() => {
+    //     if (typeof window !== 'undefined') {
+    //         setIsMounted(true)
+    //     }
+    // }, [])
+
+    // useEffect(() => {
+    //     if (isMounted && !ref.current) {
+    //         const init = async () => {
+    //             await initializeEditor();
+
+    //             setTimeout(() => {
+    //                 _titleRef?.current?.focus();
+    //             }, 0);
+    //         };
+
+    //         init();
+    //     }
+
+    //     return () => {
+    //         if (ref.current) {
+    //             ref.current.destroy();
+    //             ref.current = undefined;
+    //         }
+    //     };
+    // }, [isMounted, initializeEditor]);
 
     useEffect(() => {
-        const init = async () => {
-            await initializeEditor();
-
-            setTimeout(() => {
-                _titleRef?.current?.focus();
-            }, 0);
+        setIsMounted(true);
+        return () => {
+            setIsMounted(false);
         };
+    }, []);
 
-        if (isMounted) {
-            init();
-
-            return () => {
-                ref.current?.destroy();
-                ref.current = undefined;
-            };
+    useEffect(() => {
+        if (isMounted && !isInitialized.current) {
+            initializeEditor();
+            isInitialized.current = true;
         }
-    }, [isMounted, initializeEditor]);
+
+        return () => {
+            if (ref.current) {
+                ref.current.destroy();
+                isInitialized.current = false;
+            }
+        };
+    }, [isMounted]);
+
+    useEffect(() => {
+        if (isMounted && isInitialized.current && initialData && ref.current) {
+            //@ts-ignore
+            ref.current.render(initialData.blocks);
+        }
+    }, [initialData, isMounted]);
 
     const { mutate: updatePost, isLoading, isError } = useMutation({
         mutationFn: async ({ id, title, content }: UpdatePostType) => {
@@ -211,6 +243,8 @@ const EditorPost = ({ initialData, id, title, topic }: EditorPostProps) => {
             setTimeout(() => {
                 router.push(`/discussion/${topic}/${id}`);
             }, 1000);
+
+            queryClient.invalidateQueries({ queryKey: ["edit-posts"] })
 
             return toast({
                 description: 'Your post has been updated.',
