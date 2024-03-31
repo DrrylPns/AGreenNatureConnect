@@ -43,8 +43,7 @@ function AllProducts() {
 
     if (isLoading) return <div>Loading...</div>
     if (isError) return <div>Error!</div>;
-    
-    console.log(Products)
+
   return (
     <>
     {Products.pages.map((page)=>(
