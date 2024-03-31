@@ -108,13 +108,13 @@ export default async function Home() {
                     </div>
 
                     <Link href="/about"
-                    className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
+                    className="text-black font-mono font-semibold bg-amber hover:shadow-black hover:bg-pale hover:shadow-md w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
                     Read More
                     </Link>
                 </div>    
                 <div className="m-10 mt-16">
                       <Image
-                      className="lg:block hidden mt-9"
+                      className="lg:block hidden mt-9 "
                       src={Subheading}
                       alt="about.png"
                       width={1700}/>
@@ -124,65 +124,71 @@ export default async function Home() {
       </section>
       {/*Services*/}
       <section id="services" className="py-5">
-        <h1 className="text-center font-poppins font-bold md:text-[44px] text-[30px] mb-5">
+        <h1 className="text-center font-poppins font-bold md:text-[44px] text-[30px] mb-5 pt-10">
           Services
         </h1>
-        <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-2">
-          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-            <Image
-              className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
-              src={LightIcon}
-              alt="Light Icon"
-            />
-            <h3 className="font-poppins font-bold md:text-[22px] text-[15px]">
-              Shares Ideas
-            </h3>
+        <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-5">
+          <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+            <div className="flex flex-row grid-cols-2 py-3">
+                <Image
+                  className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                  src={LightIcon}
+                  alt="Light Icon"
+                />
+                <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+                  Shares Ideas
+                </h3>
+            </div>
             <p className="md:text-[16px] text-[12px] font-light my-2">
               Connect with our network to share insights and collaborate on
               cultivating urban agriculture success.
             </p>
             <Link href={"/discussion"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[12px] text-[10px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
             </Link>
           </div>
-          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-            <Image
-              className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
-              src={DeliveryIcon}
-              alt="Delivery icon"
-            />
-            <h3 className="font-poppins font-bold md:text-[22px] text-[15px]">
-              Order Products
-            </h3>
+          <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 m-10 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+            <div className="flex flex-row grid-cols-2 py-3">
+                <Image
+                  className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                  src={DeliveryIcon}
+                  alt="Delivery icon"
+                />
+                <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+                  Order Products
+                </h3>
+            </div>
             <p className="md:text-[16px] text-[12px] font-light my-2">
               Buy fresh from the farm products. Help local urban farmers to have
               achieve sustainability and efficiency.
             </p>
             <Link href={"/markethub"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px]  ">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[12px] text-[10px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
             </Link>
           </div>
-          <div className="bg-pale border-4 border-black rounded-3xl p-5 md:w-1/5 md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-            <Image
-              className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
-              src={KnowledgeIcon}
-              alt="knowledge Icon"
-            />
-            <h3 className="font-poppins font-bold md:text-[22px] text-[15px]">
-              Learn Online
-            </h3>
-            <p className="md:text-[14.5px] text-[12px] font-light my-2">
+          <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+            <div className="flex flex-row grid-cols-2 py-3">
+                <Image
+                  className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                  src={KnowledgeIcon}
+                  alt="knowledge Icon"
+                />
+                <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+                  Learn Online
+                </h3>
+            </div>
+            <p className="md:text-[15px] text-[12px] font-light my-2">
               Discover the world of urban agriculture with our network. Join us
               in learning and growing together in urban farming.
             </p>
             <Link href={"/learningMaterials"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px]">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[12px] text-[10px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow icon" />
               </button>
