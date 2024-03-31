@@ -32,7 +32,7 @@ export default function Search() {
   };
   useEffect(()=>{
     if(suggestion !== undefined){
-      setIsLoading(true)
+      setIsLoading(false)
     }
   },[])
   useEffect(() => {
