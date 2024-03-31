@@ -7,7 +7,10 @@ import Greenland from "/public/images/Greenland.png";
 import Image1 from "/public/images/image 1.png";
 import Image2 from "/public/images/image 2.png";
 import Image3 from "/public/images/image 3.png";
-import Members from "/public/images/Members.png";
+import Chairman from "/public/images/BARANGAY CHAIRMAN.png";
+import Chairman1 from "/public/images/BARANGAY CHAIRMAN 1.png";
+import Chairman2 from "/public/images/BARANGAY CHAIRMAN 2.png";
+import Secretary from "/public/images/BARANGAY SECRETARY.png";
 import Footer from '@/app/components/Footer/footer';
 
 function page() {
@@ -142,51 +145,65 @@ function page() {
           </div>  
 
          {/*Members*/}
-         <div className='w-full'>
+         <div className='w-full '>
           <div className='mx-10 m-10'>
               <h3 className='font-livvic font-semibold text-[24px]'>Barangay's</h3>
               <h2 className='font-livvic font-bold text-[36px]'>Staff & Chairman</h2>
           </div>
           <div className='flex flex-row grid-cols-3 justify-center '>
-              <div className=' border-solid border-2 border-black-600 ... mx-10'>
+              <div className=' border-solid border-2 border-gray-500 ... mx-10'>
                   <Image
                           className="lg:block hidden flex-auto "
-                          src={Members}
-                          alt="Members.png"
-                          width={300}/>
+                          src={Chairman}
+                          alt="BARANGAY CHAIRMAN.png"
+                          width={250}/>
 
                     <div className='pb-3'>
                         <p className='text-[14px] text-center font-semibold bg-green text-neutral-300 pt-1'>BARANGAY</p>
                         <p className='text-[16px] text-center font-semibold bg-green text-neutral-300 pb-1'>BAGONG SILANGAN</p>
-                        <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                        <p className='text-[19px] font-semibold text-center pt-2'> Richard V. Ambita, MPA.</p>
                         <p className='text-[14px] text-center'>Barangay Chairman</p>
                     </div>
               </div>
-              <div className=' border-solid border-2 border-black-600 ...'>
+              <div className=' border-solid border-2 border-gray-500 ...'>
                   <Image
                           className="lg:block hidden flex-auto "
-                          src={Members}
-                          alt="Members.png"
-                          width={300}/>
+                          src={Chairman1}
+                          alt="BARANGAY CHAIRMAN 1.png"
+                          width={250}/>
+
+                    <div className='pb-3'>
+                    <p className='text-[20px] text-center font-semibold bg-green text-neutral-300 p-3'>NOVA PROPER</p>
+                        <p className='text-[19px] font-semibold text-center pt-2'> Asuncion  M.Visaya</p>
+                        <p className='text-[14px] text-center'>Barangay Chairman</p>
+                    </div>
+              </div>
+              <div className=' border-solid border-2 border-gray-500 ... mx-10'>
+                  <Image
+                          className="lg:block hidden flex-auto "
+                          src={Chairman2}
+                          alt="BARANGAY CHAIRMAN 2.png"
+                          width={250}/>
+
+                    <div className='pb-3'>
+                    <p className='text-[14px] text-center font-semibold bg-green text-neutral-300 pt-1'>BARANGAY</p>
+                        <p className='text-[16px] text-center font-semibold bg-green text-neutral-300 pb-1'>BAGONG SILANGAN</p>
+                        <p className=' font-semibold text-center text-[19px] pt-2'> Wilfredo L. Cara </p>
+                        <p className='text-[14px] text-center '>Barangay Chairman</p>
+                    </div>
+              </div>    
+              <div className=' border-solid border-2 border-gray-500 ...'>
+                  <Image
+                          className="lg:block hidden flex-auto "
+                          src={Secretary}
+                          alt="BARANGAY SECRETARY.png"
+                          width={250}/>
 
                     <div className='pb-3'>
                     <p className='text-[14px] text-center font-semibold bg-green text-neutral-300 pt-1'>BARANGAY</p>
                         <p className='text-[16px] text-center font-semibold bg-green text-neutral-300 pb-1'>BAGBAG</p>
-                        <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
-                        <p className='text-[14px] text-center'>Barangay Chairman</p>
-                    </div>
-              </div>
-              <div className=' border-solid border-2 border-black-600 ... mx-10'>
-                  <Image
-                          className="lg:block hidden flex-auto "
-                          src={Members}
-                          alt="Members.png"
-                          width={300}/>
-
-                    <div className='pb-3'>
-                        <p className='text-[18px] text-center font-semibold bg-green text-neutral-300 p-3'>NOVA PROPER</p>
-                        <p className=' font-semibold text-center text-[19px] pt-2'> Tiffany D. Lopez</p>
-                        <p className='text-[14px] text-center '>Barangay Chairman</p>
+                        <p className=' font-semibold text-center text-[19px] pt-2'> Ronaldo V. Pascor </p>
+                        <p className='text-[14px] text-center '>Barangay Secretary</p>
                     </div>
               </div>    
                                 
@@ -199,8 +216,22 @@ function page() {
             </Link>
           </div>
         </div>
+    </div>
 
+    <div className='w-full bg-[#CFE2CE] justify-center p-10 '>
+      <div className='flex flex-row border-2 gap-64 justify-center mx-64 p-5 shadow-sm shadow-black rounded-3xl bg-white'>
+          <div className='px-3'>
+              <h1 className='font-poppins font-bold text-[24px] pb-3'>Still have a questions?</h1>
+              <p className='text-[16px]'>Couldn’t find what you needed,our friendly support team is here to help.</p>
+            </div>
+            <div className='mt-7'>
+              <Link href="/about/HelpPage"
+              className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-full text-center">
+              Get in Touch
+              </Link>
+            </div>
         
+      </div>     
 
     </div>
 
