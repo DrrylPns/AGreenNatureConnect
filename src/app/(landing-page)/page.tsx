@@ -52,7 +52,7 @@ export default async function Home() {
           <Link
             href="/discussion"
             
-            className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-4 p-4 border-none rounded-lg"
+            className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-4 p-4 border-none text-center rounded-lg"
 
           >
             GET STARTED
@@ -144,7 +144,7 @@ export default async function Home() {
               cultivating urban agriculture success.
             </p>
             <Link href={"/discussion"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[12px] text-[10px] hover:text-dark-green pt-5">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
@@ -166,7 +166,7 @@ export default async function Home() {
               achieve sustainability and efficiency.
             </p>
             <Link href={"/markethub"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[12px] text-[10px] hover:text-dark-green pt-5">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
@@ -188,7 +188,7 @@ export default async function Home() {
               in learning and growing together in urban farming.
             </p>
             <Link href={"/learningMaterials"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[12px] text-[10px] hover:text-dark-green pt-5">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[13px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow icon" />
               </button>
