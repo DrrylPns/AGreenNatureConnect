@@ -218,22 +218,22 @@ function page() {
         </div>
     </div>
 
-    <div className='w-full bg-[#CFE2CE] justify-center p-20 px-60'>
-          <div className='p-14 border-2 shadow-black shadow-mds rounded-3xl bg-white flex flex-row grid-cols-2 gap-32 content-center'>
-                <div>
-                    <h1 className='font-poppins font-bold text-[28px] pb-3'>Still have a questions?</h1>
-                    <p className='text-[18px]'>Couldn’t find what you needed,our friendly support team is here to help.</p>
-                </div>
-                <div className='mt-7 px-20 '>
-                    <Link href="/about/HelpPage"
-                        className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-full text-center">
-                        Get in Touch
-                    </Link>
-                </div>
+    <div className='w-full bg-[#CFE2CE] justify-center p-10 '>
+      <div className='flex flex-row border-2 gap-64 justify-center mx-64 p-5 shadow-sm shadow-black rounded-3xl bg-white'>
+          <div className='px-3'>
+              <h1 className='font-poppins font-bold text-[24px] pb-3'>Still have a questions?</h1>
+              <p className='text-[16px]'>Couldn’t find what you needed,our friendly support team is here to help.</p>
+            </div>
+            <div className='mt-7'>
+              <Link href="/about/HelpPage"
+              className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-full text-center">
+              Get in Touch
+              </Link>
+            </div>
+        
+      </div>     
 
-          </div>
-
-      </div>
+    </div>
 
       {/*Footer*/}
       <div className='border-t border-black'>
