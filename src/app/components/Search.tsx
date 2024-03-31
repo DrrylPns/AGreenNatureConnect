@@ -22,7 +22,7 @@ export default function Search() {
   const [selectedTopic, setSelectedTopic] = useState("");
   const [suggestion,setSuggestion] = useState<suggestionProps>()
   const router = useRouter()
-
+  const [isLoading, setIsLoading] = useState<boolean>(true)
 
   const handleSearch = (event : React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -30,6 +30,11 @@ export default function Search() {
       router.push(`/search/${selectedTopic}`);
     }
   };
+  useEffect(()=>{
+    if(suggestion !== undefined){
+      setIsLoading(true)
+    }
+  },[])
   useEffect(() => {
     let timeoutId: NodeJS.Timeout;
     const searchSuggestion = async () => {
@@ -66,7 +71,9 @@ export default function Search() {
         });
 
   return (
-    <form
+    <>
+    {!isLoading && (
+      <form
       onSubmit={handleSearch}
       className="flex w-[80%] justify-end sm:justify-center"
     >
@@ -178,5 +185,8 @@ export default function Search() {
         </div>
       </Dialog>
     </form>
+    )}  
+    
+    </>
   );
 }
