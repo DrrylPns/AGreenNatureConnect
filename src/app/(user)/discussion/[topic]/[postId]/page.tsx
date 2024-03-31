@@ -315,7 +315,9 @@ const page: FC<Props> = ({ params }) => {
                         type="button"
                         className="flex gap-1 hover:underline w-full"
                       >
-                        <AiOutlineEdit /> Edit
+                        <Link href={`/edit/${posts.topic.name}/${posts.id}`} className="flex gap-1">
+                          <AiOutlineEdit /> Edit
+                        </Link>
                       </button>
                       <button
                         type="button"
