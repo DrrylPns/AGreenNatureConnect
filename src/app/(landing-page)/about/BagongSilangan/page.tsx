@@ -9,8 +9,8 @@ import Footer from '@/app/components/Footer/footer';
 function page() {
   return (
     <div className='w-full'>
-        
-        <div className='pt-[5%] bg-red-200'>
+      
+        <div className='pt-[5%] bg-red-300'>
             
             <div className='w-full'>
                 <h1 className='font-livvic font-bold text-[36px] text-center'>
