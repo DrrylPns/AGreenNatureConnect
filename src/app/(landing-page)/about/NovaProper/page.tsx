@@ -10,30 +10,30 @@ function page() {
   return (
     <div className='w-full'>
         
-        <div className='pt-[5%] bg-[#B9DEB7]'>
+        <div className='pt-[5%] bg-[#CFE2CE]'>
             
             <div className='w-full'>
-                <h1 className='font-livvic font-bold text-[36px] text-center'>
+                <h1 className='font-poppins font-bold text-[36px] text-center'>
                     Organizational Chart
                 </h1>
             </div>
 
-            <div className='flex flex-row grid-cols-3 gap-52 justify-center m-10'>
-                <div className='shadow-black shadow-lg p-3'>
+            <div className='flex flex-row grid-cols-3 gap-52 justify-center m-5'>
+                <div className='p-3'>
                     <Link href="/about/NovaProper"
-                        className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center ">
+                        className="text-black font-poppins font-semibold h-[50px] w-[160px] mt-10 md:p-3 p-3 border border-black border-1 rounded-full text-center bg-amber">
                         NOVA PROPER
                     </Link>
                 </div>
-                <div className='shadow-black shadow-lg p-3'>
+                <div className='p-3'>
                     <Link href="/about/Bagbag"
-                        className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
+                        className="text-black font-poppins font-semibold h-[50px] w-[160px] mt-10 md:p-3 p-3 border border-black border-1 rounded-full text-center bg-neutral-100">
                         BAGBAG
                     </Link>
                 </div>
-                <div className='shadow-black shadow-lg p-3'>
+                <div className='p-3'>
                     <Link href="/about/BagongSilangan"
-                        className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
+                        className="text-black font-poppins font-semibold h-[50px] w-[160px] mt-10 md:p-3 p-3 border border-black border-1 rounded-full text-center bg-neutral-100">
                         BAGONG SILANGAN
                     </Link>
                 </div>
@@ -42,12 +42,12 @@ function page() {
             <div className='flex flex-row justify-center p-5'>
             <div className='mx-10'>
                         <Image
-                                className="lg:block hidden flex-auto rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={200}/>
 
-                            <div className='pb-3 shadow-black shadow-lg m-1'>
+                            <div className='h-[65px] w-[200px] border bg-white rounded-b-2xl border-black'>
                                 <p className='text-[19px] font-semibold text-center pt-2 '> Tiffany D. Lopez</p>
                                 <p className='text-[14px] text-center '>Barangay Chairman</p>
                             </div>
@@ -58,38 +58,38 @@ function page() {
             <div className='flex flex-row grid-cols-3 justify-center p-5'>
                     <div className='mx-[15%]'>
                     <Image
-                                className="lg:block hidden flex-auto rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={170}/>
 
-                            <div className='pb-3 shadow-black shadow-lg'>
-                                <p className='text-[19px] font-semibold text-center pt-2 text-white'> Tiffany D. Lopez</p>
-                                <p className='text-[14px] text-center text-white'>Barangay Chairman</p>
+                            <div className='h-[65px] w-[170px] border bg-white rounded-b-2xl border-black'>
+                                <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                                <p className='text-[14px] text-center'>Barangay Chairman</p>
                             </div>
                     </div>
                     <div className=''>
                     <Image
-                                className="lg:block hidden flex-auto rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={170}/>
 
-                            <div className='pb-3 shadow-black shadow-lg'>
-                                <p className='text-[19px] font-semibold text-center pt-2 text-white'> Tiffany D. Lopez</p>
-                                <p className='text-[14px] text-center text-white'>Barangay Chairman</p>
+                            <div className='h-[65px] w-[170px] border bg-white rounded-b-2xl border-black'>
+                                <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                                <p className='text-[14px] text-center'>Barangay Chairman</p>
                             </div>
                     </div>
                     <div className='mx-[15%]'>
                     <Image
-                                className="lg:block hidden flex-auto rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={170}/>
 
-                            <div className='pb-3 shadow-black shadow-lg'>
-                                <p className='text-[19px] font-semibold text-center pt-2 text-white'> Tiffany D. Lopez</p>
-                                <p className='text-[14px] text-center text-white'>Barangay Chairman</p>
+                            <div className='h-[65px] w-[170px] border bg-white rounded-b-2xl border-black'>
+                                <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                                <p className='text-[14px] text-center'>Barangay Chairman</p>
                             </div>
                     </div>                  
             </div> 
@@ -97,39 +97,39 @@ function page() {
             <div className='flex flex-row grid-cols-3 justify-center p-5'>
                     <div className='mx-[15%]'>
                     <Image
-                                className="lg:block hidden flex-auto  rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={170}/>
 
-                            <div className='pb-3 shadow-black shadow-lg'>
-                                <p className='text-[19px] font-semibold text-center pt-2 text-white'> Tiffany D. Lopez</p>
-                                <p className='text-[14px] text-center text-white'>Barangay Chairman</p>
+                            <div className='h-[65px] w-[170px] border bg-white rounded-b-2xl border-black'>
+                                <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                                <p className='text-[14px] text-center'>Barangay Chairman</p>
                             </div>
                     </div>
                     <div className=''>
                     <Image
-                                className="lg:block hidden flex-auto rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={170}/>
 
-                            <div className='pb-3 shadow-black shadow-lg'>
-                                <p className='text-[19px] font-semibold text-center pt-2 text-white'> Tiffany D. Lopez</p>
-                                <p className='text-[14px] text-center text-white'>Barangay Chairman</p>
+                            <div className='h-[65px] w-[170px] border bg-white rounded-b-2xl border-black'>
+                                <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                                <p className='text-[14px] text-center'>Barangay Chairman</p>
                             </div>
                     </div>
                     <div className='mx-[15%]'>
                     <Image
-                                className="lg:block hidden flex-auto  rounded-3xl border-2 border-white"
+                                className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
                                 src={Members}
                                 alt="Members.png"
                                 width={170}/>
 
-                            <div className='pb-3 shadow-black shadow-lg'>
+                            <div className='h-[65px] w-[170px] border bg-white rounded-b-2xl border-black'>
                                  
-                                <p className='text-[19px] font-semibold text-center pt-2 text-white'> Tiffany D. Lopez</p>
-                                <p className='text-[14px] text-center text-white'>Barangay Chairman</p>
+                                <p className='text-[19px] font-semibold text-center pt-2'> Tiffany D. Lopez</p>
+                                <p className='text-[14px] text-center'>Barangay Chairman</p>
                             </div>
                     </div>                  
             </div>  
