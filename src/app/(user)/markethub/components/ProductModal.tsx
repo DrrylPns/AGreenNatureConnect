@@ -244,7 +244,7 @@ function ProductModal({
                       </span>
                       {selectedProduct && selectedProduct?.reviews.length > 0 ? (
                       <Link href={`/markethub/reviews/${product.id}`} className="flex z-30 items-center justify-center my-2 px-2 gap-5 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
-                        <h1 className=''>Ratings: {ratingsAverage.toFixed(1)} / 5.0</h1>
+                        <h1 className='text-sm  text-gray-600 dark:text-gray-300'>Ratings: {ratingsAverage.toFixed(1)} / 5.0</h1>
                         <h1 className="text-sm  text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
                       </Link>
                       ):(
