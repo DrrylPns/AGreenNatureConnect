@@ -89,7 +89,7 @@ export default function Search() {
             afterLeave={() => setQuery('')}
           >
             <Combobox.Options className="absolute p-3 mt-1 h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black/5 focus:outline-none sm:text-sm">
-            {filteredTopics.length == 0 ? (
+            {filteredTopics && filteredTopics.length == 0 ? (
                     <>
                       <div className="absolute top-20 left-0 text-center w-full ">
                         <h1> Can't find related products or post title to "{query}"</h1>
@@ -152,7 +152,7 @@ export default function Search() {
                 </Transition>
 
                 <Combobox.Options>
-                  {filteredTopics.length == 0 ? (
+                  {filteredTopics && filteredTopics.length == 0 ? (
                     <>
                       <div className="absolute top-20 left-0 text-center w-full ">
                         <h1> Can't find related topics to "{query}"</h1>

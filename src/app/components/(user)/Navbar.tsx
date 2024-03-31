@@ -31,7 +31,7 @@ const Navbar = () => {
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
 
-      <Search/>
+      {/* <Search/> */}
       {status === "loading" ? (
         <div className="text-center flex justify-center">
           <RotatingLines
