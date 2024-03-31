@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { CreateEmployeeSchema } from "@/lib/validations/admin/createEmployee";
 import { NextRequest, NextResponse } from "next/server"
@@ -22,7 +22,7 @@ export async function POST(req: Request) {
             gender,
             lastName,
             password,
-            phone
+            phone,
         } = CreateEmployeeSchema.parse(body)
 
         let counter = await prisma.employeeIdCounter.findUnique({
@@ -80,6 +80,8 @@ export async function POST(req: Request) {
             return new Response("Error: Bad Request, phone number is already in use by another user.", { status: 401 })
         }
 
+        const currentDate = new Date();
+
         await prisma.user.create({
             data: {
                 name: firstname,
@@ -91,6 +93,7 @@ export async function POST(req: Request) {
                 email,
                 lastName,
                 role: "EMPLOYEE",
+                emailVerified: currentDate,
                 hashedPassword,
                 Community: {
                     connect: {
@@ -99,6 +102,8 @@ export async function POST(req: Request) {
                 }
             }
         })
+
+
 
         return new NextResponse(`Successfully created an employee!`)
     } catch (error) {

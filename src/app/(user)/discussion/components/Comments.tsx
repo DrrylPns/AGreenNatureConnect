@@ -1,32 +1,31 @@
+"use client";
+import DefaultImage from "@/../public/images/default-user.jpg";
 import RelativeDate from "@/app/components/RelativeDate";
 import { Button } from "@/app/components/Ui/Button";
-import { Post, Comment } from "@/lib/types";
-import axios from "axios";
-import { useSession } from "next-auth/react";
-import Image from "next/image";
-import React, { useEffect, useRef, useState } from "react";
-import { motion } from "framer-motion";
-import { FiPlus } from "react-icons/fi";
-import DefaultImage from "@/../public/images/default-user.jpg";
-import { BiComment, BiLike } from "react-icons/bi";
+import DeleteDialog from "@/app/components/dialogs/Delete";
+import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
+import { ReplyComment } from "@/app/components/dialogs/ReplyComment";
+import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
-import { useForm } from "react-hook-form";
+import { Comment, CommentsWithReplies, Post } from "@/lib/types";
 import {
   CommentSchema,
   CreateCommentType,
 } from "@/lib/validations/createCommentSchema";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "@/lib/hooks/use-toast";
-import { useMutation } from "@tanstack/react-query";
-import { usePathname, useRouter } from "next/navigation";
-import {
-  AiOutlineDelete,
-  AiOutlineEdit,
-  AiOutlineEllipsis,
-} from "react-icons/ai";
 import { Popover, Transition } from "@headlessui/react";
-import DeleteDialog from "@/app/components/dialogs/Delete";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import axios from "axios";
 import Filter from "bad-words";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import { useForm } from "react-hook-form";
+import { AiOutlineEllipsis } from "react-icons/ai";
+import { FiPlus } from "react-icons/fi";
+import { fetchReplies } from "../../../../../actions/reply";
+import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 
 export default function Comments({ posts }: { posts: Post }) {
   const router = useRouter();
@@ -34,10 +33,12 @@ export default function Comments({ posts }: { posts: Post }) {
   const loginModal = useLoginModal();
   const [commentValue, setCommentValue] = useState("");
   const [comments, setComments] = useState<Comment[]>();
+  const [replies, setReplies] = useState<CommentsWithReplies[]>();
+
+  const queryClient = useQueryClient();
   const filter = new Filter();
   const words = require("./extra-words.json");
   filter.addWords(...words);
-
   const {
     register,
     handleSubmit,
@@ -87,7 +88,9 @@ export default function Comments({ posts }: { posts: Post }) {
       });
     },
     onSuccess: () => {
-      return toast({
+      queryClient.invalidateQueries({ queryKey: ["comments"] });
+
+      toast({
         description: "Your comment has been published.",
       });
     },
@@ -99,7 +102,8 @@ export default function Comments({ posts }: { posts: Post }) {
     if (isInvalidComment) {
       toast({
         title: "Comment Invalid",
-        description: "Your commment is invalid because you are using bad word",
+        description:
+          "Your commment is invalid because you are using a bad word",
         variant: "destructive",
       });
       return;
@@ -122,6 +126,7 @@ export default function Comments({ posts }: { posts: Post }) {
 
   useEffect(() => {
     fetchComments();
+    fetchManyReplies();
     if (isSubmitSuccessful) {
       reset();
     }
@@ -153,8 +158,36 @@ export default function Comments({ posts }: { posts: Post }) {
     }
   };
 
+  const fetchManyReplies = async () => {
+    try {
+      const result = await fetchReplies(posts.id);
+      //@ts-ignore
+      setReplies(result);
+    } catch (error) {
+      console.error("Error fetching comments:", error);
+    }
+  };
+
+  // const { data: replies, isFetching } = useQuery({
+  //   queryKey: ["replies"],
+  //   queryFn: async () => fetchReplies(posts.id) as CommentsWithReplies
+  // });
+
+  // console.log(replies)
+
   const handleCommentDeleted = () => {
     fetchComments();
+    fetchManyReplies();
+  };
+
+  const Reply = async () => {
+    console.log(
+      replies?.map((comment) => {
+        return comment.replyOnComent.map((reply) => {
+          return reply.text;
+        });
+      })
+    );
   };
 
   return (
@@ -239,12 +272,12 @@ export default function Comments({ posts }: { posts: Post }) {
                       >
                         <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
                           <>
-                            <button
-                              type="button"
-                              className="flex gap-1 hover:underline w-full"
-                            >
-                              <AiOutlineEdit /> Edit
-                            </button>
+                            <EditCommentDialog
+                              commentId={comment.id}
+                              text={comment.text}
+                              onDelete={handleCommentDeleted}
+                            />
+
                             <DeleteDialog
                               commentId={comment.id}
                               onDelete={handleCommentDeleted}
@@ -260,33 +293,101 @@ export default function Comments({ posts }: { posts: Post }) {
                     <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
                   </div>
                   <div className="w-full">
-                    <p className="font-poppins font-light">
-                      {filter.clean(comment.text)}
-                    </p>
+                    <p className="font-poppins font-light">{comment.text}</p>
                     <div className="w-full flex justify-end">
-                      <motion.button
-                        whileTap={{ backgroundColor: "ButtonShadow" }}
-                        type="button"
-                        className="flex gap-2 items-center justify-center text-[1rem] text-gray-400 px-2 py-1 hover:bg-gray-300"
-                      >
-                        <span className="">
-                          <BiLike />
-                        </span>
-                        Like
-                      </motion.button>
-                      <motion.button
-                        whileTap={{ backgroundColor: "ButtonShadow" }}
-                        type="button"
-                        className="flex gap-2 items-center justify-center text-[1rem] text-gray-400 px-2 py-1 hover:bg-gray-300"
-                      >
-                        <span className="">
-                          <BiComment />
-                        </span>
-                        Reply
-                      </motion.button>
+                      <ReplyComment
+                        commentId={comment.id}
+                        onDelete={handleCommentDeleted}
+                      />
                     </div>
+                    <div></div>
                   </div>
                 </div>
+
+                {replies &&
+                  Array.isArray(replies) &&
+                  replies.map((comments, index) => (
+                    <div className="ml-14" key={index}>
+                      {comments.replyOnComent.map((reply, replyIndex) => (
+                        <div
+                          className="flex w-full items-center"
+                          key={replyIndex}
+                        >
+                          {reply.commentId === comment.id && reply.text && (
+                            <div className="">
+                              <div className="flex items-center gap-2">
+                                <div className="flex items-center w-[2rem] h-[2rem] rounded-full border border-black">
+                                  <Image
+                                    src={reply.user.image || DefaultImage}
+                                    alt={"User Image"}
+                                    width={20}
+                                    height={20}
+                                    className="w-full h-full rounded-full"
+                                  />
+                                </div>
+                                <div>
+                                  <h3 className="text-[1rem] text-gray-500 font-poppins font-light ">
+                                    {reply.user.username}
+                                  </h3>
+                                  {reply.user.role === "STAFF" && (
+                                    <h6 className="text-lg font-poppins font-medium">
+                                      Urban Farming Member
+                                    </h6>
+                                  )}
+                                </div>
+
+                                <div className="text-gray-400 text-[0.7rem] ">
+                                  <RelativeDate
+                                    dateString={reply.createdAt.toISOString()}
+                                  />
+                                </div>
+                                {reply.user.id === session?.user?.id && (
+                                  <Popover>
+                                    <Popover.Button>
+                                      <AiOutlineEllipsis />
+                                    </Popover.Button>
+                                    <Transition
+                                      enter="transition duration-100 ease-out"
+                                      enterFrom="transform scale-95 opacity-0"
+                                      enterTo="transform scale-100 opacity-100"
+                                      leave="transition duration-75 ease-out"
+                                      leaveFrom="transform scale-100 opacity-100"
+                                      leaveTo="transform scale-95 opacity-0"
+                                    >
+                                      <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+                                        <>
+                                          <EditReplyDialog
+                                            replyId={reply.id}
+                                            text={reply.text}
+                                            onDelete={handleCommentDeleted}
+                                          />
+
+                                          <DeleteDialog
+                                            commentId={comment.id}
+                                            onDelete={handleCommentDeleted}
+                                          />
+                                        </>
+                                      </Popover.Panel>
+                                    </Transition>
+                                  </Popover>
+                                )}
+                              </div>
+                              <div className="flex gap-2">
+                                <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 ml-2 mt-2">
+                                  <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
+                                </div>
+                                <div className="w-full ml-3 mb-4">
+                                  <p className="font-poppins font-light">
+                                    {reply.text}
+                                  </p>
+                                </div>{" "}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ))}
               </>
             ))}
         </div>

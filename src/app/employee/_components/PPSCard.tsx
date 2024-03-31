@@ -1,33 +1,32 @@
 "use client"
-import { useQuery } from "@tanstack/react-query";
-import { BarList, Bold, Card, DonutChart, Flex, Legend, Text, Title } from "@tremor/react";
-import axios from "axios";
-import { Loader2 } from "lucide-react";
-import { useState } from "react";
+import { Card, DonutChart, Legend, Title } from "@tremor/react";
+import { useEffect, useState } from "react";
+import { fetchSalesByCategories } from "../../../../actions/sales";
 
 const PPSCard = () => {
-
+    const [sales, setSales] = useState() as any
     // ps hardcoded muna
 
-    const products = [
-        {
-            category: "Fruits",
-            sales: 9800,
-        },
-        {
-            category: "Vegetables",
-            sales: 4567,
-        },
-    ];
+    // const products = [
+    //     {
+    //         category: "Fruits",
+    //         sales: 9800,
+    //     },
+    //     {
+    //         category: "Vegetables",
+    //         sales: 4567,
+    //     },
+    // ];
 
     const [value, setValue] = useState(null);
+    useEffect(() => {
+        fetchSalesPieChart()
+    }, [])
 
-    // @ts-ignore
-    // const valueFormatter = ({ number }: { number: number }) => {
-    //     const formattedValue = new Intl.NumberFormat('en-PH', {
-    //         style: 'currency',
-    //         currency: 'PHP',
-    //     }).format(number);
+    const fetchSalesPieChart = async () => {
+        const sales = await fetchSalesByCategories()
+        setSales(sales)
+    }
 
     return (
         <>
@@ -35,7 +34,7 @@ const PPSCard = () => {
                 <Title className="mt-4 mb-4">Product Sale Summary</Title>
                 <DonutChart
                     className="mt-10"
-                    data={products}
+                    data={sales}
                     category="sales"
                     index="category"
                     colors={["teal", "indigo"]}

@@ -13,6 +13,8 @@ import { useCart } from '@/contexts/CartContext';
 import { useRouter } from 'next/navigation';
 import { useLocalStorage } from '@/app/(markethub)/hooks/useLocalStorage';
 import { Button } from '@/components/ui/button';
+import { RatingStars } from './Rating';
+import Link from 'next/link';
 
 interface Product {
   id: string;
@@ -33,6 +35,22 @@ interface Product {
   updatedAt: Date;
   community: Community;
   communityId: string;
+  reviews: Reviews[]
+}
+interface Reviews {
+  id:     string
+  image: string | null
+  priceRating:  number
+  qualityRating:  number
+  serviceRating:  number
+  freshnessRating: number
+  overAllRating:  number
+  title: string
+  description: string | null
+  createdAt: Date         
+  updatedAt: Date           
+  productId: string
+  userId: string
 }
 interface Community {
   id: string;
@@ -114,11 +132,35 @@ function ProductModal({
         setIsLoading(false)
       }
     }
+    const handleLogin = () =>{
+      closeModal()
+      loginModal.onOpen()
+    }
+
+    const groupedVariants: { [key: string]: Variants[] } = {};
+    selectedProduct?.variants.forEach((variant) => {
+      const unitOfMeasurement = variant.unitOfMeasurement.toLowerCase();
+      if (!groupedVariants[unitOfMeasurement]) {
+        groupedVariants[unitOfMeasurement] = [];
+      }
+      groupedVariants[unitOfMeasurement].push(variant);
+    });
 
     const handleBuyNow = async ()=>{
       router.push('/buy-now')
       setItem({selectedProduct, selectedVariant})
     }
+    
+
+    let sumOfRatings = 0;
+    let totalNumberOfRatings = 0;
+    selectedProduct && selectedProduct.reviews.length > 0 && selectedProduct.reviews.forEach(review => {
+        sumOfRatings += review.overAllRating;
+        totalNumberOfRatings++;
+    });
+
+    const ratingsAverage = selectedProduct && selectedProduct.reviews.length > 0 ? sumOfRatings / totalNumberOfRatings : 0
+        
     
   return (
       <button
@@ -128,11 +170,13 @@ function ProductModal({
         disabled={product.kilograms === 0 && product.grams === 0 && product.pounds === 0 && product.packs === 0 && product.pieces === 0 ? true : false}
       >
         <Card
+          productId={product.id}
           imageUrl={product.productImage}
           productName={product.name}
           barangay={product.community?.name}
           lowestPrice={lowestPrice}
           highestPrice={highestPrice}
+          productReviews={product.reviews}
         />
         {product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1 ? (
           <div className={`absolute top-5 left-5 rounded-full w-3/4 h-3/4 bg-semi-transparent-greenish flex justify-center items-center`}>
@@ -168,66 +212,71 @@ function ProductModal({
                 leaveFrom="opacity-100 scale-100"
                 leaveTo="opacity-0 scale-95"
               >
-                <Dialog.Panel className="w-full max-w-[50rem] max-h-fit transform overflow-hidden rounded-t-2xl text-black font-poppins bg-gray-50 text-left align-middle shadow-xl transition-all">
+                <Dialog.Panel className="w-full max-w-[40rem] max-h-fit transform overflow-hidden rounded-t-2xl text-black font-poppins bg-gray-50 text-left align-middle shadow-xl transition-all">
                   <div className='flex justify-end w-full '>
                     <button type='button' onClick={() => closeModal()} className='text-[1rem] md:px-5 p-3 '>
                       X
                     </button>
                   </div>
-                  <div className=' md:flex gap-10 mx-6 '>
+                  <div className=' md:flex justify-around items-center w-full '>
                     {selectedProduct?.productImage && (
+                      <div className='w-full md:w-[15rem] max-h-[15rem] border-gray-300 border-2'>
                       <Image
                         src={selectedProduct.productImage}
                         alt='Product Image'
-                        width={300}
-                        height={300}
-                        className="w-full md:w-1/2 h-40 border-gray-300 border-2"
-                        loading= 'lazy'
+                        width={250}
+                        height={250}
+                        className="object-center w-full min-h-[15rem] max-h-[15rem]  sm:mx-0 "
                       />
-                    )}
-                    <div className='flex flex-col font-poppins text text mx-auto'>
-                      <div>
-                        <h1 className='text-center font-livvic font-bold text-[2.5rem]'>{selectedProduct?.name}</h1>
-                        <h1 className='text-center text-pale-white font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
                       </div>
-                      <span>Available Stocks:(
+                    )}
+                    <div className='flex flex-col justify-start font-poppins'>
+                      <div>
+                        <h1 className='text-center font-livvic font-semibold text-3xl'>{selectedProduct?.name}</h1>
+                        <h1 className='text-center  font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
+                      </div>
+                      <span className='text-center'>Available Stocks:(
                         {String(selectedProduct?.kilograms) === "0" ? "" : `${String(selectedProduct?.kilograms)}kg`}
-                        {String(selectedProduct?.grams) === "0" ? "" : `/${String(selectedProduct?.grams)}g`}
-                        {String(selectedProduct?.pounds) === "0" ? "" : `/${String(selectedProduct?.pounds)}lbs`}
-                        {String(selectedProduct?.pieces) === "0" ? "" : `/${String(selectedProduct?.pieces)}pcs`}
-                        {String(selectedProduct?.packs) === "0" ? "" : `/${String(selectedProduct?.packs)}packs`})
+                        {String(selectedProduct?.grams) === "0" ? "" : ` ${String(selectedProduct?.grams)}g`}
+                        {String(selectedProduct?.pounds) === "0" ? "" : ` ${String(selectedProduct?.pounds)}lbs`}
+                        {String(selectedProduct?.pieces) === "0" ? "" : ` ${String(selectedProduct?.pieces)}pcs`}
+                        {String(selectedProduct?.packs) === "0" ? "" : ` ${String(selectedProduct?.packs)}packs`})
                       </span>
+                      {selectedProduct && selectedProduct?.reviews.length > 0 ? (
+                      <Link href={`/markethub/reviews/${product.id}`} className="flex z-30 items-center justify-center my-2 px-2 gap-5 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
+                        <h1 className='text-sm  text-gray-600 dark:text-gray-300'>Ratings: {ratingsAverage.toFixed(1)} / 5.0</h1>
+                        <h1 className="text-sm  text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
+                      </Link>
+                      ):(
+                        <h1 className="text-sm text-center text-gray-600 dark:text-gray-300">{selectedProduct?.reviews.length} Reviews</h1>
+                      )}
+                     
                     </div>
                   </div>
                   <div className="mt-5 px-5">
-                    <h2 className='mb-5'>Select variant</h2>
+                   
                     {selectedProduct?.variants && selectedProduct.variants.length > 0 && (
                       <div className=''>
-                        {selectedProduct.variants.map((variant: Variants) => {
-                          const unitOfMeasurement = variant.unitOfMeasurement.toLowerCase();
-                          const isValidVariant =
-                            unitOfMeasurement === 'kilograms' && selectedProduct.kilograms >= variant.variant ||
-                            unitOfMeasurement === 'grams' && selectedProduct.grams >= variant.variant ||
-                            unitOfMeasurement === 'pieces' && selectedProduct.pieces >= variant.variant ||
-                            unitOfMeasurement === 'pounds' && selectedProduct.pounds >= variant.variant ||
-                            unitOfMeasurement === 'packs' && selectedProduct.packs >= variant.variant;
 
-                          return isValidVariant ? (
-                            <button
-                              type='button'
-                              key={variant.id}
-                              onClick={() => { setSelectedVariant(variant) }}
-                              className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-5 py-2 w-32 mx-3 mt-3 transition-transform transform active:scale-95`}
-                            >
-                              <div className='text-sm font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
-                              <div className='text-xs font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
-                            </button>
-                          ) : null;
-                        })}
+                        {Object.entries(groupedVariants).map(([unitOfMeasurement, variants]) => (
+                          <div key={unitOfMeasurement}>
+                            <h3 className="my-2 capitalize font-poppins font-medium">{unitOfMeasurement}</h3>
+                            {variants.map((variant) => (
+                              <button
+                                key={variant.id}
+                                onClick={() => { setSelectedVariant(variant) }}
+                                className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-3 py-1 w-28 mx-3  transition-transform transform active:scale-95`}
+                              >
+                                <div className='text-xs font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
+                                <div className='text-[0.6rem] font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
+                              </button>
+                            ))}
+                          </div>
+                        ))}
                       </div>
                     )}
                   </div>
-                  <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-36 py-5 px-5'>
+                  <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-10 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
                       Total Price:
                       <span className='font-semibold font-poppins text-lg'> ₱ {
@@ -259,7 +308,7 @@ function ProductModal({
                       <button
                         type="button"
                         className="w-full bg-yellow-600 py-5  outline-gray-500 hover:ring-1 hover:outline-1"
-                        onClick={loginModal.onOpen}
+                        onClick={()=> handleLogin()}
                         disabled={selectedVariant == null ? true : false}
                       >
                         Add to Cart

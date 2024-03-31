@@ -5,7 +5,7 @@ import Providers from '@/lib/providers/Providers'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../lib/auth'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/db/db'
 import { cn } from '@/lib/utils'
@@ -35,17 +35,17 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
-            <CartProvider>
-                <Providers>
-                    <LoginModal />
-                    <RegisterModal />
-                    <Navbar session={session} />
-                    <main className='bg-[#E3E1E1] h-screen'>
-                        {children}
-                    </main> 
-                    <Toaster />
-                </Providers >
-            </CartProvider>
+                <CartProvider>
+                    <Providers>
+                        <LoginModal />
+                        <RegisterModal />
+                        <Navbar session={session} />
+                        <main className='bg-[#E3E1E1] h-screen'>
+                            {children}
+                        </main>
+                        <Toaster />
+                    </Providers >
+                </CartProvider>
             </body>
         </html>
     )

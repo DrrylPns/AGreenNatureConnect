@@ -49,11 +49,11 @@ const Sidebar = () => {
                         Blog
                     </Link>
 
-                    <Link href="#"
+                    {/* <Link href="#"
                         className='flex flex-row gap-3'>
                         <Speech strokeWidth={1} />
                         Topics
-                    </Link>
+                    </Link> */}
 
                     <Link href="/admin/inventory"
                         className='flex flex-row gap-3'>

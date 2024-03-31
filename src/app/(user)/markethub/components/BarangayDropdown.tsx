@@ -7,7 +7,10 @@ import { Community } from '@prisma/client'
 import { BiCaretDown } from 'react-icons/bi'
 import { Button } from '@/components/ui/button'
 import banner from '../../../../../public/images/bannerbg.png'
-
+import Image from 'next/image'
+import Sharon from "@/../public/images/Sharon.png";
+import SoloParent from "@/../public/images/SoloParent.png";
+import Greenland from "@/../public/images/Greenland.png";
 
 
 function BarangayDropdown() {
@@ -27,15 +30,52 @@ function BarangayDropdown() {
         }
     }
   return (
-    <div className={`transition-all font-light md:tracking-wider bg-cover bg-center duration-500 ease-in w-full grid grid-cols-6 border-2 border-gray-300 drop-shadow-md shadow-inner mt-3 p-2 sm:p-5`}>
+    <div className={`transition-all font-light md:tracking-wider bg-cover bg-center duration-500 ease-in w-full grid grid-cols-3 gap-5 md:grid-cols-6 justify-center border-2 border-gray-300 drop-shadow-md shadow-inner mt-3 p-2 sm:p-5`}>
       
       {communities.length > 0 && communities.map((community: Community) =>(
           <Link 
-            className=' md:h-32 w-10 h-10  md:w-32 sm:h-16 sm:w-16 flex justify-center text-[0.5rem] sm:text-sm md:text-xl hover:shadow-md scale-105 items-center text-center bg-gray-50 border-gray-200 border rounded-lg' 
+            className='relative border-2 border-gray-400 hover:scale-105 hover:shadow-lg md:h-32   md:w-32 sm:h-16 sm:w-16 flex flex-col justify-center text-[0.5rem] sm:text-sm md:text-xl  hover:text-yellow-300 transition-colors ease-out duration-500 hover:font-bold items-center text-center bg-gray-50 rounded-lg' 
             href={{ pathname:`/markethub/community/${community.name}`, query:{communityId: community.id}} }>
              
-                {community.name}
-          
+              
+                {community.name === "Bagbag" && (
+                  <>
+                  <Image 
+                    src={SoloParent} 
+                    alt='' 
+                    width={100}
+                    height={100}
+                    className='w-full h-full '
+                  />
+                  <h1 className='z-30 text-xs shadow-md font-semibold '>{community.name}</h1>
+                  </>
+                )}
+                {community.name === "Nova Proper" && (
+                  <>
+                  <Image 
+                    src={Sharon} 
+                    alt='' 
+                    width={100}
+                    height={100}
+                    className='w-full h-full '
+                  />
+                  <h1 className='z-30 text-xs shadow-md font-semibold '>{community.name}</h1>
+                  </>
+                )}
+                {community.name === "Bagong Silangan" && (
+                  <>
+                  <Image 
+                    src={Greenland} 
+                    alt='' 
+                    width={100}
+                    height={100}
+                    className='w-full h-full '
+                  />
+                  <h1 className='z-30 text-xs shadow-md font-semibold '>{community.name}</h1>
+                  </>
+                )}
+                 
+               
           </Link>
       
       ))}

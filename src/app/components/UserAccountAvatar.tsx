@@ -1,23 +1,16 @@
 "use client";
-import Link from "next/link";
-import { signOut, useSession } from "next-auth/react";
 import { UserAvatar } from "@/app/components/UserAvatar";
+import { signOut, useSession } from "next-auth/react";
+import Link from "next/link";
 import { useCallback, useState } from "react";
 import MenuItem from "./MenuItem";
 import { Separator } from "./Ui/Separator";
-import { Session } from "next-auth";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/app/components/Ui/Dialog";
+import useSettingsModal from "@/lib/hooks/useSettingsModal";
 
-const UserAccountAvatar: React.FC = ({}) => {
+const UserAccountAvatar: React.FC = ({ }) => {
   const { data: session } = useSession();
   const [isOpen, setIsOpen] = useState(false);
+  const settingsModal = useSettingsModal()
 
   const toggleOpen = useCallback(() => {
     setIsOpen((value) => !value);
@@ -64,7 +57,7 @@ const UserAccountAvatar: React.FC = ({}) => {
       </div>
 
       {isOpen && (
-        <div className="absolute shadow-md w-[40vw] lg:w-[100%] bg-white dark:bg-[#0A0A0A]  overflow-hidden max-md:right-0 right-15 max-md:top-12 top-[42rem] text-sm rounded-md gap-2 p-3 border dark:border-black border-zinc-300 text-black dark:text-white">
+        <div className="absolute shadow-md w-[40vw] lg:w-[100%] bg-white dark:bg-[#0A0A0A] overflow-hidden max-md:right-0 right-15 max-md:top-12 top-[730px] text-sm rounded-md gap-2 p-3 border dark:border-black border-zinc-300 text-black dark:text-white">
           <div className="flex flex-col space-y-1 leading-none">
             {session ? (
               <>
@@ -82,9 +75,9 @@ const UserAccountAvatar: React.FC = ({}) => {
                 <Separator />
 
                 <div className="cursor-pointer">
-                  <Link href={"/discussion/profile"}>
+                  {/* <Link href={"/discussion/profile"}>
                     <MenuItem label="Change Avatar" />
-                  </Link>
+                  </Link> */}
                   <Link href={"/order-status"} className="md:hidden block">
                     <MenuItem label="Transaction History" />
                   </Link>
@@ -94,11 +87,13 @@ const UserAccountAvatar: React.FC = ({}) => {
                   <Link href={"/termsPolicy"} className="md:hidden block">
                     <MenuItem label="User Agreement" />
                   </Link>
-                  <Link href={"/settings"}>
+                  <div
+                    onClick={settingsModal.onOpen}
+                  >
                     <MenuItem label="Settings" />
-                  </Link>
+                  </div>
 
-                  <Separator />
+                  <Separator className="md:hidden" />
 
                   <div className="md:hidden block">
                     <MenuItem onClick={() => signOut()} label="Log Out" />

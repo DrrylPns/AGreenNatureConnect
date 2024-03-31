@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth"
+import { getAuthSession } from "../../../../lib/auth"
 import prisma from "@/lib/db/db"
 import { CartSchema } from "@/lib/validations/addToCartSchema"
 import { NextRequest } from "next/server"
@@ -13,16 +13,16 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 })
         }
         const body = await req.json()
-        const { variantId, communityId} = CartSchema.parse(body)
+        const { variantId, communityId } = CartSchema.parse(body)
         await prisma.cart.create({
             data: {
                 userId: session.user.id,
                 variantId,
                 communityId: communityId
             }
-           
+
         })
-        
+
         return new Response('OK')
     } catch (error) {
         if (error instanceof z.ZodError) {
@@ -40,15 +40,15 @@ export async function GET(req: Request) {
             return new Response("Unauthorized", { status: 401 })
         }
         const getCartItems = await prisma.cart.findMany({
-            where:{
+            where: {
                 userId: session.user.id
             },
-            include:{
-                variant:{
-                    include:{
-                        product:{
-                            include:{
-                                community:true
+            include: {
+                variant: {
+                    include: {
+                        product: {
+                            include: {
+                                community: true
                             }
                         }
                     }
@@ -56,8 +56,8 @@ export async function GET(req: Request) {
                 community: true
             }
         })
-        return new Response(JSON.stringify(getCartItems), {status: 200})
+        return new Response(JSON.stringify(getCartItems), { status: 200 })
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 }

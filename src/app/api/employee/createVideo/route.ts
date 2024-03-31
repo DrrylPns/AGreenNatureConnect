@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth"
+import { getAuthSession } from "../../../../lib/auth"
 import prisma from "@/lib/db/db"
 import { CreateMaterialSchema } from "@/lib/validations/employee/materials"
 import { CreateVideoSchema } from "@/lib/validations/employee/videos"

@@ -5,42 +5,56 @@ generator client {
   provider = "prisma-client-js"
 }
 
+// railway and ps ->
+// datasource db {
+//   provider     = "mysql"
+//   url          = env("DATABASE_URL")
+//   relationMode = "prisma"
+// }
+
 datasource db {
-  provider     = "mysql"
-  url          = env("DATABASE_URL")
-  relationMode = "prisma"
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  // uncomment next line if you use Prisma <5.10
+  directUrl = env("DATABASE_URL_UNPOOLED")
 }
+
+// generator erd {
+//   provider = "prisma-erd-generator"
+//   output = "../ERD.svg"
+// }
 
 // lagyan ng isBannedFromPosting? same logic sa lastUsernameChange DateTime?? this determines kung gano siya katagal naka ban
 // isWarned if may warning tas DateTime
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na
 // isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                  String         @id @default(cuid())
-  name                String?
-  EmployeeId          String?        @unique
-  username            String?        @unique
-  email               String?        @unique
-  emailVerified       DateTime?
-  image               String?
-  hashedPassword      String?
-  middleName          String?
-  lastName            String?
-  phoneNumber         String?        @unique
-  address             String?
-  role                Role           @default(USER)
-  gender              String?
-  birthday            DateTime?
-  bio                 String?
-  createdAt           DateTime       @default(now())
-  updatedAt           DateTime       @updatedAt
-  isBanned            Boolean        @default(false)
-  numberOfViolations  Int            @default(0)
-  lastUsernameChange  DateTime?
-  isBannedFromPosting DateTime?
-  createdTopics       Topic[]        @relation("CreatedBy")
-  buyerTransactions   Transaction[]  @relation("Buyer")
-  shippingInfo        ShippingInfo[]
+  id                     String         @id @default(cuid()) // string
+  name                   String? // nullable | optional 
+  EmployeeId             String?        @unique
+  username               String?        @unique
+  email                  String?        @unique
+  emailVerified          DateTime?
+  image                  String?
+  hashedPassword         String?
+  middleName             String?
+  lastName               String?
+  phoneNumber            String?        @unique
+  address                String?
+  role                   Role           @default(USER)
+  gender                 String?
+  birthday               DateTime?
+  bio                    String?
+  createdAt              DateTime       @default(now())
+  updatedAt              DateTime       @updatedAt
+  isBanned               Boolean        @default(false)
+  numberOfViolations     Int            @default(0)
+  isNotificationsEnabled Boolean        @default(true)
+  lastUsernameChange     DateTime?
+  isBannedFromPosting    DateTime?
+  createdTopics          Topic[]        @relation("CreatedBy")
+  buyerTransactions      Transaction[]  @relation("Buyer")
+  shippingInfo           ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
@@ -48,7 +62,6 @@ model User {
 
   cart             Cart[]
   Account          Account[]
-  Session          Session[]
   posts            Post[]
   comments         Comment[]
   likes            Like[]
@@ -66,9 +79,31 @@ model User {
   Community        Community?         @relation(fields: [communityId], references: [id])
   communityId      String?
   reactions        Reaction[]
+  reply            Reply[]
+  Review           Review[]
+  ReviewLike       ReviewLike[]
+  ReviewDislike    ReviewDislike[]
 
   @@index([id])
   @@index([communityId])
+}
+
+model VerificationToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
+}
+
+model PasswordResetToken {
+  id      String   @id @default(cuid())
+  email   String
+  token   String   @unique
+  expires DateTime
+
+  @@unique([email, token])
 }
 
 // to edit STAFF to EMPLOYEE
@@ -103,16 +138,6 @@ model Account {
   @@index([userId])
 }
 
-model Session {
-  id           String   @id @default(cuid())
-  sessionToken String   @unique
-  userId       String
-  expires      DateTime
-  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-
-  @@index([userId])
-}
-
 // mga possible idagdag sa community: address, description, etc... consult sa members
 model Community {
   id               String             @id @default(cuid())
@@ -130,6 +155,7 @@ model Community {
   FAQ              FAQ[]
   Transaction      Transaction[]
   cart             Cart[]
+  notifications    Notification[]
 }
 
 model Topic {
@@ -191,11 +217,25 @@ model Comment {
   replyTo   Comment?  @relation("ReplyTo", fields: [replyToId], references: [id], onDelete: NoAction, onUpdate: NoAction)
   replies   Comment[] @relation("ReplyTo")
 
-  commentId String
+  replyOnComent Reply[]
+
+  commentId String @unique
 
   @@index([authorId])
   @@index([postId])
   @@index([replyToId])
+}
+
+model Reply {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+
+  comment   Comment @relation(fields: [commentId], references: [id])
+  commentId String
+
+  user   User   @relation(fields: [userId], references: [id])
+  userId String
 }
 
 model Reaction {
@@ -234,14 +274,32 @@ model Like {
 }
 
 model Notification {
-  id        String   @id @default(cuid())
-  body      String
-  createdAt DateTime @default(now())
+  id        String           @id @default(cuid())
+  type      NotificationType
+  isRead    Boolean          @default(false)
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 
-  User   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId String
+
+  transaction   Transaction @relation(fields: [transactionId], references: [id])
+  transactionId String
+
   @@index([userId])
+  @@index([communityId])
+  @@index([transactionId])
+}
+
+enum NotificationType {
+  PENDING
+  APPROVED
+  PICK_UP
+  COMPLETED
+  CANCELLED
 }
 
 model Report {
@@ -394,6 +452,7 @@ enum ApprovalStatus {
   PENDING
   APPROVED
   DECLINED
+  ARCHIVED
 }
 
 model Product {
@@ -410,7 +469,7 @@ model Product {
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
-  isFreeUntil  DateTime?      @db.DateTime()
+  isFreeUntil  DateTime?
 
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
@@ -421,10 +480,47 @@ model Product {
   community      Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId    String
   orderedVariant OrderedVariant[]
+  reviews        Review[]
   // ProductTransaction ProductTransaction[]
 
   @@index([creatorId])
   @@index([communityId])
+}
+
+model Review {
+  id              String          @id @default(cuid())
+  image           String?
+  priceRating     Float
+  qualityRating   Float
+  serviceRating   Float
+  freshnessRating Float
+  overAllRating   Float
+  title           String
+  description     String?
+  createdAt       DateTime        @default(now())
+  updatedAt       DateTime        @updatedAt
+  like            ReviewLike[]
+  dislike         ReviewDislike[]
+  product         Product         @relation(fields: [productId], references: [id])
+  productId       String
+  User            User            @relation(fields: [userId], references: [id])
+  userId          String
+}
+
+model ReviewLike {
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId String
+}
+
+model ReviewDislike {
+  id       String @id @default(cuid())
+  user     User   @relation(fields: [userId], references: [id])
+  userId   String
+  review   Review @relation(fields: [reviewId], references: [id])
+  reviewId String
 }
 
 model Variant {
@@ -465,6 +561,7 @@ model Transaction {
   sellerId String
 
   orderedVariant OrderedVariant[]
+  notifications  Notification[]
 
   @@index([buyerId])
   @@index([sellerId])

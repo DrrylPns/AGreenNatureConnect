@@ -1,25 +1,25 @@
 "use client";
-import RelativeDate from "@/app/components/RelativeDate";
-import { Post, Comment, Block } from "@/lib/types";
-import axios from "axios";
-import Image from "next/image";
-import React, { FC, useCallback, useEffect, useState } from "react";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
-import { FaEllipsis } from "react-icons/fa6";
-import { RotatingLines, Discuss } from "react-loader-spinner";
-import Link from "next/link";
-import { FiArrowLeft, FiPlus } from "react-icons/fi";
-import { useSession } from "next-auth/react";
-import Comments from "../../components/Comments";
-import { Session } from "next-auth";
-import PostButtons from "../../components/postButtons";
 import EditorOutput from "@/app/components/(user)/EditorOutput";
-import { useRouter } from "next/navigation";
-import { Popover, Transition } from "@headlessui/react";
+import RelativeDate from "@/app/components/RelativeDate";
 import DeleteDialog from "@/app/components/dialogs/DeletePost";
-import { AiOutlineEdit } from "react-icons/ai";
-import { ReportPost } from "./_components/ReportPost";
 import { PostUnderReview } from "@/components/PostUnderReview";
+import { Comment, Post } from "@/lib/types";
+import { Popover, Transition } from "@headlessui/react";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FC, useCallback, useEffect, useState } from "react";
+import { AiOutlineEdit } from "react-icons/ai";
+import { FaEllipsis } from "react-icons/fa6";
+import { FiArrowLeft } from "react-icons/fi";
+import { Discuss, RotatingLines } from "react-loader-spinner";
+import Comments from "../../components/Comments";
+import PostButtons from "../../components/postButtons";
+import { ReportPost } from "./_components/ReportPost";
+import { useQuery } from "@tanstack/react-query";
 
 interface Props {
   params: { postId: string };
@@ -27,7 +27,7 @@ interface Props {
 
 const page: FC<Props> = ({ params }) => {
   const [posts, setPosts] = useState<Post>();
-  const [comments, setComments] = useState<Comment>();
+  // const [comments, setComments] = useState<Comment>();
   const router = useRouter();
   const { data: session } = useSession();
 
@@ -88,23 +88,34 @@ const page: FC<Props> = ({ params }) => {
 
       const data = await response.json();
       setPosts(data);
-      fetchComments();
     } catch (error) {
       console.error("Error fetching post:", error);
     }
   }, [params.postId]);
 
-  const fetchComments = useCallback(async () => {
-    try {
-      const result = await axios.get(
-        `/api/user/post/${params.postId}/comments`
-      );
-      const comments = result.data;
-      setComments(comments);
-    } catch (error) {
-      console.error("Error fetching comments:", error);
+  // const fetchComments = useCallback(async () => {
+  //   try {
+  //     const result = await axios.get(
+  //       `/api/user/post/${params.postId}/comments`
+  //     );
+  //     const comments = result.data;
+  //     setComments(comments);
+  //   } catch (error) {
+  //     console.error("Error fetching comments:", error);
+  //   }
+  // }, [params.postId]);
+
+  const { data: comments } = useQuery({
+    queryKey: ["comments"],
+    queryFn: async () => {
+      try {
+        const { data } = await axios.get(`/api/user/post/${params.postId}/comments`)
+        return data
+      } catch (error: any) {
+        throw new Error(`Error fetching comments: ${error.message}`);
+      }
     }
-  }, [params.postId]);
+  })
 
   useEffect(() => {
     fetchPost();
@@ -123,7 +134,7 @@ const page: FC<Props> = ({ params }) => {
   return (
     <main className="pb-20 max-md:dark:bg-[#242526] dark:bg-[#18191A]">
       {posts ? (
-        posts.reports >= 4 ? (
+        posts.reports >= 5 ? (
           session?.user.role === "USER" || session?.user.role === undefined ? (
             <PostUnderReview />
           ) : (
@@ -304,7 +315,9 @@ const page: FC<Props> = ({ params }) => {
                         type="button"
                         className="flex gap-1 hover:underline w-full"
                       >
-                        <AiOutlineEdit /> Edit
+                        <Link href={`/edit/${posts.topic.name}/${posts.id}`} className="flex gap-1">
+                          <AiOutlineEdit /> Edit
+                        </Link>
                       </button>
                       <button
                         type="button"

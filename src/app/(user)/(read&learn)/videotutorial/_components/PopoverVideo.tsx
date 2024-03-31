@@ -1,6 +1,5 @@
 "use client"
 
-import * as React from "react"
 import { cn } from "@/lib/utils"
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover"
 import { Button } from "@/app/components/Ui/Button"
@@ -10,10 +9,11 @@ import { useQuery } from "@tanstack/react-query"
 import axios from "axios"
 import { EnumValues } from "zod"
 import { Community } from "@prisma/client"
+import { useState } from "react"
 
 export function PopoverVideo({ onSelectCommunity }: any) {
-    const [open, setOpen] = React.useState(false)
-    const [value, setValue] = React.useState("")
+    const [open, setOpen] = useState(false)
+    const [value, setValue] = useState("")
 
     const { isLoading, isError, data: communities } = useQuery({
         queryKey: ['video-tutorial-by-community'],

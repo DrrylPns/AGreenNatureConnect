@@ -14,6 +14,7 @@ import { useLocalStorage } from "../hooks/useLocalStorage";
 import { useQuery } from "@tanstack/react-query";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
+import { toast } from "@/lib/hooks/use-toast";
 
 const PaymentMethod = [
   'Cash on delivery',
@@ -117,6 +118,15 @@ function CheckoutModal({}: {}) {
     if(method === ''){
       setError("You must select a payment method first!")
       closeModal()
+      return
+    }
+    if(shippingInfo === undefined || shippingInfo === null){
+      closeModal()
+      toast({
+        title: "Not Allowed",
+        description: "Add your shipping information!",
+        variant: "destructive",
+      });
       return
     }
     setDisableBtn(true);

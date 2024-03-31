@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../../lib/auth";
 import prisma from "@/lib/db/db"
 import { DeleteCartItemSchema } from "@/lib/validations/addToCartSchema";
 import { z } from "zod"
@@ -10,7 +10,7 @@ export async function POST(req: Request) {
         if (!session?.user) {
             return new Response("Unauthorized", { status: 401 })
         }
-    
+
         const body = await req.json()
 
         const { id } = DeleteCartItemSchema.parse(body)

@@ -1,9 +1,8 @@
 import prisma from "@/lib/db/db";
-import { getServerSession } from "next-auth";
 import { z } from "zod";
 import bcrypt from "bcrypt";
 import { ChangePasswordSchema } from "@/lib/validations/changePasswordSchema";
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 
 // const saltRounds = 12; // number of salt for hashing ito gamit bcrypt
 

@@ -31,7 +31,7 @@ const buttonVariants = cva(
         xs: "h-8 px-1.5 rounded-sm",
         lg: "h-11 px-8 rounded-md",
         darkthemebut: "h-2 pr-[20px] px-0",
-        darkthemebut1: "h-7 pr-[20px] px-0",
+        darkthemebut1: "h-8 mb-3 pr-[20px] px-0",
       },
     },
     defaultVariants: {

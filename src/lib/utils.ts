@@ -1,6 +1,6 @@
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
-import { formatDistanceToNowStrict } from 'date-fns'
+import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
 
 export function cn(...inputs: ClassValue[]) {
@@ -87,10 +87,14 @@ export function calculateDaysUntilUsernameChange(lastChangeDate: Date): number {
 // age restriction 13
 export function getMinBirthDate() {
   const today = new Date();
-  const minBirthYear = today.getFullYear() - 13; // change number to any age restriction number
+  const minBirthYear = today.getFullYear() - 18; // change number to any age restriction number
 
   const minMonth = String(today.getMonth() + 1).padStart(2, '0');
   const minDay = String(today.getDate()).padStart(2, '0');
 
   return `${minBirthYear}-${minMonth}-${minDay}`;
 }
+
+export const formatCreatedAt = (createdAt: Date): string => {
+  return formatDistanceToNow(new Date(createdAt), { addSuffix: true });
+};

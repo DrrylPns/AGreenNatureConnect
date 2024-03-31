@@ -1,9 +1,6 @@
 "use client"
-import { Separator } from '@/app/components/Ui/Separator';
-import { Card, CardFooter, Image } from '@nextui-org/react'
-import { useQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import React from 'react'
+import { Card, CardFooter, Image } from '@nextui-org/react';
+import React from 'react';
 import { EnumValues } from 'zod';
 
 type Community = {

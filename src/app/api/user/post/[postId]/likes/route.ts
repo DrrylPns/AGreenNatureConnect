@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { CommentSchema } from "@/lib/validations/createCommentSchema";
 import { LikeSchema } from "@/lib/validations/createLikeSchema";
@@ -12,15 +12,15 @@ export async function GET(req: NextRequest) {
     const postId = postIdWithLikes.replace("/likes", "")
     try {
         const getTheNumberOfLikes = await prisma.like.count({
-            where:{
+            where: {
                 postId: postId
             }
         })
 
 
-        return new Response(JSON.stringify(getTheNumberOfLikes), {status: 200})
+        return new Response(JSON.stringify(getTheNumberOfLikes), { status: 200 })
     } catch (error) {
-        
+
     }
 }
 
@@ -38,27 +38,27 @@ export async function POST(req: NextRequest) {
         const userId = session.user.id
 
         const getAllLikes = await prisma.like.findFirst({
-            where:{
+            where: {
                 postId: postId,
                 userId: userId
             }
         })
 
-        if(getAllLikes){
+        if (getAllLikes) {
             await prisma.like.delete({
-               where:{ 
-                userId_postId:{
-                    postId: postId,
-                    userId: userId
+                where: {
+                    userId_postId: {
+                        postId: postId,
+                        userId: userId
+                    }
                 }
-               }
             })
 
             return new Response('Unliked')
         }
 
         await prisma.like.create({
-            data:{
+            data: {
                 userId: userId,
                 postId: postId,
             }

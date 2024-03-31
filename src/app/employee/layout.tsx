@@ -5,11 +5,13 @@ import Providers from '@/lib/providers/Providers'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
-import { getAuthSession } from '@/lib/auth'
+import { getAuthSession } from '../../lib/auth'
 import { notFound } from 'next/navigation'
 import prisma from '@/lib/db/db'
 import Sidebar from './_components/Sidebar'
 import { cn } from '@/lib/utils'
+import { PageNotFound } from '@/components/PageNotFound'
+import { LoadingComponent } from '@/components/LoadingComponent'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -25,11 +27,9 @@ export default async function RootLayout({
 }) {
     const session = await getAuthSession()
 
-    if (session?.user.role === null) return <div>Loading...</div>
+    if (session?.user.role === null) return <LoadingComponent />
 
-    if (session?.user.role !== "EMPLOYEE") {
-        notFound()
-    }
+    if (session?.user.role !== "EMPLOYEE") if (session?.user.role !== "ADMIN") return <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'><PageNotFound /></div>
 
 
 
@@ -39,10 +39,10 @@ export default async function RootLayout({
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
-                    <Sidebar/>
+                    <Sidebar />
                     <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                         {children}
-                    </main> 
+                    </main>
                     <Toaster />
                 </Providers >
             </body>

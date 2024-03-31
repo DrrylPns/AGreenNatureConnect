@@ -1,34 +1,27 @@
 "use client"
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/app/components/Ui/Card"
 import {
     Dialog,
     DialogContent,
     DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger,
+    DialogHeader
 } from "@/components/ui/dialog"
-import { AlertTriangle } from "lucide-react"
-import { useSession } from "next-auth/react"
+import useWarningModal from "@/lib/hooks/useWarningModal"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 
 
 export const WarnUser = () => {
-    const [open, setOpen] = useState<boolean>(false);
+    const { isOpen, onClose } = useWarningModal()
 
-    useEffect(() => {
-        setOpen(true);
-    }, []);
+
+    console.log(`isOpen: ${isOpen}`);
 
     return (
-        <Dialog open={open} onOpenChange={setOpen}>
-            <DialogContent>
+        <Dialog open={isOpen} onOpenChange={onClose}>
+            <DialogContent className="z-50">
                 <DialogHeader>
-                    <DialogTitle></DialogTitle>
                     <DialogDescription>
                         <div className="w-full p-4 gap-4 items-center justify-center lg:gap-8 space-y-3">
-                            <h1 className="text-center text-4xl font-bold dark:text-white">Warning</h1>
+                            <h1 className="text-center text-4xl font-bold dark:text-white text-black">Warning</h1>
                             <p className="text-center text-muted-foreground">
                                 Your account has been reported for violating our terms of service.
                             </p>

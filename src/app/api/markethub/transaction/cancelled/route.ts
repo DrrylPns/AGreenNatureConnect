@@ -1,4 +1,5 @@
-import { getAuthSession } from "@/lib/auth";
+import { sendCancelledNotification } from "@/lib/mail";
+import { getAuthSession } from "../../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { DeclineProductSchema } from "@/lib/validations/employee/products";
 import { revalidatePath } from "next/cache";
@@ -10,6 +11,7 @@ export async function GET(req: Request) {
         if (!session?.user) {
             return new Response("Unauthorized", { status: 401 });
         }
+
         const cancelledTransactions = await prisma.transaction.findMany({
             where: {
                 buyerId: session.user.id,
@@ -29,6 +31,7 @@ export async function GET(req: Request) {
                 }
             }
         })
+
         return new Response(JSON.stringify(cancelledTransactions), { status: 200 })
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))
@@ -44,6 +47,22 @@ export async function PUT(req: Request) {
         }
         const body = await req.json()
         const { transactionId, type, otherReason } = DeclineProductSchema.parse(body)
+
+        const transaction = await prisma.transaction.findUnique({
+            where: {
+                id: transactionId,
+            },
+            include: {
+                buyer: true,
+                seller: true,
+                orderedVariant: {
+                    include: {
+                        variant: true,
+                        product: true,
+                    },
+                },
+            },
+        });
 
         const existingTransaction = await prisma.transaction.findUnique({
             where: {
@@ -65,6 +84,27 @@ export async function PUT(req: Request) {
                 status: "CANCELLED"
             }
         })
+
+        if (!transaction) {
+            return new Response('Invalid transaction', {
+                status: 400,
+            });
+        }
+
+        if (cancelOrderById) {
+            await prisma.notification.create({
+                data: {
+                    type: "CANCELLED",
+                    userId: cancelOrderById.buyerId,
+                    communityId: cancelOrderById.sellerId,
+                    transactionId: cancelOrderById.id
+                },
+            })
+
+            if (transaction.buyer.isNotificationsEnabled) {
+                sendCancelledNotification(transaction.buyer.email as string, cancelOrderById.id, transaction.seller.name, cancelOrderById.cancelReason, cancelOrderById.cancelType)
+            }
+        }
 
         revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(cancelOrderById));

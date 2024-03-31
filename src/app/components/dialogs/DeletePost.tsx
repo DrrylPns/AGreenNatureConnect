@@ -1,10 +1,11 @@
-import { FC, Fragment, useState } from "react";
+import { FC, Fragment, useState, useTransition } from "react";
 import { Dialog, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useRouter } from "next/navigation";
 
 import { AiOutlineDelete } from "react-icons/ai";
 import { toast } from "@/lib/hooks/use-toast";
+import { deletePost } from "../../../../actions/post";
 
 interface DeleteDialogProps {
   postId: string;
@@ -13,25 +14,26 @@ interface DeleteDialogProps {
 
 const DeleteDialog: FC<DeleteDialogProps> = ({ postId, onDelete }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isPending, startTransition] = useTransition()
   let isTrue = false;
   const router = useRouter();
 
-  const handleDelete = async () => {
-    const deleteComment = await axios
-      .delete(`/api/user/post/${postId}?postId=${postId}`)
-      .then(() => {
-        toast({
-          description: "Your post has been deleted",
-          variant: "destructive",
-        }),
-          router.back();
-        setIsOpen(false);
-        onDelete();
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-  };
+  // const handleDelete = async () => {
+  //   const deleteComment = await axios
+  //     .delete(`/api/user/post/${postId}?postId=${postId}`) // test X
+  //     .then(() => {
+  //       toast({
+  //         description: "Your post has been deleted",
+  //         variant: "destructive",
+  //       }),
+  //         // router.back(); // test 2
+  //         setIsOpen(false);
+  //       onDelete();
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const closeModal = () => {
     setIsOpen(false);
@@ -100,8 +102,28 @@ const DeleteDialog: FC<DeleteDialogProps> = ({ postId, onDelete }) => {
                   {/* Button to confirm deletion */}
                   <button
                     type="button"
+                    disabled={isPending}
                     className="inline-flex justify-center rounded-md border border-transparent bg-blue-100 px-4 py-2 text-sm font-medium text-blue-900 hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-2"
-                    onClick={handleDelete}
+                    onClick={() => {
+                      startTransition(() => {
+                        deletePost(postId).then((callback) => {
+                          if (callback.error) {
+                            toast({
+                              description: callback.error,
+                              variant: "destructive"
+                            })
+                          }
+
+                          if (callback.success) {
+                            toast({
+                              description: callback.success,
+                            })
+                            onDelete()
+                            router.back()
+                          }
+                        })
+                      })
+                    }}
                   >
                     Yes
                   </button>

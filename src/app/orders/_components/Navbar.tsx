@@ -43,7 +43,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             <div className="flex items-center justify-evenly gap-5 text-[1.5rem] text-yellow-400 font-bold">
               {/**  <Notification />
                             <Settings />*/}
-              <div className="max-md:block hidden mt-4">
+              <div className="max-md:block hidden ">
                 <ThemeToggler1 />
               </div>
 
@@ -53,7 +53,7 @@ const Navbar: React.FC<NavbarProps> = ({}) => {
             </div>
           ) : (
             <>
-              <div className="max-md:block hidden mt-4 text-yellow-400">
+              <div className="max-md:block hidden  text-yellow-400">
                 <ThemeToggler1 />
               </div>
               <button onClick={loginModal.onOpen} className="text-white">

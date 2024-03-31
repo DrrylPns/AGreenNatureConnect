@@ -1,4 +1,4 @@
-import { Account, Comment, Like, Post, Topic, User } from "@prisma/client";
+import { Account, Comment, Reply, Like, Post, Topic, User } from "@prisma/client";
 
 export type ExtendedPost = Post & {
     topic: Topic,
@@ -6,6 +6,7 @@ export type ExtendedPost = Post & {
     author: User,
     comments: Comment[],
     accounts: Account
+    replies: Reply[],
 }
 
 export type ExtendedUser = User & {
@@ -15,4 +16,22 @@ export type ExtendedUser = User & {
 export interface PostIdProps {
     postId: string;
   }
+
+  export interface CommentIdProps {
+    commentId: string;
+  }
   
+
+  export interface NotificationWithRelations {
+    id: string;
+    type: NotificationType;
+    isRead: boolean;
+    createdAt: Date;
+    updatedAt: Date;
+    userId: string;
+    communityId: string;
+    transactionId: string;
+    user: User;
+    community: Community;
+    transaction: Transaction;
+  }

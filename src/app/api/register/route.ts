@@ -1,9 +1,11 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { RegisterSchema } from "@/lib/validations/registerUserSchema";
 import { z } from "zod"
 import bcrypt from "bcrypt"
 import { NextResponse } from "next/server";
+import { generateVerificationToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export async function POST(req: Request) {
     try {
@@ -62,6 +64,12 @@ export async function POST(req: Request) {
                 }
             }
         });
+
+        const verificationToken = await generateVerificationToken(email);
+        await sendVerificationEmail(
+          verificationToken.email,
+          verificationToken.token,
+        );
 
         return NextResponse.json(user)
     } catch (error) {

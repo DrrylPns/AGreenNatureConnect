@@ -1,4 +1,5 @@
-import { getAuthSession } from "@/lib/auth";
+import { sendPendingOrderNotification } from "@/lib/mail";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { Cart, ResultItem } from "@/lib/types";
 import { TransactionSchema } from "@/lib/validations/transactionSchema";
@@ -6,18 +7,18 @@ import { v4 as uuidv4 } from 'uuid';
 
 function transformItems(Items: Cart[]): ResultItem[] {
     const result: ResultItem[] = [];
-    
+
     Items.forEach((item) => {
         const existingItem = result.find((resultItem) => resultItem.communityId === item.communityId);
-        
+
         if (existingItem) {
             existingItem.products.push({
                 productId: item.variant.product.id,
                 variant: item.variant,
             });
             item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.variant.price
-           
-        } else { 
+
+        } else {
             const newItem: ResultItem = {
                 communityId: item.communityId,
                 totalPrice: item.variant.product.isFree ? 0 : item.variant.price,
@@ -26,7 +27,7 @@ function transformItems(Items: Cart[]): ResultItem[] {
                     variant: item.variant,
                 }],
             };
-            
+
             result.push(newItem);
         }
     });
@@ -41,6 +42,23 @@ export async function POST(req: Request) {
         }
         const body = await req.json();
         const { Items, paymentMethod } = body;
+
+        const loggedInUser = await prisma.user.findFirst({
+            where: {
+                id: session.user.id
+            },
+            include: {
+                Community: true
+            }
+        })
+
+        const community = await prisma.community.findFirst({
+            where: { id: loggedInUser?.Community?.id }
+        })
+
+        if (!community) {
+            return new Response("No community found", { status: 402 })
+        }
 
         const transformedItems = transformItems(Items);
 
@@ -86,6 +104,23 @@ export async function POST(req: Request) {
                 },
             });
 
+            await prisma.notification.create({
+                data: {
+                    type: "PENDING",
+                    userId: session.user.id,
+                    communityId: community.id,
+                    transactionId: transaction.id,
+                },
+            })
+
+            if (loggedInUser?.isNotificationsEnabled) {
+                sendPendingOrderNotification(
+                    loggedInUser?.email as string,
+                    transaction.id,
+                    community.name,
+                )
+            }
+            
             /*
             item.products.forEach(async (product)=>{
                 if(product.variant.unitOfMeasurement === 'Kilograms'){
@@ -121,6 +156,8 @@ export async function POST(req: Request) {
             }) */
             transactions.push(transaction);
         }
+
+
 
         return new Response(JSON.stringify(transactions));
     } catch (error) {

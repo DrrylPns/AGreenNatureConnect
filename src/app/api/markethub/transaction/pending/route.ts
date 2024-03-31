@@ -1,3 +1,4 @@
+
 import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db";
 
@@ -8,18 +9,18 @@ export async function GET(req: Request) {
             return new Response("Unauthorized", { status: 401 });
         }
         const pendingTransactions = await prisma.transaction.findMany({
-            where:{
+            where: {
                 buyerId: session.user.id,
                 status: "PENDING"
             },
-            orderBy:{
+            orderBy: {
                 updatedAt: 'desc'
             },
-            include:{
+            include: {
                 buyer: true,
                 seller: true,
                 orderedVariant: {
-                    include:{
+                    include: {
                         product: true,
                         variant: true
                     }
@@ -27,8 +28,8 @@ export async function GET(req: Request) {
             }
         });
 
-        return new Response(JSON.stringify(pendingTransactions), {status: 200})
+        return new Response(JSON.stringify(pendingTransactions), { status: 200 })
     } catch (error) {
-        return new Response(JSON.stringify({message: 'Error:', error}))
+        return new Response(JSON.stringify({ message: 'Error:', error }))
     }
 };   

@@ -1,76 +1,77 @@
 'use server'
+import { NotificationType, ReviewDislike, ReviewLike, } from '@prisma/client';
 import { Variant } from 'framer-motion';
 import { MouseEventHandler } from 'react'
 
 export interface CustomButtonProps {
-    title: string,
-    btnType: "button" | "submit",
-    containerStyles?: string,
-    handleClick?: () => void,
+  title: string,
+  btnType: "button" | "submit",
+  containerStyles?: string,
+  handleClick?: () => void,
 }
 export interface Author {
-    id: string;
-    name: string | null;
-    username: string;
-    email: string | null;
-    emailVerified: boolean | null;
-    image: string | null;
-    hashedPassword: string | null;
-    middleName: string | null;
-    lastName: string | null;
-    phoneNumber: string | null;
-    address: string | null;
-    bio: string
-    role: string;
-    createdAt: string;
-    updatedAt: string;
-    isBanned: boolean;
-    numberOfViolations: number;
-  }
+  id: string;
+  name: string | null;
+  username: string;
+  email: string | null;
+  emailVerified: boolean | null;
+  image: string | null;
+  hashedPassword: string | null;
+  middleName: string | null;
+  lastName: string | null;
+  phoneNumber: string | null;
+  address: string | null;
+  bio: string
+  role: string;
+  createdAt: string;
+  updatedAt: string;
+  isBanned: boolean;
+  numberOfViolations: number;
+}
 
 export interface Post {
-    id: string;
-    title: string;
-    content: Content;
-    reports: number;
-    createdAt: string;
-    updatedAt: string;
-    authorId: string;
-    author: Author;
-    topicId: string;
-    comments: Comment[];
-    likes: Like[];
-    topic: Topic
-  }
+  id: string;
+  title: string;
+  content: Content;
+  reports: number;
+  createdAt: string;
+  updatedAt: string;
+  authorId: string;
+  author: Author;
+  topicId: string;
+  comments: Comment[];
+  likes: Like[];
+  topic: Topic
+}
 
-  export interface Like {
-    userId: string;
-    postId: string;
-  }
+export interface Like {
+  userId: string;
+  postId: string;
+}
 
-  export interface Topic {
-    id: string;
-    name: string;
-    posts: Post[];
-    createdAt: string;
-    updatedAt: string;
-    creatorId: string | null;
-  }
+export interface Topic {
+  id: string;
+  name: string;
+  posts: Post[];
+  createdAt: string;
+  updatedAt: string;
+  creatorId: string | null;
+}
 
 export interface Comment {
-    id: string;
-    text: string;
-    createdAt: string;
-    updatedAt: string;
-    author: Author;
-    authorId: string;
-    post: Post;
-    postId: string;
-    replyToId: string | null;
-    replyTo: Comment | null;
-    replies: Comment[];
-    commentId: string;
-  }
+  id: string;
+  text: string;
+  createdAt: string;
+  updatedAt: string;
+  author: Author;
+  authorId: string;
+  post: Post;
+  postId: string;
+  replyToId: string | null;
+  replyTo: Comment | null;
+  replies: Comment[];
+  commentId: string;
+}
 
 export interface Content {
   time: number,
@@ -83,8 +84,8 @@ export interface Block {
   type: String
 }
 export interface Data {
-  text:string,
-  file: File 
+  text: string,
+  file: File
   caption: string
   stretched: boolean
   withBorder: boolean
@@ -113,6 +114,7 @@ export interface Product {
   updatedAt: Date;
   community: Community;
   communityId: string;
+  reviews: Reviews[]
 }
 export interface Community {
   id: string;
@@ -143,6 +145,52 @@ export interface Cart {
   variantId: string;
   community: Community;
   communityId: string;
+}
+
+export interface Reviews {
+  id: string
+  image: string | null
+  priceRating: number
+  qualityRating: number
+  serviceRating: number
+  freshnessRating: number
+  overAllRating: number
+  title: string
+  description: string | null
+  createdAt: Date
+  updatedAt: Date
+  productId: string
+  User: ReviewUser
+  userId: string
+  like: ReviewLike[]
+  dislike: ReviewDislike[]
+}
+
+export interface ReviewUser {
+  image: string | null
+  username: string | null;
+}
+
+export interface ReviewDislike {
+  id: string
+  user: Author
+  userId: string
+  review: Review
+  reviewId: string
+}
+export interface ReviewLike {
+  id: string
+  user: Author
+  userId: string
+  review: Review
+  reviewId: string
+}
+export interface ReviewDislike {
+  id: string
+  user: User
+  userId: string
+  review: Review
+  reviewId: string
 }
 export interface ShippingInfo {
   id: string
@@ -192,4 +240,39 @@ export interface OrderedVariant {
   productId: string
   transaction: Transaction;
   transactionId: string;
+}
+
+export interface NotificationWithUser {
+  id: string;
+  type: NotificationType;
+  isRead: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  userId: string;
+  communityId: string;
+  transactionId: string;
+  user: User;
+  community: Community;
+  transaction: Transaction;
+}
+
+export interface CommentsWithReplies {
+  id: string;
+  text: string;
+  createdAt: Date;
+  updatedAt: Date;
+  authorId: string;
+  postId: string;
+  replyToId: string | null;
+  commentId: string;
+  replyOnComent: Reply[]
+}
+
+interface Reply {
+  id: string;
+  text: string;
+  createdAt: Date;
+  commentId: string;
+  userId: string;
+  user: User
 }

@@ -1,5 +1,4 @@
 "use client";
-import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db";
 import Image from "next/image";
 import React, { use, useEffect, useState } from "react";

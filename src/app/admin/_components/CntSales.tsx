@@ -1,13 +1,20 @@
 "use client"
+import { useQuery } from '@tanstack/react-query'
 import { Card, Metric, Text } from '@tremor/react'
-import React from 'react'
+import { fetchSales } from '../../../../actions/sales'
 
 const CntSales = () => {
+
+    const { data: sales } = useQuery({
+        queryKey: ["sales"],
+        queryFn: () => fetchSales()
+    })
+
     return (
         <Card className="">
             <Text>Total Number of Sales</Text>
             <Metric>
-                0
+                {sales as number}
             </Metric>
         </Card>
     )

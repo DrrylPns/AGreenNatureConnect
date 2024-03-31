@@ -1,4 +1,4 @@
-import { getAuthSession } from "@/lib/auth";
+import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { handleReportSchema } from "@/lib/validations/employee/reports";
 import { NextRequest, NextResponse } from "next/server";
@@ -45,7 +45,6 @@ export async function GET() {
 
 export async function PUT(req: NextRequest) {
     try {
-        const session = await getAuthSession()
 
         const body = await req.json()
 

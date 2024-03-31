@@ -4,7 +4,7 @@ import { z } from "zod";
 
 export async function POST(req: Request){
     try {
-        const body = req.json();
+        const body = await req.json();
         const { receipt, transactionId } = PaymentGcashSchema.parse(body);
       
         await prisma.transaction.update({
@@ -23,6 +23,5 @@ export async function POST(req: Request){
         }
         console.log(error)
         return new Response('Could not update receipt at this time, please try again later', { status: 500 })
-        
     }
 }

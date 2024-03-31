@@ -1,4 +1,3 @@
-"use client";
 import Editor from "@/app/components/(user)/Editor";
 import { Button } from "@/app/components/Ui/Button";
 import React from "react";

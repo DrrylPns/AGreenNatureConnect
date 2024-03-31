@@ -1,5 +1,4 @@
 "use client"
-import { getAuthSession } from '@/lib/auth'
 import prisma from '@/lib/db/db'
 import React from 'react'
 import { DataTable } from '../inventory/_components/data-table'
