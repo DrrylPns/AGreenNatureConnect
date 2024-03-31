@@ -19,19 +19,19 @@ function page() {
             </div>
 
             <div className='flex flex-row grid-cols-3 gap-52 justify-center m-10'>
-                <div className='shadow-black shadow-lg p-3'>
+                <div className='shadow-black shadow-md p-3'>
                     <Link href="/about/NovaProper"
                         className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center ">
                         NOVA PROPER
                     </Link>
                 </div>
-                <div className='shadow-black shadow-lg p-3'>
+                <div className='shadow-black shadow-md p-3'>
                     <Link href="/about/Bagbag"
                         className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
                         BAGBAG
                     </Link>
                 </div>
-                <div className='shadow-black shadow-lg p-3'>
+                <div className='shadow-black shadow-md p-3'>
                     <Link href="/about/BagongSilangan"
                         className="text-black font-mono font-semibold w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
                         BAGONG SILANGAN
