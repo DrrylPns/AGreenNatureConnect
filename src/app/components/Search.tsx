@@ -98,7 +98,7 @@ export default function Search() {
                   ) : (
                     <div className="">
                       <h1>Suggestions</h1>
-                      {filteredTopics.map((topic, index) => (
+                      {filteredTopics && filteredTopics.map((topic, index) => (
                         <Link href={`/search/${topic}`} className="w-full">
                         <Combobox.Option
                           key={index}
@@ -160,7 +160,7 @@ export default function Search() {
                     </>
                   ) : (
                     <div className="absolute top-20 left-0 text-center w-full overflow-auto h-full pb-[20%] ">
-                      {filteredTopics.map((topic, index) => (
+                      {filteredTopics && filteredTopics.map((topic, index) => (
                         <Combobox.Option
                           key={index}
                           value={topic}
