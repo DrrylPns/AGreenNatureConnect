@@ -7,17 +7,28 @@ import { INFINITE_SCROLLING_PAGINATION_RESULTS } from "@/config";
 import { NextApiRequest, NextApiResponse } from "next";
 
 //Getting all post
-export async function GET(req: Request, res: NextApiResponse) {
+export async function POST(req: Request, res: NextApiResponse) {
+
     const { searchParams } = new URL(req.url);
+    const {filter, userId} = await req.json()
     try {
         const param = searchParams.get("cursor");
         const limit = 5
+        
         const getAllPost = await prisma.post.findMany({
             cursor: param ? {
                 id: param
             } : undefined,
             take: limit,
             skip: param === '' ? 0 : 1,
+            where:{
+                reactions:{
+                    some:{
+                        userId: filter === "none"? undefined : userId,
+                        type: filter === "none"? undefined : filter
+                    },
+                }
+            },
             include: {
                 author: true,
                 comments: {
@@ -40,31 +51,6 @@ export async function GET(req: Request, res: NextApiResponse) {
     }
 }
 
-//Creating new post
-export async function POST(req: Request) {
-    try {
-        const session = await getAuthSession()
-        if (!session?.user) {
-            return new Response("Unauthorized", { status: 401 })
-        }
-        const body = await req.json()
-        const { title, content, topicId } = PostSchema.parse(body)
-        await prisma.post.create({
-            data: {
-                title,
-                content,
-                authorId: session.user.id,
-                topicId
-            }
-        })
-        return new Response('OK')
-    } catch (error) {
-        if (error instanceof z.ZodError) {
-            return new Response('Invalid POST request data passed', { status: 422 })
-        }
-        return new Response('Could not post to community at this time, please try again later', { status: 500 })
-    }
-}
 
 // Deleting Post
 export async function DELETE(req: NextRequest) {

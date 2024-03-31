@@ -1,36 +1,53 @@
 "use client";
 import Image from "next/image";
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, Fragment } from "react";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
 import PostButtons from "./postButtons";
-import { FaEllipsis } from "react-icons/fa6";
+import { FaEllipsis, FaFilter } from "react-icons/fa6";
 import axios from "axios";
 import { Post } from "@/lib/types";
 import RelativeDate from "@/app/components/RelativeDate";
 import Link from "next/link";
 import EditorOutput from "@/app/components/(user)/EditorOutput";
 import PostSkeleton from "./Skeleton/PostSkeleton";
-import { useInfiniteQuery, useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useInView } from "react-intersection-observer";
-import RotatingLinesLoading from "@/app/(markethub)/components/RotatingLinesLoading";
+
 import { useSession } from "next-auth/react";
-import { Badge } from "@/components/ui/badge";
+
+import { useRouter } from "next/navigation";
+
+import { Listbox, Popover, Transition } from "@headlessui/react";
+import { TbFilterSearch } from "react-icons/tb";
 
 type PostProps = {
   getAllPost: Post[];
   nextId: string;
 };
+
+const filters = [
+  {value:"none", display:"none"},
+  {value:"Check", display:"Liked"},
+  {value:"XMark", display:"Unliked"},
+  {value:"Leaf", display:"Loved"},
+  {value:"Laugh", display:"Laughed"},
+ 
+]
 export default function Post() {
   const pref = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
+  const [ selectedFilter, setSelectedFilter] = useState<string>(filters[0].value)
+  const router = useRouter();
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView]);
 
+  
   const {
+    
     isLoading,
     isError,
     data: Posts,
@@ -38,10 +55,10 @@ export default function Post() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["posts"],
+    queryKey: ["posts", selectedFilter],
     queryFn: async ({ pageParam = "" }) => {
       try {
-        const { data } = await axios.get(`/api/user/post?cursor=${pageParam}`);
+        const { data } = await axios.post(`/api/user/post?cursor=${pageParam}`,{filter: selectedFilter, userId:session?.user.id});
         return data as PostProps;
       } catch (error: any) {
         throw new Error(`Error fetching post: ${error.message}`);
@@ -49,15 +66,56 @@ export default function Post() {
     },
     getNextPageParam: (lastPage) => lastPage.nextId || undefined,
   });
-
-  if (isLoading) return;
-  <div className="flex gap-3 drop-shadow-xl shadow-xl">
+ 
+  if (isLoading) return (
+  <div className="sm:px-[3%] lg:pr-[30%]">
     <PostSkeleton />
-  </div>;
+    <PostSkeleton />
+    <PostSkeleton />
+    <PostSkeleton />
+  </div>)
   if (isError) return <div>Error!</div>;
 
   return (
     <section className="sm:px-[3%] lg:pr-[30%]">
+      {status === 'authenticated' && (
+         <div className='relative  flex mt-3 items-center justify-end '>
+         
+         <Listbox value={selectedFilter} onChange={setSelectedFilter}>
+         <div className="relative">
+          <div className="flex items-center gap-3">
+            <h1 className="text-sm font-semibold">Filter:</h1>
+            <Listbox.Button className={'bg-green font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-white shadow-md drop-shadow-md '}>
+              {selectedFilter === "Check" && "Liked"} 
+              {selectedFilter === "Leaf" && "Unliked"} 
+              {selectedFilter === "XMark" && "Loved"} 
+              {selectedFilter === "Laugh" && "Laughed"} 
+              {selectedFilter === "none" && "none"} 
+              <span className='font-bold text-lg'><TbFilterSearch /></span>
+            </Listbox.Button>
+         </div>
+         <Transition
+             as={Fragment}
+             leave="transition ease-in duration-500"
+             leaveFrom="opacity-100"
+             leaveTo="opacity-0"
+         >
+             <Listbox.Options className="absolute z-40 top-10 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg drop-shadow-md ring-2 ring-black/5 focus:outline-none sm:text-sm">
+                 {filters.map((filter)=>(
+                     <Listbox.Option
+                     value={filter.value}
+                     className='relative cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-gray-100 text-gray-900'
+                     >
+                     {filter.display}
+                     </Listbox.Option>
+                 ))}
+             </Listbox.Options>
+         </Transition>
+         </div>
+         </Listbox>
+     </div>
+      )}
+     
       {Posts.pages.map((post) => (
         <div key={post.nextId}>
           {post.getAllPost !== undefined &&

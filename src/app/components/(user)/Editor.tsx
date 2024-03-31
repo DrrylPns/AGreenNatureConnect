@@ -203,7 +203,7 @@ const Editor = () => {
         content,
         topicId,
       };
-      const { data } = await axios.post("/api/user/post", payload);
+      const { data } = await axios.post("/api/user/post/createPost", payload);
       return data;
     },
     onError: () => {
