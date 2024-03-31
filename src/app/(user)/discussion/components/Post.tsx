@@ -38,16 +38,15 @@ export default function Post() {
   const { ref, inView } = useInView();
   const { data: session, status } = useSession();
   const [ selectedFilter, setSelectedFilter] = useState<string>(filters[0].value)
-  const router = useRouter();
+
   useEffect(() => {
     if (inView && hasNextPage) {
       fetchNextPage();
     }
   }, [inView]);
 
-  
+  const userId = session?.user.id
   const {
-    
     isLoading,
     isError,
     data: Posts,
@@ -55,10 +54,10 @@ export default function Post() {
     fetchNextPage,
     isFetchingNextPage,
   } = useInfiniteQuery({
-    queryKey: ["posts", selectedFilter],
+    queryKey: ["posts", selectedFilter, userId],
     queryFn: async ({ pageParam = "" }) => {
       try {
-        const { data } = await axios.post(`/api/user/post?cursor=${pageParam}`,{filter: selectedFilter, userId:session?.user.id});
+        const { data } = await axios.get(`/api/user/post?cursor=${pageParam}&userId=${userId}&filter=${selectedFilter}`);
         return data as PostProps;
       } catch (error: any) {
         throw new Error(`Error fetching post: ${error.message}`);
@@ -73,7 +72,7 @@ export default function Post() {
     <PostSkeleton />
     <PostSkeleton />
     <PostSkeleton />
-  </div>)
+  </div>);
   if (isError) return <div>Error!</div>;
 
   return (
