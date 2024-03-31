@@ -32,11 +32,7 @@ const Navbar = () => {
       <Link href="/" className="w-[3rem] text-center">
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
-      {pathname === '/learningMaterials' || pathname === '/article' || pathname === 'blogs' ? (
-        <></>
-      ):(
-        <Search/>
-      )}
+    
    
       {status === "loading" ? (
         <div className="text-center flex justify-center">
