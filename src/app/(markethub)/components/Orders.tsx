@@ -318,7 +318,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                    
                                     <div className='text-[0.6rem] sm:text-lg mt-5'>
                                         <h1 className='text-gray-400'>Payment method: <span className='text-gray-700'>{transaction.paymentMethod} </span></h1>
-                                        <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{transaction.paymentStatus}</span></h1>
+                                        <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{status === "completed" ? "Paid" : transaction.paymentStatus}</span></h1>
                                     </div>
                                 </div>
                             </div>
