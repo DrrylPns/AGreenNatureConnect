@@ -48,33 +48,49 @@ function Card({
 
     const ratingsAverage = productReviews && productReviews?.length > 0 ? sumOfRatings / totalNumberOfRatings : 0
         
-    
+    const urbanFarmName = (communityName: string) =>{
+        let urbanFarmName
+        if(communityName === 'Bagbag'){
+            urbanFarmName === "Solo Parent Urban Farm"
+        }
+        if(communityName === 'Nova Proper'){
+            urbanFarmName === "Sharon Urban Farm"
+        }
+        if(communityName === 'Bagong Silangan'){
+            urbanFarmName === "New Greenland Urban Farm"
+        }
+        return urbanFarmName
+    }
+
   return (
-    <div className='bg-slate-100 h-[22rem] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 shadow-md drop-shadow-md rounded-sm w-full border border-gray-300'>
+    <div className='bg-slate-100 h-[21rem] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 shadow-md drop-shadow-md rounded-sm w-full border border-gray-300'>
         <div className='bg-gray-50 w-full max-h-1/2'>
         <Image 
             src={imageUrl} 
             alt={productName}
             width={100}
             height={300}
-            className='h h-40 w-full  mb-3 border-b-[2px] border-gray-300' 
+            className='h h-40 w-full border-b-[2px] border-gray-300' 
         />
         </div>
-        {/**Product Name */}
+        <h1 className='font-poppins font-semibold text-sm md:text-lg mb-2 tracking-wide border-y-2 border-gray-200 bg-slate-50'>{productName}</h1>
         <div className='text-center w-full'>
-            <h1 className='font-poppins font-semibold text-sm md:text-lg '>{productName}</h1>
-            <h3 className='text-sm sm:text-sm font-poppins font-normal'>{barangay}</h3>
+            <h3 className='text-xs font-poppins font-normal'>
+                {barangay === "Bagbag" && "Solo Parent Urban Farm"}
+                {barangay === "Nova Proper" && "Sharon Urban Farm"}
+                {barangay === "Bagong Silangan" && "New Greenland Urban Farm"}
+            </h3>
+            <h3 className='text-xs font-poppins font-normal'>{barangay}</h3>
             {productReviews.length > 0 ?(
                 <div  className="flex max-h-14 flex-col z-30 items-center justify-center my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
                     {productReviews.length > 0 && (
-                        <RatingStars readonly={true} average={ratingsAverage} width={100}/>
+                        <RatingStars readonly={true} average={ratingsAverage} width={70}/>
                     )}
                     
                     <h1 className="text-xs text-gray-600 dark:text-gray-300">{productReviews?.length} Reviews</h1>
                 </div>
             ):(
                 <div className='min-h-14  text-center '>
-                    <div className='invisible'>asdadadad</div>
                     <h1 className="text-xs my-2 h-5 text-center text-gray-600 dark:text-gray-300">{productReviews?.length} Reviews</h1>
                 </div>
             )}            

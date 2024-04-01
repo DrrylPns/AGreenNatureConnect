@@ -150,7 +150,33 @@ function ProductModal({
       router.push('/buy-now')
       setItem({selectedProduct, selectedVariant})
     }
-    
+
+    function productUnitOfMeasurementValue(variant: Variants){
+      if (selectedProduct) {
+        switch (variant.unitOfMeasurement.toLowerCase()) {
+          case "kilograms":
+        
+            return (
+              selectedProduct.kilograms);
+          case "grams":
+         
+            return selectedProduct.grams;
+          case "pounds":
+       
+            return selectedProduct.pounds;
+          case "pieces":
+      
+            return selectedProduct.pieces;
+          case "packs":
+        
+            return selectedProduct.packs;
+          default:
+            return 1000;// Default case, not disabled
+        }
+      }
+      return 1000; // No selected product, not disabled
+    }
+
 
     let sumOfRatings = 0;
     let totalNumberOfRatings = 0;
@@ -233,9 +259,18 @@ function ProductModal({
                     <div className='flex flex-col justify-start font-poppins'>
                       <div>
                         <h1 className='text-center font-livvic font-semibold text-3xl'>{selectedProduct?.name}</h1>
-                        <h1 className='text-center  font-poppins text-sm'>from barangay <span className=' font-semibold'>{selectedProduct?.community.name}</span></h1>
+                        <h1 className='text-center  font-poppins text-sm'>
+                          From 
+                          <span className=' font-semibold'>
+                          {selectedProduct?.community.name === "Bagbag" && " Solo Parent Urban Farm "}
+                          {selectedProduct?.community.name === "Nova Proper" && " Sharon Urban Farm "}
+                          {selectedProduct?.community.name === "Bagong Silangan" && " New Greenland Urban Farm "}
+                          </span>  
+                           Brgy.  
+                          <span className=' font-semibold'> {selectedProduct?.community.name}</span>
+                        </h1>
                       </div>
-                      <span className='text-center'>Available Stocks:(
+                      <span className='text-center font-livvic'>Available Stocks:(
                         {String(selectedProduct?.kilograms) === "0" ? "" : `${String(selectedProduct?.kilograms)}kg`}
                         {String(selectedProduct?.grams) === "0" ? "" : ` ${String(selectedProduct?.grams)}g`}
                         {String(selectedProduct?.pounds) === "0" ? "" : ` ${String(selectedProduct?.pounds)}lbs`}
@@ -257,20 +292,30 @@ function ProductModal({
                    
                     {selectedProduct?.variants && selectedProduct.variants.length > 0 && (
                       <div className=''>
-
                         {Object.entries(groupedVariants).map(([unitOfMeasurement, variants]) => (
                           <div key={unitOfMeasurement}>
                             <h3 className="my-2 capitalize font-poppins font-medium">{unitOfMeasurement}</h3>
-                            {variants.map((variant) => (
-                              <button
-                                key={variant.id}
-                                onClick={() => { setSelectedVariant(variant) }}
-                                className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-3 py-1 w-28 mx-3  transition-transform transform active:scale-95`}
-                              >
-                                <div className='text-xs font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
-                                <div className='text-[0.6rem] font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`}</div>
-                              </button>
-                            ))}
+                            <div className='grid grid-cols-3'>
+                              {variants.map((variant) => (
+                                <div className='relative text-center'>
+                                <button
+                                  key={variant.id}
+                                  onClick={() => { setSelectedVariant(variant) }}
+                                  className={`${selectedVariant === variant ? 'bg-yellow-300' : 'bg-[#D9D9D9]'} text-black px-3 py-1 w-28 mx-3  transition-transform transform active:scale-95`}
+                                  disabled={
+                                    productUnitOfMeasurementValue(variant) < variant.variant}
+                                >
+                                  <div className='text-xs font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
+                                  <div className='text-[0.6rem] font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`} {productUnitOfMeasurementValue(variant)}</div>
+                                </button>
+                                {productUnitOfMeasurementValue(variant) < variant.variant && (
+                              
+                                    <h1 className='rounded-full text-xs tracking-wider text-red-600 font-medium font-poppins'>Out of stock</h1>
+                                
+                                )}
+                                </div>
+                              ))}
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -298,7 +343,7 @@ function ProductModal({
                         type="button"
                         className="w-1/2 bg-green py-5 h-16  rounded-none outline-gray-500 hover:ring-1 hover:outline-1"
                         onClick={() => handleBuyNow()}
-                        disabled={selectedVariant == null || isLoading}
+                        disabled={selectedVariant == null || isLoading }
                       >
                         {isLoading ? 'Processing...' : 'Buy Now'}
                       </Button>

@@ -15,7 +15,7 @@ export const ReactionList = ({ postId }: PostIdProps) => {
         <Dialog>
             <DialogTrigger className="w-full">
                 <div className='flex justify-center my-1 cursor-pointer items-center lg:justify-start'>
-                    Click to see who reacted!
+                    Click to see who reacted.
                 </div>
             </DialogTrigger>
             <DialogContent>
