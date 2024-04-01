@@ -341,7 +341,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                     dateString={reply.createdAt.toISOString()}
                                   />
                                 </div>
-                                {comment.author.id === session?.user?.id && (
+                                {reply.user.id === session?.user?.id && (
                                   <Popover>
                                     <Popover.Button>
                                       <AiOutlineEllipsis />

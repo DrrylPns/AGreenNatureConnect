@@ -1,5 +1,3 @@
-"use client";
-
 import { toast } from "@/lib/hooks/use-toast";
 import React, { useState, useTransition } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
@@ -35,7 +33,7 @@ export const EditReplyDialog: React.FC<EditReplyDialogProps> = ({
         </button>
       </DialogTrigger>
       <DialogContent>
-        <DialogTitle>Edit replyt</DialogTitle>
+        <DialogTitle>Edit reply</DialogTitle>
         <Input
           defaultValue={text}
           onChange={(e) => {
@@ -60,7 +58,8 @@ export const EditReplyDialog: React.FC<EditReplyDialogProps> = ({
                   toast({
                     description: data.success,
                   });
-                  onDelete();
+                  onDelete(); // Call onDelete function
+                  setValue(""); // Clear the input value
                 }
               });
             });
