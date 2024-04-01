@@ -25,6 +25,7 @@ import { useForm } from "react-hook-form";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { fetchReplies } from "../../../../../actions/reply";
+import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 
 export default function Comments({ posts }: { posts: Post }) {
   const router = useRouter();
@@ -340,6 +341,36 @@ export default function Comments({ posts }: { posts: Post }) {
                                     dateString={reply.createdAt.toISOString()}
                                   />
                                 </div>
+                                {reply.user.id === session?.user?.id && (
+                                  <Popover>
+                                    <Popover.Button>
+                                      <AiOutlineEllipsis />
+                                    </Popover.Button>
+                                    <Transition
+                                      enter="transition duration-100 ease-out"
+                                      enterFrom="transform scale-95 opacity-0"
+                                      enterTo="transform scale-100 opacity-100"
+                                      leave="transition duration-75 ease-out"
+                                      leaveFrom="transform scale-100 opacity-100"
+                                      leaveTo="transform scale-95 opacity-0"
+                                    >
+                                      <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
+                                        <>
+                                          <EditReplyDialog
+                                            replyId={reply.id}
+                                            text={reply.text}
+                                            onDelete={handleCommentDeleted}
+                                          />
+
+                                          <DeleteDialog
+                                            commentId={comment.id}
+                                            onDelete={handleCommentDeleted}
+                                          />
+                                        </>
+                                      </Popover.Panel>
+                                    </Transition>
+                                  </Popover>
+                                )}
                               </div>
                               <div className="flex gap-2">
                                 <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 ml-2 mt-2">
