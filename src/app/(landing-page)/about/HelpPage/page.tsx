@@ -2,7 +2,7 @@ import React from 'react'
 import Image from "next/image";
 import ArrowIcon from "/public/images/arrowRight.png";
 import Tutorial from "/public/images/tutorial 1.png";
-import Account from "/public/images/Account 1.png";
+import Account from "/public/images/account1.png";
 import Page from "/public/images/web-page 1.png";
 import Store from "/public/images/store 1.png";
 import Padlock from "/public/images/padlock 1.png";
@@ -55,7 +55,7 @@ function page() {
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Account}
-                              alt="account 1"/>
+                              alt="account1"/>
                             </div>
 
                             <h3 className="font-poppins font-bold md:text-[20px] text-[13px] p-3">
