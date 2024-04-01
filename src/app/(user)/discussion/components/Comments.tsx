@@ -329,7 +329,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                   <h3 className="text-[1rem] text-gray-500 font-poppins font-light ">
                                     {reply.user.username}
                                   </h3>
-                                  {reply.user.role === "STAFF" && (
+                                  {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-lg font-poppins font-medium">
                                       Urban Farming Member
                                     </h6>

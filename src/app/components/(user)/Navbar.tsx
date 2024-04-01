@@ -20,6 +20,7 @@ import LogoIcon from "/public/logo.png";
 import { UserNotifs } from "@/components/UserNotifs";
 import Search from "../Search";
 import { usePathname } from "next/navigation";
+import { MessagesSquareIcon } from "lucide-react";
 
 
 const Navbar = () => {
@@ -32,8 +33,8 @@ const Navbar = () => {
       <Link href="/" className="w-[3rem] text-center">
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
-    
-   
+
+
       {status === "loading" ? (
         <div className="text-center flex justify-center">
           <RotatingLines
@@ -60,6 +61,14 @@ const Navbar = () => {
               <div className="hidden md:block mt-[9%] text-4xl decoration-8">
                 <UserNotifs />
               </div>
+
+              <Link href="/message" className="hidden max-md:block mt-[6%] text-4xl decoration-8 cursor-pointer">
+                <MessagesSquareIcon />
+              </Link>
+
+              <Link href="/message" className="hidden md:block mt-[9%] text-4xl decoration-8 cursor-pointer">
+                <MessagesSquareIcon />
+              </Link>
 
               <div className="hidden md:block mt-[10%]">
                 <TooltipProvider>

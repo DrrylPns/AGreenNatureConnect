@@ -7,17 +7,17 @@ interface UserAvatarProps extends AvatarProps {
 }
 
 export function UserAvatar({ user, ...props }: UserAvatarProps) {
-    const isImageNull = user.image === null
+    const name = user?.name?.charAt(0)
 
     return (
         <Avatar>
             <AvatarImage
                 className='cursor-pointer'
-                src={`${isImageNull ? "/images/avatar-placeholder.jpg" : user.image}`}
+                src={user?.image!}
                 width={25}
                 height={25}
-                alt='User Profile' />
-            <AvatarFallback>User Profile</AvatarFallback>
+                alt='user profile' />
+            <AvatarFallback>{name}</AvatarFallback>
         </Avatar>
     )
 }

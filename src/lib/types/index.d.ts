@@ -1,7 +1,5 @@
 'use server'
-import { NotificationType, ReviewDislike, ReviewLike, } from '@prisma/client';
-import { Variant } from 'framer-motion';
-import { MouseEventHandler } from 'react'
+import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom } from '@prisma/client';
 
 export interface CustomButtonProps {
   title: string,
@@ -28,6 +26,7 @@ export interface Author {
   isBanned: boolean;
   numberOfViolations: number;
 }
+
 
 export interface Post {
   id: string;
@@ -275,4 +274,50 @@ interface Reply {
   commentId: string;
   userId: string;
   user: User
+}
+
+export interface CommunityWithMessages {
+  id: string;
+  name: string;
+  qrCode: string;
+  createdAt: Date;
+  updatedAt: Date;
+  messages: Message[]
+}
+
+export interface ChatRoomWithMessagesAndCommunity {
+  id: string;
+  createdAt: Date;
+  userId: string;
+  communityId: string;
+  community: Community;
+  // messages: Message[]
+}
+
+export interface UsersWithCommunityMessages {
+  id: string;
+  name: string | null;
+  EmployeeId: string | null;
+  username: string | null;
+  email: string | null;
+  emailVerified: Date | null;
+  image: string | null;
+  hashedPassword: string | null;
+  middleName: string | null;
+  lastName: string | null;
+  phoneNumber: string | null;
+  address: string | null;
+  role: $Enums.Role;
+  gender: string | null;
+  birthday: Date | null;
+  bio: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  isBanned: boolean;
+  numberOfViolations: number,
+  isNotificationsEnabled: boolean,
+  lastUsernameChange: Date,
+  isBannedFromPosting: Date,
+  communityId: string | null;
+  Message: Message[]
 }

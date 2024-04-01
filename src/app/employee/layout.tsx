@@ -12,6 +12,8 @@ import Sidebar from './_components/Sidebar'
 import { cn } from '@/lib/utils'
 import { PageNotFound } from '@/components/PageNotFound'
 import { LoadingComponent } from '@/components/LoadingComponent'
+import { NavbarDashboard } from './_components/Navbar'
+import { User } from '@prisma/client'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -31,7 +33,12 @@ export default async function RootLayout({
 
     if (session?.user.role !== "EMPLOYEE") if (session?.user.role !== "ADMIN") return <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'><PageNotFound /></div>
 
-
+    const user = await prisma.user.findUnique({
+        where: { id: session.user.id },
+        include: {
+            Community: true
+        }
+    })
 
     return (
         <html lang="en">
@@ -39,6 +46,7 @@ export default async function RootLayout({
                 <Providers>
                     <LoginModal />
                     <RegisterModal />
+                    <NavbarDashboard user={user as User} />
                     <Sidebar />
                     <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                         {children}
