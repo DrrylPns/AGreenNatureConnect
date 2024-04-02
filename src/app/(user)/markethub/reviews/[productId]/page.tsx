@@ -48,14 +48,17 @@ async function page({
 
   return (
     <div>
-        <Back/>
-        <div className='flex items-center text-4xl font-poppins font-bold mb-5'>
-            <Star size={50} color='#F7C35F' fill='#F7C35F' className='mr-5'/>
-            <h1> Product Review Display!</h1>
+       
+        <div className='flex items-center text-xl font-poppins font-bold mb-5'>
+            <Back/>
+            <Star size={30} color='#F7C35F' fill='#F7C35F' className='mx-5'/>
+            <h1> Product Review Display</h1>
             
         </div>
        <div className='grid grid-cols-12 gap-5'>
-            <ReviewsAverage productReviews={productReviews} />
+            {product && (
+                <ReviewsAverage productReviews={productReviews} productName={product.name} productImage={product.productImage}/> 
+            )}
             <ReviewsBreakdown productReviews={productReviews} />
             <MostLikeReview productReviews={productReviews} />
        </div>
