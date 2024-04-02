@@ -9,6 +9,7 @@ import { toast } from '@/lib/hooks/use-toast';
 import ReviewImage from './ReviewImage';
 import Image from 'next/image';
 import RelativeDate from '@/app/components/RelativeDate';
+import Helpful from './Helpful';
 
 const RatingLabels: { [key: number]: string } = {
     1: 'Very Poor',
@@ -22,73 +23,15 @@ function MostLikeReview({
 }: {
     productReviews: Reviews[];
 }) {
-    const { data: session } = useSession();
-    const [liked, setLiked] = useState(false);
-    const [disliked, setDisliked] = useState(false);
-
     // Find the review with the highest number of likes
     const mostLikedReview = productReviews.reduce((prevReview, currentReview) => {
         return currentReview.like.length > prevReview.like.length ? currentReview : prevReview;
     }, productReviews[0]);
 
-    const userLiked = mostLikedReview ? mostLikedReview.like.some(like => like.userId === session?.user.id) : false;
-    const userDisliked = mostLikedReview ? mostLikedReview.dislike.some(dislike => dislike.userId === session?.user.id) : false;
-
-    useEffect(()=>{
-        userLiked && setLiked(true)
-        userDisliked && setDisliked(true)
-    },[userLiked,userDisliked])
-
-    const handleLike = async () => {
-        setLiked(!liked);
-        setDisliked(false)
-        startTransition(() => {
-            likeReview(mostLikedReview.id).then((callback) => {
-                if (callback?.error) {
-                    toast({
-                        description: `${callback.error}`,
-                        variant: "destructive"
-                    })
-                }
-
-                if (callback?.success) {
-                    toast({
-                        description: `${callback.success}`
-                    })
-                }
-            });
-            
-        });
-    }
-
-    const handleDislike = async () => {
-        setLiked(false);
-        setDisliked(!disliked)
-        startTransition(() => {
-            dislikeReview(mostLikedReview.id).then((callback) => {
-                if (callback?.error) {
-                    toast({
-                        description: `${callback.error}`,
-                        variant: "destructive"
-                    })
-                }
-
-                if (callback?.success) {
-                    toast({
-                        description: `${callback.success}`
-                    })
-                }
-            });
-            
-        });
-    }
-
     return (
-        <div className='flex flex-col justify-between border-2 border-black col-span-5 min-h-60 px-4 bg-slate-100 drop-shadow-md rounded-md'>
+        <div className='flex flex-col border-2 border-black col-span-5 min-h-60 px-4 bg-slate-100 drop-shadow-md rounded-md'>
             <h1 className='text-center text-lg font-poppins font-semibold'>Most Helpful Review</h1>
-            <div className='flex gap-5 px-2'>
-              
-                
+            <div className='flex gap-5 px-2'>  
                 {mostLikedReview && mostLikedReview.like.length > 0 ? (
                     <div>
                         <div className='flex gap-3 items-center'>
@@ -129,18 +72,19 @@ function MostLikeReview({
                             </div>
                         <p className='text-sm font-semibold font-poppins'>{mostLikedReview.title}</p>
                         <p className='line-clamp-6 text-xs '>{mostLikedReview.description}</p>
-
+                        <div className='flex w-full items-center justify-end mt-4'>
+                            <Helpful review={mostLikedReview}/>
+                        </div>
                     </div>
                 ) : (
-                    <p>No reviews yet!</p>
+                    <div className='w-full my-auto flex justify-center items-center border border-black'>
+                        <p>No review yet!</p>
+                    </div>
                 )}
             </div>
-            <div className='flex w-full items-center justify-end gap-2 mt-4'>
-                <span className='text-xs'>Helpful</span> <ThumbsUp onClick={handleLike} fill={liked ? '#F7C35F' : 'white' } />
-                <span className='text-xs'>Not helpful</span><ThumbsDown onClick={handleDislike} fill={disliked ? '#F7C35F' : 'white'} />
-            </div>
+           
         </div>
     );
-}
+} 
 
 export default MostLikeReview;
