@@ -26,18 +26,19 @@ type PostProps = {
 };
 
 const filters = [
-  {value:"none", display:"none"},
-  {value:"Check", display:"Liked"},
-  {value:"XMark", display:"Unliked"},
-  {value:"Leaf", display:"Loved"},
-  {value:"Laugh", display:"Laughed"},
- 
-]
+  { value: "none", display: "none" },
+  { value: "Check", display: "Liked" },
+  { value: "XMark", display: "Unliked" },
+  { value: "Leaf", display: "Loved" },
+  { value: "Laugh", display: "Laughed" },
+];
 export default function Post() {
   const pref = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
   const { data: session, status } = useSession();
-  const [ selectedFilter, setSelectedFilter] = useState<string>(filters[0].value)
+  const [selectedFilter, setSelectedFilter] = useState<string>(
+    filters[0].value
+  );
 
   useEffect(() => {
     if (inView && hasNextPage) {
@@ -45,7 +46,7 @@ export default function Post() {
     }
   }, [inView]);
 
-  const userId = session?.user.id
+  const userId = session?.user.id;
   const {
     isLoading,
     isError,
@@ -57,7 +58,9 @@ export default function Post() {
     queryKey: ["posts", selectedFilter, userId],
     queryFn: async ({ pageParam = "" }) => {
       try {
-        const { data } = await axios.get(`/api/user/post?cursor=${pageParam}&userId=${userId}&filter=${selectedFilter}`);
+        const { data } = await axios.get(
+          `/api/user/post?cursor=${pageParam}&userId=${userId}&filter=${selectedFilter}`
+        );
         return data as PostProps;
       } catch (error: any) {
         throw new Error(`Error fetching post: ${error.message}`);
@@ -65,56 +68,63 @@ export default function Post() {
     },
     getNextPageParam: (lastPage) => lastPage.nextId || undefined,
   });
- 
-  if (isLoading) return (
-  <div className="sm:px-[3%] lg:pr-[30%]">
-    <PostSkeleton />
-    <PostSkeleton />
-    <PostSkeleton />
-    <PostSkeleton />
-  </div>);
+
+  if (isLoading)
+    return (
+      <div className="sm:px-[3%] lg:pr-[30%]">
+        <PostSkeleton />
+        <PostSkeleton />
+        <PostSkeleton />
+        <PostSkeleton />
+      </div>
+    );
   if (isError) return <div>Error!</div>;
 
   return (
     <section className="sm:px-[3%] lg:pr-[30%]">
-      {status === 'authenticated' && (
-         <div className='relative  flex mt-3 items-center justify-end '>
-         
-         <Listbox value={selectedFilter} onChange={setSelectedFilter}>
-         <div className="relative">
-          <div className="flex items-center gap-3">
-            <h1 className="text-sm font-semibold">Filter:</h1>
-            <Listbox.Button className={'bg-green font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-white shadow-md drop-shadow-md '}>
-              {selectedFilter === "Check" && "Liked"} 
-              {selectedFilter === "XMark" && "Unliked"} 
-              {selectedFilter === "Leaf" && "Loved"} 
-              {selectedFilter === "Laugh" && "Laughed"} 
-              {selectedFilter === "none" && "none"} 
-              <span className='font-bold text-lg'><TbFilterSearch /></span>
-            </Listbox.Button>
-         </div>
-         <Transition
-             as={Fragment}
-             leave="transition ease-in duration-500"
-             leaveFrom="opacity-100"
-             leaveTo="opacity-0"
-         >
-             <Listbox.Options className="absolute z-40 top-10 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg drop-shadow-md ring-2 ring-black/5 focus:outline-none sm:text-sm">
-                 {filters.map((filter)=>(
-                     <Listbox.Option
-                     value={filter.value}
-                     className='relative cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-gray-100 text-gray-900'
-                     >
-                     {filter.display}
-                     </Listbox.Option>
-                 ))}
-             </Listbox.Options>
-         </Transition>
-         </div>
-         </Listbox>
-     </div>
+      {status === "authenticated" && (
+        <div className="relative  flex mt-3 items-center justify-end ">
+          <Listbox value={selectedFilter} onChange={setSelectedFilter}>
+            <div className="relative">
+              <div className="flex items-center gap-3">
+                <h1 className="text-sm font-semibold">Filter:</h1>
+                <Listbox.Button
+                  className={
+                    "bg-green font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-white shadow-md drop-shadow-md "
+                  }
+                >
+                  {selectedFilter === "Check" && "Liked"}
+                  {selectedFilter === "XMark" && "Unliked"}
+                  {selectedFilter === "Leaf" && "Loved"}
+                  {selectedFilter === "Laugh" && "Laughed"}
+                  {selectedFilter === "none" && "none"}
+                  <span className="font-bold text-lg">
+                    <TbFilterSearch />
+                  </span>
+                </Listbox.Button>
+              </div>
+              <Transition
+                as={Fragment}
+                leave="transition ease-in duration-500"
+                leaveFrom="opacity-100"
+                leaveTo="opacity-0"
+              >
+                <Listbox.Options className="absolute z-40 top-10 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg drop-shadow-md ring-2 ring-black/5 focus:outline-none sm:text-sm">
+                  {filters.map((filter) => (
+                    <Listbox.Option
+                      value={filter.value}
+                      className="relative cursor-pointer select-none py-2 pl-10 pr-4 hover:bg-gray-100 text-gray-900"
+                    >
+                      {filter.display}
+                    </Listbox.Option>
+                  ))}
+                </Listbox.Options>
+              </Transition>
+            </div>
+          </Listbox>
+        </div>
       )}
-     
+
       {Posts.pages.map((post) => (
         <div key={post.nextId}>
           {post.getAllPost !== undefined &&
@@ -146,12 +156,26 @@ export default function Post() {
                           />
                         </div>
 
-                        <div className="flex items-baseline gap-3">
+                        <div className="flex items-baseline gap-2.5">
                           {/*Username*/}
                           <h1 className="text-lg font-poppins font-medium">
                             {post.author.username}
                           </h1>
-                          {/*Time created display in hours forx ex. just now, 10m ago, 7h ago */}
+                          {post.author.role === "EMPLOYEE" && (
+                            <h6 className="text-sm text-green font-poppins font-semibold">
+                              Community Employee 🌳
+                            </h6>
+                          )}
+                          {post.author.role === "USER" && (
+                            <h6 className="text-sm text-green font-poppins font-semibold">
+                              Member ☘️
+                            </h6>
+                          )}
+                          {post.author.role === "ADMIN" && (
+                            <h6 className="text-sm text-green font-poppins font-semibold">
+                              Community Admin 🌳
+                            </h6>
+                          )}
                           <h3 className="text-[0.7rem] font-poppins">
                             <RelativeDate dateString={post.createdAt} />
                           </h3>

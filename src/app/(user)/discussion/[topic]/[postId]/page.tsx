@@ -109,13 +109,15 @@ const page: FC<Props> = ({ params }) => {
     queryKey: ["comments"],
     queryFn: async () => {
       try {
-        const { data } = await axios.get(`/api/user/post/${params.postId}/comments`)
-        return data
+        const { data } = await axios.get(
+          `/api/user/post/${params.postId}/comments`
+        );
+        return data;
       } catch (error: any) {
         throw new Error(`Error fetching comments: ${error.message}`);
       }
-    }
-  })
+    },
+  });
 
   useEffect(() => {
     fetchPost();
@@ -163,6 +165,7 @@ const page: FC<Props> = ({ params }) => {
                       {posts.author.username}
                     </h1>
                     <div className="rounded-full w-1 h-1 bg-black"></div>
+
                     {/*Time created display in hours forx ex. just now, 10m ago, 7h ago */}
                     <h3 className="text-[0.7rem] font-poppins text-gray-500">
                       <RelativeDate dateString={posts.createdAt} />
@@ -315,7 +318,10 @@ const page: FC<Props> = ({ params }) => {
                         type="button"
                         className="flex gap-1 hover:underline w-full"
                       >
-                        <Link href={`/edit/${posts.topic.name}/${posts.id}`} className="flex gap-1">
+                        <Link
+                          href={`/edit/${posts.topic.name}/${posts.id}`}
+                          className="flex gap-1"
+                        >
                           <AiOutlineEdit /> Edit
                         </Link>
                       </button>
