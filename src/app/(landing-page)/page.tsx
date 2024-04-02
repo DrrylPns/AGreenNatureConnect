@@ -59,9 +59,10 @@ export default async function Home() {
           </Link>
         </div>
       </header>
+
       {/*SUBHEADING*/}
       <section className="flex px-16 py-16 items-center gap-8">
-        <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify m-10 ">
+        <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify m-10 flex flex-row ">
           <h1 className="font-livvic font-bold md:text-[44px] text-[20px] max-md:py-3 mb-5">
             Nurtured: Quezon City.
           </h1>
@@ -72,13 +73,12 @@ export default async function Home() {
             conditions, flourishing happens naturally.
           </p>
         </div>
-        <Image
-          className="lg:block hidden "
-          src={Subheading}
-          alt="subheading image"
-          width={500}
-        />
+        <div>
+            <video id="video" className="h-[100] w-[200] border-2 border-black" autoPlay muted loop src="https://drive.google.com/file/d/16f0BMK-U3Zz9xeMk_E4w4U_0quZhF5DM/view"></video>
+        </div>
       </section>
+
+
       {/*ABOUT US*/}
       <section
         id="aboutus"
@@ -122,6 +122,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+
       {/*Services*/}
       <section id="services" className="py-5">
         <h1 className="text-center font-poppins font-bold md:text-[44px] text-[30px] mb-5 pt-10">
@@ -260,6 +262,8 @@ export default async function Home() {
           </div>
         </div>
       </section>
+
+
       {/*Contact Us*/}
       <section
         id="contactus"
@@ -367,6 +371,8 @@ export default async function Home() {
           </form>
         </div>
       </section>
+
+
       {/*Footer*/}
       <footer>
         <Footer />
