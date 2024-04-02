@@ -1,3 +1,4 @@
+
 import Image from "next/image";
 import Footer from "../components/Footer/footer";
 import Vector from "/public/images/Vector.png";
@@ -16,7 +17,8 @@ import Link from "next/link";
 import { ShadcnCarousel } from "../(user)/markethub/components/sCarousel";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
-export default async function Home() {
+export default function Home() {
+ 
   return (
     <div className=" flex-row md:flex-col mx-auto">
       {/*Heading*/}
@@ -60,8 +62,8 @@ export default async function Home() {
         </div>
       </header>
       {/*SUBHEADING*/}
-      <section className="flex px-16 py-16 items-center gap-8">
-        <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify m-10 ">
+      <section className="flex flex-col sm:flex-row md:px-16 md:py-16 p-10 items-center gap-5">
+        <div className="text-justify ">
           <h1 className="font-livvic font-bold md:text-[44px] text-[20px] max-md:py-3 mb-5">
             Nurtured: Quezon City.
           </h1>
@@ -74,9 +76,10 @@ export default async function Home() {
         </div>
         <video
             id="my-player"
-            className="video-js"
-            controls
+            className="video-js w-full md:w-1/2"
+            autoPlay={true}
             preload="auto"
+            controls
             data-setup='{}'>
           <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
         </video>
@@ -84,54 +87,55 @@ export default async function Home() {
       {/*ABOUT US*/}
       <section
         id="aboutus"
-        className="flex flex-col lg:px-20 px-3 bg-cover bg-center bg-[url('/public/images/about.png')] justify-center items-center border-t-[1px] border-black bg-[#CFE2CE]">
-        <div className="w-full h-full from-muted py-20">
-          <h1 className="text-center mb-10 font-poppins font-bold md:text-[44px] text-[30px]">
+        className="bg-cover bg-center bg-[url('/public/images/about.png')] border-t-[1px] border-black bg-[#CFE2CE]">
+        <div className=" from-muted py-10 px-5 md:px-10">
+          <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl">
             About Us
           </h1>
-          <div className="flex mx-10">   
-                <div className="m-5 flex flex-col">
-                    <div className="text-justify">
-                          <h2 className="font-poppins font-bold text-[32px] mb-8 text-center">
-                            Quezon City Urban Farming
-                          </h2>
-                          <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
-                            AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
-                          </p>
-                          <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
-                            We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
-                          </p>
-                          <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
-                          Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
-                          </p>
-                          <p className="font-poppins font-normal md:text-[18px] text-[15px]">
-                          Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
-                          </p>
-                    </div>
-
-                    <Link href="/about"
-                    className="text-black font-mono font-semibold bg-amber hover:shadow-black hover:bg-pale hover:shadow-md w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
-                    Read More
-                    </Link>
-                </div>    
-                <div className="m-10 mt-16">
-                      <Image
-                      className="lg:block hidden mt-9 "
-                      src={Subheading}
-                      alt="about.png"
-                      width={1700}/>
-                </div>
+          <div className="flex gap-10">   
+            <div className="">  
+              <div className=" mb-5">
+                <h2 className="font-poppins font-bold text-2xl mb-5 text-center">
+                  Quezon City Urban Farming
+                </h2>
+                <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
+                  AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
+                </p>
+                <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
+                  We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
+                </p>
+                <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
+                Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
+                </p>
+                <p className="font-poppins font-normal md:text-[18px] text-[15px]">
+                Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
+                </p>
+              </div>
+              <div className="w-full mx-auto text-center">
+                <Link href={'/about'} className="bg-amber text-black px-5 py-2 font-semibold hover:shadow-black hover:bg-pale hover:shadow-md rounded-lg" >
+                  Read More
+                </Link>
+              </div>
+              
+            </div>    
+            <div className="lg:block hidden">
+                  <Image
+                  className=" "
+                  src={Subheading}
+                  alt="about.png"
+                  width={1700}/>
+            </div>
           </div>
         </div>
       </section>
       {/*Services*/}
-      <section id="services" className="py-5">
+      <section id="services" className="">
         <h1 className="text-center font-poppins font-bold md:text-[44px] text-[30px] mb-5 pt-10">
           Services
         </h1>
         <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-5">
           <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-            <div className="flex flex-row grid-cols-2 py-3">
+            <div className="flex py-3">
                 <Image
                   className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
                   src={LightIcon}
@@ -152,8 +156,8 @@ export default async function Home() {
               </button>
             </Link>
           </div>
-          <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 m-10 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-            <div className="flex flex-row grid-cols-2 py-3">
+          <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+            <div className="flex py-3">
                 <Image
                   className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
                   src={DeliveryIcon}
@@ -198,14 +202,14 @@ export default async function Home() {
           </div>
         </div>
         {/*Features*/}
-        <div className="flex bg-muted-green items-center md:h-[100vh] h-[80vh]">
+        <div className="flex bg-muted-green items-center">
           <Image
             className="md:block hidden"
             src={Feature}
             alt="Feauture Image"
             style={{ width: "50%", height: "100%" }}
           />
-          <div className="md:px-20 md:py-15 px-5 py-5 ">
+          <div className="px-5">
             <h2 className="font-poppins font-bold text-[32px] text-white my-10">
               Providing High Quality Products
             </h2>
@@ -265,7 +269,7 @@ export default async function Home() {
       {/*Contact Us*/}
       <section
         id="contactus"
-        className="lg:flex grid lg:px-20 px-3 border-b border-black justify-between"
+        className="flex lg:px-20 px-3 border-b border-black justify-between"
       >
         <div className="lg:w-1/2 w-full p-10 ">
           <h4>CONTACT NOW</h4>
