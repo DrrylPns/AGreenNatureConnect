@@ -250,18 +250,18 @@ export default function Comments({ posts }: { posts: Post }) {
                         {comment.author.username}
                       </h3>
                       {comment.author.role === "EMPLOYEE" && (
-                        <h6 className="text-sm text-green font-poppins font-medium">
-                          Employee 🌳
+                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
+                          Community Employee 🌳
                         </h6>
                       )}
                       {comment.author.role === "USER" && (
-                        <h6 className="text-sm text-green font-poppins font-medium">
+                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
                           Member ☘️
                         </h6>
                       )}
                       {comment.author.role === "ADMIN" && (
-                        <h6 className="text-sm text-green font-poppins font-medium">
-                          Admin 🌳
+                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-medium">
+                          Community Admin 🥦
                         </h6>
                       )}
                     </div>
@@ -343,18 +343,18 @@ export default function Comments({ posts }: { posts: Post }) {
                                     {reply.user.username}
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium">
-                                      Employee 🌳
+                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
+                                      Community Employee 🌳
                                     </h6>
                                   )}
                                   {reply.user.role === "USER" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium">
+                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
                                       Member ☘️
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium">
-                                      Admin 🌳
+                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
+                                      Community Admin 🥦
                                     </h6>
                                   )}
                                 </div>

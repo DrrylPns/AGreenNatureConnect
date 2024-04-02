@@ -145,7 +145,7 @@ export default function Post() {
                     className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
                   >
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-4">
+                      <div className="flex items-center gap-2">
                         <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
                           {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                           <Image
@@ -156,26 +156,11 @@ export default function Post() {
                           />
                         </div>
 
-                        <div className="flex items-baseline gap-2.5">
+                        <div className="flex items-baseline gap-1.5">
                           {/*Username*/}
                           <h1 className="text-lg font-poppins font-medium">
                             {post.author.username}
                           </h1>
-                          {post.author.role === "EMPLOYEE" && (
-                            <h6 className="text-sm text-green font-poppins font-semibold">
-                              Employee 🌳
-                            </h6>
-                          )}
-                          {post.author.role === "USER" && (
-                            <h6 className="text-sm text-green font-poppins font-semibold">
-                              Member ☘️
-                            </h6>
-                          )}
-                          {post.author.role === "ADMIN" && (
-                            <h6 className="text-sm text-green font-poppins font-semibold">
-                              Admin 🌳
-                            </h6>
-                          )}
                           <h3 className="text-[0.7rem] font-poppins">
                             <RelativeDate dateString={post.createdAt} />
                           </h3>
@@ -187,8 +172,27 @@ export default function Post() {
                         </button>
                       )}
                     </div>
+                    {/**Badge */}
+                    <div className="ml-12 mt-0 pt-0">
+                      {post.author.role === "EMPLOYEE" && (
+                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
+                          Community Employee 🌳
+                        </h6>
+                      )}
+                      {post.author.role === "USER" && (
+                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold">
+                          Member ☘️
+                        </h6>
+                      )}
+                      {post.author.role === "ADMIN" && (
+                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
+                          Community Admin 🌳
+                        </h6>
+                      )}
+                    </div>
+
                     {/**Description & Images */}
-                    <h1 className="text-[1.5rem] px-5 font-poppins font-extrabold">
+                    <h1 className="text-[1.5rem] mt-5 px-5 font-poppins font-extrabold">
                       {post.title}
                     </h1>
                     <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
