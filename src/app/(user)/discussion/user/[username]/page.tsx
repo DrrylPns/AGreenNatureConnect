@@ -40,10 +40,10 @@ function page({
   return (
     <>
       {!loading ? (
-        <div className="w-full mt-5 bg-gray-50">
+        <div className="w-full mt-5 bg-gray-50 dark:bg-[#242526]">
           {user && (
-            <div className="w-full border-gray-300 border-2 px-2">
-              <div className="w-full flex bg-gray-100 flex-col items-center justify-center mb-2 py-2 border-gray-200 border-b ">
+            <div className="w-full dark:bg-[#242526] dark:border-[#242526] border-gray-300 border-2 px-2">
+              <div className="w-full flex dark:bg-[#242526] bg-gray-100 flex-col items-center justify-center mb-2 py-2 dark:border-[#242526] border-gray-200 border-b ">
                 <div className="flex items-center overflow-hidden justify-center  rounded-full border w-20 h-20 border-black">
                   {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                   <Image
@@ -96,8 +96,8 @@ function page({
               </div>
             </div>
           )}
-          <div className="border-gray-300 border shadow-inner bg-gray-50">
-            <h1 className="py-3 mb-3 border-gray-300 border-b-2 shadow-lg text-center">
+          <div className="border-gray-300 dark:border-[#242526] dark:bg-[#242526] border shadow-inner bg-gray-50">
+            <h1 className="py-3 mb-3 border-gray-300 dark:border-[#242526] border-b-2 shadow-lg text-center">
               Posts
             </h1>
             <div className="px-2 sm:px-5">

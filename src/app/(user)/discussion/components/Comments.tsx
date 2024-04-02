@@ -246,7 +246,7 @@ export default function Comments({ posts }: { posts: Post }) {
                   </div>
                   <div>
                     <div className="flex items-center justify-between gap-1.5">
-                      <h3 className="text-[1rem] text-black font-poppins font-medium">
+                      <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
                         {comment.author.username}
                       </h3>
                       {comment.author.role === "EMPLOYEE" && (
@@ -339,22 +339,22 @@ export default function Comments({ posts }: { posts: Post }) {
                                   />
                                 </div>
                                 <div className="flex items-center justify-between gap-1.5">
-                                  <h3 className="text-[1rem] text-black font-poppins font-medium">
+                                  <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
                                     {reply.user.username}
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Community Employee ✔️
+                                      Community Employee 🍀
                                     </h6>
                                   )}
                                   {reply.user.role === "USER" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      🍀
+                                      Member 🌱
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Community Admin ✔️
+                                      Community Admin 🍀
                                     </h6>
                                   )}
                                 </div>
