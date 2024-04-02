@@ -82,7 +82,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                         return (
                             // <div className="space-y-2" key={user.id}>
                             <Card key={user.id} className="p-6 cursor-pointer" onClick={() => {
-                                inspectChatRoomEmployee(chatroom.communityId)
+                                inspectChatRoomEmployee(chatroom.communityId, user.id)
                             }}>
 
                                 {/* AVATAR OF COMMUNITY HINGIN NLNG IMAGE LOGO NG MGA COMMUNITY TAS GAWA AVATAR COMPONENT */}

@@ -39,14 +39,14 @@ export default function ChatComponent({ community }: Props) {
                         return (
                             // <div className="space-y-2" key={user.id}>
                             <Card key={user.id} className="p-6 cursor-pointer" onClick={() => {
-                                inspectChatRoomEmployee(community.id)
+                                inspectChatRoomEmployee(community.id, user.id)
                             }}>
 
                                 {/* AVATAR OF COMMUNITY HINGIN NLNG IMAGE LOGO NG MGA COMMUNITY TAS GAWA AVATAR COMPONENT */}
                                 <CardContent className="flex items-center justify-center gap-1 p-0">
                                     <UserAvatar user={user} />
                                     <div className="flex flex-col justify-center">
-                                        <h3 className="font-semibold">{user.name}</h3>
+                                        <h3 className="font-semibold">{user.name} {" "} {user.lastName}</h3>
                                         {/* <p className="text-xs text-zinc-500 dark:text-zinc-400">
                                             {lastMessage ? lastMessage.content : 'No messages yet'}
                                             No messages yet

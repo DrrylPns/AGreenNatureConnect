@@ -140,7 +140,7 @@ export const fetchUsersWhoChatted = async (communityId: string) => {
     }
 }
 
-export const inspectChatRoomEmployee = async (communityId: string) => {
+export const inspectChatRoomEmployee = async (communityId: string, userId: string) => {
     const session = await getAuthSession()
 
     if (!session) return { error: "Unauthorized" }
@@ -154,11 +154,21 @@ export const inspectChatRoomEmployee = async (communityId: string) => {
     const chatroom = await prisma.chatRoom.findFirst({
         where: {
             communityId,
+            userId
         }
     });
 
     if (chatroom) {
         redirect(`/employee/message/${chatroom.id}`)
+    } else {
+        const newChatRoom = await prisma.chatRoom.create({
+            data: {
+                userId: user.id,
+                communityId,
+            }
+        })
+
+        redirect(`/employee/message/${newChatRoom.id}`)
     }
 }
 
