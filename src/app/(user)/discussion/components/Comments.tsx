@@ -245,18 +245,31 @@ export default function Comments({ posts }: { posts: Post }) {
                     />
                   </div>
                   <div>
-                    <h3 className="text-[1rem] text-gray-500 font-poppins font-light">
-                      {comment.author.username}
-                    </h3>
-                    {comment.author.role === "STAFF" && (
-                      <h6 className="text-lg font-poppins font-medium">
-                        Urban Farming Member
-                      </h6>
-                    )}
+                    <div className="flex items-center justify-between gap-1.5">
+                      <h3 className="text-[1rem] text-black font-poppins font-medium">
+                        {comment.author.username}
+                      </h3>
+                      {comment.author.role === "EMPLOYEE" && (
+                        <h6 className="text-sm text-green font-poppins font-medium">
+                          Community Employee ✔️
+                        </h6>
+                      )}
+                      {comment.author.role === "USER" && (
+                        <h6 className="text-sm text-green font-poppins font-medium">
+                          🍀
+                        </h6>
+                      )}
+                      {comment.author.role === "ADMIN" && (
+                        <h6 className="text-sm text-green font-poppins font-medium">
+                          Community Admin ✔️
+                        </h6>
+                      )}
+                    </div>
+                    <div className="text-gray-400 text-[0.7rem]">
+                      <RelativeDate dateString={comment.createdAt} />
+                    </div>
                   </div>
-                  <div className="text-gray-400 text-[0.7rem]">
-                    <RelativeDate dateString={comment.createdAt} />
-                  </div>
+
                   {comment.author.id === session?.user?.id && (
                     <Popover>
                       <Popover.Button>
@@ -325,13 +338,23 @@ export default function Comments({ posts }: { posts: Post }) {
                                     className="w-full h-full rounded-full"
                                   />
                                 </div>
-                                <div>
-                                  <h3 className="text-[1rem] text-gray-500 font-poppins font-light ">
+                                <div className="flex items-center justify-between gap-1.5">
+                                  <h3 className="text-[1rem] text-black font-poppins font-medium">
                                     {reply.user.username}
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
-                                    <h6 className="text-lg font-poppins font-medium">
-                                      Urban Farming Member
+                                    <h6 className="text-sm text-green font-poppins font-medium">
+                                      Community Employee ✔️
+                                    </h6>
+                                  )}
+                                  {reply.user.role === "USER" && (
+                                    <h6 className="text-sm text-green font-poppins font-medium">
+                                      🍀
+                                    </h6>
+                                  )}
+                                  {reply.user.role === "ADMIN" && (
+                                    <h6 className="text-sm text-green font-poppins font-medium">
+                                      Community Admin ✔️
                                     </h6>
                                   )}
                                 </div>
