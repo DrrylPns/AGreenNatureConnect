@@ -63,7 +63,7 @@ function Card({
     }
 
   return (
-    <div className='bg-slate-100 h-[21rem] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 shadow-md drop-shadow-md rounded-sm w-full border border-gray-300'>
+    <div className='bg-slate-100 h-[24rem] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 shadow-md drop-shadow-md rounded-sm w-full border border-gray-300'>
         <div className='bg-gray-50 w-full max-h-1/2'>
         <Image 
             src={imageUrl} 
