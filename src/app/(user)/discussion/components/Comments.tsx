@@ -251,17 +251,17 @@ export default function Comments({ posts }: { posts: Post }) {
                       </h3>
                       {comment.author.role === "EMPLOYEE" && (
                         <h6 className="text-sm text-green font-poppins font-medium">
-                          Community Employee ✔️
+                          Community Employee 🌳
                         </h6>
                       )}
                       {comment.author.role === "USER" && (
                         <h6 className="text-sm text-green font-poppins font-medium">
-                          🍀
+                          Member ☘️
                         </h6>
                       )}
                       {comment.author.role === "ADMIN" && (
                         <h6 className="text-sm text-green font-poppins font-medium">
-                          Community Admin ✔️
+                          Community Admin 🌳
                         </h6>
                       )}
                     </div>
@@ -344,17 +344,17 @@ export default function Comments({ posts }: { posts: Post }) {
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Community Employee 🍀
+                                      Community Employee 🌳
                                     </h6>
                                   )}
                                   {reply.user.role === "USER" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Member 🌱
+                                      Member ☘️
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Community Admin 🍀
+                                      Community Admin 🌳
                                     </h6>
                                   )}
                                 </div>
