@@ -72,12 +72,14 @@ export default async function Home() {
             conditions, flourishing happens naturally.
           </p>
         </div>
-        <Image
-          className="lg:block hidden "
-          src={Subheading}
-          alt="subheading image"
-          width={500}
-        />
+        <video
+            id="my-player"
+            className="video-js"
+            controls
+            preload="auto"
+            data-setup='{}'>
+          <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
+        </video>
       </section>
       {/*ABOUT US*/}
       <section
