@@ -50,8 +50,8 @@ function page() {
 
             <div className='w-full'>
               <div className='flex flex-row grid-cols-3 gap-20 p-10 justify-center'>
-                  <div className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-                        <div className="text-center">
+                  <Link href={"/discussion"} className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+                        <div className="text-center pt-3">
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Account}
@@ -64,17 +64,11 @@ function page() {
                         </div>
                         <p className="md:text-[16px] text-[12px] font-light px-3">
                           Basic of how to use AGreen Nature Connect.
-                        </p>
-                      <Link href={"discussion"}>
-                        <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-10">
-                          SEE MORE
-                          <Image src={ArrowIcon} alt="Arrow Icon" />
-                        </button>
-                      </Link>
-                  </div>
+                        </p>                    
+                  </Link>
 
-                  <div className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-                        <div className="text-center">
+                  <Link href={"discussion"} className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+                        <div className="text-center pt-3">
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Tutorial}
@@ -88,16 +82,12 @@ function page() {
                         <p className="md:text-[16px] text-[12px] font-light px-3">
                             Learn about name changes, adjust settings, manage notifications and more.
                         </p>
-                      <Link href={"discussion"}>
-                        <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-5">
-                          SEE MORE
-                          <Image src={ArrowIcon} alt="Arrow Icon" />
-                        </button>
-                      </Link>
-                  </div>
+                      
+                      
+                  </Link>
 
-                  <div className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-                        <div className="text-center">
+                  <Link href={"discussion"} className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+                        <div className="text-center pt-3">
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Page}
@@ -111,17 +101,12 @@ function page() {
                         <p className="md:text-[16px] text-[12px] font-light  px-3">
                            Basic of how to use AGreen Nature Connect
                         </p>
-                      <Link href={"discussion"}>
-                        <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-10">
-                          SEE MORE
-                          <Image src={ArrowIcon} alt="Arrow Icon" />
-                        </button>
-                      </Link>
-                  </div>
+                  </Link>
               </div>
+
               <div className='flex flex-row grid-cols-3 gap-20 p-10 justify-center'>
-                  <div className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-                        <div className="text-center">
+                  <Link href={"discussion"} className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+                        <div className="text-center pt-3">
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Store}
@@ -135,17 +120,11 @@ function page() {
                         <p className="md:text-[16px] text-[12px] font-light px-3">
                            Learn how to buy and sell on AGreen Nature Connect.
                         </p>
-                      <Link href={"discussion"}>
-                        <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-16">
-                          SEE MORE
-                          <Image src={ArrowIcon} alt="Arrow Icon" />
-                        </button>
-                      </Link>
-                  </div>
+                  </Link>
 
 
-                  <div className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-                        <div className="text-center">
+                  <Link href={"discussion"} className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+                        <div className="text-center pt-3">
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Padlock}
@@ -159,17 +138,11 @@ function page() {
                         <p className="md:text-[16px] text-[12px] font-light px-3">
                             Instructions on how to manage the privacy and security of your account and data
                         </p>
-                      <Link href={"discussion"}>
-                        <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-10">
-                          SEE MORE
-                          <Image src={ArrowIcon} alt="Arrow Icon" />
-                        </button>
-                      </Link>
-                  </div>
+                  </Link>
 
 
-                  <div className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
-                        <div className="text-center">
+                  <Link href={"discussion"} className="bg-[#B9DEB7] shadow-md shadow-black hover:shadow-black hover:bg-[#F0F0F0] hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
+                        <div className="text-center pt-3">
                             <div className='w-full flex justify-center'><Image
                               className="sm:h-[80px] h-[50px] sm:w-[80px] w-[50px]"
                               src={Page}
@@ -184,17 +157,11 @@ function page() {
                           Connect with our network to share insights and collaborate on
                           cultivating urban agriculture success.
                         </p>
-                      <Link href={"discussion"}>
-                        <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-5">
-                          SEE MORE
-                          <Image src={ArrowIcon} alt="Arrow Icon" />
-                        </button>
-                      </Link>
-                  </div>
-              </div>
-          </div>
+                  </Link>
 
+              </div>  
         </div>
+    </div>
 
 
 {/*FAQ's*/}
