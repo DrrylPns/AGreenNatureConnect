@@ -163,7 +163,7 @@ export default function Post() {
                           </h1>
                           {post.author.role === "EMPLOYEE" && (
                             <h6 className="text-sm text-green font-poppins font-semibold">
-                              Community Employee 🌳
+                              Employee 🌳
                             </h6>
                           )}
                           {post.author.role === "USER" && (
@@ -173,7 +173,7 @@ export default function Post() {
                           )}
                           {post.author.role === "ADMIN" && (
                             <h6 className="text-sm text-green font-poppins font-semibold">
-                              Community Admin 🌳
+                              Admin 🌳
                             </h6>
                           )}
                           <h3 className="text-[0.7rem] font-poppins">

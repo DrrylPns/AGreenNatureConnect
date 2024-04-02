@@ -251,7 +251,7 @@ export default function Comments({ posts }: { posts: Post }) {
                       </h3>
                       {comment.author.role === "EMPLOYEE" && (
                         <h6 className="text-sm text-green font-poppins font-medium">
-                          Community Employee 🌳
+                          Employee 🌳
                         </h6>
                       )}
                       {comment.author.role === "USER" && (
@@ -261,7 +261,7 @@ export default function Comments({ posts }: { posts: Post }) {
                       )}
                       {comment.author.role === "ADMIN" && (
                         <h6 className="text-sm text-green font-poppins font-medium">
-                          Community Admin 🌳
+                          Admin 🌳
                         </h6>
                       )}
                     </div>
@@ -344,7 +344,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Community Employee 🌳
+                                      Employee 🌳
                                     </h6>
                                   )}
                                   {reply.user.role === "USER" && (
@@ -354,7 +354,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                   )}
                                   {reply.user.role === "ADMIN" && (
                                     <h6 className="text-sm text-green font-poppins font-medium">
-                                      Community Admin 🌳
+                                      Admin 🌳
                                     </h6>
                                   )}
                                 </div>
