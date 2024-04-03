@@ -21,7 +21,7 @@ datasource db {
 
 // generator erd {
 //   provider = "prisma-erd-generator"
-//   output = "../ERD.svg"
+//   output   = "../ERD.svg"
 // }
 
 // lagyan ng isBannedFromPosting? same logic sa lastUsernameChange DateTime?? this determines kung gano siya katagal naka ban

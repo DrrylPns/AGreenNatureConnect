@@ -1,27 +1,26 @@
 "use client"
 import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/Ui/Avatar"
 import { Button } from "@/app/components/Ui/Button"
+import { Dialog, DialogContent, DialogTrigger } from "@/app/components/Ui/Dialog"
 import { Input } from "@/app/components/Ui/Input"
+import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTrigger } from "@/app/components/Ui/alert-dialog"
 import { UserAvatar } from "@/app/components/UserAvatar"
 import { Card, CardContent } from "@/components/ui/card"
-import { toast } from "@/lib/hooks/use-toast"
-import { ChatRoomWithMessagesAndCommunity, UsersWithCommunityMessages } from "@/lib/types"
-import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query"
-import { ImageDownIcon, PencilIcon, Trash2 } from "lucide-react"
-import { useEffect, useRef, useState, useTransition } from "react"
-import { deleteMessage, fetchMessages, fetchUsersWhoChatted, inspectChatRoomEmployee, sendMessage } from "../../../../../actions/chat"
-import Image from "next/image"
-import { Dialog, DialogContent, DialogTrigger } from "@/app/components/Ui/Dialog"
-import { UploadDropzone } from "@/lib/uploadthing"
-import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTrigger } from "@/app/components/Ui/alert-dialog"
-import { pusherClient } from "@/lib/pusher"
-import { formatTimeToNow } from "@/lib/utils"
 import {
     Tooltip,
     TooltipContent,
     TooltipProvider,
     TooltipTrigger,
 } from "@/components/ui/tooltip"
+import { toast } from "@/lib/hooks/use-toast"
+import { formatTime, pusherClient } from "@/lib/pusher"
+import { ChatRoomWithMessagesAndCommunity, UsersWithCommunityMessages } from "@/lib/types"
+import { UploadDropzone } from "@/lib/uploadthing"
+import { useInfiniteQuery, useQuery, useQueryClient } from "@tanstack/react-query"
+import { ImageDownIcon, Trash2 } from "lucide-react"
+import Image from "next/image"
+import { useEffect, useRef, useState, useTransition } from "react"
+import { deleteMessage, fetchMessages, fetchUsersWhoChatted, inspectChatRoomEmployee, sendMessage } from "../../../../../actions/chat"
 
 interface Props {
     chatroom: ChatRoomWithMessagesAndCommunity;
@@ -61,12 +60,15 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
         endOfMessagesRef.current?.scrollIntoView();
 
         const messageHandler = (newMessage: any) => {
+            // Parse the createdAt string into a Date object
+            const createdAtDate = new Date(newMessage.createdAt);
+
             // Use queryClient to optimistically update the messages query data
             queryClient.setQueryData(['messages', chatroom.id], (oldData: any) => {
                 // Prepend the new message to the start of the messages array
                 const newPages = oldData.pages.map((page: any, pageIndex: any) => {
                     if (pageIndex === 0) { // Assuming the first page contains the newest messages
-                        return { messages: [newMessage, ...page.messages] };
+                        return { messages: [{ ...newMessage, createdAt: createdAtDate }, ...page.messages] };
                     }
                     return page;
                 });
@@ -77,6 +79,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
             // Optionally, scroll to the new message
             endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
         };
+
 
         pusherClient.bind('messages:new', messageHandler);
 
@@ -154,8 +157,8 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                     {isFetchingNextPage && <div className="w-full items-center">Loading more messages...</div>}
                     {messages?.pages?.slice().reverse().map((group, index) => (
                         <div key={index} className="space-y-4">
-                            {group.messages?.slice().reverse().map((message) => (
-                                <div className="space-y-4">
+                            {group.messages?.slice().reverse().map((message, index) => (
+                                <div className="space-y-4" key={index}>
                                     {message.communityId === chatroom.communityId ? (
                                         <div className="flex items-start gap-2 justify-end">
                                             {message.image ? (
@@ -215,7 +218,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                                                         <p className="text-sm">{message.content}</p>
                                                                     </TooltipTrigger>
                                                                     <TooltipContent>
-                                                                        {formatTimeToNow(message.createdAt)}
+                                                                        {formatTime(message.createdAt)}
                                                                     </TooltipContent>
                                                                 </Tooltip>
                                                             </div>
@@ -279,7 +282,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                                                     <p className="text-sm">{message.content}</p>
                                                                 </TooltipTrigger>
                                                                 <TooltipContent>
-                                                                    {formatTimeToNow(message.createdAt)}
+                                                                    {formatTime(message.createdAt)}
                                                                 </TooltipContent>
                                                             </Tooltip>
                                                         </div>
@@ -299,7 +302,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                                                     <p className="text-sm">{message.content}</p>
                                                                 </TooltipTrigger>
                                                                 <TooltipContent>
-                                                                    {formatTimeToNow(message.createdAt)}
+                                                                    {formatTime(message.createdAt)}
                                                                 </TooltipContent>
                                                             </Tooltip>
                                                         </div>
@@ -313,7 +316,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                                                 <p className="text-sm">{message.content}</p>
                                                             </TooltipTrigger>
                                                             <TooltipContent>
-                                                                {formatTimeToNow(message.createdAt)}
+                                                                {formatTime(message.createdAt)}
                                                             </TooltipContent>
                                                         </Tooltip>
                                                     </div>
