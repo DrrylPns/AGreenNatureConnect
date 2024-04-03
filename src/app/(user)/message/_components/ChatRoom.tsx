@@ -15,6 +15,14 @@ import { useEffect, useRef, useState, useTransition } from "react"
 import { deleteMessage, fetchMessages, inspectChatRoom, sendMessage } from "../../../../../actions/chat"
 import { fetchCommunities } from "../../../../../actions/community"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogTrigger } from "@/app/components/Ui/alert-dialog"
+import { pusherClient } from "@/lib/pusher"
+import { formatTimeToNow } from "@/lib/utils"
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip"
 
 interface Props {
     chatroom: ChatRoomWithMessagesAndCommunity;
@@ -35,6 +43,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
         queryFn: async () => await fetchCommunities() as CommunityWithMessages[]
     })
 
+    // this is how I fetched my messages
     const {
         data: messages,
         fetchNextPage,
@@ -46,14 +55,41 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
         ({ pageParam = 0 }) => fetchMessages(chatroom.id, pageParam, 20), // 20 messages limit then take na if umangat si user
         {
             getNextPageParam: (lastPage) => lastPage.nextPage,
-            refetchInterval: 4 * 1000,
-            staleTime: 4 * 1000,
+            // refetchInterval: 4 * 1000,
+            // staleTime: 4 * 1000,
         }
     )
 
     useEffect(() => {
-        endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }, [messages]);
+        pusherClient.subscribe(chatroom.id);
+        endOfMessagesRef.current?.scrollIntoView();
+
+        const messageHandler = (newMessage: any) => {
+            // Use queryClient to optimistically update the messages query data
+            queryClient.setQueryData(['messages', chatroom.id], (oldData: any) => {
+                // Prepend the new message to the start of the messages array
+                const newPages = oldData.pages.map((page: any, pageIndex: any) => {
+                    if (pageIndex === 0) { // Assuming the first page contains the newest messages
+                        return { messages: [newMessage, ...page.messages] };
+                    }
+                    return page;
+                });
+
+                return { ...oldData, pages: newPages };
+            });
+
+            // Optionally, scroll to the new message
+            endOfMessagesRef.current?.scrollIntoView({ behavior: 'smooth' });
+        };
+
+        pusherClient.bind('messages:new', messageHandler);
+
+        return () => {
+            pusherClient.unsubscribe(chatroom.id);
+            pusherClient.unbind('messages:new', messageHandler);
+        };
+    }, [chatroom.id, queryClient, messages]);
+
 
     const handleScroll = (event: any) => {
         const { scrollTop } = event.currentTarget;
@@ -127,8 +163,8 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                     {isFetchingNextPage && <div className="w-full items-center">Loading more messages...</div>}
                     {messages?.pages?.slice().reverse().map((group, index) => (
                         <div key={index} className="space-y-4">
-                            {group.messages?.slice().reverse().map((message) => (
-                                <div className="space-y-4">
+                            {group.messages?.slice().reverse().map((message, index) => (
+                                <div className="space-y-4" key={index}>
                                     {message.userId === userId ? (
                                         <div className="flex items-start gap-2 justify-end w-[-50%]">
                                             {message.image ? (
@@ -181,9 +217,18 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                                     </AlertDialog>
                                                     <div>
                                                         <Image src={message.image} alt="Sent Image" className="w-80 h-80" width={320} height={320} />
-                                                        <div className="rounded-b-lg bg-[#24643B] text-white p-2">
-                                                            <p className="text-sm">{message.content}</p>
-                                                        </div>
+                                                        <TooltipProvider>
+                                                            <div className="rounded-b-lg bg-[#24643B] text-white p-2">
+                                                                <Tooltip>
+                                                                    <TooltipTrigger className="cursor-default">
+                                                                        <p className="text-sm">{message.content}</p>
+                                                                    </TooltipTrigger>
+                                                                    <TooltipContent>
+                                                                        {formatTimeToNow(message.createdAt)}
+                                                                    </TooltipContent>
+                                                                </Tooltip>
+                                                            </div>
+                                                        </TooltipProvider>
                                                     </div>
                                                 </div>
                                             ) : (
@@ -236,9 +281,20 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                                         </AlertDialogContent>
                                                     </AlertDialog>
 
-                                                    <div className="rounded-lg bg-[#24643B] text-white p-2">
-                                                        <p className="text-sm">{message.content}</p>
-                                                    </div>
+
+
+                                                    <TooltipProvider>
+                                                        <div className="rounded-lg bg-[#24643B] text-white p-2">
+                                                            <Tooltip>
+                                                                <TooltipTrigger className="cursor-default">
+                                                                    <p className="text-sm">{message.content}</p>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>
+                                                                    {formatTimeToNow(message.createdAt)}
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </div>
+                                                    </TooltipProvider>
                                                 </div>
                                             )}
                                         </div>
@@ -247,14 +303,32 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                             {message.image ? (
                                                 <div>
                                                     <Image src={message.image} alt="Sent Image" className="max-w-xs max-h-xs" width={320} height={320} />
-                                                    <div className="rounded-b-lg bg-zinc-200 dark:bg-zinc-700 p-2">
-                                                        <p className="text-sm">{message.content}</p>
-                                                    </div>
+                                                    <TooltipProvider>
+                                                        <div className="rounded-lg bg-zinc-200 dark:bg-zinc-700 p-2">
+                                                            <Tooltip>
+                                                                <TooltipTrigger className="cursor-default">
+                                                                    <p className="text-sm">{message.content}</p>
+                                                                </TooltipTrigger>
+                                                                <TooltipContent>
+                                                                    {formatTimeToNow(message.createdAt)}
+                                                                </TooltipContent>
+                                                            </Tooltip>
+                                                        </div>
+                                                    </TooltipProvider>
                                                 </div>
                                             ) : (
-                                                <div className="rounded-lg bg-zinc-200 dark:bg-zinc-700 p-2">
-                                                    <p className="text-sm">{message.content}</p>
-                                                </div>
+                                                <TooltipProvider>
+                                                    <div className="rounded-lg bg-zinc-200 dark:bg-zinc-700 p-2">
+                                                        <Tooltip>
+                                                            <TooltipTrigger className="cursor-default">
+                                                                <p className="text-sm">{message.content}</p>
+                                                            </TooltipTrigger>
+                                                            <TooltipContent>
+                                                                {formatTimeToNow(message.createdAt)}
+                                                            </TooltipContent>
+                                                        </Tooltip>
+                                                    </div>
+                                                </TooltipProvider>
                                             )}
                                         </div>
                                     )}
@@ -322,7 +396,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                 sendMessage(chatroom.id, userId, "user", content, imageUrl).then((callback) => {
                                     if (callback.success) {
                                         setContent("")
-                                        queryClient.invalidateQueries({ queryKey: ["messages", chatroom.id] })
+                                        // queryClient.invalidateQueries({ queryKey: ["messages", chatroom.id] })
                                     }
 
                                     if (callback.error) {
