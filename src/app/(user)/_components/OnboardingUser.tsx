@@ -163,7 +163,7 @@ export const OnboardingUser = () => {
 
   return (
     <main className="flex flex-col items-center justify-center border min-h-screen">
-      <Card className="w-full max-w-lg mx-auto">
+      <Card className="w-full max-w-2xl mx-auto">
         <CardHeader className="border-b">
           <div className="flex items-center justify-between">
             <div className="space-x-2">
