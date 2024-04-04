@@ -26,6 +26,7 @@ import { AiOutlineEllipsis } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { fetchReplies } from "../../../../../actions/reply";
 import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
+import DeleteReply from "@/app/components/dialogs/DeleteReply";
 
 export default function Comments({ posts }: { posts: Post }) {
   const router = useRouter();
@@ -385,8 +386,8 @@ export default function Comments({ posts }: { posts: Post }) {
                                             onDelete={handleCommentDeleted}
                                           />
 
-                                          <DeleteDialog
-                                            commentId={comment.id}
+                                          <DeleteReply
+                                            replyId={reply.id}
                                             onDelete={handleCommentDeleted}
                                           />
                                         </>
