@@ -143,3 +143,27 @@ export const editReply = async (id: string, text: string) =>
         throw new Error(error)
     }
 }
+
+export const deleteReply = async (replyId: string) => {
+    try {
+        const session = await getAuthSession()
+
+        if (!session) return { error: 'Unauthorized'}
+        
+        const user = await prisma.user.findFirst({
+            where: { id: session.user.id }
+        })
+        
+        if (!user) return { error: 'No user found.'}
+
+        const reply = await prisma.reply.delete({
+            where: {
+                id: replyId
+            }
+        })
+
+        return { success: "Reply deleted!" }
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
