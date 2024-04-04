@@ -1,31 +1,27 @@
-'ise client';
-import { Post } from '@/lib/types';
-import { useInfiniteQuery } from '@tanstack/react-query';
-import axios from 'axios';
-import { useSession } from 'next-auth/react';
-import React, { useEffect, useRef } from 'react'
-import { useInView } from 'react-intersection-observer';
-import PostSkeleton from './Skeleton/PostSkeleton';
-import PostButtons from './postButtons';
-import EditorOutput from '@/app/components/(user)/EditorOutput';
-import { FaEllipsis } from 'react-icons/fa6';
-import RelativeDate from '@/app/components/RelativeDate';
-import Image from 'next/image';
-import Link from 'next/link';
+"ise client";
+import { Post } from "@/lib/types";
+import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useSession } from "next-auth/react";
+import React, { useEffect, useRef } from "react";
+import { useInView } from "react-intersection-observer";
+import PostSkeleton from "./Skeleton/PostSkeleton";
+import PostButtons from "./postButtons";
+import EditorOutput from "@/app/components/(user)/EditorOutput";
+import { FaEllipsis } from "react-icons/fa6";
+import RelativeDate from "@/app/components/RelativeDate";
+import Image from "next/image";
+import Link from "next/link";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
 
 type PostProps = {
-    getPost: Post[];
-    nextId: string;
-    userId: string;
-  };
+  getPost: Post[];
+  nextId: string;
+  userId: string;
+};
 
-function UserPost({
-    id
-}:{
-    id: string
-}) {
-    const pref = useRef<HTMLDivElement>(null);
+function UserPost({ id }: { id: string }) {
+  const pref = useRef<HTMLDivElement>(null);
   const { ref, inView } = useInView();
   const { data: session } = useSession();
   useEffect(() => {
@@ -45,7 +41,9 @@ function UserPost({
     queryKey: ["posts"],
     queryFn: async ({ pageParam = "" }) => {
       try {
-        const { data } = await axios.get(`/api/user/post/userPost/${id}?cursor=${pageParam}`);
+        const { data } = await axios.get(
+          `/api/user/post/userPost/${id}?cursor=${pageParam}`
+        );
         return data as PostProps;
       } catch (error: any) {
         throw new Error(`Error fetching post: ${error.message}`);
@@ -54,22 +52,22 @@ function UserPost({
     getNextPageParam: (lastPage) => lastPage.nextId || undefined,
   });
 
-  if (isLoading) return (
-  <div className="flex gap-3 drop-shadow-xl shadow-xl">
-    <PostSkeleton />
-  </div>
-  )
+  if (isLoading)
+    return (
+      <div className="flex gap-3 drop-shadow-xl shadow-xl">
+        <PostSkeleton />
+      </div>
+    );
 
   if (isError) return <div>Error!</div>;
 
-  console.log(Posts)
+  console.log(Posts);
   return (
     <div>
-         {Posts.pages.map((post) => (
+      {Posts.pages.map((post) => (
         <div key={post.nextId}>
           {post.getPost !== undefined &&
             post.getPost.map((post) => {
-
               // PALITAN 5 PAG TAPUS NA TESTING
               const showPost = post.reports < 5;
 
@@ -109,7 +107,7 @@ function UserPost({
                         </div>
                       </div>
                       {post.authorId === session?.user?.id && (
-                        <button type="button" onClick={() => { }}>
+                        <button type="button" onClick={() => {}}>
                           <FaEllipsis />
                         </button>
                       )}
@@ -130,7 +128,7 @@ function UserPost({
                     >
                       <EditorOutput content={post.content} />
                       {pref.current?.clientHeight === 160 ? (
-                        <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
+                        <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
                       ) : null}
                     </div>
                     {/**Like, Comment, Share(if there is any) Section*/}
@@ -153,7 +151,7 @@ function UserPost({
         </div>
       ))}
     </div>
-  )
+  );
 }
 
-export default UserPost
+export default UserPost;

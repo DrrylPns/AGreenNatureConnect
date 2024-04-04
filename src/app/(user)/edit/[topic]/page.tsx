@@ -26,7 +26,7 @@ const page: FC<Pageprops> = ({ params }) => {
       const response = await axios.get(`/api/user/topic/${params.topic}`);
       const data = response.data;
       setTopic(data);
-    } catch (error) { }
+    } catch (error) {}
   };
 
   return (
@@ -73,7 +73,7 @@ const page: FC<Pageprops> = ({ params }) => {
                       </h3>
                     </div>
                   </div>
-                  <button type="button" onClick={() => { }}>
+                  <button type="button" onClick={() => {}}>
                     <FaEllipsis />
                   </button>
                 </div>
@@ -93,7 +93,7 @@ const page: FC<Pageprops> = ({ params }) => {
                 >
                   <EditorOutput content={post.content} />
                   {pref.current?.clientHeight === 160 ? (
-                    <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
+                    <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
                   ) : null}
                 </div>
                 {/**Like, Comment, Share(if there is any) Section*/}

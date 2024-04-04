@@ -192,7 +192,7 @@ export default function Post() {
                     </div>
 
                     {/**Description & Images */}
-                    <h1 className="text-[1.5rem] mt-5 px-5 font-poppins font-extrabold">
+                    <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold">
                       {post.title}
                     </h1>
                     <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
@@ -207,7 +207,7 @@ export default function Post() {
                     >
                       <EditorOutput content={post.content} />
                       {pref.current?.clientHeight === 160 ? (
-                        <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent" />
+                        <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
                       ) : null}
                     </div>
                     {/**Like, Comment, Share(if there is any) Section*/}
