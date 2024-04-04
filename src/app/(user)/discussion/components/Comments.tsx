@@ -265,9 +265,9 @@ export default function Comments({ posts }: { posts: Post }) {
                           Community Admin 🥦
                         </h6>
                       )}
-                    </div>
-                    <div className="text-gray-400 text-[0.7rem]">
-                      <RelativeDate dateString={comment.createdAt} />
+                      <div className="text-gray-400 text-[0.7rem]">
+                        <RelativeDate dateString={comment.createdAt} />
+                      </div>
                     </div>
                   </div>
 
@@ -303,7 +303,7 @@ export default function Comments({ posts }: { posts: Post }) {
                   )}
                 </div>
                 <div className="flex gap-5">
-                  <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 mt-2">
+                  <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600">
                     <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
                   </div>
                   <div className="w-full">
@@ -345,7 +345,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Community Employee 🌳
+                                      Employee 🌳
                                     </h6>
                                   )}
                                   {reply.user.role === "USER" && (
@@ -355,7 +355,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                   )}
                                   {reply.user.role === "ADMIN" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Community Admin 🥦
+                                      Admin 🥦
                                     </h6>
                                   )}
                                 </div>
@@ -397,7 +397,7 @@ export default function Comments({ posts }: { posts: Post }) {
                                 )}
                               </div>
                               <div className="flex gap-2">
-                                <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 ml-2 mt-2">
+                                <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 ml-1 mt-1 mb-1">
                                   <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
                                 </div>
                                 <div className="w-full ml-3 mb-4">
