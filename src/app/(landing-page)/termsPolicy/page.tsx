@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Curve from '/public/images/curve.png'
 import Footer from '@/app/components/Footer/footer'
+import Link from 'next/link'
 export default function TermsPolicy() {
   const [text, setText] = useState('')
   const showTermsConditions = () => {
@@ -26,7 +27,13 @@ export default function TermsPolicy() {
         </div>
       </header>
 
-      <div className="max-w-4xl mx-auto my-10 p-8 bg-white shadow-lg rounded-lg">
+
+      <div className='pl-10 mt-7 hidden sm:block md:block'> <Link
+      className="inline-flex items-center border border-emerald-600 rounded-lg mb-4 px-3 py-2 text-sm font-medium text-gray-900 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-gray-600"
+      href="./discussion">Return</Link>
+      </div>
+      <div className="max-w-4xl mx-auto mb-10 p-8 bg-white shadow-lg rounded-lg">
+      
       <h1 className="text-3xl font-bold mb-6">TERMS & CONDITIONS</h1>
       <section className="mb-6">
         <h2 className="text-2xl font-semibold mb-2">Acceptance of Terms</h2>
@@ -111,7 +118,7 @@ export default function TermsPolicy() {
         </p>
       </section>
     </div>
-
+    
       
       <Footer />
     </div>

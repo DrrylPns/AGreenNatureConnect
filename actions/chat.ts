@@ -4,6 +4,8 @@ import { getAuthSession } from "@/lib/auth"
 import { getUserById } from "../data/user"
 import prisma from "@/lib/db/db"
 import { redirect } from "next/navigation"
+import { pusherServer } from "@/lib/pusher"
+
 
 export const inspectChatRoom = async (communityId: string) => {
     const session = await getAuthSession()
@@ -51,7 +53,7 @@ export const sendMessage = async (chatRoomId: string, senderId: string, senderTy
 
         if (content.length >= 1000) return { error: "Content too long..." }
 
-        await prisma.message.create({
+        const newMessage = await prisma.message.create({
             data: {
                 chatRoomId,
                 userId: senderType === 'user' ? senderId : undefined,
@@ -60,6 +62,8 @@ export const sendMessage = async (chatRoomId: string, senderId: string, senderTy
                 image,
             }
         });
+
+        await pusherServer.trigger(chatRoomId, 'messages:new', newMessage)
 
         return { success: "Message sent" };
     } catch (error: any) {

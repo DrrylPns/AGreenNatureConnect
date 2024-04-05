@@ -29,7 +29,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   const [isLoading, setIsLoading] = useState(false);
   const [PasswordInputType, ToggleIcon] = usePasswordToggle();
   const { data: session, status, update } = useSession();
-  const warningModal = useWarningModal()
+  const warningModal = useWarningModal();
 
   const {
     register,
@@ -98,7 +98,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           variant: "default",
         });
 
-        router.refresh()
+        router.refresh();
 
         // Retrieve the updated session after successful login
         const updatedSession = await getSession();
@@ -142,7 +142,6 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   //   }).then((callback: any) => {
   //     setIsLoading(false);
 
-
   //     if (callback?.ok && !callback?.error) {
   //       toast({
   //         description: "Logged In",
@@ -160,7 +159,6 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
   //     }
   //   });
   // }
-
 
   const onToggle = useCallback(() => {
     loginModal.onClose();
@@ -211,7 +209,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
                     font-light
             "
       >
-        <div className="cursor-pointer text-center">Forgot Password?</div>
+        <div className="cursor-pointer text-center"></div>
       </div>
     </div>
   );
@@ -263,11 +261,14 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           <div className="flex flex-row gap-2 items-center justify-center">
             <div>Forgot your password?</div>
 
-            <Link href="/reset" className="text-[#0227EB] 
+            <Link
+              href="/reset"
+              className="text-[#0227EB] 
                                                       dark:text-white 
                                                       dark:hover:text-white/70
                                                       hover:text-[#0227EB]/70
-                            ">
+                            "
+            >
               Recover now.
             </Link>
           </div>
