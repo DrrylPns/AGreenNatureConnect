@@ -62,6 +62,7 @@ export default function Home() {
         </div>
       </header>
       {/*SUBHEADING*/}
+
       <section className="flex flex-col sm:flex-row md:px-16 md:py-16 p-10 items-center gap-5">
         <div className="text-justify ">
           <h1 className="font-livvic font-bold md:text-[44px] text-[20px] max-md:py-3 mb-5">
@@ -74,15 +75,20 @@ export default function Home() {
             conditions, flourishing happens naturally.
           </p>
         </div>
+        <div className="shadow-lg shadow-black rounded-lg">
         <video
             id="my-player"
-            className="video-js w-full md:w-1/2"
-            autoPlay={true}
+
+            className="video-js rounded-lg"
+            controls 
+            autoPlay
+            loop
             preload="auto"
             controls
             data-setup='{}'>
           <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
         </video>
+        </div>
       </section>
       {/*ABOUT US*/}
       <section
@@ -92,6 +98,7 @@ export default function Home() {
           <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl">
             About Us
           </h1>
+
           <div className="flex gap-10">   
             <div className="">  
               <div className=" mb-5">
@@ -125,6 +132,7 @@ export default function Home() {
                   alt="about.png"
                   width={1700}/>
             </div>
+
           </div>
         </div>
       </section>

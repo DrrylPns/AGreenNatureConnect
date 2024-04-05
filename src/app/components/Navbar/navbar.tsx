@@ -58,7 +58,7 @@ export default function Navbar() {
         className="flex w-1/5 justify-end"
       >
       
-        <ul className="flex  flex-row justify-evenly w-[100%] m-10 max-lg:m-13 max-sm:hidden ">
+        <ul className="flex  flex-row justify-evenly w-[100%] m-10 max-lg:m-13 max-sm:hidden r-10 ">
           <motion.button
             whileHover={{
               scale: 1.2,
@@ -123,7 +123,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("home")}
-            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber "
+            className="text-black text-[16px] font-light p-3 m-3 hover:text-amber "
           >
             Home
           </motion.button>
@@ -137,7 +137,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("aboutus")}
-            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber"
+            className="text-black text-[16px] font-light p-3 m-3 hover:text-amber"
           >
             About
           </motion.button>
@@ -151,7 +151,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("services")}
-            className="text-white text-[16px] font-light p-3 m-3 hover:text-amber"
+            className="text-black text-[16px] font-light p-3 m-3 hover:text-amber"
           >
             Services
           </motion.button>
@@ -165,7 +165,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("contactus")}
-            className="text-white text-[16px] font-light p-3s max-md:mr-10 m-3 mr-28 mt-6 hover:text-amber"
+            className="text-black text-[16px] font-light p-3s max-md:mr-10 m-3 mr-28 mt-6 hover:text-amber"
           >
             Contact
           </motion.button>
