@@ -9,7 +9,7 @@ import Providers from "@/lib/providers/Providers";
 import { Toaster } from "../components/toast/toaster";
 // import { Suspense } from "react"
 // import { SkeletonTheme } from "react-loading-skeleton"
-import '@smastrom/react-rating/style.css'
+import "@smastrom/react-rating/style.css";
 import { Onboarding } from "../components/(user)/Onboarding";
 import { ThemeProvider } from "../components/Ui/ThemeProvider";
 import { CartProvider } from "@/contexts/CartContext";
@@ -25,7 +25,6 @@ import { ProfileModal } from "@/components/settings/ProfileModal";
 import { UsernameModal } from "@/components/settings/UsernameModal";
 import { WarnUser } from "@/components/WarnUser";
 
-
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -39,20 +38,19 @@ export default async function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  const session = await getAuthSession()
+  const session = await getAuthSession();
 
   const user = await prisma.user.findFirst({
     where: {
       id: session?.user.id,
-    }
-  })
+    },
+  });
 
-  console.log(`asd ${user?.numberOfViolations}`)
+  console.log(`asd ${user?.numberOfViolations}`);
 
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
-
         <CartProvider>
           <ThemeProvider
             attribute="class"
@@ -63,12 +61,13 @@ export default async function RootLayout({
             <Providers>
               {
                 //google
-                session?.user.birthday === null && session?.user.role === "USER" ? (
+                session?.user.birthday === null &&
+                session?.user.role === "USER" ? (
                   <>
                     <Onboarding />
                   </>
-                  //normal user registration
-                ) : session?.user.name === null && session?.user.role === "USER" ? (
+                ) : //normal user registration
+                session?.user.name === null && session?.user.role === "USER" ? (
                   <>
                     <OnboardingUser />
                   </>
@@ -87,9 +86,7 @@ export default async function RootLayout({
                     <AvatarModal />
                     <ProfileModal user={user as User} />
                     <UsernameModal user={user as User} />
-                    {user?.numberOfViolations as number > 0 && (
-                      <WarnUser />
-                    )}
+                    {(user?.numberOfViolations as number) > 0 && <WarnUser />}
                     <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
                       {children}
                     </div>
@@ -100,7 +97,6 @@ export default async function RootLayout({
             </Providers>
           </ThemeProvider>
         </CartProvider>
-
       </body>
     </html>
   );
