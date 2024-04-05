@@ -61,7 +61,7 @@ export default async function Home() {
       </header>
       {/*SUBHEADING*/}
       <section className="flex px-16 py-16 items-center gap-8">
-        <div className="max-md:py-3 max-md:px-3 lg:px-5 text-justify m-10 ">
+        <div className="max-md:py-3 max-md:px-3 lg:px-5 m-10 text-center ">
           <h1 className="font-livvic font-bold md:text-[44px] text-[20px] max-md:py-3 mb-5">
             Nurtured: Quezon City.
           </h1>
@@ -72,14 +72,18 @@ export default async function Home() {
             conditions, flourishing happens naturally.
           </p>
         </div>
+        <div className="shadow-lg shadow-black rounded-lg">
         <video
             id="my-player"
-            className="video-js"
-            controls
+            className="video-js rounded-lg"
+            controls 
+            autoPlay
+            loop
             preload="auto"
             data-setup='{}'>
           <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
         </video>
+        </div>
       </section>
       {/*ABOUT US*/}
       <section
@@ -91,7 +95,7 @@ export default async function Home() {
           </h1>
           <div className="flex mx-10">   
                 <div className="m-5 flex flex-col">
-                    <div className="text-justify">
+                    <div className="text-justify ">
                           <h2 className="font-poppins font-bold text-[32px] mb-8 text-center">
                             Quezon City Urban Farming
                           </h2>

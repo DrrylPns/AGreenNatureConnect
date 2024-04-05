@@ -219,7 +219,7 @@ function page() {
     </div>
 
     <div className='w-full bg-[#CFE2CE] justify-center p-10 '>
-      <div className='flex flex-row  gap-32 justify-center mx-64 p-10 shadow-sm shadow-black rounded-3xl bg-white'>
+      <div className='flex flex-row justify-center mx-60 p-10 shadow-sm shadow-black rounded-3xl bg-white'>
           <div className='px-5'>
               <h1 className='font-poppins font-bold text-[24px] pb-3'>Still have a questions?</h1>
               <p className='text-[16px]'>Couldn’t find what you needed,our friendly support team is here to help.</p>
