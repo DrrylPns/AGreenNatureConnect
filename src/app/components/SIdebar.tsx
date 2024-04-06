@@ -307,7 +307,7 @@ export default function SIdebar() {
             </div>
           </Link>
           <Link
-            href={""}
+            href={"/about"}
             className={`flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
             } hover:bg-pale`}
@@ -334,7 +334,7 @@ export default function SIdebar() {
             </div>
           </Link>
           <Link
-            href={""}
+            href={"/about/HelpPage"}
             className={`flex items-center gap-4 w-full py-2 ${
               isSideBarOpen ? "justify-start" : "justify-center"
             } hover:bg-pale`}
