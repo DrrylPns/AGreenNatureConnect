@@ -1,6 +1,7 @@
 "use client"
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@/app/components/Ui/Dropdown-Menu"
 import { UserAvatar } from '@/app/components/UserAvatar'
+import useSettingsModal from "@/lib/hooks/useSettingsModal"
 import { User } from '@prisma/client'
 import { MessagesSquareIcon, Package2Icon } from 'lucide-react'
 import { signOut } from "next-auth/react"
@@ -13,7 +14,7 @@ interface Props {
 
 export const NavbarDashboard = ({ user }: Props) => {
     const router = useRouter()
-
+    const { onOpen } = useSettingsModal()
     return (
         <header className="flex justify-end h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
             <h1 className="font-medium text-center text-lg md:text-xl">
@@ -31,13 +32,15 @@ export const NavbarDashboard = ({ user }: Props) => {
                     <DropdownMenuContent align="end">
                         <DropdownMenuLabel>My Account</DropdownMenuLabel>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem>Settings</DropdownMenuItem>
+                        <DropdownMenuItem className="cursor-pointer" onClick={onOpen}>Settings</DropdownMenuItem>
                         <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => signOut({
-                            redirect: false
-                        }).then(() => {
-                            router.push("/discussion")
-                        })}>Logout</DropdownMenuItem>
+                        <DropdownMenuItem
+                            className="cursor-pointer"
+                            onClick={() => signOut({
+                                redirect: false
+                            }).then(() => {
+                                router.push("/discussion")
+                            })}>Logout</DropdownMenuItem>
                     </DropdownMenuContent>
                 </DropdownMenu>
             </div>

@@ -12,6 +12,12 @@ import { getAuthSession } from '../../lib/auth'
 import { PageNotFound } from '@/components/PageNotFound'
 import { LoadingComponent } from '@/components/LoadingComponent'
 import prisma from '@/lib/db/db'
+import { User } from '@prisma/client'
+import { UserSettings } from '@/components/UserSettings'
+import { GenderModal } from '@/components/settings/GenderModal'
+import { AvatarModal } from '@/components/settings/AvatarModal'
+import { ProfileModal } from '@/components/settings/ProfileModal'
+import { UsernameModal } from '@/components/settings/UsernameModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -45,6 +51,11 @@ export default async function RootLayout({
                     <Providers>
                         <LoginModal />
                         <RegisterModal />
+                        <UserSettings user={user as User} />
+                        <GenderModal user={user as User} />
+                        <AvatarModal />
+                        <ProfileModal user={user as User} />
+                        <UsernameModal user={user as User} />
                         <Sidebar />
                         <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                             {children}

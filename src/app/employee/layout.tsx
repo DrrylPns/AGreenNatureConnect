@@ -14,6 +14,11 @@ import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
 import { NavbarDashboard } from './_components/Navbar'
 import Sidebar from './_components/Sidebar'
+import { UserSettings } from '@/components/UserSettings'
+import { GenderModal } from '@/components/settings/GenderModal'
+import { AvatarModal } from '@/components/settings/AvatarModal'
+import { ProfileModal } from '@/components/settings/ProfileModal'
+import { UsernameModal } from '@/components/settings/UsernameModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -50,6 +55,11 @@ export default async function RootLayout({
                         <LoginModal />
                         <RegisterModal />
                         <NavbarDashboard user={user as User} />
+                        <UserSettings user={user as User} />
+                        <GenderModal user={user as User} />
+                        <AvatarModal />
+                        <ProfileModal user={user as User} />
+                        <UsernameModal user={user as User} />
                         <Sidebar />
                         <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                             {children}
