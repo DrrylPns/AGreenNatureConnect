@@ -56,9 +56,8 @@ export default function SIdebar() {
           {/**Home, Communities, Markethub Icons and links */}
           <div className="pt-[5rem] w-full flex justify-around bg-white dark:bg-[#242526] md:hidden shadow-md drop-shadow-md">
             <Link
-              className={`link ${
-                pathname === "/discussion" ? "border-b-2 border-yellow-400" : ""
-              } flex justify-center items-center  w-full py-3`}
+              className={`link ${pathname === "/discussion" ? "border-b-2 border-yellow-400" : ""
+                } flex justify-center items-center  w-full py-3`}
               href={"/discussion"}
             >
               <div className="text-icons ">
@@ -67,11 +66,10 @@ export default function SIdebar() {
             </Link>
 
             <Link
-              className={`link ${
-                pathname === "/videotutorial"
+              className={`link ${pathname === "/videotutorial"
                   ? "border-b-2 border-yellow-400"
                   : ""
-              } flex justify-center items-center  w-full py-3`}
+                } flex justify-center items-center  w-full py-3`}
               href={"/videotutorial"}
             >
               <div className="text-[1.5rem]">
@@ -80,11 +78,10 @@ export default function SIdebar() {
             </Link>
 
             <Link
-              className={`link ${
-                pathname === "/learningMaterials"
+              className={`link ${pathname === "/learningMaterials"
                   ? "border-b-2 border-yellow-400"
                   : ""
-              } flex justify-center items-center  w-full py-3`}
+                } flex justify-center items-center  w-full py-3`}
               href={"/learningMaterials"}
             >
               <div className="text-icons">
@@ -93,9 +90,8 @@ export default function SIdebar() {
             </Link>
 
             <Link
-              className={`link ${
-                pathname === "/blogs" ? "border-b-2 border-yellow-400" : ""
-              } flex justify-center items-center  w-full py-3`}
+              className={`link ${pathname === "/blogs" ? "border-b-2 border-yellow-400" : ""
+                } flex justify-center items-center  w-full py-3`}
               href={"/blogs"}
             >
               <div className="text-[1.5rem]">
@@ -104,9 +100,8 @@ export default function SIdebar() {
             </Link>
 
             <Link
-              className={`link ${
-                pathname === "/markethub" ? "border-b-2 border-yellow-400" : ""
-              } flex justify-center items-center  w-full py-3`}
+              className={`link ${pathname === "/markethub" ? "border-b-2 border-yellow-400" : ""
+                } flex justify-center items-center  w-full py-3`}
               href={"/markethub"}
             >
               <div className="text-icons ">
@@ -124,9 +119,8 @@ export default function SIdebar() {
           type: "tween",
           duration: 1,
         }}
-        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white dark:bg-[#242526] h-full w-[5%] ${
-          isSideBarOpen ? "items-start" : "items-center"
-        } z-30`}
+        className={`md:flex md:pt-[6rem]  hidden fixed flex-col drop-shadow-lg shadow-lg pt-4 pb-5 px-5 bg-white dark:bg-[#242526] h-full w-[5%] ${isSideBarOpen ? "items-start" : "items-center"
+          } z-30`}
       >
         <button type="button" onClick={toggleSideBar} className="text-center">
           <Logo />
@@ -149,13 +143,11 @@ export default function SIdebar() {
         <div className="flex flex-col items-start w-full">
           <Link
             href={"/discussion"}
-            className={`link ${
-              pathname === "/discussion"
+            className={`link ${pathname === "/discussion"
                 ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                 : ""
-            } flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+              } flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <div className="text-icons ">
               <BiHome />
@@ -180,9 +172,8 @@ export default function SIdebar() {
           <button
             type="button"
             onClick={toggleDropdown}
-            className={`flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <div className="text-icons ">
               <LiaBookReaderSolid />
@@ -204,11 +195,10 @@ export default function SIdebar() {
               </motion.p>
             </div>
             <div
-              className={`font-poppins text-[1rem] ${
-                isSideBarOpen
+              className={`font-poppins text-[1rem] ${isSideBarOpen
                   ? "opacity-100 block self-end"
                   : "opacity-0 hidden"
-              }`}
+                }`}
             >
               <div className="text-icons ">
                 <PiCaretDown />
@@ -227,17 +217,15 @@ export default function SIdebar() {
                   delay: 0.5,
                 }}
                 exit={{ opacity: 0, y: -50 }}
-                className={`${!isSideBarOpen && "hidden"} ${
-                  isDropdownrOpen ? "flex" : "hidden"
-                } flex-col `}
+                className={`${!isSideBarOpen && "hidden"} ${isDropdownrOpen ? "flex" : "hidden"
+                  } flex-col `}
               >
                 <Link
                   href={"/videotutorial"}
-                  className={`link ${
-                    pathname === "/videotutorial"
+                  className={`link ${pathname === "/videotutorial"
                       ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                       : ""
-                  }
+                    }
                   flex gap-3 ml-5 py-2`}
                 >
                   <div className="text-[1.5rem]">
@@ -247,11 +235,10 @@ export default function SIdebar() {
                 </Link>
                 <Link
                   href={"/learningMaterials"}
-                  className={`link ${
-                    pathname === "/learningMaterials"
+                  className={`link ${pathname === "/learningMaterials"
                       ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                       : ""
-                  }
+                    }
                   flex gap-3 ml-5 py-2`}
                 >
                   <div className="text-icons">
@@ -261,11 +248,10 @@ export default function SIdebar() {
                 </Link>
                 <Link
                   href={"/blogs"}
-                  className={`link ${
-                    pathname === "/blogs"
+                  className={`link ${pathname === "/blogs"
                       ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                       : ""
-                  }
+                    }
                   flex gap-3 ml-5 py-2`}
                 >
                   <div className="text-[1.5rem]">
@@ -278,13 +264,11 @@ export default function SIdebar() {
           </AnimatePresence>
           <Link
             href={"/markethub"}
-            className={`link ${
-              pathname === "/markethub"
+            className={`link ${pathname === "/markethub"
                 ? "border-l-[3px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
                 : ""
-            } flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale `}
+              } flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale `}
           >
             <div className="text-icons ">
               <BiStore />
@@ -308,9 +292,8 @@ export default function SIdebar() {
           </Link>
           <Link
             href={"/about"}
-            className={`flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <div className="text-icons ">
               <BiInfoCircle />
@@ -335,9 +318,8 @@ export default function SIdebar() {
           </Link>
           <Link
             href={"/about/HelpPage"}
-            className={`flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <div className="text-icons ">
               <AiOutlineQuestionCircle />
@@ -362,9 +344,8 @@ export default function SIdebar() {
           </Link>
           <Link
             href={"/termsPolicy"}
-            className={`flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <div className="text-icons ">
               <AiOutlineFileProtect />
@@ -389,9 +370,8 @@ export default function SIdebar() {
           </Link>
           <Link
             href={"/termsPolicy"}
-            className={`flex items-center gap-4 w-full py-2 ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <div className="text-icons ">
               <LuFileSignature />
@@ -415,9 +395,8 @@ export default function SIdebar() {
             </div>
           </Link>
           <div
-            className={`flex items-center gap-4 w-full py-2 cursor-pointer ${
-              isSideBarOpen ? "justify-start" : "justify-center"
-            } hover:bg-pale`}
+            className={`flex items-center gap-4 w-full py-2 cursor-pointer ${isSideBarOpen ? "justify-start" : "justify-center"
+              } hover:bg-pale`}
           >
             <ThemeToggler />
 
@@ -485,7 +464,7 @@ export default function SIdebar() {
                 onClick={loginModal.onOpen}
                 className="w-full mt-auto text-white py-3 bg-green"
               >
-                Signin
+                Sign in
               </button>
             )}
           </>
