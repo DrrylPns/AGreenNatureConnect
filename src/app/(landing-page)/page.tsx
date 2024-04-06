@@ -18,18 +18,18 @@ import { ShadcnCarousel } from "../(user)/markethub/components/sCarousel";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
 export default function Home() {
- 
+
   return (
     <div className=" flex-row md:flex-col mx-auto">
       {/*Heading*/}
-      
+
       <header id="home" className="">
-      <div 
+        <div
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
           <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
-            
-          <div className="font-mono  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px] m-2">
+
+            <div className="font-mono  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px] m-2">
 
               Welcome to AGreen Nature Connect Urban Farming
             </div>
@@ -53,7 +53,7 @@ export default function Home() {
           </p>
           <Link
             href="/discussion"
-            
+
             className="text-black font-poppins font-semibold bg-amber hover:bg-pale w-[160px] md:p-4 p-4 border-none text-center rounded-lg"
 
           >
@@ -76,18 +76,16 @@ export default function Home() {
           </p>
         </div>
         <div className="shadow-lg shadow-black rounded-lg">
-        <video
+          <video
             id="my-player"
-
             className="video-js rounded-lg"
-            controls 
+            controls
             autoPlay
             loop
             preload="auto"
-            controls
             data-setup='{}'>
-          <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
-        </video>
+            <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
+          </video>
         </div>
       </section>
       {/*ABOUT US*/}
@@ -99,8 +97,8 @@ export default function Home() {
             About Us
           </h1>
 
-          <div className="flex gap-10">   
-            <div className="">  
+          <div className="flex gap-10">
+            <div className="">
               <div className=" mb-5">
                 <h2 className="font-poppins font-bold text-2xl mb-5 text-center">
                   Quezon City Urban Farming
@@ -112,10 +110,10 @@ export default function Home() {
                   We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
                 </p>
                 <p className="font-poppins font-normal md:text-[18px] text-[15px] mb-5">
-                Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
+                  Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses.
                 </p>
                 <p className="font-poppins font-normal md:text-[18px] text-[15px]">
-                Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
+                  Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
                 </p>
               </div>
               <div className="w-full mx-auto text-center">
@@ -123,14 +121,14 @@ export default function Home() {
                   Read More
                 </Link>
               </div>
-              
-            </div>    
+
+            </div>
             <div className="lg:block hidden">
-                  <Image
-                  className=" "
-                  src={Subheading}
-                  alt="about.png"
-                  width={1700}/>
+              <Image
+                className=" "
+                src={Subheading}
+                alt="about.png"
+                width={1700} />
             </div>
 
           </div>
@@ -144,14 +142,14 @@ export default function Home() {
         <div className="md:flex grid md:gap-10 gap-3 justify-center items-center pb-20 px-5 py-5">
           <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <div className="flex py-3">
-                <Image
-                  className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
-                  src={LightIcon}
-                  alt="Light Icon"
-                />
-                <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
-                  Shares Ideas
-                </h3>
+              <Image
+                className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                src={LightIcon}
+                alt="Light Icon"
+              />
+              <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+                Shares Ideas
+              </h3>
             </div>
             <p className="md:text-[16px] text-[12px] font-light my-2">
               Connect with our network to share insights and collaborate on
@@ -166,14 +164,14 @@ export default function Home() {
           </div>
           <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <div className="flex py-3">
-                <Image
-                  className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
-                  src={DeliveryIcon}
-                  alt="Delivery icon"
-                />
-                <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
-                  Order Products
-                </h3>
+              <Image
+                className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                src={DeliveryIcon}
+                alt="Delivery icon"
+              />
+              <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+                Order Products
+              </h3>
             </div>
             <p className="md:text-[16px] text-[12px] font-light my-2">
               Buy fresh from the farm products. Help local urban farmers to have
@@ -188,14 +186,14 @@ export default function Home() {
           </div>
           <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <div className="flex flex-row grid-cols-2 py-3">
-                <Image
-                  className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
-                  src={KnowledgeIcon}
-                  alt="knowledge Icon"
-                />
-                <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
-                  Learn Online
-                </h3>
+              <Image
+                className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                src={KnowledgeIcon}
+                alt="knowledge Icon"
+              />
+              <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+                Learn Online
+              </h3>
             </div>
             <p className="md:text-[15px] text-[12px] font-light my-2">
               Discover the world of urban agriculture with our network. Join us
