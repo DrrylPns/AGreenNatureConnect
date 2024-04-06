@@ -142,8 +142,8 @@ const page = async () => {
                                             className="h-72 mt-4"
                                             data={salesByDate as any}
                                             index="date"
-                                            categories={["Fruits", "Vegetables"]}
-                                            colors={["indigo", "gray"]}
+                                            categories={["Others", "Vegetables", "Fruits"]}
+                                            colors={["indigo", "gray", "lime"]}
                                             yAxisWidth={30}
                                         />
                                     </div>

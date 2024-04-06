@@ -19,6 +19,7 @@ const PPSCard = () => {
     // ];
 
     const [value, setValue] = useState(null);
+
     useEffect(() => {
         fetchSalesPieChart()
     }, [])
@@ -27,6 +28,8 @@ const PPSCard = () => {
         const sales = await fetchSalesByCategories()
         setSales(sales)
     }
+
+    console.log(sales)
 
     return (
         <>
@@ -37,7 +40,7 @@ const PPSCard = () => {
                     data={sales}
                     category="sales"
                     index="category"
-                    colors={["teal", "indigo"]}
+                    colors={["indigo", "gray", "lime"]}
                     // valueFormatter={valueFormatter}
                     onValueChange={(v) => setValue(v)}
                 />
@@ -45,8 +48,8 @@ const PPSCard = () => {
 
                 <Legend
                     className="mt-3 flex flex-col"
-                    categories={["Fruits", "Vegetables"]}
-                    colors={["teal", "indigo"]}
+                    categories={["Others", "Vegetables", "Fruits"]}
+                    colors={["indigo", "gray", "lime"]}
                 />
 
             </Card>
