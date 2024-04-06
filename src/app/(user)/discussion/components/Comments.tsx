@@ -303,8 +303,8 @@ export default function Comments({ posts }: { posts: Post }) {
                   )}
                 </div>
                 <div className="flex gap-5">
-                  <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600">
-                    <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
+                  <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 mt-2 mb-2">
+                    <div className="w-[2px] h-full bg-gray-400 hover:bg-green "></div>
                   </div>
                   <div className="w-full">
                     <p className="font-poppins font-light">{comment.text}</p>
