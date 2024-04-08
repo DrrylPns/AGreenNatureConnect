@@ -561,7 +561,7 @@ model Variant {
   unitOfMeasurement String
   variant           Float
   price             Float
-  EstimatedPieces   Float
+  EstimatedPieces   Float?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
