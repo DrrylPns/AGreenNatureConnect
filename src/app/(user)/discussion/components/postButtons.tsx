@@ -4,7 +4,7 @@ import { BiComment, BiShare } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { useToast } from "@/lib/hooks/use-toast";
 import axios from "axios";
-import { Post } from "@/lib/types";
+import { PostTypes } from "@/lib/types";
 import { useSession } from "next-auth/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { ReactionButton } from "./ReactionButton";
@@ -19,7 +19,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   const { status } = useSession();
   const loginModal = useLoginModal();
   const { toast } = useToast();
-  const [post, setPost] = useState<Post | null>(null); // Assuming you have a Post type
+  const [post, setPost] = useState<PostTypes | null>(null); // Assuming you have a Post type
 
   useEffect(() => {
     getPostDetails();

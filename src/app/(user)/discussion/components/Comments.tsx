@@ -7,7 +7,7 @@ import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
 import { ReplyComment } from "@/app/components/dialogs/ReplyComment";
 import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
-import { Comment, CommentsWithReplies, Post } from "@/lib/types";
+import { Comment, CommentsWithReplies, PostTypes } from "@/lib/types";
 import {
   CommentSchema,
   CreateCommentType,
@@ -28,7 +28,7 @@ import { fetchReplies } from "../../../../../actions/reply";
 import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 import DeleteReply from "@/app/components/dialogs/DeleteReply";
 
-export default function Comments({ posts }: { posts: Post }) {
+export default function Comments({ posts }: { posts: PostTypes }) {
   const router = useRouter();
   const { data: session } = useSession();
   const loginModal = useLoginModal();
