@@ -192,7 +192,7 @@ const page = () => {
                         <Button
                             isLoading={isLoading}
                             variant='green'
-                            className="bg-[#4DE69E]  duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[620px] md:h-[50px] text-black md:mb-5">
+                            className="bg-amber  duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[620px] md:h-[50px] text-black md:mb-5">
                             Reset Password
                         </Button>
                     </div>
