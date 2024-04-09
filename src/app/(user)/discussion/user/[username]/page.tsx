@@ -12,6 +12,8 @@ import { Author } from "@/lib/types";
 import RotatingLinesLoading from "@/app/(markethub)/components/RotatingLinesLoading";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import useSettingsModal from "@/lib/hooks/useSettingsModal";
+import MenuItem from "@/app/components/MenuItem";
 
 function page({
   params,
@@ -24,6 +26,7 @@ function page({
   const [loading, setLoading] = useState<boolean>(true);
   const session = useSession();
   const username = params.username.replace(/%20/g, " ");
+  const settingsModal = useSettingsModal();
 
   useEffect(() => {
     getUser();
@@ -88,9 +91,7 @@ function page({
                 </div>
                 {session.data?.user.id === user.id && (
                   <div>
-                    <Link href={"/settings"}>
-                      <Button variant={"link"}>Edit Profile</Button>
-                    </Link>
+                    <Button onClick={settingsModal.onOpen}>Edit Profile</Button>
                   </div>
                 )}
               </div>

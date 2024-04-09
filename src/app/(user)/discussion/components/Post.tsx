@@ -1,27 +1,23 @@
 "use client";
-import Image from "next/image";
-import React, { useEffect, useState, useRef, Fragment } from "react";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
-import PostButtons from "./postButtons";
-import { FaEllipsis, FaFilter } from "react-icons/fa6";
-import axios from "axios";
-import { Post } from "@/lib/types";
-import RelativeDate from "@/app/components/RelativeDate";
-import Link from "next/link";
 import EditorOutput from "@/app/components/(user)/EditorOutput";
-import PostSkeleton from "./Skeleton/PostSkeleton";
+import RelativeDate from "@/app/components/RelativeDate";
+import { PostTypes } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
+import axios from "axios";
+import Image from "next/image";
+import Link from "next/link";
+import { Fragment, useEffect, useRef, useState } from "react";
+import { FaEllipsis } from "react-icons/fa6";
 import { useInView } from "react-intersection-observer";
-
+import PostSkeleton from "./Skeleton/PostSkeleton";
+import PostButtons from "./postButtons";
 import { useSession } from "next-auth/react";
-
-import { useRouter } from "next/navigation";
-
-import { Listbox, Popover, Transition } from "@headlessui/react";
+import { Listbox, Transition } from "@headlessui/react";
 import { TbFilterSearch } from "react-icons/tb";
 
 type PostProps = {
-  getAllPost: Post[];
+  getAllPost: PostTypes[];
   nextId: string;
 };
 
@@ -180,9 +176,7 @@ export default function Post() {
                         </h6>
                       )}
                       {post.author.role === "USER" && (
-                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold">
-                          Member ☘️
-                        </h6>
+                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold"></h6>
                       )}
                       {post.author.role === "ADMIN" && (
                         <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
@@ -192,7 +186,7 @@ export default function Post() {
                     </div>
 
                     {/**Description & Images */}
-                    <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold">
+                    <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
                       {post.title}
                     </h1>
                     <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">

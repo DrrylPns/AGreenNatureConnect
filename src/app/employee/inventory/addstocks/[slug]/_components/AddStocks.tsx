@@ -1,28 +1,27 @@
 "use client"
-import { AddStocksScehma, AddStocksType } from '@/lib/validations/employee/products';
-import { Product, Variant } from '@prisma/client';
-import React, { useState } from 'react'
+import { Button } from '@/app/components/Ui/Button';
+import { Input } from '@/app/components/Ui/Input';
+import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/app/components/Ui/alert-dialog';
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
-    FormMessage,
-} from "@/app/components/Ui/form"
-import { useForm } from 'react-hook-form'
-import { zodResolver } from '@hookform/resolvers/zod'
-import { cn } from '@/lib/utils';
+    FormMessage
+} from "@/app/components/Ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/Ui/select';
-import { Input } from '@/app/components/Ui/Input';
-import { MinusCircle, Plus } from 'lucide-react';
-import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from '@/app/components/Ui/alert-dialog';
-import { Button } from '@/app/components/Ui/Button';
+import { toast } from '@/lib/hooks/use-toast';
+import { cn } from '@/lib/utils';
+import { AddStocksScehma, AddStocksType } from '@/lib/validations/employee/products';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Product, Variant } from '@prisma/client';
 import { useMutation } from '@tanstack/react-query';
 import axios, { AxiosError } from 'axios';
-import { toast } from '@/lib/hooks/use-toast';
+import { MinusCircle, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react';
+import { useForm } from 'react-hook-form';
 
 interface UpdateProductProps {
     product: Product & {

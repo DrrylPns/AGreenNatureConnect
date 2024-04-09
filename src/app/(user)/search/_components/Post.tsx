@@ -1,4 +1,4 @@
-import { Post } from "@/lib/types";
+import { PostTypes } from "@/lib/types";
 import React, { useRef } from "react";
 import PostButtons from "../../discussion/components/postButtons";
 import EditorOutput from "@/app/components/(user)/EditorOutput";
@@ -9,7 +9,7 @@ import Link from "next/link";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
 import { useSession } from "next-auth/react";
 
-function Post({ posts }: { posts: Post[] }) {
+function Post({ posts }: { posts: PostTypes[] }) {
   const pref = useRef<HTMLDivElement>(null);
   const { data: session } = useSession();
   return (

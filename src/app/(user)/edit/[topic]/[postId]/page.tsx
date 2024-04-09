@@ -2,7 +2,7 @@
 import { Button } from "@/app/components/Ui/Button";
 import { LoadingComponent } from "@/components/LoadingComponent";
 import { PageNotFound } from "@/components/PageNotFound";
-import { Post } from "@/lib/types";
+import { PostTypes } from "@/lib/types";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { FC } from "react";
@@ -46,7 +46,7 @@ const page: FC<Props> = ({ params }) => {
     queryKey: ["edit-posts"],
     queryFn: async () => {
       const { data } = await axios.get(`/api/user/post/${params.postId}`)
-      return data as Post
+      return data as PostTypes
     },
     refetchOnWindowFocus: false
   })

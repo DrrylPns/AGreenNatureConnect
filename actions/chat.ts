@@ -35,6 +35,16 @@ export const inspectChatRoom = async (communityId: string) => {
             }
         })
 
+        if (newChatRoom) {
+            await prisma.message.create({
+                data: {
+                    content: "Sarado kami tuwing linggo at 8AM - 5PM lang ang working hours namin",
+                    communityId,
+                    chatRoomId: newChatRoom.id,
+                }
+            })
+        }
+
         redirect(`/message/${newChatRoom.id}`)
     }
 }

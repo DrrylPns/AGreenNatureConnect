@@ -357,7 +357,14 @@ export const columns: ColumnDef<Products>[] =
                 // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
                 >
                   <Link href={`inventory/addstocks/${product.id}`}>
-                    Add Stocks
+                    Add new variants
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
+                >
+                  <Link href={`inventory/updatestocks/${product.id}`}>
+                    Update stocks
                   </Link>
                 </DropdownMenuItem>
                 <DropdownMenuItem

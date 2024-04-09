@@ -18,7 +18,6 @@ export async function PUT(req: NextRequest) {
 
     const community = await prisma.community.findFirst({
         where: {
-            // userId: user?.id
             id: loggedInUser?.Community?.id
         }
     })
@@ -44,50 +43,76 @@ export async function PUT(req: NextRequest) {
             return new NextResponse(`Product not found.`, { status: 404 });
         }
 
-        const variantToUpdate = existingProduct.variants.find(
-            (variant) => variant.unitOfMeasurement === typeOfMeasurement
-        );
+        for (const measurementData of perMeasurement) {
+            const { measurement, estPieces, price } = measurementData;
 
-        if (!variantToUpdate) {
-            const createdVariant = await prisma.variant.create({
-                data: {
-                    unitOfMeasurement: typeOfMeasurement,
-                    variant: 0, // TODO
-                    EstimatedPieces: Number(quantity),
-                    price: 0, // TODO
-                    product: {
-                        connect: {
-                            id: existingProduct.id,
-                        },
+            const existingVariant = existingProduct.variants.find(
+                (variant) => variant.unitOfMeasurement === typeOfMeasurement
+            );
+
+            console.log(`This is the measurementData: ${measurementData}`)
+            console.log(`This is the measurement: ${measurement}`)
+            console.log(`This is the price: ${price}`)
+            console.log(`This is the est pcs: ${estPieces}`)
+
+            if (existingVariant) {
+                await prisma.variant.update({
+                    where: { id: existingVariant.id },
+                    data: {
+                        variant: measurement,
+                        price,
+                        EstimatedPieces: Number(estPieces),
                     },
-                },
-            });
-
-            return new NextResponse(`Successfully created a new variant for ${typeOfMeasurement}.`, {
-                status: 200,
-            });
+                });
+            } else {
+                await prisma.variant.create({
+                    data: {
+                        product: { connect: { id: existingProduct.id } },
+                        variant: measurement,
+                        EstimatedPieces: Number(estPieces),
+                        price,
+                        unitOfMeasurement: typeOfMeasurement,
+                    },
+                });
+            }
         }
 
-        const updatedVariant = await prisma.variant.update({
-            where: {
-                id: variantToUpdate.id,
-            },
-            data: {
-                EstimatedPieces: variantToUpdate.EstimatedPieces + Number(quantity),
-
-            },
-        });
-
-
-        const updatedProduct = await prisma.product.update({
-            where: {
-                id: existingProduct.id,
-            },
-            data: {
-
-                // kilogram: existingProduct?.kilogram + Number(quantity),
-            },
-        });
+        if (typeOfMeasurement === "Kilograms") {
+            await prisma.product.update({
+                where: { id: existingProduct.id },
+                data: {
+                    kilograms: quantity,
+                }
+            })
+        } else if (typeOfMeasurement === "Grams") {
+            await prisma.product.update({
+                where: { id: existingProduct.id },
+                data: {
+                    grams: quantity,
+                }
+            })
+        } else if (typeOfMeasurement === "Pieces") {
+            await prisma.product.update({
+                where: { id: existingProduct.id },
+                data: {
+                    pieces: quantity,
+                }
+            })
+        } else if (typeOfMeasurement === "Pounds") {
+            await prisma.product.update({
+                where: { id: existingProduct.id },
+                data: {
+                    pounds: quantity,
+                }
+            })
+        } else if (typeOfMeasurement === "Packs") {
+            await prisma.product.update({
+                where: { id: existingProduct.id },
+                data: {
+                    packs: quantity,
+                }
+            })
+        }
 
         return new NextResponse(`Successfully added stocks to the product.`, { status: 200 });
     } catch (error) {
