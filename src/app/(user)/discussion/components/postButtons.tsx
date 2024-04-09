@@ -73,7 +73,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   }
 
   return (
-    <div className="border-t-4 border-gray-300 dark:border-[#18191A] py-3 lg:flex items-center">
+    <div className="border-t-4 border-gray-300 dark:border-[#18191A] py-3 sm:flex items-center">
 
       <ReactionList postId={postId} />
 
@@ -81,21 +81,27 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
       <div className="flex items-center justify-end gap-4 py-2 md:px-10 px-3">
         {/* <LikeButton postId={postId} /> */}
         <ReactionButton postId={postId} />
-        <motion.button
+
+        <Popover>
+          <>
+          <motion.button
           whileTap={{ backgroundColor: "ButtonShadow" }}
           type="button"
-          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-[7rem] rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
         >
           <span className="text-[1.5rem] text-gray-600 dark:text-white">
             <BiComment />
           </span>
-          <h3>{comments}</h3>
+          <h3 className="hidden md:block">{comments}</h3>
         </motion.button>
+          </>
+        </Popover>
+        
         <Popover>
           <>
             <motion.button
               whileTap={{ backgroundColor: "ButtonShadow" }}
-              className="rounded-3xl font-poppins font-semibold w-[7rem] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+              className="rounded-3xl w-full font-poppins font-semibold dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
             >
               <Popover.Button
                 type="button"
@@ -105,7 +111,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
                 <span className="text-[1.5rem] text-gray-600 dark:text-white">
                   <BiShare />
                 </span>
-                Share
+                <h3 className="hidden md:block">Share</h3>
               </Popover.Button>
             </motion.button>
           </>
