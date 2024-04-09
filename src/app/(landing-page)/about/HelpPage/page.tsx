@@ -1,11 +1,5 @@
 import React from 'react'
 import Image from "next/image";
-import Tutorial from "/public/images/tutorial 1.png";
-import Account from "/public/images/account 1.png";
-import Page from "/public/images/web-page 1.png";
-import Store from "/public/images/store 1.png";
-import Padlock from "/public/images/padlock 1.png";
-import Search from "/public/images/search-Icon.png";
 import Icon from "/public/images/Icon-help.png";
 import Link from "next/link";
 import Footer from '@/app/components/Footer/footer';

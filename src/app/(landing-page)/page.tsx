@@ -42,7 +42,7 @@ export default function Home() {
 
           </div>
           <div className="flex flex-col w-full items-end mt-5">
-            <h1 className=" font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[20px] self-start mt-[-20px]">
+            <h1 className="p font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[20px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
             <h1 className="font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[20px] self-start">

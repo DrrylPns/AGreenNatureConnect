@@ -43,6 +43,7 @@ export default function Navbar() {
       className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-black w-full h-[70px] px-4 sm:px-20 py-4 shadow transition-color duration-500 ${
         visible ? "" : "opacity-0"
       }`}
+      
     >
       <Logo />
       <motion.div
