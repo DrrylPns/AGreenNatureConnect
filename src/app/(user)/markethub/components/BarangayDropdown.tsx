@@ -30,11 +30,11 @@ function BarangayDropdown() {
         }
     }
   return (
-    <div className={`transition-all font-light md:tracking-wider bg-cover bg-center duration-500 ease-in w-full grid grid-cols-3 gap-5 md:grid-cols-6 justify-center border-2 border-gray-300 drop-shadow-md shadow-inner mt-3 p-2 sm:p-5`}>
+    <div className={`transition-all font-light md:tracking-wider bg-cover bg-center duration-500 ease-in w-full grid grid-cols-3 gap-5 md:grid-cols-6 justify-center border-2 border-gray-300 dark:border-sky-700 drop-shadow-md shadow-inner mt-3 p-2 sm:p-5`}>
       
       {communities.length > 0 && communities.map((community: Community) =>(
           <Link 
-            className='relative border-2 border-gray-400 hover:scale-105 hover:shadow-lg md:h-32   md:w-32 sm:h-16 sm:w-16 flex flex-col justify-center text-[0.5rem] sm:text-sm md:text-xl  hover:text-yellow-300 transition-colors ease-out duration-500 hover:font-bold items-center text-center bg-gray-50 rounded-lg' 
+            className='relative border-2 border-gray-400 dark:border-sky-600 hover:scale-105 hover:shadow-lg md:h-32   md:w-32 sm:h-16 sm:w-16 flex flex-col justify-center text-[0.5rem] sm:text-sm md:text-xl  hover:text-yellow-300 dark:hover:text-yellow-300 transition-colors ease-out duration-500 hover:font-bold items-center text-center bg-gray-50 dark:bg-sky-700 rounded-lg dark:text-gray-900' 
             href={{ pathname:`/markethub/community/${community.name}`, query:{communityId: community.id}} }>
              
               
@@ -57,7 +57,7 @@ function BarangayDropdown() {
                     alt='' 
                     width={100}
                     height={100}
-                    className='w-full h-full '
+                    className='w-full h-full'
                   />
                   <h1 className='z-30 text-xs shadow-md font-semibold '>{community.name}</h1>
                   </>
