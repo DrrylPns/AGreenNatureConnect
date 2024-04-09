@@ -4,7 +4,7 @@ import EditorOutput from "@/app/components/(user)/EditorOutput";
 import RelativeDate from "@/app/components/RelativeDate";
 import DeleteDialog from "@/app/components/dialogs/DeletePost";
 import { PostUnderReview } from "@/components/PostUnderReview";
-import { Comment, Post } from "@/lib/types";
+import { Comment, PostTypes } from "@/lib/types";
 import { Popover, Transition } from "@headlessui/react";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -26,7 +26,7 @@ interface Props {
 }
 
 const page: FC<Props> = ({ params }) => {
-  const [posts, setPosts] = useState<Post>();
+  const [posts, setPosts] = useState<PostTypes>();
   // const [comments, setComments] = useState<Comment>();
   const router = useRouter();
   const { data: session } = useSession();

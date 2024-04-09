@@ -80,6 +80,13 @@ export const AddStocksScehma = z.object({
     ),
 })
 
+export type UpdateStocksType = z.infer<typeof UpdateStocksSchema>
+
+export const UpdateStocksSchema = z.object({
+    typeOfMeasurement: z.string().min(1).max(21),
+    quantity: z.coerce.number().min(0, numberError),
+})
+
 
 export type FormType = z.infer<typeof DeclineProductSchema>
 
@@ -96,5 +103,5 @@ export const DeclineProductSchema = z.object({
     }),
     otherReason: z.string({
         required_error: "Specifying a reason is required. This will help us improve our service."
-    }).min(5, {message: "Reason for cancelling must atleast contain (5) characters"}).max(500, {message: "Error: You've reached the maximum of 500 characters."}),
+    }).min(5, { message: "Reason for cancelling must atleast contain (5) characters" }).max(500, { message: "Error: You've reached the maximum of 500 characters." }),
 })

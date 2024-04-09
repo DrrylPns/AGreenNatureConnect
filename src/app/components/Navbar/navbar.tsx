@@ -45,7 +45,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`flex z-50 fixed top-0 left-0 items-center justify-between bg-white w-full h-[62px] px-4 sm:px-20 py-4 shadow transition-color duration-500 ${
+      className={`flex z-50 fixed top-0 items-center justify-between bg-white w-full h-[62px] px-4 sm:px-20 py-4 shadow transition-color duration-500 ${
         visible ? "" : "opacity-0"
       }`}
     >

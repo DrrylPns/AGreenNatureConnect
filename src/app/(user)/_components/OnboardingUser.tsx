@@ -267,7 +267,7 @@ export const OnboardingUser = () => {
             )}
           </CardContent>
           <CardFooter className="flex justify-center">
-            <Button className="bg-[#24643B]  duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[620px] md:h-[50px] text-white md:mb-5">
+            <Button className="bg-[#099073]  duration-300 rounded-xl w-[300px] h-[50px] font-bold md:w-[620px] md:h-[50px] text-white md:mb-5">
               Update
             </Button>
           </CardFooter>

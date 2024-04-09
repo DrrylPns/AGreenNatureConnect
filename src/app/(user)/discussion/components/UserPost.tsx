@@ -1,5 +1,5 @@
 "ise client";
-import { Post } from "@/lib/types";
+import { PostTypes } from "@/lib/types";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useSession } from "next-auth/react";
@@ -15,7 +15,7 @@ import Link from "next/link";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
 
 type PostProps = {
-  getPost: Post[];
+  getPost: PostTypes[];
   nextId: string;
   userId: string;
 };

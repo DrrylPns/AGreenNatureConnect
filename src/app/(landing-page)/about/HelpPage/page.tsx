@@ -8,7 +8,15 @@ import {
   AccordionContent,
   AccordionItem,
   AccordionTrigger,
-} from "@/components/ui/accordion"
+} from "@/components/ui/accordion";
+import Image from "next/image";
+import Link from "next/link";
+import Account from "/public/images/account1.png";
+import Icon from "/public/images/Icon-help.png";
+import Padlock from "/public/images/padlock 1.png";
+import Store from "/public/images/store 1.png";
+import Tutorial from "/public/images/tutorial 1.png";
+import Page from "/public/images/web-page 1.png";
 
 function page() {
   return (

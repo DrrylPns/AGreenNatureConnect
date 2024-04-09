@@ -36,7 +36,7 @@ const page = async () => {
 
   const salesByDate = await fetchSalesByDate()
 
-  if(!salesByDate) return <>Error fetching Sales</>
+  if (!salesByDate) return <>Error fetching Sales</>
 
   return (
     <main className='flex flex-col gap-2 h-screen bg-[#E3E1E1]'>
@@ -68,8 +68,8 @@ const page = async () => {
                       className="h-72 mt-4"
                       data={salesByDate as any}
                       index="date"
-                      categories={["Fruits", "Vegetables"]}
-                      colors={["indigo", "gray"]}
+                      categories={["Others", "Vegetables", "Fruits"]}
+                      colors={["indigo", "gray", "lime"]}
                       yAxisWidth={30}
                     />
                   </div>

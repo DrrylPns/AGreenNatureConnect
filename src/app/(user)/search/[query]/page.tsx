@@ -1,6 +1,6 @@
 'use client'
 import ProductModal from '../../markethub/components/ProductModal'
-import { Post, Product } from '@/lib/types'
+import { PostTypes, Product } from '@/lib/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import DisplayPhoto from "@/../public/images/default-user.jpg";
@@ -19,7 +19,7 @@ function page({
         query: string
     }
 }) {
-   const [posts, setPosts] = useState<Post[]>()
+   const [posts, setPosts] = useState<PostTypes[]>()
    const [products, setProducts] = useState<Product[]>()
    const {data:session} = useSession();
    useEffect(()=>{

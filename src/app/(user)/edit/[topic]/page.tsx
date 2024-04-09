@@ -1,6 +1,6 @@
 "use client";
 import EditorOutput from "@/app/components/(user)/EditorOutput";
-import { Post, Topic } from "@/lib/types";
+import { PostTypes, Topic } from "@/lib/types";
 import axios from "axios";
 import DisplayPhoto from "@/../public/images/default-user.jpg";
 import React, { FC, useEffect, useRef, useState } from "react";
@@ -39,7 +39,7 @@ const page: FC<Pageprops> = ({ params }) => {
               {topic?.posts.length} post/s in {topic?.name} right now!
             </span>
           </h1>
-          {topic.posts.map((post: Post) => (
+          {topic.posts.map((post: PostTypes) => (
             <Link
               href={{
                 pathname: `/discussion/${topic.name}/${post.id}`,
