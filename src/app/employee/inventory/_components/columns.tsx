@@ -360,13 +360,13 @@ export const columns: ColumnDef<Products>[] =
                     Add new variants
                   </Link>
                 </DropdownMenuItem>
-                <DropdownMenuItem
+                {/* <DropdownMenuItem
                 // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
                 >
                   <Link href={`inventory/updatestocks/${product.id}`}>
                     Update stocks
                   </Link>
-                </DropdownMenuItem>
+                </DropdownMenuItem> */}
                 <DropdownMenuItem
                 // onClick={() => router.push(`inventory/${product.id}`)}
                 >
@@ -412,78 +412,19 @@ export const columns: ColumnDef<Products>[] =
                   </DialogTrigger> */}
               <DialogContent>
                 <DialogHeader>
-                  <DialogTitle>Please select a date</DialogTitle>
-                  <DialogDescription>
-                    <Form {...form}>
-                      <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <FormField
-                          control={form.control}
-                          name="freeUntil"
-                          render={({ field }) => (
-                            <FormItem className="flex flex-col mt-4">
-                              <FormLabel>Specify the date until which the product remains available for free.</FormLabel>
-                              <Popover>
-                                <PopoverTrigger asChild>
-                                  <FormControl>
-                                    <Button
-                                      variant={"outline"}
-                                      className={cn(
-                                        "pl-3 text-left font-normal",
-                                        !field.value && "text-muted-foreground"
-                                      )}
-                                    >
-                                      {field.value && isValid(new Date(field.value)) ? (
-                                        format(new Date(field.value), "PPP")
-                                      ) : (
-                                        <span>Pick a date</span>
-                                      )}
-                                      {/* 
-                                      {field.value ? (
-                                        format(field.value, "PPP")
-                                      ) : (
-                                        <span>Pick a date</span>
-                                      )} */}
-
-                                      <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                    </Button>
-                                  </FormControl>
-                                </PopoverTrigger>
-                                <PopoverContent className="w-auto p-0" align="start">
-                                  <Calendar
-                                    mode="single"
-                                    selected={field.value}
-                                    onSelect={(date) => {
-                                      // const isoDate = date?.toISOString();
-                                      // field.onChange(isoDate);
-                                      // setIsFreeUntil(isoDate as any);
-
-                                      // const localDate = date?.toLocaleString();
-                                      // field.onChange(localDate);
-                                      // setIsFreeUntil(localDate as any);
-
-                                      field.onChange(date);
-                                      setIsFreeUntil(date);
-                                    }}
-                                    disabled={(date) => !isToday(date) && (isBefore(date, today) || isAfter(date, sevenDaysFromNow))}
-                                    initialFocus
-                                  />
-                                </PopoverContent>
-                              </Popover>
-                              <FormMessage />
-                            </FormItem>
-                          )}
-                        />
+                  <DialogTitle>Are you sure that you want to make this product free?</DialogTitle>
+                  <DialogDescription className="flex flex-col gap-3">
+                        <div>
+                          By confirming you agree to make this specific product free.
+                        </div>
+                        
                         <Button
                           type="submit"
                           variant="newGreen"
                           onClick={() => (isFree ? "" : handleMakeFree(product.id, isFreeUntil as Date))}
-                          disabled={!isFreeUntil}
-                          isLoading={isLoading}
                         >
                           Submit
                         </Button>
-                      </form>
-                    </Form>
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>

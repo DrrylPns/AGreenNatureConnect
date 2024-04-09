@@ -64,7 +64,7 @@ export async function POST(req: Request) {
                 id: transactionId
             },
             data: {
-                status: "PICK_UP"
+                status: "PICK_UP",
             }
         })
 

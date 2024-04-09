@@ -282,7 +282,7 @@ export const columns: ColumnDef<Product>[] = [
                                     })
                                 }}
                             >
-                                Unarchive
+                                Restore
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu >

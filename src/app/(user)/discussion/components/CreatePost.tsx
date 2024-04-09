@@ -22,11 +22,11 @@ export default function CreatePost() {
         </div>
       ) : (
         <>
-          {session ? (
+          {session?.user.role !== "ADMIN" ? (
             <div
               className=" flex justify-between items-center gap-5 dark:bg-[#242526] bg-white rounded-lg drop-shadow-lg w-full px-5 py-5"
             >
-              <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session.user.id } }} className="w-[2.5rem]">
+              <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session?.user.id } }} className="w-[2.5rem]">
                 <UserAvatar
                   user={{
                     name: session?.user.username || null,
