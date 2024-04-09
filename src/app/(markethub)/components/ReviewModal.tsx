@@ -33,6 +33,8 @@ function ReviewModal({
         resolver: zodResolver(ReviewSchema),
     })
 
+    console.log(transactionId)
+    
     const router = useRouter()
 
     const [imageUrl, setImageUrl] = useState<string>('')
@@ -93,6 +95,7 @@ function ReviewModal({
             }
         },
         onSuccess: (data) => {
+            console.log(data)
             toast({
                 title: 'Success!',
                 description: `${data}`,

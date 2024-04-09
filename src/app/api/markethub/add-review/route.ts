@@ -23,6 +23,7 @@ export async function POST(req: Request) {
             image,
             transactionId,
         } = ReviewSchema.parse(body);
+
         const prevRating = await prisma.review.findFirst({
             where:{
                 productId,
@@ -31,6 +32,7 @@ export async function POST(req: Request) {
                 
             }
         })
+        
         if(!prevRating){
             await prisma.review.create({
                 data: {
@@ -44,6 +46,7 @@ export async function POST(req: Request) {
                     description,
                     productId,
                     userId: session.user.id,
+                    transactionId
                 },
             })
             return new Response('Successfully reviewed the product!')
