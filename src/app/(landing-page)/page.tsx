@@ -27,9 +27,9 @@ export default function Home() {
         <div
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
-          <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
+          <div className=" flex flex-col items-end md:w-[600px] w-full">
 
-            <div className="font-mono  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px] m-2">
+            <div className="font-mono text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px] m-2">
 
               Welcome to AGreen Nature Connect Urban Farming
             </div>
