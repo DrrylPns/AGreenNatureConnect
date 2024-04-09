@@ -13,7 +13,7 @@ export default function footer() {
       <div className="flex px-3 py-5 lg:px-40 lg:py-18 justify-between mx-5 lg:mx-10 border-b-2 border-black pr-10">
         <div>
           <Logo />
-          <div className="flex lg:gap-10 gap-5 my-3 lg:w-[20px] lg:h-[20px] md:w-[15px] md:h-[15px] w-[10px] h-[10px]">
+          <div className="flex lg:gap-10 gap-5 my-3 lg:w-[20px] lg:h-[20px] md:w-[15px] md:h-[15px] w-[15px] h-[15px]">
             <Image className=" " src={FacebookLogo} alt="Facebook logo" />
             <Image src={TwitterLogo} alt="Twitter logo" />
             <Image src={TiktokLogo} alt="Tiktok logo" />
