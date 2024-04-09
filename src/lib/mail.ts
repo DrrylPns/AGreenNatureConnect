@@ -5,6 +5,21 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 const domain = process.env.NEXT_PUBLIC_APP_URL;
 
+export const sendEmployeePasswordEmail = async (email: string, token: string, name: string | null) => {
+    const resetLink = `${domain}/set-password?token=${token}`
+
+    await resend.emails.send({
+        from: "agreennatureconnect@agreennatureconnect.online",
+        to: email,
+        subject: `Agreenatureconnect: Hi, ${name}. Please set your password`,
+        html: `<div>
+                    <p>Click <a href="${resetLink}">here</a> to reset password.</p>
+                    <p>Note: This link is only valid for 1 hour.</p>
+                    <b>-Agreenatureconnect</b>
+                </div>`
+    })
+}
+
 export const sendCancelledNotification = async (email: string, transactionId: string, communityName: string, cancelReason: string | null, cancelType: CancelType | null) => {
     const tradeLink = `${domain}/order-status/${transactionId}`
 

@@ -396,7 +396,6 @@ export const columns: ColumnDef<Products>[] =
                             description: callback.success
                           })
                         }
-
                       })
                     })
                   }}

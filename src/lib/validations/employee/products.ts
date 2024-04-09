@@ -75,7 +75,7 @@ export const AddStocksScehma = z.object({
         z.object({
             measurement: z.coerce.number().min(0, variantError),
             price: z.coerce.number().min(0, numberError),
-            estPieces: z.string().min(0, numberError),
+            estPieces: z.string().min(0, numberError).optional(),
         })
     ),
 })

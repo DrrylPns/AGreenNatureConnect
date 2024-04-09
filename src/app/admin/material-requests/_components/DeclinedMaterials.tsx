@@ -186,7 +186,7 @@ export const DeclinedMaterials = () => {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action will approve the requested blog of the employee and it will be seen in the blog section .
+                          This action will approve the requested material of the employee and it will be seen in the blog section .
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

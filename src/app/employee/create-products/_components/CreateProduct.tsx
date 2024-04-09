@@ -475,7 +475,7 @@ const CreateProduct = () => {
                                 name={`perMeasurement[${index}].estPieces` as any}
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel className="text-[#f7d126]">Est. piece/s</FormLabel>
+                                        <FormLabel className="text-[#f7d126]">Est. piece/s (Optional)</FormLabel>
                                         <FormControl>
                                             <Input
                                                 placeholder="Enter Estimated Pieces"

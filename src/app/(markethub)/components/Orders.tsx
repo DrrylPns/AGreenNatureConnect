@@ -67,7 +67,7 @@ export interface Variants {
     unitOfMeasurement: string;
     variant: number;
     price: number;
-    EstimatedPieces: number;
+    EstimatedPieces: number | null;
 }
 export interface Product {
     id: string;

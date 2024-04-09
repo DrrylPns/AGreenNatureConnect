@@ -35,10 +35,16 @@ export const inspectChatRoom = async (communityId: string) => {
             }
         })
 
+        const currentCommunity = await prisma.community.findUnique({
+            where: {id: communityId}
+        })
+
         if (newChatRoom) {
             await prisma.message.create({
                 data: {
-                    content: "Sarado kami tuwing linggo at 8AM - 5PM lang ang working hours namin",
+                    content: `
+                    Welcome to our "Barangay ${currentCommunity?.name} live chat! We're available on weekdays from 8:00 AM to 5:00 PM and Saturdays from 8:00 AM to 12:00 PM. We're closed on Sundays. Please leave us a message if you reach out outside of these hours, and we'll respond promptly during our next available time slot. Thank you for choosing our barangay office for assistance!
+                    `,
                     communityId,
                     chatRoomId: newChatRoom.id,
                 }
