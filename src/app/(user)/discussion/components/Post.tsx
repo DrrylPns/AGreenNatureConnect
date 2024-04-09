@@ -180,9 +180,7 @@ export default function Post() {
                         </h6>
                       )}
                       {post.author.role === "USER" && (
-                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold">
-                          Member ☘️
-                        </h6>
+                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold"></h6>
                       )}
                       {post.author.role === "ADMIN" && (
                         <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">

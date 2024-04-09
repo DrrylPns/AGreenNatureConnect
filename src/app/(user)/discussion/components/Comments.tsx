@@ -245,29 +245,24 @@ export default function Comments({ posts }: { posts: Post }) {
                       className="w-full"
                     />
                   </div>
-                  <div>
-                    <div className="flex items-center justify-between gap-1.5">
-                      <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
-                        {comment.author.username}
-                      </h3>
+                  <div className="flex items-center justify-between gap-1.5">
+                    <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
+                      {comment.author.username}
+                    </h3>
+                    <div>
                       {comment.author.role === "EMPLOYEE" && (
                         <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
-                          Community Employee 🌳
-                        </h6>
-                      )}
-                      {comment.author.role === "USER" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
-                          Member ☘️
+                          Employee 🌳
                         </h6>
                       )}
                       {comment.author.role === "ADMIN" && (
                         <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-medium">
-                          Community Admin 🥦
+                          Admin 🥦
                         </h6>
                       )}
-                      <div className="text-gray-400 text-[0.7rem]">
-                        <RelativeDate dateString={comment.createdAt} />
-                      </div>
+                    </div>
+                    <div className="text-gray-400 text-[0.7rem]">
+                      <RelativeDate dateString={comment.createdAt} />
                     </div>
                   </div>
 
@@ -346,11 +341,6 @@ export default function Comments({ posts }: { posts: Post }) {
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
                                       Employee 🌳
-                                    </h6>
-                                  )}
-                                  {reply.user.role === "USER" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Member ☘️
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (
