@@ -20,25 +20,38 @@ export async function POST(req: Request) {
             qualityRating,
             serviceRating,
             title,
-            image
+            image,
+            transactionId,
         } = ReviewSchema.parse(body);
-
-        await prisma.review.create({
-            data: {
-                freshnessRating,
-                image,
-                overAllRating,
-                priceRating,
-                qualityRating,
-                serviceRating,
-                title,
-                description,
+        const prevRating = await prisma.review.findFirst({
+            where:{
                 productId,
                 userId: session.user.id,
-            },
+                transactionId
+                
+            }
         })
+        if(!prevRating){
+            await prisma.review.create({
+                data: {
+                    freshnessRating,
+                    image,
+                    overAllRating,
+                    priceRating,
+                    qualityRating,
+                    serviceRating,
+                    title,
+                    description,
+                    productId,
+                    userId: session.user.id,
+                },
+            })
+            return new Response('Successfully reviewed the product!')
+        } else {
+            return new Response("Not allowed!")
+        }
 
-        return new Response('Successfully reviewed the product!')
+    
     } catch (error) {
         if (error instanceof z.ZodError) {
             return new Response(`Invalid POST request data passed: ${error}`, { status: 422 })

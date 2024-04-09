@@ -23,9 +23,11 @@ import Image from 'next/image'
 
 
 function ReviewModal({
-    orderedVariant
+    orderedVariant,
+    transactionId
 }: {
     orderedVariant: OrderedVariant[]
+    transactionId: string,
 }) {
     const form = useForm<AddReviewType>({
         resolver: zodResolver(ReviewSchema),
@@ -48,6 +50,7 @@ function ReviewModal({
             title,
             description,
             productId,
+            transactionId
         }: AddReviewType) => {
             const payload: AddReviewType = {
                 image,
@@ -59,6 +62,7 @@ function ReviewModal({
                 title,
                 description,
                 productId,
+                transactionId,
             }
 
             const { data } = await axios.post("/api/markethub/add-review", payload)
@@ -109,6 +113,7 @@ function ReviewModal({
             title: data.title,
             description: data.description,
             productId: data.productId,
+            transactionId: transactionId
         }
         addReview(payload)
         console.log(payload)

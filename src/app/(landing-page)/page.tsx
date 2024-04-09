@@ -2,14 +2,13 @@
 import Image from "next/image";
 import Footer from "../components/Footer/footer";
 import Vector from "/public/images/Vector.png";
-import About from "/public/images/Aboutbg.jpg";
 import Subheading from "/public/images/subheading.png";
 import LightIcon from "/public/images/lightbulbIcon.png";
 import DeliveryIcon from "/public/images/deliveryIcon.png";
 import KnowledgeIcon from "/public/images/knowledgeIcon.png";
 import ArrowIcon from "/public/images/arrowRight.png";
 import Feature from "/public/images/features.png";
-import GrowthIcon from "/public/images/growthIcon.png";
+import GrowthIcon from "/public/images/growthIcon.png"
 import HealthIcon from "/public/images/healthIcon.png";
 import Phone from "/public/images/phone.png";
 import Email from "/public/images/email.png";
@@ -28,9 +27,9 @@ export default function Home() {
         <div
           className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
         >
-          <div className=" flex flex-col items-end md:w-[600px] w-[600px]">
+          <div className="flex flex-col items-end md:w-[600px] w-[600px]">
             
-          <div className="font-poppins  text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px] m-2">
+          <div className="font-poppins text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px]">
 
 
               Welcome to AGreen Nature Connect Urban Farming
@@ -102,7 +101,7 @@ export default function Home() {
 
           <div className="flex gap-10" >   
             <div className="text-slate-200">  
-              <div className=" mb-5 px-44">
+              <div className=" mb-5 lg:px-44 md:px-32 sm:px-22 px-12 ">
 
                 <h2 className="font-poppins font-bold text-2xl mb-5 text-center">
                   Quezon City Urban Farming
@@ -121,11 +120,11 @@ export default function Home() {
                 Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
                 </p>
               </div>
-              <div className="w-full mx-auto text-center">
+              <div className=" text-center">
                 <Link href={'/about'} >
                     <button
                     type="submit"
-                    className="bg-amber text-black w-40 mt-5 p-2 font-poppins rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
+                    className="bg-amber text-black md:w-40 w-28 mt-5 p-2 font-poppins rounded-xl hover:scale-110 ease-in duration-100 max-md:justify-center max-md:text-[12px]"
                     >
                     Read More
                   </button>
