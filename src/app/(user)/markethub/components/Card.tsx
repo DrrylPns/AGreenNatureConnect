@@ -63,7 +63,7 @@ function Card({
     }
 
   return (
-    <div className='bg-slate-100 h-[23rem] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 shadow-md drop-shadow-md rounded-sm w-full border border-gray-300'>
+    <div className='bg-slate-100 dark:bg-[#1F2933] h-[23rem] dark:text-black hover:shadow-xl transition-all duration-300 ease-in-out pb-3 shadow-md drop-shadow-md rounded-sm w-full border border-gray-300'>
         <div className='bg-gray-50 w-full max-h-1/2'>
         <Image 
             src={imageUrl} 
@@ -73,14 +73,14 @@ function Card({
             className='h h-40 w-full border-b-[2px] border-gray-300' 
         />
         </div>
-        <h1 className='font-poppins font-semibold text-sm md:text-lg mb-2 tracking-wide border-y-2 border-gray-200 bg-slate-50'>{productName}</h1>
+        <h1 className='font-poppins font-semibold text-sm md:text-lg mb-2 tracking-wide border-y-2 border-gray-200 bg-slate-50 dark:bg-[#1F2933]'>{productName}</h1>
         <div className='text-center w-full'>
-            <h3 className='text-xs font-poppins font-normal'>
+            <h3 className='text-xs font-poppins dark:text-white font-normal'>
                 {barangay === "Bagbag" && "Solo Parent Urban Farm"}
                 {barangay === "Nova Proper" && "Sharon Urban Farm"}
                 {barangay === "Bagong Silangan" && "New Greenland Urban Farm"}
             </h3>
-            <h3 className='text-xs font-poppins font-normal'>{barangay}</h3>
+            <h3 className='text-xs dark:text-white font-poppins font-normal'>{barangay}</h3>
             {productReviews.length > 0 ?(
                 <div  className="flex max-h-14 flex-col z-30 items-center justify-center my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
                     {productReviews.length > 0 && (

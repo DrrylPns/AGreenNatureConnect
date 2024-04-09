@@ -38,11 +38,11 @@ export default async function Markethub() {
         <ShadcnCarousel/>
       </Link>
       <div>
-      <h1 className="text-sm md:text-xl font-bold mt-3 dark:text-sky-700">Urban Farms:</h1>
+      <h1 className="text-sm md:text-xl font-bold mt-3 dark:text-white">Urban Farms:</h1>
       <BarangayDropdown />
       </div>
       <div className="my-5 flex flex-col-reverse md:flex-row md:flex justify-between items-center w-full">
-        <h1 className="text-xl font-bold text-center mt-5 md:mt-0 md:text-left dark:text-sky-700 ">Urban Farms Products</h1>
+        <h1 className="text-xl font-bold text-center mt-5 md:mt-0 md:text-left dark:text-white ">Urban Farms Products</h1>
         <SearchBar allProduct={allProrducts}/>
       </div>
         <ProductItem />

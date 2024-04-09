@@ -68,17 +68,17 @@ function ProductTab({
   return (
     <div className='pb-10'>
         <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
-            <Tab.List className={'w-full flex-row bg-gray-100 dark:text-black'}>
-                <Tab className="w-1/4 border-x-2 border-t-2 border-x-slate-300 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
+            <Tab.List className={'w-full flex-row bg-[#1F2933] dark:text-white'}>
+                <Tab className="w-1/4 border-x-2 border-t-2 border-x-slate-300 dark:border-x-zinc-700 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
                     <h1>All</h1>
                 </Tab>
-                <Tab className="w-1/4 border-r-2 border-t-2 border-r-slate-300 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
+                <Tab className="w-1/4 border-r-2 border-t-2 border-r-slate-300 dark:border-x-zinc-700 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
                     <h1>Fruits</h1>
                 </Tab>
-                <Tab className="w-1/4 border-r-2 border-t-2 border-r-slate-300 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
+                <Tab className="w-1/4 border-r-2 border-t-2 border-r-slate-300 dark:border-x-zinc-700 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
                     <h1>Vegetables</h1>
                 </Tab>
-                <Tab className="w-1/4 border-r-2 border-t-2 border-r-slate-300 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
+                <Tab className="w-1/4 border-r-2 border-t-2 border-r-slate-300 dark:border-x-zinc-700 text-xs md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-500 py-2 px-4">
                     <h1>Others</h1>
                 </Tab>
             </Tab.List>
