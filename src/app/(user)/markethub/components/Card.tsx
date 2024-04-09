@@ -73,7 +73,7 @@ function Card({
             className='h h-40 w-full border-b-[2px] border-gray-300' 
         />
         </div>
-        <h1 className='font-poppins font-semibold text-sm md:text-lg mb-2 tracking-wide border-y-2 border-gray-200 bg-slate-50 dark:bg-[#1F2933]'>{productName}</h1>
+        <h1 className='font-poppins font-semibold text-sm md:text-lg mb-2 tracking-wide border-y-2 border-gray-200 bg-slate-50 dark:bg-[#1F2933] dark:text-white'>{productName}</h1>
         <div className='text-center w-full'>
             <h3 className='text-xs font-poppins dark:text-white font-normal'>
                 {barangay === "Bagbag" && "Solo Parent Urban Farm"}
@@ -82,7 +82,7 @@ function Card({
             </h3>
             <h3 className='text-xs dark:text-white font-poppins font-normal'>{barangay}</h3>
             {productReviews.length > 0 ?(
-                <div  className="flex max-h-14 flex-col z-30 items-center justify-center my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
+                <div  className="flex max-h-14 flex-col z-30 items-center justify-center my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden  dark:bg-slate-800/25">
                     {productReviews.length > 0 && (
                         <RatingStars readonly={true} average={ratingsAverage} width={70}/>
                     )}
@@ -102,7 +102,7 @@ function Card({
                 <span className='text-xs sm:text-xs md:text-xs font-poppins'>Free</span>
             </div>
         ):(
-            <div className='flex justify-between items-center border-t-2 border-gray pt-3 px-3'>
+            <div className='flex justify-between items-center border-t-2 border-gray dark:text-white pt-3 px-3'>
                 <span className='text-[0.55rem] sm:text-xs md:text-[0.6rem] font-poppins font-bold'>Price:</span>
                 <span className='text-[0.55rem] sm:text-xs md:text-[0.6rem] font-poppins font-bold border border-black rounded-xl px-2 py-1'>₱ {lowestPrice} - ₱ {highestPrice}</span>
             </div>

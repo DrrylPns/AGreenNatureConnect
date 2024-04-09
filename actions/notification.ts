@@ -19,6 +19,20 @@ export const fetchNotifications = async () => {
             user: true,
             community: true,
             transaction: true,
+            Comment: {
+                include: {
+                    post: {
+                        include: {
+                            topic: true
+                        }
+                    }
+                }
+            },
+            Post: {
+                include: {
+                    topic: true
+                }
+            },
         },
         orderBy: {
             createdAt: "desc"

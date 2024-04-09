@@ -221,10 +221,11 @@ model Post {
   topic   Topic  @relation(fields: [topicId], references: [id], onDelete: Cascade)
   topicId String
 
-  comments  Comment[]
-  likes     Like[]
-  Report    Report[]
-  reactions Reaction[]
+  notifications Notification[]
+  comments      Comment[]
+  likes         Like[]
+  Report        Report[]
+  reactions     Reaction[]
 
   Community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
@@ -251,6 +252,7 @@ model Comment {
   replies   Comment[] @relation("ReplyTo")
 
   replyOnComent Reply[]
+  notifiations  Notification[]
 
   commentId String @unique
 
@@ -281,6 +283,8 @@ model Reaction {
 
   post   Post   @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId String
+
+  notifications Notification[]
 
   @@unique([userId, postId, type])
   @@index([userId])
@@ -316,11 +320,20 @@ model Notification {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  community   Community @relation(fields: [communityId], references: [id])
-  communityId String
+  community   Community? @relation(fields: [communityId], references: [id])
+  communityId String?
 
-  transaction   Transaction @relation(fields: [transactionId], references: [id])
-  transactionId String
+  transaction   Transaction? @relation(fields: [transactionId], references: [id])
+  transactionId String?
+
+  Reaction   Reaction? @relation(fields: [reactionId], references: [id])
+  reactionId String?
+
+  Post      Post?    @relation(fields: [postId], references: [id])
+  postId    String?
+  
+  Comment   Comment? @relation(fields: [commentId], references: [id])
+  commentId String?
 
   @@index([userId])
   @@index([communityId])
@@ -333,6 +346,9 @@ enum NotificationType {
   PICK_UP
   COMPLETED
   CANCELLED
+  REACT
+  COMMENT
+  REPLY
 }
 
 model Report {
