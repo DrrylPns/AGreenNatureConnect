@@ -54,6 +54,14 @@ export async function POST(req: NextRequest) {
             },
         });
 
+        const post = await prisma.post.findUnique({
+            where: {
+                id: postId,
+            }
+        })
+
+        if(!post) return new Response("No post found!")
+
         if (type === existingReaction?.type) {
             await prisma.reaction.delete({
                 where: {
@@ -72,13 +80,23 @@ export async function POST(req: NextRequest) {
             });
         }
 
-        await prisma.reaction.create({
+        const successReact = await prisma.reaction.create({
             data: {
                 userId: userId,
                 postId: postId,
                 type: type,
             },
         });
+
+        if(successReact) {
+            await prisma.notification.create({
+                data: {
+                    userId: post.authorId,
+                    postId,
+                    type: "REACT",
+                }
+            })
+        }
 
         revalidatePath(`/api/user/post/${postId}/reactions`);
         return new Response('Reaction added');

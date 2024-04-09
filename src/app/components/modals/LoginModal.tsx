@@ -233,7 +233,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={() => signIn("google")}
+          onClick={async() => await signIn("google")}
         />
 
         <div

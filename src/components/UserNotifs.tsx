@@ -36,7 +36,9 @@ export const UserNotifs = () => {
     //     fetchNotificationsByUser()
     // }, [])
 
-    const { data: notifications } = useQuery({
+
+
+    const { data: notifications, isLoading } = useQuery({
         queryKey: ["notifications"],
         queryFn: async () => {
             try {
@@ -47,6 +49,8 @@ export const UserNotifs = () => {
             }
         }
     })
+
+    if(isLoading) return <></>
 
     const hasUnread = notifications?.some(notification => notification.isRead == false);
 
@@ -78,7 +82,12 @@ export const UserNotifs = () => {
                                 <div key={notification.id} className="grid gap-1 p-1 text-sm">
                                     <Link
                                         className={`flex flex-col items-start p-2 rounded-md dark:bg-gray-800 ${!notification.isRead ? "bg-gray-100" : ""}`}
-                                        href={`/order-status/${notification.transactionId}`}
+                                        href={
+                                            //@ts-ignore
+                                            notification.type === "REACT" ? `/discussion/${notification.Post.topic.name}/${notification.Post.id}` : 
+                                            //@ts-ignore
+                                            notification.type === "COMMENT" ? `/discussion/${notification.Comment.post.topic.name}/${notification.Comment.post.id}` : 
+                                            `/order-status/${notification.transactionId}`}
                                         onClick={async () => {
                                             notificationRead(notification.id).then((callback) => {
                                                 if (callback?.error) {
@@ -117,6 +126,14 @@ export const UserNotifs = () => {
 
                                             {notification.type === "PICK_UP" && (
                                                 <div>You're order from {notification.community.name} has been picked up.</div>
+                                            )}
+
+                                            {notification.type === "REACT" && (
+                                                <div>{notification.user.name} Has reacted to your post</div>
+                                            )}
+
+                                            {notification.type === "COMMENT" && (
+                                                <div>{notification.user.name} Has commented to your post</div>
                                             )}
                                         </div>
 

@@ -1,4 +1,4 @@
-import { Account, Comment, Reply, Like, Post, Topic, User } from "@prisma/client";
+import { Account, Comment, Reply, Like, Post, Topic, User, NotificationType } from "@prisma/client";
 
 export type ExtendedPost = Post & {
     topic: Topic,
@@ -32,6 +32,8 @@ export interface PostIdProps {
     communityId: string;
     transactionId: string;
     user: User;
+    Comment: Comment;
     community: Community;
     transaction: Transaction;
+    Post: Post
   }
