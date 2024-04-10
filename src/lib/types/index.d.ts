@@ -212,6 +212,7 @@ export interface ResultItem {
 export interface ProductVariant {
   productId: string;
   variant: Variants;
+  isFree: boolean;
 }
 
 export interface Transaction {
