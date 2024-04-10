@@ -39,7 +39,7 @@ const ChatRoomPage = async ({ params }: Props) => {
     })
 
     return (
-        <div className=''>
+        <div className='pb-11 rounded-lg'>
             <ChatRoom chatroom={chatroom as ChatRoomWithMessagesAndCommunity} userId={user?.id!} />
         </div>
     )
