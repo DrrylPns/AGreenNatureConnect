@@ -82,13 +82,7 @@ export const fetchReplies = async (postId: string,) => {
             }
         })
 
-        
-
-        console.log(comments.map((comment) => {
-            return comment.replyOnComent.map((replies) => {
-                return replies.user
-            })
-        }))
+    
 
         // const replies = await prisma.reply.findMany({
         //     where: {

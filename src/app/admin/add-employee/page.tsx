@@ -119,8 +119,8 @@ const page = () => {
             gender: values.gender,
             email: values.email,
             address: values.address,
-            password: values.password,
-            confirmPassword: values.confirmPassword,
+            // password: values.password,
+            // confirmPassword: values.confirmPassword,
         }
         createEmployee(payload)
         // console.log('Form submitted with values:', payload);
@@ -540,7 +540,7 @@ const page = () => {
                                     )}
                                 />
 
-                                <FormField
+                                {/* <FormField
                                     control={form.control}
                                     name="password"
                                     render={({ field }) => (
@@ -568,7 +568,8 @@ const page = () => {
                                             <FormMessage />
                                         </FormItem>
                                     )}
-                                />
+                                /> */}
+
                                 <div className="w-full">
                                     <Button
                                         type="submit"

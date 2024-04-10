@@ -36,7 +36,7 @@ interface Product {
     unitOfMeasurement: string;
     variant: number;
     price: number;
-    EstimatedPieces: number;
+    EstimatedPieces: number | null;
     createdAt: Date;
     updatedAt: Date;
   }
@@ -71,10 +71,10 @@ function SearchBar({
     <form onSubmit={handleSubmit}>
     <Combobox value={selected} onChange={setSelected}>
         <div className="relative mt-1">
-          <div className=" relative w-full cursor-default overflow-hidden bg-white text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
-            <Combobox.Label className={'mr-5 text-md text-black font-semibold font-poppins'}>Search products: </Combobox.Label>
+          <div className=" relative w-full cursor-default overflow-hidden bg-white dark:bg-primary-foreground text-left  focus:outline-none focus-visible:ring-2 focus-visible:ring-white/75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+            <Combobox.Label className={'mr-5 text-md text-black dark:text-white font-semibold font-poppins'}>Search products: </Combobox.Label>
             <Combobox.Input
-              className="w-full bg-slate-100 rounded-lg border-2 border-slate-400 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
+              className="w-full bg-slate-100  rounded-lg border-2 border-slate-400 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0"
               displayValue={(product: Product) => product.name}
               onChange={(event) => setQuery(event.target.value)}
             />

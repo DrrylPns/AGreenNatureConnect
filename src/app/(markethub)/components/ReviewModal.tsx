@@ -23,14 +23,18 @@ import Image from 'next/image'
 
 
 function ReviewModal({
-    orderedVariant
+    orderedVariant,
+    transactionId
 }: {
     orderedVariant: OrderedVariant[]
+    transactionId: string,
 }) {
     const form = useForm<AddReviewType>({
         resolver: zodResolver(ReviewSchema),
     })
 
+    console.log(transactionId)
+    
     const router = useRouter()
 
     const [imageUrl, setImageUrl] = useState<string>('')
@@ -48,6 +52,7 @@ function ReviewModal({
             title,
             description,
             productId,
+            transactionId
         }: AddReviewType) => {
             const payload: AddReviewType = {
                 image,
@@ -59,6 +64,7 @@ function ReviewModal({
                 title,
                 description,
                 productId,
+                transactionId,
             }
 
             const { data } = await axios.post("/api/markethub/add-review", payload)
@@ -89,6 +95,7 @@ function ReviewModal({
             }
         },
         onSuccess: (data) => {
+            console.log(data)
             toast({
                 title: 'Success!',
                 description: `${data}`,
@@ -109,6 +116,7 @@ function ReviewModal({
             title: data.title,
             description: data.description,
             productId: data.productId,
+            transactionId: transactionId
         }
         addReview(payload)
         console.log(payload)

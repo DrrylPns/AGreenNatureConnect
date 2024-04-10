@@ -10,27 +10,27 @@ const BlogRequestsPage = () => {
     <div className='w-full h-screen'>
       <Tabs defaultValue="pending">
         <TabsList className='w-full flex justify-evenly h-[200px]'>
-          <TabsTrigger value="approved" className='h-[125px] border border-zinc-300 hover:opacity-80'>
-            <BadgeCheck className='text-[#6ec530] mr-2' />
-            Approved Blogs
-          </TabsTrigger>
           <TabsTrigger value="pending" className='h-[125px] border border-zinc-300 hover:opacity-80'>
             <Hourglass className='text-yellow-500 mr-2' />
             Pending Blogs
+          </TabsTrigger>
+          <TabsTrigger value="approved" className='h-[125px] border border-zinc-300 hover:opacity-80'>
+            <BadgeCheck className='text-[#6ec530] mr-2' />
+            Approved Blogs
           </TabsTrigger>
           <TabsTrigger value="declined" className=' h-[125px] border border-zinc-300 hover:opacity-80'>
             <XCircle className='text-rose-500 mr-2' />
             Declined Blogs
           </TabsTrigger>
         </TabsList>
-        <TabsContent value="approved">
-
-          <ApprovedBlog />
-
-        </TabsContent>
         <TabsContent value="pending">
 
           <PendingBlog />
+
+        </TabsContent>
+        <TabsContent value="approved">
+
+          <ApprovedBlog />
 
         </TabsContent>
         <TabsContent value="declined">

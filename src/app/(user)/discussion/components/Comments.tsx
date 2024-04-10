@@ -7,7 +7,7 @@ import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
 import { ReplyComment } from "@/app/components/dialogs/ReplyComment";
 import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
-import { Comment, CommentsWithReplies, Post } from "@/lib/types";
+import { Comment, CommentsWithReplies, PostTypes } from "@/lib/types";
 import {
   CommentSchema,
   CreateCommentType,
@@ -28,7 +28,7 @@ import { fetchReplies } from "../../../../../actions/reply";
 import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 import DeleteReply from "@/app/components/dialogs/DeleteReply";
 
-export default function Comments({ posts }: { posts: Post }) {
+export default function Comments({ posts }: { posts: PostTypes }) {
   const router = useRouter();
   const { data: session } = useSession();
   const loginModal = useLoginModal();
@@ -245,29 +245,24 @@ export default function Comments({ posts }: { posts: Post }) {
                       className="w-full"
                     />
                   </div>
-                  <div>
-                    <div className="flex items-center justify-between gap-1.5">
-                      <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
-                        {comment.author.username}
-                      </h3>
+                  <div className="flex items-center justify-between gap-1.5">
+                    <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
+                      {comment.author.username}
+                    </h3>
+                    <div>
                       {comment.author.role === "EMPLOYEE" && (
                         <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
-                          Community Employee 🌳
-                        </h6>
-                      )}
-                      {comment.author.role === "USER" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
-                          Member ☘️
+                          Employee 🌳
                         </h6>
                       )}
                       {comment.author.role === "ADMIN" && (
                         <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-medium">
-                          Community Admin 🥦
+                          Admin 🥦
                         </h6>
                       )}
-                      <div className="text-gray-400 text-[0.7rem]">
-                        <RelativeDate dateString={comment.createdAt} />
-                      </div>
+                    </div>
+                    <div className="text-gray-400 text-[0.7rem]">
+                      <RelativeDate dateString={comment.createdAt} />
                     </div>
                   </div>
 
@@ -346,11 +341,6 @@ export default function Comments({ posts }: { posts: Post }) {
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
                                       Employee 🌳
-                                    </h6>
-                                  )}
-                                  {reply.user.role === "USER" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Member ☘️
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (

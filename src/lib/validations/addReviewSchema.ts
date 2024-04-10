@@ -14,4 +14,5 @@ export const ReviewSchema = z.object({
     title: z.string().min(4).max(30),
     description: z.string().min(4),
     productId: z.string(),
+    transactionId: z.string().optional(),
 })

@@ -49,7 +49,7 @@ export async function POST(req: NextRequest) {
         const body = await req.json();
         const { text, postId } = CommentSchema.parse(body);
         const commentId = uuidv4(); // Generate a unique commentId
-        await prisma.comment.create({
+        const commentSuccess = await prisma.comment.create({
             data: {
                 text: text,
                 postId: postId,
@@ -57,6 +57,24 @@ export async function POST(req: NextRequest) {
                 commentId: commentId
             }
         });
+
+        const post = await prisma.post.findUnique({
+            where: {id: postId}
+        })
+
+        if(!post) {
+            return new Response("Post not found!")
+        }
+
+        if(commentSuccess) {
+            await prisma.notification.create({
+                data: {
+                    commentId: commentSuccess.id,
+                    type: "COMMENT",
+                    userId: post.authorId,
+                }
+            })
+        }
         revalidatePath(path);
         return new Response('OK');
     } catch (error) {

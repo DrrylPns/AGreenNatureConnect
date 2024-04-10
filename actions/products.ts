@@ -77,7 +77,7 @@ export const unarchiveProduct = async (id: string) => {
     })
 
     revalidatePath("/employee/archived-products")
-    return { success: "Successfully unarchived the product." }
+    return { success: "Successfully restored the product." }
 }
 
 export const fetchArchivedProducts = async () => {

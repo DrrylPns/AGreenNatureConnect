@@ -32,7 +32,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en">
-      <body className={`${inter.className} bg-white`}>
+      <body className={`${inter.className} bg-white max-sm:overflow-x-hidden`}>
         <Suspense>
           <Navbar />
           {children}

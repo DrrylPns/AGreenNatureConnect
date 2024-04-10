@@ -54,6 +54,7 @@ const Navbar = () => {
               <div className="max-md:block hidden mt-4">
                 <ThemeToggler1 />
               </div>
+              
               <div className="hidden max-md:block mt-[6%] text-4xl decoration-8">
                 <UserNotifs />
               </div>

@@ -58,11 +58,11 @@ interface OrderedVariant {
     price: number;
 }
 interface Variants {
-    id: string
+    id: string;
     unitOfMeasurement: string;
     variant: number;
     price: number;
-    EstimatedPieces: number;
+    EstimatedPieces: number | null;
 }
 interface Product {
     id: string;

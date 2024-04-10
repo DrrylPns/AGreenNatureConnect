@@ -150,7 +150,7 @@ export const PendingVideo = () => {
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    This action will decline the requested blog of the employee.
+                                                    This action will decline the requested video tutorial of the employee.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>
@@ -181,7 +181,7 @@ export const PendingVideo = () => {
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    This action will approve the requested blog of the employee and it will be seen in the blog section .
+                                                    This action will approve the requested video tutorial of the employee and it will be seen in the blog section .
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>

@@ -64,7 +64,8 @@ export async function POST(req: Request) {
                 id: transactionId
             },
             data: {
-                status: "COMPLETED"
+                status: "COMPLETED",
+                paymentStatus: "Paid",
             }
         })
 

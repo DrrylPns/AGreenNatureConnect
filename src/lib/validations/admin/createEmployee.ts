@@ -27,8 +27,9 @@ export const CreateEmployeeSchema = z.object({
             // reg-ex code, chat gpt generated: at least one lowercase letter, one uppercase letter, and one special character
             const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%^&*])[\w!@#$%^&*]+$/;
             return passwordPattern.test(password)
-        }, { message: "Password must contain at least one lowercase letter, one uppercase letter, and one special character." }),
-    confirmPassword: z.string().min(8, { message: "Password does not match" }),
+        }, { message: "Password must contain at least one lowercase letter, one uppercase letter, and one special character." })
+        .optional(),
+    confirmPassword: z.string().min(8, { message: "Password does not match" }).optional(),
 }).refine(data => data.password === data.confirmPassword, {
     message: "Password does not match",
     path: ["confirmPassword"],

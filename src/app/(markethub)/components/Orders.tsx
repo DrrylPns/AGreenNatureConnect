@@ -67,7 +67,7 @@ export interface Variants {
     unitOfMeasurement: string;
     variant: number;
     price: number;
-    EstimatedPieces: number;
+    EstimatedPieces: number | null;
 }
 export interface Product {
     id: string;
@@ -327,7 +327,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                 
                                 <h1 className='text-[0.5rem] sm:text-sm font-semibold'>Order Total: <span>₱ {transaction.amount}</span></h1>
                                 {transaction.status === 'COMPLETED' && (
-                                    <ReviewModal orderedVariant={transaction.orderedVariant}/>
+                                    <ReviewModal transactionId={transaction.id} orderedVariant={transaction.orderedVariant}/>
                                 )}
                              
                             </div>

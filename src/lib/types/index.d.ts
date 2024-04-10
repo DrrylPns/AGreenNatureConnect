@@ -28,6 +28,21 @@ export interface Author {
 }
 
 
+export interface PostTypes {
+  id: string;
+  title: string;
+  content: Content;
+  reports: number;
+  createdAt: string;
+  updatedAt: string;
+  authorId: string;
+  author: Author;
+  topicId: string;
+  comments: Comment[];
+  likes: Like[];
+  topic: Topic
+}
+
 export interface Post {
   id: string;
   title: string;
