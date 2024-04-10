@@ -79,7 +79,7 @@ function Post({ posts }: { posts: PostTypes[] }) {
                 ) : null}
               </div>
               {/**Like, Comment, Share(if there is any) Section*/}
-              <PostButtons comments={post.comments.length} postId={post.id} />
+              <PostButtons comments={post.comments} postId={post.id} />
             </div>
           </Link>
         ) : null;
