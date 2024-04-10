@@ -36,42 +36,54 @@ export async function POST(req: Request) {
             return new Response("Email already exists. Please use a different one.", { status: 409 })
         }
 
-        let existingCommunity = await prisma.community.findFirst({
-            where: {
-                name: community
-            }
-        });
+        const hashedPassword = await bcrypt.hash(password, 12);
 
-        if (!existingCommunity) {
-            existingCommunity = await prisma.community.create({
+        if (community === "Others") {
+            community === null
+
+            await prisma.user.create({
                 data: {
+                    email,
+                    hashedPassword,
+                    birthday,
+                }
+            });
+        } else {
+            let existingCommunity = await prisma.community.findFirst({
+                where: {
                     name: community
+                }
+            });
+
+            if (!existingCommunity) {
+                existingCommunity = await prisma.community.create({
+                    data: {
+                        name: community
+                    }
+                });
+            }
+
+            await prisma.user.create({
+                data: {
+                    email,
+                    hashedPassword,
+                    birthday,
+                    Community: {
+                        connect: {
+                            name: community
+                        }
+                    }
                 }
             });
         }
 
-        const hashedPassword = await bcrypt.hash(password, 12);
-
-        const user = await prisma.user.create({
-            data: {
-                email,
-                hashedPassword,
-                birthday,
-                Community: {
-                    connect: {
-                        name: community
-                    }
-                }
-            }
-        });
-
         const verificationToken = await generateVerificationToken(email);
         await sendVerificationEmail(
-          verificationToken.email,
-          verificationToken.token,
+            verificationToken.email,
+            verificationToken.token,
         );
 
-        return NextResponse.json(user)
+        return new NextResponse("Success!", { status: 200 })
     } catch (error) {
         if (error instanceof z.ZodError) {
             return new Response("Invalid POST request data passed", { status: 422 })
