@@ -95,12 +95,21 @@ function ReviewModal({
             }
         },
         onSuccess: (data) => {
-            console.log(data)
-            toast({
+            if(data === "Not allowed!")
+            {
+                toast({
+                    title: 'Not Allowed!',
+                    description: `You've already added a review to this product`,
+                    variant: 'destructive',
+                    })    
+            } else {
+                toast({
                 title: 'Success!',
                 description: `${data}`,
                 variant: 'default',
-            })
+                })
+
+            }
 
         }
     })
@@ -127,7 +136,7 @@ function ReviewModal({
             <Dialog>
                 <DialogTrigger>
                     <div
-                        className=''
+                        className='text-sm'
                     >
                         Add Review
                     </div>
