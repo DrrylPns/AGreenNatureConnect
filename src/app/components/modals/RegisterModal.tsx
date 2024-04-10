@@ -15,7 +15,7 @@ import {
   RegisterSchema,
   RegisterType,
 } from "@/lib/validations/registerUserSchema";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { toast } from "@/lib/hooks/use-toast";
 import { useRouter } from "next/navigation";
@@ -30,6 +30,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/app/components/Ui/select";
+import { getCommunitiesWithoutSession } from "../../../../actions/community";
 
 const RegisterModal = () => {
   const registerModal = useRegisterModal();
@@ -133,6 +134,11 @@ const RegisterModal = () => {
       });
     },
   });
+
+  const { data: communities } = useQuery({
+    queryKey: ["communities"],
+    queryFn: async () => await getCommunitiesWithoutSession()
+  })
 
   const onSubmit: SubmitHandler<RegisterType> = (data: RegisterType) => {
     const payload: RegisterType = {
@@ -242,10 +248,10 @@ const RegisterModal = () => {
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Communities</SelectLabel>
-            <SelectItem value="Bagbag">Bagbag</SelectItem>
-            <SelectItem value="Nova Proper">Nova Proper</SelectItem>
-            <SelectItem value="Bagong Silangan">Bagong Silangan</SelectItem>
-            <SelectItem value="Others">Others</SelectItem>
+            {communities?.map((community, i) => (
+              <SelectItem key={i} value={community.name}>{community.name}</SelectItem>
+            ))}
+            <SelectItem value="Others" key="others">Others</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

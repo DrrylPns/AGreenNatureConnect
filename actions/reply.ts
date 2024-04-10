@@ -30,13 +30,30 @@ export const replyComment = async (commentId: string, text: string) => {
         if (!commentId) return { error: "No comment found." }
         console.log(commentId, text)
 
-        await prisma.reply.create({
+        const comment = await prisma.comment.findUnique({
+            where: { id: commentId }
+        })
+
+        if (!comment) return { error: "No comment found!" }
+
+        const successReply = await prisma.reply.create({
             data: {
                 userId: user.id,
                 commentId: commentId,
                 text: text
             }
         })
+
+        if (successReply) {
+            await prisma.notification.create({
+                data: {
+                    replyId: successReply.id,
+                    type: "REPLY",
+                    userId: comment.authorId,
+                }
+            })
+        }
+        
         return { success: "Reply added" }
     } catch (error: any) {
         throw new Error(error)
@@ -68,7 +85,7 @@ export const fetchReplies = async (postId: string,) => {
                 comments: true
             }
         })
-        
+
         const comments = await prisma.comment.findMany({
             where: {
                 postId
@@ -82,7 +99,7 @@ export const fetchReplies = async (postId: string,) => {
             }
         })
 
-    
+
 
         // const replies = await prisma.reply.findMany({
         //     where: {
@@ -97,18 +114,17 @@ export const fetchReplies = async (postId: string,) => {
     }
 }
 
-export const editReply = async (id: string, text: string) => 
-{
+export const editReply = async (id: string, text: string) => {
     try {
         const session = await getAuthSession()
 
-        if (!session) return { error: 'Unauthorized'}
-        
+        if (!session) return { error: 'Unauthorized' }
+
         const user = await prisma.user.findFirst({
             where: { id: session.user.id }
         })
-        
-        if (!user) return { error: 'No user found.'}
+
+        if (!user) return { error: 'No user found.' }
 
         const filter = new Filter();
         const words = require("../src/app/(user)/discussion/components/extra-words.json");
@@ -142,13 +158,13 @@ export const deleteReply = async (replyId: string) => {
     try {
         const session = await getAuthSession()
 
-        if (!session) return { error: 'Unauthorized'}
-        
+        if (!session) return { error: 'Unauthorized' }
+
         const user = await prisma.user.findFirst({
             where: { id: session.user.id }
         })
-        
-        if (!user) return { error: 'No user found.'}
+
+        if (!user) return { error: 'No user found.' }
 
         const reply = await prisma.reply.delete({
             where: {

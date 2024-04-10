@@ -6,7 +6,7 @@ import {
   OnboardingType,
 } from "@/lib/validations/onboardingSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import React from "react";
@@ -35,6 +35,7 @@ import { Input } from "@/app/components/Ui/Input";
 import { Textarea } from "@/app/components/Ui/textarea";
 import { Checkbox } from "@/app/components/Ui/checkbox";
 import { Button } from "@/components/ui/button";
+import { getCommunitiesWithoutSession } from "../../../../actions/community";
 
 export const Onboarding = () => {
   // const router = useRouter()
@@ -144,6 +145,11 @@ export const Onboarding = () => {
       }, 1000);
     },
   });
+
+  const { data: communities } = useQuery({
+    queryKey: ["communities"],
+    queryFn: async () => await getCommunitiesWithoutSession()
+  })
 
   const onSubmit: SubmitHandler<OnboardingType> = (data: OnboardingType) => {
     const payload: OnboardingType = {
@@ -305,9 +311,10 @@ export const Onboarding = () => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Communities</SelectLabel>
-                      <SelectItem value="Bagbag">Bagbag</SelectItem>
-                      <SelectItem value="Nova Proper">Nova Proper</SelectItem>
-                      <SelectItem value="Others">
+                      {communities?.map((community, i) => (
+                        <SelectItem key={i} value={community.name}>{community.name}</SelectItem>
+                      ))}
+                      <SelectItem value="Others" key="others">
                         Others
                       </SelectItem>
                     </SelectGroup>
