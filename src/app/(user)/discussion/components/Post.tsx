@@ -201,7 +201,7 @@ export default function Post() {
                     </Link>
 
                     <PostButtons
-                      comments={post.comments.length}
+                      comments={post.comments}
                       postId={post.id}
                     />
                   </div>

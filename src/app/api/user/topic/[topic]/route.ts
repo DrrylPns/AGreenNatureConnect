@@ -16,8 +16,12 @@ export async function GET(req: NextRequest) {
                 posts: {
                     include:{
                         author: true,
-                        comments: true,
-                        likes: true
+                        comments: {
+                            include:{
+                                replyOnComent: true
+                            }
+                        },
+                        likes: true,
                     },
                     orderBy: {
                         createdAt: 'desc'

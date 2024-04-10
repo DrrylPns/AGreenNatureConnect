@@ -27,46 +27,8 @@ interface Props {
 
 const page: FC<Props> = ({ params }) => {
   const [posts, setPosts] = useState<PostTypes>();
-  // const [comments, setComments] = useState<Comment>();
   const router = useRouter();
   const { data: session } = useSession();
-
-  // useEffect(() => {
-  //   fetchPost();
-  // }, [params.postId]);
-
-  // const fetchPost = async () => {
-  //   try {
-  //     const response = await fetch(`/api/user/post/${params.postId}`, {
-  //       next: { tags: ["comments"], revalidate: 60 },
-  //     });
-  //     if (!response.ok) {
-  //       throw new Error("Network response was not ok");
-  //     }
-
-  //     const data = await response.json();
-  //     setPosts(data);
-  //     fetchComments();
-  //   } catch (error) {
-  //     console.error("Error fetching post:", error);
-  //   }
-  // };
-
-  // const fetchComments = async () => {
-  //   try {
-  //     await axios
-  //       .get(`/api/user/post/${params.postId}/comments`)
-  //       .then((result) => {
-  //         const comments = result.data;
-  //         setComments(comments);
-  //       })
-  //       .catch((error) => {
-  //         setComments(error);
-  //       });
-  //   } catch (error) {
-  //     console.error("Error fetching comments:", error);
-  //   }
-  // };
 
   const fetchPostss = async () => {
     try {
@@ -244,7 +206,7 @@ const page: FC<Props> = ({ params }) => {
                 <div className="mt-10">
                   <PostButtons
                     postId={posts.id}
-                    comments={posts.comments.length}
+                    comments={posts.comments}
                   />
                 </div>
               </div>
@@ -379,7 +341,7 @@ const page: FC<Props> = ({ params }) => {
               <div className="mt-10">
                 <PostButtons
                   postId={posts.id}
-                  comments={posts.comments.length}
+                  comments={posts.comments}
                 />
               </div>
             </div>

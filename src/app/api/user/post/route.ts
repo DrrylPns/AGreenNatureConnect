@@ -26,7 +26,8 @@ export async function GET(req: Request, res: NextApiResponse) {
                     author: true,
                     comments: {
                         include: {
-                            author: true
+                            author: true,
+                            replyOnComent: true
                         }
                     },
                     likes: true,
