@@ -20,6 +20,7 @@ import { GenderModal } from "@/components/settings/GenderModal"
 import { AvatarModal } from "@/components/settings/AvatarModal"
 import { ProfileModal } from "@/components/settings/ProfileModal"
 import { UsernameModal } from "@/components/settings/UsernameModal"
+import { redirect } from "next/navigation"
 
 const inter = Inter({ subsets: ['latin'] })
 

@@ -15,6 +15,7 @@ import PostButtons from "./postButtons";
 import { useSession } from "next-auth/react";
 import { Listbox, Transition } from "@headlessui/react";
 import { TbFilterSearch } from "react-icons/tb";
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/Ui/Avatar";
 
 type PostProps = {
   getAllPost: PostTypes[];
@@ -132,15 +133,13 @@ export default function Post() {
                 <div key={post.id}>
                   <div className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md">
                     <div className="flex items-center justify-between">
-                    <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session?.user.id } }} className="flex items-center gap-2">
+                      <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session?.user.id } }} className="flex items-center gap-2">
                         <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
                           {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
-                          <Image
-                            src={post.author.image || DisplayPhoto}
-                            alt="User Image"
-                            width={40}
-                            height={40}
-                          />
+                          <Avatar>
+                            <AvatarImage src={post.author.image as string} alt={`${post.author.username}'s profile picture`} />
+                            <AvatarFallback>{post.author.name?.charAt(0)}</AvatarFallback>
+                          </Avatar>
                         </div>
 
                         <div className="flex items-baseline gap-1.5">
@@ -154,7 +153,7 @@ export default function Post() {
                         </div>
                       </Link>
                       {post.authorId === session?.user?.id && (
-                        <button type="button" onClick={() => {}}>
+                        <button type="button" onClick={() => { }}>
                           <FaEllipsis />
                         </button>
                       )}
@@ -177,30 +176,30 @@ export default function Post() {
                     </div>
 
                     <Link
-                    href={{
-                      pathname: `/discussion/${post?.topic.name}/${post?.id}`,
-                      query: { postId: post?.id },
-                    }}>
-                    <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
-                      {post.title}
-                    </h1>
-                    <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
-                      <span>Topic:</span>
-                      <span className="text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white">
-                        {post.topic.name}
-                      </span>
-                    </div>
-                    <div
-                      className="relative text-sm px-5 max-h-40 w-full overflow-clip"
-                      ref={pref}
-                    >
-                      <EditorOutput content={post.content} />
-                      {pref.current?.clientHeight === 160 ? (
-                        <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
-                      ) : null}
-                    </div>
+                      href={{
+                        pathname: `/discussion/${post?.topic.name}/${post?.id}`,
+                        query: { postId: post?.id },
+                      }}>
+                      <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
+                        {post.title}
+                      </h1>
+                      <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
+                        <span>Topic:</span>
+                        <span className="text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white">
+                          {post.topic.name}
+                        </span>
+                      </div>
+                      <div
+                        className="relative text-sm px-5 max-h-40 w-full overflow-clip"
+                        ref={pref}
+                      >
+                        <EditorOutput content={post.content} />
+                        {pref.current?.clientHeight === 160 ? (
+                          <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
+                        ) : null}
+                      </div>
                     </Link>
-                   
+
                     <PostButtons
                       comments={post.comments}
                       postId={post.id}

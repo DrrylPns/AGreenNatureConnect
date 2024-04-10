@@ -63,6 +63,8 @@ export async function POST(req: Request) {
                 where: { id: session.user.id },
                 data: dataToUpdate
             });
+
+            return new Response("User updated community others!", { status: 200 })
         } else {
             const existingCommunity = await prisma.community.findFirst({
                 where: { name: community }
@@ -74,6 +76,7 @@ export async function POST(req: Request) {
                         id: existingCommunity.id
                     }
                 }
+
             } else {
                 const newCommunity = await prisma.community.create({
                     data: {
@@ -86,22 +89,23 @@ export async function POST(req: Request) {
                         id: newCommunity.id
                     }
                 }
-
-
-                if (daysLeft <= 0) {
-                    dataToUpdate.username = username;
-                }
-
-                await prisma.user.update({
-                    where: { id: session.user.id },
-                    data: dataToUpdate
-                });
             }
+
+            if (daysLeft <= 0) {
+                dataToUpdate.username = username;
+            }
+
+            await prisma.user.update({
+                where: { id: session.user.id },
+                data: dataToUpdate
+            });
+
+
+            return new Response("User updated!", { status: 200 })
         }
 
 
 
-        return new Response("Username updated successfully", { status: 200 })
     } catch (error: any) {
         return new Response(`${error.message}`, { status: 500 })
     }

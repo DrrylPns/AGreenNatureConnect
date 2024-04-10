@@ -14,6 +14,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import useSettingsModal from "@/lib/hooks/useSettingsModal";
 import MenuItem from "@/app/components/MenuItem";
+import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/Ui/Avatar";
 
 function page({
   params,
@@ -49,13 +50,10 @@ function page({
               <div className="w-full flex dark:bg-[#242526] bg-gray-100 flex-col items-center justify-center mb-2 py-2 dark:border-[#242526] border-gray-200 border-b ">
                 <div className="flex items-center overflow-hidden justify-center  rounded-full border w-20 h-20 border-black">
                   {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
-                  <Image
-                    src={user?.image || DisplayPhoto}
-                    alt="User Image"
-                    width={40}
-                    height={40}
-                    className="w-full h-full object-cover"
-                  />
+                  <Avatar>
+                    <AvatarImage src={user.image as string} alt={`${user.username}'s profile picture`} />
+                    <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
+                  </Avatar>
                 </div>
                 <h1>{user?.username}</h1>
                 {user.bio !== "" ? (
@@ -77,9 +75,8 @@ function page({
                     Role:
                     <Badge
                       variant="secondary"
-                      className={`${user.role === "ADMIN" && "bg-green"} ${
-                        user.role === "EMPLOYEE" && "bg-yellow-300"
-                      }`}
+                      className={`${user.role === "ADMIN" && "bg-green"} ${user.role === "EMPLOYEE" && "bg-yellow-300"
+                        }`}
                     >
                       {user.role === "USER" ? "Member" : user.role}
                     </Badge>
