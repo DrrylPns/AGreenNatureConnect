@@ -34,7 +34,7 @@ function ReviewsBreakdown({
     }, [productReviews]);
 
     return (
-        <div className="col-span-4 px-5 border-2 border-black">
+        <div className="col-span-12 md:col-span-4 px-5 border-2 border-black">
             <h1 className='text-center text-lg font-poppins font-semibold'>Ratings Breakdown</h1>
             <div className='flex  flex-col-reverse gap-y-4'>            
                 {Object.entries(ratingCounts).map(([rating, count]) => (

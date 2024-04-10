@@ -74,27 +74,27 @@ function ReviewContainer({
                 {page.getAllReviews !== undefined && page.getAllReviews.map((review)=>(
                     <div className='shadow-md drop-shadow-md mb-2 bg-slate-100 p-4'>
                        
-                        <div key={review.id} className='w-full flex mb-5 '>
+                        <div key={review.id} className='w-full gap-2 md:gap-0 flex mb-5 '>
                             <ReviewImage review={review}/>
                             <div className='font-poppins'>
                                 <span className='flex text-gray-400'>Ratings :  <RatingStars readonly={true} average={review.overAllRating} width={100}/></span>
-                                <div className='flex gap-x-10 text-gray-400'>
+                                <div className='flex gap-x-3 text-[0.5rem] md:text-sm md:gap-x-10 text-gray-400'>
                                     <span>Price: <span className="text-gray-700">{RatingLabels[review.priceRating]}</span></span>
                                     <span>Quality: <span className="text-gray-700">{RatingLabels[review.qualityRating]}</span></span>
                                     <span>Freshness: <span className="text-gray-700">{RatingLabels[review.freshnessRating]}</span></span>
                                     <span>Service: <span className="text-gray-700">{RatingLabels[review.serviceRating]}</span></span>
                                 </div>
-                                <h1 className='font-semibold text-xl'>{review.title}</h1>
-                                <p className='l line-clamp-4'>{review.description}</p>
+                                <h1 className='font-semibold text-xs md:text-xl'>{review.title}</h1>
+                                <p className='l line-clamp-4 text-[0.5rem] md:text-sm'>{review.description}</p>
                             </div>
                             {review.image !== null ? (
-                                <div className='w-20 ml-auto border border-gray-100 shadow-md drop-shadow-md h-20 rounded-md'>
+                                <div className='w-10 md:w-20 ml-auto border border-gray-100 shadow-md drop-shadow-md h-10 md:h-20  rounded-md'>
                                     <Image 
                                         src={review.image || ''}
                                         alt=''
                                         width={100}
                                         height={100}
-                                        className='object-cover w-full rounded-md'
+                                        className='object-cover w-full h-full rounded-md'
                                     />  
                                 </div>
                             ):(

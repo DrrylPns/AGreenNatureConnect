@@ -24,18 +24,21 @@ function ReviewsAverage({
         
     
   return (
-    <div className='col-span-3 flex flex-col justify-center items-center text-center text-lg font-poppins font-semibold border border-black'>
-        <Image
-            src={productImage}
-            alt='Image'
-            width={200}
-            height={200}
-            className='o object-cover'
-        />
-        <h1>{productName}</h1>
-        <h1>Overall Rating</h1>
-        <h1>{ratingsAverage} / 5</h1>
-        <RatingStars width={150} readonly={true} average={ratingsAverage} />
+    <div className='col-span-12 md:col-span-3 flex flex-col justify-center items-center text-center text-lg font-poppins font-semibold border border-black'>
+        <div className='w-24 h-24'>
+            <Image
+                src={productImage}
+                alt='Image'
+                width={200}
+                height={200}
+                className='object-cover'
+            />
+        </div>
+        
+        <h1 className='text-xs md:text-sm'>{productName}</h1>
+        <h1 className='text-xs md:text-sm'>Overall Rating</h1>
+        <h1 className='text-xs md:text-sm'>{ratingsAverage} / 5</h1>
+        <RatingStars width={100} readonly={true} average={ratingsAverage} />
     </div>
   )
 }
