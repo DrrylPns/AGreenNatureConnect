@@ -398,6 +398,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                 sendMessage(chatroom.id, userId, "user", content, imageUrl).then((callback) => {
                                     if (callback.success) {
                                         setContent("")
+                                        setImageUrl("")
                                         // queryClient.invalidateQueries({ queryKey: ["messages", chatroom.id] })
                                     }
 
