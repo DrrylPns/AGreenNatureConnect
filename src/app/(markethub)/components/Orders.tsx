@@ -159,17 +159,20 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                     </>
                                 )}
                             </div>
-                            <div className='flex px-5 md:px-10 w-full my-5 gap-7 sm:gap-10 md:gap-x-20 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>
+                            <div className='flex px-0 md:px-10 w-full my-5 gap-3 sm:gap-10 md:gap-14 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>
                                 <div className=' w-1/2'>
                                     {transaction.orderedVariant.map((variant) => (
                                         <Link href={`/order-status/${transaction.id}`} className='w-full flex text-sm flex-1 gap-5 sm:gap-10 justify-between items-center transition-all ease-in-out duration-500'>
-                                            <Image
-                                                src={variant.product.productImage}
-                                                alt={variant.product.name}
-                                                height={50}
-                                                width={50}
-                                                className=''
-                                            />
+                                            <div className='w-10 h-10 border-gray-200 border'>
+                                                <Image
+                                                    src={variant.product.productImage}
+                                                    alt={variant.product.name}
+                                                    height={50}
+                                                    width={50}
+                                                    className='object-cover w-full h-full'
+                                                />
+                                            </div>
+
                                             <div className=''>
                                                 <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{variant.product.name}</h1>
                                                 <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span></p>
@@ -317,8 +320,14 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                     </div>
                                    
                                     <div className='text-[0.6rem] sm:text-lg mt-5'>
-                                        <h1 className='text-gray-400'>Payment method: <span className='text-gray-700'>{transaction.paymentMethod} </span></h1>
-                                        <h1 className='text-gray-400'>Payment status: <span className='text-gray-700'>{status === "completed" ? "Paid" : transaction.paymentStatus}</span></h1>
+                                        <div className='flex flex-col md:flex-row text-xs sm:text-sm'>
+                                            <h1 className='text-gray-400 '>Payment method: </h1>
+                                            <h1 className='block text-gray-700'>{transaction.paymentMethod} </h1>                    
+                                        </div>
+                                        <div className='flex flex-col md:flex-row text-xs sm:text-sm'>
+                                            <h1 className='text-gray-400'>Payment status:</h1>
+                                            <h1 className='text-gray-700'>{status === "completed" ? "Paid" : transaction.paymentStatus}</h1>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
