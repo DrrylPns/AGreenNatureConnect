@@ -46,6 +46,7 @@ const RegisterModal = () => {
   //react hook form
   const {
     register,
+    reset,
     handleSubmit,
     setValue,
     formState: { errors },
@@ -121,10 +122,10 @@ const RegisterModal = () => {
     },
     onSuccess: () => {
       // router push the client to homepage / landing etc..
-
       router.push("/discussion");
       registerModal.onClose();
       loginModal.onOpen();
+      reset();
       return toast({
         title: "Success!",
         description: "Email verification link has been sent!",
@@ -244,6 +245,7 @@ const RegisterModal = () => {
             <SelectItem value="Bagbag">Bagbag</SelectItem>
             <SelectItem value="Nova Proper">Nova Proper</SelectItem>
             <SelectItem value="Bagong Silangan">Bagong Silangan</SelectItem>
+            <SelectItem value="Others">Others</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>

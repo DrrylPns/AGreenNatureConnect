@@ -1,21 +1,18 @@
 "use client"
 
 // import { Blog } from "@prisma/client"
-import { useQuery } from "@tanstack/react-query"
-import axios from "axios"
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
-import { formatDate } from "@/lib/utils";
-import { EnumValues } from "zod";
-import { Separator } from "@/app/components/Ui/Separator";
+import EditorOutput from "@/app/components/(user)/EditorOutput";
 import { Button } from "@/app/components/Ui/Button";
 import { Dialog, DialogClose, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Ui/Dialog";
-import { Label } from "@/app/components/Ui/label";
-import { Input } from "@/app/components/Ui/Input";
-import { CopyIcon } from "lucide-react";
-import EditorOutput from "@/app/components/(user)/EditorOutput";
+import { Separator } from "@/app/components/Ui/Separator";
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/app/components/Ui/alert-dialog";
 import { toast } from "@/lib/hooks/use-toast";
+import { formatDate } from "@/lib/utils";
+import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { useState } from "react";
+import { EnumValues } from "zod";
 
 
 type Blog = {
@@ -109,11 +106,10 @@ export const PendingBlog = () => {
 
     return (
         <div className="gap-2 grid grid-cols-2 sm:grid-cols-4 mt-11">
-
             {blogs.map((blog) => (
                 //@ts-ignore
-                <div>{blog.isApproved === "PENDING" ? (
-                    <Card shadow="sm" className="shadow-md border border-[#a2a2a2]/30 rounded-lg" key={blog.id}>
+                <div className="w-full">{blog.isApproved === "PENDING" ? (
+                    <Card shadow="sm" className="shadow-md border border-[#a2a2a2]/30 rounded-lg w-full" key={blog.id}>
                         <CardBody className="overflow-visible p-0">
                             <Image
                                 shadow="sm"
@@ -135,13 +131,13 @@ export const PendingBlog = () => {
 
                             <Separator className="bg-zinc-400" />
 
-                            <div className="flex gap-3 justify-between w-full items-center">
+                            <div className="flex flex-col gap-3 justify-between w-full items-center">
                                 <div>
                                     <Dialog>
                                         <DialogTrigger asChild>
                                             <Button variant="ghost" className="hover:bg-transparent/10">Click to view.</Button>
                                         </DialogTrigger>
-                                        <DialogContent className="sm:max-w-md">
+                                        <DialogContent className="lg:max-w-screen-lg max-lg:overflow-y-scroll max-h-screen">
                                             <DialogHeader>
                                                 <DialogTitle>{blog.title}</DialogTitle>
                                                 <DialogDescription>
@@ -169,7 +165,7 @@ export const PendingBlog = () => {
                                     </Dialog>
                                 </div>
 
-                                <div className="space-x-2">
+                                <div className="space-x-2 flex flex-col gap-2 lg:flex-row">
                                     <AlertDialog>
                                         <AlertDialogTrigger>
                                             <Button variant={"destructive"}>

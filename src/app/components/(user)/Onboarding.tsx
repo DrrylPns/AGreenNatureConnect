@@ -307,8 +307,8 @@ export const Onboarding = () => {
                       <SelectLabel>Communities</SelectLabel>
                       <SelectItem value="Bagbag">Bagbag</SelectItem>
                       <SelectItem value="Nova Proper">Nova Proper</SelectItem>
-                      <SelectItem value="Bagong Silangan">
-                        Bagong Silangan
+                      <SelectItem value="Others">
+                        Others
                       </SelectItem>
                     </SelectGroup>
                   </SelectContent>

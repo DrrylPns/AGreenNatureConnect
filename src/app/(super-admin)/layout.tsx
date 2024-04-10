@@ -1,9 +1,13 @@
 import { LoadingComponent } from '@/components/LoadingComponent'
 import { PageNotFound } from '@/components/PageNotFound'
+import { UserSettings } from '@/components/UserSettings'
+import { AvatarModal } from '@/components/settings/AvatarModal'
+import { GenderModal } from '@/components/settings/GenderModal'
+import { ProfileModal } from '@/components/settings/ProfileModal'
+import { UsernameModal } from '@/components/settings/UsernameModal'
 import prisma from '@/lib/db/db'
 import Providers from '@/lib/providers/Providers'
 import '@/lib/styles/globals.css'
-import { cn } from '@/lib/utils'
 import { User } from '@prisma/client'
 import type { Metadata } from 'next'
 import { Inter } from 'next/font/google'
@@ -12,13 +16,6 @@ import { getAuthSession } from '../../lib/auth'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
-import { NavbarDashboard } from './_components/Navbar'
-import Sidebar from './_components/Sidebar'
-import { UserSettings } from '@/components/UserSettings'
-import { GenderModal } from '@/components/settings/GenderModal'
-import { AvatarModal } from '@/components/settings/AvatarModal'
-import { ProfileModal } from '@/components/settings/ProfileModal'
-import { UsernameModal } from '@/components/settings/UsernameModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -27,7 +24,7 @@ export const metadata: Metadata = {
     description: 'Greens in the Streets: Farming for a Better Tomorrow',
 }
 
-export default async function RootLayout({
+export default async function SuperAdminLayout({
     children,
 }: {
     children: React.ReactNode,
@@ -40,39 +37,34 @@ export default async function RootLayout({
 
     const user = await prisma.user.findUnique({
         where: { id: session?.user.id },
-        include: {
-            Community: true
-        }
     })
 
-    if (!user || user.role !== "EMPLOYEE") redirect("/discussion")
+    if (!user || user.role !== "SUPER_ADMIN") redirect("/discussion")
 
     return (
         <html lang="en">
-            <body className={cn("bg-[#E3E1E1]", inter.className)}>
-                {user.role === "EMPLOYEE" ?
-                    (<Providers>
+            <body className={inter.className}>
+                {user.role === "SUPER_ADMIN" ? (
+                    <Providers>
                         <LoginModal />
                         <RegisterModal />
-                        <NavbarDashboard user={user as User} />
                         <UserSettings user={user as User} />
                         <GenderModal user={user as User} />
                         <AvatarModal />
                         <ProfileModal user={user as User} />
                         <UsernameModal user={user as User} />
-                        <Sidebar />
-                        <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
-                            {children}
-                        </main>
-                        <Toaster />
-                    </Providers >)
-                    :
-                    (
-                        <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>
-                            <PageNotFound />
+                        <div className='min-h-screen flex flex-col'>
+                            <main className='flex-1 flex flex-col justify-center'>
+                                {children}
+                            </main>
                         </div>
-                    )
+                    </Providers>
+                ) :
+                    <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>
+                        <PageNotFound />
+                    </div>
                 }
+                <Toaster />
             </body>
         </html>
     )

@@ -113,6 +113,7 @@ enum Role {
   USER
   ADMIN
   EMPLOYEE
+  SUPER_ADMIN
 }
 
 model EmployeeIdCounter {

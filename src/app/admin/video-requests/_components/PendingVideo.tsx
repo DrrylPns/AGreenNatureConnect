@@ -130,7 +130,7 @@ export const PendingVideo = () => {
 
                             <Separator className="bg-zinc-400" />
 
-                            <div className="flex gap-3 justify-between w-full items-center">
+                            <div className="flex flex-col gap-3 justify-between w-full items-center">
                                 <div>
                                     <Button variant="ghost" className="hover:bg-transparent/10">
                                         <a target='_blank' href={video.video}>
@@ -139,7 +139,7 @@ export const PendingVideo = () => {
                                     </Button>
                                 </div>
 
-                                <div className="space-x-2">
+                                <div className="space-x-2 flex flex-col gap-2 lg:flex-row">
                                     <AlertDialog>
                                         <AlertDialogTrigger>
                                             <Button variant={"destructive"}>

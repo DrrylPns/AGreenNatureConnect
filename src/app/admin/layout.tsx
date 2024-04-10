@@ -41,7 +41,7 @@ export default async function RootLayout({
         where: { id: session?.user.id },
     })
 
-    if (!user) redirect("/discussion")
+    if (!user || user.role !== "ADMIN") redirect("/discussion")
 
     return (
         <html lang="en">

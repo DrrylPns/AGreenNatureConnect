@@ -45,10 +45,6 @@ export async function POST(req: Request) {
 
         const daysLeft = calculateDaysUntilUsernameChange(user.lastUsernameChange as Date);
 
-        const existingCommunity = await prisma.community.findFirst({
-            where: { name: community }
-        });
-
         const dataToUpdate: Record<string, any> = {
             phoneNumber: phoneNumber,
             birthday: birthday,
@@ -58,34 +54,52 @@ export async function POST(req: Request) {
             name: name,
         }
 
-        if (existingCommunity) {
-            dataToUpdate.Community = {
-                connect: {
-                    id: existingCommunity.id
-                }
+        if (community === "Others") {
+            if (daysLeft <= 0) {
+                dataToUpdate.username = username;
             }
+
+            await prisma.user.update({
+                where: { id: session.user.id },
+                data: dataToUpdate
+            });
         } else {
-            const newCommunity = await prisma.community.create({
-                data: {
-                    name: community
-                }
+            const existingCommunity = await prisma.community.findFirst({
+                where: { name: community }
             });
 
-            dataToUpdate.Community = {
-                connect: {
-                    id: newCommunity.id
+            if (existingCommunity) {
+                dataToUpdate.Community = {
+                    connect: {
+                        id: existingCommunity.id
+                    }
                 }
+            } else {
+                const newCommunity = await prisma.community.create({
+                    data: {
+                        name: community
+                    }
+                });
+
+                dataToUpdate.Community = {
+                    connect: {
+                        id: newCommunity.id
+                    }
+                }
+
+
+                if (daysLeft <= 0) {
+                    dataToUpdate.username = username;
+                }
+
+                await prisma.user.update({
+                    where: { id: session.user.id },
+                    data: dataToUpdate
+                });
             }
         }
 
-        if (daysLeft <= 0) {
-            dataToUpdate.username = username;
-        }
 
-        await prisma.user.update({
-            where: { id: session.user.id },
-            data: dataToUpdate
-        });
 
         return new Response("Username updated successfully", { status: 200 })
     } catch (error: any) {
