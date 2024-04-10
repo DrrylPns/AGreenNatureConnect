@@ -129,19 +129,10 @@ export default function Post() {
               const showPost = post.reports < 5;
 
               return showPost ? (
-                <Link
-                  href={{
-                    pathname: `/discussion/${post.topic.name}/${post.id}`,
-                    query: { postId: post.id },
-                  }}
-                  key={post.id}
-                >
-                  <div
-                    key={post.id}
-                    className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
-                  >
+                <div key={post.id}>
+                  <div className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                    <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session?.user.id } }} className="flex items-center gap-2">
                         <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
                           {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                           <Image
@@ -161,7 +152,7 @@ export default function Post() {
                             <RelativeDate dateString={post.createdAt} />
                           </h3>
                         </div>
-                      </div>
+                      </Link>
                       {post.authorId === session?.user?.id && (
                         <button type="button" onClick={() => {}}>
                           <FaEllipsis />
@@ -185,7 +176,11 @@ export default function Post() {
                       )}
                     </div>
 
-                    {/**Description & Images */}
+                    <Link
+                    href={{
+                      pathname: `/discussion/${post?.topic.name}/${post?.id}`,
+                      query: { postId: post?.id },
+                    }}>
                     <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
                       {post.title}
                     </h1>
@@ -204,13 +199,14 @@ export default function Post() {
                         <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
                       ) : null}
                     </div>
-                    {/**Like, Comment, Share(if there is any) Section*/}
+                    </Link>
+                   
                     <PostButtons
                       comments={post.comments.length}
                       postId={post.id}
                     />
                   </div>
-                </Link>
+                </div>
               ) : null;
             })}
           {isFetchingNextPage && (

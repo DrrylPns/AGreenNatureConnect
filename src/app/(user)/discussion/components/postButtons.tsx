@@ -9,6 +9,7 @@ import { useSession } from "next-auth/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { ReactionButton } from "./ReactionButton";
 import { ReactionList } from "./ReactionList";
+import Link from "next/link";
 
 interface PostButtonsProps {
   postId: string;
@@ -84,16 +85,18 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
 
         <Popover>
           <>
-          <motion.button
-          whileTap={{ backgroundColor: "ButtonShadow" }}
-          type="button"
-          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
-        >
+          <Link
+            href={{
+              pathname: `/discussion/${post?.topic.name}/${post?.id}`,
+              query: { postId: post?.id },
+            }}
+            className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+          >
           <span className="text-[1.5rem] text-gray-600 dark:text-white">
             <BiComment />
           </span>
           <h3 className="hidden md:block">{comments}</h3>
-        </motion.button>
+        </Link>
           </>
         </Popover>
         
