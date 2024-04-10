@@ -5,6 +5,7 @@ import { getUserById } from "../data/user"
 import prisma from "@/lib/db/db"
 import { redirect } from "next/navigation"
 import { pusherServer } from "@/lib/pusher"
+import { Prisma } from "@prisma/client"
 
 
 export const inspectChatRoom = async (communityId: string) => {
@@ -36,7 +37,7 @@ export const inspectChatRoom = async (communityId: string) => {
         })
 
         const currentCommunity = await prisma.community.findUnique({
-            where: {id: communityId}
+            where: { id: communityId }
         })
 
         if (newChatRoom) {
@@ -78,6 +79,15 @@ export const sendMessage = async (chatRoomId: string, senderId: string, senderTy
                 image,
             }
         });
+
+        if(senderType === 'user' && newMessage) {
+            await prisma.user.update({
+                where: {id: user.id},
+                data: {
+                    updatedAt: new Date(),
+                } as Prisma.UserUpdateInput,
+            })
+        }
 
         await pusherServer.trigger(chatRoomId, 'messages:new', newMessage)
 
@@ -139,22 +149,30 @@ export const fetchUsersWhoChatted = async (communityId: string) => {
             return { error: "Community not found" }
         }
 
-        const userWhoChatted = await prisma.user.findMany({
+        // const usersWithRecentMessages = await prisma.user.findMany({
+        //     where: {
+        //         ChatRoom: {
+        //             some: {
+        //                 communityId: community.id
+        //             }
+        //         }
+        //     },
+        // });
+
+        const usersWithRecentMessages = await prisma.user.findMany({
             where: {
-                // Message: {
-                //     some: {
-                //         communityId: community.id
-                //     }
-                // },
                 ChatRoom: {
                     some: {
-                        communityId: community.id
-                    }
-                }
-            }
-        })
+                        communityId: community.id,
+                    },
+                },
+            },
+            orderBy: {
+                updatedAt: "desc"
+            },
+        });
 
-        return userWhoChatted
+        return usersWithRecentMessages
     } catch (error: any) {
         throw new Error(error)
     }
