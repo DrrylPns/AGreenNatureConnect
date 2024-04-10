@@ -112,12 +112,12 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
 
     return (
         <div>
-            <div className='flex flex-row justify-between'>
+            <div className='flex flex-col md:flex-row justify-between'>
                 <div>
                     <Title className='text-[50px] mb-7 mt-3'>Employees</Title>
                 </div>
 
-                <div className='flex flex-row justify-center items-center'>
+                <div className='flex flex-col gap-2 md:flex-row justify-center items-center'>
 
                     <MultiSelect
                         className="max-w-full sm:max-w-xs mr-4"
@@ -133,7 +133,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
-                            <Button variant="outline" className="ml-auto">
+                            <Button variant="outline" >
                                 <Settings2 className="mr-1 w-5 h-5" />
                                 View
                             </Button>
@@ -165,7 +165,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                     <Link className={cn(buttonVariants({
                         variant: "newGreen"
                     }),
-                        "bg-[#15A2D4] ml-4 px-7"
+                        "bg-[#15A2D4] ml-4 px-7 mb-3 md:mb-0"
                     )}
                         href={"/admin/add-employee"}
                     >

@@ -11,19 +11,19 @@ const page = () => {
             <Tabs defaultValue="pending">
                 <TabsList className='w-full flex justify-evenly h-[200px]'>
                     <TabsTrigger value="pending" className='h-[125px] border border-zinc-300 hover:opacity-80'>
-                        <Hourglass className='text-yellow-500 mr-2' />
-                        Pending Materials
+                        <Hourglass className='text-yellow-500 mr-0 md:mr-2' />
+                        <div className='hidden md:block'>Pending Materials</div>
                     </TabsTrigger>
                     <TabsTrigger value="approved" className='h-[125px] border border-zinc-300 hover:opacity-80'>
-                        <BadgeCheck className='text-[#6ec530] mr-2' />
-                        Approved Materials
+                        <BadgeCheck className='text-[#6ec530] mr-0 md:mr-2' />
+                        <div className='hidden md:block'>Approved Materials</div>
                     </TabsTrigger>
                     <TabsTrigger value="declined" className=' h-[125px] border border-zinc-300 hover:opacity-80'>
-                        <XCircle className='text-rose-500 mr-2' />
-                        Declined Materials
+                        <XCircle className='text-rose-500 mr-0 md:mr-2' />
+                        <div className='hidden md:block'>Declined Materials</div>
                     </TabsTrigger>
                 </TabsList>
-                
+
                 <TabsContent value="pending">
 
                     <PendingMaterials />
