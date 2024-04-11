@@ -286,10 +286,10 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                                   height={320}
                                 />
                                 <TooltipProvider>
-                                  <div className="rounded-b-lg bg-[#24643B] text-white p-2">
+                                  <div className="rounded-b-lg bg-[#24643B] text-white p-2 w-full">
                                     <Tooltip>
                                       <TooltipTrigger className="cursor-default">
-                                        <p className="text-sm break-words">
+                                        <p className="text-sm break-words break-all">
                                           {message.content}
                                         </p>
                                       </TooltipTrigger>
@@ -412,7 +412,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
                               <div className="rounded-lg bg-zinc-200 dark:bg-zinc-700 p-2 w-auto">
                                 <Tooltip>
                                   <TooltipTrigger className="cursor-default">
-                                    <p className="text-sm  text-wrap  break-word">
+                                    <p className="text-sm  text-wrap break-word">
                                       {message.content}
                                     </p>
                                   </TooltipTrigger>
