@@ -57,7 +57,7 @@ export default async function RootLayout({
                         <ProfileModal user={user as User} />
                         <UsernameModal user={user as User} />
                         <Sidebar />
-                        <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
+                        <main className='md:ml-[288px] md:mt-[62px] md:mr-[30px] mx-5'>
                             {children}
                         </main>
                     </Providers>
