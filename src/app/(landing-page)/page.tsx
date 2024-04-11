@@ -29,7 +29,7 @@ export default function Home() {
         >
           <div className="flex flex-col items-end md:w-[600px] w-[300px]">
             
-          <div className="font-poppins text-white lg:text-[18px] md:text-[16px] sm:text-[14px] text-[12px] self-start md:pb-0 pb-2 ">
+          <div className="font-poppins text-white  md:text-[18px] sm:text-[16px] text-[14px] self-start md:pb-0 pb-2 ">
               Welcome to AGreen Nature Connect Urban Farming
             </div>
             <Image
@@ -40,14 +40,14 @@ export default function Home() {
 
           </div>
           <div className="flex flex-col w-full items-end mt-5">
-            <h1 className=" font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[22px] self-start mt-[-20px]">
+            <h1 className=" font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[24px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
-            <h1 className="font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[22px] self-start">
+            <h1 className="font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[24px] self-start">
               Good Production
             </h1>
           </div>
-          <p className="my-[20px] text-white font-poppins md:text-[15px] sm:text-[12px] text-[10px]">
+          <p className="my-[20px] text-white font-poppins md:text-[15px] sm:text-[14px] text-[12px]">
               Planting Healthy Discussion,  Nourishing Communities
           </p>
           <Link
@@ -66,10 +66,10 @@ export default function Home() {
 
       <section className="flex flex-col sm:flex-row md:px-10 md:py-10 p-5 items-center gap-10">
         <div className="text-justify font-poppins md:p-5 p-0">
-          <h1 className=" font-bold md:text-[32px] text-[16px] mb-5">
+          <h1 className=" font-bold md:text-[32px] text-[18px] mb-5">
             Nurtured by: Quezon City.
           </h1>
-          <p className="md:text-[16px] text-[12px] max-sm:text-[14] ">
+          <p className="md:text-[18px] text-[14px] max-sm:text-[16] ">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
@@ -101,20 +101,20 @@ export default function Home() {
             <div className="text-slate-200">  
               <div className=" mb-5 lg:px-44 md:px-32 sm:px-12 ">
 
-                <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[18px] text-[16px]">
+                <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[20px] text-[18px]">
                   Quezon City Urban Farming
                 </h2>
-                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] mb-5 text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[14px] mb-5 text-justify">
                   AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
                 </p>
-                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] mb-5 text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[14px] mb-5 text-justify">
                   We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
                 </p>
 
-                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] mb-5 text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[14px] mb-5 text-justify">
                 Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
                 </p>
-                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[14px] text-justify">
                 Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
                 </p>
               </div>
@@ -145,16 +145,16 @@ export default function Home() {
                 src={LightIcon}
                 alt="Light Icon"
               />
-              <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+              <h3 className="font-poppins font-bold md:text-[22px] text-[18px] px-3">
                 Shares Ideas
               </h3>
             </div>
-            <p className="md:text-[16px] text-[12px] font-poppins my-2">
+            <p className="md:text-[16px] text-[14px] font-poppins my-2">
               Connect with our network to share insights and collaborate on
               cultivating urban agriculture success.
             </p>
             <Link href={"/discussion"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-5">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[14px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
@@ -167,16 +167,16 @@ export default function Home() {
                 src={DeliveryIcon}
                 alt="Delivery icon"
               />
-              <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+              <h3 className="font-poppins font-bold md:text-[22px] text-[18px] px-3">
                 Order Products
               </h3>
             </div>
-            <p className="md:text-[16px] text-[12px] font-poppins my-2">
+            <p className="md:text-[16px] text-[14px] font-poppins my-2">
               Buy fresh from the farm products. Help local urban farmers to have
               achieve sustainability and efficiency.
             </p>
             <Link href={"/markethub"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[12px] hover:text-dark-green pt-5">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[14px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow Icon" />
               </button>
@@ -189,16 +189,16 @@ export default function Home() {
                 src={KnowledgeIcon}
                 alt="knowledge Icon"
               />
-              <h3 className="font-poppins font-bold md:text-[22px] text-[15px] px-3">
+              <h3 className="font-poppins font-bold md:text-[22px] text-[18px] px-3">
                 Learn Online
               </h3>
             </div>
-            <p className="md:text-[15px] text-[12px] font-poppins my-2">
+            <p className="md:text-[15px] text-[14px] font-poppins my-2">
               Discover the world of urban agriculture with our network. Join us
               in learning and growing together in urban farming.
             </p>
             <Link href={"/learningMaterials"}>
-              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[13px] hover:text-dark-green pt-5">
+              <button className="flex gap-2 font-poppins font-semibold md:text-[14px] text-[14px] hover:text-dark-green pt-5">
                 SEE MORE
                 <Image src={ArrowIcon} alt="Arrow icon" />
               </button>
