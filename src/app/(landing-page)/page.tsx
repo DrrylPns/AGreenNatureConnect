@@ -25,39 +25,37 @@ export default function Home() {
 
       <header id="home" className="">
         <div
-          className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-10 flex flex-col justify-center`}
+          className={`h-[100vh] bg-cover bg-center bg-[url('../../../public/images/bannerbg.png')] md:px-20 px-5 flex flex-col justify-center`}
         >
-          <div className="flex flex-col items-end md:w-[600px] w-[600px]">
+          <div className="flex flex-col items-end md:w-[600px] w-[300px]">
             
-          <div className="font-poppins text-white md:text-[18px] leading-[30px] self-start max-sm:text-[13px]">
-
-
+          <div className="font-poppins text-white lg:text-[18px] md:text-[16px] sm:text-[14px] text-[12px] self-start md:pb-0 pb-2 ">
               Welcome to AGreen Nature Connect Urban Farming
             </div>
             <Image
-              className="flex md:w-[300px] w-[400px] h-[10px] max-sm:hidden mx-60"
+              className="flex md:w-[300px] w-[100px] h-[10px] max-sm:hidden mx-60"
               src={Vector}
               alt=""
             />
 
           </div>
           <div className="flex flex-col w-full items-end mt-5">
-            <h1 className=" font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[20px] self-start mt-[-20px]">
+            <h1 className=" font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-amber lg:text-[50px] md:text-[40px] text-[22px] self-start mt-[-20px]">
               Urban Farming Matter
             </h1>
-            <h1 className="font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[20px] self-start">
+            <h1 className="font-poppins font-bold lg:leading-[70px] md:leading-[50px] leading-[30px] text-white lg:text-[50px] md:text-[40px] text-[22px] self-start">
               Good Production
             </h1>
           </div>
-          <p className="my-[20px] text-white font-poppins text-[15px]">
-            Greens in the Streets: Farming for a Better Tomorrow
+          <p className="my-[20px] text-white font-poppins md:text-[15px] sm:text-[12px] text-[10px]">
+              Planting Healthy Discussion,  Nourishing Communities
           </p>
           <Link
 
-            href="/discussion">
+            href="/discussion" className="">
             <button
                     type="submit"
-                    className="bg-amber text-black w-40 mt-5 p-2 font-poppins rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
+                    className="bg-amber text-black w-32 mt-5 p-2 font-poppins rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:justify-center max-md:text-[12px]"
                     >
                     Get Started
                   </button>
@@ -66,22 +64,22 @@ export default function Home() {
       </header>
       {/*SUBHEADING*/}
 
-      <section className="flex flex-col sm:flex-row md:px-16 md:py-16 p-10 items-center gap-16">
-        <div className="text-justify font-poppins">
-          <h1 className=" font-bold md:text-[44px] text-[20px] max-md:py-3 mb-5">
+      <section className="flex flex-col sm:flex-row md:px-10 md:py-10 p-5 items-center gap-10">
+        <div className="text-justify font-poppins md:p-5 p-0">
+          <h1 className=" font-bold md:text-[32px] text-[16px] mb-5">
             Nurtured by: Quezon City.
           </h1>
-          <p className="md:text-[18px] text-[15px] max-sm:text-[12] ">
+          <p className="md:text-[16px] text-[12px] max-sm:text-[14] ">
             There’s only one thing we love more than plants, and that’s people.
             This is why we’re so proud to be part of the City of Compton. It’s a
             community that demonstrates that, when you create the right
             conditions, flourishing happens naturally.
           </p>
         </div>
-        <div className="shadow-lg shadow-black rounded-lg">
+        <div className="w-full">
           <video
             id="my-player"
-            className="video-js rounded-lg"
+            className="video-js shadow-lg shadow-black rounded-lg md:w-full"
             controls
             loop
             preload="auto"
@@ -93,34 +91,34 @@ export default function Home() {
       {/*ABOUT US*/}
       <section
         id="aboutus"
-        className="bg-cover bg-center bg-[url('../../../public/images/Aboutbg.jpg')] border-t-[1px] border-black">
-        <div className=" from-muted py-10 px-5 md:px-10 ">
+        className="bg-cover bg-center bg-[url('../../../public/images/Aboutbg.jpg')] border-t-[1px] border-black md:p-10 p-5">
+        <div className=" from-muted ">
           <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl text-amber">
             About Us
           </h1>
 
           <div className="flex gap-10" >   
             <div className="text-slate-200">  
-              <div className=" mb-5 lg:px-44 md:px-32 sm:px-22 px-12 ">
+              <div className=" mb-5 lg:px-44 md:px-32 sm:px-12 ">
 
-                <h2 className="font-poppins font-bold text-2xl mb-5 text-center">
+                <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[18px] text-[16px]">
                   Quezon City Urban Farming
                 </h2>
-                <p className="font-poppins font-medium md:text-[18px] text-[15px] mb-5 text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] mb-5 text-justify">
                   AGreen Nature Connect, are committed to building a sustainable future by connecting individuals, businesses, and communities to nature. Our website is an information hub and marketplace dedicated to promoting environmental awareness, sustainable practices, and green living.
                 </p>
-                <p className="font-poppins font-medium md:text-[18px] text-[15px] mb-5 text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] mb-5 text-justify">
                   We provide comprehensive information, articles, and guides on a wide range of environmental topics, including conservation, renewable energy, eco-friendly lifestyle guidance, and biodiversity preservation.
                 </p>
 
-                <p className="font-poppins font-medium md:text-[18px] text-[15px] mb-5 text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] mb-5 text-justify">
                 Agreen Nature Connect is a marketplace where individuals can discover and support sustainable products from environmentally conscious businesses. 
                 </p>
-                <p className="font-poppins font-medium md:text-[18px] text-[15px] text-justify">
+                <p className="font-poppins font-normal lg:text-[18] md:text-[16px] text-[12px] text-justify">
                 Our platform encourages community engagement through forums, discussions, and events that bring like-minded individuals together and foster collaboration toward environmental goals.
                 </p>
               </div>
-              <div className=" text-center">
+              <div className=" text-center pb-5">  
                 <Link href={'/about'} >
                     <button
                     type="submit"
@@ -253,18 +251,18 @@ export default function Home() {
         </div>
         <div className="bg-[#2D5F4D]">
           <div className="bg-cover bg-center bg-[url('/public/images/discover.png')]">
-            <div className="bg-gradient-to-r from-[#F7C35FCC] to-[#F7C32929] w-full flex justify-between items-center gap-10 sm:px-40 px-35 py-14">
-              <div className="flex items-center gap-5">
+            <div className="bg-gradient-to-r from-[#F7C35FCC] to-[#F7C32929] w-full flex flex-col rmd:flex md:flex-row justify-between items-center gap-5 sm:px-40 px-35 py-14">
+              <div className="flex  items-center gap-5">
                 <div className="ml-5 bg-dark-green p-3 rounded-full">
                   <Image src={GrowthIcon} alt="Growth Icon" />
                 </div>
                 {/*The font style doesn't work */}
-                <h1 className="font-dancing-script font-normal md:text-2xl text-lg text-dark-green">
+                <h1 className="font-dancing-script font-normal md:text-2xl text-md text-dark-green">
                   We are Leader in Urban Farming Market
                 </h1>
               </div>
               <Link href={"/markethub"}>
-                <button className="px-5 py-3 text-dark-green font-poppins  bg-[#F7C35F] rounded-xl hover:scale-110 ease-in duration-100 mr-5 max-md:text-[12px]">
+                <button className="px-5 py-3 text-dark-green font-poppins  bg-[#F7C35F] rounded-xl hover:scale-110 ease-in duration-100 md:mr-5 mr-0 max-md:text-[12px]">
                   Discover More
                 </button>
               </Link>
