@@ -222,7 +222,7 @@ function page() {
           <p className='text-sm md:text-[16px]'>Couldn’t find what you needed,our friendly support team is here to help.</p>
         </div>
         <div className='w-[30%] flex flex-col justify-center text-black text-xs md:text-lg font-mono font-semibold text-center'>
-          <Link href={"/about/HelpPage"}
+          <Link href={"/about/Contact"}
           className="  bg-[#4DE69E] hover:bg-pale py-2 px-3 md:w-[160px] border-none rounded-full ">
           Get in Touch
           </Link>
