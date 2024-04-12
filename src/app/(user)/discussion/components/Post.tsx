@@ -15,7 +15,11 @@ import PostButtons from "./postButtons";
 import { useSession } from "next-auth/react";
 import { Listbox, Transition } from "@headlessui/react";
 import { TbFilterSearch } from "react-icons/tb";
-import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/Ui/Avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/components/Ui/Avatar";
 
 type PostProps = {
   getAllPost: PostTypes[];
@@ -133,56 +137,67 @@ export default function Post() {
                 <div key={post.id}>
                   <div className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md">
                     <div className="flex items-center justify-between">
-                      <Link href={{ pathname: `/discussion/user/${session?.user.username}`, query: { id: session?.user.id } }} className="flex items-center gap-2">
+                      <Link
+                        href={{
+                          pathname: `/discussion/user/${session?.user.username}`,
+                          query: { id: session?.user.id },
+                        }}
+                        className="flex items-center gap-2"
+                      >
                         <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
                           {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                           <Avatar>
-                            <AvatarImage src={post.author.image as string} alt={`${post.author.username}'s profile picture`} />
-                            <AvatarFallback>{post.author.name?.charAt(0)}</AvatarFallback>
+                            <AvatarImage
+                              src={post.author.image as string}
+                              alt={`${post.author.username}'s profile picture`}
+                            />
+                            <AvatarFallback>
+                              {post.author.name?.charAt(0)}
+                            </AvatarFallback>
                           </Avatar>
                         </div>
 
                         <div className="grid-col-2">
                           <div className="flex items-center">
-                          {/* Username */}
-                          <h1 className="text-lg font-poppins font-medium mr-1">{post.author.username}</h1>
-                          <h3 className="text-[0.7rem] font-poppins mr-1">
-                            <RelativeDate dateString={post.createdAt} />
-                          </h3>
+                            {/* Username */}
+                            <h1 className="text-lg font-poppins font-medium mr-1">
+                              {post.author.username}
+                            </h1>
+                            <h3 className="text-[0.7rem] font-poppins mr-1">
+                              <RelativeDate dateString={post.createdAt} />
+                            </h3>
                           </div>
                           {post.author.role === "EMPLOYEE" && (
                             <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold flow-root">
-                              Community Employee 🌳
+                              Urban Farmer 🌳
                             </h6>
                           )}
                           {post.author.role === "ADMIN" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
-                          Community Admin 🌳
-                        </h6>
-                      )}
+                            <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
+                              Community Admin 🥦
+                            </h6>
+                          )}
                         </div>
-
                       </Link>
                       {post.authorId === session?.user?.id && (
-                        <button type="button" onClick={() => { }}>
+                        <button type="button" onClick={() => {}}>
                           <FaEllipsis />
                         </button>
                       )}
                     </div>
                     {/**Badge */}
                     <div className="ml-12 mt-0 pt-0">
-
                       {post.author.role === "USER" && (
                         <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold"></h6>
                       )}
-                      
                     </div>
 
                     <Link
                       href={{
                         pathname: `/discussion/${post?.topic.name}/${post?.id}`,
                         query: { postId: post?.id },
-                      }}>
+                      }}
+                    >
                       <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
                         {post.title}
                       </h1>
@@ -203,10 +218,7 @@ export default function Post() {
                       </div>
                     </Link>
 
-                    <PostButtons
-                      comments={post.comments}
-                      postId={post.id}
-                    />
+                    <PostButtons comments={post.comments} postId={post.id} />
                   </div>
                 </div>
               ) : null;
