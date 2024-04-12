@@ -62,7 +62,7 @@ export default function Home() {
       </header>
       {/*SUBHEADING*/}
 
-      <section className="flex flex-col sm:flex-row md:px-10 md:py-10 p-5 items-center gap-10">
+      <section className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-10">
         <div className="text-justify font-poppins md:p-5 p-0">
           <h1 className=" font-bold md:text-[32px] text-[18px] mb-5">
             Nurtured by: Quezon City.
@@ -75,7 +75,9 @@ export default function Home() {
           </p>
         </div>
         <div className="w-full justify-center">
-          <video
+        
+        <iframe src="https://drive.google.com/file/d/16f0BMK-U3Zz9xeMk_E4w4U_0quZhF5DM/preview" width="640" height="480" allow="autoplay" className=" ml-10 rounded-lg border border-black shadow-black shadow-lg w-1/2"></iframe>
+          {/* <video
             id="my-player"
             className="video-js shadow-lg shadow-black rounded-lg md:w-full"
             controls
@@ -83,7 +85,7 @@ export default function Home() {
             preload="auto"
             data-setup='{}'>
             <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
-          </video>
+          </video> */}
         </div>
       </section>
       {/*ABOUT US*/}
