@@ -33,9 +33,7 @@ export default function footer() {
           </div>
           <div className="flex flex-col gap-y-5">
             <h3 className="text-poppins font-bold ml-1">Organization</h3>
-            <Link className="ml-1" href="/">
-            •  Privacy Policy
-            </Link>
+           
             <Link className="ml-1" href="/">
             •  Terms and Condition
             </Link>
