@@ -27,9 +27,9 @@ export default function footer() {
           </div>
           <div className="flex flex-col gap-y-5">
             <h3 className="text-poppins font-bold ">Markethub</h3>
-            <Link href="/">•  Nova Proper Market</Link>
-            <Link href="/">•  Bagong Silangan Market</Link>
-            <Link href="/">•  Bagbag Market</Link>
+            <Link href={`/markethub/community/Nova Proper?communityId=clud38rlj0000u8qwcz4avkim`}>•  Nova Proper Market</Link>
+            <Link href={`/markethub/community/Bagong Silangan?communityId=clud3edsz0008149u0nbi2m2g`}>•  Bagong Silangan Market</Link>
+            <Link href={"/markethub/community/Bagbag?communityId=clud37xrr0003ud7f3u04tg15"}>•  Bagbag Market</Link>
           </div>
           <div className="flex flex-col gap-y-5">
             <h3 className="text-poppins font-bold ml-1">Organization</h3>
