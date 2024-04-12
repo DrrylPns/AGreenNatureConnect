@@ -40,19 +40,19 @@ function page() {
                 <div className='p-3'>
                     <Link href="/about/NovaProper"
                         className="text-black font-poppins font-semibold h-[50px] w-[160px] mt-10 md:p-3 p-3 border border-black border-1 rounded-full text-center bg-amber">
-                        NOVA PROPER
+                        BRGY. NOVA PROPER
                     </Link>
                 </div>
                 <div className='p-3'>
                     <Link href="/about/Bagbag"
                         className="text-black font-poppins font-semibold h-[50px] w-[160px] mt-10 md:p-3 p-3 border border-black border-1 rounded-full text-center bg-neutral-100">
-                        BAGBAG
+                        BRGY. BAGBAG
                     </Link>
                 </div>
                 <div className='p-3'>
                     <Link href="/about/BagongSilangan"
                         className="text-black font-poppins font-semibold h-[50px] w-[160px] mt-10 md:p-3 p-3 border border-black border-1 rounded-full text-center bg-neutral-100">
-                        BAGONG SILANGAN
+                        BRGY. BAGONG SILANGAN
                     </Link>
                 </div>
             </div>
