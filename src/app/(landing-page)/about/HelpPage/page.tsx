@@ -14,20 +14,21 @@ function page() {
     <div className='w-full'>
 {/*Heading*/}
         <div className='pt-[5%] bg-[#B9DEB7]'>
+          <div className='p-10 bg-[#B9DEB7] flex flex-row grid-cols-2 justify-between'>
 
-          <div className='p-10 bg-[#B9DEB7] flex flex-row grid-cols-2 gap-40'>
+              <div className='px-5 pt-5 '>
+                <h1 className='font-poppins lg:text-[36px] md:text-[28px] text-[24xpx] '>Welcome to AGreen Nature Connect’s Help Center </h1>
+                <p className=' font-poppins lg:text-[24px] md:text-[20px] text-[16px] py-5'>How can we help you today?</p>
 
-              <div className='px-10 pt-10 '>
-                <h1 className='font-bold lg:text-[36px] md:text-[32px] text-[36xpx] '>How can we help you today?</h1>
-                <p className=' font-livvic lg:text-[18px] md:text-[16px] text-[18px] py-5'>Welcome to AGreen Nature Connect’s Help Center</p>
               </div>
 
-              <div className='px-10 '>
+              <div className=' '>
                 <Image
-                  className="lg:block hidden rounded-lg pt-3"
-                  src={Icon}
-                  alt="Icon-help.png"
-                  width={400}/>
+                            className="lg:block hidden rounded-lg pt-3"
+                            src={Icon}
+                            alt="Icon-help.png"
+                            width={350}/>
+
               </div>
       
           </div>
@@ -38,10 +39,10 @@ function page() {
 {/*FAQ's*/}
         <div id="DISCUSSION FORUM SECTION" className='p-10'>
             <div className=''>
-              <h1 className='font-livvic font-bold text-[36px]'>Frequently Asked Questions</h1>
+              <h1 className='font-poppins font-bold text-[36px]'>Frequently Asked Questions</h1>
             </div> 
             <div className='p-3'>
-              <h1>DISCUSSION FORUM SECTION</h1>
+              <h1 className='font-poppins font-bold text-[36px]'>DISCUSSION FORUM SECTION</h1>
             </div>
 
           <Accordion type="single" collapsible className="w-full p-10 px-20 text-[18px]  ">

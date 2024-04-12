@@ -2,7 +2,6 @@
 import Image from "next/image";
 import Footer from "../components/Footer/footer";
 import Vector from "/public/images/Vector.png";
-import Subheading from "/public/images/subheading.png";
 import LightIcon from "/public/images/lightbulbIcon.png";
 import DeliveryIcon from "/public/images/deliveryIcon.png";
 import KnowledgeIcon from "/public/images/knowledgeIcon.png";
@@ -14,7 +13,6 @@ import Phone from "/public/images/phone.png";
 import Email from "/public/images/email.png";
 import Location from "/public/images/location.png";
 import Link from "next/link";
-import { ShadcnCarousel } from "../(user)/markethub/components/sCarousel";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
 export default function Home() {
@@ -76,7 +74,7 @@ export default function Home() {
             conditions, flourishing happens naturally.
           </p>
         </div>
-        <div className="w-full">
+        <div className="w-full justify-center">
           <video
             id="my-player"
             className="video-js shadow-lg shadow-black rounded-lg md:w-full"

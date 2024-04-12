@@ -22,7 +22,8 @@ export default function CreatePost() {
         </div>
       ) : (
         <>
-          {session?.user.role !== "ADMIN" ? (
+          {status === 'authenticated' ? (
+
             <div
               className=" flex justify-between items-center gap-5 dark:bg-[#242526] bg-white rounded-lg drop-shadow-lg w-full px-5 py-5"
             >
