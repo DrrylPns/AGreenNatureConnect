@@ -139,8 +139,8 @@ export default function Post() {
                     <div className="flex items-center justify-between">
                       <Link
                         href={{
-                          pathname: `/discussion/user/${session?.user.username}`,
-                          query: { id: session?.user.id },
+                          pathname: `/discussion/user/${post.author.username}`,
+                          query: { id: post.authorId },
                         }}
                         className="flex items-center gap-2"
                       >
