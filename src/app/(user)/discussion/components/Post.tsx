@@ -142,15 +142,26 @@ export default function Post() {
                           </Avatar>
                         </div>
 
-                        <div className="flex items-baseline gap-1.5">
-                          {/*Username*/}
-                          <h1 className="text-lg font-poppins font-medium">
-                            {post.author.username}
-                          </h1>
-                          <h3 className="text-[0.7rem] font-poppins">
+                        <div className="grid-col-2">
+                          <div className="flex items-center">
+                          {/* Username */}
+                          <h1 className="text-lg font-poppins font-medium mr-1">{post.author.username}</h1>
+                          <h3 className="text-[0.7rem] font-poppins mr-1">
                             <RelativeDate dateString={post.createdAt} />
                           </h3>
+                          </div>
+                          {post.author.role === "EMPLOYEE" && (
+                            <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold flow-root">
+                              Community Employee 🌳
+                            </h6>
+                          )}
+                          {post.author.role === "ADMIN" && (
+                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
+                          Community Admin 🌳
+                        </h6>
+                      )}
                         </div>
+
                       </Link>
                       {post.authorId === session?.user?.id && (
                         <button type="button" onClick={() => { }}>
@@ -160,19 +171,11 @@ export default function Post() {
                     </div>
                     {/**Badge */}
                     <div className="ml-12 mt-0 pt-0">
-                      {post.author.role === "EMPLOYEE" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
-                          Community Employee 🌳
-                        </h6>
-                      )}
+
                       {post.author.role === "USER" && (
                         <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold"></h6>
                       )}
-                      {post.author.role === "ADMIN" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
-                          Community Admin 🌳
-                        </h6>
-                      )}
+                      
                     </div>
 
                     <Link
