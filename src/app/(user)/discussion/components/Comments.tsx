@@ -252,7 +252,7 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                     <div>
                       {comment.author.role === "EMPLOYEE" && (
                         <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
-                          Employee 🌳
+                          Farmer 🌳
                         </h6>
                       )}
                       {comment.author.role === "ADMIN" && (

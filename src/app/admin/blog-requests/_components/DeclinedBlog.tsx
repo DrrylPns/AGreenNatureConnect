@@ -110,8 +110,8 @@ export const DeclinedBlog = () => {
 
       {blogs.map((blog) => (
         //@ts-ignore
-        <div>{blog.isApproved === "DECLINED" ? (
-          <Card shadow="sm" className="shadow-md border border-[#a2a2a2]/30 rounded-lg" key={blog.id}>
+        <div className="w-full">{blog.isApproved === "DECLINED" ? (
+          <Card shadow="sm" className="shadow-md border border-[#a2a2a2]/30 rounded-lg w-full" key={blog.id}>
             <CardBody className="overflow-visible p-0">
               <Image
                 shadow="sm"
@@ -133,13 +133,13 @@ export const DeclinedBlog = () => {
 
               <Separator className="bg-zinc-400" />
 
-              <div className="flex gap-3 justify-between w-full items-center">
+              <div className="flex flex-col gap-3 justify-between w-full items-center">
                 <div>
                   <Dialog>
                     <DialogTrigger asChild>
                       <Button variant="ghost" className="hover:bg-transparent/10">Click to view.</Button>
                     </DialogTrigger>
-                    <DialogContent className="sm:max-w-md">
+                    <DialogContent className="lg:max-w-screen-lg max-lg:overflow-y-scroll max-h-screen">
                       <DialogHeader>
                         <DialogTitle>{blog.title}</DialogTitle>
                         <DialogDescription>
@@ -167,7 +167,7 @@ export const DeclinedBlog = () => {
                   </Dialog>
                 </div>
 
-                <div className="space-x-2">
+                <div className="space-x-2 flex flex-col gap-2 lg:flex-row">
                   {/* <AlertDialog>
                     <AlertDialogTrigger>
                       <Button variant={"destructive"}>

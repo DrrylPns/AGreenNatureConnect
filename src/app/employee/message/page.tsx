@@ -26,7 +26,7 @@ const MessagePage = async () => {
 
 
     return (
-        <div className=''>
+        <div className='pb-11'>
             <ChatComponent community={community as CommunityWithMessages} />
         </div>
     )

@@ -50,7 +50,7 @@ export const UserNotifs = () => {
         }
     })
 
-    if(isLoading) return <></>
+    if (isLoading) return <></>
 
     const hasUnread = notifications?.some(notification => notification.isRead == false);
 
@@ -84,10 +84,13 @@ export const UserNotifs = () => {
                                         className={`flex flex-col items-start p-2 rounded-md dark:bg-gray-800 ${!notification.isRead ? "bg-gray-100" : ""}`}
                                         href={
                                             //@ts-ignore
-                                            notification.type === "REACT" ? `/discussion/${notification.Post.topic.name}/${notification.Post.id}` : 
-                                            //@ts-ignore
-                                            notification.type === "COMMENT" ? `/discussion/${notification.Comment.post.topic.name}/${notification.Comment.post.id}` : 
-                                            `/order-status/${notification.transactionId}`}
+                                            notification.type === "REACT" ? `/discussion/${notification.Post.topic.name}/${notification.Post.id}` :
+                                                //@ts-ignore
+                                                notification.type === "COMMENT" ? `/discussion/${notification.Comment.post.topic.name}/${notification.Comment.post.id}` :
+                                                    //@ts-ignore
+                                                    notification.type === "REPLY" ? `/discussion/${notification.Reply.comment.post.topic.name}/${notification.Reply.comment.post.id}` :
+                                                        `/order-status/${notification.transactionId}`
+                                        }
                                         onClick={async () => {
                                             notificationRead(notification.id).then((callback) => {
                                                 if (callback?.error) {
@@ -129,11 +132,15 @@ export const UserNotifs = () => {
                                             )}
 
                                             {notification.type === "REACT" && (
-                                                <div>{notification.user.name} Has reacted to your post</div>
+                                                <div>{notification.user.name} Has reacted to your post.</div>
                                             )}
 
                                             {notification.type === "COMMENT" && (
-                                                <div>{notification.user.name} Has commented to your post</div>
+                                                <div>{notification.user.name} Has commented to your post.</div>
+                                            )}
+
+                                            {notification.type === "REPLY" && (
+                                                <div>{notification.user.name} Has replied to your comment.</div>
                                             )}
                                         </div>
 

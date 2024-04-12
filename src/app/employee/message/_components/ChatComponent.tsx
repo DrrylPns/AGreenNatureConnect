@@ -27,9 +27,9 @@ export default function ChatComponent({ community }: Props) {
 
 
     return (
-        <div key="1" className="flex h-screen bg-white dark:bg-zinc-800">
+        <div key="1" className="flex h-screen bg-white dark:bg-zinc-800 pb-11 rounded-lg">
             <aside className="w-80 border-r dark:border-zinc-700">
-                <div className="p-4 space-y-4">
+                <div className="p-4 space-y-4 overflow-auto h-screen">
                     <div className="flex justify-between items-center">
                         <h2 className="text-xl font-bold">Messages</h2>
                         <PencilIcon className="w-6 h-6" />
@@ -73,6 +73,8 @@ export default function ChatComponent({ community }: Props) {
                     </div>
                 </main>
             </section>
+
+            <div className="mt-11"/>
         </div>
     )
 }

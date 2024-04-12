@@ -6,11 +6,13 @@ import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
 import { getAuthSession } from '../../lib/auth'
-import { notFound } from 'next/navigation'
+import { notFound, redirect } from 'next/navigation'
 import prisma from '@/lib/db/db'
 import { cn } from '@/lib/utils'
 import { CartProvider } from '@/contexts/CartContext'
 import Navbar from './_components/Navbar'
+import { LoadingComponent } from '@/components/LoadingComponent'
+import { PageNotFound } from '@/components/PageNotFound'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -26,26 +28,42 @@ export default async function RootLayout({
 }) {
     const session = await getAuthSession()
 
-    if (session?.user.role === null) return <div>Loading...</div>
+    if (session?.user.role === null) return <LoadingComponent />
 
-    if (session?.user.role !== "EMPLOYEE") {
-        notFound()
-    }
+    if (!session) redirect("/discussion")
+
+        const user = await prisma.user.findUnique({
+            where: { id: session?.user.id },
+            include: {
+                Community: true
+            }
+        })
+    
+        if (!user || user.role !== "EMPLOYEE") redirect("/discussion")
 
     return (
         <html lang="en">
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
-                <CartProvider>
-                    <Providers>
-                        <LoginModal />
-                        <RegisterModal />
-                        <Navbar session={session} />
-                        <main className='bg-[#E3E1E1] h-screen'>
-                            {children}
-                        </main>
-                        <Toaster />
-                    </Providers >
-                </CartProvider>
+                {user.role === "EMPLOYEE" ?
+                    (
+                        <CartProvider>
+                        <Providers>
+                            <LoginModal />
+                            <RegisterModal />
+                            <Navbar session={session} />
+                            <main className='bg-[#E3E1E1] h-screen'>
+                                {children}
+                            </main>
+                            <Toaster />
+                        </Providers >
+                    </CartProvider>)
+                    :
+                    (
+                        <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>
+                            <PageNotFound />
+                        </div>
+                    )
+                }
             </body>
         </html>
     )

@@ -24,6 +24,7 @@ import { AvatarModal } from "@/components/settings/AvatarModal";
 import { ProfileModal } from "@/components/settings/ProfileModal";
 import { UsernameModal } from "@/components/settings/UsernameModal";
 import { WarnUser } from "@/components/WarnUser";
+import { redirect } from "next/navigation";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -46,8 +47,6 @@ export default async function RootLayout({
     },
   });
 
-  console.log(`asd ${user?.numberOfViolations}`);
-
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
@@ -62,36 +61,36 @@ export default async function RootLayout({
               {
                 //google
                 session?.user.birthday === null &&
-                session?.user.role === "USER" ? (
+                  session?.user.role === "USER" ? (
                   <>
                     <Onboarding />
                   </>
                 ) : //normal user registration
-                session?.user.name === null && session?.user.role === "USER" ? (
-                  <>
-                    <OnboardingUser />
-                  </>
-                ) : session?.user && session.user.numberOfViolations >= 3 ? (
-                  <>
-                    <UserBanned />
-                  </>
-                ) : (
-                  <>
-                    <Navbar />
-                    <SIdebar />
-                    <LoginModal currentUser={user} />
-                    <RegisterModal />
-                    <UserSettings user={user as User} />
-                    <GenderModal user={user as User} />
-                    <AvatarModal />
-                    <ProfileModal user={user as User} />
-                    <UsernameModal user={user as User} />
-                    {(user?.numberOfViolations as number) > 0 && <WarnUser />}
-                    <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
-                      {children}
-                    </div>
-                  </>
-                )
+                  session?.user.name === null && session?.user.role === "USER" ? (
+                    <>
+                      <OnboardingUser />
+                    </>
+                  ) : session?.user && session.user.numberOfViolations >= 3 ? (
+                    <>
+                      <UserBanned />
+                    </>
+                  ) : (
+                    <>
+                      <Navbar />
+                      <SIdebar />
+                      <LoginModal currentUser={user} />
+                      <RegisterModal />
+                      <UserSettings user={user as User} />
+                      <GenderModal user={user as User} />
+                      <AvatarModal />
+                      <ProfileModal user={user as User} />
+                      <UsernameModal user={user as User} />
+                      {(user?.numberOfViolations as number) > 0 && <WarnUser />}
+                      <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
+                        {children}
+                      </div>
+                    </>
+                  )
               }
               <Toaster />
             </Providers>

@@ -256,7 +256,7 @@ function page() {
                   <h1 className="text-center">
                     Sub Total:
                     <span className="text-xs sm:text-2xl font-bold ml-10">
-                      ₱ {item?.selectedVariant.price}
+                      ₱ {item?.selectedProduct.isFree? 0 : item?.selectedVariant.price}
                     </span>
                   </h1>
                 </div>

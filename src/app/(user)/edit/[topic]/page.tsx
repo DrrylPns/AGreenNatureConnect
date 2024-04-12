@@ -39,7 +39,7 @@ const page: FC<Pageprops> = ({ params }) => {
               {topic?.posts.length} post/s in {topic?.name} right now!
             </span>
           </h1>
-          {topic.posts.map((post: PostTypes) => (
+          {topic.posts.map((post) => (
             <Link
               href={{
                 pathname: `/discussion/${topic.name}/${post.id}`,

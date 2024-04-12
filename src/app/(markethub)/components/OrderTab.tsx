@@ -50,7 +50,7 @@ interface Variants {
     unitOfMeasurement: string;
     variant: number;
     price: number;
-    EstimatedPieces: number;
+    EstimatedPieces: number | null;
 }
 interface Product {
     id: string;

@@ -1,5 +1,5 @@
-import prisma from "@/lib/db/db";
 import React, { FC, Suspense } from "react";
+import prisma from "@/lib/db/db";
 import Loading from "../../loading";
 import ArrowBack from "../../components/ArrowBack";
 import RelativeDate from "@/app/components/RelativeDate";
@@ -45,12 +45,6 @@ const page: FC<Props> = async ({ params }) => {
     }
   }
 
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "long",
-    day: "numeric",
-  };
-
   return (
     <div>
       <div className="relative w-full bg-green px-5 py-3 text-white">
@@ -78,7 +72,12 @@ const page: FC<Props> = async ({ params }) => {
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Date:</span>
               <span className="text-gray-700">{transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
-</span>
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span className="font-medium text-gray-600">Time:</span>
+              <span className="text-gray-700">{transaction?.updatedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+            </span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Recipient:</span>
@@ -86,7 +85,22 @@ const page: FC<Props> = async ({ params }) => {
             </div>
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Status:</span>
-              <Badge className="capitalize" variant="secondary">
+              <Badge
+                className={`capitalize ${
+                  transaction?.status === "APPROVED"
+                    ? "bg-lime-500"
+                    : transaction?.status === "PENDING"
+                    ? "bg-yellow-500"
+                    : transaction?.status === "CANCELLED"
+                    ? "bg-red-500"
+                    : transaction?.status === "PICK_UP"
+                    ? "bg-sky-500"
+                    : transaction?.status === "COMPLETED"
+                    ? "bg-lime-800"
+                    : ""
+                }`}
+                variant="secondary"
+              >
                 {transaction?.status}
               </Badge>
             </div>
@@ -150,10 +164,10 @@ const page: FC<Props> = async ({ params }) => {
           )}
         </CardContent>
         <CardFooter className="flex justify-center p-4 border-t border-gray-200">
-        {transaction?.status === "APPROVED" && (
+        {transaction?.status === "PICK_UP" && (
           
           <p className="text-sm text-gray-600 italic">
-            "Please claim your purchase on {transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at Barangay{" "}
+            "Please pick up your purchase on {transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at Barangay{" "}
             {transaction?.seller.name} from {transaction?.updatedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
             "
           </p>

@@ -14,6 +14,7 @@ export async function GET(req: NextRequest) {
                 comments: {
                     include: {
                         author: true,
+                        replyOnComent: true,
                     },
                 },
                 likes: true,
@@ -31,28 +32,4 @@ export async function GET(req: NextRequest) {
 export async function PUT(req: NextRequest) {
     const postId = req.url.split("post/")[1];
 }
-
-// Deleting Post
-// export async function DELETE(req: NextRequest) {
-//     const searchParams = req.nextUrl.searchParams 
-//     const postId = searchParams.get('postId') 
-//     console.log(`this is your Id: ${postId}`)
-
-//     if (!postId) return new Response("error: no post id")
-
-//     try {
-//         const deletePost = await prisma.post.delete({
-//             where: {
-//                 id: postId
-//             }
-//         })
-
-//         console.log(deletePost);
-//         return new Response(JSON.stringify(deletePost), { status: 200 });
-//     } catch (error) {
-//         console.error(error);
-//         return new Response(JSON.stringify({ error: `Failed to delete post ${error}` }), { status: 500 });
-//     }
-// }
-
 

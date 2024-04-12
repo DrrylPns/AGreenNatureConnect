@@ -3,6 +3,7 @@ import React, { useState } from 'react'
 import Image from 'next/image'
 import Curve from '/public/images/curve.png'
 import Footer from '@/app/components/Footer/footer'
+import Back from '../components/Back';
 import Link from 'next/link'
 export default function TermsPolicy() {
   const [text, setText] = useState('')
@@ -29,10 +30,10 @@ export default function TermsPolicy() {
 
 
 
-      <div className="max-w-4xl mx-auto mb-10 p-8 bg-white shadow-lg rounded-lg">
-        <div className=' mt-7 hidden sm:block md:block'> <Link
-          className="inline-flex items-center border border-emerald-600 rounded-lg mb-4 px-3 py-2 text-sm font-medium text-gray-900 hover:bg-emerald-600 focus:outline-none focus:ring-2 focus:ring-gray-600"
-          href="./discussion">Return</Link>
+      <div className="max-w-4xl mx-auto mb-10 mt-3 p-8 bg-white shadow-lg rounded-lg">
+      
+        <div className=' mt-3 hidden sm:block md:block'> 
+        <Back/>
         </div>
         <h1 className="text-3xl font-bold mb-6">TERMS & CONDITIONS</h1>
         <section className="mb-6">
@@ -109,13 +110,16 @@ export default function TermsPolicy() {
             By using Agreen Nature Connect, you acknowledge that you have read, understood, and agree to abide by these
             terms and conditions.
           </p>
+          {/*
           <p>
             If you have any questions or concerns regarding these terms, please contact us at{" "}
+            
             <a className="text-blue-600 underline" href="#">
               natureagreen@gmail.com
             </a>
             .
           </p>
+          */}
         </section>
       </div>
 

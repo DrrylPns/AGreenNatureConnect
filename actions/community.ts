@@ -42,6 +42,16 @@ export const fetchCommunities = async () => {
     }
 }
 
+export const getCommunitiesWithoutSession = async () => {
+    try {
+        const communities = await prisma.community.findMany()
+
+        return communities
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
+
 export const fetchUsersWhoChatted = async (communityId: string) => {
     try {
         const session = await getAuthSession()

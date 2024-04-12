@@ -14,12 +14,12 @@ function page() {
     <div className='w-full'>
 {/*Heading*/}
         <div className='pt-[5%] bg-[#B9DEB7]'>
-
           <div className='p-10 bg-[#B9DEB7] flex flex-row grid-cols-2 justify-between'>
 
               <div className='px-5 pt-5 '>
                 <h1 className='font-poppins lg:text-[36px] md:text-[28px] text-[24xpx] '>Welcome to AGreen Nature Connect’s Help Center </h1>
                 <p className=' font-poppins lg:text-[24px] md:text-[20px] text-[16px] py-5'>How can we help you today?</p>
+
               </div>
 
               <div className=' '>
@@ -28,6 +28,7 @@ function page() {
                             src={Icon}
                             alt="Icon-help.png"
                             width={350}/>
+
               </div>
       
           </div>
@@ -54,21 +55,19 @@ function page() {
               <AccordionItem value="item-2">
                   <AccordionTrigger className='font-livvic'>How do I log in if I forgot my password?</AccordionTrigger>
                       <AccordionContent className='text-[17px] font-extralight'>
-                      <p className='p-2'><span className='font-medium'>1. Visit the Login Page:</span> Go to the login page.</p>
+                        <p className='p-2'><span className='font-medium'>1. Visit the Login Page:</span> Go to the login page.</p>
 
-                      <p className='p-2'><span className='font-medium '>2. Click on "Forgot Password" or Similar:</span> Look for a link or button that says something like "Forgot your password?" or "Can't access your account?" Click on it.</p>
+                        <p className='p-2'><span className='font-medium '>2. Click on "Forgot Password" or Similar:</span> Look for a link or button that says something like "Forgot your password?" or "Can't access your account?" Click on it.</p>
 
-                      <p className='p-2'><span className='font-medium '>3. Enter Your Email or Username:</span> You'll typically be asked to enter the email address or username associated with your account. This is usually the primary way to identify your account.</p>
+                        <p className='p-2'><span className='font-medium '>3. Enter Your Email or Username:</span> You'll typically be asked to enter the email address or username associated with your account. This is usually the primary way to identify your account.</p>
 
-                      <p className='p-2'><span className='font-medium '>4.  Follow the Instructions:</span> After entering your email or username, the platform will usually send you instructions on how to reset your password. This might involve receiving a link via email or text message, answering security questions, or providing other verification details.</p>
+                        <p className='p-2'><span className='font-medium '>4.  Follow the Instructions:</span> After entering your email or username, the platform will usually send you instructions on how to reset your password. This might involve receiving a link via email or text message, answering security questions, or providing other verification details.</p>
 
-                      <p className='p-2'><span className='font-medium '>5.  Reset Your Password:</span> Once you receive the instructions, follow them to reset your password. You'll typically be asked to choose a new password and confirm it.</p>
+                        <p className='p-2'><span className='font-medium '>5.  Reset Your Password:</span> Once you receive the instructions, follow them to reset your password. You'll typically be asked to choose a new password and confirm it.</p>
 
-                      <p className='p-2'><span className='font-medium '>6. Log In with Your New Password:</span> After successfully resetting your password, you should be able to log in to your account using your new password.</p>
+                        <p className='p-2'><span className='font-medium '>6. Log In with Your New Password:</span> After successfully resetting your password, you should be able to log in to your account using your new password.</p>
 
-                      <p className='p-2'>If you're having trouble resetting your password or accessing your account, you can call our customer support for further assistance. We can help you regain access to your account and troubleshoot any issues you're experiencing.</p>
-
-
+                        <p className='p-2'>If you're having trouble resetting your password or accessing your account, you can call our customer support for further assistance. We can help you regain access to your account and troubleshoot any issues you're experiencing.</p>
                       </AccordionContent>
               </AccordionItem>
               <AccordionItem value="item-3">

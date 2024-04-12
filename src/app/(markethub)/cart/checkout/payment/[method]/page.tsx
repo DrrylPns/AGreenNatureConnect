@@ -38,7 +38,7 @@ function page({
     return (
       item
         ?.filter((cartItem) => cartItem.community.name === communityName)
-        .reduce((total, cartItem) => total + cartItem.variant.price, 0) || 0
+        .reduce((total, cartItem) => total + (cartItem.variant.product.isFree ? 0 : cartItem.variant.price) , 0) || 0
     );
   };
   const handleGoBack = () => {

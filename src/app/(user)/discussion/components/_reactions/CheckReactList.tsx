@@ -61,7 +61,7 @@ export const CheckReactList = ({ postId }: PostIdProps) => {
                     <div className='flex gap-3 my-4'>
                         <Avatar>
                             <AvatarImage src={reactor.user.image} alt={`${reactor.user.username}'s profile picture`} />
-                            <AvatarFallback>{reactor.user.username}'s profile picture</AvatarFallback>
+                            <AvatarFallback>{reactor.user.name.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className='w-full'>
                             <div className='flex flex-col w-full'>

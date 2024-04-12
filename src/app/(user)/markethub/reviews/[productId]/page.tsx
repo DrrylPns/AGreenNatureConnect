@@ -47,9 +47,9 @@ async function page({
     
 
   return (
-    <div>
+    <div className='mt-5 md:-mt-0'>
        
-        <div className='flex items-center text-xl font-poppins font-bold mb-5'>
+        <div className='flex items-center text-lg md:text-xl font-poppins font-bold mb-5'>
             <Back/>
             <Star size={30} color='#F7C35F' fill='#F7C35F' className='mx-5'/>
             <h1> Product Review Display</h1>

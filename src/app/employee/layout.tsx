@@ -45,7 +45,7 @@ export default async function RootLayout({
         }
     })
 
-    if (!user) redirect("/discussion")
+    if (!user || user.role !== "EMPLOYEE") redirect("/discussion")
 
     return (
         <html lang="en">

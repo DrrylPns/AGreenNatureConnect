@@ -124,7 +124,7 @@ function page({
                     </div>
                     {/**Like, Comment, Share(if there is any) Section*/}
                     <PostButtons
-                      comments={post.comments.length}
+                      comments={post.comments}
                       postId={post.id}
                     />
                   </div>

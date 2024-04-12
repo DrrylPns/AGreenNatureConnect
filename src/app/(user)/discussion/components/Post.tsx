@@ -15,6 +15,11 @@ import PostButtons from "./postButtons";
 import { useSession } from "next-auth/react";
 import { Listbox, Transition } from "@headlessui/react";
 import { TbFilterSearch } from "react-icons/tb";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/components/Ui/Avatar";
 
 type PostProps = {
   getAllPost: PostTypes[];
@@ -129,39 +134,51 @@ export default function Post() {
               const showPost = post.reports < 5;
 
               return showPost ? (
-                <Link
-                  href={{
-                    pathname: `/discussion/${post.topic.name}/${post.id}`,
-                    query: { postId: post.id },
-                  }}
-                  key={post.id}
-                >
-                  <div
-                    key={post.id}
-                    className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md"
-                  >
+                <div key={post.id}>
+                  <div className="bg-white border-gray-200 border-2 dark:bg-[#242526] dark:border-none w-full rounded-xl p-5 mt-3 drop-shadow-md shadow-md">
                     <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-2">
+                      <Link
+                        href={{
+                          pathname: `/discussion/user/${session?.user.username}`,
+                          query: { id: session?.user.id },
+                        }}
+                        className="flex items-center gap-2"
+                      >
                         <div className="flex items-center overflow-hidden justify-center  rounded-full border w-userImage h-[2.5rem] border-black">
                           {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
-                          <Image
-                            src={post.author.image || DisplayPhoto}
-                            alt="User Image"
-                            width={40}
-                            height={40}
-                          />
+                          <Avatar>
+                            <AvatarImage
+                              src={post.author.image as string}
+                              alt={`${post.author.username}'s profile picture`}
+                            />
+                            <AvatarFallback>
+                              {post.author.name?.charAt(0)}
+                            </AvatarFallback>
+                          </Avatar>
                         </div>
 
-                        <div className="flex items-baseline gap-1.5">
-                          {/*Username*/}
-                          <h1 className="text-lg font-poppins font-medium">
-                            {post.author.username}
-                          </h1>
-                          <h3 className="text-[0.7rem] font-poppins">
-                            <RelativeDate dateString={post.createdAt} />
-                          </h3>
+                        <div className="grid-col-2">
+                          <div className="flex items-center">
+                            {/* Username */}
+                            <h1 className="text-lg font-poppins font-medium mr-1">
+                              {post.author.username}
+                            </h1>
+                            <h3 className="text-[0.7rem] font-poppins mr-1">
+                              <RelativeDate dateString={post.createdAt} />
+                            </h3>
+                          </div>
+                          {post.author.role === "EMPLOYEE" && (
+                            <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold flow-root">
+                              Urban Farmer 🌳
+                            </h6>
+                          )}
+                          {post.author.role === "ADMIN" && (
+                            <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
+                              Community Admin 🥦
+                            </h6>
+                          )}
                         </div>
-                      </div>
+                      </Link>
                       {post.authorId === session?.user?.id && (
                         <button type="button" onClick={() => {}}>
                           <FaEllipsis />
@@ -170,47 +187,40 @@ export default function Post() {
                     </div>
                     {/**Badge */}
                     <div className="ml-12 mt-0 pt-0">
-                      {post.author.role === "EMPLOYEE" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
-                          Community Employee 🌳
-                        </h6>
-                      )}
                       {post.author.role === "USER" && (
                         <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-semibold"></h6>
                       )}
-                      {post.author.role === "ADMIN" && (
-                        <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
-                          Community Admin 🌳
-                        </h6>
-                      )}
                     </div>
 
-                    {/**Description & Images */}
-                    <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
-                      {post.title}
-                    </h1>
-                    <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
-                      <span>Topic:</span>
-                      <span className="text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white">
-                        {post.topic.name}
-                      </span>
-                    </div>
-                    <div
-                      className="relative text-sm px-5 max-h-40 w-full overflow-clip"
-                      ref={pref}
+                    <Link
+                      href={{
+                        pathname: `/discussion/${post?.topic.name}/${post?.id}`,
+                        query: { postId: post?.id },
+                      }}
                     >
-                      <EditorOutput content={post.content} />
-                      {pref.current?.clientHeight === 160 ? (
-                        <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
-                      ) : null}
-                    </div>
-                    {/**Like, Comment, Share(if there is any) Section*/}
-                    <PostButtons
-                      comments={post.comments.length}
-                      postId={post.id}
-                    />
+                      <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
+                        {post.title}
+                      </h1>
+                      <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
+                        <span>Topic:</span>
+                        <span className="text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white">
+                          {post.topic.name}
+                        </span>
+                      </div>
+                      <div
+                        className="relative text-sm px-5 max-h-40 w-full overflow-clip"
+                        ref={pref}
+                      >
+                        <EditorOutput content={post.content} />
+                        {pref.current?.clientHeight === 160 ? (
+                          <div className="absolute bottom-0 left-0 h-24 w-full bg-gradient-to-t from-white to-transparent dark:from-black" />
+                        ) : null}
+                      </div>
+                    </Link>
+
+                    <PostButtons comments={post.comments} postId={post.id} />
                   </div>
-                </Link>
+                </div>
               ) : null;
             })}
           {isFetchingNextPage && (

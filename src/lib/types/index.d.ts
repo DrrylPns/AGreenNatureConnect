@@ -40,6 +40,7 @@ export interface PostTypes {
   topicId: string;
   comments: Comment[];
   likes: Like[];
+  replyOnComent: Reply[]
   topic: Topic
 }
 
@@ -84,6 +85,7 @@ export interface Comment {
   replyToId: string | null;
   replyTo: Comment | null;
   replies: Comment[];
+  replyOnComent: Reply[]
   commentId: string;
 }
 
@@ -227,6 +229,7 @@ export interface ResultItem {
 export interface ProductVariant {
   productId: string;
   variant: Variants;
+  isFree: boolean;
 }
 
 export interface Transaction {

@@ -64,7 +64,7 @@ interface Variants {
   unitOfMeasurement: string;
   variant: number;
   price: number;
-  EstimatedPieces: number;
+  EstimatedPieces: number | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -306,7 +306,9 @@ function ProductModal({
                                     productUnitOfMeasurementValue(variant) < variant.variant}
                                 >
                                   <div className='text-xs font-semibold'>{`${String(variant.variant)} ${unitOfMeasurement}`}</div>
-                                  <div className='text-[0.6rem] font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`} {productUnitOfMeasurementValue(variant)}</div>
+                                  {variant.EstimatedPieces !== null && (
+                                    <div className='text-[0.6rem] font-semibold text-gray-600'>{`(Est. pc/s ${variant.EstimatedPieces})`} {productUnitOfMeasurementValue(variant)}</div>
+                                  )}
                                 </button>
                                 {productUnitOfMeasurementValue(variant) < variant.variant && (
                               

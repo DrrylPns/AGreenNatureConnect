@@ -15,6 +15,7 @@ function transformItems(Items: Cart[]): ResultItem[] {
             existingItem.products.push({
                 productId: item.variant.product.id,
                 variant: item.variant,
+                isFree: item.variant.product.isFree
             });
             item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.variant.price
 
@@ -25,6 +26,7 @@ function transformItems(Items: Cart[]): ResultItem[] {
                 products: [{
                     productId: item.variant.product.id,
                     variant: item.variant,
+                    isFree: item.variant.product.isFree
                 }],
             };
 
@@ -76,7 +78,6 @@ export async function POST(req: Request) {
                     paymentMethod: paymentMethod
                 },
             });
-
             await prisma.transaction.update({
                 where: {
                     id: transaction.id,
@@ -85,9 +86,10 @@ export async function POST(req: Request) {
                     orderedVariant: {
                         createMany: {
                             data: item.products.map((product) => ({
-                                price: product.variant.price,
+                                price: product.isFree ? 0 : product.variant.price,
                                 variantId: product.variant.id,
                                 productId: product.productId,
+
                             })),
                         },
                     },

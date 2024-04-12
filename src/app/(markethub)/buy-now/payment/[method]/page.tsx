@@ -66,7 +66,7 @@ function page({
                   <h1 className="font-semibold text-center md:text-3xl">{item.selectedProduct.community.name}</h1>
                 </div>
               <div className='text-xl mt-10'>
-                <h1>Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {item.selectedVariant.price}</span></h1>
+                <h1>Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {item.selectedProduct.isFree ? 0 : item.selectedVariant.price}</span></h1>
               </div>
             </div>
             )}

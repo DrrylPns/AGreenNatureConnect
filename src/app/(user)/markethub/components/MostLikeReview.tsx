@@ -29,9 +29,9 @@ function MostLikeReview({
     }, productReviews[0]);
 
     return (
-        <div className='flex flex-col border-2 border-black col-span-5 min-h-60 px-4 bg-slate-100 drop-shadow-md rounded-md'>
-            <h1 className='text-center text-lg font-poppins font-semibold'>Most Helpful Review</h1>
-            <div className='flex gap-5 px-2'>  
+        <div className='flex flex-col justify-center items-center border-2 border-black col-span-12 md:col-span-5 min-h-60 px-4 bg-slate-100 drop-shadow-md rounded-md'>
+            <h1 className='text-center text-sm md:text-lg font-poppins font-semibold'>Most Helpful Review</h1>
+            <div className='flex justify-center items-center gap-5 px-2'>  
                 {mostLikedReview && mostLikedReview.like.length > 0 ? (
                     <div>
                         <div className='flex gap-3 items-center'>

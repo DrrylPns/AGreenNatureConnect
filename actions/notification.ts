@@ -19,6 +19,19 @@ export const fetchNotifications = async () => {
             user: true,
             community: true,
             transaction: true,
+            Reply: {
+                include: {
+                    comment: {
+                        include: {
+                            post: {
+                                include: {
+                                    topic: true
+                                }
+                            }
+                        }
+                    }
+                }
+            },
             Comment: {
                 include: {
                     post: {

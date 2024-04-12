@@ -3,20 +3,20 @@ import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import usePasswordToggle from "@/lib/hooks/usePasswordToggle";
 import useRegisterModal from "@/lib/hooks/useRegisterModal";
+import useWarningModal from "@/lib/hooks/useWarningModal";
 import { LoginSchema, LoginType } from "@/lib/validations/loginUserSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@prisma/client";
 import { getSession, signIn, useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import ButtonAuth from "../auth/ButtonAuth";
 import Heading from "../auth/Heading";
 import InputLogin from "../auth/InputLogin";
 import Modal from "./Modal";
-import useWarningModal from "@/lib/hooks/useWarningModal";
 
 interface LogInModalProps {
   currentUser?: User | null;
@@ -107,6 +107,8 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           router.push("/employee");
         } else if (updatedSession?.user.role === "ADMIN") {
           router.push("/admin");
+        } else if (updatedSession?.user.role === "SUPER_ADMIN") {
+          router.push("/communities")
         }
 
         loginModal.onClose();
@@ -233,7 +235,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
           outline
           label="Continue with Google"
           icon={FcGoogle}
-          onClick={async() => await signIn("google")}
+          onClick={async () => await signIn("google")}
         />
 
         <div

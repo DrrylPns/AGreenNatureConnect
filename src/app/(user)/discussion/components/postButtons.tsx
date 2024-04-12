@@ -4,15 +4,16 @@ import { BiComment, BiShare } from "react-icons/bi";
 import { motion } from "framer-motion";
 import { useToast } from "@/lib/hooks/use-toast";
 import axios from "axios";
-import { PostTypes } from "@/lib/types";
+import { Comment, PostTypes } from "@/lib/types";
 import { useSession } from "next-auth/react";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { ReactionButton } from "./ReactionButton";
 import { ReactionList } from "./ReactionList";
+import Link from "next/link";
 
 interface PostButtonsProps {
   postId: string;
-  comments: number;
+  comments: Comment[];
 }
 
 const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
@@ -20,9 +21,10 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   const loginModal = useLoginModal();
   const { toast } = useToast();
   const [post, setPost] = useState<PostTypes | null>(null); // Assuming you have a Post type
-
+  const [totalComments, setTotalComments] = useState<number>(comments.length)
   useEffect(() => {
     getPostDetails();
+    updateTotalComments()
   }, []);
 
   const getPostDetails = async () => {
@@ -72,6 +74,14 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
     }
   }
 
+  const updateTotalComments = () => {
+    let total = comments.length;
+    comments.forEach((comment) => {
+      total += comment.replyOnComent.length;
+    });
+    setTotalComments(total);
+  };
+
   return (
     <div className="border-t-4 border-gray-300 dark:border-[#18191A] py-3 sm:flex items-center">
 
@@ -84,16 +94,18 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
 
         <Popover>
           <>
-          <motion.button
-          whileTap={{ backgroundColor: "ButtonShadow" }}
-          type="button"
-          className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
-        >
+          <Link
+            href={{
+              pathname: `/discussion/${post?.topic.name}/${post?.id}`,
+              query: { postId: post?.id },
+            }}
+            className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+          >
           <span className="text-[1.5rem] text-gray-600 dark:text-white">
             <BiComment />
           </span>
-          <h3 className="hidden md:block">{comments}</h3>
-        </motion.button>
+          <h3 className="hidden md:block">{totalComments}</h3>
+        </Link>
           </>
         </Popover>
         

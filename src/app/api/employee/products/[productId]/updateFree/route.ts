@@ -13,28 +13,36 @@ export async function POST(req: NextRequest) {
             isFree,
         };
 
-        if (isFreeUntil) {
-            const isFreeUntilDate = new Date(isFreeUntil);
-            const today = startOfToday();  // Import startOfToday from date-fns
+        let tomorrow = new Date();
+        tomorrow.setUTCDate(tomorrow.getUTCDate() + 1);
 
-            if (isBefore(today, isFreeUntilDate) || isToday(isFreeUntilDate)) {
-                updateData.isFree = true;
-                updateData.isFreeUntil = isFreeUntilDate;
-            } else {
-                updateData.isFree = false;
-                updateData.isFreeUntil = null;
-            }
-        } else {
-            updateData.isFree = false;
-            updateData.isFreeUntil = null;
-        }
+        // if (isFreeUntil) {
+        //     const isFreeUntilDate = new Date(isFreeUntil);
+        //     const today = startOfToday();  // Import startOfToday from date-fns
+            
+        //     if (isBefore(today, isFreeUntilDate) || isToday(isFreeUntilDate)) {
+        //         updateData.isFree = true;
+        //         updateData.isFreeUntil = tomorrow;
+        //     } else {
+        //         updateData.isFree = false;
+        //         updateData.isFreeUntil = null;
+        //     }
+        // } else {
+        //     updateData.isFree = false;
+        //     updateData.isFreeUntil = null;
+        // }
 
         const updateFreeStatus = await prisma.product.update({
             where: {
                 id: productId,
             },
-            data: updateData,
+            data: {
+                isFree,
+                isFreeUntil: tomorrow,
+            }
         });
+
+        console.log(updateFreeStatus)
 
         return new Response(JSON.stringify({ success: true }));
     } catch (error) {

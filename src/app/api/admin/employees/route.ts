@@ -4,6 +4,7 @@ import { CreateEmployeeSchema } from "@/lib/validations/admin/createEmployee";
 import { NextRequest, NextResponse } from "next/server"
 import bcrypt from "bcrypt"
 import { UpdateEmployeeSchema } from "@/lib/validations/admin/updateEmployee";
+import { sendEmployeePasswordLink } from "../../../../../actions/set-employee-password";
 
 export async function POST(req: Request) {
     const currentYear = new Date().getFullYear()
@@ -21,7 +22,7 @@ export async function POST(req: Request) {
             firstname,
             gender,
             lastName,
-            password,
+            // password,
             phone,
         } = CreateEmployeeSchema.parse(body)
 
@@ -37,7 +38,7 @@ export async function POST(req: Request) {
 
         if (emailExist) return new NextResponse(`${email} already exists`, { status: 400 })
 
-        const hashedPassword = await bcrypt.hash(password, 12)
+        // const hashedPassword = await bcrypt.hash(password as string, 12)
 
         if (!counter) {
             counter = await prisma.employeeIdCounter.create({
@@ -82,7 +83,7 @@ export async function POST(req: Request) {
 
         const currentDate = new Date();
 
-        await prisma.user.create({
+        const successUserCreate = await prisma.user.create({
             data: {
                 name: firstname,
                 EmployeeId: formattedId,
@@ -94,7 +95,7 @@ export async function POST(req: Request) {
                 lastName,
                 role: "EMPLOYEE",
                 emailVerified: currentDate,
-                hashedPassword,
+                // hashedPassword,
                 Community: {
                     connect: {
                         name: getCommunity?.name as string
@@ -103,6 +104,9 @@ export async function POST(req: Request) {
             }
         })
 
+        if(successUserCreate) {
+            sendEmployeePasswordLink(successUserCreate.email as string)
+        }
 
 
         return new NextResponse(`Successfully created an employee!`)
