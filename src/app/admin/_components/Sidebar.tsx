@@ -6,12 +6,14 @@ import { signOut } from 'next-auth/react';
 import { usePathname, useRouter } from 'next/navigation';
 import { FiRefreshCw } from 'react-icons/fi';
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
+import useSettingsModal from '@/lib/hooks/useSettingsModal';
 
 const Sidebar = () => {
 
     const router = useRouter()
     const pathname = usePathname()
     const url = pathname.replace("/", "")
+    const { onOpen } = useSettingsModal()
 
     console.log(url)
 
@@ -20,7 +22,7 @@ const Sidebar = () => {
             {/* MOBILE NAV */}
             <div className='w-full border-b shadow-md'>
                 <div className='grid grid-cols-7 p-3 items-center justify-center text-center md:hidden bg-[#7ef9bf]'>
-                    
+
                     <Link href="/admin" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <Home strokeWidth={1} />
                     </Link>
@@ -41,7 +43,7 @@ const Sidebar = () => {
                         <Store strokeWidth={1} />
                     </Link>
                     <Popover>
-                        <PopoverTrigger asChild className={`mx-auto text-neutral-500 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white p-1 w-[29px] h-[29px]" : "hover:bg-gray-200 text-black"}`}>
+                        <PopoverTrigger asChild className={`mx-auto text-neutral-500 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white p-1 w-[29px] h-[29px]" : "hover:bg-gray-200 text-black"}`} onClick={onOpen}>
                             <Settings />
                         </PopoverTrigger>
                         <PopoverContent>
@@ -110,10 +112,10 @@ const Sidebar = () => {
                         </Link>
                     </nav>
                     <div className='space-y-2 absolute bottom-10 w-[85%]'>
-                        <Link href="settings" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <div className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`} onClick={onOpen}>
                             <Cog className='w-4 h-4' />
                             <span className='text-sm font-medium'>Settings</span>
-                        </Link>
+                        </div>
                         <div className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg cursor-pointer hover:bg-gray-200 text-black`}
                             onClick={() => signOut({
                                 redirect: false
