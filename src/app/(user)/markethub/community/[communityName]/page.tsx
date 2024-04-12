@@ -27,12 +27,8 @@ const page = async ({
       communityId:{
         equals: searchParams?.communityId
       },
-      isFree: {
-          equals: false
-      },
-      status:{
-          equals: "APPROVED"
-      },
+      isFree: true,
+      status: 'APPROVED',
     },
     include:{
       community: true,

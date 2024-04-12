@@ -15,6 +15,7 @@ async function Free({
         where:{
             communityId: communityId,
             isFree: true,
+            status: "APPROVED",
             variants:{
                 some:{
                     variant:{
