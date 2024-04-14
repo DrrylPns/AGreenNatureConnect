@@ -101,11 +101,6 @@ const Sidebar = () => {
                             <span className="text-sm font-medium">Blog</span>
                         </Link>
 
-                        {/* <Link href="add-agrichange" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "add-agrichange" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
-                            <Speech strokeWidth={1} />
-                            <span className="text-sm font-medium">Topics</span>
-                        </Link> */}
-
                         <Link href="/admin/inventory" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>

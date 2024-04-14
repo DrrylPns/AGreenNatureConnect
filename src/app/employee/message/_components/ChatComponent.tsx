@@ -63,12 +63,7 @@ export default function ChatComponent({ community }: Props) {
             <section className="flex flex-col w-full">
                 <main className="flex-1 overflow-auto p-4">
                     <div className="space-y-4 flex justify-center items-center h-[50vh] flex-col gap-3">
-                        <Image
-                            height={300}
-                            width={300}
-                            alt="connect-now"
-                            src="/undraw/connect-now.svg"
-                        />
+                       
                         <h1 className="text-muted-foreground font-semibold text-2xl">Connect now by clicking one of the users you want to talk to!</h1>
                     </div>
                 </main>
