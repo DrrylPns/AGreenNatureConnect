@@ -96,7 +96,7 @@ export function DataTable<TData, TValue>({
   return (
     <div>
       <div className="flex items-center py-4 justify-between">
-        <div className="flex gap-3 w-full">
+        <div className="flex items-center gap-3 w-full">
 
           {/*  search functionality */}
 
@@ -155,6 +155,11 @@ export function DataTable<TData, TValue>({
               >
                 Archived Products
               </Link>
+              <Legend
+                className="items-center"
+                categories={["In Stock", "Out of Stock", "Low Stock"]}
+                colors={["emerald", "red", "yellow"]}
+              />
             </>
           )}
           {isReport && (
@@ -169,16 +174,19 @@ export function DataTable<TData, TValue>({
           )}
         </div>
 
+
         <div className="flex justify-center items-center gap-3">
           {!isTransaction || !isReport &&
             <div className="flex flex-row justify-end items-center w-[300px]">
-              <Legend
+              {/*<Legend
                 className="mt-3"
-                categories={["In Stock", "Out of Stock", "Low Stock"]}
+                categories={["In", "Out of Stock", "Low Stock"]}
                 colors={["emerald", "red", "yellow"]}
               />
+          */}
             </div>
           }
+
 
           {/* VIEW FUNCTIONALITY */}
           <DropdownMenu>
