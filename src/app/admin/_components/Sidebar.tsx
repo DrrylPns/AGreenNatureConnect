@@ -1,5 +1,5 @@
 "use client"
-import { BookOpen, Cog, FileText, Home, LayoutDashboard, LogOut, LogOutIcon, PlaySquare, Settings, Speech, Store, TicketIcon, TreePine, User, UserPlus, UsersIcon } from 'lucide-react'
+import { BookOpen, Cog, FileText, History, Home, LayoutDashboard, LogOut, LogOutIcon, PlaySquare, Settings, Speech, Store, TicketIcon, TreePine, User, UserPlus, UsersIcon } from 'lucide-react'
 import Link from 'next/link'
 import React from 'react'
 import { signOut } from 'next-auth/react';
@@ -108,6 +108,12 @@ const Sidebar = () => {
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
                         </Link>
+                        <Link href="" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                            <History strokeWidth={1} />
+                            <span className="text-sm font-medium">History</span>
+                        </Link>
+
+
                     </nav>
                     <div className='space-y-2 absolute bottom-10 w-[85%]'>
                         <Link href="settings" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>

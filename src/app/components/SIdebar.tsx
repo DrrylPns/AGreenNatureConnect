@@ -342,32 +342,7 @@ export default function SIdebar() {
               </motion.p>
             </div>
           </Link>
-          <Link
-            href={"/termsPolicy"}
-            className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
-              } hover:bg-pale`}
-          >
-            <div className="text-icons ">
-              <AiOutlineFileProtect />
-            </div>
-            <div className={`${isSideBarOpen ? "block" : "hidden"}`}>
-              <motion.p
-                initial={{ scale: 0 }}
-                animate={{ scale: isSideBarOpen ? 1 : 0 }} // Target values (opacity: 1, translateY: 0)
-                transition={{
-                  type: "tween",
-                  stiffness: 1000,
-                  damping: 20,
-                  duration: 0.6,
-                  delay: 0.5,
-                }}
-                style={{ display: isSideBarOpen ? "block" : "none" }}
-                className={`font-poppins text-[1rem] line-clamp-1`}
-              >
-                Privacy Policy
-              </motion.p>
-            </div>
-          </Link>
+         
           <Link
             href={"/termsPolicy"}
             className={`flex items-center gap-4 w-full py-2 ${isSideBarOpen ? "justify-start" : "justify-center"
