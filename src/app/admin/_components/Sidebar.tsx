@@ -108,10 +108,7 @@ const Sidebar = () => {
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
                         </Link>
-                        <Link href="" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
-                            <History strokeWidth={1} />
-                            <span className="text-sm font-medium">History</span>
-                        </Link>
+                        
 
 
                     </nav>
