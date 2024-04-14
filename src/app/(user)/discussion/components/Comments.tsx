@@ -3,15 +3,10 @@ import DefaultImage from "@/../public/images/default-user.jpg";
 import RelativeDate from "@/app/components/RelativeDate";
 import { Button } from "@/app/components/Ui/Button";
 import DeleteDialog from "@/app/components/dialogs/Delete";
-import { EditCommentDialog } from "@/app/components/dialogs/EditCommentDialog";
-import { ReplyComment } from "@/app/components/dialogs/ReplyComment";
 import { toast } from "@/lib/hooks/use-toast";
 import useLoginModal from "@/lib/hooks/useLoginModal";
 import { Comment, CommentsWithReplies, PostTypes } from "@/lib/types";
-import {
-  CommentSchema,
-  CreateCommentType,
-} from "@/lib/validations/createCommentSchema";
+import { CommentSchema, CreateCommentType } from "@/lib/validations/createCommentSchema";
 import { Popover, Transition } from "@headlessui/react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
@@ -25,14 +20,14 @@ import { useForm } from "react-hook-form";
 import { AiOutlineEllipsis } from "react-icons/ai";
 import { FiPlus } from "react-icons/fi";
 import { fetchReplies } from "../../../../../actions/reply";
-import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 import DeleteReply from "@/app/components/dialogs/DeleteReply";
+import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 
 export default function Comments({ posts }: { posts: PostTypes }) {
   const router = useRouter();
   const { data: session } = useSession();
   const loginModal = useLoginModal();
-  const [commentValue, setCommentValue] = useState("");
+  const [commentValue, setCommentValue] = useState ("");
   const [comments, setComments] = useState<Comment[]>();
   const [replies, setReplies] = useState<CommentsWithReplies[]>();
 
@@ -40,6 +35,7 @@ export default function Comments({ posts }: { posts: PostTypes }) {
   const filter = new Filter();
   const words = require("./extra-words.json");
   filter.addWords(...words);
+
   const {
     register,
     handleSubmit,
@@ -104,7 +100,7 @@ export default function Comments({ posts }: { posts: PostTypes }) {
       toast({
         title: "Comment Invalid",
         description:
-          "Your commment is invalid because you are using a bad word",
+          "Your comment is invalid because you are using a bad word",
         variant: "destructive",
       });
       return;
@@ -118,13 +114,6 @@ export default function Comments({ posts }: { posts: PostTypes }) {
     router.refresh();
   }
 
-  // useEffect(() => {
-  //   fetchComments();
-  //   if (isSubmitSuccessful) {
-  //     reset();
-  //   }
-  // }, [isSubmitSuccessful, comments, reset]);
-
   useEffect(() => {
     fetchComments();
     fetchManyReplies();
@@ -132,22 +121,6 @@ export default function Comments({ posts }: { posts: PostTypes }) {
       reset();
     }
   }, [isSubmitSuccessful, reset]);
-
-  // const fetchComments = async () => {
-  //   try {
-  //     await axios
-  //       .get(`/api/user/post/${posts.id}/comments`)
-  //       .then((result) => {
-  //         const comments = result.data;
-  //         setComments(comments);
-  //       })
-  //       .catch((error) => {
-  //         setComments(error);
-  //       });
-  //   } catch (error) {
-  //     console.error("Error fetching comments:", error);
-  //   }
-  // };
 
   const fetchComments = async () => {
     try {
@@ -169,26 +142,9 @@ export default function Comments({ posts }: { posts: PostTypes }) {
     }
   };
 
-  // const { data: replies, isFetching } = useQuery({
-  //   queryKey: ["replies"],
-  //   queryFn: async () => fetchReplies(posts.id) as CommentsWithReplies
-  // });
-
-  // console.log(replies)
-
   const handleCommentDeleted = () => {
     fetchComments();
     fetchManyReplies();
-  };
-
-  const Reply = async () => {
-    console.log(
-      replies?.map((comment) => {
-        return comment.replyOnComent.map((reply) => {
-          return reply.text;
-        });
-      })
-    );
   };
 
   return (
@@ -281,16 +237,8 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                       >
                         <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
                           <>
-                            <EditCommentDialog
-                              commentId={comment.id}
-                              text={comment.text}
-                              onDelete={handleCommentDeleted}
-                            />
-
-                            <DeleteDialog
-                              commentId={comment.id}
-                              onDelete={handleCommentDeleted}
-                            />
+                            {/* Remove EditCommentDialog component */}
+                            {/* Remove DeleteDialog component */}
                           </>
                         </Popover.Panel>
                       </Transition>
@@ -304,104 +252,13 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                   <div className="w-full">
                     <p className="font-poppins font-light">{comment.text}</p>
                     <div className="w-full flex justify-end">
-                      <ReplyComment
-                        commentId={comment.id}
-                        onDelete={handleCommentDeleted}
-                      />
+                      {/* Remove ReplyComment component */}
                     </div>
                     <div></div>
                   </div>
                 </div>
 
-                {replies &&
-                  Array.isArray(replies) &&
-                  replies.map((comments, index) => (
-                    <div className="ml-14" key={index}>
-                      {comments.replyOnComent.map((reply, replyIndex) => (
-                        <div
-                          className="flex w-full items-center"
-                          key={replyIndex}
-                        >
-                          {reply.commentId === comment.id && reply.text && (
-                            <div className="">
-                              <div className="flex items-center gap-2">
-                                <div className="flex items-center w-[2rem] h-[2rem] rounded-full border border-black">
-                                  <Image
-                                    src={reply.user.image || DefaultImage}
-                                    alt={"User Image"}
-                                    width={20}
-                                    height={20}
-                                    className="w-full h-full rounded-full"
-                                  />
-                                </div>
-                                <div className="flex items-center justify-between gap-1.5">
-                                  <h3 className="text-[1rem] text-black dark:text-white font-poppins font-medium">
-                                    {reply.user.username}
-                                  </h3>
-                                  {reply.user.role === "EMPLOYEE" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Employee 🌳
-                                    </h6>
-                                  )}
-                                  {reply.user.role === "ADMIN" && (
-                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Admin 🥦
-                                    </h6>
-                                  )}
-                                </div>
-
-                                <div className="text-gray-400 text-[0.7rem] ">
-                                  <RelativeDate
-                                    dateString={reply.createdAt.toISOString()}
-                                  />
-                                </div>
-                                {reply.user.id === session?.user?.id && (
-                                  <Popover>
-                                    <Popover.Button>
-                                      <AiOutlineEllipsis />
-                                    </Popover.Button>
-                                    <Transition
-                                      enter="transition duration-100 ease-out"
-                                      enterFrom="transform scale-95 opacity-0"
-                                      enterTo="transform scale-100 opacity-100"
-                                      leave="transition duration-75 ease-out"
-                                      leaveFrom="transform scale-100 opacity-100"
-                                      leaveTo="transform scale-95 opacity-0"
-                                    >
-                                      <Popover.Panel className="absolute top-0 bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                                        <>
-                                          <EditReplyDialog
-                                            replyId={reply.id}
-                                            text={reply.text}
-                                            onDelete={handleCommentDeleted}
-                                          />
-
-                                          <DeleteReply
-                                            replyId={reply.id}
-                                            onDelete={handleCommentDeleted}
-                                          />
-                                        </>
-                                      </Popover.Panel>
-                                    </Transition>
-                                  </Popover>
-                                )}
-                              </div>
-                              <div className="flex gap-2">
-                                <div className="flex items-center justify-center h-[full] w-[2rem] text-gray-600 ml-1 mt-1 mb-1">
-                                  <div className="w-[2px] h-full bg-gray-400 hover:bg-green"></div>
-                                </div>
-                                <div className="w-full ml-3 mb-4">
-                                  <p className="font-poppins font-light">
-                                    {reply.text}
-                                  </p>
-                                </div>{" "}
-                              </div>
-                            </div>
-                          )}
-                        </div>
-                      ))}
-                    </div>
-                  ))}
+                {/* Remove replies loop */}
               </>
             ))}
         </div>

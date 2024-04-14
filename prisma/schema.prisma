@@ -337,9 +337,9 @@ model Notification {
 
   Comment   Comment? @relation(fields: [commentId], references: [id])
   commentId String?
-  
-  Reply     Reply?   @relation(fields: [replyId], references: [id])
-  replyId   String?
+
+  Reply   Reply?  @relation(fields: [replyId], references: [id])
+  replyId String?
 
   @@index([userId])
   @@index([communityId])
@@ -585,7 +585,7 @@ model Variant {
   unitOfMeasurement String
   variant           Float
   price             Float
-  EstimatedPieces   Float?
+  EstimatedPieces   String?
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
