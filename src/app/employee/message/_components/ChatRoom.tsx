@@ -40,7 +40,7 @@ import {
   useQuery,
   useQueryClient,
 } from "@tanstack/react-query";
-import { ImageDownIcon, Trash2 } from "lucide-react";
+import { ImageDownIcon, ImagePlus, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useRef, useState, useTransition } from "react";
 import {
@@ -50,6 +50,7 @@ import {
   inspectChatRoomEmployee,
   sendMessage,
 } from "../../../../../actions/chat";
+import ImageUpload from "@/app/components/image-upload";
 
 interface Props {
   chatroom: ChatRoomWithMessagesAndCommunity;
@@ -424,11 +425,11 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
             ))}
           <div ref={endOfMessagesRef} />
         </main>
-        <footer className="border-t dark:border-zinc-700 p-4">
+        <footer className="border-t dark:border-zinc-700 p-4 cursor-pointer text-muted-foreground">
           <div className="flex items-center gap-2">
             <Dialog>
               <DialogTrigger>
-                <ImageDownIcon className="cursor-pointer text-muted-foreground" />
+              <ImagePlus />
               </DialogTrigger>
               <DialogContent>
                 {imageUrl.length ? (
