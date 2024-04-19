@@ -26,7 +26,7 @@ const Sidebar = () => {
                     <Link href="/admin" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <Home strokeWidth={1} />
                     </Link>
-                    <Link href="/admin/manage-employees" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                    <Link href="/admin/manage-employees" className={`mx-auto text-neutral-500 p-2 m rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <User strokeWidth={1} />
                     </Link>
                     <Link href="/admin/video-requests" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin/video-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
@@ -76,32 +76,32 @@ const Sidebar = () => {
                     </Link>
                     <nav className="space-y-2">
 
-                        <Link href="/admin" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/admin" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "admin" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <Home strokeWidth={1} />
                             <span className="text-sm font-medium">Dashboard</span>
                         </Link>
 
-                        <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <User strokeWidth={1} />
                             <span className="text-sm font-medium">Employees</span>
                         </Link>
 
-                        <Link href="/admin/video-requests" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/video-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/admin/video-requests" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "admin/video-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <PlaySquare strokeWidth={1} />
                             <span className="text-sm font-medium">Video Tutorial</span>
                         </Link>
 
-                        <Link href="/admin/material-requests" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/material-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/admin/material-requests" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "admin/material-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <BookOpen strokeWidth={1} />
                             <span className="text-sm font-medium">Learning Material</span>
                         </Link>
 
-                        <Link href="/admin/blog-requests" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/blog-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/admin/blog-requests" className={`w-full flex items-center space-x-2 py-2 px-2 pl-12 rounded-lg ${url === "admin/blog-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <FileText strokeWidth={1} />
                             <span className="text-sm font-medium">Blog</span>
                         </Link>
 
-                        <Link href="/admin/inventory" className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/admin/inventory" className={`w-full flex items-center space-x-2 py-2 px-2 pl-12 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
                         </Link>

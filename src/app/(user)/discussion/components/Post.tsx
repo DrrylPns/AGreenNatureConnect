@@ -91,14 +91,14 @@ export default function Post() {
                 <h1 className="text-sm font-semibold">Filter:</h1>
                 <Listbox.Button
                   className={
-                    "bg-green font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-white shadow-md drop-shadow-md "
+                    "bg-[#baebd4] font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-black shadow-md drop-shadow-md "
                   }
                 >
                   {selectedFilter === "Check" && "Liked"}
                   {selectedFilter === "XMark" && "Unliked"}
                   {selectedFilter === "Leaf" && "Loved"}
                   {selectedFilter === "Laugh" && "Laughed"}
-                  {selectedFilter === "none" && "none"}
+                  {selectedFilter === "none" && "None"}
                   <span className="font-bold text-lg">
                     <TbFilterSearch />
                   </span>
@@ -201,9 +201,9 @@ export default function Post() {
                       <h1 className="text-[1.5rem] mt-2 px-5 font-poppins font-extrabold truncate">
                         {post.title}
                       </h1>
-                      <div className="flex items-center px-5 font-poppins font-semibold gap-3 text-[0.5rem]">
+                      <div className="flex items-center px-5 my-3 font-poppins font-semibold gap-3 text-[0.8rem]">
                         <span>Topic:</span>
-                        <span className="text-[0.7rem px-2 py-1 rounded-full bg-muted-green text-white">
+                        <span className="text-[0.7rem px-2 py-1 rounded bg-[#baebd4]  text-black">
                           {post.topic.name}
                         </span>
                       </div>
