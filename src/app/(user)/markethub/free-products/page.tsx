@@ -7,12 +7,8 @@ import Back from '../components/Back'
 async function page() {
   const freeProducts = await prisma.product.findMany({
     where:{
-      isFree: {
-        equals: true
-      },
-      status:{
-          equals: "APPROVED"
-      },
+      isFree: true,
+      status: 'APPROVED',
       variants:{
         some:{
           variant:{
@@ -30,11 +26,13 @@ async function page() {
       updatedAt: 'desc'
     }
   })
+
+  console.log(freeProducts)
   return (
       <div className='w-full border-4 shadow-md bg-gray-50 drop-shadow-md border-gray-300 rounded-lg p-5'>
         <Back/>
         <h1 className='text-xs md:text-3xl mb-3 font-semibold font-poppins py-3 border-b-2 border-b-gray-400'>Free Products available right now</h1>
-        {freeProducts && freeProducts.length > 0 ? (
+        {freeProducts.length > 0 ? (
           <div className='grid grid-cols-2 gap-3 md:grid-cols-5 w-full bg-white'>
               {freeProducts.map((product)=>(
                 <div key={product.id} className=''>
