@@ -147,7 +147,14 @@ model Community {
   name             String             @unique
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
+  carouselImage    CommunityImage[]
+  displayPhoto     String?
+  urbanFarmName    String?
   qrCode           String?
+  address          String?
+  email            String?
+  contactNumber    String?
+  description      String?
   posts            Post[]
   blogs            Blog[]
   articles         Article[]
@@ -161,6 +168,12 @@ model Community {
   notifications    Notification[]
   ChatRoom         ChatRoom[]
   messages         Message[]
+}
+model CommunityImage {
+  id               String             @id @default(cuid())
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId String
+  imageUrl String
 }
 
 model ChatRoom {

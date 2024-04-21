@@ -3,7 +3,6 @@ import { toast } from '@/lib/hooks/use-toast';
 import useLoginModal from '@/lib/hooks/useLoginModal';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
-
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { Fragment, useState } from 'react'
@@ -55,6 +54,8 @@ interface Reviews {
 interface Community {
   id: string;
   name: string;
+  displayPhoto:     string | null
+  urbanFarmName:    string | null
   createdAt: Date;
   updatedAt: Date;
 

@@ -14,10 +14,15 @@ import {
 } from "@/components/ui/carousel"
 import Image from "next/image";
 import { useRef } from "react";
+import { CommunityImage } from "@/lib/types";
 
 const images = [Slider1, Slider2, Slider3, Slider4];
 
-export function BagbagCarousel() {
+export function BagbagCarousel({
+  carouselImage
+}:{
+  carouselImage: CommunityImage[] | undefined
+}) {
   const plugin = useRef(
     Autoplay({ delay: 5000, stopOnInteraction: false })
   )
@@ -30,14 +35,14 @@ export function BagbagCarousel() {
       onMouseLeave={plugin.current.reset}
     >
       <CarouselContent className="w-full">
-        {images.map((image, index) => (
+        {carouselImage !== undefined && carouselImage.map((image, index) => (
           <CarouselItem 
             key={index}
             className="w-full"
           >
             <div className="">
-              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[25vh] md:h-[50vh]" />
-            </div>
+              <Image src={image.imageUrl} width={700} height={400} alt={`Image ${index + 1}`} className="w-full h-[25vh] md:h-[50vh]" />
+            </div>  
           </CarouselItem>
         ))}
       </CarouselContent>

@@ -135,11 +135,23 @@ export interface Product {
 export interface Community {
   id: string;
   name: string;
+  carouselImage:    CommunityImage[]
+  displayPhoto:     string
+  urbanFarmName:    string
+  address:          string
+  email:            string
+  contactNumber:    string
+  description:      string
   qrCode: string;
   createdAt: Date;
   updatedAt: Date;
   posts: Post[];
   blogs: Blog[];
+}
+export interface CommunityImage {
+  id: string,
+  communityId: string,
+  imageUrl: string,
 }
 export interface Variants {
   id: string
