@@ -28,7 +28,7 @@ export default function FeaturedTopics() {
   const featuredTopics = topics.slice(0, 5);
   return (
     <section className="hidden fixed top-24 left-[77%] h-full w-[21%] lg:block ">
-      <div className="dark:bg-[#242526] rounded-xl p-3 shadow-lg drop-shadow-lg h-56 min-h-fit">
+      <div className="dark:bg-[#242526] rounded-xl p-3 shadow-md drop-shadow-md border border-gray-100 h-56 min-h-fit">
         <h3 className="font-poppins font-semibold mb-3 leading-10 pb-1 border-b border-gray-200">
           Featured Topic
         </h3>
