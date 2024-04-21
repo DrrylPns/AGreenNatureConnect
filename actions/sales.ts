@@ -120,14 +120,17 @@ export const fetchSalesByDate = async () => {
         },
     })
 
-    const salesByDateMap: Record<string, Record<string, number>> = {};
+    const salesByMonthMap: Record<string, Record<string, number>> = {};
 
     salesByDates.forEach((transaction) => {
-        const transactionDate = transaction.createdAt.toDateString(); // Extract date part only
+        const transactionDate = new Date(transaction.createdAt);
+        const transactionMonth = transactionDate.toLocaleString('default', { month: 'short' }); // Get short month name
+        const transactionYear = transactionDate.getFullYear().toString(); // Get full year as string
+        const formattedDate = `${transactionMonth}, ${transactionYear}`;
 
         // Initialize sales data for the date if it doesn't exist
-        if (!salesByDateMap[transactionDate]) {
-            salesByDateMap[transactionDate] = {};
+        if (!salesByMonthMap[formattedDate]) {
+            salesByMonthMap[formattedDate] = {};
         }
 
         // Aggregate sales by category for the date
@@ -135,20 +138,20 @@ export const fetchSalesByDate = async () => {
             const productCategory = orderedVariant.product.category;
             const saleAmount = orderedVariant.transaction.amount;
 
-            // Add or update sales amount for the category on the date
-            if (salesByDateMap[transactionDate][productCategory]) {
-                salesByDateMap[transactionDate][productCategory] += saleAmount;
+            // Add or update sales amount for the category in the month
+            if (salesByMonthMap[formattedDate][productCategory]) {
+                salesByMonthMap[formattedDate][productCategory] += saleAmount;
             } else {
-                salesByDateMap[transactionDate][productCategory] = saleAmount;
+                salesByMonthMap[formattedDate][productCategory] = saleAmount;
             }
         });
     });
 
     // Format data for BarChart component
-    const salesByDate = Object.entries(salesByDateMap).map(([date, sales]) => ({
-        date,
+    const salesByMonth = Object.entries(salesByMonthMap).map(([month, sales]) => ({
+        month,
         ...sales,
     }));
 
-    return salesByDate;
+    return salesByMonth;
 };

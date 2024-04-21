@@ -141,7 +141,7 @@ const page = async () => {
                                         <BarChart
                                             className="h-72 mt-4"
                                             data={salesByDate as any}
-                                            index="date"
+                                            index="month"
                                             categories={["Others", "Vegetables", "Fruits"]}
                                             colors={["indigo", "gray", "lime"]}
                                             yAxisWidth={30}
@@ -151,7 +151,6 @@ const page = async () => {
                             </Col>
 
                             <PPSCard />
-
 
                         </Grid>
                     </TabPanel>
