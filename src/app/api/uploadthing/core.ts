@@ -26,6 +26,9 @@ export const ourFileRouter = {
   videoUploader: f({ video: { maxFileSize: '32MB' } })
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
+  imageCarousel: f({ image: { maxFileSize: '4MB', maxFileCount: 5 } })
+  .middleware(middleware)
+  .onUploadComplete(async ({ metadata, file }) => { }),
 } satisfies FileRouter
 
 export type OurFileRouter = typeof ourFileRouter

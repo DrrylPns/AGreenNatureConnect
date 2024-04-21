@@ -16,12 +16,14 @@ export async function POST(req: Request) {
         const body = await req.json()
 
         const {
-            address,
             communityName,
-            email,
+            communityAddress,
+            communityDescription,
+            communityEmail,
             firstname,
             gender,
             lastName,
+            email,
             // password,
             phone,
         } = CreateCommunitySchema.parse(body)
@@ -33,6 +35,15 @@ export async function POST(req: Request) {
         })
 
         if (emailExist) return new NextResponse(`${email} already exists`, { status: 400 })
+        
+        // if (communityEmailExist) return new NextResponse(`${communityEmail} already exists`, { status: 400 })
+
+        //     const communityEmailExist = await prisma.community.findFirst({
+        //         where: {
+                    
+        //         }
+        //     })
+    
 
         // phone number check
         const phoneNumberExists = await prisma.user.findFirst({
@@ -42,8 +53,6 @@ export async function POST(req: Request) {
         const communityExists = await prisma.community.findFirst({
             where: {name: communityName}
         })
-
-
 
         if (phoneNumberExists && phoneNumberExists.id !== session.user.id) {
             return new Response("Error: Bad Request, phone number is already in use by another user.", { status: 401 })
@@ -61,7 +70,6 @@ export async function POST(req: Request) {
                 role: "ADMIN",
                 phoneNumber: phone,
                 gender,
-                address,
                 email,
                 lastName,
                 emailVerified: currentDate,
@@ -69,6 +77,9 @@ export async function POST(req: Request) {
                 Community: {
                     create: {
                         name: communityName,
+                        address: communityAddress,
+                        description: communityDescription,
+                        email: communityEmail,
                     }
                 }
             }

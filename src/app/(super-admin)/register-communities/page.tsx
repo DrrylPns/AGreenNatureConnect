@@ -21,6 +21,7 @@ import {
     FormMessage
 } from "@/app/components/Ui/form";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/Ui/select";
+import { Textarea } from '@/app/components/Ui/textarea';
 import { toast } from "@/lib/hooks/use-toast";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { CreateEmployeeSchema, CreateEmployeeType } from "@/lib/validations/admin/createEmployee";
@@ -52,22 +53,26 @@ const RegisterCommunitiesPage = () => {
             lastName,
             phone,
             gender,
-            email,
-            address,
+            communityEmail,
             password,
+            email,
             confirmPassword,
             communityName,
+            communityAddress,
+            communityDescription,
         }: CreateCommunityType) => {
             const payload: CreateCommunityType = {
                 firstname,
                 lastName,
                 communityName,
                 phone,
-                gender,
                 email,
-                address,
+                gender,
+                communityEmail,
                 password,
                 confirmPassword,
+                communityAddress,
+                communityDescription,
             }
 
             const { data } = await axios.post("/api/super-admin/createCommunity", payload)
@@ -120,13 +125,15 @@ const RegisterCommunitiesPage = () => {
 
     function onSubmit(values: CreateCommunityType) {
         const payload: CreateCommunityType = {
+            email: values.email,
             firstname: values.firstname,
             lastName: values.lastName,
             phone: values.phone,
             gender: values.gender,
-            email: values.email,
-            address: values.address,
+            communityEmail: values.communityEmail,
             communityName: values.communityName,
+            communityAddress: values.communityAddress,
+            communityDescription: values.communityDescription,
             // password: values.password,
             // confirmPassword: values.confirmPassword,
         }
@@ -137,32 +144,117 @@ const RegisterCommunitiesPage = () => {
 
     return (
         <div className="w-full min-h-screen flex justify-center items-center bg-[#E3E1E1]">
-            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center p-11 lg:w-[740px] rounded-3xl">
-                <Card className="lg:w-[570px]">
+            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center p-11 rounded-3xl">
+                <Card className="">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
-                            <h1 className="font-bold text-lg mb-5">Community Registration</h1>
+                            <h1 className="font-bold text-lg mb-6">Community Registration</h1>
                         </div>
                         <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full lg:mt-[100px]">
-
-                                
-                                <FormField
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+                                <div className="grid grid-cols-1">
+                                    <FormField
                                         control={form.control}
                                         name="communityName"
                                         render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Urban Farm Name</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="Bagbag" {...field} type='text' />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1">
+                                    <FormField
+                                            control={form.control}
+                                            name="communityEmail"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Urban Farm Email</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="@gmail.com" {...field} type='email' />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                </div>
+
+                                <div className="grid grid-cols-1">
+                                    <FormField
+                                            control={form.control}
+                                            name="communityAddress"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Urban Farm Address</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="Blk 6 Lt 7" {...field} type='text' />
+                                                    </FormControl>
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                </div>
+
+                                <div className='grid grid-cols-1'>
+                                    <FormField
+                                            control={form.control}
+                                            name="phone"
+                                            render={({ field }) => (
+                                                <FormItem>
+                                                    <FormLabel>Contact No.</FormLabel>
+                                                    <FormControl>
+                                                        <Input placeholder="09" {...field} type='number' className="" />
+                                                    </FormControl>
+
+                                                    <FormMessage />
+                                                </FormItem>
+                                            )}
+                                        />
+                                </div>
+
+                                <div className='grid grid-cols-1'>
+                                    <FormField
+                                        control={form.control}
+                                        name="communityDescription"
+                                        render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Community Name</FormLabel>
+                                                <FormLabel>Urban Farm Description</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Community Name" {...field} type='text' />
+                                                    <Textarea
+                                                        placeholder="Markethub description...."
+                                                        className="resize-none"
+                                                        {...field}
+                                                    />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
                                     />
+                                </div>
+
+                                <div className='grid grid-cols-1'>
+                                    <FormField
+                                        control={form.control}
+                                        name="email"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Admin Email</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="@gmail.com" {...field} type='email' />
+                                                </FormControl>
+
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
                                 
-                                
-                                <div className="flex flex-row justify-center items-center w-full gap-7">
+                                <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full gap-7">
                                     <FormField
                                         control={form.control}
                                         name="firstname"
@@ -170,7 +262,7 @@ const RegisterCommunitiesPage = () => {
                                             <FormItem>
                                                 <FormLabel>First Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Firstname" {...field} type='text' className="w-[250px]" />
+                                                    <Input placeholder="Firstname" {...field} type='text' className="" />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -185,7 +277,7 @@ const RegisterCommunitiesPage = () => {
                                             <FormItem>
                                                 <FormLabel>Last Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Lastname" {...field} type='text' className="w-[250px]" />
+                                                    <Input placeholder="Lastname" {...field} type='text' className="" />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -194,27 +286,12 @@ const RegisterCommunitiesPage = () => {
                                     />
                                 </div>
 
-                                <div className="flex flex-row justify-center items-center w-full gap-5">
-                                    <FormField
-                                        control={form.control}
-                                        name="phone"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Contact No.</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Contact" {...field} type='number' className="w-[250px]" />
-                                                </FormControl>
-
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
+                                <div className="grid grid-cols-1">
                                     <FormField
                                         control={form.control}
                                         name="gender"
                                         render={({ field }) => (
-                                            <FormItem className="w-[250px]">
+                                            <FormItem className="">
                                                 <FormLabel>Gender</FormLabel>
                                                 <Select
                                                     onValueChange={field.onChange}
@@ -236,36 +313,7 @@ const RegisterCommunitiesPage = () => {
                                         )}
                                     />
                                 </div>
-
-                                <FormField
-                                    control={form.control}
-                                    name="email"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Email</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Email Address" {...field} type='email' />
-                                            </FormControl>
-
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
-
-                                <FormField
-                                    control={form.control}
-                                    name="address"
-                                    render={({ field }) => (
-                                        <FormItem>
-                                            <FormLabel>Address</FormLabel>
-                                            <FormControl>
-                                                <Input placeholder="Address" {...field} type='text' />
-                                            </FormControl>
-
-                                            <FormMessage />
-                                        </FormItem>
-                                    )}
-                                />
+                                
 
                                 {/* <FormField
                                     control={form.control}
