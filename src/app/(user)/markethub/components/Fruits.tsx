@@ -71,7 +71,14 @@ function Fruits() {
                     <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available fruits right now!</h1>
                 </div>
             )}
-
+            {isFetchingNextPage && (
+                <div className="transition-all text-center duration-500 ease-in-out animate-bounce">
+                Loading...
+                </div>
+            )}
+            <span ref={ref} className="invisible absolute">
+                intersection observer marker
+            </span>
         </div>
     ))}
    
