@@ -25,16 +25,15 @@ function ReviewsAverage({
     
   return (
     <div className='col-span-12 md:col-span-3 flex flex-col justify-center items-center text-center text-lg font-poppins font-semibold border border-black'>
-        <div className='w-24 h-24'>
+        <div className=' relative shadow-md drop-shadow-md mb-3 w-24 h-24'>
             <Image
                 src={productImage}
                 alt='Image'
-                width={200}
-                height={200}
-                className='object-cover'
+                width={100}
+                height={100}
+                className='object-contain w-full h-full'
             />
         </div>
-        
         <h1 className='text-xs md:text-sm'>{productName}</h1>
         <h1 className='text-xs md:text-sm'>Overall Rating</h1>
         <h1 className='text-xs md:text-sm'>{ratingsAverage} / 5</h1>
