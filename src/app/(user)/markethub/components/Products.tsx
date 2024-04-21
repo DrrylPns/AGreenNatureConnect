@@ -53,7 +53,15 @@ interface Product {
     createdAt: Date;
     updatedAt: Date;
   }
-
+  interface Community {
+    id: string;
+    name: string;
+    displayPhoto:     string | null
+    urbanFarmName:    string | null
+    createdAt: Date;
+    updatedAt: Date;
+  
+  }
 function Products({
     products,
     noProducts,
