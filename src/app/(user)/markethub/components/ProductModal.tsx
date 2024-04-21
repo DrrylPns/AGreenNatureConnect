@@ -261,13 +261,7 @@ function ProductModal({
                       <div>
                         <h1 className='text-center font-livvic font-semibold text-3xl'>{selectedProduct?.name}</h1>
                         <h1 className='text-center  font-poppins text-sm'>
-                          From 
-                          <span className=' font-semibold'>
-                          {selectedProduct?.community.name === "Bagbag" && " Solo Parent Urban Farm "}
-                          {selectedProduct?.community.name === "Nova Proper" && " Sharon Urban Farm "}
-                          {selectedProduct?.community.name === "Bagong Silangan" && " New Greenland Urban Farm "}
-                          </span>  
-                           Brgy.  
+                           From {selectedProduct?.community.urbanFarmName}, Brgy.  
                           <span className=' font-semibold'> {selectedProduct?.community.name}</span>
                         </h1>
                       </div>
