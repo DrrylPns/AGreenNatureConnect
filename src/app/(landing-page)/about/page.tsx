@@ -22,21 +22,20 @@ function page() {
       </div>
 
       {/*About Community*/}
-      <div className='p-5 md:px-10 md:my-16'>
+      <div className='p-5 md:px-20 md:my-16'>
    
-        <h2 className='font-livvic font-bold text-center mb-5 text-lg md:text-[36px] uppercase'>About the Community Farm</h2>
+        <h2 className='font-livvic font-bold text-center mb-10 text-lg md:text-[36px] uppercase'>About the Community Farm</h2>
         <div className=''>
-            <div className='flex flex-col gap-2 md:gap-10 md:flex-row text-justify mb-10'>
-              <div className='rounded-lg w-full md:w-1/2'>
+            <div className='flex flex-col justify-center gap-2 md:gap-10 md:flex-row text-justify mb-10'>
+              <div className='rounded-lg  border w-1/3 md:w-1/2'>
                   <Image
-                    className="object-cover"
+                    className="object-cover w-full h-full"
                     src={Sharon}
-                    alt="Sharon.png"
-                    width={5000}  
+                    alt="Sharon.png"  
                   />
               </div>
-              <div className='flex flex-col justify-center items-center w-full md:w-2/3'>
-                  <h1 className='font-poppins font-bold mb-2 text-left text-lg md:text-[28px]'>Sharon Urban Farming</h1>
+              <div className='flex flex-col  justify-center items-center w-full md:w-1/2'>
+                  <h1 className='font-poppins font-bold mb-3 text-left text-lg md:text-[28px]'>Sharon Urban Farming</h1>
                   <p className='text-sm md:text-[18px]'>
                     Sharon Urban Farming, the name of community farm of barangay Nova Proper. it is currently manage by Enrique P. Añonuevo, 
                     a BESWMC Head of Sharon Urban Farming. Sharon Farm, an integrated urban farm situated at the heart of the city, was launched 
@@ -49,8 +48,8 @@ function page() {
               </div>
             </div>
             <div className='flex flex-col-reverse gap-2 md:gap-10 md:flex-row text-justify mb-5'>
-              <div className='flex flex-col justify-center items-center w-full md:w-2/3'>
-                  <h1 className='font-poppins font-bold mb-2 text-left text-lg md:text-[28px]'>Solo Parent Urban Farming</h1>
+              <div className='flex flex-col justify-center items-center w-full md:w-1/2'>
+                  <h1 className='font-poppins font-bold mb-3 text-left text-lg md:text-[28px]'>Solo Parent Urban Farming</h1>
                   <p className='text-sm md:text-[18px]'>
                       Solo Parent Urban Farming, the name of community farm of Barangay Bagbag. It is currently manage by Mr. Rodel Edroso, a focal 
                       person of Solo Parent Urban Farming. Urban Farming in Bagbag is under the capable management of Mr. Rodel Edroso, who serves as 
@@ -62,22 +61,22 @@ function page() {
               </div>
               <div className='rounded-lg w-full md:w-1/2'>
                     <Image
-                      className="object-cover"
+                      className="object-cover w-full h-full"
                       src={SoloParent}
                       alt="Soloparent.png"
-                      width={5000}/>
+                      width={400}/>
                 </div>
             </div>
             <div className='flex flex-col gap-2 md:gap-10 md:flex-row text-justify mb-5'>
-              <div className='rounded-lg w-full md:w-1/2'>
+              <div className='rounded-lg w-1/2 md:w-1/2'>
                 <Image
-                  className="object-cover"
+                  className="object-cover w-full h-full"
                   src={Greenland}
                   alt="Greenland.png"
-                  width={3000}/>
+                  width={400}/>
               </div>
-              <div className='flex flex-col justify-center items-center w-full md:w-2/3'>
-              <h1 className='font-poppins font-bold mb-2 text-left text-lg md:text-[28px]'>New Greenland Farming</h1>
+              <div className='flex flex-col justify-center items-center w-full md:w-1/2'>
+              <h1 className='font-poppins font-bold mb-3 text-left text-lg md:text-[28px]'>New Greenland Farming</h1>
                 <p className='text-sm md:text-[18px]'>
                   New Greenland Farm, the name of community farm of barangay Barangay Bagong Silangan Quezon City. It is the first urban vegetable farm 
                   under the Buhay sa Gulay initiative of the Department of Agrarian Reform, Department of Agriculture, and the Quezon City Government. 
@@ -208,7 +207,7 @@ function page() {
           <div className='flex justify-center items-center w-full sm:px-[10%] py-5'>
 
           <Link href="/about/NovaProper"
-                className="text-black font-mono font-semibold bg-[#4DE69E] hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
+                className="text-black font-mono font-semibold bg-amber hover:bg-pale w-[160px] mt-10 md:p-3 p-3 border-none rounded-lg text-center">
                 Read More
             </Link>
           </div>
@@ -223,7 +222,7 @@ function page() {
         </div>
         <div className='w-[30%] flex flex-col justify-center text-black text-xs md:text-lg font-mono font-semibold text-center'>
           <Link href={"/about/Contact"}
-          className="  bg-[#4DE69E] hover:bg-pale py-2 px-3 md:w-[160px] border-none rounded-full ">
+          className="  bg-amber  hover:bg-pale py-2 px-3 md:w-[160px] border-none rounded-full ">
           Get in Touch
           </Link>
         </div>
