@@ -55,8 +55,8 @@ export default async function SuperAdminLayout({
                         <AvatarModal />
                         <ProfileModal user={user as User} />
                         <UsernameModal user={user as User} />
-                        <div className='min-h-screen flex flex-col'>
-                            <main className='flex-1 flex flex-col justify-center'>
+                        <div className=''>
+                            <main className=''>
                                 {children}
                             </main>
                         </div>

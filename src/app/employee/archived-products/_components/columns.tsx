@@ -231,7 +231,7 @@ export const columns: ColumnDef<Product>[] = [
                 onClick={() => {
                     toast({
                         title: "Success!",
-                        description: "Employee ID copied to clipboard.",
+                        description: "Farmer ID copied to clipboard.",
                         variant: "default"
                     })
                     navigator.clipboard.writeText(product.creatorId)

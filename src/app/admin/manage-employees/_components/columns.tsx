@@ -56,7 +56,7 @@ export const columns: ColumnDef<Employees>[] = [
         accessorKey: "EmployeeId",
         header: ({ column }) => {
             return (
-                <DataTableColumnHeader column={column} title="Employee ID" />
+                <DataTableColumnHeader column={column} title="Farmer ID" />
             )
         },
         cell: ({ row }) => {
@@ -66,7 +66,7 @@ export const columns: ColumnDef<Employees>[] = [
                 onClick={() => {
                     toast({
                         title: "Success!",
-                        description: "Employee ID copied to clipboard.",
+                        description: "Farmer ID copied to clipboard.",
                         variant: "default"
                     })
                     navigator.clipboard.writeText(idEmp)
@@ -89,7 +89,7 @@ export const columns: ColumnDef<Employees>[] = [
                 onClick={() => {
                     toast({
                         title: "Success!",
-                        description: "Employee copied to clipboard.",
+                        description: "Farmer copied to clipboard.",
                         variant: "default"
                     })
                     navigator.clipboard.writeText(empName)

@@ -17,7 +17,7 @@ export const CntEmployeesCard = () => {
 
     return (
         <Card className="">
-            <Text>Total Number of Employees</Text>
+            <Text>Total Number of Farmers</Text>
             <Metric>
                 {isLoading ? (
                     <Loader2 className='mr-2 h-4 w-4 animate-spin' />

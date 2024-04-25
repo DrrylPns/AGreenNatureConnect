@@ -83,7 +83,7 @@ const Sidebar = () => {
 
                         <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <User strokeWidth={1} />
-                            <span className="text-sm font-medium">Employees</span>
+                            <span className="text-sm font-medium">Farmers</span>
                         </Link>
 
                         <Link href="/admin/video-requests" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "admin/video-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>

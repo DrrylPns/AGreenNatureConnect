@@ -109,9 +109,9 @@ export async function POST(req: Request) {
         }
 
 
-        return new NextResponse(`Successfully created an employee!`)
+        return new NextResponse(`Successfully created a farmer!`)
     } catch (error) {
-        return new NextResponse('Could not create an employee' + error, { status: 500 })
+        return new NextResponse('Could not create a farmer' + error, { status: 500 })
     }
 }
 
@@ -167,8 +167,8 @@ export async function PUT(req: NextRequest) {
             }
         })
 
-        return new NextResponse(`Successfully updated the employee!`)
+        return new NextResponse(`Successfully updated the farmer!`)
     } catch (error) {
-        return new NextResponse('Could not create an employee' + error, { status: 500 })
+        return new NextResponse('Could not create an farmer' + error, { status: 500 })
     }
 }

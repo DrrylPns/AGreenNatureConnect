@@ -340,7 +340,7 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Employee 🌳
+                                      Farmer 🌳
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (

@@ -69,23 +69,22 @@ export default function Home() {
           </h1>
           <p className="md:text-[18px] text-[14px] max-sm:text-[16] ">
             There’s only one thing we love more than plants, and that’s people.
-            This is why we’re so proud to be part of the City of Compton. It’s a
+            This is why we’re so proud to be part of the Quezon City. It’s a
             community that demonstrates that, when you create the right
             conditions, flourishing happens naturally.
           </p>
         </div>
         <div className="w-full justify-center">
-        
-        <iframe src="https://drive.google.com/file/d/16f0BMK-U3Zz9xeMk_E4w4U_0quZhF5DM/preview" width="640" height="480" allow="autoplay" className=" ml-10 rounded-lg border border-black shadow-black shadow-lg w-1/2"></iframe>
-          {/* <video
+          <video
             id="my-player"
             className="video-js shadow-lg shadow-black rounded-lg md:w-full"
             controls
             loop
             preload="auto"
             data-setup='{}'>
-            <source src="https://utfs.io/f/dc43e25e-37b9-428d-8a77-a56d287b8b1f-hasja.mp4" type="video/mp4"></source>
-          </video> */}
+            <source src="https://utfs.io/f/98497904-5cf0-4831-9b69-54bd61b91576-hasja.mp4" type="video/mp4"></source>
+          </video>
+
         </div>
       </section>
       {/*ABOUT US*/}
