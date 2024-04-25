@@ -96,8 +96,8 @@ function page() {
             <h2 className='font-livvic font-bold text-3xl text-center md:text-left md:text-[36px]'>Our Mission & Vision</h2>
        
             <div className='flex gap-10 mt-5'>
-              <div className=' md:flex hidden flex-row  w-1/2'>
-                  <div id='Image 1' className=''> 
+              <div className=' md:flex hidden flex-row md:gap-5 w-1/2'>
+                  <div id='Image 1' className='mt-28'> 
                     <Image
                         className=""
                         src={Image1}
@@ -105,7 +105,7 @@ function page() {
                         width={1000}/>
                   </div>
 
-                  <div id='Image 2' className='mt-20'>
+                  <div id='Image 2' className='mt-10'>
                   <Image
                       className=""
                       src={Image2}
@@ -113,7 +113,7 @@ function page() {
                       width={600}/>
                   </div>
 
-                  <div id='Image 3' className='lg:block hidden'>
+                  <div id='Image 3' className='lg:block hidden mt-36'>
                   <Image
                       className=""
                       src={Image3}
@@ -131,7 +131,7 @@ function page() {
                   </div>
                   <div id='Mission' className=''>
                       <h1 className='font-poppins font-bold text-[28px] my-2'>Mission</h1>
-                      <p className='text-[18px]'>At [Your Urban Farm Name], our mission is to transform urban landscapes into thriving hubs of sustainable agriculture. 
+                      <p className='text-[18px]'>At Agreen Nature Connect, our mission is to transform urban landscapes into thriving hubs of sustainable agriculture. 
                         We are committed to cultivating fresh, locally sourced produce while fostering a sense of community, education, and environmental stewardship.
                         Our goal is to make urban farming accessible to all, creating a greener, healthier, and more resilient city.
                       </p>

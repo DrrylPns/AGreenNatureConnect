@@ -76,7 +76,7 @@ export default function Home() {
         </div>
         <div className="w-full justify-center">
         
-        <iframe src="https://drive.google.com/file/d/16f0BMK-U3Zz9xeMk_E4w4U_0quZhF5DM/preview" width="640" height="480" allow="autoplay" className=" ml-10 rounded-lg border border-black shadow-black shadow-lg w-1/2"></iframe>
+        <iframe src="https://drive.google.com/file/d/16f0BMK-U3Zz9xeMk_E4w4U_0quZhF5DM/preview" width="500" height="300" allow="autoplay" className=" rounded-lg border border-black shadow-black shadow-lg"></iframe>
           {/* <video
             id="my-player"
             className="video-js shadow-lg shadow-black rounded-lg md:w-full"
