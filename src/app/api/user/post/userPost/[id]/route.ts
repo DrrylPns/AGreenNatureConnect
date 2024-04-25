@@ -22,7 +22,8 @@ export async function GET(req: Request) {
                 author: true,
                 comments:{
                     include:{
-                        author: true
+                        author: true,
+                        replyOnComent: true
                     }
                 },
                 likes: true,

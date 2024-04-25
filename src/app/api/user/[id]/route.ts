@@ -11,7 +11,11 @@ export async function GET(req: Request) {
             },
             include:{
                 posts: true,
-                comments: true,
+                comments: {
+                    include:{
+                        replyOnComent: true
+                    }
+                }
             },
         })
         return new Response(JSON.stringify(user), {status: 200})

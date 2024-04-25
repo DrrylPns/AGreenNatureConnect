@@ -7,6 +7,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { FiRefreshCw } from 'react-icons/fi';
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
 import useSettingsModal from '@/lib/hooks/useSettingsModal';
+import { TbUserSquareRounded } from 'react-icons/tb';
 
 const Sidebar = () => {
 
@@ -21,12 +22,12 @@ const Sidebar = () => {
         <div>
             {/* MOBILE NAV */}
             <div className='w-full border-b shadow-md'>
-                <div className='grid grid-cols-7 p-3 items-center justify-center text-center md:hidden bg-[#7ef9bf]'>
+                <div className='grid grid-cols-7 p-3 items-center justify-center text-center lg:hidden bg-[#7ef9bf]'>
 
-                    <Link href="/admin" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                    <Link href="/communities" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <Home strokeWidth={1} />
                     </Link>
-                    <Link href="/admin/manage-employees" className={`mx-auto text-neutral-500 p-2 m rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                    {/* <Link href="/admin/manage-employees" className={`mx-auto text-neutral-500 p-2 m rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <User strokeWidth={1} />
                     </Link>
                     <Link href="/admin/video-requests" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin/video-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
@@ -41,7 +42,7 @@ const Sidebar = () => {
 
                     <Link href="/admin/inventory" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <Store strokeWidth={1} />
-                    </Link>
+                    </Link> */}
                     <Popover>
                         <PopoverTrigger asChild className={`mx-auto text-neutral-500 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white p-1 w-[29px] h-[29px]" : "hover:bg-gray-200 text-black"}`} onClick={onOpen}>
                             <Settings />
@@ -69,21 +70,21 @@ const Sidebar = () => {
             </div>
 
             {/* DESKTOP NAV */}
-            <div className="flex max-md:hidden">
+            <div className="flex max-lg:hidden">
                 <aside className="fixed top-0 h-screen w-64 text-gray-800 p-4 bg-[#7ef9bf]">
                     <Link href={"/discussion"} className='flex items-center mb-4 space-x-1'>
                         <h1 className='text-lg text-[#25643b] font-bold'>AGreen <span className='text-[#f7c25f]'>Nature</span> Connect</h1>
                     </Link>
                     <nav className="space-y-2">
 
-                        <Link href="/admin" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "admin" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
-                            <Home strokeWidth={1} />
-                            <span className="text-sm font-medium">Dashboard</span>
+                        <Link href="/communities" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                            <TbUserSquareRounded />
+                            <span className="text-sm font-medium">Communities</span>
                         </Link>
 
-                        <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        {/* <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <User strokeWidth={1} />
-                            <span className="text-sm font-medium">Farmers</span>
+                            <span className="text-sm font-medium">Employees</span>
                         </Link>
 
                         <Link href="/admin/video-requests" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "admin/video-requests" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
@@ -104,10 +105,8 @@ const Sidebar = () => {
                         <Link href="/admin/inventory" className={`w-full flex items-center space-x-2 py-2 px-2 pl-12 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
-                        </Link>
+                        </Link> */}
                         
-
-
                     </nav>
                     <div className='space-y-2 absolute bottom-10 w-[85%]'>
                         <div className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`} onClick={onOpen}>

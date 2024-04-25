@@ -14,6 +14,7 @@ async function Free({
     const getFreeProductByCommunity = await prisma.product.findMany({
         where:{
             communityId: communityId,
+            status: "APPROVED",
             isFree: true,
             variants:{
                 some:{

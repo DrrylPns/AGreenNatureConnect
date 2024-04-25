@@ -3,6 +3,7 @@ import FeaturedTopics from "./components/FeaturedTopics";
 import Post from "./components/Post";
 
 import { getAuthSession } from "../../../lib/auth";
+import LatestProducts from "./components/LatestProducts";
 
 export default async function Discussion() {
   const session = await getAuthSession()
@@ -13,8 +14,9 @@ export default async function Discussion() {
         <CreatePost />
         <Post />
       </section>
-      <section>
+      <section className="flex flex-col">
         <FeaturedTopics />
+        <LatestProducts/>
       </section>
     </div>
   );

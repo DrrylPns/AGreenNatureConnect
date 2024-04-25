@@ -62,7 +62,7 @@ export default function Home() {
       </header>
       {/*SUBHEADING*/}
 
-      <section className="flex flex-col sm:flex-row md:px-10 md:py-10 p-5 items-center gap-10">
+      <section className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-10">
         <div className="text-justify font-poppins md:p-5 p-0">
           <h1 className=" font-bold md:text-[32px] text-[18px] mb-5">
             Nurtured by: Quezon City.
@@ -84,6 +84,7 @@ export default function Home() {
             data-setup='{}'>
             <source src="https://utfs.io/f/98497904-5cf0-4831-9b69-54bd61b91576-hasja.mp4" type="video/mp4"></source>
           </video>
+
         </div>
       </section>
       {/*ABOUT US*/}

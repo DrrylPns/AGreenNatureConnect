@@ -46,7 +46,7 @@ const page = async () => {
         <TabList>
           <Tab>Overview</Tab>
           {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
-          <Tab>Employees</Tab>
+          <Tab>Farmers</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -67,7 +67,7 @@ const page = async () => {
                     <BarChart
                       className="h-72 mt-4"
                       data={salesByDate as any}
-                      index="date"
+                      index="month"
                       categories={["Others", "Vegetables", "Fruits"]}
                       colors={["indigo", "gray", "lime"]}
                       yAxisWidth={30}
@@ -87,7 +87,7 @@ const page = async () => {
             <div className="mt-6">
               <Card>
 
-                <Title>List of Employees</Title>
+                <Title>List of Farmers</Title>
 
                 <SearchEmployees employees={employees} />
 

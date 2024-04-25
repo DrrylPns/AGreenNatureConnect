@@ -149,7 +149,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                 <div className="w-full h-full">
                     <div className='w-full flex items-center justify-end px-2'>
                         <div className='w-full flex items-start justify-start'>
-                            <h1 className="font-bold text-lg text-[#696969]">Employee ID: {employee.EmployeeId}</h1>
+                            <h1 className="font-bold text-lg text-[#696969]">Farmer ID: {employee.EmployeeId}</h1>
                         </div>
                         <Button
                             variant="destructive"
@@ -181,7 +181,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                             /> */}
                                             <Image
                                                 src={imageUrl}
-                                                alt="Employee photo"
+                                                alt="farmer photo"
                                                 width={70}
                                                 height={70}
                                                 className="cursor-pointer rounded-full w-[140px] h-[140px] border border-black/60 lg:-ml-[77px] -mt-[274px] mb-[104px]"
@@ -208,7 +208,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                             imageUrl ? "Change Profile" : "Choose Profile"
                                         }</DrawerTitle>
                                         <DrawerDescription>{
-                                            imageUrl ? "Note: This will change the picture of the employee." : "Note: This will be the picture of the employee."
+                                            imageUrl ? "Note: This will change the picture of the farmer." : "Note: This will be the picture of the farmer."
                                         }</DrawerDescription>
 
                                         <DrawerDescription>
@@ -283,9 +283,9 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                     name="employeeId"
                                     render={({ field }) => (
                                         <FormItem>
-                                            <FormLabel>EmployeeId</FormLabel>
+                                            <FormLabel>FarmerId</FormLabel>
                                             <FormControl>
-                                                <Input placeholder="EmployeeId" {...field} type='text' className="w-[310px]" />
+                                                <Input placeholder="FarmerId" {...field} type='text' className="w-[310px]" />
                                             </FormControl>
 
                                             <FormMessage />

@@ -48,7 +48,7 @@ const Navbar = () => {
       ) : (
         <div className="flex items-center text-[1.5rem] gap-3 justify-between">
           {status === "authenticated" ? (
-            <div className="flex items-center justify-evenly gap-3.5 text-[1.5rem] text-yellow-400 font-bold">
+            <div className="flex items-center justify-evenly gap-3.5 text-[1.5rem] text-white font-bold">
               {/**  <Notification />
                             <Settings />*/}
               <div className="max-md:block hidden mt-4">

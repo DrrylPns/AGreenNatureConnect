@@ -68,7 +68,7 @@ function ReviewContainer({
     if (isError) return <div>Error!</div>;
     
   return (
-    <div className='flex w-full'>
+    <div className='w-full'>
         {Reviews.pages.map((page)=>(
             <div key={page.nextId} className='w-full'>
                 {page.getAllReviews !== undefined && page.getAllReviews.map((review)=>(

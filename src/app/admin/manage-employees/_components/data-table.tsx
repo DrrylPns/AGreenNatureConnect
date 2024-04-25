@@ -114,7 +114,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
         <div>
             <div className='flex flex-col md:flex-row justify-between'>
                 <div>
-                    <Title className='text-[50px] mb-7 mt-3'>Employees</Title>
+                    <Title className='text-[50px] mb-7 mt-3'>Farmers</Title>
                 </div>
 
                 <div className='flex flex-col gap-2 md:flex-row justify-center items-center'>
@@ -122,7 +122,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                     <MultiSelect
                         className="max-w-full sm:max-w-xs mr-4"
                         onValueChange={handleValueChange}
-                        placeholder="Search Employees..."
+                        placeholder="Search farmers..."
                     >
                         {employees.map((employee) => (
                             <MultiSelectItem key={employee.name} value={employee.name || ""}>
@@ -170,7 +170,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                         href={"/admin/add-employee"}
                     >
                         <Plus strokeWidth={"1.5"} className='mr-1' width={16} height={16} />
-                        Employee
+                        Farmer
                     </Link>
                 </div>
             </div>

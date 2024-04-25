@@ -3,7 +3,6 @@ import { toast } from '@/lib/hooks/use-toast';
 import useLoginModal from '@/lib/hooks/useLoginModal';
 import { Dialog, Transition } from '@headlessui/react';
 import axios from 'axios';
-
 import { useSession } from 'next-auth/react';
 import Image from 'next/image';
 import React, { Fragment, useState } from 'react'
@@ -55,6 +54,8 @@ interface Reviews {
 interface Community {
   id: string;
   name: string;
+  displayPhoto:     string | null
+  urbanFarmName:    string | null
   createdAt: Date;
   updatedAt: Date;
 
@@ -260,13 +261,7 @@ function ProductModal({
                       <div>
                         <h1 className='text-center font-livvic font-semibold text-3xl'>{selectedProduct?.name}</h1>
                         <h1 className='text-center  font-poppins text-sm'>
-                          From 
-                          <span className=' font-semibold'>
-                          {selectedProduct?.community.name === "Bagbag" && " Solo Parent Urban Farm "}
-                          {selectedProduct?.community.name === "Nova Proper" && " Sharon Urban Farm "}
-                          {selectedProduct?.community.name === "Bagong Silangan" && " New Greenland Urban Farm "}
-                          </span>  
-                           Brgy.  
+                           From {selectedProduct?.community.urbanFarmName}, Brgy.  
                           <span className=' font-semibold'> {selectedProduct?.community.name}</span>
                         </h1>
                       </div>

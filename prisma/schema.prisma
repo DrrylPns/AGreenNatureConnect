@@ -147,7 +147,14 @@ model Community {
   name             String             @unique
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
+  carouselImage    CommunityImage[]
+  displayPhoto     String?
+  urbanFarmName    String?
   qrCode           String?
+  address          String?
+  email            String?
+  contactNumber    String?
+  description      String?
   posts            Post[]
   blogs            Blog[]
   articles         Article[]
@@ -161,6 +168,13 @@ model Community {
   notifications    Notification[]
   ChatRoom         ChatRoom[]
   messages         Message[]
+}
+
+model CommunityImage {
+  id          String    @id @default(cuid())
+  community   Community @relation(fields: [communityId], references: [id])
+  communityId String
+  imageUrl    String
 }
 
 model ChatRoom {
@@ -206,7 +220,6 @@ model Topic {
   @@index([name])
 }
 
-// if # of reports in a post reaches 10 then hide the current post and put it under review.
 model Post {
   id        String   @id @default(cuid())
   title     String
@@ -337,9 +350,9 @@ model Notification {
 
   Comment   Comment? @relation(fields: [commentId], references: [id])
   commentId String?
-  
-  Reply     Reply?   @relation(fields: [replyId], references: [id])
-  replyId   String?
+
+  Reply   Reply?  @relation(fields: [replyId], references: [id])
+  replyId String?
 
   @@index([userId])
   @@index([communityId])

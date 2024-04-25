@@ -16,6 +16,7 @@ import { getAuthSession } from '../../lib/auth'
 import LoginModal from '../components/modals/LoginModal'
 import RegisterModal from '../components/modals/RegisterModal'
 import { Toaster } from '../components/toast/toaster'
+import Sidebar from './_components/Sidebar'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -46,6 +47,7 @@ export default async function SuperAdminLayout({
             <body className={inter.className}>
                 {user.role === "SUPER_ADMIN" ? (
                     <Providers>
+                        <Sidebar />
                         <LoginModal />
                         <RegisterModal />
                         <UserSettings user={user as User} />
@@ -53,8 +55,8 @@ export default async function SuperAdminLayout({
                         <AvatarModal />
                         <ProfileModal user={user as User} />
                         <UsernameModal user={user as User} />
-                        <div className='min-h-screen flex flex-col'>
-                            <main className='flex-1 flex flex-col justify-center'>
+                        <div className=''>
+                            <main className=''>
                                 {children}
                             </main>
                         </div>

@@ -1,34 +1,33 @@
-import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { CreateEmployeeSchema } from "@/lib/validations/admin/createEmployee";
-import { NextRequest, NextResponse } from "next/server"
-import bcrypt from "bcrypt"
 import { UpdateEmployeeSchema } from "@/lib/validations/admin/updateEmployee";
+import { NextRequest, NextResponse } from "next/server";
 import { sendEmployeePasswordLink } from "../../../../../actions/set-employee-password";
+import { getAuthSession } from "../../../../lib/auth";
+import { CreateCommunitySchema } from "@/lib/validations/super-admin/createCommunity";
 
 export async function POST(req: Request) {
     const currentYear = new Date().getFullYear()
     const session = await getAuthSession()
 
-    if (session?.user.role !== "ADMIN") return new Response("Unauthorized", { status: 401 })
+    if (session?.user.role !== "SUPER_ADMIN") return new Response("Unauthorized", { status: 401 })
 
     try {
         const body = await req.json()
 
         const {
-            address,
-            avatar,
-            email,
+            communityName,
+            communityAddress,
+            communityDescription,
+            communityEmail,
             firstname,
             gender,
             lastName,
+            email,
             // password,
+            // communityImages,
             phone,
-        } = CreateEmployeeSchema.parse(body)
-
-        let counter = await prisma.employeeIdCounter.findUnique({
-            where: { year: currentYear }
-        })
+        } = CreateCommunitySchema.parse(body)
 
         const emailExist = await prisma.user.findFirst({
             where: {
@@ -37,48 +36,31 @@ export async function POST(req: Request) {
         })
 
         if (emailExist) return new NextResponse(`${email} already exists`, { status: 400 })
+        
+        // if (communityEmailExist) return new NextResponse(`${communityEmail} already exists`, { status: 400 })
 
-        // const hashedPassword = await bcrypt.hash(password as string, 12)
-
-        if (!counter) {
-            counter = await prisma.employeeIdCounter.create({
-                data: {
-                    year: currentYear,
-                    counter: 1,
-                }
-            })
-        } else {
-            counter = await prisma.employeeIdCounter.update({
-                where: { year: currentYear },
-                data: { counter: counter.counter + 1 }
-            })
-        }
-
-        const formattedId = `${currentYear.toString().slice(-2)}-${counter.counter.toString().padStart(4, '0')}`
-
-        //finding the community of the loggedIn user code starts here:
-        const loggedIn = await prisma.user.findFirst({
-            where: {
-                id: session?.user.id,
-            },
-            include: {
-                Community: true
-            }
-        })
-
-        const getCommunity = await prisma.community.findFirst({
-            where: {
-                name: loggedIn?.Community?.name
-            }
-        })
+        //     const communityEmailExist = await prisma.community.findFirst({
+        //         where: {
+                    
+        //         }
+        //     })
+    
 
         // phone number check
         const phoneNumberExists = await prisma.user.findFirst({
             where: { phoneNumber: phone }
         })
 
+        const communityExists = await prisma.community.findFirst({
+            where: {name: communityName}
+        })
+
         if (phoneNumberExists && phoneNumberExists.id !== session.user.id) {
             return new Response("Error: Bad Request, phone number is already in use by another user.", { status: 401 })
+        }
+
+        if(communityExists) {
+            return new Response("Error: Community already exists!", {status: 402})
         }
 
         const currentDate = new Date();
@@ -86,19 +68,20 @@ export async function POST(req: Request) {
         const successUserCreate = await prisma.user.create({
             data: {
                 name: firstname,
-                EmployeeId: formattedId,
+                role: "ADMIN",
                 phoneNumber: phone,
-                image: avatar,
                 gender,
-                address,
                 email,
                 lastName,
-                role: "EMPLOYEE",
                 emailVerified: currentDate,
                 // hashedPassword,
                 Community: {
-                    connect: {
-                        name: getCommunity?.name as string
+                    create: {
+                        name: communityName,
+                        address: communityAddress,
+                        description: communityDescription,
+                        email: communityEmail,
+                        // carouselImage: communityImages,
                     }
                 }
             }
@@ -109,9 +92,9 @@ export async function POST(req: Request) {
         }
 
 
-        return new NextResponse(`Successfully created a farmer!`)
+        return new NextResponse(`Successfully created a community!`)
     } catch (error) {
-        return new NextResponse('Could not create a farmer' + error, { status: 500 })
+        return new NextResponse('Could not create a community' + error, { status: 500 })
     }
 }
 
@@ -167,8 +150,8 @@ export async function PUT(req: NextRequest) {
             }
         })
 
-        return new NextResponse(`Successfully updated the farmer!`)
+        return new NextResponse(`Successfully updated the employee!`)
     } catch (error) {
-        return new NextResponse('Could not create an farmer' + error, { status: 500 })
+        return new NextResponse('Could not create an employee' + error, { status: 500 })
     }
 }
