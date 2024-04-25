@@ -180,7 +180,7 @@ export const ApprovedBlog = () => {
                       <AlertDialogHeader>
                         <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                         <AlertDialogDescription>
-                          This action will decline the requested blog of the employee.
+                          This action will decline the requested blog of the farmer.
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>

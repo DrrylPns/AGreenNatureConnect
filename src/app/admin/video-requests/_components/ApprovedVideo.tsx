@@ -150,7 +150,7 @@ export const ApprovedVideo = () => {
                                             <AlertDialogHeader>
                                                 <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
                                                 <AlertDialogDescription>
-                                                    This action will decline the requested video material of the employee.
+                                                    This action will decline the requested video material of the farmer.
                                                 </AlertDialogDescription>
                                             </AlertDialogHeader>
                                             <AlertDialogFooter>

@@ -43,7 +43,7 @@ const SearchEmployees: React.FC<SearchEmployeesProps> = ({
                 <Table className="w-full">
                     <TableHead className="bg-gray-200">
                         <TableRow>
-                            <TableHeaderCell className="text-black">Employee ID</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Farmer ID</TableHeaderCell>
                             <TableHeaderCell className="text-black">Firstname</TableHeaderCell>
                             <TableHeaderCell className="text-black">Lastname</TableHeaderCell>
                             <TableHeaderCell className="text-black">Contact Number</TableHeaderCell>

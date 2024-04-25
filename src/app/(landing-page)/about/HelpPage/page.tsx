@@ -91,7 +91,7 @@ function page() {
                 <AccordionItem value="item-8">
                     <AccordionTrigger className='font-poppins text-left'>Is Discussion Forum active the entire time?</AccordionTrigger>
                       <AccordionContent className='text-[16px] font-extralight'>
-                      -	Yes, you can interact with other users continuously while for staff/employee, they can only accommodate during working hours.
+                      -	Yes, you can interact with other users continuously while for farmers, they can only accommodate during working hours.
                       </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-9">
@@ -189,7 +189,7 @@ function page() {
                 <AccordionItem value="item-2">
                     <AccordionTrigger className='font-poppins text-left'>Can users publish or upload file for video tutorials, learning materials, and blogs? </AccordionTrigger>
                         <AccordionContent className='text-[17px] font-extralight'>
-                        -	No, only employee/staff can do the said action.
+                        -	No, only farmers can do the said action.
                         </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3">
@@ -213,7 +213,7 @@ function page() {
                 <AccordionItem value="item-6" className=''>
                     <AccordionTrigger className='font-poppins text-left'>Report published file or video </AccordionTrigger>
                         <AccordionContent className='text-[16px] font-extralight'>
-                        -	All files and videos are carefully reviewed and monitored by the employees and admin. Rest assured that the quality of learning tools presented in the page are exceptional and educational.
+                        -	All files and videos are carefully reviewed and monitored by the farmers and admin. Rest assured that the quality of learning tools presented in the page are exceptional and educational.
                         </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-7">

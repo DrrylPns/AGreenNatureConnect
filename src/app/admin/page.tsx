@@ -46,7 +46,7 @@ const page = async () => {
         <TabList>
           <Tab>Overview</Tab>
           {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
-          <Tab>Employees</Tab>
+          <Tab>Farmers</Tab>
         </TabList>
         <TabPanels>
           <TabPanel>
@@ -87,7 +87,7 @@ const page = async () => {
             <div className="mt-6">
               <Card>
 
-                <Title>List of Employees</Title>
+                <Title>List of Farmers</Title>
 
                 <SearchEmployees employees={employees} />
 
