@@ -60,6 +60,7 @@ const RegisterCommunitiesPage = () => {
             communityName,
             communityAddress,
             communityDescription,
+            // communityImages,
         }: CreateCommunityType) => {
             const payload: CreateCommunityType = {
                 firstname,
@@ -73,6 +74,7 @@ const RegisterCommunitiesPage = () => {
                 confirmPassword,
                 communityAddress,
                 communityDescription,
+                // communityImages,
             }
 
             const { data } = await axios.post("/api/super-admin/createCommunity", payload)
@@ -117,7 +119,7 @@ const RegisterCommunitiesPage = () => {
             })
 
             setTimeout(() => {
-                router.push("/super-admin/register-communities")
+                router.push("/super-admin/communities")
                 router.refresh()
             }, 1000)
         }
@@ -134,6 +136,7 @@ const RegisterCommunitiesPage = () => {
             communityName: values.communityName,
             communityAddress: values.communityAddress,
             communityDescription: values.communityDescription,
+            // communityImages: imageUrl,
             // password: values.password,
             // confirmPassword: values.confirmPassword,
         }
@@ -144,7 +147,7 @@ const RegisterCommunitiesPage = () => {
 
     return (
         <div className="w-full min-h-screen flex justify-center items-center bg-[#E3E1E1]">
-            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center p-11 rounded-3xl">
+            <section className="flex items-center justify-center p-11 rounded-3xl">
                 <Card className="">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
@@ -157,64 +160,64 @@ const RegisterCommunitiesPage = () => {
                                         control={form.control}
                                         name="communityName"
                                         render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Urban Farm Name</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="Bagbag" {...field} type='text' />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
+                                            <FormItem>
+                                                <FormLabel>Urban Farm Name</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Bagbag" {...field} type='text' />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
                                     />
                                 </div>
 
                                 <div className="grid grid-cols-1">
                                     <FormField
-                                            control={form.control}
-                                            name="communityEmail"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Urban Farm Email</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="@gmail.com" {...field} type='email' />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+                                        control={form.control}
+                                        name="communityEmail"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Urban Farm Email</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="@gmail.com" {...field} type='email' />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
                                 </div>
 
                                 <div className="grid grid-cols-1">
                                     <FormField
-                                            control={form.control}
-                                            name="communityAddress"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Urban Farm Address</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="Blk 6 Lt 7" {...field} type='text' />
-                                                    </FormControl>
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+                                        control={form.control}
+                                        name="communityAddress"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Urban Farm Address</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Blk 6 Lt 7" {...field} type='text' />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
                                 </div>
 
                                 <div className='grid grid-cols-1'>
                                     <FormField
-                                            control={form.control}
-                                            name="phone"
-                                            render={({ field }) => (
-                                                <FormItem>
-                                                    <FormLabel>Contact No.</FormLabel>
-                                                    <FormControl>
-                                                        <Input placeholder="09" {...field} type='number' className="" />
-                                                    </FormControl>
+                                        control={form.control}
+                                        name="phone"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Contact No.</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="09" {...field} type='number' className="" />
+                                                </FormControl>
 
-                                                    <FormMessage />
-                                                </FormItem>
-                                            )}
-                                        />
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
                                 </div>
 
                                 <div className='grid grid-cols-1'>
@@ -253,7 +256,7 @@ const RegisterCommunitiesPage = () => {
                                         )}
                                     />
                                 </div>
-                                
+
                                 <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full gap-7">
                                     <FormField
                                         control={form.control}
@@ -313,7 +316,7 @@ const RegisterCommunitiesPage = () => {
                                         )}
                                     />
                                 </div>
-                                
+
 
                                 {/* <FormField
                                     control={form.control}
@@ -348,7 +351,7 @@ const RegisterCommunitiesPage = () => {
                                 <div className="w-full">
                                     <Button
                                         type="submit"
-                                        className="bg-[#B84AEB] hover:bg-[#3d1a4e8f] w-full"
+                                        className="bg-[#4DE69E] hover:bg-[#bababa8f] w-full text-black"
                                         isLoading={isLoading}
                                         disabled={isLoading}
                                     >

@@ -3,9 +3,10 @@ import { z } from "zod";
 export type CreateCommunityType = z.infer<typeof CreateCommunitySchema>
 
 export const CreateCommunitySchema = z.object({
+    // communityImages: z.optional(z.string()),
     communityName: z.string({
         required_error: "Urban farm name required!"
-    }), 
+    }),
     communityAddress: z.string({
         required_error: "Urban farm address required!"
     }),

@@ -25,6 +25,7 @@ export async function POST(req: Request) {
             lastName,
             email,
             // password,
+            // communityImages,
             phone,
         } = CreateCommunitySchema.parse(body)
 
@@ -80,6 +81,7 @@ export async function POST(req: Request) {
                         address: communityAddress,
                         description: communityDescription,
                         email: communityEmail,
+                        // carouselImage: communityImages,
                     }
                 }
             }
