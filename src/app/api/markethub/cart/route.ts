@@ -18,7 +18,8 @@ export async function POST(req: Request) {
             data: {
                 userId: session.user.id,
                 variantId,
-                communityId: communityId
+                communityId: communityId,
+                quantity: 1
             }
 
         })

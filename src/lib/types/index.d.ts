@@ -173,6 +173,7 @@ export interface Cart {
   variantId: string;
   community: Community;
   communityId: string;
+  quantity: number;
 }
 
 export interface Reviews {
