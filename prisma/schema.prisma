@@ -705,6 +705,7 @@ model Cart {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  quantity  Float?
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
@@ -718,6 +719,7 @@ model Cart {
   @@index([userId])
   @@index([variantId])
   @@index([communityId])
+  
 }
 
 model ShippingInfo {

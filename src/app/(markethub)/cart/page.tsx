@@ -89,7 +89,7 @@ function CartPage() {
   
   const calculateSubtotal = (selectedItems: Cart[]) => {
     return selectedItems.reduce((total, item) => {
-      const priceToAdd = item.variant.product.isFree ? 0 : item.variant.price;
+      const priceToAdd = item.variant.product.isFree ? 0 : (item.variant.price) * (item.quantity);
       return total + priceToAdd;
     }, 0);
   };
@@ -158,12 +158,15 @@ function CartPage() {
                   width={50}
                   className='h-10 w-10  border-black border'
                 />
-                <div className='text-[0.5rem]'>
+                <div className='text-[12px]'>
                   <h3>{item.variant.product.name}</h3>
                   <h3>{item.variant.variant} <span>{item.variant.unitOfMeasurement}</span></h3>
                 </div>
-                <div className='ml-auto'>
-                  <h3 className='text-[0.4rem] sm:text-sm '> {item.variant.product.isFree == true ? "Free" : `₱ ${item.variant.price}`}</h3>
+                <div className=''>
+                    <h3 className='text-12px'>Quantity: {item.quantity} </h3>
+                  </div> 
+                <div className='ml-auto'>  
+                  <h3 className='text-[12px] sm:text-sm '> {item.variant.product.isFree == true ? "Free" : `₱ ${ (item.variant.price) * (item.quantity)} `}</h3>
                 </div>
                 <DeleteCartItemModal cartId={item.id} itemName={item.variant.product.name} deleteCartItem={deleteCartItem}/>
               </div>
