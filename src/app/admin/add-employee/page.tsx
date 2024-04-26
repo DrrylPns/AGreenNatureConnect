@@ -347,7 +347,7 @@ const page = () => {
                 <Card className="lg:w-[570px]">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
-                            <h1 className="font-bold text-lg mb-5">Gardener Registration</h1>
+                            <h1 className="font-bold text-lg mb-5">Farmer Registration</h1>
                         </div>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full lg:mt-[100px]">
@@ -377,7 +377,7 @@ const page = () => {
                                     <DrawerContent>
                                         <DrawerHeader>
                                             <DrawerTitle>Choose Avatar</DrawerTitle>
-                                            <DrawerDescription>Note: This will be the picture of the gardener.</DrawerDescription>
+                                            <DrawerDescription>Note: This will be the picture of the farmer.</DrawerDescription>
 
                                             {imageUrl.length ? <div
                                                 className='flex justify-center items-center flex-col'

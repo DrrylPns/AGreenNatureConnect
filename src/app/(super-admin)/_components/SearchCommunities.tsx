@@ -25,14 +25,14 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
         const names = Array.isArray(value) ? value : [value];
         setSelectedNames(names);
     };
- 
+
     return (
         <>
             <div className="flex justify-between space-x-2 mt-2">
                 <MultiSelect
                     className="max-w-full sm:max-w-xs"
                     onValueChange={handleValueChange}
-                    placeholder="Search Employees..."
+                    placeholder="Search Communities..."
                 >
                     {communities.map((community) => (
                         <MultiSelectItem key={community.id} value={community.name || ""}>

@@ -365,7 +365,7 @@ export default function SIdebar() {
                 style={{ display: isSideBarOpen ? "block" : "none" }}
                 className={`font-poppins text-[1rem] line-clamp-1`}
               >
-                User Agreement
+                Terms & Conditions
               </motion.p>
             </div>
           </Link>

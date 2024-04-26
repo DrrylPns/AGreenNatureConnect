@@ -119,7 +119,7 @@ const RegisterCommunitiesPage = () => {
             })
 
             setTimeout(() => {
-                router.push("/super-admin/communities")
+                router.push("/communities")
                 router.refresh()
             }, 1000)
         }

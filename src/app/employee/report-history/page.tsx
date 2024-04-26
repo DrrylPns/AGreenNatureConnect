@@ -43,7 +43,7 @@ const page = () => {
     <div className="mt-6">
       <Card>
 
-        <Title>List of Farmers</Title>
+        <Title>Reports</Title>
 
         <SearchReportHistory
           //@ts-ignore

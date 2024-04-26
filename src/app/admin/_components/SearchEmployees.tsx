@@ -29,7 +29,7 @@ const SearchEmployees: React.FC<SearchEmployeesProps> = ({
                 <MultiSelect
                     className="max-w-full sm:max-w-xs"
                     onValueChange={handleValueChange}
-                    placeholder="Search Employees..."
+                    placeholder="Search Farmers..."
                 >
                     {employees.map((employee) => (
                         <MultiSelectItem key={employee.name} value={employee.name || ""}>

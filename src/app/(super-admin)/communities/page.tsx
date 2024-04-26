@@ -9,7 +9,7 @@ const CommunitiesPage = async () => {
         <div className="flex items-center justify-center min-h-screen">
             <Card className='lg:w-[1280px] lg:ml-[300px]'>
 
-                <Title>List of Farmers</Title>
+                <Title>List of Communities</Title>
 
                 <SearchCommunities communities={communities} />
 

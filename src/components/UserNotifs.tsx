@@ -84,11 +84,11 @@ export const UserNotifs = () => {
                                         className={`flex flex-col items-start p-2 rounded-md dark:bg-gray-800 ${!notification.isRead ? "bg-gray-100" : ""}`}
                                         href={
                                             //@ts-ignore
-                                            notification.type === "REACT" ? `/discussion/${notification.Post.topic.name}/${notification.Post.id}` :
+                                            notification.type === "REACT" ? `/discussion/${notification?.Post?.topic?.name}/${notification?.Post?.id}` :
                                                 //@ts-ignore
-                                                notification.type === "COMMENT" ? `/discussion/${notification.Comment.post.topic.name}/${notification.Comment.post.id}` :
+                                                notification.type === "COMMENT" ? `/discussion/${notification?.Comment?.post?.topic?.name}/${notification.Comment?.post?.id}` :
                                                     //@ts-ignore
-                                                    notification.type === "REPLY" ? `/discussion/${notification.Reply.comment.post.topic.name}/${notification.Reply.comment.post.id}` :
+                                                    notification.type === "REPLY" ? `/discussion/${notification?.Reply?.comment?.post?.topic?.name}/${notification?.Reply?.comment?.post.id}` :
                                                         `/order-status/${notification.transactionId}`
                                         }
                                         onClick={async () => {
