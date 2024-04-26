@@ -14,15 +14,37 @@ export async function POST(req: Request) {
         }
         const body = await req.json()
         const { variantId, communityId } = CartSchema.parse(body)
-        await prisma.cart.create({
-            data: {
+
+        const isExisting = await prisma.cart.findFirst({
+            where:{
                 userId: session.user.id,
                 variantId,
-                communityId: communityId,
-                quantity: 1
             }
-
         })
+
+        if(isExisting){
+            await prisma.cart.update({
+                where:{
+                    id: isExisting.id,
+                },
+                data: {
+                    quantity: isExisting.quantity + 1
+                }
+            })
+
+            return new Response('OK')
+        }
+
+         await prisma.cart.create({
+                data: {
+                    userId: session.user.id,
+                    variantId,
+                    communityId: communityId,
+                    quantity: 1
+                }
+    
+            })
+        
 
         return new Response('OK')
     } catch (error) {

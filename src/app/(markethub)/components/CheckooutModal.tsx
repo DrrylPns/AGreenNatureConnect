@@ -94,7 +94,7 @@ function CheckoutModal({}: {}) {
   // Calculate total price for each barangay and get the sum of total prices
   const calculateSubtotal = (selectedItems: Cart[]) => {
     return selectedItems.reduce((total, item) => {
-      const priceToAdd = item.variant.product.isFree ? 0 : item.variant.price;
+      const priceToAdd = item.variant.product.isFree ? 0 : (item.variant.price * item.quantity);
       return total + priceToAdd;
     }, 0);
   };
@@ -155,8 +155,6 @@ function CheckoutModal({}: {}) {
     }
   };
 
-  console.log(method)
-  
   return (
     <div>
       {!isProcessing ? (
@@ -260,7 +258,7 @@ function CheckoutModal({}: {}) {
                               {" "}
                               {item.variant.product.isFree == true
                                 ? "Free"
-                                : `₱ ${item.variant.price}`}
+                                : `₱ ${(item.variant.price * item.quantity)}`}
                             </h3>
                           </div>
                         </div>

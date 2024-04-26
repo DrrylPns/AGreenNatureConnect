@@ -243,6 +243,7 @@ export interface ProductVariant {
   productId: string;
   variant: Variants;
   isFree: boolean;
+  quantity: number;
 }
 
 export interface Transaction {

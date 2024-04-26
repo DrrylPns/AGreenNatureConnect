@@ -15,18 +15,20 @@ function transformItems(Items: Cart[]): ResultItem[] {
             existingItem.products.push({
                 productId: item.variant.product.id,
                 variant: item.variant,
-                isFree: item.variant.product.isFree
+                isFree: item.variant.product.isFree,
+                quantity: item.quantity
             });
-            item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.variant.price
+            item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += (item.variant.price * item.quantity)
 
         } else {
             const newItem: ResultItem = {
                 communityId: item.communityId,
-                totalPrice: item.variant.product.isFree ? 0 : item.variant.price,
+                totalPrice: item.variant.product.isFree ? 0 : (item.variant.price * item.quantity),
                 products: [{
                     productId: item.variant.product.id,
                     variant: item.variant,
-                    isFree: item.variant.product.isFree
+                    isFree: item.variant.product.isFree,
+                    quantity: item.quantity
                 }],
             };
 
@@ -86,10 +88,10 @@ export async function POST(req: Request) {
                     orderedVariant: {
                         createMany: {
                             data: item.products.map((product) => ({
-                                price: product.isFree ? 0 : product.variant.price,
+                                price: product.isFree ? 0 : (product.variant.price ),
                                 variantId: product.variant.id,
                                 productId: product.productId,
-
+                                quantity: product.quantity
                             })),
                         },
                     },

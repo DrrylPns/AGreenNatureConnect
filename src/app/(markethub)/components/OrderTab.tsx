@@ -44,6 +44,7 @@ interface OrderedVariant {
     product: Product;
     variant: Variants;
     price: number;
+    quantity: number
 }
 interface Variants {
     id: string
@@ -122,7 +123,7 @@ function OrderTab({
         </div>
         <Tab.List className={`fixed top-32 md:top-[8rem] w-full z-30 bg-white drop-shadow-md shadow-lg`}>
             <Tab className="text-[0.5rem] sm:text-sm md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
-                Orders
+                Pending
             </Tab>
             <Tab className="text-[0.5rem] sm:text-sm  md:text-lg font-poppins font-semibold border-b-[5px] outline-none ui-selected:border-b-green transition-all ease-in-out duration-1000 w-1/5 py-2 px-4">
                 Approved
