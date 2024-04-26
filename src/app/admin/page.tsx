@@ -1,13 +1,27 @@
 // import { Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Text, Title } from '@tremor/react'
 import prisma from '@/lib/db/db'
+import { ProductWithOrderedVariant } from '@/lib/types'
 import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
-import { fetchSalesByDate } from '../../../actions/sales'
+import Image from 'next/image'
+import { fetchMostSoldProduct, fetchSalesByDate } from '../../../actions/sales'
 import { getAuthSession } from '../../lib/auth'
 import { CntEmployeesCard } from '../employee/_components/CntEmployeesCard'
 import { CntUserCard } from '../employee/_components/CntTopicCard'
 import PPSCard from '../employee/_components/PPSCard'
 import CntSales from './_components/CntSales'
 import SearchEmployees from './_components/SearchEmployees'
+import CntProducts from './_components/CntProducts'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/app/components/Ui/select"
+import { SalesByBar } from './_components/SalesByBar'
+import { HotProducts } from './_components/HotProducts'
 
 const page = async () => {
 
@@ -34,9 +48,13 @@ const page = async () => {
     }
   })
 
-  const salesByDate = await fetchSalesByDate()
+  // const salesByDate = await fetchSalesByDate()
 
-  if (!salesByDate) return <>Error fetching Sales</>
+  // if (!salesByDate) return <>Error fetching Sales</>
+
+  const products = await fetchMostSoldProduct() as ProductWithOrderedVariant[]
+
+  if (!products) return <>Error fetching products</>
 
   return (
     <main className='flex flex-col gap-2 h-screen bg-[#E3E1E1]'>
@@ -50,7 +68,7 @@ const page = async () => {
         </TabList>
         <TabPanels>
           <TabPanel>
-            <Grid numItemsMd={3} numItemsLg={3} className="gap-6 mt-6">
+            <Grid numItemsMd={4} numItemsLg={4} className="gap-6 mt-6">
 
               <CntUserCard />
 
@@ -58,27 +76,26 @@ const page = async () => {
 
               <CntSales />
 
+              <CntProducts />
+
             </Grid>
             <Grid className="gap-6 mt-6" numItems={1} numItemsLg={3}>
               <Col numColSpanLg={2}>
                 <Card>
-                  <div className='h-full'>
-                    <Title>Sales Report</Title>
-                    <BarChart
-                      className="h-72 mt-4"
-                      data={salesByDate as any}
-                      index="month"
-                      categories={["Others", "Vegetables", "Fruits"]}
-                      colors={["indigo", "gray", "lime"]}
-                      yAxisWidth={30}
-                    />
-                  </div>
+                  <SalesByBar />
                 </Card>
               </Col>
 
               <PPSCard />
+            </Grid>
 
-
+            <Grid className='gap-6 mt-6' numItems={1} >
+              <Card>
+                <div className='h-full'>
+                  <Title>Top 10 sold products</Title>
+                  <HotProducts products={products} />
+                </div>
+              </Card>
             </Grid>
           </TabPanel>
 

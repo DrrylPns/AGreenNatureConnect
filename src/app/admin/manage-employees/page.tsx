@@ -32,7 +32,10 @@ const page = async () => {
         },
         include: {
             Community: true
-        }
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
     })
 
     const dataForDataTable = employees as unknown as Employees[]

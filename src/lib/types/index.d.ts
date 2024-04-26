@@ -1,5 +1,5 @@
 'use server'
-import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom } from '@prisma/client';
+import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom, Prisma } from '@prisma/client';
 
 export interface CustomButtonProps {
   title: string,
@@ -135,13 +135,13 @@ export interface Product {
 export interface Community {
   id: string;
   name: string;
-  carouselImage:    CommunityImage[]
-  displayPhoto:     string
-  urbanFarmName:    string
-  address:          string
-  email:            string
-  contactNumber:    string
-  description:      string
+  carouselImage: CommunityImage[]
+  displayPhoto: string
+  urbanFarmName: string
+  address: string
+  email: string
+  contactNumber: string
+  description: string
   qrCode: string;
   createdAt: Date;
   updatedAt: Date;
@@ -351,3 +351,9 @@ export interface UsersWithCommunityMessages {
   communityId: string | null;
   Message: Message[]
 }
+
+export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
+  include: {
+    orderedVariant: true,
+  },
+}>

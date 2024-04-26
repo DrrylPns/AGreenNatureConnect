@@ -1,12 +1,16 @@
 import prisma from '@/lib/db/db'
 import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
-import { fetchSalesByDate } from '../../../actions/sales'
+import { fetchMostSoldProduct, fetchSalesByDate } from '../../../actions/sales'
 import { getAuthSession } from '../../lib/auth'
 import CntSales from '../admin/_components/CntSales'
 import SearchEmployees from '../admin/_components/SearchEmployees'
 import { CntEmployeesCard } from './_components/CntEmployeesCard'
 import { CntUserCard } from './_components/CntTopicCard'
 import PPSCard from './_components/PPSCard'
+import { ProductWithOrderedVariant } from '@/lib/types'
+import CntProducts from '../admin/_components/CntProducts'
+import { SalesByBar } from '../admin/_components/SalesByBar'
+import { HotProducts } from '../admin/_components/HotProducts'
 
 const page = async () => {
 
@@ -33,72 +37,13 @@ const page = async () => {
         }
     })
 
-    // const chartdata4 = [
-    //     {
-    //         date: "Jan 23",
-    //         "Fruits": 167,
-    //         "Vegetables": 145,
-    //     },
-    //     {
-    //         date: "Feb 23",
-    //         "Fruits": 559,
-    //         "Vegetables": 410,
-    //     },
-    //     {
-    //         date: "Mar 23",
-    //         "Fruits": 156,
-    //         "Vegetables": 149,
-    //     },
-    //     {
-    //         date: "Apr 23",
-    //         "Fruits": 165,
-    //         "Vegetables": 112,
-    //     },
-    //     {
-    //         date: "May 23",
-    //         "Fruits": 153,
-    //         "Vegetables": 138,
-    //     },
-    //     {
-    //         date: "Jun 23",
-    //         "Fruits": 200,
-    //         "Vegetables": 98,
-    //     },
-    //     {
-    //         date: "July 23",
-    //         "Fruits": 124,
-    //         "Vegetables": 23,
-    //     },
-    //     {
-    //         date: "Aug 23",
-    //         "Fruits": 224,
-    //         "Vegetables": 221,
-    //     },
-    //     {
-    //         date: "Sep 23",
-    //         "Fruits": 201,
-    //         "Vegetables": 412,
-    //     },
-    //     {
-    //         date: "Oct 23",
-    //         "Fruits": 213,
-    //         "Vegetables": 316,
-    //     },
-    //     {
-    //         date: "Nov 23",
-    //         "Fruits": 69,
-    //         "Vegetables": 420,
-    //     },
-    //     {
-    //         date: "Dec 23",
-    //         "Fruits": 420,
-    //         "Vegetables": 69,
-    //     },
-    // ];
+    // const salesByDate = await fetchSalesByDate()
 
-    const salesByDate = await fetchSalesByDate()
+    // if (!salesByDate) return <>Error fetching Sales</>
 
-    if (!salesByDate) return <>Error fetching Sales</>
+    const products = await fetchMostSoldProduct() as ProductWithOrderedVariant[]
+
+    if (!products) return <>Error fetching products</>
 
     return (
         <main className='flex flex-col gap-2 h-screen bg-[#E3E1E1]'>
@@ -114,7 +59,7 @@ const page = async () => {
                 </TabList>
                 <TabPanels>
                     <TabPanel>
-                        <Grid numItemsMd={3} numItemsLg={3} className="gap-6 mt-6">
+                        <Grid numItemsMd={4} numItemsLg={4} className="gap-6 mt-6">
 
                             <CntUserCard />
 
@@ -122,36 +67,27 @@ const page = async () => {
 
                             <CntSales />
 
-
-
-                            {/* <CntPostCard />
-
-                                <CntUserCard />
-
-                                <CntTopicCard />
-
-                                <CntProductCard /> */}
+                            <CntProducts />
 
                         </Grid>
+
                         <Grid className="gap-6 mt-6" numItems={1} numItemsLg={3}>
                             <Col numColSpanLg={2}>
                                 <Card>
-                                    <div className='h-full'>
-                                        <Title>Sales Report</Title>
-                                        <BarChart
-                                            className="h-72 mt-4"
-                                            data={salesByDate as any}
-                                            index="month"
-                                            categories={["Others", "Vegetables", "Fruits"]}
-                                            colors={["indigo", "gray", "lime"]}
-                                            yAxisWidth={30}
-                                        />
-                                    </div>
+                                    <SalesByBar />
                                 </Card>
                             </Col>
 
                             <PPSCard />
+                        </Grid>
 
+                        <Grid className='gap-6 mt-6' numItems={1} >
+                            <Card>
+                                <div className='h-full'>
+                                    <Title>Top 10 sold products</Title>
+                                    <HotProducts products={products} />
+                                </div>
+                            </Card>
                         </Grid>
                     </TabPanel>
 
