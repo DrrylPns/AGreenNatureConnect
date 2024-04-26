@@ -78,7 +78,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
   const updateTotalComments = () => {
     let total = comments.length;
     comments.forEach((comment) => {
-      total += comment.replyOnComent.length;
+      total += comment.replyOnComent?.length;
     });
     setTotalComments(total);
   };
@@ -95,21 +95,21 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
 
         <Popover>
           <>
-          <Link
-            href={{
-              pathname: `/discussion/${post?.topic.name}/${post?.id}`,
-              query: { postId: post?.id },
-            }}
-            className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
-          >
-          <span className="text-[1.5rem] text-gray-600 dark:text-white">
-            <BiComment />
-          </span>
-          <h3 className="hidden md:block">{totalComments}</h3>
-        </Link>
+            <Link
+              href={{
+                pathname: `/discussion/${post?.topic.name}/${post?.id}`,
+                query: { postId: post?.id },
+              }}
+              className="flex gap-2 items-center justify-center px-4 py-2 font-poppins font-semibold w-full rounded-3xl bg-[#F0F2F5] dark:bg-transparent dark:border dark:border-zinc-500 dark:hover:opacity-80"
+            >
+              <span className="text-[1.5rem] text-gray-600 dark:text-white">
+                <BiComment />
+              </span>
+              <h3 className="hidden md:block">{totalComments}</h3>
+            </Link>
           </>
         </Popover>
-        
+
         <Popover>
           <>
             <motion.button
