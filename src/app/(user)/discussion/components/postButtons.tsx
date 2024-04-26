@@ -10,6 +10,7 @@ import useLoginModal from "@/lib/hooks/useLoginModal";
 import { ReactionButton } from "./ReactionButton";
 import { ReactionList } from "./ReactionList";
 import Link from "next/link";
+import { CiShare2 } from "react-icons/ci";
 
 interface PostButtonsProps {
   postId: string;
@@ -121,7 +122,7 @@ const PostButtons: FC<PostButtonsProps> = ({ postId, comments }) => {
                 onClick={handleClick}
               >
                 <span className="text-[1.5rem] text-gray-600 dark:text-white">
-                  <BiShare />
+                  <CiShare2 />
                 </span>
                 <h3 className="hidden md:block">Share</h3>
               </Popover.Button>
