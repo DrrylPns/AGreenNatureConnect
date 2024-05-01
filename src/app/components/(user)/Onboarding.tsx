@@ -148,8 +148,8 @@ export const Onboarding = () => {
 
   const { data: communities } = useQuery({
     queryKey: ["communities"],
-    queryFn: async () => await getCommunitiesWithoutSession()
-  })
+    queryFn: async () => await getCommunitiesWithoutSession(),
+  });
 
   const onSubmit: SubmitHandler<OnboardingType> = (data: OnboardingType) => {
     const payload: OnboardingType = {
@@ -228,6 +228,20 @@ export const Onboarding = () => {
                   {...register("name")}
                   id="name"
                   placeholder="Enter your Firstname"
+                  type="text"
+                  onKeyPress={(event) => {
+                    const charCode = event.which ? event.which : event.keyCode;
+                    if (
+                      !(charCode >= 65 && charCode <= 90) &&
+                      !(charCode >= 97 && charCode <= 122) &&
+                      charCode !== 32 &&
+                      charCode !== 8 &&
+                      charCode !== 9 &&
+                      charCode !== 0
+                    ) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
               </div>
               <div className="space-y-2">
@@ -237,6 +251,19 @@ export const Onboarding = () => {
                   {...register("lastName")}
                   placeholder="Enter your Lastname"
                   type="name"
+                  onKeyPress={(event) => {
+                    const charCode = event.which ? event.which : event.keyCode;
+                    if (
+                      !(charCode >= 65 && charCode <= 90) &&
+                      !(charCode >= 97 && charCode <= 122) &&
+                      charCode !== 32 &&
+                      charCode !== 8 &&
+                      charCode !== 9 &&
+                      charCode !== 0
+                    ) {
+                      event.preventDefault();
+                    }
+                  }}
                 />
               </div>
             </div>
@@ -312,7 +339,9 @@ export const Onboarding = () => {
                     <SelectGroup>
                       <SelectLabel>Communities</SelectLabel>
                       {communities?.map((community, i) => (
-                        <SelectItem key={i} value={community.name}>{community.name}</SelectItem>
+                        <SelectItem key={i} value={community.name}>
+                          {community.name}
+                        </SelectItem>
                       ))}
                       <SelectItem value="Others" key="others">
                         Others
