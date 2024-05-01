@@ -13,9 +13,15 @@ import { BeatLoader } from 'react-spinners'
 import { fetchNotifications, notificationRead } from '../../actions/notification'
 import { NotificationWithUser } from '@/lib/types'
 import { NotificationWithRelations } from '@/lib/types/extendedpost'
+import { UserAvatar } from "@/app/components/UserAvatar";
+import { useSession } from "next-auth/react";
 
+
+   
 export const UserNotifs = () => {
     const queryClient = useQueryClient()
+
+    const { data: session, status } = useSession();
 
     // const [notifications, setNotifications] = useState<NotificationWithUser[]>([])
 
@@ -50,6 +56,8 @@ export const UserNotifs = () => {
         }
     })
 
+    
+
     if (isLoading) return <></>
 
     const hasUnread = notifications?.some(notification => notification.isRead == false);
@@ -65,9 +73,9 @@ export const UserNotifs = () => {
                 </div>
             </PopoverTrigger>
             <PopoverContent className='p-0'>
-                <ScrollArea className="h-72 w-full rounded-md border">
+                <ScrollArea className="h-72 w-full rounded-md border bg-[#E6F4EA] dark:bg-[#1B4332] ">
                     <div className="p-1 py-4">
-                        <h4 className="mb-2 text-[16px] leading-none ml-2 font-semibold">Notifications</h4>
+                        <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2 border-black dark:border-white">Notifications</h4>
 
                         {notifications?.length === 0 && (
                             <div className="text-gray-500 text-center">You currently have no notifications yet.</div>
@@ -79,9 +87,11 @@ export const UserNotifs = () => {
 
                         <>
                             {notifications?.map((notification) => (
-                                <div key={notification.id} className="grid gap-1 p-1 text-sm">
+                                <div key={notification.id} className="grid gap-1 p-1 text-sm shadow ">
+                                   
                                     <Link
-                                        className={`flex flex-col items-start p-2 rounded-md dark:bg-gray-800 ${!notification.isRead ? "bg-gray-100" : ""}`}
+                                    
+                                        className={`flex flex-col items-start p-2 rounded-md bg-[#E6F4EA] dark:bg-[#1B4332] ${!notification.isRead ? "bg-[#d3f2dc] dark:bg-[#266048]" : ""}`}
                                         href={
                                             //@ts-ignore
                                             notification.type === "REACT" ? `/discussion/${notification?.Post?.topic?.name}/${notification?.Post?.id}` :
@@ -109,26 +119,35 @@ export const UserNotifs = () => {
                                             })
                                         }}
                                     >
-                                        <div className='flex items-center'>
+                                         
+                                        <div className='flex items-center gap-3 text-[#1F2937] dark:text-[#ffffff]'>
+                                        <UserAvatar
+                                            user={{
+                                                name: session?.user.username || null,
+                                                image: session?.user.image || null,
+                                            }}
+                                            className="h-8 w-8"
+                                            />
+
                                             {/* <MailIcon className="mr-2 h-7 w-7" /> */}
                                             {notification.type === "PENDING" && (
-                                                <div>Your order from <span className='font-bold'>{notification.community.name}</span> has been successfully issued.</div>
+                                                <div>Your order from <span className='font-bold text-[#15803D] dark:text-[#34D399]'>{notification.community.name}</span> has been successfully issued.</div>
                                             )}
 
                                             {notification.type === "APPROVED" && (
-                                                <div><span className='font-bold'>{notification.community.name}</span> has approved your order.</div>
+                                                <div><span className='font-bold text-[#15803D] dark:text-[#34D399]'>{notification.community.name}</span> has approved your order.</div>
                                             )}
 
                                             {notification.type === "CANCELLED" && (
-                                                <div><span className='font-bold'>{notification.community.name}</span> has <span className='text-rose-500'>cancelled</span> your order.</div>
+                                                <div><span className='font-bold text-[#15803D] dark:text-[#34D399]'>{notification.community.name}</span> has <span className='text-rose-500'>cancelled</span> your order.</div>
                                             )}
 
                                             {notification.type == "COMPLETED" && (
-                                                <div>Congratulations, you're order from <span className='font-bold'>{notification.community.name}</span> was successful!</div>
+                                                <div>Congratulations, you're order from <span className='font-bold text-[#15803D] dark:text-[#34D399]'>{notification.community.name}</span> was successful!</div>
                                             )}
 
                                             {notification.type === "PICK_UP" && (
-                                                <div>You're order from {notification.community.name} has been picked up.</div>
+                                                <div>You're order from <span className='font-bold text-[#15803D] dark:text-[#34D399]'>{notification.community.name}</span> has been picked up.</div>
                                             )}
 
                                             {notification.type === "REACT" && (
@@ -144,7 +163,7 @@ export const UserNotifs = () => {
                                             )}
                                         </div>
 
-                                        <time className="text-[13px] text-gray-500 dark:text-gray-400">
+                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray-400 ${!notification.isRead ? " text-[#dca745] dark:text-[#FEF9C3]" : ""} `}>
                                             {formatCreatedAt(notification.createdAt)}
                                         </time>
                                     </Link>
@@ -158,3 +177,4 @@ export const UserNotifs = () => {
         </Popover>
     )
 }
+
