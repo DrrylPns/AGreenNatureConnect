@@ -91,7 +91,7 @@ export default function Post() {
                 <h1 className="text-sm font-semibold">Filter:</h1>
                 <Listbox.Button
                   className={
-                    "bg-[#baebd4] font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-black shadow-md drop-shadow-md "
+                    "bg-[#baebd4]  hover:shadow-lg hover:bg-[#4DE69E]/90 font-semibold relative w-24 p-2 text-sm rounded-md flex items-center justify-around text-black shadow-md drop-shadow-md "
                   }
                 >
                   {selectedFilter === "Check" && "Liked"}
