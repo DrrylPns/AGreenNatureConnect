@@ -24,9 +24,10 @@ export async function POST(req: Request) {
                     create: {
                         price: amount,
                         variantId,
-                        productId
-                    }
-                }
+                        productId,
+                        quantity: 1,
+                    },
+                },
             },
         });
         return new Response(JSON.stringify(paymentMethod));

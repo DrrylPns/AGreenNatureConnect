@@ -14,8 +14,8 @@ import { FaArrowLeft } from 'react-icons/fa';
 import { toast } from '@/lib/hooks/use-toast';
 
 type buyNowType = {
-    selectedProduct: Product,
-    selectedVariant: Variants
+    selectedProduct: Product;
+    selectedVariant: Variants;
 }
 
 const PaymentMethod = [
