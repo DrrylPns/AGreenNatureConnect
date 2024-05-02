@@ -12,6 +12,7 @@ import Phone from "/public/images/phone.png";
 import Email from "/public/images/email.png";
 import Location from "/public/images/location.png";
 import Link from "next/link";
+import AboutPhoto from "/public/images/Aboutbg.jpg";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
 export default function Home() {
@@ -89,55 +90,52 @@ export default function Home() {
         </div>
       </section>
       {/*ABOUT US*/}
+
       <section
+        className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-2 h-[85vh] bg-[#2D5F4D] w-full"
         id="aboutus"
-        className="h-[85vh] flex justify-center items-center bg-cover bg-center bg-[url('../../../public/images/Aboutbg.png')] border-t-[1px] border-black md:p-10 p-5"
       >
-        <div className=" from-muted ">
-          <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl text-amber">
-            ABOUT US
-          </h1>
-
-          <div className="flex gap-10">
-            <div className="text-slate-200">
-              <div className=" mb-5 lg:px-44 md:px-32 sm:px-12 ">
-                <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[20px] text-[18px]">
-                  Quezon City Urban Farming
-                </h2>
-                <p className="font-poppins font-normal lg:text-[25px] md:text-[18px] text-[16px] mb-5 text-justify">
-                  AGreen Nature Connect, are committed to building a sustainable
-                  future by connecting individuals, businesses, and communities
-                  to nature. Our website is an information hub and marketplace
-                  dedicated to promoting environmental awareness, sustainable
-                  practices, and green living.
-                </p>
-                <p className="font-poppins font-normal lg:text-[25px] md:text-[18px] text-[16px] mb-5 text-justify">
-                  We provide comprehensive information, articles, and guides on
-                  a wide range of environmental topics, including conservation,
-                  renewable energy, eco-friendly lifestyle guidance, and
-                  biodiversity preservation.
-                </p>
-
-                <p className="font-poppins font-normal lg:text-[25px] md:text-[18px] text-[16px] mb-5 text-justify">
-                  Agreen Nature Connect is a marketplace where individuals can
-                  discover and support sustainable products from environmentally
-                  conscious businesses.
-                </p>
-                <p className="font-poppins font-normal lg:text-[25px] md:text-[18px] text-[16px] text-justify">
-                  Our platform encourages community engagement through forums,
-                  discussions, and events that bring like-minded individuals
-                  together and foster collaboration toward environmental goals.
-                </p>
-              </div>
-              <div className=" text-center pb-5">
-                <div className="sm:flex justify-center">
-                  <div className="rounded-md shadow-lg">
-                    <a
-                      className="w-full flex items-center justify-center px-3 py-3 text-base leading-6 font-medium rounded-md text-white bg-[#307047] hover:bg-[#24643B]  hover:text-white focus:ring ring-offset-2 ring-[#449a64] focus:outline-none transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
-                      href="/about"
-                    >
-                      Read More
-                    </a>
+        <div className="w-full sm:w-[50%] flex justify-center items-center">
+          <Image
+            className="object-cover shadow-lg shadow-black rounded-lg"
+            src={AboutPhoto}
+            alt="Sharon.png"
+            height={500}
+            width={700}
+          />
+        </div>
+        <div className="w-full sm:w-[50%] flex justify-center items-center md:p-10 p-5">
+          <div className="from-muted">
+            <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl text-amber">
+              ABOUT US
+            </h1>
+            <div className="flex gap-10">
+              <div className="text-slate-200 w-full">
+                <div className="sm:px-12">
+                  <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[20px] text-[18px]">
+                    Quezon City Urban Farming
+                  </h2>
+                  <p className="font-poppins font-normal lg:text-[25px] md:text-[18px] text-[16px] mb-5 text-justify">
+                    AGreen Nature Connect is dedicated to fostering
+                    environmental awareness and sustainability by connecting
+                    individuals, businesses, and communities to nature through
+                    our information hub and marketplace. We provide
+                    comprehensive resources on conservation, renewable energy,
+                    eco-friendly living, and biodiversity preservation. Embrace
+                    sustainable products and engage in community-driven
+                    initiatives for a greener future!
+                  </p>
+                </div>
+                <div className="text-center pb-5 mb-5">
+                  <div className="sm:flex justify-center">
+                    <div className="rounded-md shadow-lg">
+                      <a
+                        className="w-full flex items-center justify-center px-3 py-3 text-base leading-6 font-medium rounded-md text-white bg-amber hover:bg-yellow-300  hover:text-white focus:ring ring-offset-2 ring-amber focus:outline-none transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
+                        href="/about"
+                      >
+                        Read More
+                      </a>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -145,6 +143,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/*Services*/}
       <section id="services" className="">
         <h1 className="text-center font-poppins font-bold md:text-[44px] text-[30px] mb-5 pt-10">
