@@ -89,13 +89,10 @@ export default function Home() {
           </video>
         </div>
       </section>
-      {/*ABOUT US*/}
 
-      <section
-        className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-2 h-[85vh] bg-[#2D5F4D] w-full"
-        id="aboutus"
-      >
-        <div className="w-full sm:w-[50%] flex justify-center items-center">
+      {/*ABOUT US*/}
+      <section className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-2 bg-[#2D5F4D] w-full" id="aboutus">
+        <div className="w-full sm:w-1/2 flex justify-center items-center">
           <Image
             className="object-cover shadow-lg shadow-black rounded-lg"
             src={AboutPhoto}
@@ -104,26 +101,19 @@ export default function Home() {
             width={700}
           />
         </div>
-        <div className="w-full sm:w-[50%] flex justify-center items-center md:p-10 p-5">
+        <div className="w-full sm:w-1/2 flex justify-center items-center md:p-10 p-5">
           <div className="from-muted">
             <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl text-amber">
               ABOUT US
             </h1>
-            <div className="flex gap-10">
+            <div className="flex flex-col sm:flex-row gap-10">
               <div className="text-slate-200 w-full">
                 <div className="sm:px-12">
                   <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[20px] text-[18px]">
                     Quezon City Urban Farming
                   </h2>
-                  <p className="font-poppins font-normal lg:text-[25px] md:text-[18px] text-[16px] mb-5 text-justify">
-                    AGreen Nature Connect is dedicated to fostering
-                    environmental awareness and sustainability by connecting
-                    individuals, businesses, and communities to nature through
-                    our information hub and marketplace. We provide
-                    comprehensive resources on conservation, renewable energy,
-                    eco-friendly living, and biodiversity preservation. Embrace
-                    sustainable products and engage in community-driven
-                    initiatives for a greener future!
+                  <p className="font-poppins font-normal lg:text-[18px] md:text-[16px] text-[11px] mb-5 text-justify">
+                    AGreen Nature Connect is dedicated to fostering environmental awareness and sustainability by connecting individuals, businesses, and communities to nature through our information hub and marketplace. We provide comprehensive resources on conservation, renewable energy, eco-friendly living, and biodiversity preservation. Embrace sustainable products and engage in community-driven initiatives for a greener future!
                   </p>
                 </div>
                 <div className="text-center pb-5 mb-5">
@@ -143,6 +133,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
 
       {/*Services*/}
       <section id="services" className="">
