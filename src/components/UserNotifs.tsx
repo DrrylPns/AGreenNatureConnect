@@ -159,7 +159,7 @@ export const UserNotifs = () => {
                                             )}
 
                                             {notification.type === "REACT" && (
-                                                <div>{notification.user.name} Has reacted to your post.</div>
+                                                <div>{notification.user.name} Has reacted to your post.</div> // Post.author.name
                                             )}
 
                                             {notification.type === "COMMENT" && (
@@ -167,7 +167,7 @@ export const UserNotifs = () => {
                                             )}
 
                                             {notification.type === "REPLY" && (
-                                                <div>{notification.user.name} Has replied to your comment.</div>
+                                                <div>{notification.user.name} Has replied to your comment.</div> // Reply.author.name
                                             )}
                                         </div>
 

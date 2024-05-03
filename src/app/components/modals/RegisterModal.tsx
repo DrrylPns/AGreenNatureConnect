@@ -85,7 +85,7 @@ const RegisterModal = () => {
         community,
         terms,
       };
-      const { data } = await axios.post("api/register", payload);
+      const { data } = await axios.post("/api/register", payload);
       return data;
     },
     onError: (err) => {
