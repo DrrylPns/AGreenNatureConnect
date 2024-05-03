@@ -278,7 +278,7 @@ export default function Home() {
         id="contactus"
         className="flex lg:px-20 px-3 border-b border-black justify-between"
       >
-        <div className="lg:w-1/2 w-full p-10 font-poppins">
+        <div className=" w-auto font-poppins">
           <h4>CONTACT NOW</h4>
           <h1 className="font-poppins font-bold text-[30px] ">
             GET IN TOUCH NOW
@@ -297,87 +297,25 @@ export default function Home() {
                 <p className="md:text-[16px] text-[13px]">+639987654321</p>
               </div>
             </div>
-            <div className="flex items-center gap-5 my-10 max-sm:w-8">
+            <div className=" flex items-center gap-5 my-10 max-sm:w-8">
               <Image src={Email} alt="Phone icon" />
               <div>
                 <h3>EMAIL</h3>
-                <p className="flex md:text-[16px] text-[13px]">
+                <p className="md:text-[16px] text-[13px]">
                   agreennatureconnect@agreennatureconnect.online
                 </p>
               </div>
             </div>
-            <div className="flex items-center gap-5 mt-10 max-sm:w-8">
+            <div className="flex items-center gap-5 my-10 max-sm:w-10">
               <Image src={Location} alt="Location icon" />
               <div>
                 <h3>ADDRESS</h3>
                 <p className="md:text-[16px] text-[13px]">
-                  Brgy. Commonwealth, Quezon City.
+                 Brgy. Commonwealth, Quezon City.
                 </p>
               </div>
             </div>
           </div>
-        </div>
-        <div className="max-md:hidden lg:w-1/2 w-full sm:p-10 px-1 mb-10">
-          <form className="flex flex-col border border-black rounded-lg p-10 shadow-2xl">
-            <label
-              htmlFor="name"
-              className="block text-md font-poppins font-bold leading-6 text-gray-900 pt-2"
-            >
-              Name
-            </label>
-            <div className="mt-1">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  autoComplete="name"
-                  className="block flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder=" Full Name"
-                />
-              </div>
-            </div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-poppins font-bold leading-6 text-gray-900 pt-2"
-            >
-              Email
-            </label>
-            <div className="mt-1">
-              <div className="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
-                <input
-                  type="text"
-                  name="name"
-                  id="name"
-                  autoComplete="name"
-                  className="block flex-1 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
-                  placeholder=" Your Email"
-                />
-              </div>
-            </div>
-            <label
-              htmlFor="message"
-              className="block text-md font-poppins font-bold leading-6 text-gray-900 pt-2"
-            >
-              Messsage
-            </label>
-            <div className="mt-2">
-              <textarea
-                id="message"
-                name="message"
-                rows={3}
-                className="block w-full rounded-md   py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                defaultValue={""}
-                placeholder="  Your Message"
-              />
-            </div>
-            <button
-              type="submit"
-              className="bg-amber text-black w-2/5 mt-5 p-2 font-poppins rounded-xl hover:scale-110 ease-in duration-100 max-md:flex max-md:w-full max-md:justify-center max-md:text-[12px]"
-            >
-              Submit Message
-            </button>
-          </form>
         </div>
       </section>
       {/*Footer*/}
