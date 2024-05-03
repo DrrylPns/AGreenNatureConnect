@@ -81,7 +81,7 @@ export const Onboarding = () => {
         lastName,
         name,
       };
-      const { data } = await axios.post("api/user/onboarding", payload);
+      const { data } = await axios.post("/api/user/onboarding", payload);
       return data;
     },
     onError: (err) => {
