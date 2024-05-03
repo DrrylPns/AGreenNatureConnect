@@ -32,7 +32,9 @@ export interface NotificationWithRelations {
   communityId: string;
   transactionId: string;
   user: User;
-  Comment: Comment;
+  Comment: Comment & {
+    author: User
+  };
   community: Community;
   transaction: Transaction;
   Post: Post;

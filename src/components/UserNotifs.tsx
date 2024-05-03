@@ -17,7 +17,7 @@ import { UserAvatar } from "@/app/components/UserAvatar";
 import { useSession } from "next-auth/react";
 
 
-   
+
 export const UserNotifs = () => {
     const queryClient = useQueryClient()
 
@@ -56,7 +56,7 @@ export const UserNotifs = () => {
         }
     })
 
-    
+
 
     if (isLoading) return <></>
 
@@ -88,9 +88,9 @@ export const UserNotifs = () => {
                         <>
                             {notifications?.map((notification) => (
                                 <div key={notification.id} className="grid gap-1 p-1 text-sm shadow ">
-                                   
+
                                     <Link
-                                    
+
                                         className={`flex flex-col items-start p-2 rounded-md bg-[#E6F4EA] dark:bg-[#1B4332] ${!notification.isRead ? "bg-[#d3f2dc] dark:bg-[#266048]" : ""}`}
                                         href={
                                             //@ts-ignore
@@ -119,14 +119,14 @@ export const UserNotifs = () => {
                                             })
                                         }}
                                     >
-                                         
+
                                         <div className='flex items-center gap-3 text-[#1F2937] dark:text-[#ffffff]'>
-                                        <UserAvatar
-                                            user={{
-                                                name: session?.user.username || null,
-                                                image: session?.user.image || null,
-                                            }}
-                                            className="h-8 w-8"
+                                            <UserAvatar
+                                                user={{
+                                                    name: session?.user.username || null,
+                                                    image: session?.user.image || null,
+                                                }}
+                                                className="h-8 w-8"
                                             />
 
                                             {/* <MailIcon className="mr-2 h-7 w-7" /> */}
@@ -155,7 +155,7 @@ export const UserNotifs = () => {
                                             )}
 
                                             {notification.type === "COMMENT" && (
-                                                <div>{notification.user.name} Has commented to your post.</div>
+                                                <div>{notification.Comment.author.name} Has commented to your post.</div>
                                             )}
 
                                             {notification.type === "REPLY" && (

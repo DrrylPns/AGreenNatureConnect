@@ -38,7 +38,8 @@ export const fetchNotifications = async () => {
                         include: {
                             topic: true
                         }
-                    }
+                    },
+                    author: true
                 }
             },
             Post: {
