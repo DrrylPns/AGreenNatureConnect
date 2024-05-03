@@ -277,11 +277,11 @@ export default function Home() {
       <section id="contactus" className="flex lg:px-20 px-3 border-b border-black">
   <div className="w-full flex flex-col justify-center items-center font-poppins text-center">
     <div>
-      <h4 className="font-bold md:text-4xl text-2xl">CONTACT NOW</h4>
-      <h1 className="font-poppins text-xl lg:text-3xl">
+      <h4 className="font-bold md:text-4xl text-2xl pt-1">CONTACT US</h4>
+      <h1 className="font-poppins sm:text-xl text-[15px] pt-3">
         GET IN TOUCH NOW
       </h1>
-      <p className="md:text-lg text-sm">
+      <p className="md:text-lg text-sm pt-2">
         Get in touch with us! Reach out for any inquiries, collaborations, or
         questions. Connect with our team to explore urban farming
         possibilities together.
