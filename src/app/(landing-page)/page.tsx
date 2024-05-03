@@ -274,50 +274,54 @@ export default function Home() {
         </div>
       </section>
       {/*Contact Us*/}
-      <section
-        id="contactus"
-        className="flex lg:px-20 px-3 border-b border-black justify-between"
-      >
-        <div className=" w-auto font-poppins">
-          <h4>CONTACT NOW</h4>
-          <h1 className="font-poppins font-bold text-[30px] ">
-            GET IN TOUCH NOW
-          </h1>
-          <p className=" md:text-[16px] text-[14px]">
-            Get in touch with us! Reach out for any inquiries, collaborations,
-            or questions. Connect with our team to explore urban farming
-            possibilities together.
-          </p>
-          <div className="font-poppins">
-            <div className=" flex items-center gap-5 my-10 max-sm:w-8 ">
-              <Image src={Phone} alt="Phone icon" />
-              <div>
-                <h3>PHONE</h3>
-                <p className="md:text-[16px] text-[13px]">+639123456789</p>
-                <p className="md:text-[16px] text-[13px]">+639987654321</p>
-              </div>
-            </div>
-            <div className=" flex items-center gap-5 my-10 max-sm:w-8">
-              <Image src={Email} alt="Phone icon" />
-              <div>
-                <h3>EMAIL</h3>
-                <p className="md:text-[16px] text-[13px]">
-                  agreennatureconnect@agreennatureconnect.online
-                </p>
-              </div>
-            </div>
-            <div className="flex items-center gap-5 my-10 max-sm:w-10">
-              <Image src={Location} alt="Location icon" />
-              <div>
-                <h3>ADDRESS</h3>
-                <p className="md:text-[16px] text-[13px]">
-                 Brgy. Commonwealth, Quezon City.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <section id="contactus" className="flex lg:px-20 px-3 border-b border-black">
+  <div className="w-full flex flex-col justify-center items-center font-poppins text-center">
+    <div>
+      <h4 className="font-bold md:text-4xl text-2xl">CONTACT NOW</h4>
+      <h1 className="font-poppins text-xl lg:text-3xl">
+        GET IN TOUCH NOW
+      </h1>
+      <p className="md:text-lg text-sm">
+        Get in touch with us! Reach out for any inquiries, collaborations, or
+        questions. Connect with our team to explore urban farming
+        possibilities together.
+      </p>
+  <div className="font-poppins flex flex-col items-center justify-center">
+  <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
+    <Image src={Phone} alt="Phone icon" />
+    <div className="text-center">
+      <h3 className="font-semibold">PHONE</h3>
+      <p className="md:text-base text-xs">+639123456789</p>
+      <p className="md:text-base text-xs">+639987654321</p>
+    </div>
+  </div>
+  <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
+    <Image src={Email} alt="Email icon" />
+    <div className="text-center">
+      <h3 className="font-semibold">EMAIL</h3>
+      <p className="md:text-base text-xs">
+        agreennatureconnect@agreennatureconnect.online
+      </p>
+    </div>
+  </div>
+  <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-10">
+    <Image src={Location} alt="Location icon" />
+    <div className="text-center">
+      <h3 className="font-semibold">ADDRESS</h3>
+      <p className="md:text-base text-xs">
+        Brgy. Commonwealth, Quezon City.
+      </p>
+    </div>
+  </div>
+</div>
+
+
+    </div>
+  </div>
+</section>
+
+
+
       {/*Footer*/}
       <footer>
         <Footer />
