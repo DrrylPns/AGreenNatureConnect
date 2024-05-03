@@ -8,6 +8,7 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
 import { CiBellOn } from 'react-icons/ci'
+import { Bell, BellDot} from 'lucide-react'
 import { GoDotFill } from "react-icons/go"
 import { BeatLoader } from 'react-spinners'
 import { fetchNotifications, notificationRead } from '../../actions/notification'
@@ -15,6 +16,7 @@ import { NotificationWithUser } from '@/lib/types'
 import { NotificationWithRelations } from '@/lib/types/extendedpost'
 import { UserAvatar } from "@/app/components/UserAvatar";
 import { useSession } from "next-auth/react";
+import { Button } from "@/components/ui/button"
 
 
 
@@ -66,19 +68,23 @@ export const UserNotifs = () => {
         <Popover>
             <PopoverTrigger>
                 <div className='relative'>
-                    <CiBellOn />
+                    
+                    <Bell />
                     {hasUnread && (
-                        <span className='text-red-600 text-lg absolute right-[-1px] top-[-1px]'><GoDotFill /></span>
+                        <span className='text-red-600 text-6xl absolute right-[-1px] top-[-1px] bg-green dark:bg-[#242526]'><BellDot /></span>
                     )}
                 </div>
             </PopoverTrigger>
             <PopoverContent className='p-0'>
-                <ScrollArea className="h-72 w-full rounded-md border bg-[#E6F4EA] dark:bg-[#1B4332] ">
+                <ScrollArea className="h-72 w-full rounded-md border bg-[#ffffff] dark:bg-[#424444] ">
                     <div className="p-1 py-4">
-                        <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2 border-black dark:border-white">Notifications</h4>
-
+                        <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2  border-black dark:border-[#f8fdfd]">Notifications</h4>
+                        <div className="px-4 text-center items-center">
+                        <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600">Show all</Button>
+                        <Button className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600'>Read all</Button>
+                        </div>
                         {notifications?.length === 0 && (
-                            <div className="text-gray-500 text-center">You currently have no notifications yet.</div>
+                            <div className="text-gray-500 dark:text-grey-200 text-center">You currently have no notifications yet.</div>
                         )}
 
                         {/* {loading && <div className="flex items-center justify-center"><BeatLoader /></div>}
@@ -90,8 +96,9 @@ export const UserNotifs = () => {
                                 <div key={notification.id} className="grid gap-1 p-1 text-sm shadow ">
 
                                     <Link
-
-                                        className={`flex flex-col items-start p-2 rounded-md bg-[#E6F4EA] dark:bg-[#1B4332] ${!notification.isRead ? "bg-[#d3f2dc] dark:bg-[#266048]" : ""}`}
+                                    
+                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#c5eed1] dark:bg-[#555757]" : ""}`}
+                                        
                                         href={
                                             //@ts-ignore
                                             notification.type === "REACT" ? `/discussion/${notification?.Post?.topic?.name}/${notification?.Post?.id}` :
@@ -120,6 +127,7 @@ export const UserNotifs = () => {
                                         }}
                                     >
 
+                                         
                                         <div className='flex items-center gap-3 text-[#1F2937] dark:text-[#ffffff]'>
                                             <UserAvatar
                                                 user={{
@@ -163,7 +171,7 @@ export const UserNotifs = () => {
                                             )}
                                         </div>
 
-                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray-400 ${!notification.isRead ? " text-[#dca745] dark:text-[#FEF9C3]" : ""} `}>
+                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray ${!notification.isRead ? " text-[#4e67f3] dark:text-[#4e67f3]" : ""} `}>
                                             {formatCreatedAt(notification.createdAt)}
                                         </time>
                                     </Link>

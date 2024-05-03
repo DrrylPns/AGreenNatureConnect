@@ -55,19 +55,19 @@ const Navbar = () => {
                 <ThemeToggler1 />
               </div>
               
-              <div className="hidden max-md:block mt-[6%] text-4xl decoration-8">
+              <div className="hidden max-md:block mt-[5%] text-4xl decoration-8">
                 <UserNotifs />
               </div>
 
-              <div className="hidden md:block mt-[9%] text-4xl decoration-8">
+              <div className="hidden md:block mt-[8%] text-4xl decoration-8">
                 <UserNotifs />
               </div>
 
-              <Link href="/message" className="hidden max-md:block mt-[6%] text-4xl decoration-8 cursor-pointer">
+              <Link href="/message" className="hidden max-md:block mt-[5%] text-4xl decoration-8 cursor-pointer">
                 <MessagesSquareIcon />
               </Link>
 
-              <Link href="/message" className="hidden md:block mt-[9%] text-4xl decoration-8 cursor-pointer">
+              <Link href="/message" className="hidden md:block mt-[8%] text-4xl decoration-8 cursor-pointer">
                 <MessagesSquareIcon />
               </Link>
 

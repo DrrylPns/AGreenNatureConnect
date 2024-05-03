@@ -45,7 +45,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className={`flex z-50 fixed top-0 items-center justify-between bg-white w-full h-[62px] px-4 sm:px-20 py-4 shadow transition-color duration-500 ${
+      className={`flex z-50 fixed top-0 items-center justify-between w-full pl-10 bg-white shadow transition-color duration-500 ${
         visible ? "" : "opacity-0"
       }`}
     >
@@ -55,10 +55,10 @@ export default function Navbar() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true }}
-        className="flex w-1/5 justify-end"
+        className="flex justify-end"
       >
       
-        <ul className="flex  flex-row justify-evenly w-[100%] m-10 max-lg:m-13 max-sm:hidden r-10 ">
+        <ul className="flex  flex-row justify-evenly max-sm:hidden ">
           <motion.button
             whileHover={{
               scale: 1.2,
@@ -66,7 +66,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("home")}
-            className="text-black text-[16px] font-semibold p-3 m-3 hover:text-amber "
+            className="text-black text-[16px] font-semibold m-3 hover:text-amber "
           >
             Home
           </motion.button>
@@ -77,7 +77,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("aboutus")}
-            className="text-black text-[16px] font-semibold p-3 m-3 hover:text-amber"
+            className="text-black text-[16px] font-semibold m-3 hover:text-amber"
           >
             About
           </motion.button>
@@ -88,7 +88,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("services")}
-            className="text-black text-[16px] font-semibold p-3 m-3 hover:text-amber"
+            className="text-black text-[16px] font-semibold m-3 hover:text-amber"
           >
             Services
           </motion.button>
@@ -99,7 +99,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("contactus")}
-            className="text-black text-[16px] font-semibold p-3s max-md:mr-10 m-3 mr-28 hover:text-amber"
+            className="text-black text-[16px] font-semibold max-md:mr-10 m-3 mr-14 hover:text-amber"
           >
             Contact
           </motion.button>
@@ -114,7 +114,7 @@ export default function Navbar() {
         className="flex w-1/5 justify-end"
       >
       
-        <ul className="flex  flex-row justify-evenly w-[100%] m-10 max-lg:m-13 max-sm:hidden ">
+        <ul className="flex  flex-row justify-evenly m-10 max-lg:m-13 max-sm:hidden ">
           <Link href={'/'}>
           <motion.button
             whileHover={{
@@ -165,7 +165,7 @@ export default function Navbar() {
             }}
             whileTap={{ scale: 0.9 }}
             onClick={() => scrollToSection("contactus")}
-            className="text-black text-[16px] font-light p-3s max-md:mr-10 m-3 mr-28 mt-6 hover:text-amber"
+            className="text-black text-[16px] font-light p-3 max-md:mr-8 m-3 mr-24 mt-6 hover:text-amber"
           >
             Contact
           </motion.button>
