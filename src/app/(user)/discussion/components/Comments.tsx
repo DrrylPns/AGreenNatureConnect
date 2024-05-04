@@ -260,6 +260,11 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                           Admin 🥦
                         </h6>
                       )}
+                      {comment.author.role === "SUPER_ADMIN" && (
+                        <h6 className="text-sm text-green  dark:text-[#49D393] font-poppins font-medium">
+                          Admin 🌳
+                        </h6>
+                      )}
                     </div>
                     <div className="text-gray-400 text-[0.7rem]">
                       <RelativeDate dateString={comment.createdAt} />
@@ -346,6 +351,11 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                                   {reply.user.role === "ADMIN" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
                                       Admin 🥦
+                                    </h6>
+                                  )}
+                                  {reply.user.role === "SUPER_ADMIN" && (
+                                    <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
+                                      Admin 🌳
                                     </h6>
                                   )}
                                 </div>

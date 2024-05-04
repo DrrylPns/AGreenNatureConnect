@@ -177,6 +177,11 @@ export default function Post() {
                               Community Admin 🥦
                             </h6>
                           )}
+                          {post.author.role === "SUPER_ADMIN" && (
+                            <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold">
+                              Communities Admin 🌳
+                            </h6>
+                          )}
                         </div>
                       </Link>
                       {post.authorId === session?.user?.id && (
