@@ -8,8 +8,8 @@ import { toast } from '@/lib/hooks/use-toast'
 import { NotificationsWithRelation } from '@/lib/types/extendedpost'
 import { formatCreatedAt } from '@/lib/utils'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Bell } from 'lucide-react'
 import { GoDotFill } from "react-icons/go"
+import { Bell } from 'lucide-react'
 import { useSession } from "next-auth/react"
 import { fetchNotifications, notificationRead } from '../../actions/notification'
 import Link from 'next/link'
