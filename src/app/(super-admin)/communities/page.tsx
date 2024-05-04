@@ -3,7 +3,11 @@ import SearchCommunities from '../_components/SearchCommunities'
 import prisma from '@/lib/db/db'
 
 const CommunitiesPage = async () => {
-    const communities = await prisma.community.findMany()
+    const communities = await prisma.community.findMany({
+        orderBy: {
+            createdAt: "desc"
+        }
+    })
 
     return (
         <div className="flex items-center justify-center min-h-screen">

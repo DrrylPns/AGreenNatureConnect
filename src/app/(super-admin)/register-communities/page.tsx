@@ -2,6 +2,7 @@
 
 import { Button } from '@/app/components/Ui/Button';
 import { Input } from '@/app/components/Ui/Input';
+import { Separator } from '@/app/components/Ui/Separator';
 import {
     Drawer,
     DrawerClose,
@@ -57,15 +58,19 @@ const RegisterCommunitiesPage = () => {
             password,
             email,
             confirmPassword,
-            communityName,
+            urbanFarmName,
             communityAddress,
             communityDescription,
+            barangayName,
+            communityDisplayPhoto,
+            userPhone,
             // communityImages,
         }: CreateCommunityType) => {
             const payload: CreateCommunityType = {
                 firstname,
                 lastName,
-                communityName,
+                urbanFarmName,
+                barangayName,
                 phone,
                 email,
                 gender,
@@ -74,6 +79,8 @@ const RegisterCommunitiesPage = () => {
                 confirmPassword,
                 communityAddress,
                 communityDescription,
+                communityDisplayPhoto,
+                userPhone,
                 // communityImages,
             }
 
@@ -81,35 +88,68 @@ const RegisterCommunitiesPage = () => {
             return data
         },
         onError: (err) => {
-            if (err instanceof AxiosError) {
-                if (err.response?.status === 400) {
-                    toast({
-                        title: 'Error',
-                        description: "Email already exists!",
-                        variant: 'destructive',
-                    })
-                }
-                if (err.response?.status === 401) {
-                    toast({
-                        title: 'Error',
-                        description: "Phone number already exists!",
-                        variant: 'destructive',
-                    })
-                }
-                if (err.response?.status === 402) {
-                    toast({
-                        title: 'Error',
-                        description: "Community name already exists!",
-                        variant: 'destructive',
-                    })
-                }
-            } else {
-                return toast({
-                    title: 'Something went wrong.',
-                    description: "Error",
-                    variant: 'destructive',
-                })
-            }
+            // if (err instanceof AxiosError) {
+            //     if (err.response?.status === 400) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Bad Request, phone number is already in use by another community.",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            //     if (err.response?.status === 401) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Unauthorized!",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            //     if (err.response?.status === 402) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Community already exists!",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            //     if (err.response?.status === 403) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Community email already exists!",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            //     if (err.response?.status === 405) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Urban Farm name already exists!",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            //     if (err.response?.status === 406) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Invalid admin email, it is already used by another user!",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            //     if (err.response?.status === 407) {
+            //         toast({
+            //             title: 'Error',
+            //             description: "Invalid admin number, it is already used by another user!",
+            //             variant: 'destructive',
+            //         })
+            //     }
+            // } else {
+            //     return toast({
+            //         title: 'Something went wrong.',
+            //         description: "Error",
+            //         variant: 'destructive',
+            //     })
+            // }
+            toast({
+                title: 'Something went wrong.',
+                description: `${err}`,
+                variant: 'destructive',
+            })
         },
         onSuccess: (data) => {
             toast({
@@ -133,9 +173,12 @@ const RegisterCommunitiesPage = () => {
             phone: values.phone,
             gender: values.gender,
             communityEmail: values.communityEmail,
-            communityName: values.communityName,
+            urbanFarmName: values.urbanFarmName,
+            barangayName: values.barangayName,
             communityAddress: values.communityAddress,
             communityDescription: values.communityDescription,
+            communityDisplayPhoto: imageUrl,
+            userPhone: values.userPhone,
             // communityImages: imageUrl,
             // password: values.password,
             // confirmPassword: values.confirmPassword,
@@ -155,15 +198,32 @@ const RegisterCommunitiesPage = () => {
                         </div>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
+
                                 <div className="grid grid-cols-1">
                                     <FormField
                                         control={form.control}
-                                        name="communityName"
+                                        name="barangayName"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Barangay Name</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Brgy" {...field} type='text' />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className="grid grid-cols-1">
+                                    <FormField
+                                        control={form.control}
+                                        name="urbanFarmName"
                                         render={({ field }) => (
                                             <FormItem>
                                                 <FormLabel>Urban Farm Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Bagbag" {...field} type='text' />
+                                                    <Input placeholder="Urbn" {...field} type='text' />
                                                 </FormControl>
                                                 <FormMessage />
                                             </FormItem>
@@ -209,7 +269,7 @@ const RegisterCommunitiesPage = () => {
                                         name="phone"
                                         render={({ field }) => (
                                             <FormItem>
-                                                <FormLabel>Contact No.</FormLabel>
+                                                <FormLabel>Urban Farm Contact No.</FormLabel>
                                                 <FormControl>
                                                     <Input placeholder="09" {...field} type='number' className="" />
                                                 </FormControl>
@@ -239,6 +299,46 @@ const RegisterCommunitiesPage = () => {
                                         )}
                                     />
                                 </div>
+
+                                <div className='grid grid-cols-1'>
+                                    <h1 className='text-sm font-medium'>Urban Farm Display Photo</h1>
+                                    {imageUrl.length ? <div className="w-full flex flex-col items-center justify-center mt-5">
+                                        <Image
+                                            alt='product image'
+                                            src={imageUrl}
+                                            width={250}
+                                            height={250}
+                                            className='mb-3'
+                                        />
+                                        <Button variant="outline" onClick={() => setImageUrl("")}>Change</Button>
+                                    </div> : <UploadDropzone
+                                        className="text-green"
+                                        appearance={{
+                                            button: "bg-[#00B207] p-2 mb-3",
+                                            label: "text-green",
+                                            allowedContent: "flex h-8 flex-col items-center justify-center px-2 text-green",
+                                        }}
+                                        endpoint="changeAvatar"
+                                        onClientUploadComplete={(res) => {
+                                            console.log('Files: ', res);
+                                            if (res && res.length > 0 && res[0].url) {
+                                                setImageUrl(res[0].url);
+                                            } else {
+                                                console.error('Please input a valid image.', res);
+                                            }
+                                        }}
+                                        onUploadError={(error: Error) => {
+                                            toast({
+                                                title: 'Error!',
+                                                description: error.message,
+                                                variant: 'destructive',
+                                            })
+                                        }}
+                                    />
+                                    }
+                                </div>
+
+                                <Separator />
 
                                 <div className='grid grid-cols-1'>
                                     <FormField
@@ -283,6 +383,22 @@ const RegisterCommunitiesPage = () => {
                                                     <Input placeholder="Lastname" {...field} type='text' className="" />
                                                 </FormControl>
 
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+
+                                <div className='grid grid-cols-1'>
+                                    <FormField
+                                        control={form.control}
+                                        name="userPhone"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Admin Contact No.</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="09" {...field} type='number' className="" />
+                                                </FormControl>
                                                 <FormMessage />
                                             </FormItem>
                                         )}
@@ -353,7 +469,7 @@ const RegisterCommunitiesPage = () => {
                                         type="submit"
                                         className="bg-[#4DE69E] hover:bg-[#bababa8f] w-full text-black"
                                         isLoading={isLoading}
-                                        disabled={isLoading}
+                                        disabled={isLoading || imageIsEmpty}
                                     >
                                         Sign up
                                     </Button>

@@ -16,7 +16,8 @@ export async function POST(req: Request) {
         const body = await req.json()
 
         const {
-            communityName,
+            barangayName,
+            urbanFarmName,
             communityAddress,
             communityDescription,
             communityEmail,
@@ -24,8 +25,10 @@ export async function POST(req: Request) {
             gender,
             lastName,
             email,
+            userPhone,
             // password,
             // communityImages,
+            communityDisplayPhoto,
             phone,
         } = CreateCommunitySchema.parse(body)
 
@@ -35,32 +38,51 @@ export async function POST(req: Request) {
             }
         })
 
-        if (emailExist) return new NextResponse(`${email} already exists`, { status: 400 })
-        
-        // if (communityEmailExist) return new NextResponse(`${communityEmail} already exists`, { status: 400 })
+        const communityEmailExist = await prisma.community.findFirst({
+            where: {
+                email: communityEmail
+            }
+        })
 
-        //     const communityEmailExist = await prisma.community.findFirst({
-        //         where: {
-                    
-        //         }
-        //     })
-    
+
+        if (emailExist) return new NextResponse(`${email} already exists`, { status: 406 })
+
+        if (communityEmailExist) return new NextResponse(`${communityEmailExist} already exists`, { status: 403 })
+
 
         // phone number check
-        const phoneNumberExists = await prisma.user.findFirst({
-            where: { phoneNumber: phone }
+        const phoneNumberExists = await prisma.community.findFirst({
+            where: { contactNumber: phone }
         })
 
         const communityExists = await prisma.community.findFirst({
-            where: {name: communityName}
+            where: { name: barangayName }
         })
 
-        if (phoneNumberExists && phoneNumberExists.id !== session.user.id) {
-            return new Response("Error: Bad Request, phone number is already in use by another user.", { status: 401 })
+        const urbanFarmExists = await prisma.community.findFirst({
+            where: {
+                urbanFarmName,
+            }
+        })
+
+        const userPhoneExists = await prisma.user.findUnique({
+            where: { phoneNumber: userPhone }
+        })
+
+        if (userPhoneExists && session.user.id !== userPhoneExists.id) {
+            return new Response("Error: Bad Request, phone number is already in use by another user.", { status: 407 })
         }
 
-        if(communityExists) {
-            return new Response("Error: Community already exists!", {status: 402})
+        if (phoneNumberExists) {
+            return new Response("Error: Bad Request, phone number is already in use by another community.", { status: 400 })
+        }
+
+        if (communityExists) {
+            return new Response("Error: Community already exists!", { status: 402 })
+        }
+
+        if (urbanFarmExists) {
+            return new Response("Error: Urban Farm name already exists!", { status: 405 })
         }
 
         const currentDate = new Date();
@@ -69,7 +91,7 @@ export async function POST(req: Request) {
             data: {
                 name: firstname,
                 role: "ADMIN",
-                phoneNumber: phone,
+                phoneNumber: userPhone,
                 gender,
                 email,
                 lastName,
@@ -77,17 +99,20 @@ export async function POST(req: Request) {
                 // hashedPassword,
                 Community: {
                     create: {
-                        name: communityName,
+                        name: barangayName,
                         address: communityAddress,
                         description: communityDescription,
                         email: communityEmail,
+                        displayPhoto: communityDisplayPhoto,
+                        contactNumber: phone,
+                        urbanFarmName,
                         // carouselImage: communityImages,
                     }
                 }
             }
         })
 
-        if(successUserCreate) {
+        if (successUserCreate) {
             sendEmployeePasswordLink(successUserCreate.email as string)
         }
 

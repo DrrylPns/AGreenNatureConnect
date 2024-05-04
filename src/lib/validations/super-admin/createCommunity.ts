@@ -2,9 +2,17 @@ import { z } from "zod";
 
 export type CreateCommunityType = z.infer<typeof CreateCommunitySchema>
 
+// const CommunityImageSchema = z.object({
+//     imageUrl: z.string().url(), // Assuming imageUrl is a URL string
+// });
+
 export const CreateCommunitySchema = z.object({
-    // communityImages: z.optional(z.string()),
-    communityName: z.string({
+    // communityImages: z.optional(z.array(CommunityImageSchema)),
+    communityDisplayPhoto: z.optional(z.string()),
+    barangayName: z.string({
+        required_error: "Barangay name required!"
+    }),
+    urbanFarmName: z.string({
         required_error: "Urban farm name required!"
     }),
     communityAddress: z.string({
@@ -29,6 +37,11 @@ export const CreateCommunitySchema = z.object({
     gender: z.string({
         required_error: "Please select a valid gender."
     }),
+    userPhone: z.string()
+        .refine(phone => {
+            const phMobilePattern = /^(09\d{9})$/;
+            return phMobilePattern.test(phone)
+        }),
     password: z.string()
         .min(8, { message: "Minimum password length is 8 characters" })
         .max(20, { message: "Maximum password length is 20 characters" })
