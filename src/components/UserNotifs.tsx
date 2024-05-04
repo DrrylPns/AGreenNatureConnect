@@ -8,15 +8,22 @@ import { toast } from '@/lib/hooks/use-toast'
 import { NotificationsWithRelation } from '@/lib/types/extendedpost'
 import { formatCreatedAt } from '@/lib/utils'
 import { useQuery, useQueryClient } from '@tanstack/react-query'
-import { Bell, BellDot } from 'lucide-react'
+import { GoDotFill } from "react-icons/go"
+import { Bell } from 'lucide-react'
 import { useSession } from "next-auth/react"
 import { fetchNotifications, notificationRead } from '../../actions/notification'
 import Link from 'next/link'
+import { useRouter } from 'next/navigation';
 
 export const UserNotifs = () => {
     const queryClient = useQueryClient()
 
     const { data: session, status } = useSession();
+    const router = useRouter();
+
+    const handleButtonClick = () => {
+        router.push('all-notification');
+      }
 
     // const [notifications, setNotifications] = useState<NotificationWithUser[]>([])
 
@@ -63,10 +70,10 @@ export const UserNotifs = () => {
             <PopoverTrigger>
                 <div className='relative'>
 
-                    <Bell />
+                    <Bell style={{ width: '29px', height: '29px' }}  />
 
                     {hasUnread && (
-                        <span className=' text-6xl absolute right-[-1px] top-[-1px] bg-green dark:bg-[#242526]'><BellDot /></span>
+                        <span className='text-red-600 text-lg absolute right-[-2px] top-[-4px]'><GoDotFill /></span>
                     )}
                 </div>
             </PopoverTrigger>
@@ -75,8 +82,8 @@ export const UserNotifs = () => {
                     <div className="p-1 py-4">
                         <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2  border-black dark:border-[#f8fdfd]">Notifications</h4>
                         <div className="px-4 text-center items-center">
-                            <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600">Show all</Button>
-                            <Button className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600'>Read all</Button>
+                            <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600" onClick={handleButtonClick}>Show all</Button>
+                            <Button className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 '>Read all</Button>
                         </div>
                         {notifications?.length === 0 && (
                             <div className="text-gray-500 dark:text-grey-200 text-center">You currently have no notifications yet.</div>
@@ -91,7 +98,7 @@ export const UserNotifs = () => {
                                 <div key={notification.id} className="grid gap-1 p-1 text-sm shadow">
 
                                     <div
-                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#c5eed1] dark:bg-[#555757]" : ""}`}
+                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#b4edc5] dark:bg-[#3c705e]" : ""}`}
 
                                         // href={
                                         //     //@ts-ignore
