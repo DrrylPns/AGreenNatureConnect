@@ -1,5 +1,7 @@
 import prisma from '@/lib/db/db'
 
+export const dynamic = "force-dynamic"
+
 export async function GET() {
     try {
         const communities = await prisma.community.findMany({

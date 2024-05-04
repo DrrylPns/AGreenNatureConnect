@@ -32,7 +32,7 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
     const communitySettings = useCommunitySettingsModal()
     const communityAvatarModal = useCommunityAvatarModal()
     const communityCarousel = useCommunityCarouselModal()
-    const firstLetter = user.Community.name?.charAt(0).toUpperCase()
+    const firstLetter = user.Community?.name?.charAt(0).toUpperCase()
     const [imageUrl, setImageUrl] = useState<string>('')
     const imageIsEmpty = imageUrl.length === 0
     const [isPending, startTransition] = useTransition()
@@ -60,7 +60,7 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
 
             <div className='space-y-1 flex flex-col justify-start items-start'>
                 <p className='dark:text-white text-black font-medium'>Phone</p>
-                <p className='text-muted-foreground'>{user?.Community.contactNumber}</p>
+                <p className='text-muted-foreground'>{user?.Community?.contactNumber}</p>
             </div>
 
             {/* <div className='space-y-1 flex flex-col justify-start items-start'>
@@ -88,7 +88,7 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
             <div className='flex flex-col items-center'>
                 <div className='space-y-1'>
                     <Avatar className='h-[90px] w-[90px] flex items-center justify-center'>
-                        <AvatarImage src={user?.Community.displayPhoto as string} className='w-[90px] h-[90px] flex items-center justify-center' />
+                        <AvatarImage src={user?.Community?.displayPhoto as string} className='w-[90px] h-[90px] flex items-center justify-center' />
                         <AvatarFallback>{firstLetter}</AvatarFallback>
                     </Avatar>
                 </div>
@@ -140,7 +140,7 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
                         <div
                             className='cursor-pointer text-blue-500 font-medium mt-1'
                         >
-                            {user?.Community.qrCode ? (
+                            {user?.Community?.qrCode ? (
                                 <>
                                     Change QR
                                 </>
@@ -156,7 +156,7 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle>
-                                {user?.Community.qrCode ? (
+                                {user?.Community?.qrCode ? (
                                     <>
                                         Upload a new community's QR Code
                                     </>
