@@ -42,6 +42,9 @@ export async function GET() {
                 variants: true,
                 // Kilo: true,
                 // Pack: true,
+            },
+            orderBy: {
+                createdAt: "desc"
             }
         })
 
