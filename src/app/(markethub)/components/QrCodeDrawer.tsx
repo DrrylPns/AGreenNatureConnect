@@ -39,6 +39,7 @@ interface Community {
     id: string;
     name: string;
     qrCode: string | null;
+    contactNumber: string;
 }
 interface Buyer {
     id: string;
@@ -132,9 +133,15 @@ function QrCodeDrawer({
                                         />
                                         <h1 className="font-semibold text-center md:text-3xl">{transaction.seller.name}</h1>
                                     </div>
-                                    <div className='text-xl mt-3 md:mt-10 md:grid md:grid-cols-7'>
-                                        <h1 className="col-span-3 text-xs md:text-xl">Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {transaction.amount}</span></h1>
-                                        <div>
+
+                                    <div className='text-xl md:grid md:grid-rows-2 justify-center items-center'>
+                                        <div className='mt-5 text-center'>
+                                            <h1 className="col-span-3 text-xs md:text-xl">Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {transaction.amount}</span></h1>
+                                            <p className='text-muted-foreground text-base'>Note: if you can't scan the code, the number of community is available</p>
+                                            <h1>{transaction.seller.contactNumber}</h1>
+                                        </div>
+
+                                        <div className="mx-auto">
                                             {imageUrl.length ?
                                                 <div
                                                     className='flex justify-center items-center flex-col'
@@ -148,7 +155,7 @@ function QrCodeDrawer({
                                                     />
                                                     <Button variant={'ghost'} onClick={() => { setImageUrl('') }}>Remove</Button>
                                                 </div> :
-                                                <div className=" col-span-3  w-56">
+                                                <div className="col-span-3 w-56">
                                                     <UploadDropzone
                                                         className="text-green border border-black"
                                                         appearance={{

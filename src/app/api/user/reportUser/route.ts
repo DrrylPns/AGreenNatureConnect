@@ -27,6 +27,23 @@ export async function POST(req: NextRequest) {
             return new NextResponse("Reported user not found.", { status: 404 });
         }
 
+        const currentPost = await prisma.post.findUnique({
+            where: {
+                id: postId
+            },
+            include: {
+                Report: true
+            }
+        })
+
+        if (currentPost) {
+            const hasReported = currentPost.Report.some(report => report.reporterId === session?.user.id);
+
+            if (hasReported) {
+                return new NextResponse("You have already reported this post.", { status: 400 });
+            }
+        }
+
         const updatedPost = await prisma.post.update({
             where: {
                 id: postId,

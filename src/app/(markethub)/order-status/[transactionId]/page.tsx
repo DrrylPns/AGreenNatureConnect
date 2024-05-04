@@ -77,7 +77,7 @@ const page: FC<Props> = async ({ params }) => {
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Time:</span>
               <span className="text-gray-700">{transaction?.updatedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
-            </span>
+              </span>
             </div>
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Recipient:</span>
@@ -86,19 +86,18 @@ const page: FC<Props> = async ({ params }) => {
             <div className="flex justify-between">
               <span className="font-medium text-gray-600">Status:</span>
               <Badge
-                className={`capitalize ${
-                  transaction?.status === "APPROVED"
+                className={`capitalize ${transaction?.status === "APPROVED"
                     ? "bg-lime-500"
                     : transaction?.status === "PENDING"
-                    ? "bg-yellow-500"
-                    : transaction?.status === "CANCELLED"
-                    ? "bg-red-500"
-                    : transaction?.status === "PICK_UP"
-                    ? "bg-sky-500"
-                    : transaction?.status === "COMPLETED"
-                    ? "bg-lime-800"
-                    : ""
-                }`}
+                      ? "bg-yellow-500"
+                      : transaction?.status === "CANCELLED"
+                        ? "bg-red-500"
+                        : transaction?.status === "PICK_UP"
+                          ? "bg-sky-500"
+                          : transaction?.status === "COMPLETED"
+                            ? "bg-lime-800"
+                            : ""
+                  }`}
                 variant="secondary"
               >
                 {transaction?.status}
@@ -113,7 +112,7 @@ const page: FC<Props> = async ({ params }) => {
             <div className="grid gap-4 p-7 border-t border-gray-200">
               <div className="flex justify-between">
                 <span className="font-semibold text-gray-600">
-                  If Cancelled:
+                  Cancelled:
                 </span>
               </div>
               <div className="flex justify-between">
@@ -122,36 +121,36 @@ const page: FC<Props> = async ({ params }) => {
                   {transaction?.cancelType === "ChangeOfMind"
                     ? "Change of Mind"
                     : transaction?.cancelType === "FoundBetterDeal"
-                    ? "Found Better Deal"
-                    : transaction?.cancelType === "PaymentIssues"
-                    ? "Payment Issues"
-                    : transaction?.cancelType === "AddressVerification"
-                    ? "Address Verification"
-                    : transaction?.cancelType === "SellerError"
-                    ? "Seller Error"
-                    : transaction?.cancelType === "NonResponsiveBuyer"
-                    ? "Non Responsive Buyer"
-                    : transaction?.cancelType === "ViolationOfPolicies"
-                    ? "ViolationOf Policies"
-                    : transaction?.cancelType === "ShippingRestrictions"
-                    ? "Shipping Restrictions"
-                    : transaction?.cancelType === "ProductDiscontinuation"
-                    ? "Product Discontinuation"
-                    : transaction?.cancelType === "SystemErrors"
-                    ? "System Errors"
-                    : transaction?.cancelType === "OutOfStock"
-                    ? "Out Of Stock"
-                    : transaction?.cancelType === "UnavailabilityOfItem"
-                    ? "Unavailability of Item"
-                    : transaction?.cancelType === "DeliveryDelay"
-                    ? "Delivery Delay"
-                    : transaction?.cancelType === "IncorrectItem"
-                    ? "Incorrect Item"
-                    : transaction?.cancelType === "CommunicationIssues"
-                    ? "Communication Issues"
-                    : ""
-                    ? "Other Reason"
-                    : transaction?.cancelType}
+                      ? "Found Better Deal"
+                      : transaction?.cancelType === "PaymentIssues"
+                        ? "Payment Issues"
+                        : transaction?.cancelType === "AddressVerification"
+                          ? "Address Verification"
+                          : transaction?.cancelType === "SellerError"
+                            ? "Seller Error"
+                            : transaction?.cancelType === "NonResponsiveBuyer"
+                              ? "Non Responsive Buyer"
+                              : transaction?.cancelType === "ViolationOfPolicies"
+                                ? "ViolationOf Policies"
+                                : transaction?.cancelType === "ShippingRestrictions"
+                                  ? "Shipping Restrictions"
+                                  : transaction?.cancelType === "ProductDiscontinuation"
+                                    ? "Product Discontinuation"
+                                    : transaction?.cancelType === "SystemErrors"
+                                      ? "System Errors"
+                                      : transaction?.cancelType === "OutOfStock"
+                                        ? "Out Of Stock"
+                                        : transaction?.cancelType === "UnavailabilityOfItem"
+                                          ? "Unavailability of Item"
+                                          : transaction?.cancelType === "DeliveryDelay"
+                                            ? "Delivery Delay"
+                                            : transaction?.cancelType === "IncorrectItem"
+                                              ? "Incorrect Item"
+                                              : transaction?.cancelType === "CommunicationIssues"
+                                                ? "Communication Issues"
+                                                : ""
+                                                  ? "Other Reason"
+                                                  : transaction?.cancelType}
                 </span>
               </div>
               <div className="flex justify-between border-t border-gray-200 pt-2">
@@ -164,14 +163,14 @@ const page: FC<Props> = async ({ params }) => {
           )}
         </CardContent>
         <CardFooter className="flex justify-center p-4 border-t border-gray-200">
-        {transaction?.status === "PICK_UP" && (
-          
-          <p className="text-sm text-gray-600 italic">
-            "Please pick up your purchase on {transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at Barangay{" "}
-            {transaction?.seller.name} from {transaction?.updatedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
-            "
-          </p>
-        )}
+          {transaction?.status === "PICK_UP" && (
+
+            <p className="text-sm text-gray-600 italic">
+              "Please pick up your purchase on {transaction?.updatedAt.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })} at Barangay{" "}
+              {transaction?.seller.name} from {transaction?.updatedAt.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true })}
+              "
+            </p>
+          )}
         </CardFooter>
       </Card>
       <br />

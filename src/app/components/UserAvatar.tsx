@@ -7,7 +7,7 @@ interface UserAvatarProps extends AvatarProps {
 }
 
 export function UserAvatar({ user, ...props }: UserAvatarProps) {
-    const name = user?.name?.charAt(0)
+    const name = user?.name?.charAt(0).toUpperCase()
 
     return (
         <Avatar>

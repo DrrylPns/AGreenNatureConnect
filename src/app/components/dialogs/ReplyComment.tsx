@@ -23,10 +23,11 @@ export const ReplyComment: React.FC<ReplyCommentDialogProps> = ({
   onDelete,
 }) => {
   const [value, setValue] = useState("");
+  const [open, setOpen] = useState(false)
   const [isPending, startTransition] = useTransition();
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button
           type="button"
@@ -58,6 +59,7 @@ export const ReplyComment: React.FC<ReplyCommentDialogProps> = ({
                     description: data.error,
                     variant: "destructive",
                   });
+                  setOpen(false)
                 }
 
                 if (data.success) {
@@ -65,6 +67,7 @@ export const ReplyComment: React.FC<ReplyCommentDialogProps> = ({
                     description: data.success,
                   });
                   onDelete();
+                  setOpen(false)
                 }
               });
             });
