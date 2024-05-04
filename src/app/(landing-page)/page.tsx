@@ -116,14 +116,15 @@ export default function Home() {
                   <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[20px] text-[18px]">
                     Quezon City Urban Farming
                   </h2>
-                  <p className="font-poppins font-normal lg:text-[20px] md:text-[18px] text-[15px] mb-5 text-justify">
+                  <p className="font-poppins font-normal lg:text-[23px] md:text-[18px] text-[15px] mb-5 text-justify">
                     AGreen Nature Connect is dedicated to fostering
                     environmental awareness and sustainability by connecting
-                    individuals, businesses, and communities to nature through
-                    our information hub and marketplace. We provide
-                    comprehensive resources on conservation, renewable energy,
-                    eco-friendly living, and biodiversity preservation. Embrace
-                    sustainable products and engage in community-driven
+                    individuals, and communities to nature through our
+                    information hub and marketplace. We provide comprehensive
+                    information, articles, and guides on a wide range of
+                    environmental topics, including conservation, renewable
+                    energy, eco-friendly living, and biodiversity preservation.
+                    Embrace sustainable products and engage in community-driven
                     initiatives for a greener future!
                   </p>
                 </div>
@@ -289,7 +290,7 @@ export default function Home() {
           <div className="space-y-6">
             <div className="space-y-2">
               <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                Get in Touch
+                CONTACT US
               </h2>
               <p className="text-gray-500 dark:text-gray-400 max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
                 Get in touch with us! Reach out for any inquiries,
