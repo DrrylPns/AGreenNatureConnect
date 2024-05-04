@@ -46,7 +46,7 @@ export default function Home() {
             Planting Healthy Discussion, Nourishing Communities
           </p>
 
-          <div className="sm:flex sm:justify-center lg:justify-start">
+          <div className="flex justify-start">
             <div className="rounded-md shadow-lg">
               <a
                 className="w-full flex items-center justify-center px-3 py-3 text-base leading-6 font-medium rounded-md text-white bg-[#307047] hover:bg-[#24643B]  hover:text-white focus:ring ring-offset-2 ring-[#449a64] focus:outline-none transition duration-150 ease-in-out md:py-4 md:text-lg md:px-10"
@@ -91,8 +91,11 @@ export default function Home() {
       </section>
 
       {/*ABOUT US*/}
-      <section className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-2 bg-[#2D5F4D] w-full" id="aboutus">
-        <div className="w-full sm:w-1/2 flex justify-center items-center">
+      <section
+        className="flex flex-col sm:flex-row justify-around md:px-10 md:py-10 p-5 items-center gap-2 bg-[#2D5F4D] w-full"
+        id="aboutus"
+      >
+        <div className="w-full  justify-center items-center max-lg:hidden block">
           <Image
             className="object-cover shadow-lg shadow-black rounded-lg"
             src={AboutPhoto}
@@ -101,7 +104,7 @@ export default function Home() {
             width={700}
           />
         </div>
-        <div className="w-full sm:w-1/2 flex justify-center items-center md:p-10 p-5">
+        <div className="w-full  flex justify-center items-center md:p-10 p-5">
           <div className="from-muted">
             <h1 className="text-center mb-5 md:mb-10 font-poppins font-bold md:text-5xl text-4xl text-amber">
               ABOUT US
@@ -112,8 +115,15 @@ export default function Home() {
                   <h2 className="font-poppins font-bold text-2xl mb-5 text-center lg:text-[24px] md:text-[20px] text-[18px]">
                     Quezon City Urban Farming
                   </h2>
-                  <p className="font-poppins font-normal lg:text-[18px] md:text-[16px] text-[11px] mb-5 text-justify">
-                    AGreen Nature Connect is dedicated to fostering environmental awareness and sustainability by connecting individuals, businesses, and communities to nature through our information hub and marketplace. We provide comprehensive resources on conservation, renewable energy, eco-friendly living, and biodiversity preservation. Embrace sustainable products and engage in community-driven initiatives for a greener future!
+                  <p className="font-poppins font-normal lg:text-[20px] md:text-[18px] text-[15px] mb-5 text-justify">
+                    AGreen Nature Connect is dedicated to fostering
+                    environmental awareness and sustainability by connecting
+                    individuals, businesses, and communities to nature through
+                    our information hub and marketplace. We provide
+                    comprehensive resources on conservation, renewable energy,
+                    eco-friendly living, and biodiversity preservation. Embrace
+                    sustainable products and engage in community-driven
+                    initiatives for a greener future!
                   </p>
                 </div>
                 <div className="text-center pb-5 mb-5">
@@ -133,7 +143,6 @@ export default function Home() {
           </div>
         </div>
       </section>
-
 
       {/*Services*/}
       <section id="services" className="">
@@ -166,7 +175,7 @@ export default function Home() {
           <div className="bg-[#CFE2CE] shadow-md shadow-black hover:shadow-black hover:bg-white hover:shadow-lg  rounded-3xl p-5 md:w-1/5  md:hover:scale-110 ease-in-out duration-300 drop-shadow-2xl">
             <div className="flex py-3">
               <Image
-                className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px]"
+                className="sm:h-[40px] h-[30px] sm:w-[40px] w-[30px] "
                 src={DeliveryIcon}
                 alt="Delivery icon"
               />
@@ -211,7 +220,7 @@ export default function Home() {
         {/*Features*/}
         <div className="flex bg-muted-green items-center">
           <Image
-            className="md:block hidden"
+            className="lg:block hidden"
             src={Feature}
             alt="Feauture Image"
             style={{ width: "50%", height: "100%" }}
@@ -274,53 +283,52 @@ export default function Home() {
         </div>
       </section>
       {/*Contact Us*/}
-      <section id="contactus" className="flex lg:px-20 px-3 border-b border-black">
-  <div className="w-full flex flex-col justify-center items-center font-poppins text-center">
-    <div>
-      <h4 className="font-bold md:text-4xl text-2xl pt-1">CONTACT US</h4>
-      <h1 className="font-poppins sm:text-xl text-[15px] pt-3">
-        GET IN TOUCH NOW
-      </h1>
-      <p className="md:text-lg text-sm pt-2">
-        Get in touch with us! Reach out for any inquiries, collaborations, or
-        questions. Connect with our team to explore urban farming
-        possibilities together.
-      </p>
-  <div className="font-poppins flex flex-col items-center justify-center">
-  <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
-    <Image src={Phone} alt="Phone icon" />
-    <div className="text-center">
-      <h3 className="font-semibold">PHONE</h3>
-      <p className="md:text-base text-xs">+639123456789</p>
-      <p className="md:text-base text-xs">+639987654321</p>
-    </div>
-  </div>
-  <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
-    <Image src={Email} alt="Email icon" />
-    <div className="text-center">
-      <h3 className="font-semibold">EMAIL</h3>
-      <p className="md:text-base text-xs">
-        agreennatureconnect@agreennatureconnect.online
-      </p>
-    </div>
-  </div>
-  <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-10">
-    <Image src={Location} alt="Location icon" />
-    <div className="text-center">
-      <h3 className="font-semibold">ADDRESS</h3>
-      <p className="md:text-base text-xs">
-        Brgy. Commonwealth, Quezon City.
-      </p>
-    </div>
-  </div>
-</div>
-
-
-    </div>
-  </div>
-</section>
-
-
+      <section
+        id="contactus"
+        className="flex lg:px-20 px-3 border-b border-black h-[80vh] bg-[#2D5F4D]"
+      >
+        <div className="w-full flex flex-col justify-center items-center font-poppins text-center">
+          <div className="text-white">
+            <h4 className="font-bold md:text-4xl text-2xl pt-1">CONTACT US</h4>
+            <h1 className="font-poppins sm:text-xl text-[15px] pt-3">
+              GET IN TOUCH NOW
+            </h1>
+            <p className="md:text-lg text-sm pt-2">
+              Get in touch with us! Reach out for any inquiries, collaborations,
+              or questions. Connect with our team to explore urban farming
+              possibilities together.
+            </p>
+            <div className="font-poppins flex flex-col items-center justify-center">
+              <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
+                <Image src={Phone} alt="Phone icon" />
+                <div className="text-center">
+                  <h3 className="font-semibold">PHONE</h3>
+                  <p className="md:text-base text-xs">+639123456789</p>
+                  <p className="md:text-base text-xs">+639987654321</p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
+                <Image src={Email} alt="Email icon" />
+                <div className="text-center">
+                  <h3 className="font-semibold">EMAIL</h3>
+                  <p className="md:text-base text-xs">
+                    agreennatureconnect@agreennatureconnect.online
+                  </p>
+                </div>
+              </div>
+              <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-10">
+                <Image src={Location} alt="Location icon" />
+                <div className="text-center">
+                  <h3 className="font-semibold">ADDRESS</h3>
+                  <p className="md:text-base text-xs">
+                    Brgy. Commonwealth, Quezon City.
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
 
       {/*Footer*/}
       <footer>
