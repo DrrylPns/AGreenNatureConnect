@@ -5,18 +5,6 @@ import { fetchSalesByCategories } from "../../../../actions/sales";
 
 const PPSCard = () => {
     const [sales, setSales] = useState() as any
-    // ps hardcoded muna
-
-    // const products = [
-    //     {
-    //         category: "Fruits",
-    //         sales: 9800,
-    //     },
-    //     {
-    //         category: "Vegetables",
-    //         sales: 4567,
-    //     },
-    // ];
 
     const [value, setValue] = useState(null);
 
@@ -34,17 +22,15 @@ const PPSCard = () => {
     return (
         <>
             <Card className="">
-                <Title className="mt-4 mb-4">Product Sale Summary</Title>
+                <Title className="mt-4 mb-4">Total Sales Summary</Title>
                 <DonutChart
                     className="mt-10"
                     data={sales}
                     category="sales"
                     index="category"
                     colors={["indigo", "gray", "lime"]}
-                    // valueFormatter={valueFormatter}
                     onValueChange={(v) => setValue(v)}
                 />
-                {/* <span>{formattedValue}</span>; */}
 
                 <Legend
                     className="mt-3 flex flex-col"
@@ -53,8 +39,6 @@ const PPSCard = () => {
                 />
 
             </Card>
-            {/* <pre>{JSON.stringify(value)}</pre> */}
-            {/* TO VISUALIZE THE DATA USE THIS ^ */}
         </>
 
     )

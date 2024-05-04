@@ -86,57 +86,24 @@ export const fetchSalesByCategories = async () => {
     return salesByCategories
 }
 
-export const fetchSalesByDate = async (filter: string) => {
-    const session = await getAuthSession()
+export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
+    const session = await getAuthSession();
 
-    if (!session) return { error: "Unauthorized" }
+    if (!session) return { error: "Unauthorized" };
 
     const loggedInUser = await prisma.user.findFirst({
         where: { id: session.user.id },
-        include: { Community: true }
-    })
+        include: { Community: true },
+    });
 
     const community = await prisma.community.findFirst({
         where: {
-            id: loggedInUser?.Community?.id
+            id: loggedInUser?.Community?.id,
         },
         include: {
-            products: true
-        }
-    })
-
-    let startDate: Date | undefined;
-    let endDate: Date | undefined;
-
-    // Determine start and end dates based on filter value
-    switch (filter) {
-        case "lastWeek": {
-            const today = new Date();
-            startDate = new Date(today.getFullYear(), today.getMonth(), today.getDate() - 6); // Start date is 7 days ago
-            endDate = new Date(); // End date is today
-            break;
-        }
-        case "lastMonth": {
-            const today = new Date();
-            const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1); // First day of current month
-            const lastDayOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0); // Last day of current month
-            startDate = firstDayOfMonth;
-            endDate = lastDayOfMonth;
-            break;
-        }
-        case "currentYear": {
-            const today = new Date();
-            startDate = new Date(today.getFullYear(), 0, 1); // Start date is first day of current year
-            endDate = new Date(today.getFullYear(), 11, 31); // End date is last day of current year
-            break;
-        }
-        default: {
-            // If filter is not provided or not recognized, fetch all data
-            startDate = undefined;
-            endDate = undefined;
-            break;
-        }
-    }
+            products: true,
+        },
+    });
 
     const salesByDates = await prisma.transaction.findMany({
         where: {
@@ -151,70 +118,44 @@ export const fetchSalesByDate = async (filter: string) => {
             orderedVariant: {
                 include: {
                     product: true,
-                    transaction: true,
-                }
-            }
+                },
+            },
         },
         orderBy: {
-            createdAt: 'asc'
+            createdAt: "asc",
         },
     });
 
-    const salesByMonthMap: Record<string, Record<string, number>> = {};
+    const salesByDate: Record<string, Record<string, number>> = {};
 
     salesByDates.forEach((transaction) => {
         const transactionDate = new Date(transaction.createdAt);
-        let formattedDate: string;
+        const formattedDate = transactionDate.toISOString().slice(0, 10); // Group by date
 
-        switch (filter) {
-            case "lastWeek": {
-                const date = transactionDate.getDate();
-                const month = transactionDate.getMonth() + 1;
-                const year = transactionDate.getFullYear() % 100;
-                console.log("Date:", date, "Month:", month, "Year:", year); // Add logging
-                formattedDate = `${month}/${date}/${year}`;
-                break;
-            }
-            case "lastMonth": {
-                const date = String(transactionDate.getDate()).padStart(2, '0');
-                const month = String(transactionDate.getMonth() + 1).padStart(2, '0');
-                const year = String(transactionDate.getFullYear() % 100);
-                console.log("Date:", date, "Month:", month, "Year:", year); // Add logging
-                formattedDate = `${month}/${date}/${year}`;
-                break;
-            }
-            default: {
-                const transactionMonth = transactionDate.toLocaleString('default', { month: 'short' });
-                const transactionYear = transactionDate.getFullYear().toString();
-                formattedDate = `${transactionMonth}, ${transactionYear}`;
-                break;
-            }
-        }
-
-        if (!salesByMonthMap[formattedDate]) {
-            salesByMonthMap[formattedDate] = {};
+        if (!salesByDate[formattedDate]) {
+            salesByDate[formattedDate] = {};
         }
 
         transaction.orderedVariant.forEach((orderedVariant) => {
             const productCategory = orderedVariant.product.category;
-            const saleAmount = orderedVariant.transaction.amount;
 
-            if (salesByMonthMap[formattedDate][productCategory]) {
-                salesByMonthMap[formattedDate][productCategory] += saleAmount;
+            if (salesByDate[formattedDate][productCategory]) {
+                salesByDate[formattedDate][productCategory] += 1; // Increment count for the product category
             } else {
-                salesByMonthMap[formattedDate][productCategory] = saleAmount;
+                salesByDate[formattedDate][productCategory] = 1; // Initialize count for the product category
             }
         });
     });
 
-    // this is correct if the case is currentYear selected
-    const salesByMonth = Object.entries(salesByMonthMap).map(([month, sales]) => ({
-        month,
+    // Convert the sales data to the required format
+    const salesData = Object.entries(salesByDate).map(([date, sales]) => ({
+        date,
         ...sales,
     }));
 
-    return salesByMonth;
+    return salesData;
 };
+
 
 
 // export const fetchSalesByDate = async (date: string) => {

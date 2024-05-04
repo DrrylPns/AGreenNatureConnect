@@ -13,13 +13,6 @@ interface Props {
 
 export const HotProducts = ({ products }: Props) => {
     return (
-        // <div key={product.id}>
-        //     <div className='w-20 h-20'>
-        //         <Image alt={product.name} src={product.productImage} width={100} height={100} className='object-contain w-full h-full' />
-        //     </div>
-        //     <h1>{product.name}</h1>
-        //     <h1>{product.orderedVariant.length}</h1>
-        // </div>
         <Card className="mt-5 h-[620px]">
             <Table className="h-[600px]">
                 <TableHead className="bg-gray-200">
