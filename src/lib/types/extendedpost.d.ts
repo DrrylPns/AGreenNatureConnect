@@ -1,4 +1,4 @@
-import { Account, Comment, Reply, Like, Post, Topic, User, NotificationType } from "@prisma/client";
+import { Account, Comment, Reply, Like, Post, Topic, User, NotificationType, Reaction, Prisma } from "@prisma/client";
 
 export type ExtendedPost = Post & {
   topic: Topic,
@@ -32,10 +32,68 @@ export interface NotificationWithRelations {
   communityId: string;
   transactionId: string;
   user: User;
-  Comment: Comment & {
-    author: User
-  };
   community: Community;
   transaction: Transaction;
-  Post: Post;
+  Reaction: Reaction & {
+    user: User
+  };
+  Reply: Reply & {
+    user: User;
+  }
+  Comment: Comment & {
+    post: Post;
+    author: User;
+  };
+  Post: Post & {
+    author: User;
+    topic: Topic;
+  };
 }
+
+export type NotificationsWithRelation = Prisma.NotificationGetPayload<{
+  include: {
+    user: true;
+    community: true;
+    transaction: true;
+    Reaction: {
+      include: {
+        post: {
+          include: {
+            topic: true
+          }
+        },
+        user: true
+      }
+    },
+    Reply: {
+      include: {
+        user: true;
+        comment: {
+          include: {
+            post: {
+              include: {
+                topic: true
+              }
+            }
+          }
+        }
+      }
+    };
+    Comment: {
+      include: {
+        post: {
+          include: {
+            topic: true
+          }
+        },
+        author: true
+      }
+    };
+    Post: {
+      include: {
+        author: true,
+        topic: true,
+      }
+    };
+  }
+}>

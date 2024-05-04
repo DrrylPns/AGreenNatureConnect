@@ -19,8 +19,19 @@ export const fetchNotifications = async () => {
             user: true,
             community: true,
             transaction: true,
+            Reaction: {
+                include: {
+                    post: {
+                        include: {
+                            topic: true
+                        }
+                    },
+                    user: true
+                }
+            },
             Reply: {
                 include: {
+                    user: true,
                     comment: {
                         include: {
                             post: {
@@ -44,7 +55,8 @@ export const fetchNotifications = async () => {
             },
             Post: {
                 include: {
-                    topic: true
+                    author: true,
+                    topic: true,
                 }
             },
         },

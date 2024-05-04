@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
             }
         })
 
-        if(!post) return new Response("No post found!")
+        if (!post) return new Response("No post found!")
 
         if (type === existingReaction?.type) {
             await prisma.reaction.delete({
@@ -88,11 +88,11 @@ export async function POST(req: NextRequest) {
             },
         });
 
-        if(successReact) {
+        if (successReact) {
             await prisma.notification.create({
                 data: {
                     userId: post.authorId,
-                    postId,
+                    reactionId: successReact.id,
                     type: "REACT",
                 }
             })
