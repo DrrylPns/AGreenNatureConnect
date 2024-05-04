@@ -4,16 +4,6 @@ import { Button } from '@/app/components/Ui/Button';
 import { Input } from '@/app/components/Ui/Input';
 import { Separator } from '@/app/components/Ui/Separator';
 import {
-    Drawer,
-    DrawerClose,
-    DrawerContent,
-    DrawerDescription,
-    DrawerFooter,
-    DrawerHeader,
-    DrawerTitle,
-    DrawerTrigger,
-} from "@/app/components/Ui/drawer";
-import {
     Form,
     FormControl,
     FormField,
@@ -25,13 +15,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Textarea } from '@/app/components/Ui/textarea';
 import { toast } from "@/lib/hooks/use-toast";
 import { UploadDropzone } from "@/lib/uploadthing";
-import { CreateEmployeeSchema, CreateEmployeeType } from "@/lib/validations/admin/createEmployee";
 import { CreateCommunitySchema, CreateCommunityType } from '@/lib/validations/super-admin/createCommunity';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
 import { Card } from "@tremor/react";
 import axios, { AxiosError } from "axios";
-import { ImageDown } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from 'next/navigation';
 import { useState } from "react";
@@ -88,63 +76,63 @@ const RegisterCommunitiesPage = () => {
             return data
         },
         onError: (err) => {
-            // if (err instanceof AxiosError) {
-            //     if (err.response?.status === 400) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Bad Request, phone number is already in use by another community.",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            //     if (err.response?.status === 401) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Unauthorized!",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            //     if (err.response?.status === 402) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Community already exists!",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            //     if (err.response?.status === 403) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Community email already exists!",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            //     if (err.response?.status === 405) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Urban Farm name already exists!",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            //     if (err.response?.status === 406) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Invalid admin email, it is already used by another user!",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            //     if (err.response?.status === 407) {
-            //         toast({
-            //             title: 'Error',
-            //             description: "Invalid admin number, it is already used by another user!",
-            //             variant: 'destructive',
-            //         })
-            //     }
-            // } else {
-            //     return toast({
-            //         title: 'Something went wrong.',
-            //         description: "Error",
-            //         variant: 'destructive',
-            //     })
-            // }
+            if (err instanceof AxiosError) {
+                if (err.response?.status === 400) {
+                    toast({
+                        title: 'Error',
+                        description: "Bad Request, phone number is already in use by another community.",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 401) {
+                    toast({
+                        title: 'Error',
+                        description: "Unauthorized!",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 402) {
+                    toast({
+                        title: 'Error',
+                        description: "Community already exists!",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 403) {
+                    toast({
+                        title: 'Error',
+                        description: "Community email already exists!",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 405) {
+                    toast({
+                        title: 'Error',
+                        description: "Urban Farm name already exists!",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 406) {
+                    toast({
+                        title: 'Error',
+                        description: "Invalid admin email, it is already used by another user!",
+                        variant: 'destructive',
+                    })
+                }
+                if (err.response?.status === 407) {
+                    toast({
+                        title: 'Error',
+                        description: "Invalid admin number, it is already used by another user!",
+                        variant: 'destructive',
+                    })
+                }
+            } else {
+                return toast({
+                    title: 'Something went wrong.',
+                    description: "Error",
+                    variant: 'destructive',
+                })
+            }
             toast({
                 title: 'Something went wrong.',
                 description: `${err}`,

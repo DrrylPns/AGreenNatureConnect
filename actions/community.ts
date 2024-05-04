@@ -34,6 +34,9 @@ export const fetchCommunities = async () => {
         const communities = await prisma.community.findMany({
             include: {
                 messages: true,
+            },
+            where: {
+                isArchived: false,
             }
         })
 
@@ -45,7 +48,11 @@ export const fetchCommunities = async () => {
 
 export const getCommunitiesWithoutSession = async () => {
     try {
-        const communities = await prisma.community.findMany()
+        const communities = await prisma.community.findMany({
+            where: {
+                isArchived: false
+            }
+        })
 
         return communities
     } catch (error: any) {
@@ -120,5 +127,51 @@ export const changeCommunitySettings = async (values: ChangeCommunitySettingsTyp
         return { success: "Community settings updated!" }
     } catch (error: any) {
         throw new Error(error)
+    }
+}
+
+export const handleCommunity = async (id: string, isArchivePanel: boolean | undefined) => {
+    try {
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        const currentUser = await prisma.user.findUnique({
+            where: {
+                id: session.user.id
+            }
+        })
+
+        if (!currentUser) return { error: "No user found!" }
+
+        if (currentUser.role !== "SUPER_ADMIN") return { error: "This account is unauthorized to do this action!" }
+
+        if (!id) return { error: "Invalid community!" }
+
+        if (isArchivePanel) {
+            await prisma.community.update({
+                where: {
+                    id
+                },
+                data: {
+                    isArchived: false
+                }
+            })
+
+            return { success: "Community restored." }
+        } else {
+            await prisma.community.update({
+                where: {
+                    id
+                },
+                data: {
+                    isArchived: true
+                }
+            })
+
+            return { success: "Community archived." }
+        }
+    } catch (error) {
+        throw new Error(error as any)
     }
 }

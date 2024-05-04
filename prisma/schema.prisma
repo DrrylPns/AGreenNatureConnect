@@ -156,6 +156,7 @@ model Community {
   email            String?
   contactNumber    String?
   description      String?
+  isArchived       Boolean            @default(false)
   posts            Post[]
   blogs            Blog[]
   articles         Article[]

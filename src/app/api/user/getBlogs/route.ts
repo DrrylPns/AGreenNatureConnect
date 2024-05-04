@@ -15,6 +15,9 @@ export async function GET() {
                         isApproved: "APPROVED"
                     },
                 }
+            },
+            where: {
+                isArchived: false
             }
         });
 
