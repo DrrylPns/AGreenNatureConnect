@@ -146,7 +146,7 @@ function page() {
             <h2 className='font-livvic font-bold md:text-[36px] text-[24px]'>Staff & Chairman</h2>
           </div>
           <div className='grid grid-cols-2 lg:grid-cols-4 md:gap-5 gap-3 md:px-20'>
-            <div className=' border-solid border-2 border-gray-500 md:w-[250px] w-[140px]'>
+            <div className=' border-solid border-2 border-gray-500 md:w-[250px] sm:w-[180px] '>
               <Image
                 className="w-full"
                 src={Chairman}
@@ -160,7 +160,7 @@ function page() {
                 <p className='text-[14px] text-center'>Barangay Chairman</p>
               </div>
             </div>
-            <div className=' border-solid border-2 border-gray-500 md:w-[250px] w-[140px]'>
+            <div className=' border-solid border-2 border-gray-500 md:w-[250px] sm:w-[180px]'>
               <Image
                 className="w-full"
                 src={Chairman1}
@@ -174,7 +174,7 @@ function page() {
                 <p className='text-[14px] text-center'>Barangay Chairman</p>
               </div>
             </div>
-            <div className=' border-solid border-2 border-gray-500 md:w-[250px] w-[140px]'>
+            <div className=' border-solid border-2 border-gray-500 md:w-[250px] sm:w-[180px]'>
               <Image
                 className="w-full "
                 src={Chairman2}
@@ -188,7 +188,7 @@ function page() {
                 <p className='text-[14px] text-center '>Barangay Chairman</p>
               </div>
             </div>
-            <div className=' border-solid border-2 border-gray-500 md:w-[250px] w-[140px]'>
+            <div className=' border-solid border-2 border-gray-500 md:w-[250px] sm:w-[180px]'>
               <Image
                 className="w-full "
                 src={Secretary}
