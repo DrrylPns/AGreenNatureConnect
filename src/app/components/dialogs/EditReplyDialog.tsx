@@ -24,9 +24,10 @@ export const EditReplyDialog: React.FC<EditReplyDialogProps> = ({
 }) => {
   const [value, setValue] = useState<string>(text);
   const [isPending, startTransition] = useTransition();
+  const [open, setOpen] = useState(false)
 
   return (
-    <Dialog>
+    <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <button type="button" className="flex gap-1 hover:underline w-full">
           <AiOutlineEdit /> Edit
@@ -52,6 +53,7 @@ export const EditReplyDialog: React.FC<EditReplyDialogProps> = ({
                     description: data.error,
                     variant: "destructive",
                   });
+                  setOpen(false)
                 }
 
                 if (data.success) {
@@ -60,6 +62,7 @@ export const EditReplyDialog: React.FC<EditReplyDialogProps> = ({
                   });
                   onDelete(); // Call onDelete function
                   setValue(""); // Clear the input value
+                  setOpen(false)
                 }
               });
             });
