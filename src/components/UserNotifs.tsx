@@ -82,7 +82,7 @@ export const UserNotifs = () => {
                     <div className="p-1 py-4">
                         <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2  border-black dark:border-[#f8fdfd]">Notifications</h4>
                         <div className="px-4 text-center items-center">
-                            <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 onClick={handleButtonClick}">Show all</Button>
+                            <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600" onClick={handleButtonClick}>Show all</Button>
                             <Button className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600 '>Read all</Button>
                         </div>
                         {notifications?.length === 0 && (
