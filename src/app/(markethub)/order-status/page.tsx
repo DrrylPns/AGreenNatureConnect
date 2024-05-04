@@ -115,10 +115,15 @@ async function page() {
     return (
         <div>
             <OrderTab
+                //@ts-ignore
                 pending={Pending}
+                //@ts-ignore
                 approved={Approved}
+                //@ts-ignore
                 pickup={Pickup}
+                //@ts-ignore
                 cancelled={Cancelled}
+                //@ts-ignore
                 completed={Completed}
             />
         </div>

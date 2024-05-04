@@ -48,9 +48,10 @@ export const UserNotifs = () => {
             } catch (error) {
                 throw new Error('Error fetching notifications');
             }
-        }
+        },
+        refetchInterval: 4 * 1000,
+        staleTime: 4 * 1000,
     })
-
 
 
     if (isLoading) return <></>
