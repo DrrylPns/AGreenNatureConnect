@@ -42,6 +42,12 @@ export const ReportPost = ({ post }: ReportPost) => {
                         variant: 'destructive',
                     })
                 }
+                if (err.response?.status === 400) {
+                    toast({
+                        description: "You have already reported this post!",
+                        variant: 'destructive',
+                    })
+                }
             } else {
                 return toast({
                     title: 'Something went wrong.',
