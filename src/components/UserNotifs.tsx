@@ -98,7 +98,7 @@ export const UserNotifs = () => {
                                 <div key={notification.id} className="grid gap-1 p-1 text-sm shadow">
 
                                     <div
-                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#b4edc5] dark:bg-[#3c705e]" : ""}`}
+                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#a4e8b8] dark:bg-[#22362a]" : ""}`}
 
                                         // href={
                                         //     //@ts-ignore
@@ -253,7 +253,7 @@ export const UserNotifs = () => {
                                             )}
                                         </div>
 
-                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray ${!notification.isRead ? " text-[#4e67f3] dark:text-[#4e67f3]" : ""} `}>
+                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray ${!notification.isRead ? " text-[#4863fd]" : ""} `}>
                                             {formatCreatedAt(notification.createdAt)}
                                         </time>
                                     </div>
