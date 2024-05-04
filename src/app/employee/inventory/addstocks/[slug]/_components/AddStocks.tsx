@@ -327,7 +327,7 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                                             Price in Pesos
                                         </div>
                                         <div className='flex-none w-1/3'>
-                                            Est. Piece/s
+                                            Est. Piece/s (Optional)
                                         </div>
                                     </div>
 

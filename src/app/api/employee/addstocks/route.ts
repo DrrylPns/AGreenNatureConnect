@@ -44,14 +44,13 @@ export async function PUT(req: NextRequest) {
         }
 
         for (const measurementData of perMeasurement) {
-            const { measurement, estPieces, price } = measurementData;
+            const { measurement, price, estPieces } = measurementData;
 
             const existingVariant = existingProduct.variants.find(
-                (variant) => variant.unitOfMeasurement === typeOfMeasurement
+                (variant) => variant.variant === measurement && variant.unitOfMeasurement === typeOfMeasurement
             );
-
             console.log(`This is the measurementData: ${measurementData}`)
-            console.log(`This is the measurement: ${measurement}`)
+            console.log(`This is the measurement: ${measurement}`) // 1 pack 2 packs 3 packs 4 packs etc..
             console.log(`This is the price: ${price}`)
             console.log(`This is the est pcs: ${estPieces}`)
 
@@ -62,6 +61,7 @@ export async function PUT(req: NextRequest) {
                         variant: measurement,
                         price,
                         EstimatedPieces: Number(estPieces),
+                        unitOfMeasurement: typeOfMeasurement,
                     },
                 });
             } else {
