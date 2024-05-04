@@ -151,12 +151,12 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                         <div className='w-full flex items-start justify-start'>
                             <h1 className="font-bold text-lg text-[#696969]">Farmer ID: {employee.EmployeeId}</h1>
                         </div>
-                        <Button
+                        {/* <Button
                             variant="destructive"
                             className='w-[30%]'
                         >
                             Resign / Fired
-                        </Button>
+                        </Button> */}
                     </div>
                     <div className="w-full">
 
