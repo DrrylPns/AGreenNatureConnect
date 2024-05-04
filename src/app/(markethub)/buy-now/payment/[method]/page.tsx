@@ -38,22 +38,22 @@ function page({
 
 
   const handleGoBack = () => {
-    router.back(); 
+    router.back();
   };
- 
+
   return (
     <div className="w-full md:text-xl font-semibold px-10 mt-5">
       <button onClick={handleGoBack} type='button' className=''>
-            <FaArrowLeft/>
-          </button>
-       <h1 className='text-center mb-10'>Scan the QR code to pay!</h1>
+        <FaArrowLeft />
+      </button>
+      <h1 className='text-center mb-10'>Scan the QR code to pay!</h1>
       <div className="w-full md:text-xl flex flex-wrap gap-10 md:gap-52 border justify-center items-center">
-       
+
         {!loading && item && (
           <>
             {item.selectedProduct.community.qrCode === null ? (
               <h1>GCach payment for Community {item.selectedProduct.community.name} is not Available right now!</h1>
-            ):(
+            ) : (
               <div className="bg-gray-200 md:p-10 shadow-md drop-shadow-md p-5">
                 <div className="w-full bg-white text-center">
                   <Image
@@ -65,19 +65,23 @@ function page({
                   />
                   <h1 className="font-semibold text-center md:text-3xl">{item.selectedProduct.community.name}</h1>
                 </div>
-              <div className='text-xl mt-10'>
-                <h1>Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {item.selectedProduct.isFree ? 0 : item.selectedVariant.price}</span></h1>
+                <div className='text-xl mt-10'>
+                  <h1>Total amount to be paid: <span className='font-semibold text-green text-2xl'>₱ {item.selectedProduct.isFree ? 0 : item.selectedVariant.price}</span></h1>
+                </div>
+                <div className='mt-5'>
+                  <p className='text-muted-foreground text-base'>Note: if you can't scan the code, the number of community is available</p>
+                  <h1>{item.selectedProduct.community.contactNumber}</h1>
+                </div>
               </div>
-            </div>
             )}
           </>
-        )}           
+        )}
       </div>
       <div className='w-full mt-10 text-center'>
-        <Button 
-          className='bg-yellow-300 w-1/3 h-12 text-black hover:text-white' 
-          onClick={()=> router.push('/order-status')}
-          disabled={isProcessing ? true: false}
+        <Button
+          className='bg-yellow-300 w-1/3 h-12 text-black hover:text-white'
+          onClick={() => router.push('/order-status')}
+          disabled={isProcessing ? true : false}
         >
           Done
         </Button>
