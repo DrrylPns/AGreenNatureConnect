@@ -33,7 +33,7 @@ export default function ChatComponent({ user }: Props) {
                 <div className="p-4 space-y-4">
                     <div className="flex justify-between items-center">
                         <h2 className="text-xl font-bold">Messages</h2>
-                        <PencilIcon className="w-6 h-6" />
+                        
                     </div>
 
                     {communities?.map((community) => {

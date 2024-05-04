@@ -191,16 +191,24 @@ export const columns: ColumnDef<Products>[] =
     {
         accessorKey: "status",
         header: ({ column }) => {
-
-            return (
-                <DataTableColumnHeader column={column} title="Status" />
-            );
+          return (
+            <DataTableColumnHeader column={column} title="Status" />
+          );
         },
         cell: ({ row }) => {
-            const status = row.original.status;
-            return <div>{status}</div>;
+          const status = row.original.status;
+          let statusColorClass = '';
+      
+          if (status === "DECLINED") {
+            statusColorClass = 'text-rose-500';
+          } else if (status === "APPROVED") {
+            statusColorClass = 'text-emerald-600';
+          }
+      
+          return <div className={`font-bold ${statusColorClass}`}>{status}</div>;
         },
-    },
+      }
+      ,
     // {
     //   accessorKey: "price",
     //   header: ({ column }) => {
