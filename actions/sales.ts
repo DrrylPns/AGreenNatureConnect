@@ -261,12 +261,11 @@ export const fetchMostSoldProduct = async () => {
         },
     })
 
-    const product = await prisma.product.findMany({
+    const products = await prisma.product.findMany({
         where: {
             communityId: loggedInUser?.Community?.id,
             status: "APPROVED",
         },
-        take: 10,
         include: {
             orderedVariant: {
                 where: {
@@ -276,15 +275,16 @@ export const fetchMostSoldProduct = async () => {
                 },
             },
         },
-        orderBy: {
-            orderedVariant: {
-                _count: "desc"
-            },
-        },
     })
 
+    // Sort products by the number of units sold (orderedVariant count) in descending order
+    const sortedProducts = products.slice().sort((a, b) => {
+        const soldA = a.orderedVariant.length;
+        const soldB = b.orderedVariant.length;
+        return soldB - soldA;
+    });
 
-    return product
+    return sortedProducts.slice(0, 10); // Return the top 10 most sold products
 }
 
 export const totalNumberOfProducts = async () => {

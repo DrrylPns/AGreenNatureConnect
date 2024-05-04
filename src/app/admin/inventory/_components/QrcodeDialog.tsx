@@ -50,21 +50,6 @@ export function DialogDemo() {
             {community?.qrCode ? "Current community's QR Code." : "Upload the community's QR Code."}
           </DialogTitle>
           <DialogDescription>
-
-            {/* {community?.qrCode &&
-              <div className="">
-                <Image
-                  src={imageUrl}
-                  alt="productImage"
-                  className="cursor-pointer rounded-full border border-black/60 w-[70px] h-[70px]"
-                  width={70}
-                  height={70}
-                  onClick={() => {
-                    setImageUrl("")
-                  }}
-                />
-              </div>} */}
-
             {community?.qrCode ? (
               <>
                 <div

@@ -62,6 +62,36 @@ export const changeAvatar = async (avatar: string) => {
     }
 }
 
+export const changeCommunityAvatar = async (avatar: string) => {
+    try {
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        const user = await prisma.user.findUnique({
+            where: { id: session.user.id }
+        })
+
+        if (!user) return { error: "No user found! Try logging in!" }
+
+        if (user.role !== "ADMIN") return { error: "Unauthorized, this user is not an admin!" }
+
+        await prisma.community.update({
+            where: {
+                id: user.communityId as string
+            },
+            data: {
+                displayPhoto: avatar,
+            }
+        })
+
+        revalidatePath("/")
+        return { success: "Community image updated!" }
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
+
 export const changeProfile = async (values: ChangeUserProfileType) => {
     try {
         const validatedFields = ChangeUserProfileSchema.safeParse(values)

@@ -32,10 +32,10 @@ const page = () => {
 
     return (
         <div className="container mx-auto py-10">
-            <div className='flex gap-3'>
+            {/* <div className='flex gap-3'>
                 <DialogDemo />
                 <ChangeQR />
-            </div>
+            </div> */}
             <DataTable
                 columns={columns}
                 //@ts-ignore

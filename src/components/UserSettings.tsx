@@ -12,6 +12,7 @@ import { User } from '@prisma/client'
 import React from 'react'
 import { AccountSettings } from './settings/AccountSettings'
 import { ProfileSettings } from "./settings/ProfileSettings"
+import { CommunitySettings } from "./settings/CommunitySettings"
 
 interface UserSettingsProps {
     user: User
@@ -29,6 +30,9 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
                             <TabSettingsList>
                                 <TabSettingsTrigger value="account">Account</TabSettingsTrigger>
                                 <TabSettingsTrigger value="profile">Profile</TabSettingsTrigger>
+                                {user.role === "ADMIN" && (
+                                    <TabSettingsTrigger value="adminSettings">Community Settings</TabSettingsTrigger>
+                                )}
                             </TabSettingsList>
                         </DialogTitle>
                         <DialogDescription className="mt-6">
@@ -39,6 +43,14 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
                             <TabSettingsContent value="profile">
                                 <ProfileSettings user={user} />
                             </TabSettingsContent>
+
+                            {user.role === "ADMIN" && (
+                                <TabSettingsContent value="adminSettings">
+                                    <CommunitySettings
+                                        //@ts-ignore
+                                        user={user} />
+                                </TabSettingsContent>
+                            )}
                         </DialogDescription>
                     </TabSettings>
                 </DialogHeader>

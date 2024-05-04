@@ -74,28 +74,26 @@ export const authOptions: NextAuthOptions = {
         }
     },
     callbacks: {
-        async signIn({ user, account }) {
+        async signIn({ user, account, profile }) {
+            if (account?.provider === "google") {
+                const existingUser = await prisma.user.findFirst({
+                    where: { email: profile?.email },
+                });
 
-            if (account?.provider !== "credentials") return true;
+                if (existingUser) {
+                    // Link the Google account with the existing user
+                    await prisma.account.create({
+                        data: {
+                            userId: existingUser.id,
+                            type: "oauth",
+                            provider: "google",
+                            providerAccountId: user?.id?.toString(),
+                        },
+                    });
+                }
+            }
 
-            const existingUser = await getUserById(user.id)
-
-            if (!existingUser?.emailVerified) return false
-
-            // 2FA CODE
-            // if (existingUser.isTwoFactorEnabled) {
-            //     const twoFactorConfirmation = await getTwoFactorConfirmationByUserId(existingUser.id)
-
-            //     if (!twoFactorConfirmation) {
-            //         return false
-            //     }
-
-            //     await prisma.twoFactorConfirmation.delete({
-            //         where: { id: twoFactorConfirmation.id }
-            //     })
-            // }
-
-            return true
+            return true;
         },
         async session({ token, session }) {
             if (token) {

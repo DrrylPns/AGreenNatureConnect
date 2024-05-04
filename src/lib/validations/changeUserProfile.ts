@@ -20,3 +20,14 @@ export type ChangeUsernameType = z.infer<typeof ChangeUsernameSchema>
 export const ChangeUsernameSchema = z.object({
     newUsername: z.string().min(3).max(21)
 })
+
+export type ChangeCommunitySettingsType = z.infer<typeof ChangeCommunitySettingsSchema>
+
+// to update kapag may iba na binatong payload, sa ngayon username palang ang na-eedit TODO
+export const ChangeCommunitySettingsSchema = z.object({
+    newPhone: z.string()
+        .refine(phone => {
+            const phMobilePattern = /^(09\d{9})$/;
+            return phMobilePattern.test(phone)
+        }),
+})

@@ -15,7 +15,7 @@ interface AccountSettingsProps {
 export const AccountSettings: React.FC<AccountSettingsProps> = ({ user }) => {
     const genderModal = useGenderModal()
     const avatarModal = useAvatarModal()
-    const firstLetter = user.name?.charAt(0)
+    const firstLetter = user.name?.charAt(0).toUpperCase()
 
     return (
         <div className='ml-3 space-y-4'>

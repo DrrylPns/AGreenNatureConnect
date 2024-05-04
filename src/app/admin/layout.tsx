@@ -18,6 +18,8 @@ import { GenderModal } from '@/components/settings/GenderModal'
 import { AvatarModal } from '@/components/settings/AvatarModal'
 import { ProfileModal } from '@/components/settings/ProfileModal'
 import { UsernameModal } from '@/components/settings/UsernameModal'
+import { CommunityModal } from '@/components/settings/CommunityModal'
+import { CommunityAvatarModal } from '@/components/settings/CommunityAvatarModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,6 +41,9 @@ export default async function RootLayout({
 
     const user = await prisma.user.findUnique({
         where: { id: session?.user.id },
+        include: {
+            Community: true
+        }
     })
 
     if (!user || user.role !== "ADMIN") redirect("/discussion")
@@ -54,8 +59,12 @@ export default async function RootLayout({
                         <UserSettings user={user as User} />
                         <GenderModal user={user as User} />
                         <AvatarModal />
+                        <CommunityAvatarModal />
                         <ProfileModal user={user as User} />
                         <UsernameModal user={user as User} />
+                        <CommunityModal
+                            //@ts-ignore
+                            user={user} />
                         <Sidebar />
                         <main className='md:ml-[288px] md:mt-[62px] md:mr-[30px] mx-5'>
                             {children}
