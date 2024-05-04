@@ -10,7 +10,19 @@ import { ColumnDef } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useTransition } from "react";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/app/components/Ui/alert-dialog";
+import { buttonVariants } from "@/app/components/Ui/Button";
 
 export type Products = {
     id: string;
@@ -191,24 +203,24 @@ export const columns: ColumnDef<Products>[] =
     {
         accessorKey: "status",
         header: ({ column }) => {
-          return (
-            <DataTableColumnHeader column={column} title="Status" />
-          );
+            return (
+                <DataTableColumnHeader column={column} title="Status" />
+            );
         },
         cell: ({ row }) => {
-          const status = row.original.status;
-          let statusColorClass = '';
-      
-          if (status === "DECLINED") {
-            statusColorClass = 'text-rose-500';
-          } else if (status === "APPROVED") {
-            statusColorClass = 'text-emerald-600';
-          }
-      
-          return <div className={`font-bold ${statusColorClass}`}>{status}</div>;
+            const status = row.original.status;
+            let statusColorClass = '';
+
+            if (status === "DECLINED") {
+                statusColorClass = 'text-rose-500';
+            } else if (status === "APPROVED") {
+                statusColorClass = 'text-emerald-600';
+            }
+
+            return <div className={`font-bold ${statusColorClass}`}>{status}</div>;
         },
-      }
-      ,
+    }
+        ,
     // {
     //   accessorKey: "price",
     //   header: ({ column }) => {
@@ -268,8 +280,11 @@ export const columns: ColumnDef<Products>[] =
         cell: ({ row }) => {
             const product = row.original
             const router = useRouter()
-            const [productId, setProductId] = useState(row.original.id);
             const [status, setStatus] = useState('');
+            const [productId, setProductId] = useState(row.original.id);
+            const [accept, setAccept] = useState(false)
+            const [decline, setDecline] = useState(false)
+            const [isPending, startTransition] = useTransition()
 
             const updateProductStatus = async (newStatus: any) => {
                 try {
@@ -289,7 +304,7 @@ export const columns: ColumnDef<Products>[] =
                     }
 
                     setStatus(newStatus);
-                    
+
                     toast({
                         description: `Successfully ${newStatus} the product`,
                         variant: "default"
@@ -325,35 +340,92 @@ export const columns: ColumnDef<Products>[] =
             };
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            className="text-green"
-                            onClick={handleAccept}
-                        >Accept</DropdownMenuItem>
-                        <DropdownMenuItem
-                            // onClick={handleDelete}
-                            onClick={handleDecline}
-                            className="text-rose-500"
-                        >Decline</DropdownMenuItem>
-                        {/* <DropdownMenuSeparator /> */}
-                        {/* <DropdownMenuItem
-                            className="text-green"
-                            onClick={handleFree}
-                        >Free</DropdownMenuItem>
-                        <DropdownMenuItem
-                            className="text-rose-500"
-                            onClick={handleHide}
-                        >Hide</DropdownMenuItem> */}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                className="text-green cursor-pointer"
+                                // onClick={handleAccept}
+                                onClick={() => {
+                                    setAccept(true)
+                                }}
+                            >
+                                Accept
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                // onClick={handleDelete}
+                                // onClick={handleDecline}
+                                onClick={() => {
+                                    setDecline(true)
+                                }}
+                                className="text-rose-500 cursor-pointer"
+                            >
+                                Decline
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <AlertDialog open={accept} onOpenChange={setAccept}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will accept the selected product.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className={buttonVariants({
+                                    variant: "destructive"
+                                })}>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                    className={buttonVariants({
+                                        variant: "newGreen",
+                                    })}
+                                    disabled={isPending}
+                                    onClick={() => {
+                                        startTransition(() => {
+                                            handleAccept()
+                                        })
+                                    }}
+                                >Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
+                    <AlertDialog open={decline} onOpenChange={setDecline}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will decline the selected product.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className={buttonVariants({
+                                    variant: "destructive"
+                                })}>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                    className={buttonVariants({
+                                        variant: "newGreen",
+                                    })}
+                                    disabled={isPending}
+                                    onClick={() => {
+                                        startTransition(() => {
+                                            handleDecline()
+                                        })
+                                    }}
+                                >Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+                </>
             )
         },
     },

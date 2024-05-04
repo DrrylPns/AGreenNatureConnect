@@ -31,6 +31,18 @@ import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { archiveProduct } from "../../../../../actions/products";
 import { DataTableColumnHeader } from "./DateTableColumnHeader";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/app/components/Ui/alert-dialog";
+import { buttonVariants } from "@/app/components/Ui/Button";
 
 export type Products = {
   id: string;
@@ -259,6 +271,7 @@ export const columns: ColumnDef<Products>[] =
         const [open, setIsOpen] = useState(false)
         const [isFreeUntil, setIsFreeUntil] = useState<Date>()
         const [isPending, startTransition] = useTransition()
+        const [openArchive, setOpenArchive] = useState(false)
 
         const product = row.original
         const today = new Date();
@@ -313,7 +326,6 @@ export const columns: ColumnDef<Products>[] =
           }
         }
 
-
         const { mutate: updateProduct } = useMutation(updateProductMutation);
 
         const handleMakeFree = (productId: string, isFreeUntil: Date) => {
@@ -327,14 +339,6 @@ export const columns: ColumnDef<Products>[] =
         const formSchema = z.object({
           freeUntil: z.coerce.date(),
         })
-
-        const form = useForm<z.infer<typeof formSchema>>({
-          resolver: zodResolver(formSchema),
-        })
-
-        function onSubmit(values: z.infer<typeof formSchema>) {
-          console.log("...")
-        }
 
         return (
           <>
@@ -381,29 +385,71 @@ export const columns: ColumnDef<Products>[] =
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="cursor-pointer"
-                  onClick={async () => {
-                    startTransition(() => {
-                      archiveProduct(product.id).then((callback) => {
-                        if (callback.error) {
-                          toast({
-                            description: callback.error,
-                            variant: "destructive"
-                          })
-                        }
+                  onClick={() => {
+                    //   startTransition(() => {
+                    //     archiveProduct(product.id).then((callback) => {
+                    //       if (callback.error) {
+                    //         toast({
+                    //           description: callback.error,
+                    //           variant: "destructive"
+                    //         })
+                    //       }
 
-                        if (callback.success) {
-                          toast({
-                            description: callback.success
-                          })
-                        }
-                      })
-                    })
+                    //       if (callback.success) {
+                    //         toast({
+                    //           description: callback.success
+                    //         })
+                    //       }
+                    //     })
+                    //   })
+                    // }
+                    setOpenArchive(true)
                   }}
                 >
                   Archive
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu >
+
+            <AlertDialog open={openArchive} onOpenChange={setOpenArchive}>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    This will archive the selected product.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel className={buttonVariants({
+                    variant: "destructive"
+                  })}>Cancel</AlertDialogCancel>
+                  <AlertDialogAction
+                    className={buttonVariants({
+                      variant: "newGreen",
+                    })}
+                    disabled={isPending}
+                    onClick={() => {
+                      startTransition(() => {
+                        archiveProduct(product.id).then((callback) => {
+                          if (callback.error) {
+                            toast({
+                              description: callback.error,
+                              variant: "destructive"
+                            })
+                          }
+
+                          if (callback.success) {
+                            toast({
+                              description: callback.success
+                            })
+                          }
+                        })
+                      })
+                    }}
+                  >Continue</AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
 
             <Dialog open={open} onOpenChange={setIsOpen}>
               {/* <DialogTrigger>
@@ -413,17 +459,17 @@ export const columns: ColumnDef<Products>[] =
                 <DialogHeader>
                   <DialogTitle>Are you sure that you want to make this product free?</DialogTitle>
                   <DialogDescription className="flex flex-col gap-3">
-                        <div>
-                          By confirming you agree to make this specific product free.
-                        </div>
-                        
-                        <Button
-                          type="submit"
-                          variant="newGreen"
-                          onClick={() => (isFree ? "" : handleMakeFree(product.id, isFreeUntil as Date))}
-                        >
-                          Submit
-                        </Button>
+                    <div>
+                      By confirming you agree to make this specific product free.
+                    </div>
+
+                    <Button
+                      type="submit"
+                      variant="newGreen"
+                      onClick={() => (isFree ? "" : handleMakeFree(product.id, isFreeUntil as Date))}
+                    >
+                      Submit
+                    </Button>
                   </DialogDescription>
                 </DialogHeader>
               </DialogContent>

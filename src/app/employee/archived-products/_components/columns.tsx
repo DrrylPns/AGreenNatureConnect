@@ -15,8 +15,20 @@ import {
 } from "@/app/components/Ui/Dropdown-Menu";
 import { MoreHorizontal } from "lucide-react";
 import { Button } from "@/app/components/Ui/Button";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { unarchiveProduct } from "../../../../../actions/products";
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/app/components/Ui/alert-dialog";
+import { buttonVariants } from "@/app/components/Ui/Button";
 
 type Product = {
     id: string;
@@ -247,6 +259,9 @@ export const columns: ColumnDef<Product>[] = [
         header: "Actions",
         cell: ({ row }) => {
             const [isPending, startTransition] = useTransition()
+            const [openArchive, setOpenArchive] = useState(false)
+
+
             const product = row.original
 
             return (
@@ -263,29 +278,71 @@ export const columns: ColumnDef<Product>[] = [
                             <DropdownMenuItem
                                 className="cursor-pointer"
                                 onClick={async () => {
-                                    startTransition(() => {
-                                        unarchiveProduct(product.id).then((callback) => {
-                                            if (callback.error) {
-                                                toast({
-                                                    description: callback.error,
-                                                    variant: "destructive"
-                                                })
-                                            }
+                                    // startTransition(() => {
+                                    //     unarchiveProduct(product.id).then((callback) => {
+                                    //         if (callback.error) {
+                                    //             toast({
+                                    //                 description: callback.error,
+                                    //                 variant: "destructive"
+                                    //             })
+                                    //         }
 
-                                            if (callback.success) {
-                                                toast({
-                                                    description: callback.success
-                                                })
-                                            }
+                                    //         if (callback.success) {
+                                    //             toast({
+                                    //                 description: callback.success
+                                    //             })
+                                    //         }
 
-                                        })
-                                    })
+                                    //     })
+                                    // })
+                                    setOpenArchive(true)
                                 }}
                             >
                                 Restore
                             </DropdownMenuItem>
                         </DropdownMenuContent>
                     </DropdownMenu >
+
+                    <AlertDialog open={openArchive} onOpenChange={setOpenArchive}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    This will restore the selected product.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className={buttonVariants({
+                                    variant: "destructive"
+                                })}>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                    className={buttonVariants({
+                                        variant: "newGreen",
+                                    })}
+                                    disabled={isPending}
+                                    onClick={() => {
+                                        startTransition(() => {
+                                            unarchiveProduct(product.id).then((callback) => {
+                                                if (callback.error) {
+                                                    toast({
+                                                        description: callback.error,
+                                                        variant: "destructive"
+                                                    })
+                                                }
+
+                                                if (callback.success) {
+                                                    toast({
+                                                        description: callback.success
+                                                    })
+                                                }
+
+                                            })
+                                        })
+                                    }}
+                                >Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
                 </>
             )
         },

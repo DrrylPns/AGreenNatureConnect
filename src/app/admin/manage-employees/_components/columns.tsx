@@ -192,9 +192,9 @@ export const columns: ColumnDef<Employees>[] = [
             const employee = row.original
             const router = useRouter()
 
-            const handleArchive = () => {
-                console.log(`Hiding product with ID: ${employee.id}`);
-            };
+            // const handleArchive = () => {
+            //     console.log(`Hiding product with ID: ${employee.id}`);
+            // };
 
             return (
                 <DropdownMenu>
@@ -210,9 +210,9 @@ export const columns: ColumnDef<Employees>[] = [
                         <DropdownMenuItem
                             onClick={() => router.push(`manage-employees/${employee.id}`)}
                         >Edit</DropdownMenuItem>
-                        <DropdownMenuItem
+                        {/* <DropdownMenuItem
                             onClick={handleArchive}
-                        >Archive</DropdownMenuItem>
+                        >Archive</DropdownMenuItem> */}
                     </DropdownMenuContent>
                 </DropdownMenu>
             )
