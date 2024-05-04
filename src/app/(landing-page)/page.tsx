@@ -80,6 +80,7 @@ export default function Home() {
             autoPlay
             loop
             muted
+            controls
             preload="auto"
             data-setup="{}"
           >
@@ -98,7 +99,7 @@ export default function Home() {
       >
         <div className="w-full  justify-center items-center max-lg:hidden block">
           <Image
-            className="object-cover shadow-lg shadow-black rounded-lg"
+            className="object-cover shadow-lg shadow-black rounded-sm"
             src={AboutPhoto}
             alt="Sharon.png"
             height={500}
@@ -285,7 +286,10 @@ export default function Home() {
         </div>
       </section>
       {/*Contact Us*/}
-      <section id="contactus" className="w-full md:py-24 lg:py-32 border-b border-black">
+      <section
+        id="contactus"
+        className="w-full md:py-24 lg:py-32 border-b border-black"
+      >
         <div className="container grid items-start gap-10 px-4 md:px-6 lg:grid-cols-2 lg:gap-20 md-p-3 p-10">
           <div className="space-y-6">
             <div className="space-y-2">
@@ -308,16 +312,16 @@ export default function Home() {
               <div className="grid gap-2">
                 <div className="md:font-medium">Phone</div>
                 <div className="text-gray-500 dark:text-gray-400">
-                  (+63) 9123456789 
+                  (+63) 9123456789
                 </div>
                 <div className="text-gray-500 dark:text-gray-400">
-                (+63) 9987654321
+                  (+63) 9987654321
                 </div>
               </div>
               <div className="grid gap-2">
                 <div className="md:font-medium">Email</div>
                 <div className="text-gray-500 dark:text-gray-400 md:text-[18px] text-[12px]">
-                  agreennatureconnect@agreennature&nbsp;connect.online 
+                  agreennatureconnect@agreennatureconnect.online
                 </div>
               </div>
             </div>
@@ -326,7 +330,7 @@ export default function Home() {
             <Image
               alt="Logo"
               className=" object-fill md:w-[400px] w-[200px] md:h-[400px] h-[200px]"
-              src={LogoContact}          
+              src={LogoContact}
             />
           </div>
         </div>
