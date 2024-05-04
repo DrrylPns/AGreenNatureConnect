@@ -8,8 +8,8 @@ import { useQuery, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useState } from 'react'
 import { CiBellOn } from 'react-icons/ci'
-import { Bell, BellDot} from 'lucide-react'
 import { GoDotFill } from "react-icons/go"
+import { Bell } from 'lucide-react';
 import { BeatLoader } from 'react-spinners'
 import { fetchNotifications, notificationRead } from '../../actions/notification'
 import { NotificationWithUser } from '@/lib/types'
@@ -17,14 +17,20 @@ import { NotificationWithRelations } from '@/lib/types/extendedpost'
 import { UserAvatar } from "@/app/components/UserAvatar";
 import { useSession } from "next-auth/react";
 import { Button } from "@/components/ui/button"
+import { useRouter } from 'next/navigation';
 
 
    
 export const UserNotifs = () => {
     const queryClient = useQueryClient()
 
-    const { data: session, status } = useSession();
+    const { data: session } = useSession();
+    
+  const router = useRouter();
 
+  const handleButtonClick = () => {
+    router.push('all-notification');
+  }
     // const [notifications, setNotifications] = useState<NotificationWithUser[]>([])
 
     // const fetchNotificationsByUser = async () => {
@@ -69,10 +75,10 @@ export const UserNotifs = () => {
             <PopoverTrigger>
                 <div className='relative'>
                     
-                    <Bell />
+                    <Bell style={{ width: '29px', height: '29px' }} />
                     
                     {hasUnread && (
-                        <span className=' text-6xl absolute right-[-1px] top-[-1px] bg-green dark:bg-[#242526]'><BellDot /></span>
+                        <span className='text-red-600 text-lg absolute right-[-2px] top-[-4px]'><GoDotFill /></span>
                     )}
                 </div>
             </PopoverTrigger>
@@ -82,7 +88,7 @@ export const UserNotifs = () => {
                         <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2  border-black dark:border-[#f8fdfd]">Notifications</h4>
                         <div className="px-4 text-center items-center">
                         <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600">Show all</Button>
-                        <Button className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600'>Read all</Button>
+                        <Button className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600' onClick={handleButtonClick}>Read all</Button>
                         </div>
                         {notifications?.length === 0 && (
                             <div className="text-gray-500 dark:text-grey-200 text-center">You currently have no notifications yet.</div>
@@ -98,7 +104,7 @@ export const UserNotifs = () => {
                                    
                                     <Link
                                     
-                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#c5eed1] dark:bg-[#555757]" : ""}`}
+                                        className={`flex flex-col items-start p-2 rounded-md bg-[#ffffff] dark:bg-[#424444] ${!notification.isRead ? "bg-[#b8eec8] dark:bg-[#555757]" : ""}`}
                                         
                                         href={
                                             //@ts-ignore
@@ -172,7 +178,7 @@ export const UserNotifs = () => {
                                             )}
                                         </div>
 
-                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray ${!notification.isRead ? " text-[#4e67f3] dark:text-[#4e67f3]" : ""} `}>
+                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray ${!notification.isRead ? " text-[#4e67f3]" : ""} `}>
                                             {formatCreatedAt(notification.createdAt)}
                                         </time>
                                     </Link>
