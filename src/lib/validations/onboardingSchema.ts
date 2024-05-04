@@ -29,6 +29,8 @@ export const OnboardingSchema = z.object({
         .min(3, { message: "Lastname is too short." })
         .max(50, { message: "Lastname is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
+
+        suffix: z.string()
       
 })
 
@@ -60,5 +62,7 @@ export const OnboardingUserSchema = z.object({
         .min(3, { message: "Lastname is too short." })
         .max(50, { message: "Lastname is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
+
+        suffix: z.string()
       
 })

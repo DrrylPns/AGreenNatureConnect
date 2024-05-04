@@ -14,7 +14,11 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import useSettingsModal from "@/lib/hooks/useSettingsModal";
 import MenuItem from "@/app/components/MenuItem";
-import { Avatar, AvatarFallback, AvatarImage } from "@/app/components/Ui/Avatar";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "@/app/components/Ui/Avatar";
 
 function page({
   params,
@@ -51,7 +55,10 @@ function page({
                 <div className="flex items-center overflow-hidden justify-center  rounded-full border w-20 h-20 border-black">
                   {/*User Image, add default image if the user doesn't have DP user image will comes from the backend*/}
                   <Avatar>
-                    <AvatarImage src={user.image as string} alt={`${user.username}'s profile picture`} />
+                    <AvatarImage
+                      src={user.image as string}
+                      alt={`${user.username}'s profile picture`}
+                    />
                     <AvatarFallback>{user.name?.charAt(0)}</AvatarFallback>
                   </Avatar>
                 </div>
@@ -68,15 +75,17 @@ function page({
                 <div>
                   {user.name !== "" && user.lastName !== "" && (
                     <h1>
-                      Full Name: {user?.name} {user.middleName} {user.lastName}
+                      Full Name: {user?.name} {user.middleName} {user.lastName}{" "}
+                      {user?.suffix}
                     </h1>
                   )}
                   <h1>
                     Role:
                     <Badge
                       variant="secondary"
-                      className={`${user.role === "ADMIN" && "bg-green"} ${user.role === "EMPLOYEE" && "bg-yellow-300"
-                        }`}
+                      className={`${user.role === "ADMIN" && "bg-green"} ${
+                        user.role === "EMPLOYEE" && "bg-yellow-300"
+                      }`}
                     >
                       {user.role === "USER" ? "Member" : user.role}
                     </Badge>

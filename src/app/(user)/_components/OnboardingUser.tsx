@@ -59,6 +59,7 @@ export const OnboardingUser = () => {
       address,
       lastName,
       name,
+      suffix,
     }: OnboardingUserType) => {
       const payload: OnboardingUserType = {
         username,
@@ -67,6 +68,7 @@ export const OnboardingUser = () => {
         address,
         lastName,
         name,
+        suffix,
       };
       const { data } = await axios.post("/api/user/onboardingUser", payload);
       return data;
@@ -143,6 +145,7 @@ export const OnboardingUser = () => {
       address: data.address,
       lastName: data.lastName,
       name: data.name,
+      suffix: data.suffix,
     };
 
     onboardingUpdate(payload);
@@ -204,7 +207,7 @@ export const OnboardingUser = () => {
                 {errors.username.message}
               </span>
             )}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div className="space-y-2">
                 <Label htmlFor="name">First Name</Label>
                 <Input
@@ -246,6 +249,15 @@ export const OnboardingUser = () => {
                       event.preventDefault();
                     }
                   }}
+                />
+              </div>
+              <div className="space-y-2">
+                <Label htmlFor="suffix">Suffix (optional)</Label>
+                <Input
+                  id="suffix"
+                  {...register("suffix")}
+                  placeholder="Enter your Suffix "
+                  type="suffix"
                 />
               </div>
             </div>

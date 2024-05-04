@@ -17,6 +17,7 @@ export interface Author {
   hashedPassword: string | null;
   middleName: string | null;
   lastName: string | null;
+  suffix: string | null;
   phoneNumber: string | null;
   address: string | null;
   bio: string

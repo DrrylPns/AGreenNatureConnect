@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { username, phoneNumber, birthday, address, lastName, name } = OnboardingUserSchema.parse(body);
+        const { username, phoneNumber, birthday, address, lastName, name, suffix } = OnboardingUserSchema.parse(body);
 
         const user = await prisma.user.findUnique({
             where: { id: session.user.id },
@@ -50,6 +50,7 @@ export async function POST(req: Request) {
             lastUsernameChange: new Date(),
             lastName: lastName,
             name: name,
+            suffix: suffix
         }
 
         if (daysLeft <= 0) {
