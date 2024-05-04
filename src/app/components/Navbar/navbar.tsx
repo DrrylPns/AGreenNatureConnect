@@ -7,6 +7,8 @@ import Logo from "../Logo/logo";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 
+
+
 export default function Navbar() {
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -57,7 +59,7 @@ export default function Navbar() {
           viewport={{ once: true }}
           className="flex justify-end"
         >
-          <ul className="flex  flex-row justify-evenly max-sm:hidden ">
+          <ul className="flex flex-row justify-evenly max-sm:hidden ">
             <motion.button
               whileHover={{
                 scale: 1.2,
@@ -104,7 +106,7 @@ export default function Navbar() {
             </motion.button>
 
             <Link href={"/discussion"} className=" text-white mr-6">
-              <button className="my-3 h-10 w-[8rem] bg-[#307047] rounded-md">
+              <button className="my-3 h-10 w-[8rem] bg-[#307047] rounded-md hover:bg-[#24643B]  hover:text-white focus:ring ring-offset-2 ring-[#449a64] focus:outline-none transition duration-150 ease-in-out">
                 Get Started
               </button>
             </Link>
@@ -115,66 +117,67 @@ export default function Navbar() {
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
-          className="flex w-1/5 justify-end"
+          className="flex justify-end"
         >
-          <ul className="flex  flex-row justify-evenly m-10 max-lg:m-13 max-sm:hidden ">
+          <ul className="flex  flex-row justify-evenly max-sm:hidden ">
+          <Link href={"/"}>
+                <motion.button
+                    whileHover={{
+                      scale: 1.2,
+                      transition: { duration: 0.3 },
+                    }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={() => scrollToSection("aboutus")}
+                    className="text-black text-[16px] font-semibold m-3 hover:text-amber "
+                  >
+                    Home
+                  </motion.button>
+            </Link>
+            
             <Link href={"/"}>
-              <motion.button
-                whileHover={{
-                  scale: 1.2,
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => scrollToSection("home")}
-                className="text-black text-[16px] font-light p-3 m-3 hover:text-amber "
-              >
-                Home
-              </motion.button>
+                <motion.button
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.3 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => scrollToSection("aboutus")}
+                  className="text-black text-[16px] font-semibold m-3 hover:text-amber"
+                >
+                  About
+                </motion.button>
+            </Link>
+            
+            <Link href={"/"}>
+                <motion.button
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.3 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => scrollToSection("services")}
+                  className="text-black text-[16px] font-semibold m-3 hover:text-amber"
+                >
+                  Services
+                </motion.button>
             </Link>
 
             <Link href={"/"}>
-              <motion.button
-                whileHover={{
-                  scale: 1.2,
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => scrollToSection("aboutus")}
-                className="text-black text-[16px] font-light p-3 m-3 hover:text-amber"
-              >
-                About
-              </motion.button>
+                <motion.button
+                  whileHover={{
+                    scale: 1.2,
+                    transition: { duration: 0.3 },
+                  }}
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => scrollToSection("contactus")}
+                  className="text-black text-[16px] font-semibold max-md:mr-10 m-3 mr-14 hover:text-amber"
+                >
+                  Contact
+                </motion.button>
             </Link>
+            
 
-            <Link href={"/"}>
-              <motion.button
-                whileHover={{
-                  scale: 1.2,
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => scrollToSection("services")}
-                className="text-black text-[16px] font-light p-3 m-3 hover:text-amber"
-              >
-                Services
-              </motion.button>
-            </Link>
-
-            <Link href={"/"}>
-              <motion.button
-                whileHover={{
-                  scale: 1.2,
-                  transition: { duration: 0.3 },
-                }}
-                whileTap={{ scale: 0.9 }}
-                onClick={() => scrollToSection("contactus")}
-                className="text-black text-[16px] font-light p-3 max-md:mr-8 m-3 mr-24 mt-6 hover:text-amber"
-              >
-                Contact
-              </motion.button>
-            </Link>
-
-            <Link href={"/discussion"} className=" text-white">
+            <Link href={"/discussion"} className=" text-white mr-6">
               <button className="my-3 h-10 w-[8rem] bg-[#307047] rounded-md">
                 Get Started
               </button>
@@ -230,7 +233,7 @@ export default function Navbar() {
               Contact
             </li>
             <Link href={"/discussion"} className=" text-white">
-              <button className="my-3 h-10 w-[8rem] bg-[#307047] rounded-md">
+              <button className="my-3 h-10 w-[8rem] bg-[#307047] rounded-md hover:bg-[#24643B]  hover:text-white focus:ring ring-offset-2 ring-[#449a64] focus:outline-none transition duration-150 ease-in-out">
                 Get Started
               </button>
             </Link>

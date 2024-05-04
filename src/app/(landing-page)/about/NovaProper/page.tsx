@@ -73,7 +73,7 @@ function page() {
 
             </div>
             <div className='m-5'>
-            <div className='flex flex-row grid-cols-3 justify-center p-5'>
+            <div className='flex flex-row md:grid-cols-3 grid-cols-2 gap-10  justify-center p-5'>
                     <div className='mr-10 ml-10'>
                     <Image
                                 className="lg:block hidden flex-auto rounded-t-2xl border border-b-0 border-1 border-black"
