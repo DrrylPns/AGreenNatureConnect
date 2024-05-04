@@ -44,6 +44,7 @@ export interface Community {
     id: string;
     name: string;
     qrCode: string | null;
+    contactNumber: string;
 }
 export interface Buyer {
     id: string;
@@ -319,11 +320,11 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                             </DialogContent>
                                         </Dialog>
                                     </div>
-                                   
+
                                     <div className='text-[0.6rem] sm:text-lg mt-5'>
                                         <div className='flex flex-col md:flex-row text-xs sm:text-sm'>
                                             <h1 className='text-gray-400 '>Payment method: </h1>
-                                            <h1 className='block text-gray-700'>{transaction.paymentMethod} </h1>                    
+                                            <h1 className='block text-gray-700'>{transaction.paymentMethod} </h1>
                                         </div>
                                         <div className='flex flex-col md:flex-row text-xs sm:text-sm'>
                                             <h1 className='text-gray-400'>Payment status:</h1>
@@ -334,12 +335,12 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             </div>
 
                             <div className='flex justify-between w-full border-y-2 text-right border-gray-300 bg-gray-200 px-5 md:px-10 py-2 md:py-4 transition-all ease-in-out duration-500'>
-                                
+
                                 <h1 className='text-[0.5rem] sm:text-sm font-semibold'>Order Total: <span>₱ {transaction.amount}</span></h1>
                                 {transaction.status === 'COMPLETED' && (
-                                    <ReviewModal transactionId={transaction.id} orderedVariant={transaction.orderedVariant}/>
+                                    <ReviewModal transactionId={transaction.id} orderedVariant={transaction.orderedVariant} />
                                 )}
-                             
+
                             </div>
                         </div>
                     )) : (
