@@ -52,7 +52,7 @@ export const SalesByBar = () => {
 
     return (
         <div className="h-full">
-            <div className="flex justify-between">
+            <div className="flex flex-col md:flex-row justify-between items-center gap-3">
                 <Title>Sales Report</Title>
                 <div className={cn("grid gap-2")}>
                     <Popover>
@@ -61,7 +61,7 @@ export const SalesByBar = () => {
                                 id="date"
                                 variant={"outline"}
                                 className={cn(
-                                    "w-[300px] justify-start text-left font-normal",
+                                    "w-full md:w-[200px] justify-start text-left font-normal",
                                     !date && "text-muted-foreground"
                                 )}
                             >

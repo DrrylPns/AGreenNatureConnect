@@ -29,39 +29,43 @@ export const fetchSales = async () => {
     return sales
 }
 
-export const fetchSalesByCategories = async () => {
-    const session = await getAuthSession()
+export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) => {
+    const session = await getAuthSession();
 
-    if (!session) return { error: "Unauthorized" }
+    if (!session) return { error: "Unauthorized" };
 
     const loggedInUser = await prisma.user.findFirst({
         where: { id: session.user.id },
-        include: { Community: true }
-    })
+        include: { Community: true },
+    });
 
     const community = await prisma.community.findFirst({
         where: {
-            id: loggedInUser?.Community?.id
+            id: loggedInUser?.Community?.id,
         },
         include: {
-            products: true
-        }
-    })
+            products: true,
+        },
+    });
 
     const sales = await prisma.transaction.findMany({
         where: {
             status: "COMPLETED",
             sellerId: community?.id,
+            createdAt: {
+                gte: startDate,
+                lte: endDate,
+            },
         },
         include: {
             orderedVariant: {
                 include: {
                     product: true,
                     transaction: true,
-                }
-            }
+                },
+            },
         },
-    })
+    });
 
     const categorySalesMap: Record<string, number> = {};
 
@@ -83,8 +87,9 @@ export const fetchSalesByCategories = async () => {
         sales,
     }));
 
-    return salesByCategories
-}
+    return salesByCategories;
+};
+
 
 export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
     const session = await getAuthSession();
