@@ -32,7 +32,7 @@ import { toast } from "@/lib/hooks/use-toast";
 import { formatTime, pusherClient } from "@/lib/pusher";
 import {
   ChatRoomWithMessagesAndCommunity,
-  UsersWithCommunityMessages,
+  UserWithCommunityMessages,
 } from "@/lib/types";
 import { UploadDropzone } from "@/lib/uploadthing";
 import {
@@ -73,7 +73,7 @@ export const ChatRoom = ({ chatroom, userId }: Props) => {
     queryFn: async () =>
       (await fetchUsersWhoChatted(
         chatroom.communityId
-      )) as UsersWithCommunityMessages[],
+      )) as UserWithCommunityMessages[],
   });
 
   const {

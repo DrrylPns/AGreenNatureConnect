@@ -1,7 +1,7 @@
 "use client"
 import { UserAvatar } from "@/app/components/UserAvatar"
 import { Card, CardContent } from "@/components/ui/card"
-import { CommunityWithMessages, UsersWithCommunityMessages } from "@/lib/types"
+import { CommunityWithMessages, UserWithCommunityMessages } from "@/lib/types"
 import { useQuery } from "@tanstack/react-query"
 import Image from "next/image"
 import { fetchUsersWhoChatted, inspectChatRoomEmployee } from "../../../../../actions/chat"
@@ -14,7 +14,7 @@ export default function ChatComponent({ community }: Props) {
 
     const { data: usersWhoChatted, isError, isLoading } = useQuery({
         queryKey: ["usersWhoChatted"],
-        queryFn: async () => await fetchUsersWhoChatted(community.id) as UsersWithCommunityMessages[]
+        queryFn: async () => await fetchUsersWhoChatted(community.id) as UserWithCommunityMessages[]
     })
 
     if (isError) {
@@ -63,13 +63,13 @@ export default function ChatComponent({ community }: Props) {
             <section className="flex flex-col w-full">
                 <main className="flex-1 overflow-auto p-4">
                     <div className="space-y-4 flex justify-center items-center h-[50vh] flex-col gap-3">
-                       
+
                         <h1 className="text-muted-foreground font-semibold text-2xl">Connect now by clicking one of the users you want to talk to!</h1>
                     </div>
                 </main>
             </section>
 
-            <div className="mt-11"/>
+            <div className="mt-11" />
         </div>
     )
 }

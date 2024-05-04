@@ -327,33 +327,39 @@ export interface ChatRoomWithMessagesAndCommunity {
   // messages: Message[]
 }
 
-export interface UsersWithCommunityMessages {
-  id: string;
-  name: string | null;
-  EmployeeId: string | null;
-  username: string | null;
-  email: string | null;
-  emailVerified: Date | null;
-  image: string | null;
-  hashedPassword: string | null;
-  middleName: string | null;
-  lastName: string | null;
-  phoneNumber: string | null;
-  address: string | null;
-  role: $Enums.Role;
-  gender: string | null;
-  birthday: Date | null;
-  bio: string | null;
-  createdAt: Date;
-  updatedAt: Date;
-  isBanned: boolean;
-  numberOfViolations: number,
-  isNotificationsEnabled: boolean,
-  lastUsernameChange: Date,
-  isBannedFromPosting: Date,
-  communityId: string | null;
-  Message: Message[]
-}
+// export interface UsersWithCommunityMessages {
+//   id: string;
+//   name: string | null;
+//   EmployeeId: string | null;
+//   username: string | null;
+//   email: string | null;
+//   emailVerified: Date | null;
+//   image: string | null;
+//   hashedPassword: string | null;
+//   middleName: string | null;
+//   lastName: string | null;
+//   phoneNumber: string | null;
+//   address: string | null;
+//   role: $Enums.Role;
+//   gender: string | null;
+//   birthday: Date | null;
+//   bio: string | null;
+//   createdAt: Date;
+//   updatedAt: Date;
+//   isBanned: boolean;
+//   numberOfViolations: number,
+//   isNotificationsEnabled: boolean,
+//   lastUsernameChange: Date,
+//   isBannedFromPosting: Date,
+//   communityId: string | null;
+//   Message: Message[]
+// }
+
+export type UserWithCommunityMessages = Prisma.UserGetPayload<{
+  include: {
+    Message: true
+  }
+}>
 
 export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
   include: {
