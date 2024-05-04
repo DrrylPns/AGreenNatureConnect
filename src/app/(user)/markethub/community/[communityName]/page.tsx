@@ -57,7 +57,7 @@ const page = async ({
   const ratingsAverage = reviewCount > 0 ? total / reviewCount : 0;
   return (
     <div className='relative '>
-      <div className='relative flex items-center justify-center'>
+      <div className='relative flex sm:items-center justify-center'>
         <div className='absolute top-2 left-0'>
           <Back/>
         </div>
@@ -67,17 +67,18 @@ const page = async ({
         <BagbagCarousel carouselImage={community?.carouselImage}/>
         <div className='font-livvic'>
           <h1 className='text-lg  text-center tracking-widest font-semibold'>{community?.urbanFarmName}</h1>
-          <div className='flex items-center justify-around my-3 '>
-            <Link className='flex items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white' href={'https://www.google.com/maps/dir//P428%2B79Q+New+Greenland,+Quezon+City,+Rizal/@14.700727,121.1160022,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397bb35978a95fb:0x3748a3771671970!2m2!1d121.1159989!2d14.7007173?entry=ttu'}>
-            <span className='text-red-600 text-[0.5rem] sm:text-sm'><CiLocationOn /></span> {community?.address}
+          <div className='flex sm:flex-col sm:my-3 sm:items-center'>
+            <Link className='flex sm:items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white' href={'https://www.google.com/maps/dir//P428%2B79Q+New+Greenland,+Quezon+City,+Rizal/@14.700727,121.1160022,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397bb35978a95fb:0x3748a3771671970!2m2!1d121.1159989!2d14.7007173?entry=ttu'}>
+              <span className='text-red-600 text-[0.5rem] sm:text-sm'><CiLocationOn /></span> {community?.address}
             </Link>
-            <div className='flex items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white'>
+            <div className='flex sm:items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white'>
               <span className='text-red-600 text-[0.5rem] sm:text-sm'><TfiEmail /></span> {community?.email}
             </div>
-            <div className='flex items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white'>
+            <div className='flex sm:items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white'>
               <span className='text-red-600 text-[0.5rem] sm:text-sm'><CiPhone /></span> {community?.contactNumber}
             </div>
           </div>
+
           <p className='text-[0.6rem] sm:text-sm text-gray-500 line-clamp-4 dark:text-[#9ca3af'>{community?.description}</p>
         </div>
         <div className='flex justify-center gap-10 border-t-2 border-gray-100 pt-5 font-poppins text-xs items-center'>
