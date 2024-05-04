@@ -321,7 +321,7 @@ export default function Home() {
               <div className="grid gap-2">
                 <div className="md:font-medium">Email</div>
                 <div className="text-gray-500 dark:text-gray-400 md:text-[18px] text-[12px]">
-                  agreennatureconnect@agreennature&nbsp;connect.online
+                  agreennatureconnect@agreennatureconnect.online
                 </div>
               </div>
             </div>
