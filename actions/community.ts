@@ -3,6 +3,7 @@
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
 import { ChangeCommunitySettingsSchema, ChangeCommunitySettingsType } from "@/lib/validations/changeUserProfile"
+import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
 export const addQR = async (id: string, qrCode: string) => {
@@ -171,6 +172,46 @@ export const handleCommunity = async (id: string, isArchivePanel: boolean | unde
 
             return { success: "Community archived." }
         }
+    } catch (error) {
+        throw new Error(error as any)
+    }
+}
+
+export const handleCarousel = async (imageUrls: string[]) => {
+    try {
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        const currentUser = await prisma.user.findUnique({
+            where: {
+                id: session.user.id
+            },
+            include: {
+                Community: true
+            }
+        })
+
+        if (!currentUser) return { error: "No user found!" }
+
+        if (currentUser.role !== "ADMIN") return { error: "This account is unauthorized to do this action!" }
+
+        const communityImages: Prisma.CommunityImageCreateNestedManyWithoutCommunityInput = {
+            create: imageUrls.map((imageUrl) => ({
+                imageUrl
+            }))
+        };
+
+        await prisma.community.update({
+            where: {
+                id: currentUser.Community?.id
+            },
+            data: {
+                carouselImage: communityImages
+            }
+        })
+
+        return { success: "Added community carousel!" }
     } catch (error) {
         throw new Error(error as any)
     }

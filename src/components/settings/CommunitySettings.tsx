@@ -20,6 +20,7 @@ import { Community, User } from "@prisma/client"
 import Image from "next/image"
 import React, { useState, useTransition } from "react"
 import { addQR } from "../../../actions/community"
+import useCommunityCarouselModal from "@/lib/hooks/useCommunityCarouselModal"
 
 interface Props {
     user: User & {
@@ -30,6 +31,7 @@ interface Props {
 export const CommunitySettings: React.FC<Props> = ({ user }) => {
     const communitySettings = useCommunitySettingsModal()
     const communityAvatarModal = useCommunityAvatarModal()
+    const communityCarousel = useCommunityCarouselModal()
     const firstLetter = user.Community.name?.charAt(0).toUpperCase()
     const [imageUrl, setImageUrl] = useState<string>('')
     const imageIsEmpty = imageUrl.length === 0
@@ -107,17 +109,30 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
             </div>
             <div className='flex flex-col items-center'>
                 <div className='space-y-1'>
-                    {/* <Avatar className='h-[90px] w-[90px] flex items-center justify-center'>
-                        <AvatarImage src={user?.Community.displayPhoto as string} className='w-[90px] h-[90px] flex items-center justify-center' />
-                        <AvatarFallback>{firstLetter}</AvatarFallback>
-                    </Avatar> */}
-                    <Image
-                        alt='Community QR Code'
-                        src={`${user?.Community.qrCode}`}
-                        width={250}
-                        height={250}
-                        className='mb-3'
-                    />
+                    {user?.Community?.qrCode ? (
+                        <Image
+                            alt='Community QR Code'
+                            src={`${user?.Community?.qrCode}`}
+                            width={250}
+                            height={250}
+                            className='mb-3'
+                        />
+                    ) :
+                        (
+                            <div
+                                className='flex justify-center items-center flex-col'
+                            >
+                                <Image
+                                    alt='user not paid'
+                                    src={"/images/employee/not_paid.svg"}
+                                    width={250}
+                                    height={250}
+                                    className='mb-3'
+                                />
+                                <h1 className='mt-3 text-gray-500 text-base'>No QR Code yet!</h1>
+                            </div>
+                        )
+                    }
                 </div>
 
                 <Dialog>
@@ -125,16 +140,36 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
                         <div
                             className='cursor-pointer text-blue-500 font-medium mt-1'
                         >
-                            Change
+                            {user?.Community.qrCode ? (
+                                <>
+                                    Change QR
+                                </>
+                            ) :
+                                (
+                                    <>
+                                        Upload QR
+                                    </>
+                                )
+                            }
                         </div>
                     </DialogTrigger>
                     <DialogContent className="sm:max-w-[425px]">
                         <DialogHeader>
                             <DialogTitle>
-                                Upload a new community's QR Code
+                                {user?.Community.qrCode ? (
+                                    <>
+                                        Upload a new community's QR Code
+                                    </>
+                                ) :
+                                    (
+                                        <>
+                                            Upload a QR code for your community!
+
+                                        </>
+                                    )
+                                }
                             </DialogTitle>
                             <DialogDescription>
-
                                 <>
                                     {imageUrl.length ? <div
                                         className='flex justify-center items-center flex-col'
@@ -207,11 +242,15 @@ export const CommunitySettings: React.FC<Props> = ({ user }) => {
                     </DialogContent>
                 </Dialog>
 
-                {/* <div
-                    className='cursor-pointer text-blue-500 font-medium mt-1'
-                >
-                    Change
-                </div> */}
+                <Separator />
+
+                <div className="mt-3">
+                    <p className='dark:text-white text-black font-medium'>Carousel Images</p>
+                    <p className="text-sm text-muted-foreground">Note: carousels are for your markethub slideshow images!</p>
+                </div>
+                <div className="text-blue-500 cursor-pointer font-semibold mt-2" onClick={communityCarousel.onOpen}>
+                    Add carousel
+                </div>
             </div>
         </div>
     )

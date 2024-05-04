@@ -20,6 +20,7 @@ import { ProfileModal } from '@/components/settings/ProfileModal'
 import { UsernameModal } from '@/components/settings/UsernameModal'
 import { CommunityModal } from '@/components/settings/CommunityModal'
 import { CommunityAvatarModal } from '@/components/settings/CommunityAvatarModal'
+import { CommunityCarouselModal } from '@/components/settings/CommunityCarouselModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -65,6 +66,10 @@ export default async function RootLayout({
                         <CommunityModal
                             //@ts-ignore
                             user={user} />
+                        <CommunityCarouselModal
+                            //@ts-ignore
+                            user={user}
+                        />
                         <Sidebar />
                         <main className='md:ml-[288px] md:mt-[62px] md:mr-[30px] mx-5'>
                             {children}
