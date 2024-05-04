@@ -16,17 +16,17 @@ export const ourFileRouter = {
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
   changeAvatar: f({
-    image: { maxFileSize: "4MB", maxFileCount: 1 },
+    image: { maxFileSize: "16MB", maxFileCount: 1 },
   })
     .middleware(middleware)
     .onUploadComplete(async (data) => { }),
-  pdfUploader: f({ pdf: { maxFileSize: '2MB' } })
+  pdfUploader: f({ pdf: { maxFileSize: '16MB' } })
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
   videoUploader: f({ video: { maxFileSize: '32MB' } })
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
-  imageCarousel: f({ image: { maxFileSize: '4MB', maxFileCount: 5 } })
+  imageCarousel: f({ image: { maxFileSize: '16MB', maxFileCount: 5 } })
     .middleware(middleware)
     .onUploadComplete(async ({ metadata, file }) => { }),
 } satisfies FileRouter
