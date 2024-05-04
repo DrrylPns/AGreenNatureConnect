@@ -13,6 +13,7 @@ import Email from "/public/images/email.png";
 import Location from "/public/images/location.png";
 import Link from "next/link";
 import AboutPhoto from "/public/images/Aboutbg.jpg";
+import LogoContact from "/public/images/logocontact.png";
 // import BGBanner from "../../../public/images/bannerbg.png"
 
 export default function Home() {
@@ -283,49 +284,48 @@ export default function Home() {
         </div>
       </section>
       {/*Contact Us*/}
-      <section
-        id="contactus"
-        className="flex lg:px-20 px-3 border-b border-black h-[80vh] bg-[#2D5F4D]"
-      >
-        <div className="w-full flex flex-col justify-center items-center font-poppins text-center">
-          <div className="text-white">
-            <h4 className="font-bold md:text-4xl text-2xl pt-1">CONTACT US</h4>
-            <h1 className="font-poppins sm:text-xl text-[15px] pt-3">
-              GET IN TOUCH NOW
-            </h1>
-            <p className="md:text-lg text-sm pt-2">
-              Get in touch with us! Reach out for any inquiries, collaborations,
-              or questions. Connect with our team to explore urban farming
-              possibilities together.
-            </p>
-            <div className="font-poppins flex flex-col items-center justify-center">
-              <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
-                <Image src={Phone} alt="Phone icon" />
-                <div className="text-center">
-                  <h3 className="font-semibold">PHONE</h3>
-                  <p className="md:text-base text-xs">+639123456789</p>
-                  <p className="md:text-base text-xs">+639987654321</p>
+      <section className="w-full py-12 md:py-24 lg:py-32 border-b border-black">
+        <div className="container grid items-start gap-10 px-4 md:px-6 lg:grid-cols-2 lg:gap-20">
+          <div className="space-y-6">
+            <div className="space-y-2">
+              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                Get in Touch
+              </h2>
+              <p className="text-gray-500 dark:text-gray-400 max-w-[600px] md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
+                Get in touch with us! Reach out for any inquiries,
+                collaborations, or questions. Connect with our team to explore
+                urban farming possibilities together.
+              </p>
+            </div>
+            <div className="space-y-4">
+              <div className="grid gap-2">
+                <div className="font-medium">Address</div>
+                <div className="text-gray-500 dark:text-gray-400">
+                  Brgy. Bagbag, Quezon City.
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-8">
-                <Image src={Email} alt="Email icon" />
-                <div className="text-center">
-                  <h3 className="font-semibold">EMAIL</h3>
-                  <p className="md:text-base text-xs">
-                    agreennatureconnect@agreennatureconnect.online
-                  </p>
+              <div className="grid gap-2">
+                <div className="font-medium">Phone</div>
+                <div className="text-gray-500 dark:text-gray-400">
+                  (+63) 9123456789 (+63) 9987654321
                 </div>
               </div>
-              <div className="flex flex-col items-center gap-3 md:gap-5 my-6 max-sm:w-10">
-                <Image src={Location} alt="Location icon" />
-                <div className="text-center">
-                  <h3 className="font-semibold">ADDRESS</h3>
-                  <p className="md:text-base text-xs">
-                    Brgy. Commonwealth, Quezon City.
-                  </p>
+              <div className="grid gap-2">
+                <div className="font-medium">Email</div>
+                <div className="text-gray-500 dark:text-gray-400">
+                  agreennatureconnect@agreennatureconnect.online
                 </div>
               </div>
             </div>
+          </div>
+          <div className="rounded-lg overflow-hidden justify-center items-center flex">
+            <Image
+              alt="Logo"
+              className=" object-fill"
+              height="300"
+              src={LogoContact}
+              width="400"
+            />
           </div>
         </div>
       </section>
