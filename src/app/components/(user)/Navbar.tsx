@@ -20,7 +20,7 @@ import LogoIcon from "/public/logo.png";
 import { UserNotifs } from "@/components/UserNotifs";
 import Search from "../Search";
 import { usePathname } from "next/navigation";
-import { MessagesSquareIcon } from "lucide-react";
+import { MessagesSquareIcon, Bell } from "lucide-react";
 
 
 const Navbar = () => {
@@ -55,16 +55,16 @@ const Navbar = () => {
                 <ThemeToggler1 />
               </div>
               
-              <div className="hidden max-md:block text-[32px] md:text-[32px]">
-                <UserNotifs />
+              <div className="hidden max-md:block mt-[2%] text-[32px] md:text-[32px]">
+              <Bell style={{ width: '23px', height: '23px' }}  />
               </div>
 
               <div className="hidden md:block mt-[9%] text-[1.5rem] md:text-[2rem]">
-                <UserNotifs />
+              <Bell style={{ width: '29px', height: '29px' }}  />
               </div>
 
-              <Link href="/message" className="hidden max-md:block text-[1.5rem] md:text-[2rem]">
-                <MessagesSquareIcon style={{ width: '32px', height: '32px' }} />
+              <Link href="/message" className="hidden max-md:block mt-[2%] text-[1.5rem] md:text-[2rem]">
+                <MessagesSquareIcon style={{ width: '25px', height: '25px' }} />
               </Link>
 
               <Link href="/message" className="hidden md:block mt-[7%] text-[1.5rem] md:text-[2rem]">
