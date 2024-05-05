@@ -1,6 +1,6 @@
 "use client"
 
-import { Button } from '@/app/components/Ui/Button';
+import { Button, buttonVariants } from '@/app/components/Ui/Button';
 import { Input } from '@/app/components/Ui/Input';
 import {
     Drawer,
@@ -23,6 +23,7 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/Ui/select";
 import { toast } from "@/lib/hooks/use-toast";
 import { UploadDropzone } from "@/lib/uploadthing";
+import { cn } from '@/lib/utils';
 import { CreateEmployeeSchema, CreateEmployeeType } from "@/lib/validations/admin/createEmployee";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useMutation } from "@tanstack/react-query";
@@ -342,37 +343,50 @@ const page = () => {
 
         // original code ->>>
 
-        <div className="w-full flex justify-center items-center bg-[#E3E1E1]">
-            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center p-11 lg:w-[740px] rounded-3xl">
-                <Card className="lg:w-[570px]">
+        <div className="w-full flex justify-center items-center bg-[#E3E1E1] mt-5 pb-5">
+            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center lg:p-11 lg:w-[740px] w-full rounded-3xl">
+                <Card className="lg:w-[570px] w-full">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
                             <h1 className="font-bold text-lg mb-5">Farmer Registration</h1>
                         </div>
                         <Form {...form}>
-                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full lg:mt-[100px]">
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
                                 <Drawer>
                                     <DrawerTrigger asChild>
                                         {imageUrl.length ?
-                                            <div className="lg:-mb-[64px] lg:-mt-[200px]">
-                                                <Image
-                                                    src={imageUrl}
-                                                    alt="productImage"
-                                                    className="cursor-pointer rounded-full border border-black/60 lg:-ml-[77px] mb-[74px] w-[70px] h-[70px]"
-                                                    width={70}
-                                                    height={70}
+                                            <div className="w-full flex flex-row justify-between">
+                                                <div className='w-[100px] h-[100px]'>
+                                                    <Image
+                                                        src={imageUrl}
+                                                        alt="productImage"
+                                                        className="w-auto h-auto"
+                                                        width={100}
+                                                        height={100}
+                                                    // onClick={() => {
+                                                    //     setImageUrl("")
+                                                    // }}
+                                                    />
+                                                </div>
+
+                                                <div
+                                                    className={cn(buttonVariants({
+                                                        variant: "outline"
+                                                    }), "cursor-pointer")}
                                                     onClick={() => {
                                                         setImageUrl("")
                                                     }}
-                                                />
+                                                >
+                                                    Change
+                                                </div>
                                             </div>
 
-                                            : <div className="lg:-mb-[64px] lg:-mt-[200px]">
-                                                <div className="rounded-full w-[70px] h-[70px] border-black/60 border lg:-ml-[62px] mb-[104px] cursor-pointer bg-gray-200 hover:bg-gray-300 flex items-center justify-center">
+                                            : <div className="w-fit">
+                                                <div className="cursor-pointer">
+                                                    <p className='text-sm font-semibold mb-2'>Add Farmer Photo</p>
                                                     <ImageDown strokeWidth={1} size={32} />
                                                 </div>
                                             </div>}
-
                                     </DrawerTrigger>
                                     <DrawerContent>
                                         <DrawerHeader>
@@ -435,7 +449,7 @@ const page = () => {
 
 
 
-                                <div className="flex flex-row justify-center items-center w-full gap-7">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-2">
                                     <FormField
                                         control={form.control}
                                         name="firstname"
@@ -443,7 +457,7 @@ const page = () => {
                                             <FormItem>
                                                 <FormLabel>First Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Firstname" {...field} type='text' className="w-[250px]" />
+                                                    <Input placeholder="Firstname" {...field} type='text' className="w-full" />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -458,7 +472,7 @@ const page = () => {
                                             <FormItem>
                                                 <FormLabel>Last Name</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Lastname" {...field} type='text' className="w-[250px]" />
+                                                    <Input placeholder="Lastname" {...field} type='text' className="w-full" />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -467,7 +481,7 @@ const page = () => {
                                     />
                                 </div>
 
-                                <div className="flex flex-row justify-center items-center w-full gap-5">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 items-center gap-2">
                                     <FormField
                                         control={form.control}
                                         name="phone"
@@ -475,7 +489,7 @@ const page = () => {
                                             <FormItem>
                                                 <FormLabel>Contact No.</FormLabel>
                                                 <FormControl>
-                                                    <Input placeholder="Contact" {...field} type='number' className="w-[250px]" />
+                                                    <Input placeholder="Contact" {...field} type='number' className="w-full" />
                                                 </FormControl>
 
                                                 <FormMessage />
@@ -487,7 +501,7 @@ const page = () => {
                                         control={form.control}
                                         name="gender"
                                         render={({ field }) => (
-                                            <FormItem className="w-[250px]">
+                                            <FormItem className="w-full">
                                                 <FormLabel>Gender</FormLabel>
                                                 <Select
                                                     onValueChange={field.onChange}

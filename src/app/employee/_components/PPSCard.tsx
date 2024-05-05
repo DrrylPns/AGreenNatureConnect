@@ -28,7 +28,7 @@ const PPSCard = () => {
     return (
         <>
             <Card className="">
-                <div className="flex flex-col md:flex-row justify-between items-center gap-3">
+                <div className="flex flex-col md:flex-col gap-3">
                     <Title className="mt-4 mb-4">Total Sales Summary</Title>
 
                     <div className={cn("grid gap-2")}>

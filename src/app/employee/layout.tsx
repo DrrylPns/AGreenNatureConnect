@@ -61,7 +61,7 @@ export default async function RootLayout({
                         <ProfileModal user={user as User} />
                         <UsernameModal user={user as User} />
                         <Sidebar />
-                        <main className='pl-[350px] bg-[#E3E1E1] h-screen p-12'>
+                        <main className='lg:pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                             {children}
                         </main>
                         <Toaster />

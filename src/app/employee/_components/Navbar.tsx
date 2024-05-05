@@ -16,7 +16,7 @@ export const NavbarDashboard = ({ user }: Props) => {
     const router = useRouter()
     const { onOpen } = useSettingsModal()
     return (
-        <header className="flex justify-end h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40">
+        <header className="hidden justify-end h-14 items-center gap-4 border-b bg-gray-100/40 px-6 dark:bg-gray-800/40 lg:flex">
             <h1 className="font-medium text-center text-lg md:text-xl">
                 {
                     //@ts-ignore
@@ -49,8 +49,5 @@ export const NavbarDashboard = ({ user }: Props) => {
                 <MessagesSquareIcon />
             </Link>
         </header>
-        // <nav className='w-full flex justify-end items-center bg-white'>
-        //     <UserAvatar user={user} />
-        // </nav>
     )
 }

@@ -95,9 +95,9 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      <div className="flex items-center py-4 justify-between">
-        <div className="flex items-center gap-3 w-full">
-          
+      <div className="flex flex-col lg:flex-row items-center py-4 justify-between">
+        <div className="flex flex-col lg:flex-row items-center gap-3 w-full">
+
 
           {/*  search functionality */}
 
@@ -110,7 +110,7 @@ export function DataTable<TData, TValue>({
               }
               className="max-w-sm"
             />
-            
+
           ) : (
             <>
               {isReport ? (
@@ -157,7 +157,7 @@ export function DataTable<TData, TValue>({
               >
                 Archived Products
               </Link>
-              
+
             </>
           )}
           {isReport && (
@@ -185,40 +185,42 @@ export function DataTable<TData, TValue>({
             </div>
           }
 
-              <Legend
-                className="mt-3"
-                categories={["In", "Out of Stock", "Low Stock"]}
-                colors={["emerald", "red", "yellow"]}
-              />
-          {/* VIEW FUNCTIONALITY */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                <Settings2 className="mr-1 w-5 h-5" /> View
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                .getAllColumns()
-                .filter(
-                  (column) => column.getCanHide()
-                )
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
+          <div className="max-lg:flex max-lg:flex-col flex flex-row items-center gap-3">
+            <Legend
+              className="mt-3"
+              categories={["In Stock", "Out of Stock", "Low Stock"]}
+              colors={["emerald", "red", "yellow"]}
+            />
+            {/* VIEW FUNCTIONALITY */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="lg:ml-auto">
+                  <Settings2 className="mr-1 w-5 h-5" /> View
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  .getAllColumns()
+                  .filter(
+                    (column) => column.getCanHide()
                   )
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    )
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
       <div className="rounded-md border">

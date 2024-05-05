@@ -83,9 +83,9 @@ const page = () => {
     }
 
     return (
-        <div className="w-full flex justify-center items-center bg-[#E3E1E1]">
-            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center p-11 lg:w-[740px] rounded-3xl">
-                <Card className="lg:w-[570px] p-11">
+        <div className="w-full flex justify-center items-center bg-[#E3E1E1] mt-5 pb-5">
+            <section className="bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] flex items-center justify-center lg:p-11 lg:w-[740px] w-full rounded-3xl">
+                <Card className="lg:w-[570px] w-full p-3 lg:p-11">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
                             <h1 className="font-bold text-lg mb-5">Learning Materials</h1>

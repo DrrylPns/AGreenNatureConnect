@@ -5,8 +5,8 @@ import React, { useState } from 'react'
 const page = () => {
     return (
         <div className='w-full flex justify-center items-center'>
-            <div className="flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] p-11 lg:w-[740px] rounded-3xl">
-                <div className='space-y-3 bg-white rounded-lg p-11'>
+            <div className="flex flex-col items-center justify-center gap-6 bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4] lg:p-11 lg:w-[740px] rounded-3xl">
+                <div className='space-y-3 bg-white rounded-lg p-3 lg:p-11'>
                     <div className="w-full text-center border-b border-gray-200 pb-5">
                         <h3 className="font-bold font-livvic text-center text-xl leading-6 text-gray-900">Create Blog</h3>
                     </div>
