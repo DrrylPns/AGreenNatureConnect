@@ -31,7 +31,7 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
             )
         },
         cell: ({ row }) => {
-           const action = row.original.type
+           const action = row.original.typeOfActivity
             
             return (
                 <div className="text-xs">

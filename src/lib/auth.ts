@@ -81,15 +81,28 @@ export const authOptions: NextAuthOptions = {
                 });
 
                 if (existingUser) {
-                    // Link the Google account with the existing user
-                    await prisma.account.create({
-                        data: {
-                            userId: existingUser.id,
-                            type: "oauth",
+                    const checkIfExistsInAccount = await prisma.account.findFirst({
+                        where: {
                             provider: "google",
                             providerAccountId: user?.id?.toString(),
                         },
                     });
+
+                    // Check if the user is already linked with a Google account
+                    if (!checkIfExistsInAccount) {
+                        // Link the Google account with the existing user
+                        await prisma.account.create({
+                            data: {
+                                userId: existingUser.id,
+                                type: "oauth",
+                                provider: "google",
+                                providerAccountId: user?.id?.toString(),
+                            },
+                        });
+                    }
+                } else {
+                    // User doesn't exist, create a new user
+                    // You can add logic here to create the user as needed
                 }
             }
 
