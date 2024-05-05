@@ -47,6 +47,7 @@ export async function POST(req: Request) {
             where: {
                 id: transactionId,
             },
+            
             include: {
                 buyer: true,
                 seller: true,
@@ -62,6 +63,9 @@ export async function POST(req: Request) {
         const acceptOrderById = await prisma.transaction.update({
             where: {
                 id: transactionId
+            },
+            include:{
+                buyer: true
             },
             data: {
                 status: "COMPLETED",
@@ -87,6 +91,18 @@ export async function POST(req: Request) {
         if (transaction.buyer.isNotificationsEnabled) {
             sendCompletedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
         }
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "MARKETHUB_ORDERS",
+              transactionId: acceptOrderById.id,
+              employeeId: session.user.id,
+              amount: acceptOrderById.amount,
+              buyer: acceptOrderById.buyer.name + " " + acceptOrderById.buyer.lastName,
+              paymentStatus: acceptOrderById.paymentStatus,
+              status: acceptOrderById.status
+            }
+        })
 
         revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(acceptOrderById));
