@@ -181,7 +181,7 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
               type: "MARKETHUB_PRODUCTS",
               employeeId: session.user.id,
               productId: existingProduct.id,
-              typeOfActivity: `Added ${quantity + " " + typeOfMeasurement} new stocks`
+              typeOfActivity: `Added ${quantity + " " + typeOfMeasurement}`
             }
         })
 
