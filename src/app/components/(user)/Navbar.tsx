@@ -104,12 +104,17 @@ const Navbar = () => {
               <div className="max-md:block hidden mt-4 text-yellow-400">
                 <ThemeToggler1 />
               </div>
-              <button
-                onClick={loginModal.onOpen}
-                className="active:scale-95 inline-flex items-center justify-center text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 bg-[#4DE69E]/90 font-poppins rounded-lg hover:shadow-lg hover:bg-[#BAEBD4] text-black font-bold h-10 py-2 px-4"
-              >
-                Sign In
+              <button onClick={loginModal.onOpen} className="text-white">
+                <BsCart4 />
               </button>
+              <div className="max-md:block hidden">
+                <button
+                  onClick={loginModal.onOpen}
+                  className="active:scale-95 inline-flex items-center justify-center text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 bg-[#4DE69E]/90 font-poppins rounded-lg hover:shadow-lg hover:bg-[#BAEBD4] text-black font-bold h-10 py-2 px-4"
+                >
+                  Sign In
+                </button>
+              </div>
             </>
           )}
         </div>
