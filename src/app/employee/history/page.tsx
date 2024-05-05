@@ -23,8 +23,10 @@ const page = () => {
             <DataTable 
               //@ts-ignore
             columns={columns}
-              
-                data={transactions ?? []} isFetching={isFetching} isTransaction />
+            data={transactions ?? []} 
+            isFetching={isFetching} 
+            isTransaction 
+            />
         </div>
     )
 }

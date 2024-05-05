@@ -32,6 +32,7 @@ const InventoryPage = async () => {
         columns={columns}
         //@ts-ignore
         data={products ?? []}
+        isInventory
       />
     </div>
   )

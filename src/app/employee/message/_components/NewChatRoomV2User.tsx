@@ -89,7 +89,7 @@ export const NewChatRoomV2User = ({
             <aside className="w-full md:w-1/3 lg:w-1/4 bg-gray-100 border-r">
                 <div className="flex items-center justify-between p-4">
                     <h1 className="text-xl font-semibold">Messages</h1>
-                    <CombineIcon className="h-6 w-6 text-gray-600" />
+                    {/* <CombineIcon className="h-6 w-6 text-gray-600" /> */}
                 </div>
                 <div className="p-4">
                     <Input

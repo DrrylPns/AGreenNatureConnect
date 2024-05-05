@@ -1,22 +1,18 @@
 "use client"
 
 import {
-  ChevronLeftIcon,
-  ChevronRightIcon,
-  ChevronsLeft,
-  ChevronsRight,
-  Settings2,
+  Settings2
 } from "lucide-react"
 
 import {
   ColumnDef,
-  SortingState,
   ColumnFiltersState,
+  SortingState,
   VisibilityState,
   flexRender,
   getCoreRowModel,
-  getPaginationRowModel,
   getFilteredRowModel,
+  getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
 } from "@tanstack/react-table"
@@ -38,12 +34,12 @@ import {
 } from "@/app/components/Ui/Dropdown-Menu"
 
 import { Button, buttonVariants } from "@/app/components/Ui/Button"
-import React, { useState } from "react"
-import { DataTablePagination } from "./DataTablePagination"
 import { Input } from "@/app/components/Ui/Input"
-import Link from "next/link"
 import { cn } from "@/lib/utils"
 import { Legend } from "@tremor/react"
+import Link from "next/link"
+import React, { useState } from "react"
+import { DataTablePagination } from "./DataTablePagination"
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -53,6 +49,7 @@ interface DataTableProps<TData, TValue> {
   isTransaction?: boolean;
   isReport?: boolean;
   isArchived?: boolean;
+  isInventory?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -63,6 +60,7 @@ export function DataTable<TData, TValue>({
   isTransaction,
   isReport,
   isArchived,
+  isInventory,
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -102,6 +100,7 @@ export function DataTable<TData, TValue>({
           {/*  search functionality */}
 
           {isTransaction ? (
+            <>
             <Input
               placeholder="Search"
               value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
@@ -110,6 +109,7 @@ export function DataTable<TData, TValue>({
               }
               className="max-w-sm"
             />
+            </>
 
           ) : (
             <>
@@ -172,10 +172,19 @@ export function DataTable<TData, TValue>({
           )}
         </div>
 
+        {     isInventory && (
+                <Legend
+                className="mt-3 ml-5 w-full"
+                categories={["In Stock", "Out of Stock", "Low Stock"]}
+                colors={["emerald", "red", "yellow"]}
+              />
+              )}
+
 
         <div className="flex justify-center items-center gap-3 w-full">
           {!isTransaction || !isReport &&
             <div className="flex flex-row justify-end items-center w-[300px]">
+              
               {/*<Legend
                 className="mt-3"
                 categories={["In", "Out of Stock", "Low Stock"]}
@@ -186,11 +195,11 @@ export function DataTable<TData, TValue>({
           }
 
           <div className="max-lg:flex max-lg:flex-col flex flex-row items-center gap-3">
-            <Legend
+            {/* <Legend
               className="mt-3"
               categories={["In Stock", "Out of Stock", "Low Stock"]}
               colors={["emerald", "red", "yellow"]}
-            />
+            /> */}
             {/* VIEW FUNCTIONALITY */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
