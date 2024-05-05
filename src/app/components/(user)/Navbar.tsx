@@ -54,11 +54,11 @@ const Navbar = () => {
               </div>
 
               <div className="hidden max-md:block mt-[2%] text-[32px] md:text-[32px]">
-                <Bell style={{ width: "23px", height: "23px" }} />
+                <UserNotifs />
               </div>
 
               <div className="hidden md:block mt-[9%] text-[1.5rem] md:text-[2rem]">
-                <Bell style={{ width: "29px", height: "29px" }} />
+                <UserNotifs />
               </div>
 
               <Link
