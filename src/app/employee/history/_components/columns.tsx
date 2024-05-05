@@ -3,7 +3,8 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "../../inventory/_components/DateTableColumnHeader";
 import { formatDate } from "@/lib/utils";
-import { Product, User, Variant } from "@prisma/client";
+import { EmployeeActivityHistory, Product, User, Variant } from "@prisma/client";
+import { employeeActivityHistoryWithTransaction } from "@/lib/types";
 
 type Transactions = {
     id: string;
@@ -26,7 +27,7 @@ type OrderedVariant = {
     product: Product;
 }
 
-export const columns: ColumnDef<Transactions>[] =
+export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] =
     [
         // {
         //     accessorKey: "referenceId",
@@ -52,9 +53,9 @@ export const columns: ColumnDef<Transactions>[] =
                 )
             },
             cell: ({ row }) => {
-                const orderedVariants = row.original.orderedVariant;
-
-                const formattedProducts = orderedVariants.map((variant) => {
+                const orderedVariants = row.original.transaction?.orderedVariant;
+                
+                const formattedProducts = orderedVariants?.map((variant) => {
                     const productName = variant.product?.name || 'N/A';
                     const quantity = variant.variant?.variant;
                     const unitOfMeasurement = variant.variant?.unitOfMeasurement;
@@ -84,7 +85,7 @@ export const columns: ColumnDef<Transactions>[] =
                     return `${productName} (${displayQuantity})`;
                 });
 
-                const formattedProductNames = formattedProducts.join(', ') || 'N/A';
+                const formattedProductNames = formattedProducts?.join(', ') || 'N/A';
                 
                 return (
                     <div className="">
@@ -149,12 +150,11 @@ export const columns: ColumnDef<Transactions>[] =
                 );
             },
             cell: ({ row }) => {
-                const firstName = row.original.buyer.name
-                const lastName = row.original.buyer.lastName
+                const buyerName = row.original.buyer
                 return <div
                     className=""
                 >
-                    {firstName} {" "} {lastName}
+                    {buyerName}
                 </div>
             },
         },

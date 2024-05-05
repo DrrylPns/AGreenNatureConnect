@@ -2,9 +2,9 @@
 import prisma from '@/lib/db/db'
 import React from 'react'
 import { DataTable } from '../inventory/_components/data-table'
-import { columns } from './_components/columns'
+import { columns } from './_components/columns' 
 import { useQuery } from '@tanstack/react-query'
-import { Transaction } from '@prisma/client'
+import { EmployeeActivityHistory, Transaction } from '@prisma/client'
 import axios from 'axios'
 
 const page = () => {
@@ -13,14 +13,17 @@ const page = () => {
         queryKey: ['transaction-history'],
         queryFn: async () => {
             const { data } = await axios.get("/api/employee/transactionHistory")
-            return data as Transaction[]
+            return data as EmployeeActivityHistory[]
         }
     })
 
     return (
         <div className='container mx-auto py-10'>
-            <DataTable columns={columns}
-                //@ts-ignore
+            
+            <DataTable 
+              //@ts-ignore
+            columns={columns}
+              
                 data={transactions ?? []} isFetching={isFetching} isTransaction />
         </div>
     )

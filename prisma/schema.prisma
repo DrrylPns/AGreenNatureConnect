@@ -86,6 +86,7 @@ model User {
   ReviewDislike    ReviewDislike[]
   ChatRoom         ChatRoom[]
   Message          Message[]
+  Activity         EmployeeActivityHistory[]
 
   @@index([id])
   @@index([communityId])
@@ -182,13 +183,13 @@ model CommunityImage {
 model ChatRoom {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
-
+  updatedAt DateTime @updatedAt
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
-
+ 
   messages Message[]
 }
 
@@ -636,6 +637,7 @@ model Transaction {
 
   orderedVariant OrderedVariant[]
   notifications  Notification[]
+  EmployeeActivityHistory EmployeeActivityHistory[]
 
   @@index([buyerId])
   @@index([sellerId])
@@ -737,6 +739,29 @@ model ShippingInfo {
   userId String
 
   @@index([userId])
+}
+
+
+model EmployeeActivityHistory {
+  id          String   @id @default(cuid())
+  type        TypeOfActivity
+  employeeId  String
+  employee    User  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  transactionId String?
+  transaction Transaction? @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  amount    Float?
+  status    String?
+  buyer   String?
+  paymentStatus String?
+}
+
+enum TypeOfActivity {
+  DISCUSSION
+  MARKETHUB_ORDERS
+  MARKETHUB_PRODUCTS
+  LEARNINGMATERIALS
 }
 
 // saka na ecommerce

@@ -8,32 +8,37 @@ export async function GET() {
 
         const loggedInUser = await prisma.user.findFirst({
             where: {
-                id: session?.user.id
+                id: session?.user.id,
             },
             include: {
                 Community: true
             }
         })
 
-        const transactions = await prisma.transaction.findMany({
+        const transactions = await prisma.employeeActivityHistory.findMany({
             where: {
-                sellerId: loggedInUser?.Community?.id,
+                employee:{
+                    communityId:loggedInUser?.Community?.id,
+                },
+                type: "MARKETHUB_ORDERS",
             },
             include: {
-                buyer: true,
-                orderedVariant: {
-                    include: {
-                        product: true,
-                        variant: true,
+               employee: true,
+               transaction: {
+                include:{
+                    orderedVariant:{
+                        include:{
+                            product: true,
+                            variant: true
+                        }
                     }
                 }
+               },
+            },
+            orderBy:{
+                createdAt: 'desc'
             }
         })
-
-        transactions.forEach((transaction) => {
-            console.log('Transaction:', transaction);
-            console.log('Ordered Variants:', JSON.stringify(transaction.orderedVariant, null, 2));
-        });
 
         return new NextResponse(JSON.stringify(transactions))
     } catch (error) {
