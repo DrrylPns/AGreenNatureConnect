@@ -40,8 +40,9 @@ export async function PUT(req: NextRequest) {
 
         await prisma.employeeActivityHistory.create({
             data:{
-              type: "DISCUSSION",
+              type: "MARKETHUB_PRODUCTS",
               employeeId: session.user.id,
+              productId: updatedProduct.id,
               typeOfActivity: `${formatStatus(updatedProduct.status)} the ${updatedProduct.name}`
             }
           })

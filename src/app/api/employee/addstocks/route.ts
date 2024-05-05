@@ -121,7 +121,7 @@ export async function PUT(req: NextRequest) {
               type: "MARKETHUB_PRODUCTS",
               employeeId: session.user.id,
               productId: existingProduct.id,
-              typeOfActivity: `Added new stocks`
+              typeOfActivity: `Added ${quantity + " " + typeOfMeasurement} new stocks`
             }
         })
 

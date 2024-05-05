@@ -41,6 +41,7 @@ export async function POST(req: Request) {
             data:{
               type: "LEARNINGMATERIALS",
               employeeId: session.user.id,
+              learningId: learningMaterials.id,
               typeOfActivity: `Added ${learningMaterials.title} to Learning materials.`
             }
         })

@@ -408,5 +408,8 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
         }
       }
     },
+    blog: true,
+    video: true,
+    learningMaterial: true,
   },
 }>

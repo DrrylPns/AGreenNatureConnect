@@ -29,7 +29,7 @@ export async function PUT(req: NextRequest) {
     try {
         const { id, status } = body;
 
-        const updatedProduct = await prisma.blog.update({
+        const blog = await prisma.blog.update({
             where: {
                 id,
             },
@@ -40,9 +40,10 @@ export async function PUT(req: NextRequest) {
 
         await prisma.employeeActivityHistory.create({
             data:{
-              type: "LEARNINGMATERIALS",
-              employeeId: session.user.id,
-              typeOfActivity: `${formatStatus(updatedProduct.isApproved)} the ${updatedProduct.title}`
+                type: "LEARNINGMATERIALS",
+                employeeId: session.user.id,
+                blogId: blog.id,
+                typeOfActivity: `${formatStatus(blog.isApproved)} the ${blog.title}`
             }
           })
 

@@ -28,7 +28,7 @@ export async function PUT(req: NextRequest) {
     try {
         const { id, status } = body;
 
-        const updatedProduct = await prisma.learningMaterial.update({
+        const materials = await prisma.learningMaterial.update({
             where: {
                 id,
             },
@@ -40,7 +40,8 @@ export async function PUT(req: NextRequest) {
             data:{
               type: "LEARNINGMATERIALS",
               employeeId: session.user.id,
-              typeOfActivity: `${formatStatus(updatedProduct.isApproved)} the ${updatedProduct.title}`
+              learningId: materials.id,
+              typeOfActivity: `${formatStatus(materials.isApproved)} the ${materials.title}`
             }
         })
 

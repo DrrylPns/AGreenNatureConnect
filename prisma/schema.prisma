@@ -437,7 +437,7 @@ model Blog {
 
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
-
+  EmployeeActivityHistory EmployeeActivityHistory[]
   @@index([authorId])
   @@index([communityId])
 }
@@ -458,6 +458,7 @@ model LearningMaterial {
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
 
+  EmployeeActivityHistory EmployeeActivityHistory[]
   @@index([authorId])
   @@index([communityId])
 }
@@ -478,6 +479,7 @@ model VideoTutorial {
   community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String
 
+  EmployeeActivityHistory EmployeeActivityHistory[]
   @@index([authorId])
   @@index([communityId])
 }
@@ -759,7 +761,13 @@ model EmployeeActivityHistory {
   productName String?
   typeOfActivity  String?
   productId String?
-  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)  
+  learningId String?
+  learningMaterial LearningMaterial? @relation(fields: [learningId], references: [id], onDelete: Cascade)  
+  blogId String?
+  blog  Blog? @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  videoId String?
+  video VideoTutorial? @relation(fields: [videoId], references: [id], onDelete: Cascade)
   
 }
 

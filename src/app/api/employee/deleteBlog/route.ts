@@ -27,6 +27,7 @@ export async function POST(req: Request) {
             data:{
               type: "LEARNINGMATERIALS",
               employeeId: session.user.id,
+              blogId:blog.id,
               typeOfActivity: `Deleted ${blog.title} from Blogs.`
             }
         })

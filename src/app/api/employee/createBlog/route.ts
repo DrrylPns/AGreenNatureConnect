@@ -39,6 +39,7 @@ export async function POST(req: Request) {
             data:{
               type: "LEARNINGMATERIALS",
               employeeId: session.user.id,
+              blogId: blog.id,
               typeOfActivity: `Added ${blog.title} to Blogs.`
             }
         })

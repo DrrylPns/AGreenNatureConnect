@@ -7,6 +7,8 @@ import { getAuthSession } from '@/lib/auth'
 import { DataTable } from './_components/DataTable'
 import { columns } from './_components/column'
 import ProductLogs from './_components/productLogs/ProductLogs'
+import DiscussionLogs from './_components/discussionLogs/DiscussionLogs'
+import MaterialsLogs from './_components/materialsLogs/MaterialsLogs'
 
 
 
@@ -63,6 +65,67 @@ const page = async() => {
             type: "MARKETHUB_PRODUCTS",
         },
         include: {
+            product:{
+                include:{
+                    orderedVariant:true
+                }
+            },
+            employee: true,
+            transaction: {
+                include:{
+                    orderedVariant:{
+                        include:{
+                            product: true,
+                            variant: true
+                        }
+                    }
+                }
+            },
+            },
+            orderBy:{
+            createdAt: 'desc'
+            }
+    })
+    // const discussionLogs = await prisma.employeeActivityHistory.findMany({
+    //     where: {
+    //         employee:{
+    //             communityId:loggedInUser?.Community?.id,
+    //         },
+    //         type: "DISCUSSION",
+    //     },
+    //     include: {
+    //         product:{
+    //             include:{
+    //                 orderedVariant:true
+    //             }
+    //         },
+    //         employee: true,
+    //         transaction: {
+    //             include:{
+    //                 orderedVariant:{
+    //                     include:{
+    //                         product: true,
+    //                         variant: true
+    //                     }
+    //                 }
+    //             }
+    //         },
+    //         },
+    //         orderBy:{
+    //         createdAt: 'desc'
+    //         }
+    // })
+    const materialLogs = await prisma.employeeActivityHistory.findMany({
+        where: {
+            employee:{
+                communityId:loggedInUser?.Community?.id,
+            },
+            type: "LEARNINGMATERIALS",
+        },
+        include: {
+            blog: true,
+            video: true,
+            learningMaterial: true,
             product:{
                 include:{
                     orderedVariant:true
@@ -149,18 +212,33 @@ const page = async() => {
             </Tabs> */}
             <Tabs defaultValue="orderLogs" className="w-full">
                 <TabsList>
-                    <TabsTrigger value="orderLogs">Order logs</TabsTrigger>
-                    <TabsTrigger value="productLogs">Product logs</TabsTrigger>
+                    <TabsTrigger value="orderLogs">Order</TabsTrigger>
+                    <TabsTrigger value="productLogs">Product</TabsTrigger>
+                    {/* <TabsTrigger value="discussionLogs">Discussion</TabsTrigger> */}
+                    <TabsTrigger value="materialsLogs">Materials</TabsTrigger>
                 </TabsList>
                 <TabsContent value="orderLogs">
                     <div className="">
-                        <DataTable columns={columns} data={orderLogs} />
+                 
+                        <DataTable
+                        //@ts-ignore 
+                        columns={columns} data={orderLogs} />
                     </div>
                 </TabsContent>
                 <TabsContent value="productLogs">
                     <ProductLogs
                     //@ts-ignore 
                     productLogs={productLogs}/>
+                </TabsContent>
+                {/* <TabsContent value="discussionLogs">
+                    <DiscussionLogs
+                    //@ts-ignore 
+                    discussionLogs={discussionLogs}/>
+                </TabsContent> */}
+                <TabsContent value="materialsLogs">
+                    <MaterialsLogs
+                    //@ts-ignore 
+                    materialsLogs={materialLogs}/>
                 </TabsContent>
             </Tabs>
             

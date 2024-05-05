@@ -7,47 +7,15 @@ import { formatDate } from "@/lib/utils"
 
 export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
     {
-        accessorKey: "orderedVariant",
+        accessorKey: "productName",
         header: ({ column }) => {
             return (
                 <DataTableColumnHeader column={column} title="Product Name" />
             )
         },
         cell: ({ row }) => {
-            const orderedVariants = row.original.transaction?.orderedVariant;
-            const product = row.original.product?.name
-            const formattedProducts = orderedVariants?.map((variant) => {
-                const productName = variant.product?.name || 'N/A';
-                const quantity = variant.variant?.variant;
-                const unitOfMeasurement = variant.variant?.unitOfMeasurement;
-
-                let displayQuantity = '';
-                switch (unitOfMeasurement) {
-                    case 'kilograms':
-                        displayQuantity = `${quantity} kg`;
-                        break;
-                    case 'grams':
-                        displayQuantity = `${quantity} g`;
-                        break;
-                    case 'pounds':
-                        displayQuantity = `${quantity} lbs`;
-                        break;
-                    case 'pieces':
-                        displayQuantity = `${quantity} pcs`;
-                        break;
-                    case 'packs':
-                        displayQuantity = `${quantity} pcks`;
-                        break;
-                    default:
-                        displayQuantity = `${quantity} ${unitOfMeasurement}`;
-                        break;
-                }
-
-                return `${productName} (${displayQuantity})`;
-            });
-
-            const formattedProductNames = formattedProducts?.join(', ') || 'N/A';
             
+            const product = row.original.product?.name
             return (
                 <div className="text-xs">
                     {product}
@@ -56,20 +24,20 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
         },
     },
     {
-        accessorKey: "amount",
+        accessorKey: "orderedVariant",
         header: ({ column }) => {
-
             return (
-                <DataTableColumnHeader column={column} title="Amount" />
-            );
+                <DataTableColumnHeader column={column} title="Action" />
+            )
         },
         cell: ({ row }) => {
-            const amount = row.original.amount
-            return <div
-                className="text-xs"
-            >
-                ₱ {amount}
-            </div>
+           const action = row.original.type
+            
+            return (
+                <div className="text-xs">
+                    {action}
+                </div>
+            );
         },
     },
     {
@@ -77,11 +45,11 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
         header: ({ column }) => {
 
             return (
-                <DataTableColumnHeader column={column} title="Status" />
+                <DataTableColumnHeader column={column} title="Product Status" />
             );
         },
         cell: ({ row }) => {
-            const status = row.original.status
+            const status = row.original.product?.status
             return <div
              className="text-xs" 
             >
@@ -103,28 +71,11 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
         },
     },
     {
-        accessorKey: "buyerId",
+        accessorKey: "name",
         header: ({ column }) => {
 
             return (
-                <DataTableColumnHeader column={column} title="Buyer" />
-            );
-        },
-        cell: ({ row }) => {
-            const buyerName = row.original.buyer
-            return <div
-             className="text-xs"
-            >
-                {buyerName}
-            </div>
-        },
-    },
-    {
-        accessorKey: "buyerId",
-        header: ({ column }) => {
-
-            return (
-                <DataTableColumnHeader column={column} title="Modified by" />
+                <DataTableColumnHeader column={column} title="Done by" />
             );
         },
         cell: ({ row }) => {
@@ -135,6 +86,25 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
                 className="text-xs"
             >
                 {farmerName}
+            </div>
+        },
+    },
+    {
+        accessorKey: "role",
+        header: ({ column }) => {
+
+            return (
+                <DataTableColumnHeader column={column} title="Role" />
+            );
+        },
+        cell: ({ row }) => {
+          
+            const role = row.original.employee.role
+           
+            return <div
+                className="text-xs"
+            >
+                {role}
             </div>
         },
     },
