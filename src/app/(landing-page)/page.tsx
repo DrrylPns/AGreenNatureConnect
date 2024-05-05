@@ -85,7 +85,7 @@ export default function Home() {
             data-setup="{}"
           >
             <source
-              src="https://utfs.io/f/98497904-5cf0-4831-9b69-54bd61b91576-hasja.mp4"
+              src="https://utfs.io/f/6012c634-8bad-4deb-840f-fdb2257b8f69-8hzrq9.mp4"
               type="video/mp4"
             ></source>
           </video>
