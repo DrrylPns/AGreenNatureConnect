@@ -71,7 +71,7 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
         header: ({ column }) => {
 
             return (
-                <DataTableColumnHeader column={column} title="Description" />
+                <DataTableColumnHeader column={column} title="Action" />
             );
         },
         cell: ({ row }) => {
