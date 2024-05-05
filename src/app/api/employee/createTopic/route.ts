@@ -39,6 +39,14 @@ export async function POST(req: Request) {
             }
         })
 
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "DISCUSSION",
+              employeeId: session.user.id,
+              typeOfActivity: `Added new topic.`
+            }
+        })
+
         // return new Response (topic name)
         return new Response(topic.name)
     } catch (error) {

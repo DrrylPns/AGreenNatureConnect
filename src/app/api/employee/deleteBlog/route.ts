@@ -17,9 +17,17 @@ export async function POST(req: Request) {
 
         const { id } = DeleteBlogSchema.parse(body)
 
-        await prisma.blog.delete({
+        const blog = await prisma.blog.delete({
             where: {
                 id
+            }
+        })
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "LEARNINGMATERIALS",
+              employeeId: session.user.id,
+              typeOfActivity: `Deleted ${blog.title} from Blogs.`
             }
         })
 

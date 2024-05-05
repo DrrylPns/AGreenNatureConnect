@@ -552,6 +552,7 @@ model Product {
   communityId    String
   orderedVariant OrderedVariant[]
   reviews        Review[]
+  EmployeeActivityHistory EmployeeActivityHistory[]
   // ProductTransaction ProductTransaction[]
 
   @@index([creatorId])
@@ -749,12 +750,19 @@ model EmployeeActivityHistory {
   employee    User  @relation(fields: [employeeId], references: [id], onDelete: Cascade)
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  //for orders
   transactionId String?
   transaction Transaction? @relation(fields: [transactionId], references: [id], onDelete: Cascade)
   amount    Float?
   status    String?
   buyer   String?
   paymentStatus String?
+  //for inventory
+  productName String?
+  typeOfActivity  String?
+  productId String?
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
 }
 
 enum TypeOfActivity {

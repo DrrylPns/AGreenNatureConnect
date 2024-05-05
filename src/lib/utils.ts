@@ -6,7 +6,10 @@ import locale from 'date-fns/locale/en-US'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-
+export const formatStatus = (status:string)=>{
+  const correctStatus = status === "APPROVED" ? "Approved" : "Declined"
+  return correctStatus
+}
 const formatDistanceLocale = {
   lessThanXSeconds: 'just now',
   xSeconds: 'just now',

@@ -25,13 +25,21 @@ export async function POST(req: Request) {
 
         const { title, content, thumbnail } = BlogSchema.parse(body)
 
-        await prisma.blog.create({
+        const blog = await prisma.blog.create({
             data: {
                 title,
                 content,
                 thumbnail,
                 authorId: session.user.id,
                 communityId: loggedIn?.Community?.id as string
+            }
+        })
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "LEARNINGMATERIALS",
+              employeeId: session.user.id,
+              typeOfActivity: `Added ${blog.title} to Blogs.`
             }
         })
 

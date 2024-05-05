@@ -26,7 +26,7 @@ export async function POST(req: Request) {
 
         const { title, description, video } = CreateVideoSchema.parse(body)
 
-        await prisma.videoTutorial.create({
+        const videoTut = await prisma.videoTutorial.create({
             data: {
                 title,
                 description,
@@ -34,6 +34,14 @@ export async function POST(req: Request) {
                 thumbnail: "https://utfs.io/f/1e02af5a-90d0-4c57-b119-1b13c65c1f35-57am8q.jpg",
                 authorId: loggedIn?.id,
                 communityId: loggedIn?.Community?.id as string
+            }
+        })
+        
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "LEARNINGMATERIALS",
+              employeeId: session.user.id,
+              typeOfActivity: `Added ${videoTut.title} to Video tutorial.`
             }
         })
 

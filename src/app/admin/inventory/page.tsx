@@ -5,11 +5,6 @@ import { DataTable } from '@/app/employee/inventory/_components/data-table'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { columns } from './_components/columns'
-import { Button } from '@/components/ui/button'
-import { DialogDemo } from './_components/QrcodeDialog'
-import { useEffect, useState } from 'react'
-import { Community } from '@/lib/types'
-import { ChangeQR } from './_components/ChangeQR'
 
 
 const page = () => {

@@ -25,7 +25,7 @@ export async function POST(req: Request) {
 
         const { title, description, material } = CreateMaterialSchema.parse(body)
 
-        await prisma.learningMaterial.create({
+        const learningMaterials = await prisma.learningMaterial.create({
             data: {
                 title,
                 description,
@@ -34,6 +34,14 @@ export async function POST(req: Request) {
                 thumbnail: "https://utfs.io/f/cb4fb13b-9590-4c27-a0c3-7cf4a416c854-jw91ob.png",
                 authorId: loggedIn?.id,
                 communityId: loggedIn?.Community?.id as string
+            }
+        })
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "LEARNINGMATERIALS",
+              employeeId: session.user.id,
+              typeOfActivity: `Added ${learningMaterials.title} to Learning materials.`
             }
         })
 

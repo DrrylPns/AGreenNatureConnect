@@ -1,10 +1,13 @@
 import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
+import { formatStatus } from "@/lib/utils";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
     const session = await getAuthSession()
-
+    if (!session?.user) {
+        return new Response("Unauthorized", { status: 401 });
+    }
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
@@ -32,6 +35,13 @@ export async function PUT(req: NextRequest) {
             data: {
                 isApproved: status
             },
+        })
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "LEARNINGMATERIALS",
+              employeeId: session.user.id,
+              typeOfActivity: `${formatStatus(updatedProduct.isApproved)} the ${updatedProduct.title}`
+            }
         })
 
         return new NextResponse(`Successfully updated `)

@@ -370,6 +370,12 @@ export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
 }>
 export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
   include: {
+    product:{
+      include:{
+        orderedVariant: true
+      },
+    },
+    employee: true,
     transaction: {
       include:{
         orderedVariant: {

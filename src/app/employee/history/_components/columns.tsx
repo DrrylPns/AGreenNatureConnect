@@ -158,4 +158,23 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] =
                 </div>
             },
         },
+        {
+            accessorKey: "buyerId",
+            header: ({ column }) => {
+
+                return (
+                    <DataTableColumnHeader column={column} title="Status Modified by" />
+                );
+            },
+            cell: ({ row }) => {
+                const employeeFirstName = row.original.employee.name
+                const employeeLastName = row.original.employee.lastName
+                const farmerName = employeeFirstName + " " + employeeLastName
+                return <div
+                    className=""
+                >
+                    {farmerName}
+                </div>
+            },
+        },
     ]

@@ -1,7 +1,7 @@
 "use client"
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
 import useSettingsModal from '@/lib/hooks/useSettingsModal';
-import { BookOpen, Cog, FileText, Home, LogOutIcon, PlaySquare, Settings, Store, User } from 'lucide-react';
+import { BookOpen, Cog, FileText, Home, LogOutIcon, PlaySquare, Settings, Store, User, Activity } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -98,6 +98,10 @@ const Sidebar = () => {
                         <Link href="/admin/inventory" className={`w-full flex items-center space-x-2 py-2 px-2 pl-12 rounded-lg ${url === "admin/inventory" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
+                        </Link>
+                        <Link href="/admin/activity-logs" className={`w-full flex items-center space-x-2 py-2 px-2 pl-12 rounded-lg ${url === "admin/activity-logs" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                            <Activity strokeWidth={1} />
+                            <span className="text-sm font-medium">Activity logs</span>
                         </Link>
 
 

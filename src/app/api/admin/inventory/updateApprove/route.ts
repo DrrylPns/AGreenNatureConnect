@@ -1,11 +1,14 @@
 import { getAuthSession } from "../../../../../lib/auth";
 import prisma from "@/lib/db/db";
+import { formatStatus } from "@/lib/utils";
 import { revalidatePath } from "next/cache";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function PUT(req: NextRequest) {
     const session = await getAuthSession()
-
+    if (!session?.user) {
+        return new Response("Unauthorized", { status: 401 });
+    }
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
@@ -34,6 +37,14 @@ export async function PUT(req: NextRequest) {
                 status,
             },
         })
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "DISCUSSION",
+              employeeId: session.user.id,
+              typeOfActivity: `${formatStatus(updatedProduct.status)} the ${updatedProduct.name}`
+            }
+          })
         revalidatePath('/markethub', 'layout')
 
         return new NextResponse(`Successfully updated the item`)

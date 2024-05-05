@@ -29,7 +29,7 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 });
         }
 
-        await prisma.blog.update({
+        const blog = await prisma.blog.update({
             where: {
                 id
             },
@@ -39,7 +39,13 @@ export async function POST(req: Request) {
                 content,
             }
         });
-
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "LEARNINGMATERIALS",
+              employeeId: session.user.id,
+              typeOfActivity: `Updates the ${blog.title} from Blogs.`
+            }
+        })
         return new Response("OK");
     } catch (error: any) {
         if (error instanceof z.ZodError) {

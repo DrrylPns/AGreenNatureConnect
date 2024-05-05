@@ -100,7 +100,8 @@ export async function POST(req: Request) {
               amount: acceptOrderById.amount,
               buyer: acceptOrderById.buyer.name + " " + acceptOrderById.buyer.lastName,
               paymentStatus: acceptOrderById.paymentStatus,
-              status: acceptOrderById.status
+              status: acceptOrderById.status,
+              typeOfActivity: "Completes the order"
             }
         })
 

@@ -39,7 +39,7 @@ import { cn } from '@/lib/utils'
 import { ArrowLeft, ArrowRight, MinusCircle, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 
-const CreateProduct = () => {
+const CreateProduct = () => { 
     const [imageUrl, setImageUrl] = useState<string>('')
     const [formStep, setFormStep] = useState(0)
     const [perMeasurementSlots, setPerMeasurementSlots] = useState([{ measurement: 0, price: 0, estPieces: '' }]);

@@ -56,7 +56,9 @@ export async function GET() {
 
 export async function POST(req: NextRequest) {
     const session = await getAuthSession()
-
+    if (!session?.user) {
+        return new Response("Unauthorized", { status: 401 });
+      }
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
@@ -118,7 +120,7 @@ export async function POST(req: NextRequest) {
         } else if (typeOfMeasurement === "Pieces") {
             createProductData.pieces = quantity;
         } else if (typeOfMeasurement === "Pounds") {
-            createProductData.pounds = quantity;
+            createProductData.pounds = quantity; 
         } else if (typeOfMeasurement === "Packs") {
             createProductData.packs = quantity;
         }
@@ -127,6 +129,17 @@ export async function POST(req: NextRequest) {
             //@ts-ignore
             data: createProductData,
         });
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "MARKETHUB_PRODUCTS",
+              employeeId: session.user.id,
+              productId: test.id,
+              typeOfActivity: "Created new product"
+            }
+          })
+      
+      
 
         return new NextResponse(`Successfully added product!`);
     } catch (error) {

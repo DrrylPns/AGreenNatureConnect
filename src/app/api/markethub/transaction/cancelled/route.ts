@@ -118,7 +118,8 @@ export async function PUT(req: Request) {
               amount: cancelOrderById.amount,
               buyer: cancelOrderById.buyer.name + " " + cancelOrderById.buyer.lastName,
               paymentStatus: cancelOrderById.paymentStatus,
-              status: cancelOrderById.status
+              status: cancelOrderById.status,
+              typeOfActivity: "Cancelled the order"
             }
           })
 

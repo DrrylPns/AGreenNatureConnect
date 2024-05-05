@@ -6,7 +6,9 @@ import { NextRequest, NextResponse } from "next/server"
 export async function PUT(req: NextRequest) {
 
     const session = await getAuthSession()
-
+    if (!session?.user) {
+        return new Response("Unauthorized", { status: 401 });
+    }
     const loggedInUser = await prisma.user.findFirst({
         where: {
             id: session?.user.id
@@ -113,6 +115,15 @@ export async function PUT(req: NextRequest) {
                 }
             })
         }
+
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "MARKETHUB_PRODUCTS",
+              employeeId: session.user.id,
+              productId: existingProduct.id,
+              typeOfActivity: `Added new stocks`
+            }
+        })
 
         return new NextResponse(`Successfully added stocks to the product.`, { status: 200 });
     } catch (error) {

@@ -67,7 +67,7 @@ export async function POST(req: Request) {
     }
 
     const acceptOrderById = await prisma.transaction.update({
-      where: {
+      where: { 
         id: transactionId
       },
       include:{
@@ -142,7 +142,8 @@ export async function POST(req: Request) {
         amount: acceptOrderById.amount,
         buyer: acceptOrderById.buyer.name + " " + acceptOrderById.buyer.lastName,
         paymentStatus: acceptOrderById.paymentStatus,
-        status: acceptOrderById.status
+        status: acceptOrderById.status,
+        typeOfActivity: "Approved the Order"
       }
     })
 
