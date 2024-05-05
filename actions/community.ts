@@ -26,7 +26,7 @@ export const addQR = async (id: string, qrCode: string) => {
     }
 }
 
-export const fetchCommunities = async () => {
+export const fetchCommunities = async (search?: string) => {
     try {
         const session = await getAuthSession()
 
@@ -38,14 +38,31 @@ export const fetchCommunities = async () => {
             },
             where: {
                 isArchived: false,
+                ...(search && {
+                    OR: [
+                        {
+                            urbanFarmName: {
+                                contains: search,
+                                mode: "insensitive"
+                            },
+                        },
+                        {
+                            name: {
+                                contains: search,
+                                mode: "insensitive"
+                            },
+                        }
+                    ]
+                })
             }
-        })
+        });
 
-        return communities
+        return communities;
     } catch (error: any) {
-        throw new Error(error)
+        throw new Error(error);
     }
 }
+
 
 export const getCommunitiesWithoutSession = async () => {
     try {

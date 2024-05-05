@@ -393,9 +393,9 @@ export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
 export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
   include: {
     transaction: {
-      include:{
+      include: {
         orderedVariant: {
-          include:{
+          include: {
             product: true,
             variant: true
           }
