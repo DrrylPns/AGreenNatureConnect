@@ -35,7 +35,7 @@ export function BagongSilanganCarousel() {
             className="w-full"
           >
             <div className="">
-              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[25vh] md:h-[50vh]" />
+              <Image src={image} alt={`Image ${index + 1}`} className="w-full h-[25vh] md:h-[50vh] object-contain" />
             </div>
           </CarouselItem>
         ))}
