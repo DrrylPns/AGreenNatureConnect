@@ -155,7 +155,7 @@ function page() {
 
               <div className='pb-3'>
                 <p className='text-[14px] text-center font-semibold bg-green text-neutral-300 pt-1'>BARANGAY</p>
-                <p className='text-sm md:text-[16px] text-center font-semibold bg-green text-neutral-300 pb-1'>BAGONG SILANGAN</p>
+                <p className='text-sm md:text-[16px] text-center font-semibold bg-green text-neutral-300 pb-1'>BAGONG BAGBAG</p>
                 <p className='md:text-[19px] text-[16px] font-semibold text-center pt-2'> Richard V. Ambita, MPA.</p>
                 <p className='text-[14px] text-center'>Barangay Chairman</p>
               </div>
@@ -171,7 +171,7 @@ function page() {
                 <p className='text-[14px] text-center font-semibold bg-green text-neutral-300 pt-1'>BARANGAY</p>
                 <p className='text-sm md:text-[16px] text-center font-semibold bg-green text-neutral-300 pb-1'>NOVA PROPER</p>
                 <p className='md:text-[19px] text-[16px] font-semibold text-center pt-2'> Asuncion M. Visaya</p>
-                <p className='text-[14px] text-center'>Barangay Chairman</p>
+                <p className='text-[14px] text-center'>Barangay Chairwoman</p>
               </div>
             </div>
             <div className=' border-solid border-2 border-gray-500 md:w-[250px] sm:w-[180px]'>
