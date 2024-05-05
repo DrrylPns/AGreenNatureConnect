@@ -2,6 +2,7 @@ import { getAuthSession } from '@/lib/auth'
 import ChatComponent from './_components/ChatComponent'
 import prisma from '@/lib/db/db'
 import { redirect } from 'next/navigation'
+import { NewChatV2User } from './_components/NewChatV2User'
 
 const MessagePage = async () => {
 
@@ -15,7 +16,8 @@ const MessagePage = async () => {
 
     return (
         <div>
-            <ChatComponent user={user!} />
+            {/* <ChatComponent user={user!} /> */}
+            <NewChatV2User user={user!} />
         </div>
     )
 }

@@ -368,6 +368,28 @@ export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
     orderedVariant: true,
   },
 }>
+
+export type CommunityMessages = Prisma.CommunityGetPayload<{
+  include: {
+    messages: true
+  }
+}>
+
+export type ChatRoomWithRelations = Prisma.ChatRoomGetPayload<{
+  include: {
+    community: true,
+    messages: true,
+  }
+}>
+
+export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
+  include: {
+    messages: true,
+    community: true,
+    user: true,
+  }
+}>
+
 export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
   include: {
     product:{
@@ -377,9 +399,9 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
     },
     employee: true,
     transaction: {
-      include:{
+      include: {
         orderedVariant: {
-          include:{
+          include: {
             product: true,
             variant: true
           }

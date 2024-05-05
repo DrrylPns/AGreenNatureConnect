@@ -70,7 +70,7 @@ export const UserNotifs = () => {
             <PopoverTrigger>
                 <div className='relative'>
 
-                    <Bell />
+                    <Bell className="w-6 h-6 md:w-7 md:h-7" />
 
                     {hasUnread && (
                         <span className='text-red-600 text-lg absolute right-[-2px] top-[-4px]'><GoDotFill /></span>

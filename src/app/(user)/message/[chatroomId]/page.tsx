@@ -1,8 +1,9 @@
 import prisma from "@/lib/db/db"
 import { ChatRoom } from "../_components/ChatRoom"
-import { ChatRoomWithMessagesAndCommunity } from "@/lib/types"
+import { ChatRoomWithAllRelation, ChatRoomWithMessagesAndCommunity } from "@/lib/types"
 import { getAuthSession } from "@/lib/auth"
 import { redirect } from "next/navigation"
+import { NewChatRoomV2User } from "@/app/employee/message/_components/NewChatRoomV2User"
 
 interface Props {
     params: { chatroomId: string }
@@ -24,11 +25,16 @@ const ChatRoomPage = async ({ params }: Props) => {
         },
         include: {
             community: true,
+            messages: true,
+            user: true,
         }
     })
 
+    if (!chatroom) return <>Error fetching chatroom!</>
+
     return (
-        <ChatRoom chatroom={chatroom as ChatRoomWithMessagesAndCommunity} userId={user?.id!} />
+        // <ChatRoom chatroom={chatroom as ChatRoomWithAllRelation} userId={user?.id!} />
+        <NewChatRoomV2User chatroom={chatroom} />
     )
 }
 

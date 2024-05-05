@@ -80,16 +80,16 @@ export const sendMessage = async (chatRoomId: string, senderId: string, senderTy
             }
         });
 
-        if(senderType === 'user' && newMessage) {
-            await prisma.user.update({
-                where: {id: user.id},
+        if (senderType === 'user' || senderType === "community" && newMessage) {
+            await prisma.chatRoom.update({
+                where: { id: chatRoomId },
                 data: {
-                    updatedAt: new Date(),
-                } as Prisma.UserUpdateInput,
+                    updatedAt: new Date()
+                },
             })
         }
 
-        await pusherServer.trigger(chatRoomId, 'messages:new', newMessage)
+        // await pusherServer.trigger(chatRoomId, 'messages:new', newMessage)
 
         return { success: "Message sent" };
     } catch (error: any) {
@@ -117,6 +117,10 @@ export const fetchMessages = async (id: string, page: number, limit: number) => 
             skip: skip,
             orderBy: {
                 createdAt: "desc"
+            },
+            include: {
+                user: true,
+                community: true,
             }
         })
 
@@ -148,16 +152,6 @@ export const fetchUsersWhoChatted = async (communityId: string) => {
         if (!community) {
             return { error: "Community not found" }
         }
-
-        // const usersWithRecentMessages = await prisma.user.findMany({
-        //     where: {
-        //         ChatRoom: {
-        //             some: {
-        //                 communityId: community.id
-        //             }
-        //         }
-        //     },
-        // });
 
         const usersWithRecentMessages = await prisma.user.findMany({
             where: {
@@ -227,3 +221,140 @@ export const deleteMessage = async (id: string) => {
         throw new Error(error)
     }
 }
+
+export const fetchChatRoomMessages = async (id: string, page: number, limit: number) => {
+    try {
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        const user = await getUserById(session.user.id)
+
+        if (!user) return { error: "No user found!" }
+
+        const skip = page * limit;
+
+        const chatroom = await prisma.chatRoom.findUnique({
+            where: {
+                id: id
+            },
+            include: {
+                messages: {
+                    take: limit,
+                    skip: skip,
+                    orderBy: {
+                        createdAt: "desc"
+                    },
+                    include: {
+                        user: true,
+                        community: true
+                    }
+                }
+            }
+        })
+
+        const count = await prisma.message.count({
+            where: {
+                chatRoomId: id,
+            },
+        });
+
+        const hasMore = skip + limit < count;
+
+        return { chatroom, nextPage: hasMore ? page + 1 : null };
+
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
+
+export const fetchChatRoomWithUsersWhoChatted = async (communityId: string, name?: string) => {
+    try {
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        const community = await prisma.community.findUnique({
+            where: { id: communityId }
+        })
+
+        if (!community) {
+            return { error: "Community not found" }
+        }
+
+        if (name) {
+            const chatroomWithRecentMessagesByCommunity = await prisma.chatRoom.findMany({
+                where: {
+                    communityId: community.id,
+                    user: {
+                        OR: [
+                            { name: { contains: name, mode: "insensitive" } },
+                            { lastName: { contains: name, mode: "insensitive" } },
+                        ]
+                    }
+                },
+                include: {
+                    messages: true,
+                    user: true,
+                    community: true,
+                },
+                orderBy: {
+                    updatedAt: "desc"
+                },
+            })
+
+            return chatroomWithRecentMessagesByCommunity
+        } else {
+            const chatroomWithRecentMessagesByCommunity = await prisma.chatRoom.findMany({
+                where: {
+                    communityId
+                },
+                include: {
+                    messages: true,
+                    user: true,
+                    community: true,
+                },
+                orderBy: {
+                    updatedAt: "desc"
+                },
+            })
+
+            return chatroomWithRecentMessagesByCommunity
+        }
+    } catch (error: any) {
+        throw new Error(error)
+    }
+}
+
+// export const fetchUsersWhoChatted = async (communityId: string) => {
+//     try {
+//         const session = await getAuthSession()
+
+//         if (!session) return { error: "Unauthorized" }
+
+//         const community = await prisma.community.findUnique({
+//             where: { id: communityId }
+//         })
+
+//         if (!community) {
+//             return { error: "Community not found" }
+//         }
+
+//         const usersWithRecentMessages = await prisma.user.findMany({
+//             where: {
+//                 ChatRoom: {
+//                     some: {
+//                         communityId: community.id,
+//                     },
+//                 },
+//             },
+//             orderBy: {
+//                 updatedAt: "desc"
+//             },
+//         });
+
+//         return usersWithRecentMessages
+//     } catch (error: any) {
+//         throw new Error(error)
+//     }
+// }
