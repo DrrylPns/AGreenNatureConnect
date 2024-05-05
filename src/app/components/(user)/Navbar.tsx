@@ -22,18 +22,16 @@ import Search from "../Search";
 import { usePathname } from "next/navigation";
 import { MessagesSquareIcon, Bell } from "lucide-react";
 
-
 const Navbar = () => {
   const { data: session, status } = useSession();
   const loginModal = useLoginModal();
-  const pathname = usePathname()
+  const pathname = usePathname();
   //temporary fix lang muna to, baguhin mo nalang pag mag codes ka na ulit
   return (
     <nav className="fixed flex justify-between gap-5 items-center shadow-sm drop-shadow-md w-full z-50 px-3 py-2 min-h-[5rem] mix-h-[5rem]  bg-[#24643B] dark:bg-[#242526] md:px-20">
       <Link href="/" className="w-[3rem] text-center">
         <Image src={LogoIcon} alt="AGreen Nature Connect" className="" />
       </Link>
-
 
       {status === "loading" ? (
         <div className="text-center flex justify-center">
@@ -54,21 +52,27 @@ const Navbar = () => {
               <div className="max-md:block hidden mt-4">
                 <ThemeToggler1 />
               </div>
-              
+
               <div className="hidden max-md:block mt-[2%] text-[32px] md:text-[32px]">
-              <Bell style={{ width: '23px', height: '23px' }}  />
+                <Bell style={{ width: "23px", height: "23px" }} />
               </div>
 
               <div className="hidden md:block mt-[9%] text-[1.5rem] md:text-[2rem]">
-              <Bell style={{ width: '29px', height: '29px' }}  />
+                <Bell style={{ width: "29px", height: "29px" }} />
               </div>
 
-              <Link href="/message" className="hidden max-md:block mt-[2%] text-[1.5rem] md:text-[2rem]">
-                <MessagesSquareIcon style={{ width: '25px', height: '25px' }} />
+              <Link
+                href="/message"
+                className="hidden max-md:block mt-[2%] text-[1.5rem] md:text-[2rem]"
+              >
+                <MessagesSquareIcon style={{ width: "25px", height: "25px" }} />
               </Link>
 
-              <Link href="/message" className="hidden md:block mt-[7%] text-[1.5rem] md:text-[2rem]">
-                <MessagesSquareIcon style={{ width: '30px', height: '30px' }} />
+              <Link
+                href="/message"
+                className="hidden md:block mt-[7%] text-[1.5rem] md:text-[2rem]"
+              >
+                <MessagesSquareIcon style={{ width: "30px", height: "30px" }} />
               </Link>
 
               <div className="hidden md:block mt-[10%]">
@@ -100,10 +104,12 @@ const Navbar = () => {
               <div className="max-md:block hidden mt-4 text-yellow-400">
                 <ThemeToggler1 />
               </div>
-              <button onClick={loginModal.onOpen} className="text-white">
-                <BsCart4 />
+              <button
+                onClick={loginModal.onOpen}
+                className="active:scale-95 inline-flex items-center justify-center text-sm transition-colors focus:outline-none focus:ring-2 focus:ring-slate-400 focus:ring-offset-2 disabled:opacity-50 dark:focus:ring-slate-400 disabled:pointer-events-none dark:focus:ring-offset-slate-900 bg-[#4DE69E]/90 font-poppins rounded-lg hover:shadow-lg hover:bg-[#BAEBD4] text-black font-bold h-10 py-2 px-4"
+              >
+                Sign In
               </button>
-              {/**  <ThemeToggler />  */}
             </>
           )}
         </div>
