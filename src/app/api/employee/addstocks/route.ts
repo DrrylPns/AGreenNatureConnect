@@ -119,7 +119,7 @@ export async function PUT(req: NextRequest) {
         await prisma.employeeActivityHistory.create({
             data:{
               type: "MARKETHUB_PRODUCTS",
-              employeeId: session.user.id,
+              employeeId: session.user.id, 
               productId: existingProduct.id,
               typeOfActivity: `Added ${quantity + " " + typeOfMeasurement} new stocks`
             }

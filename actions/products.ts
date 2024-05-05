@@ -176,6 +176,15 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
             })
         }
 
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "MARKETHUB_PRODUCTS",
+              employeeId: session.user.id,
+              productId: existingProduct.id,
+              typeOfActivity: `Added ${quantity + " " + typeOfMeasurement} new stocks`
+            }
+        })
+
         revalidatePath("/employee/inventory")
         return { success: "Stocks updated!" }
     } catch (error: any) {
