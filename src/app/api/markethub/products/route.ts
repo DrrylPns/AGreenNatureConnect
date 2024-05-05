@@ -6,7 +6,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     try {
         const param = searchParams.get("cursor");
-        const limit = 18
+        const limit = 8
         const getAllProducts = await prisma.product.findMany({
             cursor: param ? {
                 id: param 
