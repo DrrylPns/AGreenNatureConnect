@@ -31,6 +31,7 @@ import {
 import { toast } from "@/lib/hooks/use-toast";
 import { formatTime, pusherClient } from "@/lib/pusher";
 import {
+  ChatRoomWithAllRelation,
   ChatRoomWithMessagesAndCommunity,
   CommunityWithMessages,
 } from "@/lib/types";
@@ -52,7 +53,7 @@ import {
 import { fetchCommunities } from "../../../../../actions/community";
 
 interface Props {
-  chatroom: ChatRoomWithMessagesAndCommunity;
+  chatroom: ChatRoomWithAllRelation;
   userId: string;
 }
 

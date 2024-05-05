@@ -3,6 +3,7 @@ import ChatComponent from './_components/ChatComponent'
 import prisma from '@/lib/db/db'
 import { redirect } from 'next/navigation'
 import { CommunityWithMessages } from '@/lib/types'
+import { NewChatV2 } from './_components/NewChatV2'
 
 const MessagePage = async () => {
 
@@ -24,10 +25,13 @@ const MessagePage = async () => {
         }
     })
 
+    if (!community) return <>Error fetching community!</>
+
 
     return (
         <div className='pb-11'>
-            <ChatComponent community={community as CommunityWithMessages} />
+            {/* <ChatComponent community={community as CommunityWithMessages} /> */}
+            <NewChatV2 community={community} />
         </div>
     )
 }

@@ -25,7 +25,6 @@ export default function ChatComponent({ community }: Props) {
         return <div>Loading...</div>;
     }
 
-
     return (
         <div key="1" className="flex h-screen bg-white dark:bg-zinc-800 pb-11 rounded-lg">
             <aside className="w-80 border-r dark:border-zinc-700">

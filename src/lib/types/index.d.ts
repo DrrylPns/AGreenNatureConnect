@@ -368,3 +368,33 @@ export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
     orderedVariant: true,
   },
 }>
+
+export type CommunityMessages = Prisma.CommunityGetPayload<{
+  include: {
+    messages: true
+  }
+}>
+
+export type ChatRoomWithRelations = Prisma.ChatRoomGetPayload<{
+  include: {
+    community: true,
+    messages: true,
+  }
+}>
+
+export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
+  include: {
+    messages: true,
+    community: true,
+    user: true,
+  }
+}>
+
+// export interface ChatRoomWithMessagesAndCommunity {
+//   id: string;
+//   createdAt: Date;
+//   userId: string;
+//   communityId: string;
+//   community: Community;
+//   messages: Message[]
+// }
