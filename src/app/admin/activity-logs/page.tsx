@@ -10,7 +10,7 @@ import ProductLogs from './_components/productLogs/ProductLogs'
 import DiscussionLogs from './_components/discussionLogs/DiscussionLogs'
 import MaterialsLogs from './_components/materialsLogs/MaterialsLogs'
 
-
+export const dynamic = 'force-dynamic';
 
 const page = async() => {
     const session = await getAuthSession()
