@@ -1,5 +1,3 @@
-"use client"
-
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
 import { ScrollArea } from '@/app/components/Ui/scroll-area'
 import { toast } from '@/lib/hooks/use-toast'
@@ -10,33 +8,12 @@ import { useState } from 'react'
 import { CiBellOn } from 'react-icons/ci'
 import { GoDotFill } from "react-icons/go"
 import { BeatLoader } from 'react-spinners'
-import { fetchNotifications, notificationRead } from '../../actions/notification'
+import { fetchNotifications, notificationRead, markAllNotificationsAsRead } from '../../actions/notification'
 import { NotificationWithUser } from '@/lib/types'
 import { NotificationWithRelations } from '@/lib/types/extendedpost'
 
 export const UserNotifs = () => {
     const queryClient = useQueryClient()
-
-    // const [notifications, setNotifications] = useState<NotificationWithUser[]>([])
-
-    // const fetchNotificationsByUser = async () => {
-    //     try {
-    //         const notifs = await fetchNotifications();
-    //         //@ts-ignore
-    //         setNotifications(notifs as NotificationWithUser[]);
-    //     } catch (error) {
-    //         console.error('Error fetching notifications:', error);
-    //         setError(true)
-    //     } finally {
-    //         setLoading(false);
-    //     }
-    // }
-
-    // useEffect(() => {
-    //     fetchNotificationsByUser()
-    // }, [])
-
-
 
     const { data: notifications, isLoading } = useQuery({
         queryKey: ["notifications"],
@@ -52,7 +29,23 @@ export const UserNotifs = () => {
 
     if (isLoading) return <></>
 
-    const hasUnread = notifications?.some(notification => notification.isRead == false);
+    const hasUnread = notifications?.some(notification => notification.isRead === false);
+
+    const markAllAsRead = async () => {
+        try {
+            await markAllNotificationsAsRead();
+            toast({
+                description: "All notifications marked as read.",
+                variant: "success"
+            });
+            queryClient.invalidateQueries({ queryKey: ["notifications"] });
+        } catch (error) {
+            toast({
+                description: "Failed to mark all notifications as read.",
+                variant: "destructive"
+            });
+        }
+    };
 
     return (
         <Popover>
@@ -72,10 +65,6 @@ export const UserNotifs = () => {
                         {notifications?.length === 0 && (
                             <div className="text-gray-500 text-center">You currently have no notifications yet.</div>
                         )}
-
-                        {/* {loading && <div className="flex items-center justify-center"><BeatLoader /></div>}
-
-                        {error && <div className="text-red-500">Error fetching notifications!</div>} */}
 
                         <>
                             {notifications?.map((notification) => (
@@ -123,24 +112,24 @@ export const UserNotifs = () => {
                                                 <div><span className='font-bold'>{notification.community.name}</span> has <span className='text-rose-500'>cancelled</span> your order.</div>
                                             )}
 
-                                            {notification.type == "COMPLETED" && (
-                                                <div>Congratulations, you're order from <span className='font-bold'>{notification.community.name}</span> was successful!</div>
+                                            {notification.type === "COMPLETED" && (
+                                                <div>Congratulations, your order from <span className='font-bold'>{notification.community.name}</span> was successful!</div>
                                             )}
 
                                             {notification.type === "PICK_UP" && (
-                                                <div>You're order from {notification.community.name} has been picked up.</div>
+                                                <div>Your order from {notification.community.name} has been picked up.</div>
                                             )}
 
                                             {notification.type === "REACT" && (
-                                                <div>{notification.user.name} Has reacted to your post.</div>
+                                                <div>{notification.user.name} has reacted to your post.</div>
                                             )}
 
                                             {notification.type === "COMMENT" && (
-                                                <div>{notification.user.name} Has commented to your post.</div>
+                                                <div>{notification.user.name} has commented on your post.</div>
                                             )}
 
                                             {notification.type === "REPLY" && (
-                                                <div>{notification.user.name} Has replied to your comment.</div>
+                                                <div>{notification.user.name} has replied to your comment.</div>
                                             )}
                                         </div>
 
@@ -152,6 +141,12 @@ export const UserNotifs = () => {
                                 </div>
                             ))}
                         </>
+                        <button
+                            className="block text-sm font-medium text-center text-gray-900 dark:text-gray-100 py-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-500"
+                            onClick={markAllAsRead}
+                        >
+                            Mark all as read
+                        </button>
                     </div>
                 </ScrollArea>
             </PopoverContent>
