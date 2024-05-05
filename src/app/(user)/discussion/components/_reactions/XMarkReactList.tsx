@@ -59,13 +59,13 @@ export const XMarkReactList = ({ postId }: PostIdProps) => {
                 {reactors?.map((reactor) => (
                     <div className='flex gap-3 my-4'>
                         <Avatar>
-                            <AvatarImage src={reactor.user.image} alt={`${reactor.user.username}'s profile picture`} />
-                            <AvatarFallback>{reactor.user.name.charAt(0)}</AvatarFallback>
+                            <AvatarImage src={reactor?.user?.image} alt={`${reactor?.user?.username}'s profile picture`} />
+                            <AvatarFallback>{reactor?.user?.name?.charAt(0)}</AvatarFallback>
                         </Avatar>
                         <div className='w-full'>
                             <div className='flex flex-col w-full'>
-                                <div key={reactor.id}>{reactor.user.name} {" "} {reactor.user.lastName}</div>
-                                <div className='text-muted-foreground text-sm'>{reactor.user.username}</div>
+                                <div key={reactor?.id}>{reactor?.user?.name} {" "} {reactor?.user?.lastName}</div>
+                                <div className='text-muted-foreground text-sm'>{reactor?.user?.username}</div>
 
                             </div>
                             <Separator className='mt-2' />
