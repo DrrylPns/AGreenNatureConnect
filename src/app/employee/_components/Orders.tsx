@@ -83,6 +83,7 @@ interface OrderedVariant {
     product: Product;
     variant: Variants;
     price: number;
+    quantity: number
 }
 interface Variants {
     id: string
@@ -199,10 +200,10 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                             />
                                             <div className=''>
                                                 <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{variant.product.name}</h1>
-                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span></p>
+                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span> <span className='text-black text-sm'>(x{variant.quantity})</span></p>
                                             </div>
                                             <div className='ml-auto font-semibold text-[0.6rem] sm:text-xs md:text-lg'>
-                                                <h1>{variant.product.isFree ? "Free" : `₱ ${variant.variant.price}`}</h1>
+                                                <h1>{variant.product.isFree ? "Free" : `₱ ${variant.variant.price * variant.quantity}`}</h1>
                                             </div>
                                         </Link>
                                     ))}

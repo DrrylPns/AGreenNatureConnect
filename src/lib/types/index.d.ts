@@ -390,11 +390,17 @@ export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
   }
 }>
 
-// export interface ChatRoomWithMessagesAndCommunity {
-//   id: string;
-//   createdAt: Date;
-//   userId: string;
-//   communityId: string;
-//   community: Community;
-//   messages: Message[]
-// }
+export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
+  include: {
+    transaction: {
+      include:{
+        orderedVariant: {
+          include:{
+            product: true,
+            variant: true
+          }
+        }
+      }
+    },
+  },
+}>

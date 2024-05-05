@@ -78,6 +78,9 @@ export async function PUT(req: Request) {
             where: {
                 id: transactionId,
             },
+            include:{
+                buyer: true
+            },
             data: {
                 cancelType: type,
                 cancelReason: otherReason,
@@ -105,6 +108,20 @@ export async function PUT(req: Request) {
                 sendCancelledNotification(transaction.buyer.email as string, cancelOrderById.id, transaction.seller.name, cancelOrderById.cancelReason, cancelOrderById.cancelType)
             }
         }
+
+        
+        await prisma.employeeActivityHistory.create({
+            data:{
+              type: "MARKETHUB_ORDERS",
+              transactionId: cancelOrderById.id,
+              employeeId: session.user.id,
+              amount: cancelOrderById.amount,
+              buyer: cancelOrderById.buyer.name + " " + cancelOrderById.buyer.lastName,
+              paymentStatus: cancelOrderById.paymentStatus,
+              status: cancelOrderById.status
+            }
+          })
+
 
         revalidatePath('/orders', 'layout')
         return new Response(JSON.stringify(cancelOrderById));

@@ -47,7 +47,7 @@ function AllProducts() {
   return (
     <>
     {Products.pages.map((page)=>(
-        <div key={page.nextId} className="grid grid-cols-2 sm:grid-cols-span-3 md:grid-cols-4 gap-5 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
+        <div key={page.nextId} className="grid grid-cols-2 sm:grid-cols-span-3 md:grid-cols-4 gap-5 border-x-[1px] p-5 font-poppins font-medium ">
             {page.getAllProducts !== undefined && page.getAllProducts.length > 0 ?
             page.getAllProducts.map((product)=>{
                     const prices = product.variants.map((variant: Variants) => variant.price);
