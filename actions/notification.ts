@@ -65,7 +65,7 @@ export const fetchNotifications = async () => {
         },
     })
 
-    return notifications || []
+    return notifications
 }
 
 export const notificationRead = async (notificationId: string) => {
@@ -82,5 +82,25 @@ export const notificationRead = async (notificationId: string) => {
         })
 
         return { success: "Notification read." }
+    }
+}
+
+export const notificationReadAll = async (userId: string | undefined) => {
+    try {
+
+        if(!userId) return {error: "No user found!"}
+
+        await prisma.notification.updateMany({
+            where: {
+                userId 
+            },
+            data:{
+                isRead: true
+            },
+        })
+
+        return {success: "Notification read."}
+    } catch (error) {
+        throw new Error(error as any)
     }
 }

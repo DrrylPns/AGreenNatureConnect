@@ -288,6 +288,9 @@ export interface NotificationWithUser {
   user: User;
   community: Community;
   transaction: Transaction;
+  Reaction: string;
+  Comment: string;
+  author: string;
 }
 
 export interface CommentsWithReplies {
@@ -412,4 +415,53 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
     video: true,
     learningMaterial: true,
   },
+}>
+
+export type NotificationWithUser = Prisma.NotificationGetPayload<{
+  error: String, 
+  include: {
+    user: true,
+    community: true,
+    transaction: true,
+    Reaction: {
+        include: {
+            post: {
+                include: {
+                    topic: true
+                }
+            },
+            user: true
+        }
+    },
+    Reply: {
+        include: {
+            user: true,
+            comment: {
+                include: {
+                    post: {
+                        include: {
+                            topic: true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    Comment: {
+        include: {
+            post: {
+                include: {
+                    topic: true
+                }
+            },
+            author: true
+        }
+    },
+    Post: {
+        include: {
+            author: true,
+            topic: true,
+        }
+    },
+},
 }>
