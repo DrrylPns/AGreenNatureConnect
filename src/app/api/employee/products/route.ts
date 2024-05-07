@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { CreateProductSchema, UpdateProductSchema } from "@/lib/validations/employee/products";
+import { revalidatePath } from "next/cache";
 
 export async function GET() {
     const session = await getAuthSession()
@@ -85,13 +86,14 @@ export async function POST(req: NextRequest) {
             category,
             priceInKg,
             quantity,
-            harvestedFrom
+            harvestedFrom,
+            expiration,
         } = CreateProductSchema.parse(body)
-        
+
         if(community && user){
             const createProduct = await prisma.product.create({
                 data: {
-                    productImage,
+                    productImage: productImage as string,
                     name,
                     category,
                     priceInKg,
@@ -100,6 +102,17 @@ export async function POST(req: NextRequest) {
                     communityId: community?.id,
                 }
             });
+
+            const addStocks = await prisma.stocks.create({
+                data:{
+                    batchNo: "batch",
+                    numberOfStocks: quantity,
+                    harvestedFrom: harvestedFrom,
+                    expiration: expiration,
+                    productId: createProduct.id,
+
+                }
+            })
             
             await prisma.employeeActivityHistory.create({
                 data:{
@@ -110,6 +123,8 @@ export async function POST(req: NextRequest) {
                 }
             })
         }
+
+        revalidatePath("/employee/inventory")
        console.log("created Product")
         return new NextResponse(`Successfully added product!`);
     } catch (error) {

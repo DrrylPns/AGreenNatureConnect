@@ -39,6 +39,7 @@ export const CreateProductSchema = z.object({
     category: z.string().min(2).max(21),
     priceInKg: z.coerce.number().min(0, numberError),
     harvestedFrom: z.string().min(3).max(20),
+    expiration: z.coerce.date({required_error: "Expiration date is required"})
 });
 
 export type UpdateProductType = z.infer<typeof UpdateProductSchema>
@@ -65,6 +66,7 @@ export const AddStocksScehma = z.object({
     id: z.string().optional(),
     quantity: z.coerce.number().min(0, numberError),
     harvestedFrom: z.string().min(1).max(21),
+    expiration: z.coerce.date({required_error: "Expiration date is required"})
 })
 
 export type UpdateStocksType = z.infer<typeof UpdateStocksSchema>
