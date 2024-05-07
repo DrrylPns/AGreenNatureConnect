@@ -33,8 +33,35 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Country, State, City } from "country-state-city"
+
+type StateType = {
+  countryCode: string;
+  isoCode: string;
+  latitude: string;
+  longitude: string;
+  name: string;
+}
+
+type CityType = {
+  stateCode: string;
+  latitude: string;
+  longitude: string;
+  name: string;
+  countryCode: string;
+}
 
 const RegisterCommunitiesPage = () => {
+
+  let countryData = Country.getAllCountries();
+  const [stateData, setStateData] = useState();
+  const [cityData, setCityData] = useState();
+  const [country, setCountry] = useState(countryData[173]);
+  const [state, setState] = useState<StateType>();
+  const [city, setCity] = useState<CityType>();
+  const [district, setDistrict] = useState("")
+  const [formStep, setFormStep] = useState(1)
+
   const form = useForm<CreateCommunityType>({
     resolver: zodResolver(CreateCommunitySchema),
   });
@@ -45,150 +72,160 @@ const RegisterCommunitiesPage = () => {
 
   const imageIsEmpty = imageUrl.length === 0;
 
-  const { mutate: createEmployee, isLoading } = useMutation({
-    mutationFn: async ({
-      firstname,
-      lastName,
-      phone,
-      gender,
-      communityEmail,
-      password,
-      email,
-      confirmPassword,
-      urbanFarmName,
-      communityAddress,
-      communityDescription,
-      barangayName,
-      communityDisplayPhoto,
-      userPhone,
-    }: // communityImages,
-    CreateCommunityType) => {
-      const payload: CreateCommunityType = {
-        firstname,
-        lastName,
-        urbanFarmName,
-        barangayName,
-        phone,
-        email,
-        gender,
-        communityEmail,
-        password,
-        confirmPassword,
-        communityAddress,
-        communityDescription,
-        communityDisplayPhoto,
-        userPhone,
-        // communityImages,
-      };
+  // const {} = useMutation({
+  //   mutationFn: () => {},
+  //   onError: (err) => {
 
-      const { data } = await axios.post(
-        "/api/super-admin/createCommunity",
-        payload
-      );
-      return data;
-    },
-    onError: (err) => {
-      if (err instanceof AxiosError) {
-        if (err.response?.status === 400) {
-          toast({
-            title: "Error",
-            description:
-              "Bad Request, phone number is already in use by another community.",
-            variant: "destructive",
-          });
-        }
-        if (err.response?.status === 401) {
-          toast({
-            title: "Error",
-            description: "Unauthorized!",
-            variant: "destructive",
-          });
-        }
-        if (err.response?.status === 402) {
-          toast({
-            title: "Error",
-            description: "Community already exists!",
-            variant: "destructive",
-          });
-        }
-        if (err.response?.status === 403) {
-          toast({
-            title: "Error",
-            description: "Community email already exists!",
-            variant: "destructive",
-          });
-        }
-        if (err.response?.status === 405) {
-          toast({
-            title: "Error",
-            description: "Urban Farm name already exists!",
-            variant: "destructive",
-          });
-        }
-        if (err.response?.status === 406) {
-          toast({
-            title: "Error",
-            description:
-              "Invalid admin email, it is already used by another user!",
-            variant: "destructive",
-          });
-        }
-        if (err.response?.status === 407) {
-          toast({
-            title: "Error",
-            description:
-              "Invalid admin number, it is already used by another user!",
-            variant: "destructive",
-          });
-        }
-      } else {
-        return toast({
-          title: "Something went wrong.",
-          description: "Error",
-          variant: "destructive",
-        });
-      }
-      toast({
-        title: "Something went wrong.",
-        description: `${err}`,
-        variant: "destructive",
-      });
-    },
-    onSuccess: (data) => {
-      toast({
-        title: "Success!",
-        description: `${data}`,
-        variant: "default",
-      });
+  //   },
+  //   onSuccess: (data) => {
 
-      setTimeout(() => {
-        router.push("/communities");
-        router.refresh();
-      }, 1000);
-    },
-  });
+  //   } 
+  // })
+
+  // const { mutate: createEmployee, isLoading } = useMutation({
+  //   mutationFn: async ({
+  //     firstname,
+  //     lastName,
+  //     phone,
+  //     gender,
+  //     communityEmail,
+  //     password,
+  //     email,
+  //     confirmPassword,
+  //     urbanFarmName,
+  //     communityAddress,
+  //     communityDescription,
+  //     // barangayName,
+  //     communityDisplayPhoto,
+  //     userPhone,
+  //   }: // communityImages,
+  //     CreateCommunityType) => {
+  //     const payload: CreateCommunityType = {
+  //       firstname,
+  //       lastName,
+  //       urbanFarmName,
+  //       // barangayName,
+  //       phone,
+  //       email,
+  //       gender,
+  //       communityEmail,
+  //       password,
+  //       confirmPassword,
+  //       communityAddress,
+  //       communityDescription,
+  //       communityDisplayPhoto,
+  //       userPhone,
+  //       // communityImages,
+  //     };
+
+  //     const { data } = await axios.post(
+  //       "/api/super-admin/createCommunity",
+  //       payload
+  //     );
+  //     return data;
+  //   },
+  //   onError: (err) => {
+  //     if (err instanceof AxiosError) {
+  //       if (err.response?.status === 400) {
+  //         toast({
+  //           title: "Error",
+  //           description:
+  //             "Bad Request, phone number is already in use by another community.",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //       if (err.response?.status === 401) {
+  //         toast({
+  //           title: "Error",
+  //           description: "Unauthorized!",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //       if (err.response?.status === 402) {
+  //         toast({
+  //           title: "Error",
+  //           description: "Community already exists!",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //       if (err.response?.status === 403) {
+  //         toast({
+  //           title: "Error",
+  //           description: "Community email already exists!",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //       if (err.response?.status === 405) {
+  //         toast({
+  //           title: "Error",
+  //           description: "Urban Farm name already exists!",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //       if (err.response?.status === 406) {
+  //         toast({
+  //           title: "Error",
+  //           description:
+  //             "Invalid admin email, it is already used by another user!",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //       if (err.response?.status === 407) {
+  //         toast({
+  //           title: "Error",
+  //           description:
+  //             "Invalid admin number, it is already used by another user!",
+  //           variant: "destructive",
+  //         });
+  //       }
+  //     } else {
+  //       return toast({
+  //         title: "Something went wrong.",
+  //         description: "Error",
+  //         variant: "destructive",
+  //       });
+  //     }
+  //     toast({
+  //       title: "Something went wrong.",
+  //       description: `${err}`,
+  //       variant: "destructive",
+  //     });
+  //   },
+  //   onSuccess: (data) => {
+  //     toast({
+  //       title: "Success!",
+  //       description: `${data}`,
+  //       variant: "default",
+  //     });
+
+  //     setTimeout(() => {
+  //       router.push("/communities");
+  //       router.refresh();
+  //     }, 1000);
+  //   },
+  // });
 
   function onSubmit(values: CreateCommunityType) {
-    const payload: CreateCommunityType = {
-      email: values.email,
-      firstname: values.firstname,
-      lastName: values.lastName,
-      phone: values.phone,
-      gender: values.gender,
-      communityEmail: values.communityEmail,
-      urbanFarmName: values.urbanFarmName,
-      barangayName: values.barangayName,
-      communityAddress: values.communityAddress,
-      communityDescription: values.communityDescription,
-      communityDisplayPhoto: imageUrl,
-      userPhone: values.userPhone,
-      // communityImages: imageUrl,
-      // password: values.password,
-      // confirmPassword: values.confirmPassword,
-    };
-    createEmployee(payload);
-    // console.log('Form submitted with values:', payload);
-    // console.log(payload)
+    // const payload: CreateCommunityType = {
+    //   email: values.email,
+    //   firstname: values.firstname,
+    //   lastName: values.lastName,
+    //   phone: values.phone,
+    //   gender: values.gender,
+    //   communityEmail: values.communityEmail,
+    //   urbanFarmName: values.urbanFarmName,
+    //   // barangayName: values.barangayName,
+    //   communityAddress: values.communityAddress,
+    //   communityDescription: values.communityDescription,
+    //   communityDisplayPhoto: imageUrl,
+    //   userPhone: values.userPhone,
+    //   // communityImages: imageUrl,
+    //   // password: values.password,
+    //   // confirmPassword: values.confirmPassword,
+    // };
+    // // createEmployee(payload);
+    // // console.log('Form submitted with values:', payload);
+    // // console.log(payload)
   }
 
   return (
@@ -204,7 +241,7 @@ const RegisterCommunitiesPage = () => {
                 onSubmit={form.handleSubmit(onSubmit)}
                 className="space-y-6 w-full"
               >
-                <div className="grid grid-cols-1">
+                {/* <div className="grid grid-cols-1">
                   <FormField
                     control={form.control}
                     name="barangayName"
@@ -218,7 +255,7 @@ const RegisterCommunitiesPage = () => {
                       </FormItem>
                     )}
                   />
-                </div>
+                </div> */}
 
                 <div className="grid grid-cols-1">
                   <FormField
@@ -542,8 +579,8 @@ const RegisterCommunitiesPage = () => {
                   <Button
                     type="submit"
                     className="bg-[#4DE69E] hover:bg-[#bababa8f] w-full text-black"
-                    isLoading={isLoading}
-                    disabled={isLoading || imageIsEmpty}
+                    // isLoading={isLoading}
+                    // disabled={isLoading || imageIsEmpty}
                   >
                     Sign up
                   </Button>

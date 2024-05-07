@@ -14,7 +14,7 @@ import {
     AlertDialogTrigger,
 } from "@/app/components/Ui/alert-dialog";
 import { toast } from "@/lib/hooks/use-toast";
-import { formatDate } from "@/lib/utils";
+import { cn, formatDate } from "@/lib/utils";
 import { Community } from "@prisma/client";
 import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text } from '@tremor/react';
 import { MoreHorizontal, Plus } from "lucide-react";
@@ -63,9 +63,11 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                 <div className="flex gap-3">
                     {isArchivePanel ? (
                         <>
-                            <Link className={buttonVariants({
+                            <Link className={cn(buttonVariants({
                                 variant: "outline"
-                            })}
+                            }),
+                                "w-full"
+                        )}
                                 href="/communities"
                             >
                                 Active Communities

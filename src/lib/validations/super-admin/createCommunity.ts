@@ -9,9 +9,9 @@ export type CreateCommunityType = z.infer<typeof CreateCommunitySchema>
 export const CreateCommunitySchema = z.object({
     // communityImages: z.optional(z.array(CommunityImageSchema)),
     communityDisplayPhoto: z.optional(z.string()),
-    barangayName: z.string({
-        required_error: "Barangay name required!"
-    }),
+    // barangayName: z.string({
+    //     required_error: "Barangay name required!"
+    // }),
     urbanFarmName: z.string({
         required_error: "Urban farm name required!"
     }),

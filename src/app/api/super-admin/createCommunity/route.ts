@@ -16,7 +16,7 @@ export async function POST(req: Request) {
         const body = await req.json()
 
         const {
-            barangayName,
+            // barangayName,
             urbanFarmName,
             communityAddress,
             communityDescription,
@@ -55,13 +55,13 @@ export async function POST(req: Request) {
             where: { contactNumber: phone }
         })
 
-        const communityExists = await prisma.community.findFirst({
-            where: { name: barangayName }
-        })
+        // const communityExists = await prisma.community.findFirst({
+        //     where: { name: barangayName }
+        // })
 
         const urbanFarmExists = await prisma.community.findFirst({
             where: {
-                urbanFarmName,
+                name: urbanFarmName,
             }
         })
 
@@ -77,9 +77,9 @@ export async function POST(req: Request) {
             return new Response("Error: Bad Request, phone number is already in use by another community.", { status: 400 })
         }
 
-        if (communityExists) {
-            return new Response("Error: Community already exists!", { status: 402 })
-        }
+        // if (communityExists) {
+        //     return new Response("Error: Community already exists!", { status: 402 })
+        // }
 
         if (urbanFarmExists) {
             return new Response("Error: Urban Farm name already exists!", { status: 405 })
@@ -99,13 +99,13 @@ export async function POST(req: Request) {
                 // hashedPassword,
                 Community: {
                     create: {
-                        name: barangayName,
+                        // name: barangayName,
                         address: communityAddress,
                         description: communityDescription,
                         email: communityEmail,
                         displayPhoto: communityDisplayPhoto,
                         contactNumber: phone,
-                        urbanFarmName,
+                        name: urbanFarmName,
                         // carouselImage: communityImages,
                     }
                 }

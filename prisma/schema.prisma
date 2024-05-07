@@ -39,6 +39,7 @@ model User {
   hashedPassword         String?
   middleName             String?
   lastName               String?
+  barangay               String?
   suffix                 String?
   phoneNumber            String?        @unique
   address                String?
@@ -112,10 +113,10 @@ model PasswordResetToken {
 
 // to edit STAFF to EMPLOYEE
 enum Role {
-  USER
-  ADMIN
-  EMPLOYEE
-  SUPER_ADMIN
+  USER // residents
+  ADMIN // urban farm head
+  EMPLOYEE // urban farm staff
+  SUPER_ADMIN // barangay admin
 }
 
 model EmployeeIdCounter {
@@ -143,15 +144,15 @@ model Account {
   @@index([userId])
 }
 
-// mga possible idagdag sa community: address, description, etc... consult sa members
+// urban farm head
 model Community {
   id               String             @id @default(cuid())
-  name             String             @unique
+  name             String             @unique // urban farm name
   createdAt        DateTime           @default(now())
   updatedAt        DateTime           @updatedAt
   carouselImage    CommunityImage[]
   displayPhoto     String?
-  urbanFarmName    String?
+  // urbanFarmName    String?            @unique
   qrCode           String?
   address          String?
   email            String?
@@ -435,9 +436,10 @@ model Blog {
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
 
-  community   Community @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId String
+  community               Community                 @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId             String
   EmployeeActivityHistory EmployeeActivityHistory[]
+
   @@index([authorId])
   @@index([communityId])
 }
@@ -459,6 +461,7 @@ model LearningMaterial {
   communityId String
 
   EmployeeActivityHistory EmployeeActivityHistory[]
+
   @@index([authorId])
   @@index([communityId])
 }
@@ -480,6 +483,7 @@ model VideoTutorial {
   communityId String
 
   EmployeeActivityHistory EmployeeActivityHistory[]
+
   @@index([authorId])
   @@index([communityId])
 }
@@ -529,29 +533,29 @@ enum ApprovalStatus {
 }
 
 model Product {
-  id           String         @id @default(cuid())
-  itemNumber   Int?           @unique @default(autoincrement())
-  productImage String         @unique
+  id           String @id @default(cuid())
+  itemNumber   Int?   @unique @default(autoincrement())
+  productImage String @unique
   name         String
-  quantity    Float
+  quantity     Float
   priceInKg    Float
- 
-  category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
-  status       ApprovalStatus @default(PENDING)
-  isFree       Boolean        @default(false)
-  isFreeUntil  DateTime?
+
+  category    String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
+  status      ApprovalStatus @default(PENDING)
+  isFree      Boolean        @default(false)
+  isFreeUntil DateTime?
 
   Stock     Stocks[]
-  creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
+  creator   User     @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  community      Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId    String
+  community               Community                 @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId             String
   // orderedVariant OrderedVariant[]
-  reviews        Review[]
+  reviews                 Review[]
   EmployeeActivityHistory EmployeeActivityHistory[]
   // ProductTransaction ProductTransaction[]
 
@@ -560,15 +564,15 @@ model Product {
 }
 
 model Stocks {
-  id           String         @id @default(cuid())
-  batchNo     String
-  numberOfStocks  Float
-  expiration  DateTime
-  harvestedFrom   String
-  productId String?
-  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id             String   @id @default(cuid())
+  batchNo        String
+  numberOfStocks Float
+  expiration     DateTime
+  harvestedFrom  String
+  productId      String?
+  product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 }
 
 model Review {
@@ -755,30 +759,29 @@ model ShippingInfo {
 }
 
 model EmployeeActivityHistory {
-  id            String         @id @default(cuid())
-  type          TypeOfActivity
-  employeeId    String
-  employee      User           @relation(fields: [employeeId], references: [id], onDelete: Cascade)
-  createdAt     DateTime       @default(now())
-  updatedAt     DateTime       @updatedAt
-  transactionId String?
-  transaction   Transaction?   @relation(fields: [transactionId], references: [id], onDelete: Cascade)
-  amount        Float?
-  status        String?
-  buyer         String?
-  paymentStatus String?
+  id               String            @id @default(cuid())
+  type             TypeOfActivity
+  employeeId       String
+  employee         User              @relation(fields: [employeeId], references: [id], onDelete: Cascade)
+  createdAt        DateTime          @default(now())
+  updatedAt        DateTime          @updatedAt
+  transactionId    String?
+  transaction      Transaction?      @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  amount           Float?
+  status           String?
+  buyer            String?
+  paymentStatus    String?
   //for inventory
-  productName String?
-  typeOfActivity  String?
-  productId String?
-  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)  
-  learningId String?
-  learningMaterial LearningMaterial? @relation(fields: [learningId], references: [id], onDelete: Cascade)  
-  blogId String?
-  blog  Blog? @relation(fields: [blogId], references: [id], onDelete: Cascade)
-  videoId String?
-  video VideoTutorial? @relation(fields: [videoId], references: [id], onDelete: Cascade)
-  
+  productName      String?
+  typeOfActivity   String?
+  productId        String?
+  product          Product?          @relation(fields: [productId], references: [id], onDelete: Cascade)
+  learningId       String?
+  learningMaterial LearningMaterial? @relation(fields: [learningId], references: [id], onDelete: Cascade)
+  blogId           String?
+  blog             Blog?             @relation(fields: [blogId], references: [id], onDelete: Cascade)
+  videoId          String?
+  video            VideoTutorial?    @relation(fields: [videoId], references: [id], onDelete: Cascade)
 }
 
 enum TypeOfActivity {

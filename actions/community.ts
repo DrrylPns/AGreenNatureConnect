@@ -3,6 +3,7 @@
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
 import { ChangeCommunitySettingsSchema, ChangeCommunitySettingsType } from "@/lib/validations/changeUserProfile"
+import { CreateCommunitySchema, CreateCommunityType } from "@/lib/validations/super-admin/createCommunity"
 import { Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 
@@ -41,7 +42,7 @@ export const fetchCommunities = async (search?: string) => {
                 ...(search && {
                     OR: [
                         {
-                            urbanFarmName: {
+                            name: {
                                 contains: search,
                                 mode: "insensitive"
                             },
@@ -229,6 +230,36 @@ export const handleCarousel = async (imageUrls: string[]) => {
         })
 
         return { success: "Added community carousel!" }
+    } catch (error) {
+        throw new Error(error as any)
+    }
+}
+
+export const createUrbanFarm = async (values: CreateCommunityType, image: string) => {
+    try {
+        const currentYear = new Date().getFullYear()
+        const session = await getAuthSession()
+
+        const currentUser = await prisma.user.findUnique({
+            where: {
+                id: session?.user.id
+            }
+        })
+
+        if (!currentUser) return { error: "Error: No current user found!" }
+
+        if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" }
+
+        const validatedFields = CreateCommunitySchema.safeParse(values)
+
+        if (!validatedFields.success) return { error: "Invalid fields" }
+
+        const {
+            urbanFarmName,
+            communityAddress,
+            
+        } = validatedFields.data
+
     } catch (error) {
         throw new Error(error as any)
     }
