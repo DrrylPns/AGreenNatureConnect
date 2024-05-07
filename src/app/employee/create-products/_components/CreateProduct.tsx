@@ -27,6 +27,7 @@ import {
     AlertDialogTitle,
     AlertDialogTrigger,
 } from "@/app/components/Ui/alert-dialog"
+import { format } from "date-fns"
 import { Input } from '@/app/components/Ui/Input'
 import { Button } from '@/app/components/Ui/Button'
 import { User } from '@prisma/client'
@@ -35,9 +36,13 @@ import ImageUpload from '@/app/components/image-upload'
 import Image from 'next/image'
 import { UploadDropzone } from '@/lib/uploadthing'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/Ui/select'
-import { cn } from '@/lib/utils'
+import { cn, formatDate } from '@/lib/utils'
 import { ArrowLeft, ArrowRight, MinusCircle, Plus } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+import { Calendar as CalendarIcon } from "lucide-react"
+import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
+import { Calendar } from '@/components/ui/calendar'
+
 
 const CreateProduct = () => { 
     const [imageUrl, setImageUrl] = useState<string>('')
@@ -50,6 +55,7 @@ const CreateProduct = () => {
     const [harvestedFrom, setHarvestedFrom] = useState<string>()
     const [category, setCategory] = useState<string>()
     const router = useRouter()
+    const [date, setDate] = React.useState<Date>()
 
     const imageIsEmpty = imageUrl.length === 0
 
@@ -67,6 +73,7 @@ const CreateProduct = () => {
             quantity,
             priceInKg,
             harvestedFrom,
+            expiration
         }: CreateProductType) => {
             const payload: CreateProductType = {
                 productImage,
@@ -75,6 +82,7 @@ const CreateProduct = () => {
                 quantity,
                 priceInKg,
                 harvestedFrom,
+                expiration
             }
 
             const { data } = await axios.post("/api/employee/products", payload)
@@ -123,10 +131,13 @@ const CreateProduct = () => {
             name: values.name,
             quantity: values.quantity,
             priceInKg: values.priceInKg,
-            harvestedFrom: values.harvestedFrom
+            harvestedFrom: values.harvestedFrom,
+            expiration: values.expiration
         }
 
         createProduct(payload)
+
+        router.replace('/employee/inventory')
     }
 
 
@@ -414,6 +425,44 @@ const CreateProduct = () => {
                             </FormItem>
                             )}
                         />
+                        <FormField
+                            control={form.control}
+                            name="expiration"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel className='text-[#f7d126]'>Expiration Date</FormLabel>
+                                <FormControl>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[280px] justify-start text-left font-normal",
+                                            !field.value && "text-muted-foreground"
+                                        )}
+                                        >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {field.value ? (
+                                            format(field.value, "PPP")
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                            )}
+                        />
                     </div>
                 </div>
 
@@ -483,7 +532,7 @@ const CreateProduct = () => {
                                 // console.log("GEY" + perMeasurementValues)
                             }}
                             disabled={
-                                imageIsEmpty || isLoading || !formState.isValid || !formState.dirtyFields
+                                imageIsEmpty || isLoading 
                             }
                         >Save</AlertDialogTrigger>
                         <AlertDialogContent>
@@ -519,6 +568,13 @@ const CreateProduct = () => {
                                             Harvested from:
                                             <span className='font-bold text-black ml-1'>
                                                 {harvestedFrom}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            Expiration Date:
+                                            {}
+                                            <span className='font-bold text-black ml-1'>
+                                                {formatDate(form.getValues("expiration")) }
                                             </span>
                                         </div>
                                     </div>
@@ -566,13 +622,14 @@ const CreateProduct = () => {
                                 <Button
                                     type="submit"
                                     variant="newGreen"
+                                    disabled={isLoading}
                                     className={
                                         cn('bg-[#099073] hover:bg-[#099073]/80', {
                                             'hidden': formStep == 0
                                         })
                                     }
-                                    isLoading={isLoading}
-                                    disabled={imageIsEmpty || isLoading}
+                                    // isLoading={isLoading}
+                                    // disabled={isLoading}
                                     onClick={() => {
                                         form.handleSubmit(onSubmit)()
                                     }}

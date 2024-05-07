@@ -10,6 +10,7 @@ import {
     FormLabel,
     FormMessage
 } from "@/app/components/Ui/form";
+import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/Ui/select';
 import { toast } from '@/lib/hooks/use-toast';
 import { cn } from '@/lib/utils';
@@ -22,6 +23,9 @@ import { MinusCircle, Plus } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import React, { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
+import { format } from "date-fns"
+import { Calendar } from '@/components/ui/calendar'
+import { Calendar as CalendarIcon } from "lucide-react"
 
 interface UpdateProductProps {
     product: Product & {
@@ -65,11 +69,13 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
             id,
             quantity,
             harvestedFrom,
+            expiration
         }: AddStocksType) => {
             const payload: AddStocksType = {
                 id: product?.id,
                 quantity,
-                harvestedFrom
+                harvestedFrom,
+                expiration
             }
 
             const { data } = await axios.put("/api/employee/addstocks", payload)
@@ -124,7 +130,8 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
             // category: values.category,
             // name: values.name,
             quantity: values.quantity,
-            harvestedFrom: values.harvestedFrom
+            harvestedFrom: values.harvestedFrom,
+            expiration: values.expiration
         }
 
         addStocks(payload)
@@ -181,6 +188,44 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
+                            )}
+                        />
+                        <FormField
+                            control={form.control}
+                            name="expiration"
+                            render={({ field }) => (
+                                <FormItem>
+                                <FormLabel className='text-[#f7d126]'>Expiration Date</FormLabel>
+                                <FormControl>
+                                <Popover>
+                                    <PopoverTrigger asChild>
+                                        <Button
+                                        variant={"outline"}
+                                        className={cn(
+                                            "w-[280px] justify-start text-left font-normal",
+                                            !field.value && "text-muted-foreground"
+                                        )}
+                                        >
+                                        <CalendarIcon className="mr-2 h-4 w-4" />
+                                        {field.value ? (
+                                            format(field.value, "PPP")
+                                        ) : (
+                                            <span>Pick a date</span>
+                                        )}
+                                        </Button>
+                                    </PopoverTrigger>
+                                    <PopoverContent className="w-auto p-0">
+                                        <Calendar
+                                        mode="single"
+                                        selected={field.value}
+                                        onSelect={field.onChange}
+                                        initialFocus
+                                        />
+                                    </PopoverContent>
+                                </Popover>
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
                             )}
                         />
                     </div>
