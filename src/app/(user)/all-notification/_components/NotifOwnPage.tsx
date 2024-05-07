@@ -27,7 +27,7 @@ export const NotifOwnPage = ({
     <>
     <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Notifications</h1>
-        <Button
+        <Button className="border border-transparent bg-transparent text-black hover:bg-transparent"
          onClick={() => {
           startTransition(() => {
               notificationReadAll(user.id).then((callback) => {
