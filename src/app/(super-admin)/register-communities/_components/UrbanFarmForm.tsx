@@ -14,7 +14,9 @@ import {
 import {
     Select,
     SelectContent,
+    SelectGroup,
     SelectItem,
+    SelectLabel,
     SelectTrigger,
     SelectValue,
 } from "@/app/components/Ui/select";
@@ -32,8 +34,10 @@ import { Country } from "country-state-city";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
+import { createUrbanFarm } from "../../../../../actions/community";
+import { useMutation } from "@tanstack/react-query";
 
 type StateType = {
     countryCode: string;
@@ -57,15 +61,18 @@ interface Props {
 
 export const UrbanFarmForm = ({ user }: Props) => {
 
-    let countryData = Country.getAllCountries();
-    const [stateData, setStateData] = useState();
-    const [cityData, setCityData] = useState();
-    const [country, setCountry] = useState(countryData[173]);
-    const [state, setState] = useState<StateType>();
-    const [city, setCity] = useState<CityType>();
-    const [district, setDistrict] = useState("");
-    const { data: session } = useSession();
+    // let countryData = Country.getAllCountries();
+    // const [stateData, setStateData] = useState();
+    // const [cityData, setCityData] = useState();
+    // const [country, setCountry] = useState(countryData[173]);
+    // const [state, setState] = useState<StateType>();
+    // const [city, setCity] = useState<CityType>();
+    const [area, setArea] = useState("");
+    // const [areaAddress, setAreaAddress] = useState("");
     const [formStep, setFormStep] = useState(1);
+    const [imageUrl, setImageUrl] = useState<string>("");
+    const [formUrl, setFormUrl] = useState<string>("");
+    const [isPending, startTransition] = useTransition()
 
     const form = useForm<CreateCommunityType>({
         resolver: zodResolver(CreateCommunitySchema),
@@ -73,18 +80,20 @@ export const UrbanFarmForm = ({ user }: Props) => {
 
     const router = useRouter();
 
-    const [imageUrl, setImageUrl] = useState<string>("");
+
 
     const imageIsEmpty = imageUrl.length === 0;
+    const formUrlIsEmpty = formUrl.length === 0;
+    const areaIsEmpty = area.length === 0;
+    // const areaAddressIsEmpty = areaAddress.length === 0;
 
-    // const {} = useMutation({
-    //   mutationFn: () => {},
-    //   onError: (err) => {
-
-    //   },
-    //   onSuccess: (data) => {
-
-    //   } 
+    // const { data: createUrbanFarmCommunity, isLoading } = useMutation({
+    //     mutationFn: () => createUrbanFarm,
+    //     onSuccess: (data) => {
+    //         toast({
+    //             description: data.
+    //         })
+    //     }
     // })
 
     // const { mutate: createEmployee, isLoading } = useMutation({
@@ -209,28 +218,29 @@ export const UrbanFarmForm = ({ user }: Props) => {
     //     }, 1000);
     //   },
     // });
+    console.log(
+        form.watch()
+    )
 
     function onSubmit(values: CreateCommunityType) {
-        // const payload: CreateCommunityType = {
-        //   email: values.email,
-        //   firstname: values.firstname,
-        //   lastName: values.lastName,
-        //   phone: values.phone,
-        //   gender: values.gender,
-        //   communityEmail: values.communityEmail,
-        //   urbanFarmName: values.urbanFarmName,
-        //   // barangayName: values.barangayName,
-        //   communityAddress: values.communityAddress,
-        //   communityDescription: values.communityDescription,
-        //   communityDisplayPhoto: imageUrl,
-        //   userPhone: values.userPhone,
-        //   // communityImages: imageUrl,
-        //   // password: values.password,
-        //   // confirmPassword: values.confirmPassword,
-        // };
-        // // createEmployee(payload);
-        // // console.log('Form submitted with values:', payload);
-        // // console.log(payload)
+
+
+        startTransition(() => {
+            createUrbanFarm(values, formUrl).then((callback) => {
+                if (callback.error) {
+                    toast({
+                        description: callback.error,
+                        variant: "destructive"
+                    })
+                }
+
+                if (callback.success) {
+                    toast({
+                        description: callback.success,
+                    })
+                }
+            })
+        })
     }
 
     return (
@@ -246,90 +256,539 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                 onSubmit={form.handleSubmit(onSubmit)}
                                 className="space-y-6 w-full"
                             >
+                                {formStep === 1 && (
+                                    <>
+                                        <div className="grid grid-cols-1 w-full">
+                                            <FormField
+                                                control={form.control}
+                                                name="urbanFarmName"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Urban Farm Community Name</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder="Urbn" {...field} type="text" />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
 
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="urbanFarmName"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Urban Farm Community Name</FormLabel>
-                                                <FormControl>
-                                                    <Input placeholder="Urbn" {...field} type="text" value={user?.barangay as string} disabled={true} />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="communityAddress"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Barangay</FormLabel>
+                                                        <FormControl>
+                                                            <Input placeholder="Urbn" {...field} type="text" value={user?.barangay as string} disabled={true} />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
 
-                                <div className="grid grid-cols-1">
+                                        <div className="grid grid-cols-1">
+                                            <h1 className="ml-1 text-sm font-medium">Area</h1>
+                                            <Select value={area} onValueChange={setArea}>
+                                                <SelectTrigger className="">
+                                                    <SelectValue placeholder="Select an area" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectLabel>Areas</SelectLabel>
+                                                        <>
+                                                            {/* <SelectItem value="Area 1">Area 1</SelectItem>
+                                                            <SelectItem value="Area 2">Area 2</SelectItem>
+                                                            <SelectItem value="Area 3">Area 3</SelectItem>
+                                                            <SelectItem value="Area 4">Area 4</SelectItem>
+                                                            <SelectItem value="Area 5">Area 5</SelectItem>
+                                                            <SelectItem value="Area 6">Area 6</SelectItem>
+                                                            <SelectItem value="Area 7">Area 7</SelectItem> */}
+                                                            <SelectItem value="Pagkabuhay Road">Pagkabuhay Road</SelectItem>
+                                                            <SelectItem value="Sinforosa">Sinforosa</SelectItem>
+                                                            <SelectItem value="Urbano">Urbano</SelectItem>
+                                                            <SelectItem value="Sementeryo">Sementeryo</SelectItem>
+                                                            <SelectItem value="Alipio">Alipio</SelectItem>
+                                                            <SelectItem value="Goodwill 2">Goodwill 2</SelectItem>
+                                                            <SelectItem value="Goodwill Town Homes">Goodwill Town Homes</SelectItem>
+                                                            <SelectItem value="Biglang-awa">Biglang-awa</SelectItem>
+                                                            <SelectItem value="625">625</SelectItem>
+                                                            <SelectItem value="Wings Sampalokan">Wings Sampalokan</SelectItem>
+                                                            <SelectItem value="Blas Roque">Blas Roque</SelectItem>
+                                                            <SelectItem value="Celina Drive">Celina Drive</SelectItem>
+                                                            <SelectItem value="Tolentino">Tolentino</SelectItem>
+                                                            <SelectItem value="615">615</SelectItem>
+                                                            <SelectItem value="Callejon">Callejon</SelectItem>
+                                                            <SelectItem value="Quirino Highway">Quirino Highway</SelectItem>
+                                                            <SelectItem value="Ngi Yaw (604)">Ngi Yaw (604)</SelectItem>
+                                                            <SelectItem value="Carreon">Carreon</SelectItem>
+                                                            <SelectItem value="Goldhill">Goldhill</SelectItem>
+                                                            <SelectItem value="Sinagtala">Sinagtala</SelectItem>
+                                                            <SelectItem value="Kingspoint Subdivision">Kingspoint Subdivision</SelectItem>
+                                                            <SelectItem value="Alipio Compound">Alipio Compound</SelectItem>
+                                                            <SelectItem value="Oro Compound">Oro Compound</SelectItem>
+                                                            <SelectItem value="Uping">Uping</SelectItem>
+                                                            <SelectItem value="Pinera">Pinera</SelectItem>
+                                                            <SelectItem value="Quirino Highway">San Pedro 9</SelectItem>
+                                                            <SelectItem value="Maloles Compound">Maloles Compound</SelectItem>
+                                                            <SelectItem value="Babina Compound">Babina Compound</SelectItem>
+                                                            <SelectItem value="Unang Tangke">Unang Tangke</SelectItem>
+                                                            <SelectItem value="Daniac">Daniac</SelectItem>
+                                                            <SelectItem value="Kasiyahan">Kasiyahan</SelectItem>
+                                                            <SelectItem value="Enclave">Enclave</SelectItem>
+                                                            <SelectItem value="Grand Villas">Grand Villas</SelectItem>
+                                                            <SelectItem value="Dupax">Dupax</SelectItem>
+                                                            <SelectItem value="Wings">Wings</SelectItem>
+                                                            <SelectItem value="Santos Compound">Santos Compound</SelectItem>
+                                                            <SelectItem value="Camp Grezar">Camp Grezar</SelectItem>
+                                                            <SelectItem value="Franco">Franco</SelectItem>
+                                                            <SelectItem value="Katipunan Kaliwa">Katipunan Kaliwa</SelectItem>
+                                                            <SelectItem value="Coronel Compound">Coronel Compound</SelectItem>
+                                                            <SelectItem value="Mantikaan">Mantikaan</SelectItem>
+                                                            <SelectItem value="Likas">Likas</SelectItem>
+                                                            <SelectItem value="Don Julio Gregorio">Don Julio Gregorio</SelectItem>
+                                                            <SelectItem value="Richland V">Richland V</SelectItem>
+                                                            <SelectItem value="Marides">Marides</SelectItem>
+                                                            <SelectItem value="Abbey Road">Abbey Road</SelectItem>
+                                                            <SelectItem value="Manggahan">Manggahan</SelectItem>
+                                                            <SelectItem value="RD 1-4">RD 1-4</SelectItem>
+                                                            <SelectItem value="R7">R7</SelectItem>
+                                                            <SelectItem value="Narra">Narra</SelectItem>
+                                                            <SelectItem value="Progressive Phase 1">Progressive Phase 1</SelectItem>
+                                                            <SelectItem value="Progressive Phase 2">Progressive Phase 2</SelectItem>
+                                                            <SelectItem value="Progressive Phase 3">Progressive Phase 3</SelectItem>
+                                                            <SelectItem value="De Asis Compound">De Asis Compound</SelectItem>
+                                                            <SelectItem value="Ibayo II (Taas, Baba)">Ibayo II (Taas, Baba)</SelectItem>
+                                                            <SelectItem value="Maligay">Maligay</SelectItem>
+                                                            <SelectItem value="Ibayo I (Leon Cleofas St.)">Ibayo I (Leon Cleofas St.)</SelectItem>
+                                                            <SelectItem value="Karaan">Karaan</SelectItem>
+                                                            <SelectItem value="St. Michael">St. Michael</SelectItem>
+                                                            <SelectItem value="Urcia">Urcia</SelectItem>
+                                                            <SelectItem value="Magno">Magno</SelectItem>
+                                                            <SelectItem value="Bernarty">Bernarty</SelectItem>
+                                                            <SelectItem value="Seminaryo">Seminaryo</SelectItem>
+                                                            <SelectItem value="Remarville Ave.">Remarville Avenue</SelectItem>
+                                                            <SelectItem value="Zodiac">Zodiac</SelectItem>
+                                                            <SelectItem value="Apollo">Apollo</SelectItem>
+                                                            <SelectItem value="Old Paliguan">Old Paliguan</SelectItem>
+                                                            <SelectItem value="Gawad Kalinga">Gawad Kalinga</SelectItem>
+                                                            <SelectItem value="Remarville Subdivision">Remarville Subdivision</SelectItem>
+                                                            <SelectItem value="Mangilog Compound">Mangilog Compound</SelectItem>
+                                                            <SelectItem value="Mangilog Compound">Princess Homes</SelectItem>
+                                                        </>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </div>
 
-                                </div>
+                                        {/* <div className="grid grid-cols-1">
+                                            <h1 className="ml-1 text-sm font-medium">Address</h1>
+                                            <Select value={areaAddress} onValueChange={setAreaAddress}>
+                                                <SelectTrigger className="">
+                                                    <SelectValue placeholder="Select address" />
+                                                </SelectTrigger>
+                                                <SelectContent>
+                                                    <SelectGroup>
+                                                        <SelectLabel>Areas</SelectLabel>
+                                                        <>
+                                                            {area === "Area 1" && (
+                                                                <>
+                                                                    <SelectItem value="Pagkabuhay Road">Pagkabuhay Road</SelectItem>
+                                                                    <SelectItem value="Sinforosa">Sinforosa</SelectItem>
+                                                                    <SelectItem value="Urbano">Urbano</SelectItem>
+                                                                    <SelectItem value="Sementeryo">Sementeryo</SelectItem>
+                                                                    <SelectItem value="Alipio">Alipio</SelectItem>
+                                                                    <SelectItem value="Goodwill 2">Goodwill 2</SelectItem>
+                                                                    <SelectItem value="Goodwill Town Homes">Goodwill Town Homes</SelectItem>
+                                                                    <SelectItem value="Biglang-awa">Biglang-awa</SelectItem>
+                                                                    <SelectItem value="625">625</SelectItem>
+                                                                    <SelectItem value="Wings Sampalokan">Wings Sampalokan</SelectItem>
+                                                                </>
+                                                            )}
+                                                            {area === "Area 2" && (
+                                                                <>
+                                                                    <SelectItem value="Blas Roque">Blas Roque</SelectItem>
+                                                                    <SelectItem value="Celina Drive">Celina Drive</SelectItem>
+                                                                    <SelectItem value="Tolentino">Tolentino</SelectItem>
+                                                                    <SelectItem value="615">615</SelectItem>
+                                                                    <SelectItem value="Callejon">Callejon</SelectItem>
+                                                                    <SelectItem value="Quirino Highway">Quirino Highway</SelectItem>
+                                                                    <SelectItem value="Ngi Yaw (604)">Ngi Yaw (604)</SelectItem>
+                                                                    <SelectItem value="Carreon">Carreon</SelectItem>
+                                                                    <SelectItem value="Goldhill">Goldhill</SelectItem>
+                                                                    <SelectItem value="Sinagtala">Sinagtala</SelectItem>
+                                                                </>
+                                                            )}
+                                                            {area === "Area 3" && (
+                                                                <>
+                                                                    <SelectItem value="Kingspoint Subdivision">Kingspoint Subdivision</SelectItem>
+                                                                    <SelectItem value="Alipio Compound">Alipio Compound</SelectItem>
+                                                                    <SelectItem value="Oro Compound">Oro Compound</SelectItem>
+                                                                    <SelectItem value="Uping">Uping</SelectItem>
+                                                                    <SelectItem value="Pinera">Pinera</SelectItem>
+                                                                    <SelectItem value="Quirino Highway">San Pedro 9</SelectItem>
+                                                                    <SelectItem value="Maloles Compound">Maloles Compound</SelectItem>
+                                                                    <SelectItem value="Babina Compound">Babina Compound</SelectItem>
+                                                                    <SelectItem value="Unang Tangke">Unang Tangke</SelectItem>
+                                                                    <SelectItem value="Daniac">Daniac</SelectItem>
+                                                                    <SelectItem value="Kasiyahan">Kasiyahan</SelectItem>
+                                                                    <SelectItem value="Enclave">Enclave</SelectItem>
+                                                                    <SelectItem value="Grand Villas">Grand Villas</SelectItem>
+                                                                </>
+                                                            )}
+                                                            {area === "Area 4" && (
+                                                                <>
+                                                                    <SelectItem value="Dupax">Dupax</SelectItem>
+                                                                    <SelectItem value="Wings">Wings</SelectItem>
+                                                                    <SelectItem value="Santos Compound">Santos Compound</SelectItem>
+                                                                    <SelectItem value="Camp Grezar">Camp Grezar</SelectItem>
+                                                                    <SelectItem value="Franco">Franco</SelectItem>
+                                                                    <SelectItem value="Katipunan Kaliwa">Katipunan Kaliwa</SelectItem>
+                                                                    <SelectItem value="Coronel Compound">Coronel Compound</SelectItem>
+                                                                    <SelectItem value="Mantikaan">Mantikaan</SelectItem>
+                                                                    <SelectItem value="Likas">Likas</SelectItem>
+                                                                </>
+                                                            )}
+                                                            {area === "Area 5" && (
+                                                                <>
+                                                                    <SelectItem value="Don Julio Gregorio">Don Julio Gregorio</SelectItem>
+                                                                    <SelectItem value="Richland V">Richland V</SelectItem>
+                                                                    <SelectItem value="Marides">Marides</SelectItem>
+                                                                    <SelectItem value="Abbey Road">Abbey Road</SelectItem>
+                                                                    <SelectItem value="Manggahan">Manggahan</SelectItem>
+                                                                    <SelectItem value="RD 1-4">RD 1-4</SelectItem>
+                                                                    <SelectItem value="R7">R7</SelectItem>
+                                                                    <SelectItem value="Narra">Narra</SelectItem>
+                                                                    <SelectItem value="Progressive Phase 1">Progressive Phase 1</SelectItem>
+                                                                    <SelectItem value="Progressive Phase 2">Progressive Phase 2</SelectItem>
+                                                                    <SelectItem value="Progressive Phase 3">Progressive Phase 3</SelectItem>
+                                                                    <SelectItem value="De Asis Compound">De Asis Compound</SelectItem>
+                                                                </>
+                                                            )}
+                                                            {area === "Area 6" && (
+                                                                <>
+                                                                    <SelectItem value="Ibayo II (Taas, Baba)">Ibayo II (Taas, Baba)</SelectItem>
+                                                                    <SelectItem value="Maligay">Maligay</SelectItem>
+                                                                    <SelectItem value="Ibayo I (Leon Cleofas St.)">Ibayo I (Leon Cleofas St.)</SelectItem>
+                                                                    <SelectItem value="Karaan">Karaan</SelectItem>
+                                                                    <SelectItem value="St. Michael">St. Michael</SelectItem>
+                                                                    <SelectItem value="Urcia">Urcia</SelectItem>
+                                                                    <SelectItem value="Magno">Magno</SelectItem>
+                                                                    <SelectItem value="Bernarty">Bernarty</SelectItem>
+                                                                </>
+                                                            )}
+                                                            {area === "Area 7" && (
+                                                                <>
+                                                                    <SelectItem value="Seminaryo">Seminaryo</SelectItem>
+                                                                    <SelectItem value="Remarville Ave.">Remarville Avenue</SelectItem>
+                                                                    <SelectItem value="Zodiac">Zodiac</SelectItem>
+                                                                    <SelectItem value="Apollo">Apollo</SelectItem>
+                                                                    <SelectItem value="Old Paliguan">Old Paliguan</SelectItem>
+                                                                    <SelectItem value="Gawad Kalinga">Gawad Kalinga</SelectItem>
+                                                                    <SelectItem value="Remarville Subdivision">Remarville Subdivision</SelectItem>
+                                                                    <SelectItem value="Mangilog Compound">Mangilog Compound</SelectItem>
+                                                                    <SelectItem value="Mangilog Compound">Princess Homes</SelectItem>
+                                                                </>
+                                                            )}
+                                                        </>
+                                                    </SelectGroup>
+                                                </SelectContent>
+                                            </Select>
+                                        </div> */}
 
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="communityEmail"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Urban Farm Email</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="@gmail.com"
-                                                        {...field}
-                                                        type="email"
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="blk"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>House / Blk no.</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="..."
+                                                                {...field}
+                                                                type="text"
+                                                                className=""
+                                                            />
+                                                        </FormControl>
+
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="street"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Street Name</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="..."
+                                                                {...field}
+                                                                type="text"
+                                                                className=""
+                                                            />
+                                                        </FormControl>
+
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="zip"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Postal Code</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="..."
+                                                                {...field}
+                                                                type="text"
+                                                                className=""
+                                                            />
+                                                        </FormControl>
+
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1">
+                                            <h1 className="text-sm font-medium">
+                                                Form
+                                            </h1>
+                                            {formUrl.length ? (
+                                                <div className="w-full flex flex-col items-center justify-center mt-5">
+                                                    <Image
+                                                        alt="product image"
+                                                        src={formUrl}
+                                                        width={250}
+                                                        height={250}
+                                                        className="mb-3"
                                                     />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                                    <Button variant="outline" onClick={() => setFormUrl("")}>
+                                                        Change
+                                                    </Button>
+                                                </div>
+                                            ) : (
+                                                <UploadDropzone
+                                                    className="text-green"
+                                                    appearance={{
+                                                        button: "bg-[#00B207] p-2 mb-3",
+                                                        label: "text-green",
+                                                        allowedContent:
+                                                            "flex h-8 flex-col items-center justify-center px-2 text-green",
+                                                    }}
+                                                    endpoint="changeAvatar"
+                                                    onClientUploadComplete={(res) => {
+                                                        console.log("Files: ", res);
+                                                        if (res && res.length > 0 && res[0].url) {
+                                                            setFormUrl(res[0].url);
+                                                        } else {
+                                                            console.error("Please input a valid image.", res);
+                                                        }
+                                                    }}
+                                                    onUploadError={(error: Error) => {
+                                                        toast({
+                                                            title: "Error!",
+                                                            description: error.message,
+                                                            variant: "destructive",
+                                                        });
+                                                    }}
+                                                />
+                                            )}
+                                            <h1 className="text-muted-foreground text-sm mt-1">Note: The form </h1>
+                                        </div>
 
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="communityAddress"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Urban Farm Address</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Blk 6 Lt 7"
-                                                        {...field}
-                                                        type="text"
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                        <Button
+                                            type="submit"
+                                            className="w-full mt-5"
+                                            variant="newGreen"
+                                            disabled={areaIsEmpty || formUrlIsEmpty}
+                                            onClick={() => {
+                                                form.trigger(['urbanFarmName', 'blk', 'street', 'zip'])
 
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="phone"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Urban Farm Contact No.</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="09"
-                                                        {...field}
-                                                        type="number"
-                                                        className=""
-                                                    />
-                                                </FormControl>
+                                                const cpState = form.getFieldState("urbanFarmName")
+                                                const pwState = form.getFieldState("zip")
+                                                const lnState = form.getFieldState("blk")
+                                                const emState = form.getFieldState("street")
 
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
+                                                form.setValue("communityAddress", user?.barangay as string)
 
-                                <div className="grid grid-cols-1">
+                                                if (!cpState.isDirty || cpState.invalid) return;
+                                                if (!pwState.isDirty || pwState.invalid) return;
+                                                if (!lnState.isDirty || lnState.invalid) return;
+                                                // if (!fnState.isDirty || fnState.invalid) return;
+                                                if (!emState.isDirty || emState.invalid) return;
+
+                                                setFormStep(2)
+                                            }}
+                                        >
+                                            Next Step
+                                        </Button>
+                                    </>
+                                )}
+
+                                {formStep === 2 && (
+                                    <>
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="email"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Admin Email</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="@gmail.com"
+                                                                {...field}
+                                                                type="email"
+                                                            />
+                                                        </FormControl>
+
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full gap-7">
+                                            <FormField
+                                                control={form.control}
+                                                name="firstname"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>First Name</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="Firstname"
+                                                                {...field}
+                                                                type="text"
+                                                                className=""
+                                                                onKeyPress={(event) => {
+                                                                    const charCode = event.which
+                                                                        ? event.which
+                                                                        : event.keyCode;
+                                                                    if (
+                                                                        !(charCode >= 65 && charCode <= 90) &&
+                                                                        !(charCode >= 97 && charCode <= 122) &&
+                                                                        charCode !== 32 &&
+                                                                        charCode !== 8 &&
+                                                                        charCode !== 9 &&
+                                                                        charCode !== 0
+                                                                    ) {
+                                                                        event.preventDefault();
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </FormControl>
+
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+
+                                            <FormField
+                                                control={form.control}
+                                                name="lastName"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Last Name</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="Lastname"
+                                                                {...field}
+                                                                type="text"
+                                                                className=""
+                                                                onKeyPress={(event) => {
+                                                                    const charCode = event.which
+                                                                        ? event.which
+                                                                        : event.keyCode;
+                                                                    if (
+                                                                        !(charCode >= 65 && charCode <= 90) &&
+                                                                        !(charCode >= 97 && charCode <= 122) &&
+                                                                        charCode !== 32 &&
+                                                                        charCode !== 8 &&
+                                                                        charCode !== 9 &&
+                                                                        charCode !== 0
+                                                                    ) {
+                                                                        event.preventDefault();
+                                                                    }
+                                                                }}
+                                                            />
+                                                        </FormControl>
+
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="userPhone"
+                                                render={({ field }) => (
+                                                    <FormItem>
+                                                        <FormLabel>Admin Contact No.</FormLabel>
+                                                        <FormControl>
+                                                            <Input
+                                                                placeholder="09"
+                                                                {...field}
+                                                                type="number"
+                                                                className=""
+                                                            />
+                                                        </FormControl>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+
+                                        <div className="grid grid-cols-1">
+                                            <FormField
+                                                control={form.control}
+                                                name="gender"
+                                                render={({ field }) => (
+                                                    <FormItem className="">
+                                                        <FormLabel>Gender</FormLabel>
+                                                        <Select
+                                                            onValueChange={field.onChange}
+                                                            defaultValue={field.value}
+                                                        >
+                                                            <FormControl>
+                                                                <SelectTrigger>
+                                                                    <SelectValue placeholder="Gender" />
+                                                                </SelectTrigger>
+                                                            </FormControl>
+                                                            <SelectContent>
+                                                                <SelectItem value="Male">Male</SelectItem>
+                                                                <SelectItem value="Female">Female</SelectItem>
+                                                                <SelectItem value="Other">Other</SelectItem>
+                                                            </SelectContent>
+                                                        </Select>
+                                                        <FormMessage />
+                                                    </FormItem>
+                                                )}
+                                            />
+                                        </div>
+                                    </>
+                                )}
+
+
+                                {/* <div className="grid grid-cols-1">
                                     <FormField
                                         control={form.control}
                                         name="communityDescription"
@@ -395,149 +854,9 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                     )}
                                 </div>
 
-                                <Separator />
+                                <Separator /> */}
 
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="email"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Admin Email</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="@gmail.com"
-                                                        {...field}
-                                                        type="email"
-                                                    />
-                                                </FormControl>
 
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1 md:grid-cols-2 justify-center items-center w-full gap-7">
-                                    <FormField
-                                        control={form.control}
-                                        name="firstname"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>First Name</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Firstname"
-                                                        {...field}
-                                                        type="text"
-                                                        className=""
-                                                        onKeyPress={(event) => {
-                                                            const charCode = event.which
-                                                                ? event.which
-                                                                : event.keyCode;
-                                                            if (
-                                                                !(charCode >= 65 && charCode <= 90) &&
-                                                                !(charCode >= 97 && charCode <= 122) &&
-                                                                charCode !== 32 &&
-                                                                charCode !== 8 &&
-                                                                charCode !== 9 &&
-                                                                charCode !== 0
-                                                            ) {
-                                                                event.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-
-                                    <FormField
-                                        control={form.control}
-                                        name="lastName"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Last Name</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="Lastname"
-                                                        {...field}
-                                                        type="text"
-                                                        className=""
-                                                        onKeyPress={(event) => {
-                                                            const charCode = event.which
-                                                                ? event.which
-                                                                : event.keyCode;
-                                                            if (
-                                                                !(charCode >= 65 && charCode <= 90) &&
-                                                                !(charCode >= 97 && charCode <= 122) &&
-                                                                charCode !== 32 &&
-                                                                charCode !== 8 &&
-                                                                charCode !== 9 &&
-                                                                charCode !== 0
-                                                            ) {
-                                                                event.preventDefault();
-                                                            }
-                                                        }}
-                                                    />
-                                                </FormControl>
-
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="userPhone"
-                                        render={({ field }) => (
-                                            <FormItem>
-                                                <FormLabel>Admin Contact No.</FormLabel>
-                                                <FormControl>
-                                                    <Input
-                                                        placeholder="09"
-                                                        {...field}
-                                                        type="number"
-                                                        className=""
-                                                    />
-                                                </FormControl>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
-
-                                <div className="grid grid-cols-1">
-                                    <FormField
-                                        control={form.control}
-                                        name="gender"
-                                        render={({ field }) => (
-                                            <FormItem className="">
-                                                <FormLabel>Gender</FormLabel>
-                                                <Select
-                                                    onValueChange={field.onChange}
-                                                    defaultValue={field.value}
-                                                >
-                                                    <FormControl>
-                                                        <SelectTrigger>
-                                                            <SelectValue placeholder="Gender" />
-                                                        </SelectTrigger>
-                                                    </FormControl>
-                                                    <SelectContent>
-                                                        <SelectItem value="Male">Male</SelectItem>
-                                                        <SelectItem value="Female">Female</SelectItem>
-                                                        <SelectItem value="Other">Other</SelectItem>
-                                                    </SelectContent>
-                                                </Select>
-                                                <FormMessage />
-                                            </FormItem>
-                                        )}
-                                    />
-                                </div>
 
                                 {/* <FormField
                                     control={form.control}
@@ -569,7 +888,29 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                     )}
                                 /> */}
 
-                                <div className="w-full">
+                                {formStep === 2 && (
+                                    <div className="grid grid-cols-2 gap-3">
+                                        <Button
+                                            type="submit"
+                                            className="w-full"
+                                            variant="outline"
+                                            onClick={() => setFormStep(1)}
+                                        >
+                                            Go back
+                                        </Button>
+
+                                        <Button
+                                            type="submit"
+                                            className="bg-[#4DE69E] hover:bg-[#bababa8f] w-full text-black"
+                                            isLoading={isPending}
+                                            disabled={isPending || formUrlIsEmpty}
+                                        >
+                                            Sign up
+                                        </Button>
+                                    </div>
+                                )}
+
+                                {/* <div className="w-full">
                                     <Button
                                         type="submit"
                                         className="bg-[#4DE69E] hover:bg-[#bababa8f] w-full text-black"
@@ -578,7 +919,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                     >
                                         Sign up
                                     </Button>
-                                </div>
+                                </div> */}
                             </form>
                         </Form>
                     </div>
