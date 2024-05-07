@@ -535,12 +535,13 @@ model Product {
   name         String
   quantity    Float
   priceInKg    Float
-  harvestedFrom   String
+ 
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
   isFreeUntil  DateTime?
 
+  Stock     Stocks[]
   creator   User   @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
   creatorId String
 
@@ -556,6 +557,18 @@ model Product {
 
   @@index([creatorId])
   @@index([communityId])
+}
+
+model Stocks {
+  id           String         @id @default(cuid())
+  batchNo     String
+  numberOfStocks  Float
+  expiration  DateTime
+  harvestedFrom   String
+  productId String?
+  product Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model Review {

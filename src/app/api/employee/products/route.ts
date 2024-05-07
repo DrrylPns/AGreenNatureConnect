@@ -95,7 +95,6 @@ export async function POST(req: NextRequest) {
                     name,
                     category,
                     priceInKg,
-                    harvestedFrom,
                     quantity,
                     creatorId: user?.EmployeeId as string,
                     communityId: community?.id,
@@ -107,7 +106,7 @@ export async function POST(req: NextRequest) {
                 type: "MARKETHUB_PRODUCTS",
                 employeeId: session.user.id,
                 productId: createProduct.id,
-                typeOfActivity: `Added ${quantity}kg. ${name} from ${harvestedFrom}`
+                typeOfActivity: `Created new product: ${quantity}kg. ${name} from ${harvestedFrom}`
                 }
             })
         }

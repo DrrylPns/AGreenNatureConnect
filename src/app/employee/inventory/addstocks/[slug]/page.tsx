@@ -34,7 +34,7 @@ const page = async ({ params }: AddStocksProps) => {
             communityId: community?.id
         },
         include: {
-            variants: true
+            
         }
     })
 

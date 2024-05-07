@@ -63,15 +63,8 @@ export type AddStocksType = z.infer<typeof AddStocksScehma>
 
 export const AddStocksScehma = z.object({
     id: z.string().optional(),
-    typeOfMeasurement: z.string().min(1).max(21),
     quantity: z.coerce.number().min(0, numberError),
-    perMeasurement: z.array(
-        z.object({
-            measurement: z.coerce.number().min(0, variantError),
-            price: z.coerce.number().min(0, numberError),
-            estPieces: z.string().min(0, numberError).optional(),
-        })
-    ),
+    harvestedFrom: z.string().min(1).max(21),
 })
 
 export type UpdateStocksType = z.infer<typeof UpdateStocksSchema>

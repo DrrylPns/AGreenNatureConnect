@@ -48,11 +48,9 @@ export type Products = {
   id: string;
   productImage: string;
   name: string;
-  kilograms: number;
-  grams: number;
-  pounds: number;
-  pieces: number;
-  packs: number;
+  quantity: number;
+  priceInKg: number;
+  harvestedFrom: string;
   category: string;
   status: string;
   createdAt: Date;
@@ -96,7 +94,7 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const product = row.original.name
-        const outOfStock = row.original.kilograms === 0 && row.original.packs === 0 && row.original.pieces === 0 && row.original.pounds === 0 && row.original.grams === 0
+        const outOfStock = row.original.quantity === 0
         return <div
           onClick={() => {
             toast({
@@ -118,79 +116,15 @@ export const columns: ColumnDef<Products>[] =
       accessorKey: "kilogram",
       header: ({ column }) => {
         return (
-          <DataTableColumnHeader column={column} title="Stock kg" />
+          <DataTableColumnHeader column={column} title="Available stocks(kg)" />
         );
       },
       cell: ({ row }) => {
-        const stockKilo = row.original.kilograms;
-        const outOfStock = row.original.kilograms === 0
+        const stockKilo = row.original.quantity;
+        const outOfStock = row.original.quantity === 0
         return <div
-          className={`${outOfStock && "text-rose-500"}`}
-        >{stockKilo}kg</div>;
-      },
-    },
-    {
-      accessorKey: "grams",
-      header: ({ column }) => {
-
-        return (
-          <DataTableColumnHeader column={column} title="Stock grams" />
-        );
-      },
-      cell: ({ row }) => {
-        const stockKilo = row.original.grams;
-        const outOfStock = row.original.grams === 0
-        return <div
-          className={`${outOfStock && "text-rose-500"}`}
-        >{stockKilo}g</div>;
-      },
-    },
-    {
-      accessorKey: "pieces",
-      header: ({ column }) => {
-
-        return (
-          <DataTableColumnHeader column={column} title="Stock pcs" />
-        );
-      },
-      cell: ({ row }) => {
-        const stockKilo = row.original.pieces;
-        const outOfStock = row.original.pieces === 0;
-        return <div
-          className={`${outOfStock && "text-rose-500"}`}
-        >{stockKilo}pcs</div>;
-      },
-    },
-    {
-      accessorKey: "pounds",
-      header: ({ column }) => {
-
-        return (
-          <DataTableColumnHeader column={column} title="Stock lbs" />
-        );
-      },
-      cell: ({ row }) => {
-        const stockKilo = row.original.pounds;
-        const outOfStock = row.original.pounds === 0
-        return <div
-          className={`${outOfStock && "text-rose-500"}`}
-        >{stockKilo}lbs</div>;
-      },
-    },
-    {
-      accessorKey: "packs",
-      header: ({ column }) => {
-
-        return (
-          <DataTableColumnHeader column={column} title="Stock pck" />
-        );
-      },
-      cell: ({ row }) => {
-        const stockKilo = row.original.packs;
-        const outOfStock = row.original.packs === 0;
-        return <div
-          className={`${outOfStock && "text-rose-500"}`}
-        >{stockKilo}pck</div>;
+          className={`${outOfStock && "text-rose-500"} text-center`}
+        >{stockKilo}</div>;
       },
     },
     {
@@ -203,7 +137,7 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const category = row.original.category;
-        return <div>{category}</div>;
+        return <div className="text-center">{category}</div>;
       },
     },
     {
@@ -247,6 +181,7 @@ export const columns: ColumnDef<Products>[] =
       cell: ({ row }) => {
         const creator = row.original
         const creatorName = row.original.creator.name;
+        const creatorLastName = row.original.creator.lastName;
         return <div
           onClick={() => {
             toast({
@@ -258,7 +193,7 @@ export const columns: ColumnDef<Products>[] =
           }}
           className="cursor-pointer"
         >
-          {creatorName}
+          {creatorName + " " + creatorLastName}
         </div>
       },
     },
@@ -361,7 +296,7 @@ export const columns: ColumnDef<Products>[] =
                 // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
                 >
                   <Link href={`inventory/addstocks/${product.id}`}>
-                    Add new variants
+                    Add new stocks
                   </Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem
