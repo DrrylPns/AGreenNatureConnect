@@ -58,28 +58,12 @@ export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) =
             },
         },
         include: {
-            orderedVariant: {
-                include: {
-                    product: true,
-                    transaction: true,
-                },
-            },
+           
         },
     });
 
     const categorySalesMap: Record<string, number> = {};
 
-    sales.forEach((transaction) => {
-        transaction.orderedVariant.forEach((orderedVariant) => {
-            const productCategory = orderedVariant.product.category;
-            const saleAmount = orderedVariant.transaction.amount;
-            if (categorySalesMap[productCategory]) {
-                categorySalesMap[productCategory] += saleAmount;
-            } else {
-                categorySalesMap[productCategory] = saleAmount;
-            }
-        });
-    });
 
     // Format data for DonutChart component
     const salesByCategories = Object.entries(categorySalesMap).map(([category, sales]) => ({
@@ -120,11 +104,8 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
             },
         },
         include: {
-            orderedVariant: {
-                include: {
-                    product: true,
-                },
-            },
+          
+            
         },
         orderBy: {
             createdAt: "asc",
@@ -141,15 +122,6 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
             salesByDate[formattedDate] = {};
         }
 
-        transaction.orderedVariant.forEach((orderedVariant) => {
-            const productCategory = orderedVariant.product.category;
-
-            if (salesByDate[formattedDate][productCategory]) {
-                salesByDate[formattedDate][productCategory] += 1; // Increment count for the product category
-            } else {
-                salesByDate[formattedDate][productCategory] = 1; // Initialize count for the product category
-            }
-        });
     });
 
     // Convert the sales data to the required format
@@ -251,11 +223,7 @@ export const fetchMostSoldProduct = async () => {
         include: {
             products: {
                 include: {
-                    orderedVariant: {
-                        include: {
-                            transaction: true
-                        },
-                    },
+                    
                 },
             },
         },
@@ -267,24 +235,14 @@ export const fetchMostSoldProduct = async () => {
             status: "APPROVED",
         },
         include: {
-            orderedVariant: {
-                where: {
-                    transaction: {
-                        status: "COMPLETED"
-                    },
-                },
-            },
+        
         },
     })
 
     // Sort products by the number of units sold (orderedVariant count) in descending order
-    const sortedProducts = products.slice().sort((a, b) => {
-        const soldA = a.orderedVariant.length;
-        const soldB = b.orderedVariant.length;
-        return soldB - soldA;
-    });
+   
 
-    return sortedProducts.slice(0, 10); // Return the top 10 most sold products
+    return products.slice(0, 10); // Return the top 10 most sold products
 }
 
 export const totalNumberOfProducts = async () => {

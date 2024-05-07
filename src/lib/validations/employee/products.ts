@@ -37,14 +37,8 @@ export const CreateProductSchema = z.object({
     name: z.string().min(3).max(20),
     quantity: z.coerce.number().min(0, numberError),
     category: z.string().min(2).max(21),
-    typeOfMeasurement: z.string().min(1).max(21),
-    perMeasurement: z.array(
-        z.object({
-            measurement: z.coerce.number().min(0, variantError),
-            price: z.coerce.number().min(0, numberError),
-            estPieces: z.string().min(0, numberError),
-        })
-    ),
+    priceInKg: z.coerce.number().min(0, numberError),
+    harvestedFrom: z.string().min(3).max(20),
 });
 
 export type UpdateProductType = z.infer<typeof UpdateProductSchema>

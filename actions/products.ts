@@ -38,7 +38,7 @@ export const fetchProducts = async () => {
         },
         include: {
             creator: true,
-            variants: true,
+           
         },
         orderBy: {
             createdAt: "desc"
@@ -89,7 +89,7 @@ export const fetchArchivedProducts = async () => {
         where: { status: "ARCHIVED" },
         include: {
             creator: true,
-            variants: true,
+           
         },
     })
 
@@ -133,49 +133,13 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
                 communityId: community?.id,
             },
             include: {
-                variants: true,
+               
             },
         });
 
         if (!existingProduct) return { error: "Can't update because there is no product found!" }
 
-        if (typeOfMeasurement === "Kilograms") {
-            await prisma.product.update({
-                where: { id: existingProduct.id },
-                data: {
-                    kilograms: quantity,
-                }
-            })
-        } else if (typeOfMeasurement === "Grams") {
-            await prisma.product.update({
-                where: { id: existingProduct.id },
-                data: {
-                    grams: quantity,
-                }
-            })
-        } else if (typeOfMeasurement === "Pieces") {
-            await prisma.product.update({
-                where: { id: existingProduct.id },
-                data: {
-                    pieces: quantity,
-                }
-            })
-        } else if (typeOfMeasurement === "Pounds") {
-            await prisma.product.update({
-                where: { id: existingProduct.id },
-                data: {
-                    pounds: quantity,
-                }
-            })
-        } else if (typeOfMeasurement === "Packs") {
-            await prisma.product.update({
-                where: { id: existingProduct.id },
-                data: {
-                    packs: quantity,
-                }
-            })
-        }
-
+       
         await prisma.employeeActivityHistory.create({
             data:{
               type: "MARKETHUB_PRODUCTS",

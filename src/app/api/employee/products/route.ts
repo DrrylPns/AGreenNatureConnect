@@ -39,7 +39,7 @@ export async function GET() {
             },
             include: {
                 creator: true,
-                variants: true,
+                // variants: true,
                 // Kilo: true,
                 // Pack: true,
             },
@@ -83,64 +83,35 @@ export async function POST(req: NextRequest) {
             productImage,
             name,
             category,
-            perMeasurement,
-            typeOfMeasurement,
+            priceInKg,
             quantity,
+            harvestedFrom
         } = CreateProductSchema.parse(body)
-
-        // console.log("PERMESURE" + perMeasurement)
-        // console.log(typeOfMeasurement)
-        // console.log(quantity)
-
-        const createProductData = {
-            productImage,
-            name,
-            category,
-            kilograms: 0,
-            grams: 0,
-            packs: 0,
-            pieces: 0,
-            pounds: 0,
-            creatorId: user?.EmployeeId as string,
-            communityId: community?.id,
-            variants: {
-                create: perMeasurement.map((measure) => ({
-                    unitOfMeasurement: typeOfMeasurement,
-                    variant: measure.measurement,
-                    EstimatedPieces: Number(measure.estPieces),
-                    price: measure.price,
-                }))
-            }
-        };
-
-        if (typeOfMeasurement === "Kilograms") {
-            createProductData.kilograms = quantity;
-        } else if (typeOfMeasurement === "Grams") {
-            createProductData.grams = quantity;
-        } else if (typeOfMeasurement === "Pieces") {
-            createProductData.pieces = quantity;
-        } else if (typeOfMeasurement === "Pounds") {
-            createProductData.pounds = quantity; 
-        } else if (typeOfMeasurement === "Packs") {
-            createProductData.packs = quantity;
+        
+        if(community && user){
+            const createProduct = await prisma.product.create({
+                data: {
+                    productImage,
+                    name,
+                    category,
+                    priceInKg,
+                    harvestedFrom,
+                    quantity,
+                    creatorId: user?.EmployeeId as string,
+                    communityId: community?.id,
+                }
+            });
+            
+            await prisma.employeeActivityHistory.create({
+                data:{
+                type: "MARKETHUB_PRODUCTS",
+                employeeId: session.user.id,
+                productId: createProduct.id,
+                typeOfActivity: `Added ${quantity}kg. ${name} from ${harvestedFrom}`
+                }
+            })
         }
-
-        const test = await prisma.product.create({
-            //@ts-ignore
-            data: createProductData,
-        });
-
-        await prisma.employeeActivityHistory.create({
-            data:{
-              type: "MARKETHUB_PRODUCTS",
-              employeeId: session.user.id,
-              productId: test.id,
-              typeOfActivity: "Created new product"
-            }
-          })
-      
-      
-
+       console.log("created Product")
         return new NextResponse(`Successfully added product!`);
     } catch (error) {
         return new NextResponse('Could not create a product' + error, { status: 500 })

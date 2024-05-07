@@ -533,12 +533,9 @@ model Product {
   itemNumber   Int?           @unique @default(autoincrement())
   productImage String         @unique
   name         String
-  kilograms    Float          @default(0)
-  grams        Float          @default(0)
-  pounds       Float          @default(0)
-  pieces       Float          @default(0)
-  packs        Float          @default(0)
-  variants     Variant[]
+  quantity    Float
+  priceInKg    Float
+  harvestedFrom   String
   category     String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status       ApprovalStatus @default(PENDING)
   isFree       Boolean        @default(false)
@@ -552,7 +549,7 @@ model Product {
 
   community      Community        @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId    String
-  orderedVariant OrderedVariant[]
+  // orderedVariant OrderedVariant[]
   reviews        Review[]
   EmployeeActivityHistory EmployeeActivityHistory[]
   // ProductTransaction ProductTransaction[]
@@ -599,23 +596,23 @@ model ReviewDislike {
   reviewId String
 }
 
-model Variant {
-  id                String   @id @default(cuid())
-  unitOfMeasurement String
-  variant           Float
-  price             Float
-  EstimatedPieces   Float?
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+// model Variant {
+//   id                String   @id @default(cuid())
+//   unitOfMeasurement String
+//   variant           Float
+//   price             Float
+//   EstimatedPieces   Float?
+//   createdAt         DateTime @default(now())
+//   updatedAt         DateTime @updatedAt
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
+//   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   productId String
 
-  orderVariant OrderedVariant[]
-  Cart         Cart[]
+//   orderVariant OrderedVariant[]
+//   Cart         Cart[]
 
-  @@index([productId])
-}
+//   @@index([productId])
+// }
 
 model Transaction {
   id            String            @id @default(cuid())
@@ -638,7 +635,7 @@ model Transaction {
   seller   Community @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId String
 
-  orderedVariant          OrderedVariant[]
+  // orderedVariant          OrderedVariant[]
   notifications           Notification[]
   EmployeeActivityHistory EmployeeActivityHistory[]
 
@@ -673,25 +670,25 @@ enum TransactionStatus {
   CANCELLED
 }
 
-model OrderedVariant {
-  id        String   @id @default(cuid())
-  price     Float
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  quantity  Float
-  variant   Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  variantId String
+// model OrderedVariant {
+//   id        String   @id @default(cuid())
+//   price     Float
+//   createdAt DateTime @default(now())
+//   updatedAt DateTime @updatedAt
+//   quantity  Float
+//   variant   Variant  @relation(fields: [variantId], references: [id], onDelete: Cascade)
+//   variantId String
 
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  productId String
+//   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+//   productId String
 
-  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
-  transactionId String
+//   transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+//   transactionId String
 
-  @@index([variantId])
-  @@index([productId])
-  @@index([transactionId])
-}
+//   @@index([variantId])
+//   @@index([productId])
+//   @@index([transactionId])
+// }
 
 // model ProductTransaction {
 //   id        String   @id @default(cuid())
@@ -717,7 +714,7 @@ model Cart {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  variant   Variant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
+  // variant   Variant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
   variantId String?
 
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)

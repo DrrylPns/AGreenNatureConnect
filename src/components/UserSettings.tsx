@@ -26,7 +26,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
             <DialogContent className='rounded-none w-full'>
                 <DialogHeader>
                     <TabSettings defaultValue="account" className="w-full">
-                        <DialogTitle>
+                        {/* <DialogTitle>
                             <TabSettingsList>
                                 <TabSettingsTrigger value="account">Account</TabSettingsTrigger>
                                 <TabSettingsTrigger value="profile">Profile</TabSettingsTrigger>
@@ -34,7 +34,7 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
                                     <TabSettingsTrigger value="adminSettings">Community Settings</TabSettingsTrigger>
                                 )}
                             </TabSettingsList>
-                        </DialogTitle>
+                        </DialogTitle> */}
                         <DialogDescription className="mt-6">
                             <TabSettingsContent value="account">
                                 <AccountSettings user={user} />
@@ -44,13 +44,13 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
                                 <ProfileSettings user={user} />
                             </TabSettingsContent>
 
-                            {user.role === "ADMIN" && (
+                            {/* {user.role === "ADMIN" && (
                                 <TabSettingsContent value="adminSettings">
                                     <CommunitySettings
                                         //@ts-ignore
                                         user={user} />
                                 </TabSettingsContent>
-                            )}
+                            )} */}
                         </DialogDescription>
                     </TabSettings>
                 </DialogHeader>
