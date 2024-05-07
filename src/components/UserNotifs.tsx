@@ -277,7 +277,7 @@ export const UserNotifs = () => {
                                             )}
                                         </div>
 
-                                        <time className={`ml-14 text-[13px] text-[#7f99b3] dark:text-gray ${!notification.isRead ? " text-[#4662ff]" : ""} `}>
+                                        <time className={`ml-14 text-[13px]  ${!notification.isRead ? " text-[#4662ff]" : "text-[#7f99b3] dark:text-gray"} `}>
                                             {formatCreatedAt(notification.createdAt)}
                                         </time>
                                     </div>
