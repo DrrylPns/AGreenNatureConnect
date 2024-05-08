@@ -55,7 +55,6 @@ export const OnboardingUser = () => {
     mutationFn: async ({
       username,
       phoneNumber,
-      birthday,
       address,
       lastName,
       name,
@@ -64,7 +63,6 @@ export const OnboardingUser = () => {
       const payload: OnboardingUserType = {
         username,
         phoneNumber,
-        birthday,
         address,
         lastName,
         name,
@@ -141,7 +139,6 @@ export const OnboardingUser = () => {
     const payload: OnboardingUserType = {
       username: data.username,
       phoneNumber: data.phoneNumber,
-      birthday: data.birthday,
       address: data.address,
       lastName: data.lastName,
       name: data.name,
@@ -273,21 +270,6 @@ export const OnboardingUser = () => {
             {errors.phoneNumber && (
               <span className="text-rose-500 ml-1 max-sm:text-[13px]">
                 {errors.phoneNumber.message}
-              </span>
-            )}
-            <div className="space-y-2">
-              <Label htmlFor="birthday">Birthday</Label>
-              <Input
-                type="date"
-                id="birthday"
-                placeholder=""
-                {...register("birthday")}
-                max={getMinBirthDate()}
-              />
-            </div>
-            {errors.birthday && (
-              <span className="text-rose-500 ml-1 max-sm:text-[13px]">
-                {errors.birthday.message}
               </span>
             )}
             <div className="space-y-2">
