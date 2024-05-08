@@ -47,7 +47,6 @@ export const OnboardingUserSchema = z.object({
             return phMobilePattern.test(phone)
         }, { message: "Invalid Mobile Number" })
         .optional(),
-    birthday: z.coerce.date(),
     address: z.string()
         .min(5, { message: "Minimum length of address is 5" })
         .max(100, { message: "Maximum length of address is 100" })
