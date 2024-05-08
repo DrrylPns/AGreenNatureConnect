@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { username, phoneNumber, birthday, address, lastName, name, suffix } = OnboardingUserSchema.parse(body);
+        const { username, phoneNumber, address, lastName, name, suffix } = OnboardingUserSchema.parse(body);
 
         const user = await prisma.user.findUnique({
             where: { id: session.user.id },
@@ -45,7 +45,7 @@ export async function POST(req: Request) {
 
         const dataToUpdate: Record<string, any> = {
             phoneNumber: phoneNumber,
-            birthday: birthday,
+            // birthday: birthday,
             address: address,
             lastUsernameChange: new Date(),
             lastName: lastName,

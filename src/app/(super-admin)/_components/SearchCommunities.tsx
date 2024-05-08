@@ -36,13 +36,13 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
     const [selectedNames, setSelectedNames] = useState<string[]>([]);
     const [open, setOpen] = useState(false)
     const [isPending, startTransition] = useTransition()
-    // const {
-    //     hasRecognitionSupport,
-    //     isListening,
-    //     startListening,
-    //     stopListening,
-    //     text,
-    // } = useSpeechRecognition()
+    const {
+        hasRecognitionSupport,
+        isListening,
+        startListening,
+        stopListening,
+        text,
+    } = useSpeechRecognition()
 
     const isEmployeeSelected = (community: Community) =>
         selectedNames.length === 0 || selectedNames.includes(community.name || "");
@@ -67,7 +67,7 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                     ))}
                 </MultiSelect>
 
-                {/* <div>
+                <div>
                     {hasRecognitionSupport ? (
                         <>
                             <Button onClick={startListening}>Start Listening</Button>
@@ -83,7 +83,7 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                             <h1>Your browser has no speech recognition support</h1>
                         </>
                     )}
-                </div> */}
+                </div>
 
 
 
