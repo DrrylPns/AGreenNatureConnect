@@ -438,7 +438,7 @@ model Blog {
   content    Json
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
-  isApproved ApprovalStatus @default(PENDING)
+  isApproved ApprovalStatus @default(APPROVED)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -459,7 +459,7 @@ model LearningMaterial {
   description String         @db.VarChar(1000)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  isApproved  ApprovalStatus @default(PENDING)
+  isApproved  ApprovalStatus @default(APPROVED)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -481,7 +481,7 @@ model VideoTutorial {
   description String         @db.VarChar(1000)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  isApproved  ApprovalStatus @default(PENDING)
+  isApproved  ApprovalStatus @default(APPROVED)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -548,12 +548,13 @@ model Product {
   priceInKg    Float
 
   category    String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
-  status      ApprovalStatus @default(PENDING)
+  status      ApprovalStatus @default(APPROVED)
   isFree      Boolean        @default(false)
   isFreeUntil DateTime?
 
-  Stock     Stocks[]
-  creator   User     @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
+  Stock Stocks[]
+
+  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId String
 
   createdAt DateTime @default(now())

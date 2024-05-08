@@ -23,12 +23,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
-                }
-            }
+            // orderedVariant: {
+            //     include: {
+            //         product: true,
+            //         variant: true
+            //     }
+            // }
         }
     });
 
@@ -43,12 +43,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
-                }
-            }
+            // orderedVariant: {
+            //     include: {
+            //         product: true,
+            //         variant: true
+            //     }
+            // }
         }
     })
 
@@ -63,12 +63,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
-                }
-            }
+            // orderedVariant: {
+            //     include: {
+            //         product: true,
+            //         variant: true
+            //     }
+            // }
         }
     })
 
@@ -83,12 +83,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
-                }
-            }
+            // orderedVariant: {
+            //     include: {
+            //         product: true,
+            //         variant: true
+            //     }
+            // }
         }
     });
 
@@ -103,12 +103,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
-                }
-            }
+            // orderedVariant: {
+            //     include: {
+            //         product: true,
+            //         variant: true
+            //     }
+            // }
         }
     })
 

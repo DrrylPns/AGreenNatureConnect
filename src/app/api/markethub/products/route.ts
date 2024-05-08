@@ -9,29 +9,27 @@ export async function GET(req: NextRequest) {
         const limit = 8
         const getAllProducts = await prisma.product.findMany({
             cursor: param ? {
-                id: param 
+                id: param
             } : undefined,
             take: limit,
             skip: param === '' ? 0 : 1,
-            where:{
+            where: {
                 isFree: {
                     equals: false
                 },
-                status:{
-                    equals: "APPROVED"
-                },
-                variants:{
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
-                }
+                status: "APPROVED",
+                // variants:{
+                //     some: {
+                //         variant: {
+                //             not: 0
+                //         }
+                //     }
+                // }
             },
-            include:{
-               variants: true,
-               community: true,
-               reviews: true,
+            include: {
+                //    variants: true,
+                community: true,
+                reviews: true,
             }
         })
         const myCursor = getAllProducts.length === limit ? getAllProducts[getAllProducts.length - 1].id : undefined;

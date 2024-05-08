@@ -13,13 +13,13 @@ export const search = async(query:string)=>{
                 status:{
                     equals: "APPROVED"
                 },
-                variants:{
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
-                }
+                // variants:{
+                //     some: {
+                //         variant: {
+                //             not: 0
+                //         }
+                //     }
+                // }
             }
         })
         const post = await prisma.post.findMany({

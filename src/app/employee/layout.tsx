@@ -45,12 +45,12 @@ export default async function RootLayout({
         }
     })
 
-    if (!user || user.role !== "EMPLOYEE") redirect("/discussion")
+    if (!user || user.role === "SUPER_ADMIN" || user.role === "USER") redirect("/discussion")
 
     return (
         <html lang="en">
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
-                {user.role === "EMPLOYEE" ?
+                {user.role === "EMPLOYEE" || user?.role === "ADMIN" ?
                     (<Providers>
                         <LoginModal />
                         <RegisterModal />
