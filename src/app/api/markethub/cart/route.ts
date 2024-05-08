@@ -13,12 +13,12 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 })
         }
         const body = await req.json()
-        const { variantId, communityId } = CartSchema.parse(body)
+        const { kilograms, communityId, totalPrice, productId } = CartSchema.parse(body)
 
         const isExisting = await prisma.cart.findFirst({
             where:{
                 userId: session.user.id,
-                variantId,
+                productId,
             }
         })
 
@@ -28,7 +28,8 @@ export async function POST(req: Request) {
                     id: isExisting.id,
                 },
                 data: {
-                    quantity: isExisting.quantity + 1
+                    kilograms: isExisting.kilograms + kilograms,
+                    totalPrice: isExisting.totalPrice + totalPrice
                 }
             })
 
@@ -38,9 +39,10 @@ export async function POST(req: Request) {
          await prisma.cart.create({
                 data: {
                     userId: session.user.id,
-                    variantId,
+                    kilograms: kilograms,
+                    totalPrice: totalPrice,
                     communityId: communityId,
-                    quantity: 1
+                    productId
                 }
     
             })
@@ -67,16 +69,12 @@ export async function GET(req: Request) {
                 userId: session.user.id
             },
             include: {
-                variant: {
-                    include: {
-                        product: {
-                            include: {
-                                community: true
-                            }
-                        }
+                community: true,
+                product: {
+                    include:{
+                        community: true
                     }
                 },
-                community: true
             }
         })
         return new Response(JSON.stringify(getCartItems), { status: 200 })

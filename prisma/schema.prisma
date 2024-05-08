@@ -158,6 +158,10 @@ model Community {
   email            String?
   contactNumber    String?
   description      String?
+  blk              String?
+  form          String?
+  street  String?
+  zip String?
   isArchived       Boolean            @default(false)
   posts            Post[]
   blogs            Blog[]
@@ -551,10 +555,11 @@ model Product {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
+  cart      Cart[]
   community               Community                 @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId             String
   // orderedVariant OrderedVariant[]
+  orderedProducts   OrderedProducts[]
   reviews                 Review[]
   EmployeeActivityHistory EmployeeActivityHistory[]
   // ProductTransaction ProductTransaction[]
@@ -648,7 +653,7 @@ model Transaction {
   buyerId String
 
   review Review[]
-
+  orderedProducts OrderedProducts[]
   seller   Community @relation(fields: [sellerId], references: [id], onDelete: Cascade)
   sellerId String
 
@@ -658,6 +663,21 @@ model Transaction {
 
   @@index([buyerId])
   @@index([sellerId])
+}
+
+model OrderedProducts {
+  id            String            @id @default(cuid())
+  priceInKg     Float
+  quantity      Float
+  createdAt     DateTime          @default(now())
+  updatedAt     DateTime          @updatedAt
+  totalPrice    Float
+  productId     String
+  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  transactionId String
+  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+
 }
 
 enum CancelType {
@@ -726,19 +746,18 @@ model Cart {
   id        String   @id @default(cuid())
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-  quantity  Float
-
+  kilograms  Float
+  totalPrice Float
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
-  // variant   Variant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  variantId String?
-
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
   @@index([userId])
-  @@index([variantId])
   @@index([communityId])
 }
 

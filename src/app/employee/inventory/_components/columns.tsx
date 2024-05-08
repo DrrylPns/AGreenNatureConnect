@@ -15,7 +15,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { toast } from "@/lib/hooks/use-toast";
 import { cn, formatDate } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product, User } from "@prisma/client";
+import { Product, Stocks, User } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios from "axios";
@@ -43,6 +43,7 @@ import {
   AlertDialogTrigger,
 } from "@/app/components/Ui/alert-dialog";
 import { buttonVariants } from "@/app/components/Ui/Button";
+import { ProductWithStocks } from "@/lib/types";
 
 export type Products = {
   id: string;
@@ -59,7 +60,7 @@ export type Products = {
   isFree: boolean;
 }
 
-export const columns: ColumnDef<Products>[] =
+export const columns: ColumnDef<ProductWithStocks>[] =
   [
     {
       accessorKey: "productImage",
@@ -121,10 +122,26 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const stockKilo = row.original.quantity;
-        const outOfStock = row.original.quantity === 0
+        const outOfStock = row.original.quantity === 0;
+        const numberOfStocks = row.original.quantity
+        // const stocks = row.original.Stock;
+        // const currentDate = new Date()
+        // console.log(stocks)
+        // const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
+        //   const expirationDate = new Date(stock.expiration);
+        //   // Return true if the expiration date is greater than or equal to the current date
+        //   return expirationDate >= currentDate;
+        // });
+    
+        // let totalNumberOfStocks = 0
+        // const s = notExpiredStocks.map((stocks: Stocks)=>{
+        //   totalNumberOfStocks += stocks.numberOfStocks
+        // })
+
+
         return <div
           className={`${outOfStock && "text-rose-500"} text-center`}
-        >{stockKilo}</div>;
+        >{numberOfStocks}</div>;
       },
     },
     {
@@ -297,6 +314,13 @@ export const columns: ColumnDef<Products>[] =
                 >
                   <Link href={`inventory/addstocks/${product.id}`}>
                     Add new stocks
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
+                >
+                  <Link href={`inventory/stocks/${product.id}`}>
+                    See stocks
                   </Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem

@@ -8,6 +8,7 @@ import { useRouter } from 'next/navigation'
 import { FaArrowLeft, FaBullseye } from 'react-icons/fa'
 import { FiRefreshCw } from 'react-icons/fi'
 import Loading from '../loading'
+import { transactionWithOrderedProducts } from '@/lib/types'
 
 interface Transaction {
     id: string;
@@ -19,7 +20,6 @@ interface Transaction {
     paymentStatus: string | null;
     gcashReciept: string | null;
     seller: Community
-    orderedVariant: OrderedVariant[]
     createdAt: Date;
     updatedAt: Date;
 }
@@ -77,11 +77,11 @@ function OrderTab({
     cancelled,
     completed
 }: {
-    pending: Transaction[],
-    approved: Transaction[],
-    pickup: Transaction[],
-    cancelled: Transaction[],
-    completed: Transaction[]
+    pending: transactionWithOrderedProducts[],
+    approved: transactionWithOrderedProducts[],
+    pickup: transactionWithOrderedProducts[],
+    cancelled: transactionWithOrderedProducts[],
+    completed: transactionWithOrderedProducts[]
 }) {
     const router = useRouter()
     const [selectedIndex, setSelectedIndex] = useState(0)

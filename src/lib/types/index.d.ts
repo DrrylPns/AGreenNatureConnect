@@ -1,5 +1,5 @@
 'use server'
-import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom, Prisma } from '@prisma/client';
+import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom, Prisma, Stocks } from '@prisma/client';
 
 export interface CustomButtonProps {
   title: string,
@@ -117,12 +117,9 @@ export interface Product {
   itemNumber: number | null;
   productImage: string;
   name: string;
-  kilograms: number;
-  grams: number;
-  pounds: number;
-  pieces: number;
-  packs: number;
-  variants: Variants[]
+  quantity: number; 
+  priceInKg: number;
+  Stocks: Stocks[]
   category: string;
   status: string;
   isFree: boolean;
@@ -244,9 +241,9 @@ export interface ResultItem {
 
 export interface ProductVariant {
   productId: string;
-  variant: Variants;
+  kilograms: number;
+  totalPrice: number;
   isFree: boolean;
-  quantity: number;
 }
 
 export interface Transaction {
@@ -392,6 +389,54 @@ export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
     user: true,
   }
 }>
+export type ProductWithStocks = Prisma.ProductGetPayload<{
+  include: {
+   community: true,
+   Stock: true,
+   creator: true,
+   reviews:true,
+  }
+}>
+export type StocksWitProducts = Prisma.StocksGetPayload<{
+  include: {
+   product: true,
+  }
+}>
+export type ProductMarkethub = Prisma.ProductGetPayload<{
+  include: {
+   Stock: true,
+   reviews: true,
+   community: true
+  }
+}>
+export type CartwithProduct = Prisma.CartGetPayload<{
+  include: {
+   community: true,
+   product: {
+    include:{
+      community: true
+    }
+   },
+  }
+}>
+
+export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
+  include: {
+    buyer: true,
+    seller: true,
+    orderedProducts: {
+        include:{
+            product: true
+        }
+    }  
+}
+}>
+export type orderedProductsWithProducts = Prisma.OrderedProductsGetPayload<{
+  include: {
+   product: true,
+}
+}>
+
 
 export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
   include: {
@@ -465,3 +510,5 @@ export type NotificationWithUser = Prisma.NotificationGetPayload<{
     },
 },
 }>
+
+

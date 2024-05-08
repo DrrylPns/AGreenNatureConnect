@@ -1,11 +1,11 @@
 import { sendPendingOrderNotification } from "@/lib/mail";
 import { getAuthSession } from "../../../../lib/auth";
 import prisma from "@/lib/db/db";
-import { Cart, ResultItem } from "@/lib/types";
+import { Cart, CartwithProduct, ResultItem } from "@/lib/types";
 import { TransactionSchema } from "@/lib/validations/transactionSchema";
 import { v4 as uuidv4 } from 'uuid';
 
-function transformItems(Items: Cart[]): ResultItem[] {
+function transformItems(Items: CartwithProduct[]): ResultItem[] {
     const result: ResultItem[] = [];
 
     Items.forEach((item) => {
@@ -13,22 +13,23 @@ function transformItems(Items: Cart[]): ResultItem[] {
 
         if (existingItem) {
             existingItem.products.push({
-                productId: item.variant.product.id,
-                variant: item.variant,
-                isFree: item.variant.product.isFree,
-                quantity: item.quantity
+                productId: item.product.id,
+                totalPrice: item.totalPrice,
+                isFree: item.product.isFree,
+                kilograms: item.kilograms
             });
-            item.variant.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += (item.variant.price * item.quantity)
+            item.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.totalPrice
 
         } else {
             const newItem: ResultItem = {
-                communityId: item.communityId,
-                totalPrice: item.variant.product.isFree ? 0 : (item.variant.price * item.quantity),
+            
+                communityId: item.communityId !== null ? item.communityId : "",
+                totalPrice: item.product.isFree ? 0 : item.totalPrice,
                 products: [{
-                    productId: item.variant.product.id,
-                    variant: item.variant,
-                    isFree: item.variant.product.isFree,
-                    quantity: item.quantity
+                    productId: item.product.id,
+                    totalPrice: item.totalPrice,
+                    isFree: item.product.isFree,
+                    kilograms: item.kilograms
                 }],
             };
 
@@ -77,33 +78,25 @@ export async function POST(req: Request) {
                     status: "PENDING",
                     buyerId: session.user.id,
                     sellerId: item.communityId,
-                    paymentMethod: paymentMethod
+                    paymentMethod: paymentMethod,
                 },
             });
-            await prisma.transaction.update({
-                where: {
-                    id: transaction.id,
-                },
-                data: {
-                    orderedVariant: {
-                        createMany: {
-                            data: item.products.map((product) => ({
-                                price: product.isFree ? 0 : (product.variant.price ),
-                                variantId: product.variant.id,
-                                productId: product.productId,
-                                quantity: product.quantity
-                            })),
-                        },
-                    },
-                },
-            });
-
+            
+            await prisma.orderedProducts.createMany({
+                data: item.products.map((product)=>({
+                    productId: product.productId,
+                    priceInKg: product.totalPrice,
+                    quantity: product.kilograms,
+                    transactionId: transaction.id,
+                    totalPrice: product.totalPrice
+                })
+            )})
 
             await prisma.cart.deleteMany({
                 where: {
                     userId: session.user.id,
-                    variantId: {
-                        in: item.products.map((product) => product.variant.id),
+                    productId: {
+                        in: item.products.map((product) => product.productId),
                     },
                 },
             });

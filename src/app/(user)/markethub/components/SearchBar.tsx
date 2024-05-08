@@ -1,5 +1,7 @@
 'use client'
+import { ProductMarkethub } from '@/lib/types';
 import { Combobox, Transition } from '@headlessui/react'
+import { Stocks } from '@prisma/client';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import React, { Fragment, useState } from 'react'
@@ -9,12 +11,9 @@ interface Product {
     itemNumber: number | null;
     productImage: string;
     name: string;
-    kilograms: number;
-    grams: number;
-    pounds: number;
-    pieces: number;
-    packs: number;
-    variants: Variants[]
+    quantity: number;
+    priceInKg: number
+    Stocks: Stocks[]
     category: string;
     status: string;
     isFree: boolean;
@@ -31,20 +30,11 @@ interface Product {
     updatedAt: Date;
   
   }
-  interface Variants {
-    id: string
-    unitOfMeasurement: string;
-    variant: number;
-    price: number;
-    EstimatedPieces: number | null;
-    createdAt: Date;
-    updatedAt: Date;
-  }
 
 function SearchBar({
     allProduct,
 }:{
-    allProduct: Product[];
+    allProduct: ProductMarkethub[];
 }) {
     const [selected, setSelected] = useState<Product>()
     const [query, setQuery] = useState('')

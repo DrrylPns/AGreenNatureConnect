@@ -38,13 +38,38 @@ export const fetchProducts = async () => {
         },
         include: {
             creator: true,
-           
+            Stock: true
         },
         orderBy: {
             createdAt: "desc"
         },
     })
+    const expiredStocks = await prisma.stocks.findMany({
+        where:{
+            expiration:{
+                lt: new Date()
+            }
+        }           
+    })
 
+    await prisma.product.updateMany({
+        where:{
+            Stock: {
+                every:{
+                    expiration:{
+                        lt: new Date()
+                    }
+                }
+            }
+        },
+        data:{
+
+        }
+    })
+
+
+
+    revalidatePath("/employee/inventory")
     return products
 }
 
@@ -154,4 +179,35 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
     } catch (error: any) {
         throw new Error(error)
     }
+}
+
+export const fetchStocks = async (productId: string) =>{
+    const session = await getAuthSession()
+
+    if (!session) return { error: "Unauthorized" }
+
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session?.user.id
+        },
+        include: {
+            Community: true
+        },
+        orderBy:{
+            createdAt: 'desc'
+        }
+    })
+
+    if (!user) return { error: "No user found!" }
+
+    const stocks = await prisma.stocks.findMany({
+        where:{
+            productId,
+        },
+        include:{
+            product: true,
+        }
+    })
+
+    return stocks
 }

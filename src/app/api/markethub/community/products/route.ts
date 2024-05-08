@@ -7,6 +7,7 @@ export async function POST(req: Request, res: NextApiResponse) {
         const { category } = await req.json()
     try {
         const communityId = searchParams.get("communityId");
+        console.log(communityId)
         const allProducts = await prisma.product.findMany({
             where:{
               communityId: communityId ? communityId : undefined,
@@ -21,12 +22,12 @@ export async function POST(req: Request, res: NextApiResponse) {
               }
             },
             include:{
+              Stock: true,
               community: true,
-              variants: true,
-              reviews: true
-            }
-           
+              reviews: true,
+          }
           })
+          console.log(allProducts)
         return new Response(JSON.stringify(allProducts))
     } catch (error) {
         return new Response(JSON.stringify({ message: 'Error:', error }))

@@ -22,16 +22,10 @@ export async function GET(req: NextRequest) {
                 category: {
                     equals: "Vegetables"
                 },
-                variants:{
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
-                }
+                
             },
             include:{
-               variants: true,
+               Stock: true,
                community: true,
                reviews: true,
             }

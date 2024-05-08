@@ -3,8 +3,10 @@ import { z } from "zod"
 export type CreateAddToCartType = z.infer<typeof CartSchema>
 
 export const CartSchema = z.object({
-    variantId: z.string(),
+    kilograms: z.coerce.number(),
+    totalPrice: z.coerce.number(),
     communityId: z.string(),
+    productId: z.string(),
 })
 
 // DElete Cart items Schema

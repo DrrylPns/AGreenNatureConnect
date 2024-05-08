@@ -24,12 +24,6 @@ const page: FC<Props> = async ({ params }) => {
     include: {
       buyer: true,
       seller: true,
-      orderedVariant: {
-        include: {
-          variant: true,
-          product: true,
-        },
-      },
     },
   });
 

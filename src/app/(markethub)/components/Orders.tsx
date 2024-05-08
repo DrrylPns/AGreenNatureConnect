@@ -18,11 +18,12 @@ import { Button } from '@/app/components/Ui/Button';
 import QrCodeDrawer from './QrCodeDrawer';
 import ReviewModal from './ReviewModal';
 import { RatingStars } from './Rating';
+import { transactionWithOrderedProducts } from '@/lib/types';
 
 export interface OrdersProps {
     selectedIndex: number;
     noOrders: string;
-    transactions: Transaction[];
+    transactions: transactionWithOrderedProducts[];
     cancelBtnDisplay: "block" | "hidden";
     status: string;
 }
@@ -36,7 +37,6 @@ export interface Transaction {
     paymentStatus: string | null;
     gcashReciept: string | null;
     seller: Community
-    orderedVariant: OrderedVariant[]
     createdAt: Date;
     updatedAt: Date;
 }
@@ -144,7 +144,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
         <div className='w-full min-h-screen font-poppins transition-all ease-in-out duration-500 '>
             {selectedIndex == selectedIndex && (
                 <div className=' '>
-                    {transactions.length > 0 ? transactions.map((transaction: Transaction) => (
+                    {transactions.length > 0 ? transactions.map((transaction: transactionWithOrderedProducts) => (
                         <div className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
                             <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
                                 <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
@@ -163,12 +163,12 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             </div>
                             <div className='flex px-0 md:px-10 w-full my-5 gap-3 sm:gap-10 md:gap-14 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>
                                 <div className=' w-1/2'>
-                                    {transaction.orderedVariant.map((variant) => (
+                                    {transaction.orderedProducts.map((product) => (
                                         <Link href={`/order-status/${transaction.id}`} className='w-full flex text-sm flex-1 gap-5 sm:gap-10 justify-between items-center transition-all ease-in-out duration-500'>
                                             <div className='w-10 h-10 border-gray-200 border'>
                                                 <Image
-                                                    src={variant.product.productImage}
-                                                    alt={variant.product.name}
+                                                    src={product.product.productImage}
+                                                    alt={product.product.name}
                                                     height={50}
                                                     width={50}
                                                     className='object-cover w-full h-full'
@@ -176,14 +176,14 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                             </div>
 
                                             <div className=''>
-                                                <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{variant.product.name}</h1>
-                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span> <span className="">x{variant.quantity}</span></p>
+                                                <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{product.product.name}</h1>
+                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{product.quantity}Kg </p>
                                             </div>
                                             <div className='ml-auto font-semibold text-[0.6rem] sm:text-xs md:text-lg'>
-                                                {variant.price === 0 ? (
+                                                {product.priceInKg === 0 ? (
                                                     <h1>Free</h1>
                                                 ) : (
-                                                    <h1>₱ {variant.price * variant.quantity}</h1>
+                                                    <h1>₱ {product.totalPrice}</h1>
                                                 )}
 
                                             </div>
@@ -338,7 +338,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
 
                                 <h1 className='text-[0.5rem] sm:text-sm font-semibold'>Order Total: <span>₱ {transaction.amount}</span></h1>
                                 {transaction.status === 'COMPLETED' && (
-                                    <ReviewModal transactionId={transaction.id} orderedVariant={transaction.orderedVariant} />
+                                    <ReviewModal transactionId={transaction.id} orderedVariant={transaction.orderedProducts} />
                                 )}
 
                             </div>

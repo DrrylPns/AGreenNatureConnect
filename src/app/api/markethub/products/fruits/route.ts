@@ -22,18 +22,11 @@ export async function GET(req: NextRequest) {
                 category: {
                     equals: "Fruits"
                 },
-                variants:{
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
-                }
             },
             include:{
-               variants: true,
-               community: true,
-               reviews: true,
+                Stock: true,
+                community: true,
+                reviews: true,
             }
         })
         const myCursor = getAllProducts.length === limit ? getAllProducts[getAllProducts.length - 1].id : undefined;

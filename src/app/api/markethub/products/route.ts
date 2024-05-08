@@ -15,23 +15,16 @@ export async function GET(req: NextRequest) {
             skip: param === '' ? 0 : 1,
             where:{
                 isFree: {
-                    equals: false
+                    equals: false 
                 },
                 status:{
                     equals: "APPROVED"
                 },
-                variants:{
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
-                }
             },
             include:{
-               variants: true,
-               community: true,
-               reviews: true,
+                Stock: true,
+                community: true,
+                reviews: true,
             }
         })
         const myCursor = getAllProducts.length === limit ? getAllProducts[getAllProducts.length - 1].id : undefined;

@@ -29,6 +29,7 @@ const InventoryPage = async () => {
           */}
      
       <DataTable
+        //@ts-ignore
         columns={columns}
         //@ts-ignore
         data={products ?? []}

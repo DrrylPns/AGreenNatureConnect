@@ -100,6 +100,7 @@ export async function POST(req: NextRequest) {
                     quantity,
                     creatorId: user?.EmployeeId as string,
                     communityId: community?.id,
+                    status: "APPROVED"
                 }
             });
 
@@ -124,7 +125,7 @@ export async function POST(req: NextRequest) {
             })
         }
 
-        revalidatePath("/employee/inventory")
+        revalidatePath("/employee/inventory", "page")
        console.log("created Product")
         return new NextResponse(`Successfully added product!`);
     } catch (error) {

@@ -1,5 +1,5 @@
 "use client"
-import { ApprovalStatus, User, Variant, } from "@prisma/client";
+import { ApprovalStatus, User, } from "@prisma/client";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../../inventory/_components/DateTableColumnHeader";
 import Image from "next/image";
@@ -49,7 +49,6 @@ type Product = {
     updatedAt: Date;
     communityId: string;
     creator: User;
-    variant: Variant;
 }
 
 export const columns: ColumnDef<Product>[] = [

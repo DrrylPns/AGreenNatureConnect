@@ -9,6 +9,7 @@ import prisma from "@/lib/db/db";
 import AdvertisementDialog from "./components/AdvertisementDialog";
 
 export default async function Markethub() {
+
   const allProrducts = await prisma.product.findMany({
     where:{
       isFree: {
@@ -17,18 +18,12 @@ export default async function Markethub() {
       status:{
           equals: "APPROVED"
       },
-      variants:{
-          some: {
-              variant: {
-                  not: 0
-              }
-          }
-      }
+     
   },
   include:{
-     variants: true,
-     community: true,
-     reviews: true,
+    Stock: true,
+    community: true,
+    reviews: true,
   }
   })
   return (
@@ -43,7 +38,9 @@ export default async function Markethub() {
       </div>
       <div className="my-5 flex flex-col-reverse md:flex-row md:flex justify-between items-center w-full">
         <h1 className="text-xl font-bold text-center mt-5 md:mt-0 md:text-left dark:text-white ">Urban Farms Products</h1>
-        <SearchBar allProduct={allProrducts}/>
+      
+        <SearchBar 
+        allProduct={allProrducts}/>
       </div>
         <ProductItem />
     </div>

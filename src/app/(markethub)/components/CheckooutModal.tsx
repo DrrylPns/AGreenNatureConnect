@@ -4,7 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosRadioButtonOff, IoIosRadioButtonOn } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import { Cart, ShippingInfo } from "@/lib/types";
+import { Cart, CartwithProduct, ShippingInfo } from "@/lib/types";
 import Image from "next/image";
 import { RotatingLines } from "react-loader-spinner";
 import { FaArrowLeft } from "react-icons/fa";
@@ -23,7 +23,7 @@ const PaymentMethod = [
 ]
 
 function CheckoutModal({}: {}) {
-  const [checkoutItems, setCheckoutItems] = useState<Cart[]>([]);
+  const [checkoutItems, setCheckoutItems] = useState<CartwithProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [shippingInfo , setShippingInfo] = useState<ShippingInfo>()
   const [isProcessing, setisProcessing] = useState<boolean>(false);
@@ -76,10 +76,10 @@ function CheckoutModal({}: {}) {
   }
   // Function to group items by community name
   const groupItemsByCommunity = () => {
-    const groupedItems: Record<string, Cart[]> = {};
+    const groupedItems: Record<string, CartwithProduct[]> = {};
 
-    checkoutItems.forEach((item: Cart) => {
-      const communityName = item.variant.product.community.name;
+    checkoutItems.forEach((item: CartwithProduct) => {
+      const communityName = item.product.community.name;
       if (!groupedItems[communityName]) {
         groupedItems[communityName] = [];
       }
@@ -92,9 +92,9 @@ function CheckoutModal({}: {}) {
   const groupedItems = groupItemsByCommunity();
 
   // Calculate total price for each barangay and get the sum of total prices
-  const calculateSubtotal = (selectedItems: Cart[]) => {
+  const calculateSubtotal = (selectedItems: CartwithProduct[]) => {
     return selectedItems.reduce((total, item) => {
-      const priceToAdd = item.variant.product.isFree ? 0 : (item.variant.price * item.quantity);
+      const priceToAdd = item.product.isFree ? 0 : (item.totalPrice);
       return total + priceToAdd;
     }, 0);
   };
@@ -234,31 +234,28 @@ function CheckoutModal({}: {}) {
                           Barangay {communityName}
                         </h2>
                       </div>
-                      {communityItems.map((item: Cart) => (
+                      {communityItems.map((item: CartwithProduct) => (
                         <div
                           key={item.id}
                           className="flex gap-5 justify-between pb-2 items-center border-b-2 border-b-gray-300 mx-10 md:mx-[25%] mt-5"
                         >
                           <Image
-                            src={item.variant.product.productImage}
-                            alt={item.variant.product.name}
+                            src={item.product.productImage}
+                            alt={item.product.name}
                             height={50}
                             width={50}
                             className="w-[20%]"
                           />
                           <div className="text-[0.6rem] sm:text-sm ">
-                            <h3>{item.variant.product.name}</h3>
-                            <h3>
-                              {item.variant.variant}{" "}
-                              <span>{item.variant.unitOfMeasurement}</span>
-                            </h3>
+                            <h3>{item.product.name}</h3>
+                            <h3>{item.kilograms}Kg</h3>
                           </div>
                           <div className="ml-auto">
                             <h3 className="font-semibold text-[0.6rem] sm:text-sm font-poppins">
                               {" "}
-                              {item.variant.product.isFree == true
+                              {item.product.isFree == true
                                 ? "Free"
-                                : `₱ ${(item.variant.price * item.quantity)}`}
+                                : `₱ ${(item.totalPrice)}`}
                             </h3>
                           </div>
                         </div>

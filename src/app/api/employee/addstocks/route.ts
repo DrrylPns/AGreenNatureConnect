@@ -1,6 +1,8 @@
 import { getAuthSession } from "../../../../lib/auth"
 import prisma from "@/lib/db/db"
 import { AddStocksScehma } from "@/lib/validations/employee/products"
+import { Stocks } from "@prisma/client"
+import { filter } from "lodash"
 import { NextRequest, NextResponse } from "next/server"
 
 export async function PUT(req: NextRequest) {
@@ -29,7 +31,7 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { id, harvestedFrom, quantity} = AddStocksScehma.parse(body)
+        const { id, harvestedFrom, quantity, expiration} = AddStocksScehma.parse(body)
 
         const existingProduct = await prisma.product.findUnique({
             where: {
@@ -43,12 +45,36 @@ export async function PUT(req: NextRequest) {
         }
 
         if (existingProduct) {
+            const productStock = await prisma.stocks.findMany({
+                where:{
+                    productId: existingProduct.id
+                }
+            })
+            let totalStocks = 0
+            const currentDate = new Date()
+            const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+                const expirationDate = new Date(stock.expiration);
+                return expirationDate >= currentDate;
+            });
+            notExpiredStocks.map((stock)=>{
+                totalStocks += stock.numberOfStocks
+            })
             await prisma.product.update({
                 where: { id: existingProduct.id },
                 data: {
-                    quantity: existingProduct.quantity + quantity
+                    quantity: totalStocks + quantity
                 },
             });
+
+            await prisma.stocks.create({
+                data:{
+                    batchNo: "batch",
+                    numberOfStocks: quantity,
+                    harvestedFrom: harvestedFrom,
+                    expiration: expiration,
+                    productId: existingProduct.id,
+                }
+            })
         }
 
         await prisma.employeeActivityHistory.create({

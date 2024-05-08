@@ -13,7 +13,7 @@ import {
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/app/components/Ui/select';
 import { toast } from '@/lib/hooks/use-toast';
-import { cn } from '@/lib/utils';
+import { cn, formatDate } from '@/lib/utils';
 import { AddStocksScehma, AddStocksType } from '@/lib/validations/employee/products';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Product } from '@prisma/client';
@@ -195,14 +195,14 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                             name="expiration"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel className='text-[#f7d126]'>Expiration Date</FormLabel>
+                                <FormLabel className='text-[#f7d126] inline w-full'>Expiration Date</FormLabel>
                                 <FormControl>
                                 <Popover>
                                     <PopoverTrigger asChild>
                                         <Button
                                         variant={"outline"}
                                         className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
+                                            "w-full justify-start text-left font-normal",
                                             !field.value && "text-muted-foreground"
                                         )}
                                         >
@@ -265,6 +265,12 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                                         Harvested From:
                                         <span className='font-bold text-black ml-1'>
                                             {harvestedFrom}
+                                        </span>
+                                    </div>
+                                    <div>
+                                        Expiration Date:
+                                        <span className='font-bold text-black ml-1'>
+                                            {formatDate(form.getValues("expiration")) }
                                         </span>
                                     </div>
                                 </div>
