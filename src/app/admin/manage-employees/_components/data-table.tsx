@@ -119,11 +119,11 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                     <Title className='text-[50px] mb-7 mt-3'>
                         {isActivated ? (
                             <>
-                                Active Farmers
+                                Active Staffs
                             </>
                         ) : (
                             <>
-                                Inactive Farmers
+                                Inactive Staffs
                             </>
                         )}
                     </Title>
@@ -168,7 +168,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                                     "w-full"
                                 )}
                             >
-                                Active Farmers
+                                Active Staffs
                             </Link>
                         )
                     }
@@ -212,7 +212,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                         href={"/admin/add-employee"}
                     >
                         <Plus strokeWidth={"1.5"} className='mr-1' width={16} height={16} />
-                        Farmer
+                        Staff
                     </Link>
                 </div>
             </div>

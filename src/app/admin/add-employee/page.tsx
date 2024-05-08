@@ -134,7 +134,6 @@ const page = () => {
         <Card className="lg:w-[570px] w-full">
           <div className="w-full h-full">
             <div className="w-full flex justify-center items-center">
-              <h1 className="font-bold text-lg mb-5">Farmer Registration</h1>
               <h1 className="font-bold text-lg mb-5">Staff Registration</h1>
             </div>
             <Form {...form}>
@@ -170,7 +169,6 @@ const page = () => {
 
                       : <div className="w-fit">
                         <div className="cursor-pointer">
-                          <p className='text-sm font-semibold mb-2'>Add Farmer Photo</p>
                           <p className='text-sm font-semibold mb-2'>Add Staff Photo</p>
                           <ImageDown strokeWidth={1} size={32} />
                         </div>
@@ -245,7 +243,27 @@ const page = () => {
                       <FormItem>
                         <FormLabel>First Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Firstname" {...field} type='text' className="w-full" />
+                          <Input
+                            placeholder="Firstname"
+                            {...field}
+                            type="text"
+                            className="w-full"
+                            onKeyPress={(event) => {
+                              const charCode = event.which ? event.which : event.keyCode;
+                              // Allow alphabetic characters (both uppercase and lowercase), backspace, tab, and space
+                              if (
+                                !(charCode >= 65 && charCode <= 90) && // Uppercase letters
+                                !(charCode >= 97 && charCode <= 122) && // Lowercase letters
+                                charCode !== 32 && // Space
+                                charCode !== 8 && // Backspace
+                                charCode !== 9 && // Tab
+                                charCode !== 0 // Special characters
+                              ) {
+                                event.preventDefault();
+                              }
+                            }}
+                          />
+
                         </FormControl>
 
                         <FormMessage />
@@ -260,7 +278,27 @@ const page = () => {
                       <FormItem>
                         <FormLabel>Last Name</FormLabel>
                         <FormControl>
-                          <Input placeholder="Lastname" {...field} type='text' className="w-full" />
+                          <Input
+                            placeholder="Lastname"
+                            {...field}
+                            type="text"
+                            className="w-full"
+                            onKeyPress={(event) => {
+                              const charCode = event.which
+                                ? event.which
+                                : event.keyCode;
+                              if (
+                                !(charCode >= 65 && charCode <= 90) &&
+                                !(charCode >= 97 && charCode <= 122) &&
+                                charCode !== 32 &&
+                                charCode !== 8 &&
+                                charCode !== 9 &&
+                                charCode !== 0
+                              ) {
+                                event.preventDefault();
+                              }
+                            }}
+                          />
                         </FormControl>
 
                         <FormMessage />
