@@ -85,8 +85,6 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                     )}
                 </div> */}
 
-
-
                 <div className="flex gap-3 w-full justify-end">
                     {isArchivePanel ? (
                         <>
@@ -97,7 +95,7 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                             )}
                                 href="/communities"
                             >
-                                Active Communities
+                                Active Urban Farms
                             </Link>
                         </>
                     ) :

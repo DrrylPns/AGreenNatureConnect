@@ -21,6 +21,7 @@ import { UsernameModal } from '@/components/settings/UsernameModal'
 import { CommunityModal } from '@/components/settings/CommunityModal'
 import { CommunityAvatarModal } from '@/components/settings/CommunityAvatarModal'
 import { CommunityCarouselModal } from '@/components/settings/CommunityCarouselModal'
+import { UrbanFarmDeactivated } from '@/components/urbanfarm-deactivated'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -54,27 +55,33 @@ export default async function RootLayout({
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
 
                 {user.role === "ADMIN" ? (
-                    <Providers>
-                        <LoginModal />
-                        <RegisterModal />
-                        <UserSettings user={user as User} />
-                        <GenderModal user={user as User} />
-                        <AvatarModal />
-                        <CommunityAvatarModal />
-                        <ProfileModal user={user as User} />
-                        <UsernameModal user={user as User} />
-                        <CommunityModal
-                            //@ts-ignore
-                            user={user} />
-                        <CommunityCarouselModal
-                            //@ts-ignore
-                            user={user}
-                        />
-                        <Sidebar />
-                        <main className='md:ml-[288px] md:mt-[62px] md:mr-[30px] mx-5'>
-                            {children}
-                        </main>
-                    </Providers>
+                    <>
+                        {user.Community?.isArchived && user.role === "ADMIN" ? (
+                            <UrbanFarmDeactivated />
+                        ) : (
+                            <Providers>
+                                <LoginModal />
+                                <RegisterModal />
+                                <UserSettings user={user as User} />
+                                <GenderModal user={user as User} />
+                                <AvatarModal />
+                                <CommunityAvatarModal />
+                                <ProfileModal user={user as User} />
+                                <UsernameModal user={user as User} />
+                                <CommunityModal
+                                    //@ts-ignore
+                                    user={user} />
+                                <CommunityCarouselModal
+                                    //@ts-ignore
+                                    user={user}
+                                />
+                                <Sidebar />
+                                <main className='md:ml-[288px] md:mt-[62px] md:mr-[30px] mx-5'>
+                                    {children}
+                                </main>
+                            </Providers>
+                        )}
+                    </>
                 ) :
                     <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>
                         <PageNotFound />

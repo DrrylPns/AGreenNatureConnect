@@ -21,6 +21,9 @@ export const UpdateEmployeeSchema = z.object({
     address: z.string()
         .min(5, { message: "Minimum length of address is 5" })
         .max(100, { message: "Maximum length of address is 100" }),
+    specialization: z.enum(["MarketHub", "Informational"], {
+        required_error: "Must have a specific role for an urban farm!"
+    }),
     // password: z.string()
     //     .min(8, { message: "Minimum password length is 8 characters" })
     //     .max(20, { message: "Maximum password length is 20 characters" })

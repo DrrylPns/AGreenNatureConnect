@@ -21,6 +21,8 @@ import { AvatarModal } from "@/components/settings/AvatarModal"
 import { ProfileModal } from "@/components/settings/ProfileModal"
 import { UsernameModal } from "@/components/settings/UsernameModal"
 import { redirect } from "next/navigation"
+import { StaffDeactivated } from "@/components/staff-deactivated"
+import { UrbanFarmDeactivated } from "@/components/urbanfarm-deactivated"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -39,6 +41,9 @@ export default async function RootLayout({
   const user = await prisma.user.findFirst({
     where: {
       id: session?.user.id,
+    },
+    include: {
+      Community: true
     }
   })
 
@@ -57,20 +62,28 @@ export default async function RootLayout({
               </>
             ) : (
               <>
-                <Navbar />
-
-                <LoginModal />
-                <RegisterModal />
-                <UserSettings user={user as User} />
-                <GenderModal user={user as User} />
-                <AvatarModal />
-                <ProfileModal user={user as User} />
-                <UsernameModal user={user as User} />
-                <Suspense fallback={<Loading />}>
-                  <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
-                    {children}
-                  </div>
-                </Suspense>
+                {user?.isDisabled === true ? (
+                  <StaffDeactivated />
+                ) : user?.Community?.isArchived === true && user.role === "ADMIN" || user?.role === "EMPLOYEE" ? (
+                  <UrbanFarmDeactivated />
+                ) : (
+                  <>
+                    <Navbar />
+                    <LoginModal />
+                    <RegisterModal />
+                    <UserSettings user={user as User} />
+                    <GenderModal user={user as User} />
+                    <AvatarModal />
+                    <ProfileModal user={user as User} />
+                    <UsernameModal user={user as User} />
+                    <Suspense fallback={<Loading />}>
+                      <div className="relative pt-[5rem] md:pt-[5rem] z-0 bg-whit h-screen min-h-screen">
+                        {children}
+                      </div>
+                    </Suspense>
+                  </>
+                )
+                }
               </>
             )
             }
@@ -78,6 +91,6 @@ export default async function RootLayout({
           </Providers >
         </CartProvider>
       </body>
-    </html>
+    </html >
   )
 }

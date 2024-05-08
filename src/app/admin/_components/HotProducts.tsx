@@ -35,7 +35,7 @@ export const HotProducts = ({ products }: Props) => {
                                     <Text>{product.name}</Text>
                                 </TableCell>
                                 <TableCell>
-                                    <Text>{product.orderedProducts.length}</Text>
+                                    <Text>{product.orderedProducts?.length}</Text>
                                 </TableCell>
                             </TableRow>
                         ))}

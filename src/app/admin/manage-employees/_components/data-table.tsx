@@ -53,6 +53,7 @@ interface DataTableProps<TData extends CommonEmployeeProperties, TValue> {
     isFetching?: boolean;
     employees: Array<User & { Community: Community | null }>;
     isEmployees?: boolean;
+    isActivated?: boolean;
 }
 
 interface CommonEmployeeProperties {
@@ -71,6 +72,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
     isFetching,
     employees,
     isEmployees,
+    isActivated,
 }: DataTableProps<TData, TValue>) {
     const [sorting, setSorting] = useState<SortingState>([])
     const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -114,7 +116,17 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
         <div>
             <div className='flex flex-col md:flex-row justify-between'>
                 <div>
-                    <Title className='text-[50px] mb-7 mt-3'>Farmers</Title>
+                    <Title className='text-[50px] mb-7 mt-3'>
+                        {isActivated ? (
+                            <>
+                                Active Staffs
+                            </>
+                        ) : (
+                            <>
+                                Inactive Staffs
+                            </>
+                        )}
+                    </Title>
                 </div>
 
                 <div className='flex flex-col gap-2 md:flex-row justify-center items-center'>
@@ -130,6 +142,36 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                             </MultiSelectItem>
                         ))}
                     </MultiSelect>
+
+                    {isActivated ?
+                        (
+                            <Link
+                                href="/employee/deactivated-farmers"
+                                className={cn(
+                                    buttonVariants({
+                                        variant: "outline"
+                                    }),
+                                    "w-full"
+                                )}
+                            >
+                                Deactivated Farmers
+                            </Link>
+                        )
+                        :
+                        (
+                            <Link
+                                href="/admin/manage-employees"
+                                className={cn(
+                                    buttonVariants({
+                                        variant: "outline"
+                                    }),
+                                    "w-full"
+                                )}
+                            >
+                                Active Staffs
+                            </Link>
+                        )
+                    }
 
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -170,7 +212,7 @@ export function DataTable<TData extends CommonEmployeeProperties, TValue extends
                         href={"/admin/add-employee"}
                     >
                         <Plus strokeWidth={"1.5"} className='mr-1' width={16} height={16} />
-                        Farmer
+                        Staff
                     </Link>
                 </div>
             </div>

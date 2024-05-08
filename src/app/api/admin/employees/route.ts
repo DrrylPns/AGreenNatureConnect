@@ -23,6 +23,7 @@ export async function POST(req: Request) {
             gender,
             lastName,
             // password,
+            specialization,
             phone,
         } = CreateEmployeeSchema.parse(body)
 
@@ -95,6 +96,7 @@ export async function POST(req: Request) {
                 lastName,
                 role: "EMPLOYEE",
                 emailVerified: currentDate,
+                specialization,
                 // hashedPassword,
                 Community: {
                     connect: {
@@ -104,7 +106,7 @@ export async function POST(req: Request) {
             }
         })
 
-        if(successUserCreate) {
+        if (successUserCreate) {
             sendEmployeePasswordLink(successUserCreate.email as string)
         }
 
@@ -131,6 +133,7 @@ export async function PUT(req: NextRequest) {
             phone,
             avatar,
             gender,
+            specialization,
         } = UpdateEmployeeSchema.parse(body)
 
         const phoneNumberExists = await prisma.user.findFirst({
@@ -161,6 +164,7 @@ export async function PUT(req: NextRequest) {
                 phoneNumber: phone,
                 image: avatar,
                 gender,
+                specialization,
             },
             where: {
                 EmployeeId: employeeId,

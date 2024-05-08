@@ -132,7 +132,7 @@ export const columns: ColumnDef<ProductWithStocks>[] =
         //   // Return true if the expiration date is greater than or equal to the current date
         //   return expirationDate >= currentDate;
         // });
-    
+
         // let totalNumberOfStocks = 0
         // const s = notExpiredStocks.map((stocks: Stocks)=>{
         //   totalNumberOfStocks += stocks.numberOfStocks
@@ -320,7 +320,7 @@ export const columns: ColumnDef<ProductWithStocks>[] =
                 // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
                 >
                   <Link href={`inventory/stocks/${product.id}`}>
-                    See stocks
+                    View stocks
                   </Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem
