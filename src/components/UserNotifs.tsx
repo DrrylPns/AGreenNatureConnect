@@ -122,7 +122,7 @@ export const UserNotifs = () => {
                                 <div key={notification.id} className="grid gap-1 p-1 text-sm shadow">
 
                                     <div
-                                        className={`flex flex-col items-start p-2 rounded-md ${!notification.isRead ? "bg-[#c1f7d2] dark:bg-[#303e33]" : "bg-[#ffffff] dark:bg-[#424444]"}`}
+                                        className={`flex flex-col items-start p-2 rounded-md ${!notification.isRead ? "bg-[#caf0f8] dark:bg-[#1b2026]" : "bg-[#ffffff] dark:bg-[#424444]"}`}
 
                                         // href={
                                         //     //@ts-ignore
