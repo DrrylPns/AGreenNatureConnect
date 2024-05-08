@@ -12,6 +12,7 @@
   import DeleteCartItemModal from "../components/DeleteCartItemModal";
   import { toast } from "@/lib/hooks/use-toast";
   import { CartwithProduct } from "@/lib/types";
+import { button } from "@nextui-org/react";
 
 
 
@@ -169,23 +170,24 @@
       ))}
         </Suspense> */}
         {Object.entries(groupedItems).map(([communityName, items]) => (
-          <div key={communityName}>
+          <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 max-w-md mx-auto" key={communityName}>
             {/* Render community name */}
             
             <h2 className="font-bold text-lg">{communityName}</h2>
             {/* Render items in this community */}
             {items.map((item) => (
-              <div key={item.id}>
-                <input
-                  type="checkbox"
-                  checked={selectedItems.some(selectedItem => selectedItem.id === item.id)}
-                  onChange={() => handleToggleSelect(item)}
-                />
-                {/* Render item details */}
-                <p>{item.product.name}</p>
-                <p>Price: ₱{item.totalPrice.toFixed(2)}</p>
-                {/* Add any other details you want to display */}
-              </div>
+            <div className="flex items-center justify-between" key={item.id}>
+            <input
+              type="checkbox"
+              checked={selectedItems.some(selectedItem => selectedItem.id === item.id)}
+              onChange={() => handleToggleSelect(item)}
+            />
+            <h3 className="text-sm font-medium pl-2">{item.product.name}</h3>
+            <div className="flex-grow"></div>
+            <p className="text-sm font-medium">Price: ₱{item.totalPrice.toFixed(2)}</p>
+          </div>
+          
+            
             ))}
           </div>
         ))}
