@@ -79,7 +79,7 @@ const Sidebar = () => {
 
                         <Link href="/communities" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <TbUserSquareRounded />
-                            <span className="text-sm font-medium">Communities</span>
+                            <span className="text-sm font-medium">Urban Farms</span>
                         </Link>
 
                         {/* <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
@@ -106,7 +106,7 @@ const Sidebar = () => {
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
                         </Link> */}
-                        
+
                     </nav>
                     <div className='space-y-2 absolute bottom-10 w-[85%]'>
                         <div className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`} onClick={onOpen}>

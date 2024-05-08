@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const session = await getAuthSession()
     if (!session?.user) {
         return new Response("Unauthorized", { status: 401 });
-      }
+    }
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
         }
     })
 
-    if (user?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
+    // if (user?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
 
     try {
         const body = await req.json()
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
             expiration,
         } = CreateProductSchema.parse(body)
 
-        if(community && user){
+        if (community && user) {
             const createProduct = await prisma.product.create({
                 data: {
                     productImage: productImage as string,
@@ -98,14 +98,14 @@ export async function POST(req: NextRequest) {
                     category,
                     priceInKg,
                     quantity,
-                    creatorId: user?.EmployeeId as string,
+                    creatorId: user?.id as string,
                     communityId: community?.id,
                     status: "APPROVED"
                 }
             });
 
             const addStocks = await prisma.stocks.create({
-                data:{
+                data: {
                     batchNo: "batch",
                     numberOfStocks: quantity,
                     harvestedFrom: harvestedFrom,
@@ -114,13 +114,13 @@ export async function POST(req: NextRequest) {
 
                 }
             })
-            
+
             await prisma.employeeActivityHistory.create({
-                data:{
-                type: "MARKETHUB_PRODUCTS",
-                employeeId: session.user.id,
-                productId: createProduct.id,
-                typeOfActivity: `Created new product: ${quantity}kg. ${name} from ${harvestedFrom}`
+                data: {
+                    type: "MARKETHUB_PRODUCTS",
+                    employeeId: session.user.id,
+                    productId: createProduct.id,
+                    typeOfActivity: `Created new product: ${quantity}kg. ${name} from ${harvestedFrom}`
                 }
             })
         }
@@ -153,7 +153,7 @@ export async function PUT(req: NextRequest) {
         }
     })
 
-    if (loggedInUser?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
+    // if (loggedInUser?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
 
     try {
         const body = await req.json()

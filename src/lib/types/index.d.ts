@@ -440,8 +440,8 @@ export type orderedProductsWithProducts = Prisma.OrderedProductsGetPayload<{
 
 export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
   include: {
-    product:{
-      include:{
+    product: {
+      include: {
         orderedVariant: true
       },
     },
@@ -463,52 +463,57 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
 }>
 
 export type NotificationWithUser = Prisma.NotificationGetPayload<{
-  error: String, 
+  error: String,
   include: {
     user: true,
     community: true,
     transaction: true,
     Reaction: {
-        include: {
-            post: {
-                include: {
-                    topic: true
-                }
-            },
-            user: true
-        }
+      include: {
+        post: {
+          include: {
+            topic: true
+          }
+        },
+        user: true
+      }
     },
     Reply: {
-        include: {
-            user: true,
-            comment: {
-                include: {
-                    post: {
-                        include: {
-                            topic: true
-                        }
-                    }
-                }
+      include: {
+        user: true,
+        comment: {
+          include: {
+            post: {
+              include: {
+                topic: true
+              }
             }
+          }
         }
+      }
     },
     Comment: {
-        include: {
-            post: {
-                include: {
-                    topic: true
-                }
-            },
-            author: true
-        }
+      include: {
+        post: {
+          include: {
+            topic: true
+          }
+        },
+        author: true
+      }
     },
     Post: {
-        include: {
-            author: true,
-            topic: true,
-        }
+      include: {
+        author: true,
+        topic: true,
+      }
     },
-},
+  },
 }>
 
-
+export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
+  include: {
+    reviews: true,
+    community: true,
+  }
+}>

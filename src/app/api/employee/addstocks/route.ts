@@ -26,7 +26,7 @@ export async function PUT(req: NextRequest) {
         }
     })
 
-    if (loggedInUser?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
+    // if (loggedInUser?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
 
     try {
         const body = await req.json()
@@ -78,11 +78,11 @@ export async function PUT(req: NextRequest) {
         }
 
         await prisma.employeeActivityHistory.create({
-            data:{
-              type: "MARKETHUB_PRODUCTS",
-              employeeId: session.user.id, 
-              productId: existingProduct.id,
-              typeOfActivity: `Added new stocks: ${quantity}kg. ${existingProduct.name} from ${harvestedFrom}`
+            data: {
+                type: "MARKETHUB_PRODUCTS",
+                employeeId: session.user.id,
+                productId: existingProduct.id,
+                typeOfActivity: `Added new stocks: ${quantity}kg. ${existingProduct.name} from ${harvestedFrom}`
             }
         })
 

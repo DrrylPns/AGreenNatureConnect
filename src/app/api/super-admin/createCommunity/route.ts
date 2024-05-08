@@ -19,8 +19,8 @@ export async function POST(req: Request) {
             // barangayName,
             urbanFarmName,
             communityAddress,
-            communityDescription,
-            communityEmail,
+            // communityDescription,
+            // communityEmail,
             firstname,
             gender,
             lastName,
@@ -28,8 +28,8 @@ export async function POST(req: Request) {
             userPhone,
             // password,
             // communityImages,
-            communityDisplayPhoto,
-            phone,
+            // communityDisplayPhoto,
+            // phone,
         } = CreateCommunitySchema.parse(body)
 
         const emailExist = await prisma.user.findFirst({
@@ -40,7 +40,7 @@ export async function POST(req: Request) {
 
         const communityEmailExist = await prisma.community.findFirst({
             where: {
-                email: communityEmail
+                // email: communityEmail
             }
         })
 
@@ -52,7 +52,7 @@ export async function POST(req: Request) {
 
         // phone number check
         const phoneNumberExists = await prisma.community.findFirst({
-            where: { contactNumber: phone }
+            // where: { contactNumber: phone }
         })
 
         // const communityExists = await prisma.community.findFirst({
@@ -101,10 +101,10 @@ export async function POST(req: Request) {
                     create: {
                         // name: barangayName,
                         address: communityAddress,
-                        description: communityDescription,
-                        email: communityEmail,
-                        displayPhoto: communityDisplayPhoto,
-                        contactNumber: phone,
+                        // description: communityDescription,
+                        // email: communityEmail,
+                        // displayPhoto: communityDisplayPhoto,
+                        // contactNumber: phone,
                         name: urbanFarmName,
                         // carouselImage: communityImages,
                     }

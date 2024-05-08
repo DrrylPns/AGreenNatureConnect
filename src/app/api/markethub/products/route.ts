@@ -9,11 +9,11 @@ export async function GET(req: NextRequest) {
         const limit = 8
         const getAllProducts = await prisma.product.findMany({
             cursor: param ? {
-                id: param 
+                id: param
             } : undefined,
             take: limit,
             skip: param === '' ? 0 : 1,
-            where:{
+            where: {
                 isFree: {
                     equals: false 
                 },

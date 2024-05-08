@@ -21,6 +21,8 @@ import { MoreHorizontal, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
 import { handleCommunity } from "../../../../actions/community";
+import useSpeechRecognition from "@/lib/hooks/useSpeechRecognition";
+
 interface SearchEmployeesProps {
     // employees: Array<User & { Community: Community | null }>;
     communities: Array<Community>
@@ -34,6 +36,13 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
     const [selectedNames, setSelectedNames] = useState<string[]>([]);
     const [open, setOpen] = useState(false)
     const [isPending, startTransition] = useTransition()
+    // const {
+    //     hasRecognitionSupport,
+    //     isListening,
+    //     startListening,
+    //     stopListening,
+    //     text,
+    // } = useSpeechRecognition()
 
     const isEmployeeSelected = (community: Community) =>
         selectedNames.length === 0 || selectedNames.includes(community.name || "");
@@ -58,16 +67,34 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                     ))}
                 </MultiSelect>
 
+                {/* <div>
+                    {hasRecognitionSupport ? (
+                        <>
+                            <Button onClick={startListening}>Start Listening</Button>
+                            <Button onClick={stopListening}>Stop Listening</Button>
+
+                            {isListening && (
+                                <div>Your browser is currently listening</div>
+                            )}
+                            {text}
+                        </>
+                    ) : (
+                        <>
+                            <h1>Your browser has no speech recognition support</h1>
+                        </>
+                    )}
+                </div> */}
 
 
-                <div className="flex gap-3">
+
+                <div className="flex gap-3 w-full justify-end">
                     {isArchivePanel ? (
                         <>
                             <Link className={cn(buttonVariants({
                                 variant: "outline"
                             }),
                                 "w-full"
-                        )}
+                            )}
                                 href="/communities"
                             >
                                 Active Communities
@@ -75,27 +102,26 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                         </>
                     ) :
                         (
-                            <>
+                            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 items-center justify-end">
+                                <Link className={cn(buttonVariants({
+                                    variant: "outline"
+                                }), ""
+                                )}
+                                    href="/archived-communities"
+                                >
+                                    Archived Urban Farm
+                                </Link>
+
                                 <Link className={buttonVariants({
                                     variant: "outline"
                                 })}
-                                    href="/archived-communities"
+                                    href="/register-communities"
                                 >
-                                    Archived Communities
+                                    <Plus className="mr-2" strokeWidth={1} /> New
                                 </Link>
-                            </>
+                            </div>
                         )
                     }
-
-
-                    <Link className={buttonVariants({
-                        variant: "outline"
-                    })}
-                        href="/register-communities"
-                    >
-                        <Plus className="mr-2" strokeWidth={1} /> New
-                    </Link>
-
                 </div>
             </div>
 
