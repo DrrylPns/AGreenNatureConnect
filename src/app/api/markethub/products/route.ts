@@ -17,9 +17,9 @@ export async function GET(req: NextRequest) {
                 isFree: {
                     equals: false 
                 },
-                status:{
-                    equals: "APPROVED"
-                },
+                // status:{
+                //     equals: "APPROVED"
+                // },
             },
             include:{
                 Stock: true,
@@ -27,6 +27,7 @@ export async function GET(req: NextRequest) {
                 reviews: true,
             }
         })
+        console.log(getAllProducts)
         const myCursor = getAllProducts.length === limit ? getAllProducts[getAllProducts.length - 1].id : undefined;
         return new Response(JSON.stringify({ getAllProducts, nextId: myCursor }))
     } catch (error) {
