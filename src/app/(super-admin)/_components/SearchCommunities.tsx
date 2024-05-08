@@ -95,7 +95,7 @@ const SearchCommunities: React.FC<SearchEmployeesProps> = ({
                             )}
                                 href="/communities"
                             >
-                                Active Communities
+                                Active Urban Farms
                             </Link>
                         </>
                     ) :
