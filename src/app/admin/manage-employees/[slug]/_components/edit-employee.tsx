@@ -33,6 +33,8 @@ import Image from "next/image";
 import { UploadDropzone } from "@/lib/uploadthing";
 import { UpdateEmployeeSchema, UpdateEmployeeType } from '@/lib/validations/admin/updateEmployee';
 import { useRouter } from 'next/navigation';
+import { RadioGroup, RadioGroupItem } from '@/app/components/Ui/radio-group';
+import { SpecializedRole } from '@prisma/client';
 
 
 interface EditEmployeeProps {
@@ -58,6 +60,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
             phone: employee?.phoneNumber as string,
             gender: employee?.gender as string,
             address: employee?.address as string,
+            specialization: employee?.specialization as SpecializedRole,
         }
     })
 
@@ -74,6 +77,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
             phone,
             gender,
             address,
+            specialization
         }: UpdateEmployeeType) => {
             const payload: UpdateEmployeeType = {
                 avatar,
@@ -83,6 +87,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                 phone,
                 gender,
                 address,
+                specialization
             }
 
             const { data } = await axios.put("/api/admin/employees", payload)
@@ -135,6 +140,7 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
             phone: values.phone,
             gender: values.gender,
             address: values.address,
+            specialization: values.specialization,
         }
 
         updateEmployee(payload)
@@ -379,6 +385,41 @@ export const EditEmployee: React.FC<EditEmployeeProps> = ({
                                             <Input placeholder="Address" {...field} type='text' />
                                         </FormControl>
 
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                            />
+
+                            <FormField
+                                control={form.control}
+                                name="specialization"
+                                render={({ field }) => (
+                                    <FormItem className="space-y-3">
+                                        <FormLabel>Urban Staff Role:</FormLabel>
+                                        <FormControl>
+                                            <RadioGroup
+                                                onValueChange={field.onChange}
+                                                defaultValue={field.value}
+                                                className="flex flex-col space-y-1"
+                                            >
+                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                    <FormControl>
+                                                        <RadioGroupItem value="MarketHub" />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal">
+                                                        Markethub
+                                                    </FormLabel>
+                                                </FormItem>
+                                                <FormItem className="flex items-center space-x-3 space-y-0">
+                                                    <FormControl>
+                                                        <RadioGroupItem value="Informational" />
+                                                    </FormControl>
+                                                    <FormLabel className="font-normal">
+                                                        Information Section
+                                                    </FormLabel>
+                                                </FormItem>
+                                            </RadioGroup>
+                                        </FormControl>
                                         <FormMessage />
                                     </FormItem>
                                 )}

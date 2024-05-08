@@ -248,7 +248,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                 <Card className="">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
-                            <h1 className="font-bold text-lg mb-6">Urban Farm Community Registration</h1>
+                            <h1 className="font-bold text-lg mb-6">Urban Farm Registration</h1>
                         </div>
                         <Form {...form}>
                             <form
@@ -263,7 +263,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                                 name="urbanFarmName"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Urban Farm Community Name</FormLabel>
+                                                        <FormLabel>Urban Farm Name</FormLabel>
                                                         <FormControl>
                                                             <Input placeholder="Urbn" {...field} type="text" />
                                                         </FormControl>
@@ -608,7 +608,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                                     }}
                                                 />
                                             )}
-                                            <h1 className="text-muted-foreground text-sm mt-1">Note: The form </h1>
+                                            <h1 className="text-muted-foreground text-sm mt-1">Note: The form submitted here is proof that this urban farm is registered.</h1>
                                         </div>
 
                                         <Button

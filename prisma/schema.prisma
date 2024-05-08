@@ -29,11 +29,11 @@ datasource db {
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na
 // isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                     String         @id @default(cuid()) // string
+  id                     String           @id @default(cuid()) // string
   name                   String? // nullable | optional 
-  EmployeeId             String?        @unique
-  username               String?        @unique
-  email                  String?        @unique
+  EmployeeId             String?          @unique
+  username               String?          @unique
+  email                  String?          @unique
   emailVerified          DateTime?
   image                  String?
   hashedPassword         String?
@@ -41,24 +41,26 @@ model User {
   lastName               String?
   barangay               String?
   suffix                 String?
-  phoneNumber            String?        @unique
+  phoneNumber            String?          @unique
   address                String?
-  role                   Role           @default(USER)
+  role                   Role             @default(USER)
+  specialization         SpecializedRole?
   gender                 String?
   birthday               DateTime?
   blk                    String?
   zip                    String?
   street                 String?
   bio                    String?
-  createdAt              DateTime       @default(now())
-  updatedAt              DateTime       @updatedAt
-  isBanned               Boolean        @default(false)
-  numberOfViolations     Int            @default(0)
-  isNotificationsEnabled Boolean        @default(true)
+  isDisabled             Boolean          @default(false)
+  createdAt              DateTime         @default(now())
+  updatedAt              DateTime         @updatedAt
+  isBanned               Boolean          @default(false)
+  numberOfViolations     Int              @default(0)
+  isNotificationsEnabled Boolean          @default(true)
   lastUsernameChange     DateTime?
   isBannedFromPosting    DateTime?
-  createdTopics          Topic[]        @relation("CreatedBy")
-  buyerTransactions      Transaction[]  @relation("Buyer")
+  createdTopics          Topic[]          @relation("CreatedBy")
+  buyerTransactions      Transaction[]    @relation("Buyer")
   shippingInfo           ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
@@ -122,6 +124,11 @@ enum Role {
   SUPER_ADMIN // barangay admin
 }
 
+enum SpecializedRole {
+  MarketHub
+  Informational
+}
+
 model EmployeeIdCounter {
   year    Int @id
   counter Int
@@ -158,7 +165,7 @@ model Community {
   // urbanFarmName    String?            @unique
   form             String?
   qrCode           String?
-  address          String?
+  address          String? // barangay
   email            String?
   contactNumber    String?
   description      String?
@@ -557,13 +564,13 @@ model Product {
   creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  cart      Cart[]
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  cart                    Cart[]
   community               Community                 @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId             String
   // orderedVariant OrderedVariant[]
-  orderedProducts   OrderedProducts[]
+  orderedProducts         OrderedProducts[]
   reviews                 Review[]
   EmployeeActivityHistory EmployeeActivityHistory[]
   // ProductTransaction ProductTransaction[]
@@ -656,10 +663,10 @@ model Transaction {
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
 
-  review Review[]
+  review          Review[]
   orderedProducts OrderedProducts[]
-  seller   Community @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId String
+  seller          Community         @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId        String
 
   // orderedVariant          OrderedVariant[]
   notifications           Notification[]
@@ -670,18 +677,17 @@ model Transaction {
 }
 
 model OrderedProducts {
-  id            String            @id @default(cuid())
-  priceInKg     Float
-  quantity      Float
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  totalPrice    Float
-  productId     String
-  product       Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id         String   @id @default(cuid())
+  priceInKg  Float
+  quantity   Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  totalPrice Float
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   transactionId String
-  transaction Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
-
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
 }
 
 enum CancelType {
@@ -747,17 +753,17 @@ enum TransactionStatus {
 // }
 
 model Cart {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
   kilograms  Float
   totalPrice Float
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
 
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
-  
+
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 

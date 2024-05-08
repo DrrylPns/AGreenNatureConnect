@@ -13,6 +13,8 @@ import { CartProvider } from '@/contexts/CartContext'
 import Navbar from './_components/Navbar'
 import { LoadingComponent } from '@/components/LoadingComponent'
 import { PageNotFound } from '@/components/PageNotFound'
+import { StaffDeactivated } from '@/components/staff-deactivated'
+import { UrbanFarmDeactivated } from '@/components/urbanfarm-deactivated'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -32,31 +34,38 @@ export default async function RootLayout({
 
     if (!session) redirect("/discussion")
 
-        const user = await prisma.user.findUnique({
-            where: { id: session?.user.id },
-            include: {
-                Community: true
-            }
-        })
-    
-        if (!user || user.role !== "EMPLOYEE") redirect("/discussion")
+    const user = await prisma.user.findUnique({
+        where: { id: session?.user.id },
+        include: {
+            Community: true
+        }
+    })
+
+    if (!user || user.role === "SUPER_ADMIN" || user.role === "USER") redirect("/discussion")
 
     return (
         <html lang="en">
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
-                {user.role === "EMPLOYEE" ?
+                {user.role === "EMPLOYEE" || user?.role === "ADMIN" ?
                     (
-                        <CartProvider>
-                        <Providers>
-                            <LoginModal />
-                            <RegisterModal />
-                            <Navbar session={session} />
-                            <main className='bg-[#E3E1E1] h-screen'>
-                                {children}
-                            </main>
-                            <Toaster />
-                        </Providers >
-                    </CartProvider>)
+                        <>
+                            {user.isDisabled ? (<StaffDeactivated />) : user.Community?.isArchived === true && user.role === "ADMIN" || user.role === "EMPLOYEE" ?
+                                (<UrbanFarmDeactivated />) :
+                                (
+                                    <CartProvider>
+                                        <Providers>
+                                            <LoginModal />
+                                            <RegisterModal />
+                                            <Navbar session={session} />
+                                            <main className='bg-[#E3E1E1] h-screen'>
+                                                {children}
+                                            </main>
+                                            <Toaster />
+                                        </Providers >
+                                    </CartProvider>
+                                )}
+                        </>
+                    )
                     :
                     (
                         <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>

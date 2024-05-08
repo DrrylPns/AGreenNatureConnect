@@ -527,3 +527,7 @@ export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
     community: true,
   }
 }>
+
+export type DeactivatedEmployees = Prisma.UserGetPayload<{
+  
+}>

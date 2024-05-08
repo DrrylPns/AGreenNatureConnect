@@ -59,7 +59,8 @@ const Sidebar = () => {
                                         redirect: false
                                     }).then(() => {
                                         router.push("/discussion")
-                                    })}>
+                                    })}
+                                >
                                     <LogOutIcon className='w-4 h-4' />
                                     <span className='text-sm font-medium'>Log Out</span>
                                 </div>

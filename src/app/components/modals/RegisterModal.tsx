@@ -251,7 +251,7 @@ const RegisterModal = () => {
             {communities?.map((community, i) => (
               <SelectItem key={i} value={community.name}>{community.name}</SelectItem>
             ))}
-            <SelectItem value="Others" key="others">Others</SelectItem>
+            {/* <SelectItem value="Others" key="others">Others</SelectItem> */}
           </SelectGroup>
         </SelectContent>
       </Select>

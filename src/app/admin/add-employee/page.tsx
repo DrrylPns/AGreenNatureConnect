@@ -20,6 +20,7 @@ import {
     FormLabel,
     FormMessage
 } from "@/app/components/Ui/form";
+import { RadioGroup, RadioGroupItem } from '@/app/components/Ui/radio-group';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/app/components/Ui/select";
 import { toast } from "@/lib/hooks/use-toast";
 import { UploadDropzone } from "@/lib/uploadthing";
@@ -57,6 +58,7 @@ const page = () => {
             address,
             password,
             confirmPassword,
+            specialization,
         }: CreateEmployeeType) => {
             const payload: CreateEmployeeType = {
                 avatar,
@@ -68,6 +70,7 @@ const page = () => {
                 address,
                 password,
                 confirmPassword,
+                specialization,
             }
 
             const { data } = await axios.post("/api/admin/employees", payload)
@@ -120,6 +123,7 @@ const page = () => {
             gender: values.gender,
             email: values.email,
             address: values.address,
+            specialization: values.specialization,
             // password: values.password,
             // confirmPassword: values.confirmPassword,
         }
@@ -348,7 +352,7 @@ const page = () => {
                 <Card className="lg:w-[570px] w-full">
                     <div className="w-full h-full">
                         <div className="w-full flex justify-center items-center">
-                            <h1 className="font-bold text-lg mb-5">Farmer Registration</h1>
+                            <h1 className="font-bold text-lg mb-5">Staff Registration</h1>
                         </div>
                         <Form {...form}>
                             <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 w-full">
@@ -383,7 +387,7 @@ const page = () => {
 
                                             : <div className="w-fit">
                                                 <div className="cursor-pointer">
-                                                    <p className='text-sm font-semibold mb-2'>Add Farmer Photo</p>
+                                                    <p className='text-sm font-semibold mb-2'>Add Staff Photo</p>
                                                     <ImageDown strokeWidth={1} size={32} />
                                                 </div>
                                             </div>}
@@ -549,6 +553,41 @@ const page = () => {
                                                 <Input placeholder="Address" {...field} type='text' />
                                             </FormControl>
 
+                                            <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+
+                                <FormField
+                                    control={form.control}
+                                    name="specialization"
+                                    render={({ field }) => (
+                                        <FormItem className="space-y-3">
+                                            <FormLabel>Urban Staff Role:</FormLabel>
+                                            <FormControl>
+                                                <RadioGroup
+                                                    onValueChange={field.onChange}
+                                                    defaultValue={field.value}
+                                                    className="flex flex-col space-y-1"
+                                                >
+                                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                                        <FormControl>
+                                                            <RadioGroupItem value="MarketHub" />
+                                                        </FormControl>
+                                                        <FormLabel className="font-normal">
+                                                            Markethub
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                    <FormItem className="flex items-center space-x-3 space-y-0">
+                                                        <FormControl>
+                                                            <RadioGroupItem value="Informational" />
+                                                        </FormControl>
+                                                        <FormLabel className="font-normal">
+                                                            Information Section
+                                                        </FormLabel>
+                                                    </FormItem>
+                                                </RadioGroup>
+                                            </FormControl>
                                             <FormMessage />
                                         </FormItem>
                                     )}

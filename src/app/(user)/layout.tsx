@@ -25,6 +25,8 @@ import { ProfileModal } from "@/components/settings/ProfileModal";
 import { UsernameModal } from "@/components/settings/UsernameModal";
 import { WarnUser } from "@/components/WarnUser";
 import { redirect } from "next/navigation";
+import { StaffDeactivated } from "@/components/staff-deactivated";
+import { UrbanFarmDeactivated } from "@/components/urbanfarm-deactivated";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -44,6 +46,9 @@ export default async function RootLayout({
   const user = await prisma.user.findFirst({
     where: {
       id: session?.user.id,
+    },
+    include: {
+      Community: true
     },
   });
 
@@ -76,19 +81,28 @@ export default async function RootLayout({
                     </>
                   ) : (
                     <>
-                      <Navbar />
-                      <SIdebar />
-                      <LoginModal currentUser={user} />
-                      <RegisterModal />
-                      <UserSettings user={user as User} />
-                      <GenderModal user={user as User} />
-                      <AvatarModal />
-                      <ProfileModal user={user as User} />
-                      <UsernameModal user={user as User} />
-                      {(user?.numberOfViolations as number) > 0 && <WarnUser />}
-                      <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
-                        {children}
-                      </div>
+                      {user?.isDisabled === true ? (
+                        <StaffDeactivated />
+                      ) : user?.Community?.isArchived === true && user.role === "ADMIN" || user?.role === "EMPLOYEE" ? (
+                        <UrbanFarmDeactivated />
+                      ) : (
+                        <>
+                          <Navbar />
+                          <SIdebar />
+                          <LoginModal currentUser={user} />
+                          <RegisterModal />
+                          <UserSettings user={user as User} />
+                          <GenderModal user={user as User} />
+                          <AvatarModal />
+                          <ProfileModal user={user as User} />
+                          <UsernameModal user={user as User} />
+                          {(user?.numberOfViolations as number) > 0 && <WarnUser />}
+                          <div className="pt-[8rem] md:pt-[6rem] sm:px-[3%] md:pl-[25%] z-0 bg-white dark:bg-[#18191A] px-3 h-full">
+                            {children}
+                          </div>
+                        </>
+                      )
+                      }
                     </>
                   )
               }
@@ -97,6 +111,6 @@ export default async function RootLayout({
           </ThemeProvider>
         </CartProvider>
       </body>
-    </html>
+    </html >
   );
 }

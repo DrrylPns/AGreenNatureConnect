@@ -30,6 +30,9 @@ export const CreateEmployeeSchema = z.object({
         }, { message: "Password must contain at least one lowercase letter, one uppercase letter, and one special character." })
         .optional(),
     confirmPassword: z.string().min(8, { message: "Password does not match" }).optional(),
+    specialization: z.enum(["MarketHub", "Informational"], {
+        required_error: "Must have a specific role for an urban farm!"
+    }),
 }).refine(data => data.password === data.confirmPassword, {
     message: "Password does not match",
     path: ["confirmPassword"],
