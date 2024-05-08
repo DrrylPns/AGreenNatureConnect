@@ -23,12 +23,12 @@ import { toast } from '@/lib/hooks/use-toast'
 import { UploadDropzone } from '@/lib/uploadthing'
 import { cn } from '@/lib/utils'
 import { UpdateProductSchema, UpdateProductType } from '@/lib/validations/employee/products'
-import { Product, Variant } from '@prisma/client'
+import { Product, } from '@prisma/client'
 import Image from 'next/image'
 
 interface UpdateProductProps {
   product: Product & {
-    variants: Variant[];
+    
   } | null
 }
 

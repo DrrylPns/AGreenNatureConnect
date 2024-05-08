@@ -117,8 +117,8 @@ export const NewChatRoomV2User = ({
                                 </AvatarFallback>
                             </Avatar>
                             <div className="ml-4">
-                                <h2 className="text-sm font-semibold">{community?.urbanFarmName}</h2>
-                                <p className="text-xs text-gray-600">{community?.name}</p>
+                                <h2 className="text-sm font-semibold">{community?.name}</h2>
+                             
                             </div>
                             {/* <span className="ml-auto text-xs text-gray-500">1m ago</span> */}
 
@@ -138,7 +138,7 @@ export const NewChatRoomV2User = ({
                         </Avatar>
                         <div>
                             <h2 className="text-lg font-semibold">{chatroom.community?.name ?? "User"}</h2>
-                            <p className="text-xs text-gray-500">{chatroom.community?.urbanFarmName}</p>
+
                         </div>
                     </div>
                     <div className="flex items-center text-sm cursor-pointer" onClick={() => { setShouldScrollToEnd(true) }}>

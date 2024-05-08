@@ -419,7 +419,18 @@ export type CartwithProduct = Prisma.CartGetPayload<{
    },
   }
 }>
-
+export type ProductWithOrderdProducts = Prisma.ProductGetPayload<{
+  include: {
+   Stock: true,
+   reviews: true,
+   community: true,
+   orderedProducts:{
+    include:{
+      product: true
+    }
+   }
+  }
+}>
 export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
   include: {
     buyer: true,
@@ -442,16 +453,15 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
   include: {
     product: {
       include: {
-        orderedVariant: true
+        orderedProducts: true
       },
     },
     employee: true,
     transaction: {
       include: {
-        orderedVariant: {
+        orderedProducts: {
           include: {
-            product: true,
-            variant: true
+            product:true
           }
         }
       }

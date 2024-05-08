@@ -119,8 +119,11 @@ function ProductModal({
       setPrice( Number(e.target.value));
   };
     const handleBuyNow = async ()=>{
+      if(price > selectedQuantity || price <= 0){
+        return
+      }
       router.push('/buy-now')
-      setItem({selectedProduct})
+      setItem({selectedProduct,price})
     }
 
     let sumOfRatings = 0;

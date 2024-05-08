@@ -27,16 +27,16 @@ export async function GET(req: Request) {
             include: {
                 product:{
                     include:{
-                        orderedVariant:true
+                        orderedProducts:true
                     }
                 },
                 employee: true,
                 transaction: {
                  include:{
-                     orderedVariant:{
+                    orderedProducts:{
                          include:{
                              product: true,
-                             variant: true
+                             transaction: true
                          }
                      }
                  }

@@ -20,10 +20,10 @@ export async function GET(req: Request) {
       include: {
         buyer: true,
         seller: true,
-        orderedVariant: {
+        orderedProducts: {
           include: {
             product: true,
-            variant: true
+            transaction: true
           }
         }
       }
@@ -51,9 +51,9 @@ export async function POST(req: Request) {
       include: {
         buyer: true,
         seller: true,
-        orderedVariant: {
+        orderedProducts: {
           include: {
-            variant: true,
+            transaction: true,
             product: true,
           },
         },
@@ -91,48 +91,48 @@ export async function POST(req: Request) {
       sendApprovedNotification(transaction.buyer.email as string, transaction.id, transaction.seller.name)
     }
 
-    await Promise.all(
-      transaction.orderedVariant.map(async (orderedVariant) => {
-        const { variant, product } = orderedVariant;
-        const { unitOfMeasurement } = variant;
+    // await Promise.all(
+    //   transaction.orderedVariant.map(async (orderedVariant) => {
+    //     const { variant, product } = orderedVariant;
+    //     const { unitOfMeasurement } = variant;
 
-        switch (unitOfMeasurement) {
-          case 'Kilograms':
-            await prisma.product.update({
-              where: { id: product.id },
-              data: { kilograms: { decrement: variant.variant } },
-            });
-            break;
-          case 'Grams':
-            await prisma.product.update({
-              where: { id: product.id },
-              data: { grams: { decrement: variant.variant } },
-            });
-            break;
-          case 'Pounds':
-            await prisma.product.update({
-              where: { id: product.id },
-              data: { pounds: { decrement: variant.variant } },
-            });
-            break;
-          case 'Pieces':
-            await prisma.product.update({
-              where: { id: product.id },
-              data: { pieces: { decrement: variant.variant } },
-            });
-            break;
-          case 'Packs':
-            await prisma.product.update({
-              where: { id: product.id },
-              data: { packs: { decrement: variant.variant } },
-            });
-            break;
-          default:
-            // Handle other cases if needed
-            break;
-        }
-      })
-    );
+    //     switch (unitOfMeasurement) {
+    //       case 'Kilograms':
+    //         await prisma.product.update({
+    //           where: { id: product.id },
+    //           data: { kilograms: { decrement: variant.variant } },
+    //         });
+    //         break;
+    //       case 'Grams':
+    //         await prisma.product.update({
+    //           where: { id: product.id },
+    //           data: { grams: { decrement: variant.variant } },
+    //         });
+    //         break;
+    //       case 'Pounds':
+    //         await prisma.product.update({
+    //           where: { id: product.id },
+    //           data: { pounds: { decrement: variant.variant } },
+    //         });
+    //         break;
+    //       case 'Pieces':
+    //         await prisma.product.update({
+    //           where: { id: product.id },
+    //           data: { pieces: { decrement: variant.variant } },
+    //         });
+    //         break;
+    //       case 'Packs':
+    //         await prisma.product.update({
+    //           where: { id: product.id },
+    //           data: { packs: { decrement: variant.variant } },
+    //         });
+    //         break;
+    //       default:
+    //         // Handle other cases if needed
+    //         break;
+    //     }
+    //   })
+    // );
 
     await prisma.employeeActivityHistory.create({
       data:{

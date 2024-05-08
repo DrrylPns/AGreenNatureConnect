@@ -22,7 +22,7 @@ export async function GET(req: Request, res: NextApiResponse) {
             },
             include:{
               community: true,
-              variants: true
+              Stock: true
             }
            
           })

@@ -34,7 +34,7 @@ export async function GET(req: NextRequest) {
             },
             include: {
                 creator: true,
-                variants: true,
+                Stock: true
             }
         })
 

@@ -63,8 +63,8 @@ export const NewChatV2User = ({ user }: Props) => {
                                 </AvatarFallback>
                             </Avatar>
                             <div className="ml-4">
-                                <h2 className="text-sm font-semibold">{community?.urbanFarmName}</h2>
-                                <p className="text-xs text-gray-600">{community?.name}</p>
+                                <h2 className="text-sm font-semibold">{community?.name}</h2>
+                              
                             </div>
                             {/* <span className="ml-auto text-xs text-gray-500">1m ago</span> */}
 

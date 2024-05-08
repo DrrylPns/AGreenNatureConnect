@@ -14,16 +14,16 @@ export async function GET(req: NextRequest) {
                 category: {
                     equals: "Fruits"
                 },
-                variants: {
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
-                }
+                // variants: {
+                //     some: {
+                //         variant: {
+                //             not: 0
+                //         }
+                //     }
+                // }
             },
             include: {
-                variants: true,
+                // variants: true,
                 community: true
             }
 

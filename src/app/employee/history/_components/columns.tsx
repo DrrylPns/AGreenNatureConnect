@@ -3,29 +3,9 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { DataTableColumnHeader } from "../../inventory/_components/DateTableColumnHeader";
 import { formatDate } from "@/lib/utils";
-import { EmployeeActivityHistory, Product, User, Variant } from "@prisma/client";
+
 import { employeeActivityHistoryWithTransaction } from "@/lib/types";
 
-type Transactions = {
-    id: string;
-    referenceId: string;
-    amount: number;
-    status: string;
-    createdAt: Date;
-    updatedAt: Date;
-    cancelReason: string;
-    cancelType: string;
-    buyerId: string; // user id to
-    sellerId: string; // community id to
-    buyer: User
-    orderedVariant: OrderedVariant[]
-}
-
-type OrderedVariant = {
-    id: string;
-    variant: Variant;
-    product: Product;
-}
 
 export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] =
     [
@@ -53,36 +33,13 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] =
                 )
             },
             cell: ({ row }) => {
-                const orderedVariants = row.original.transaction?.orderedVariant;
+                const orderedProducts = row.original.transaction?.orderedProducts;
+            
                 
-                const formattedProducts = orderedVariants?.map((variant) => {
-                    const productName = variant.product?.name || 'N/A';
-                    const quantity = variant.variant?.variant;
-                    const unitOfMeasurement = variant.variant?.unitOfMeasurement;
-
-                    let displayQuantity = '';
-                    switch (unitOfMeasurement) {
-                        case 'kilograms':
-                            displayQuantity = `${quantity} kg`;
-                            break;
-                        case 'grams':
-                            displayQuantity = `${quantity} g`;
-                            break;
-                        case 'pounds':
-                            displayQuantity = `${quantity} lbs`;
-                            break;
-                        case 'pieces':
-                            displayQuantity = `${quantity} pcs`;
-                            break;
-                        case 'packs':
-                            displayQuantity = `${quantity} pcks`;
-                            break;
-                        default:
-                            displayQuantity = `${quantity} ${unitOfMeasurement}`;
-                            break;
-                    }
-
-                    return `${productName} (${displayQuantity})`;
+                const formattedProducts = orderedProducts?.map((product) => {
+                    const productName = product.product?.name || 'N/A';
+                  
+                    return `${productName} (${product.quantity}Kg)`;
                 });
 
                 const formattedProductNames = formattedProducts?.join(', ') || 'N/A';

@@ -36,13 +36,13 @@ function BarangayDropdown() {
           <Link  key={community.id}
             className='relative border-2 border-gray-400 dark:border-gray-600 hover:scale-105 hover:shadow-lg md:h-32   md:w-32 sm:h-16 sm:w-16 flex flex-col justify-center text-[0.5rem] sm:text-sm md:text-xl  hover:text-yellow-300 dark:hover:text-yellow-300 transition-colors ease-out duration-500 hover:font-bold items-center text-center bg-gray-50 dark:bg-[#1F2933] rounded-lg' 
             href={{ pathname:`/markethub/community/${community.name}`, query:{communityId: community.id}} }>
-                  <Image 
+                  {/* <Image 
                     src={community.displayPhoto || ""} 
                     alt={community.name || "Urban Farm Name"} 
                     width={100}
                     height={100}
                     className='w-full h-full '
-                  />
+                  /> */}
                   <h1 className='z-30 text-xs shadow-md font-semibold '>{community.name}</h1>       
           </Link>
       ))}

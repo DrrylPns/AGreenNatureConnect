@@ -9,6 +9,7 @@ import { FiRefreshCw } from 'react-icons/fi'
 
 import RotatingLinesLoading from '@/app/(markethub)/components/RotatingLinesLoading'
 import Orders from './Orders'
+import { transactionWithOrderedProducts } from '@/lib/types'
 
 interface Transaction {
     id: string;
@@ -69,11 +70,11 @@ function OrderTab({
     cancelled,
     completed
 }: {
-    pending: Transaction[],
-    approved: Transaction[],
-    pickup: Transaction[],
-    cancelled: Transaction[],
-    completed: Transaction[]
+    pending: transactionWithOrderedProducts[],
+    approved: transactionWithOrderedProducts[],
+    pickup: transactionWithOrderedProducts[],
+    cancelled: transactionWithOrderedProducts[],
+    completed: transactionWithOrderedProducts[]
 }) {
     const router = useRouter()
     const [selectedIndex, setSelectedIndex] = useState(0)

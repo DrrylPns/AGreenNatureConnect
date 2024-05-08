@@ -1,6 +1,6 @@
 'use client'
 import ProductModal from '../../markethub/components/ProductModal'
-import { PostTypes, Product } from '@/lib/types'
+import { PostTypes, Product, ProductMarkethub } from '@/lib/types'
 import Link from 'next/link'
 import Image from 'next/image'
 import DisplayPhoto from "@/../public/images/default-user.jpg";
@@ -20,7 +20,7 @@ function page({
     }
 }) {
    const [posts, setPosts] = useState<PostTypes[]>()
-   const [products, setProducts] = useState<Product[]>()
+   const [products, setProducts] = useState<ProductMarkethub[]>()
    const {data:session} = useSession();
    useEffect(()=>{
     const getProducts = async()=>{
@@ -39,21 +39,15 @@ function page({
         {products && products.length > 0 ?(
             <div className=" grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-5 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
             {products.map((product)=>{
-                const prices = product.variants.map((variant) => variant.price);
-                const lowestPrice = Math.min(...prices);
-                const highestPrice = Math.max(...prices);
-                if (product.variants.length < 1) {
-                    return null
-                }
-                if (product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1) {
-                    return null
-                } else {
-                    return (
-                    <div key={product.id} className=''>
-                        <ProductModal  product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
-                    </div>
-                    )
-                }
+                 if (product.quantity < 1) {
+                  return null
+              } else {
+                  return (
+                  <div key={product.id} className=''>
+                      <ProductModal  product={product}/>
+                  </div>
+                  )
+              }
             })}
         </div>
         ):(

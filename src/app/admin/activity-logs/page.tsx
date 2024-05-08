@@ -37,16 +37,16 @@ const page = async() => {
         include: {
             product:{
                 include:{
-                    orderedVariant:true
+                    orderedProducts:true
                 }
             },
             employee: true,
             transaction: {
                 include:{
-                    orderedVariant:{
+                    orderedProducts:{
                         include:{
                             product: true,
-                            variant: true
+                            transaction: true
                         }
                     }
                 }
@@ -67,16 +67,16 @@ const page = async() => {
         include: {
             product:{
                 include:{
-                    orderedVariant:true
+                    orderedProducts:true
                 }
             },
             employee: true,
             transaction: {
                 include:{
-                    orderedVariant:{
+                    orderedProducts:{
                         include:{
                             product: true,
-                            variant: true
+                            transaction: true
                         }
                     }
                 }
@@ -128,16 +128,16 @@ const page = async() => {
             learningMaterial: true,
             product:{
                 include:{
-                    orderedVariant:true
+                    orderedProducts:true
                 }
             },
             employee: true,
             transaction: {
                 include:{
-                    orderedVariant:{
+                    orderedProducts:{
                         include:{
                             product: true,
-                            variant: true
+                            transaction: true
                         }
                     }
                 }

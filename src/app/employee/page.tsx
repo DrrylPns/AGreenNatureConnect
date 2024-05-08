@@ -7,7 +7,7 @@ import SearchEmployees from '../admin/_components/SearchEmployees'
 import { CntEmployeesCard } from './_components/CntEmployeesCard'
 import { CntUserCard } from './_components/CntTopicCard'
 import PPSCard from './_components/PPSCard'
-import { ProductWithOrderedVariant } from '@/lib/types'
+import { ProductWithOrderdProducts, ProductWithOrderedVariant } from '@/lib/types'
 import CntProducts from '../admin/_components/CntProducts'
 import { SalesByBar } from '../admin/_components/SalesByBar'
 import { HotProducts } from '../admin/_components/HotProducts'
@@ -41,7 +41,7 @@ const page = async () => {
 
     // if (!salesByDate) return <>Error fetching Sales</>
 
-    const products = await fetchMostSoldProduct() as ProductWithOrderedVariant[]
+    const products = await fetchMostSoldProduct() as ProductWithOrderdProducts[]
 
     if (!products) return <>Error fetching products</>
 

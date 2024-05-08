@@ -35,7 +35,7 @@ const page = async ({ params }: InventoryUpdateProps) => {
             communityId: community?.id
         },
         include: {
-            variants: true
+            Stock: true
         }
     })
 

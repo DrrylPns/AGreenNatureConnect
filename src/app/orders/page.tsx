@@ -30,10 +30,10 @@ const page = async () => {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
+            orderedProducts: {
                 include: {
                     product: true,
-                    variant: true
+                    transaction: true
                 }
             }
         }
@@ -50,10 +50,10 @@ const page = async () => {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
+            orderedProducts: {
                 include: {
                     product: true,
-                    variant: true
+                    transaction: true
                 }
             }
         }
@@ -70,10 +70,10 @@ const page = async () => {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
+            orderedProducts: {
                 include: {
                     product: true,
-                    variant: true
+                    transaction: true
                 }
             }
         }
@@ -90,10 +90,10 @@ const page = async () => {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
+            orderedProducts: {
                 include: {
                     product: true,
-                    variant: true
+                    transaction: true
                 }
             }
         }
@@ -110,10 +110,10 @@ const page = async () => {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
+            orderedProducts: {
                 include: {
                     product: true,
-                    variant: true
+                    transaction: true
                 }
             }
         }

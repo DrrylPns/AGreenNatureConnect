@@ -15,7 +15,7 @@ import { toast } from '@/lib/hooks/use-toast';
 
 type buyNowType = {
     selectedProduct: Product;
-    selectedVariant: Variants;
+    price: number
 }
 
 const PaymentMethod = [
@@ -73,20 +73,25 @@ function page() {
     setisProcessing(true);
     
     try {
-      const response = await axios.post("/api/markethub/transaction/buyNow", {
-        sellerId:item?.selectedProduct.communityId,
-        variantId: item?.selectedVariant.id,
-        productId: item?.selectedProduct.id,
-        paymentMethod: method, 
-        amount: item?.selectedVariant.price
-    }).then(res=>{
-      console.log(res)
-      if(method === 'Gcash'){
-        router.push(`/buy-now/payment/${method}`)
-      } else {
-        router.replace("/cart/checkout/success");
+      if(item !== undefined){
+        const response = await axios.post("/api/markethub/transaction/buyNow", {
+          sellerId:item?.selectedProduct.communityId,
+          kilograms: item?.price,
+          totalPrice: item?.price * item?.selectedProduct.priceInKg,
+          productId: item?.selectedProduct.id,
+          paymentMethod: method, 
+          priceInKg: item.selectedProduct.priceInKg
+        
+      }).then(res=>{
+        console.log(res)
+        if(method === 'Gcash'){
+          router.push(`/buy-now/payment/${method}`)
+        } else {
+          router.replace("/cart/checkout/success");
+        }
+      })
       }
-    })
+      
     } catch (error) {
       console.error("Error placing order:", error);
     }
@@ -100,7 +105,7 @@ function page() {
             setLoading(false);
           }, 2000);
     },[])
-
+    console.log(item)
     return (
         <div>
           {!isProcessing ? (
@@ -160,7 +165,7 @@ function page() {
                 </div>
               )}
     
-              {loading != true ? (
+              {item !== undefined && loading != true ? (
                 <>
                   <div className="flex flex-col-reverse sm:flex-row sm:justify-around px-3 pb-32 md:px-[5%] md:mt-5">
                     
@@ -192,8 +197,8 @@ function page() {
                               <div className="text-[0.6rem] sm:text-sm ">
                                 <h3>{item?.selectedProduct.name}</h3>
                                 <h3>
-                                  {item?.selectedVariant.variant}{" "}
-                                  <span>{item?.selectedVariant.unitOfMeasurement}</span>
+                                  {item?.price}Kg
+                                  {/* <span>{item?.selectedVariant.unitOfMeasurement}</span> */}
                                 </h3>
                               </div>
                               <div className="ml-auto">
@@ -201,7 +206,7 @@ function page() {
                                   {" "}
                                   {item?.selectedProduct.isFree == true
                                     ? "Free"
-                                    : `₱ ${item?.selectedVariant.price}`}
+                                    : `₱ ${item?.price * item.selectedProduct.priceInKg}`}
                                 </h3>
                               </div>
                             </div>
@@ -211,7 +216,7 @@ function page() {
                               Order Total:{" "}
                               <span> {item?.selectedProduct.isFree == true
                                     ? "Free"
-                                    : `₱ ${item?.selectedVariant.price}`}</span>
+                                    : `₱ ${item?.price * item.selectedProduct.priceInKg}`}</span>
                             </h1>
                           </div>
                         </div>
@@ -256,7 +261,7 @@ function page() {
                   <h1 className="text-center">
                     Sub Total:
                     <span className="text-xs sm:text-2xl font-bold ml-10">
-                      ₱ {item?.selectedProduct.isFree? 0 : item?.selectedVariant.price}
+                      ₱ {item?.selectedProduct.isFree? 0 : item !== undefined && Number(item?.selectedProduct.priceInKg)  * Number(item?.price) }
                     </span>
                   </h1>
                 </div>

@@ -234,9 +234,11 @@ export const fetchMostSoldProduct = async () => {
             communityId: loggedInUser?.Community?.id,
             status: "APPROVED",
         },
-        include: {
-        
-        },
+        include:{
+            Stock: true,
+            community: true,
+            reviews: true,
+        }
     })
 
     // Sort products by the number of units sold (orderedVariant count) in descending order

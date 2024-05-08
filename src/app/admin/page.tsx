@@ -1,6 +1,6 @@
 // import { Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Text, Title } from '@tremor/react'
 import prisma from '@/lib/db/db'
-import { ProductWithOrderedVariant } from '@/lib/types'
+import { ProductWithOrderdProducts, ProductWithOrderedVariant } from '@/lib/types'
 import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
 import Image from 'next/image'
 import { fetchMostSoldProduct, fetchSalesByDate } from '../../../actions/sales'
@@ -52,7 +52,7 @@ const page = async () => {
 
   // if (!salesByDate) return <>Error fetching Sales</>
 
-  const products = await fetchMostSoldProduct() as ProductWithOrderedVariant[]
+  const products = await fetchMostSoldProduct() as ProductWithOrderdProducts[]
 
   if (!products) return <>Error fetching products</>
 

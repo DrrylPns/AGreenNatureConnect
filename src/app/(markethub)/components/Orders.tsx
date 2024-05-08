@@ -145,7 +145,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
             {selectedIndex == selectedIndex && (
                 <div className=' '>
                     {transactions.length > 0 ? transactions.map((transaction: transactionWithOrderedProducts) => (
-                        <div className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
+                        <div key={transaction.id} className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
                             <div className='flex justify-between items-center w-full px-5 md:px-10 py-3 border-gray-200 border-b-2'>
                                 <h1 className='text-green font-semibold text-xs sm:text-sm md:text-xl font-poppins'>Barangay {transaction.seller.name}</h1>
                                 {transaction.paymentMethod !== 'Gcash' || selectedIndex === 4 ? (
@@ -164,7 +164,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                             <div className='flex px-0 md:px-10 w-full my-5 gap-3 sm:gap-10 md:gap-14 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>
                                 <div className=' w-1/2'>
                                     {transaction.orderedProducts.map((product) => (
-                                        <Link href={`/order-status/${transaction.id}`} className='w-full flex text-sm flex-1 gap-5 sm:gap-10 justify-between items-center transition-all ease-in-out duration-500'>
+                                        <Link key={product.id} href={`/order-status/${transaction.id}`} className='w-full flex text-sm flex-1 gap-5 sm:gap-10 justify-between items-center transition-all ease-in-out duration-500'>
                                             <div className='w-10 h-10 border-gray-200 border'>
                                                 <Image
                                                     src={product.product.productImage}

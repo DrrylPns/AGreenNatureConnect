@@ -20,10 +20,10 @@ export async function GET(req: Request) {
             include: {
                 buyer: true,
                 seller: true,
-                orderedVariant: {
+                orderedProducts: {
                     include: {
                         product: true,
-                        variant: true
+                        transaction: true
                     }
                 }
             }
@@ -51,9 +51,9 @@ export async function POST(req: Request) {
             include: {
                 buyer: true,
                 seller: true,
-                orderedVariant: {
+                orderedProducts: {
                     include: {
-                        variant: true,
+                        transaction: true,
                         product: true,
                     },
                 },
