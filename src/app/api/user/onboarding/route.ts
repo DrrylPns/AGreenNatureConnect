@@ -12,7 +12,7 @@ export async function POST(req: Request) {
         }
 
         const body = await req.json();
-        const { username, community, phoneNumber, birthday, address, lastName, name, suffix, blk, street, zip, } = OnboardingSchema.parse(body);
+        const { username, community, phoneNumber, birthday, address, lastName, name, suffix, blk, street, zip, barangay } = OnboardingSchema.parse(body);
 
         console.log(session.user.id)
 
@@ -56,6 +56,7 @@ export async function POST(req: Request) {
             blk,
             street,
             zip,
+            barangay,
         }
 
         if (community === "Others") {

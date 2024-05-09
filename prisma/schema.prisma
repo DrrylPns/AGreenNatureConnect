@@ -775,6 +775,9 @@ model ShippingInfo {
   id          String   @id @default(cuid())
   name        String
   address     String
+  blk         String?
+  zip         String?
+  street      String?
   phoneNumber String
   facebook    String
   email       String

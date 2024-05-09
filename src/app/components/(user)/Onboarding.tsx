@@ -45,6 +45,7 @@ interface Props {
 
 export const Onboarding = ({ user }: Props) => {
   const [selectedCommunity, setSelectedCommunity] = useState("")
+  const [selectedBrgy, setSelectedBrgy] = useState("")
 
   const {
     register,
@@ -73,6 +74,13 @@ export const Onboarding = ({ user }: Props) => {
     setValue("community", communityValue);
   };
 
+  const handleBarangayChange = (value: string) => {
+    const selectedBrgy = value !== null ? value : "";
+
+    setValue("barangay", selectedBrgy)
+    setSelectedBrgy(selectedBrgy)
+  }
+
   const handleAreaChange = (value: string) => {
     const selectedArea = value !== null ? value : "";
 
@@ -99,6 +107,7 @@ export const Onboarding = ({ user }: Props) => {
       blk,
       street,
       zip,
+      barangay,
     }: OnboardingType) => {
       const payload: OnboardingType = {
         username,
@@ -112,6 +121,7 @@ export const Onboarding = ({ user }: Props) => {
         blk,
         street,
         zip,
+        barangay,
       };
       const { data } = await axios.post("/api/user/onboarding", payload);
       return data;
@@ -192,6 +202,7 @@ export const Onboarding = ({ user }: Props) => {
       blk: data.blk,
       street: data.street,
       zip: data.zip,
+      barangay: data.barangay,
     };
 
     onboardingUpdate(payload);
@@ -341,8 +352,55 @@ export const Onboarding = ({ user }: Props) => {
             )}
 
             <div>
-              <Label htmlFor="communities">Urban Farm</Label>
+              <Label htmlFor="communities">Barangay</Label>
+              <div className="w-full flex items-center justify-center">
+                <Select
+                  {...register("barangay")}
+                  onValueChange={handleBarangayChange}
+                >
+                  <SelectTrigger
+                    className="
+                                md:w-[620px]
+                                rounded-md
+                                h-[30px]
+                                mt-2
+                                p-4
+                                dark:bg-[#09090B]
+                                font-light 
+                                bg-white 
+                                border-2
+                                outline-none
+                                transition
+                                disabled:opacity-70
+                                disabled:cursor-not-allowed"
+                  >
+                    <SelectValue placeholder="Choose your specified barangay" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Barangay</SelectLabel>
+                      <SelectItem value="Nova Proper">
+                        Nova Proper
+                      </SelectItem>
+                      <SelectItem value="Bagbag">
+                        Bagbag
+                      </SelectItem>
+                      <SelectItem value="Bagong Silangan">
+                        Bagong Silangan
+                      </SelectItem>
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              {errors.barangay && (
+                <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                  {errors.barangay.message}
+                </span>
+              )}
+            </div>
 
+            <div>
+              <Label htmlFor="communities">Urban Farm</Label>
               <div className="w-full flex items-center justify-center">
                 <Select
                   {...register("community")}
@@ -369,14 +427,14 @@ export const Onboarding = ({ user }: Props) => {
                   <SelectContent>
                     <SelectGroup>
                       <SelectLabel>Urban Farms</SelectLabel>
-                      {communities?.map((community, i) => (
-                        <SelectItem key={i} value={community.name}>
-                          {community.name}
-                        </SelectItem>
-                      ))}
-                      {/* <SelectItem value="Others" key="others">
-                        Others
-                      </SelectItem> */}
+                      {communities
+                        ?.filter((community) => community.address === selectedBrgy)
+                        .map((community, i) => (
+                          <SelectItem key={i} value={community.name}>
+                            {community.name}
+                          </SelectItem>
+                        ))
+                      }
                     </SelectGroup>
                   </SelectContent>
                 </Select>
