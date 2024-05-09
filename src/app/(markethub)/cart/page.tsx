@@ -190,7 +190,7 @@
         </Suspense> */}
         {Object.entries(groupedItems).map(([communityName, items]) => (
           
-          <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 max-w-md mx-auto mb-4" key={communityName}>
+          <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 max-w-md mx-auto my-4" key={communityName}>
             {/* Render community name */}
             
             <h2 className="font-bold text-lg">{communityName}</h2>
@@ -214,6 +214,16 @@
               <p className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>Price: ₱{item.totalPrice.toFixed(2)}</p>
               <DeleteCartItemModal cartId={item.id} deleteCartItem={deleteCartItem} itemName={item.product.name} />
               </div> 
+                {(item.kilograms > item.product.quantity && item.product.quantity !== 0) && (
+                  <div className="text-center pt-3">
+                    <p className="text-sm text-red-500">You have exceeded the available quantity</p>
+                  </div>
+                )}
+                {item.product.quantity === 0 && (
+                  <div className="text-center pt-3">
+                    <p className="text-sm text-red-500">Already out of stock</p>
+                  </div>
+                )}
                             
           </div>
           
