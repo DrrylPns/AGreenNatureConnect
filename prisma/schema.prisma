@@ -612,13 +612,19 @@ model StockLogs {
 model UrbanFarmApplicatants {
   id      String   @id @default(cuid())
   urbanFarmName String
+  address   String
   area      String
   blk       String
   street    String
   zip       String
   form      String
-  userId    String
   status    String
+  email     String
+  firstName String
+  lastName  String
+  contact   String
+  gender    String
+  userId    String
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt

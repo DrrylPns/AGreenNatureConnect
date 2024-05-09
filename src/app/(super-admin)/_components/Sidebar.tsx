@@ -8,6 +8,7 @@ import { FiRefreshCw } from 'react-icons/fi';
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
 import useSettingsModal from '@/lib/hooks/useSettingsModal';
 import { TbUserSquareRounded } from 'react-icons/tb';
+import { VscRequestChanges } from "react-icons/vsc";
 
 const Sidebar = () => {
 
@@ -26,6 +27,9 @@ const Sidebar = () => {
 
                     <Link href="/communities" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <Home strokeWidth={1} />
+                    </Link>
+                    <Link href="/request" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "request" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <VscRequestChanges />
                     </Link>
                     {/* <Link href="/admin/manage-employees" className={`mx-auto text-neutral-500 p-2 m rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <User strokeWidth={1} />
@@ -81,6 +85,10 @@ const Sidebar = () => {
                         <Link href="/communities" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <TbUserSquareRounded />
                             <span className="text-sm font-medium">Urban Farms</span>
+                        </Link>
+                        <Link href="/request" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "request" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                            <VscRequestChanges />
+                            <span className="text-sm font-medium">Request</span>
                         </Link>
 
                         {/* <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
