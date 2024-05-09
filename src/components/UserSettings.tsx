@@ -44,13 +44,13 @@ export const UserSettings: React.FC<UserSettingsProps> = ({ user }) => {
                                 <ProfileSettings user={user} />
                             </TabSettingsContent>
 
-                            {/* {user.role === "ADMIN" && (
+                            {user.role === "ADMIN" && (
                                 <TabSettingsContent value="adminSettings">
                                     <CommunitySettings
                                         //@ts-ignore
                                         user={user} />
                                 </TabSettingsContent>
-                            )} */}
+                            )}
                         </DialogDescription>
                     </TabSettings>
                 </DialogHeader>

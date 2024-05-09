@@ -117,7 +117,7 @@ export interface Product {
   itemNumber: number | null;
   productImage: string;
   name: string;
-  quantity: number; 
+  quantity: number;
   priceInKg: number;
   Stocks: Stocks[]
   category: string;
@@ -363,6 +363,12 @@ export type UserWithCommunityMessages = Prisma.UserGetPayload<{
   }
 }>
 
+export type UserWithCommunity = Prisma.UserGetPayload<{
+  include: {
+    Community: true
+  }
+}>
+
 export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
   include: {
     orderedVariant: true,
@@ -391,44 +397,44 @@ export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
 }>
 export type ProductWithStocks = Prisma.ProductGetPayload<{
   include: {
-   community: true,
-   Stock: true,
-   creator: true,
-   reviews:true,
+    community: true,
+    Stock: true,
+    creator: true,
+    reviews: true,
   }
 }>
 export type StocksWitProducts = Prisma.StocksGetPayload<{
   include: {
-   product: true,
+    product: true,
   }
 }>
 export type ProductMarkethub = Prisma.ProductGetPayload<{
   include: {
-   Stock: true,
-   reviews: true,
-   community: true
+    Stock: true,
+    reviews: true,
+    community: true
   }
 }>
 export type CartwithProduct = Prisma.CartGetPayload<{
   include: {
-   community: true,
-   product: {
-    include:{
-      community: true
-    }
-   },
+    community: true,
+    product: {
+      include: {
+        community: true
+      }
+    },
   }
 }>
 export type ProductWithOrderdProducts = Prisma.ProductGetPayload<{
   include: {
-   Stock: true,
-   reviews: true,
-   community: true,
-   orderedProducts:{
-    include:{
-      product: true
+    Stock: true,
+    reviews: true,
+    community: true,
+    orderedProducts: {
+      include: {
+        product: true
+      }
     }
-   }
   }
 }>
 export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
@@ -436,16 +442,16 @@ export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
     buyer: true,
     seller: true,
     orderedProducts: {
-        include:{
-            product: true
-        }
-    }  
-}
+      include: {
+        product: true
+      }
+    }
+  }
 }>
 export type orderedProductsWithProducts = Prisma.OrderedProductsGetPayload<{
   include: {
-   product: true,
-}
+    product: true,
+  }
 }>
 
 
@@ -461,7 +467,7 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
       include: {
         orderedProducts: {
           include: {
-            product:true
+            product: true
           }
         }
       }
@@ -529,5 +535,5 @@ export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
 }>
 
 export type DeactivatedEmployees = Prisma.UserGetPayload<{
-  
+
 }>

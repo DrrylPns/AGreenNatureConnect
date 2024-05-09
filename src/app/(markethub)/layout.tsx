@@ -23,6 +23,7 @@ import { UsernameModal } from "@/components/settings/UsernameModal"
 import { redirect } from "next/navigation"
 import { StaffDeactivated } from "@/components/staff-deactivated"
 import { UrbanFarmDeactivated } from "@/components/urbanfarm-deactivated"
+import { UserWithCommunity } from "@/lib/types"
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -54,7 +55,7 @@ export default async function RootLayout({
           <Providers>
             {session?.user.birthday === null && session?.user.role === "USER" ? (
               <>
-                <Onboarding />
+                <Onboarding user={user as UserWithCommunity} />
               </>
             ) : session?.user && session.user.numberOfViolations >= 3 ? (
               <>

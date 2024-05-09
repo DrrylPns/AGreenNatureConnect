@@ -21,6 +21,9 @@ import { ProfileModal } from '@/components/settings/ProfileModal'
 import { UsernameModal } from '@/components/settings/UsernameModal'
 import { StaffDeactivated } from '@/components/staff-deactivated'
 import { UrbanFarmDeactivated } from '@/components/urbanfarm-deactivated'
+import { CommunityAvatarModal } from '@/components/settings/CommunityAvatarModal'
+import { CommunityModal } from '@/components/settings/CommunityModal'
+import { CommunityCarouselModal } from '@/components/settings/CommunityCarouselModal'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -69,6 +72,14 @@ export default async function RootLayout({
                                     <AvatarModal />
                                     <ProfileModal user={user as User} />
                                     <UsernameModal user={user as User} />
+                                    <CommunityAvatarModal />
+                                    <CommunityModal
+                                        //@ts-ignore
+                                        user={user} />
+                                    <CommunityCarouselModal
+                                        //@ts-ignore
+                                        user={user}
+                                    />
                                     <Sidebar user={user} />
                                     <main className='lg:pl-[350px] bg-[#E3E1E1] h-screen p-12'>
                                         {children}

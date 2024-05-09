@@ -37,11 +37,10 @@ import { Checkbox } from "@/app/components/Ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { getCommunitiesWithoutSession } from "../../../../actions/community";
 import { Community, User } from "@prisma/client";
+import { UserWithCommunity } from "@/lib/types";
 
 interface Props {
-  user: User & {
-    Community: Community;
-  };
+  user: UserWithCommunity
 }
 
 export const Onboarding = ({ user }: Props) => {
