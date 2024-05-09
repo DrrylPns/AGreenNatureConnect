@@ -79,13 +79,11 @@ export default function Home() {
             className="video-js shadow-lg shadow-black rounded-lg md:w-full"
             autoPlay
             controls
-            loop
-            muted
             preload="auto"
             data-setup="{}"
           >
             <source
-              src="https://utfs.io/f/6012c634-8bad-4deb-840f-fdb2257b8f69-8hzrq9.mp4"
+              src="https://utfs.io/f/515679c0-a2b2-47c7-8a03-c21a28f36200-8hzrq9.mp4"
               type="video/mp4"
             ></source>
           </video>
@@ -286,7 +284,10 @@ export default function Home() {
         </div>
       </section>
       {/*Contact Us*/}
-      <section id="contactus" className="w-full md:py-24 lg:py-32 border-b border-black">
+      <section
+        id="contactus"
+        className="w-full md:py-24 lg:py-32 border-b border-black"
+      >
         <div className="container grid items-start gap-10 px-4 md:px-6 lg:grid-cols-2 lg:gap-20 md-p-3 p-10">
           <div className="space-y-6">
             <div className="space-y-2">
@@ -309,16 +310,16 @@ export default function Home() {
               <div className="grid gap-2">
                 <div className="md:font-medium">Phone</div>
                 <div className="text-gray-500 dark:text-gray-400">
-                  (+63) 9123456789 
+                  (+63) 9123456789
                 </div>
                 <div className="text-gray-500 dark:text-gray-400">
-                (+63) 9987654321
+                  (+63) 9987654321
                 </div>
               </div>
               <div className="grid gap-2">
                 <div className="md:font-medium">Email</div>
                 <div className="text-gray-500 dark:text-gray-400 md:text-[18px] text-[12px]">
-                  agreennatureconnect@agreennatureconnect.online 
+                  agreennatureconnect@agreennatureconnect.online
                 </div>
               </div>
             </div>
@@ -327,7 +328,7 @@ export default function Home() {
             <Image
               alt="Logo"
               className=" object-fill md:w-[400px] w-[200px] md:h-[400px] h-[200px]"
-              src={LogoContact}          
+              src={LogoContact}
             />
           </div>
         </div>
