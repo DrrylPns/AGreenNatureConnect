@@ -10,11 +10,11 @@ async function Stocks({
    params
 }:{
     params:{
-        productId: string
+        slug: string
     }
 }) {
-
-    const stocks = await fetchStocks(params.productId)
+  
+    const stocks = await fetchStocks(params.slug)
   return (
     <div className="">
     <DataTable 

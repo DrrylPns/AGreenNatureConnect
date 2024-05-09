@@ -4,6 +4,7 @@ import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
 import { UpdateStocksSchema, UpdateStocksType } from "@/lib/validations/employee/products"
 import { Stocks } from "@prisma/client"
+import { id } from "date-fns/locale"
 import { revalidatePath } from "next/cache"
 const cron = require('node-cron');
 
@@ -47,7 +48,7 @@ export const fetchProducts = async () => {
         },
     })
 
-   const latestProducts = await products.forEach(async(product)=>{
+    await products.forEach(async(product)=>{
         let totalStocks = 0
         const currentDate = new Date()
         const productStock = await prisma.stocks.findMany({
@@ -68,6 +69,24 @@ export const fetchProducts = async () => {
                 quantity: totalStocks
             },
         });
+    })
+
+    const latestProducts = await prisma.product.findMany({
+        where: {
+            community: {
+                name: community?.name
+            },
+            status: {
+                not: "ARCHIVED"
+            }
+        },
+        include: {
+            creator: true,
+            Stock: true
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
     })
 
     await prisma.product.updateMany({
@@ -229,15 +248,15 @@ export const fetchStocks = async (productId: string) =>{
 
     const stocks = await prisma.stocks.findMany({
         where:{
-            productId,
             product:{
-                communityId: community?.id
-            }
+                id: productId
+            },
+            
         },
         include:{
             product: true,
         }
     })
-
+    console.log(productId)
     return stocks
 }

@@ -1,6 +1,7 @@
 import { getAuthSession } from "../../../../../lib/auth";
 import prisma from "@/lib/db/db";
 import { sendApprovedNotification } from "@/lib/mail";
+import { Stocks } from "@prisma/client";
 import { revalidatePath } from "next/cache";
 
 export async function GET(req: Request) {
@@ -78,6 +79,71 @@ export async function POST(req: Request) {
       }
     })
 
+    const orderedProduct = await prisma.orderedProducts.findFirst({
+      where:{
+        transactionId: transactionId
+      }
+    })
+
+    const stocks = await prisma.stocks.findMany({
+      where: {
+        productId: orderedProduct?.productId
+      },
+      include:{
+        product: true
+      },
+      orderBy:{
+        expiration: 'desc'
+      }
+    })
+    const currentDate = new Date()
+
+    const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
+        const expirationDate = new Date(stock.expiration);
+        return expirationDate >= currentDate;
+    });
+    for (const orderstock of transaction.orderedProducts){
+
+    
+    let remainingQuantity = orderstock.quantity; // Variable to keep track of remaining quantity
+
+    // Loop through each not expired stock until you find one with enough quantity
+    for (const stock of notExpiredStocks) {
+        if (remainingQuantity <= 0) {
+            // If remaining quantity is 0 or less, exit the loop
+            break;
+        }
+        if (stock.numberOfStocks >= remainingQuantity) {
+            // Subtract the required quantity from the available stock
+            await prisma.stocks.update({
+                where: {
+                    id: stock.id
+                },
+                data: {
+                    numberOfStocks: {
+                        decrement: remainingQuantity // Subtract the remaining quantity
+                    }
+                }
+            });
+            remainingQuantity = 0; // All required quantity has been subtracted
+            if(remainingQuantity === 0){
+              break
+            }
+        } else {
+            // If the available stock is less than remaining quantity, deduct available quantity
+            await prisma.stocks.update({
+                where: {
+                    id: stock.id
+                },
+                data: {
+                    numberOfStocks: 0 // Set the available stock to 0 since all are taken
+                }
+            });
+            remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
+        }
+    }
+    }
+
     await prisma.notification.create({
       data: {
         type: "APPROVED",
@@ -148,6 +214,7 @@ export async function POST(req: Request) {
     })
 
     revalidatePath('/orders', 'layout')
+    revalidatePath('/employee/inventory', 'page')
     return new Response(JSON.stringify(acceptOrderById));
   } catch (error) {
     return new Response(`Error: ${error}`, { status: 500 })
