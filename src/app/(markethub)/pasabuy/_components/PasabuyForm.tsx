@@ -26,14 +26,14 @@ import {
   CreateCommunityType,
 } from "@/lib/validations/super-admin/createCommunity";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@prisma/client";
+import { Community, User } from "@prisma/client";
 import { Card } from "@tremor/react";
 import { useSession } from "next-auth/react";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { redirect, useRouter } from "next/navigation";
+import { useEffect, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { createPasabuy } from "../../../../../actions/community";
+import { createPasabuy, fetchUrbanFarms } from "../../../../../actions/community";
 import { useMutation } from "@tanstack/react-query";
 import { PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy";
 
@@ -63,9 +63,18 @@ export const PasabuyForm = ({ user }: Props) => {
   const [imageUrl, setImageUrl] = useState<string>("");
   const [formUrl, setFormUrl] = useState<string>("");
   const [isPending, startTransition] = useTransition();
+  const [selectFarm, setSelectFarm] = useState<string>('')
 
   const form = useForm<PasabuyType>({
     resolver: zodResolver(PasabuySchema),
+    defaultValues:{
+      email: user.email || '',
+      firstname: user.name || '',
+      lastName: user.lastName || '',
+      userPhone: user.phoneNumber || '',
+      gender: user.gender || ''
+      
+    }
   });
 
   const router = useRouter();
@@ -74,9 +83,9 @@ export const PasabuyForm = ({ user }: Props) => {
   const formUrlIsEmpty = formUrl.length === 0;
   const areaIsEmpty = area.length === 0;
 
-
   function onSubmit(values: PasabuyType) {
     startTransition(() => {
+
       createPasabuy(values, formUrl).then((callback) => {
         if (callback.error) {
           toast({
@@ -89,18 +98,19 @@ export const PasabuyForm = ({ user }: Props) => {
           toast({
             description: callback.success,
           });
+          router.replace(`/markethub`)
         }
       });
     });
   }
-
+  
   return (
     <div className="w-full min-h-screen flex justify-center items-center bg-[#E3E1E1]">
       <section className="flex items-center justify-center p-11 rounded-3xl">
         <Card className="">
           <div className="w-full h-full">
             <div className="w-full flex justify-center items-center">
-              <h1 className="font-bold text-lg mb-6">Pasabuy Registration</h1>
+              <h1 className="font-bold text-lg mb-6">Urban Farm Registration Request</h1>
             </div>
             <Form {...form}>
               <form
@@ -109,7 +119,7 @@ export const PasabuyForm = ({ user }: Props) => {
               >
                 {formStep === 1 && (
                   <>
-                    <div className="grid grid-cols-1 w-full">
+                    <div className="grid grid-cols-1">
                       <FormField
                         control={form.control}
                         name="urbanFarmName"
@@ -118,11 +128,13 @@ export const PasabuyForm = ({ user }: Props) => {
                             <FormLabel>Urban Farm Name</FormLabel>
                             <FormControl>
                               <Input
-                                placeholder="Urbn"
+                                placeholder="..."
                                 {...field}
                                 type="text"
+                                className=""
                               />
                             </FormControl>
+
                             <FormMessage />
                           </FormItem>
                         )}
@@ -150,10 +162,16 @@ export const PasabuyForm = ({ user }: Props) => {
                         )}
                       />
                     </div>
-
+                      <h1>Your Details:</h1>
                     <div className="grid grid-cols-1">
-                      <h1 className="ml-1 text-sm font-medium">Area</h1>
-                      <Select value={area} onValueChange={setArea}>
+                      <FormField
+                        control={form.control}
+                        name="area"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>Area</FormLabel>
+                            <FormControl>
+                            <Select onValueChange={field.onChange} defaultValue={field.value}>
                         <SelectTrigger className="">
                           <SelectValue placeholder="Select an area" />
                         </SelectTrigger>
@@ -466,6 +484,12 @@ export const PasabuyForm = ({ user }: Props) => {
                           </SelectGroup>
                         </SelectContent>
                       </Select>
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    
                     </div>
                     <div className="grid grid-cols-1">
                       <FormField
@@ -588,7 +612,7 @@ export const PasabuyForm = ({ user }: Props) => {
                       type="submit"
                       className="w-full mt-5"
                       variant="newGreen"
-                      disabled={areaIsEmpty || formUrlIsEmpty}
+                      disabled={ formUrlIsEmpty}
                       onClick={() => {
                         form.trigger(["urbanFarmName", "blk", "street", "zip"]);
 
@@ -596,7 +620,7 @@ export const PasabuyForm = ({ user }: Props) => {
                         const pwState = form.getFieldState("zip");
                         const lnState = form.getFieldState("blk");
                         const emState = form.getFieldState("street");
-
+                       
                         form.setValue(
                           "communityAddress",
                           user?.barangay as string
@@ -624,7 +648,7 @@ export const PasabuyForm = ({ user }: Props) => {
                         name="email"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Admin Email</FormLabel>
+                            <FormLabel>Email</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="@gmail.com"
@@ -717,7 +741,7 @@ export const PasabuyForm = ({ user }: Props) => {
                         name="userPhone"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Admin Contact No.</FormLabel>
+                            <FormLabel>Contact No.</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="09"
@@ -877,7 +901,7 @@ export const PasabuyForm = ({ user }: Props) => {
                       isLoading={isPending}
                       disabled={isPending || formUrlIsEmpty}
                     >
-                      Sign up
+                      Submit
                     </Button>
                   </div>
                 )}

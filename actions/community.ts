@@ -4,7 +4,7 @@ import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
 import { ChangeCommunitySettingsSchema, ChangeCommunitySettingsType } from "@/lib/validations/changeUserProfile"
 import { CreateCommunitySchema, CreateCommunityType } from "@/lib/validations/super-admin/createCommunity"
-import { Prisma } from "@prisma/client"
+import { Community, Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { sendEmployeePasswordLink } from "./set-employee-password"
 import { PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy"
@@ -345,8 +345,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
 
         if (!currentUser) return { error: "Error: No current user found!" }
 
-        if (currentUser.role !== "USER") return { error: "Error: Unauthorized!" }
-
+    
         const validatedFields = PasabuySchema.safeParse(values)
 
         if (!validatedFields.success) return { error: "Invalid fields" }
@@ -362,66 +361,64 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
             street,
             userPhone,
             zip,
+            area,
+            form,
         } = validatedFields.data
+     
+        // const emailExist = await prisma.user.findFirst({
+        //     where: {
+        //         email
+        //     }
+        // })
 
-        const emailExist = await prisma.user.findFirst({
-            where: {
-                email
+        // if (emailExist) return { error: "User email already exist!" }
+
+        // const phoneNumberExists = await prisma.user.findFirst({
+        //     where: { phoneNumber: userPhone }
+        // })
+
+        // if (phoneNumberExists) return { error: "Phone number already exist!" }
+
+        // const urbanFarmExists = await prisma.community.findFirst({
+        //     where: {
+        //         name: urbanFarmName,
+        //     }
+        // })
+
+        // if (urbanFarmExists) return { error: "Urban farm already exist!" }
+
+        const sameUserId = await prisma.urbanFarmApplicatants.findFirst({
+            where:{
+                userId: currentUser.id
             }
         })
 
-        if (emailExist) return { error: "User email already exist!" }
-
-        const phoneNumberExists = await prisma.user.findFirst({
-            where: { phoneNumber: userPhone }
-        })
-
-        if (phoneNumberExists) return { error: "Phone number already exist!" }
-
-        const urbanFarmExists = await prisma.community.findFirst({
-            where: {
-                name: urbanFarmName,
-            }
-        })
-
-        if (urbanFarmExists) return { error: "Urban farm already exist!" }
-
-        const currentDate = new Date();
-
-        const successUserCreate = await prisma.user.create({
-            data: {
-                name: firstname,
-                role: "ADMIN",
-                phoneNumber: userPhone,
-                gender,
-                email,
-                lastName,
-                emailVerified: currentDate,
-                // hashedPassword,
-                Community: {
-                    create: {
-                        // name: barangayName,
-                        address: communityAddress,
-                        form: image,
-                        blk,
-                        street,
-                        zip,
-                        // description: communityDescription,
-                        // email: communityEmail,
-                        // displayPhoto: communityDisplayPhoto,
-                        // contactNumber: phone,
-                        name: urbanFarmName,
-                        // carouselImage: communityImages,
-                    }
+        if(!sameUserId) {
+            const successUserCreate = await prisma.urbanFarmApplicatants.create({
+                data: {
+                    urbanFarmName: urbanFarmName,
+                    firstName: firstname,
+                    form: form || '',
+                    address: communityAddress,
+                    contact: userPhone,
+                    gender,
+                    email,
+                    lastName,
+                    street,
+                    blk,
+                    area,
+                    zip,
+                    status: "Pending",
+                    userId: currentUser.id,
+                   
                 }
-            }
-        })
-
-        if (successUserCreate) {
+            })
             
+            return { success: "Urban farm created successfully!" }
+        } else {
+            return {error: "You already file your request to become a consignor!"}
         }
-
-        return { success: "Urban farm created successfully!" }
+        
     } catch (error) {
         throw new Error(error as any)
     }
@@ -444,4 +441,16 @@ export const handleFarmerStaff = async (id: string, handler: boolean) => {
     } catch (error) {
         throw new Error(error as any)
     }
+}
+
+export const fetchUrbanFarms = async(barangay: string) =>{
+    const urbanFarms = await prisma.community.findMany({
+        where:{
+            address: barangay
+        },
+        include:{
+            
+        }
+    })
+    return urbanFarms 
 }
