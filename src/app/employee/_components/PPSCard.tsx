@@ -14,7 +14,7 @@ const PPSCard = () => {
     const [sales, setSales] = useState() as any;
     const [value, setValue] = useState(null);
 
-    const [date, setDate] = useState<DateRange | null>(null);
+    const [date, setDate] = useState<DateRange | undefined>(undefined);
 
     useEffect(() => {
         fetchSalesPieChart();
