@@ -215,13 +215,11 @@
               <DeleteCartItemModal cartId={item.id} deleteCartItem={deleteCartItem} itemName={item.product.name} />
               </div> 
                 {(item.kilograms > item.product.quantity && item.product.quantity !== 0) && (
-                  console.log("Exceeded quantity condition triggered"),
                   <div className="text-center pt-3">
                     <p className="text-sm text-red-500">You have exceeded the available quantity</p>
                   </div>
                 )}
                 {item.product.quantity === 0 && (
-                  console.log("Out of stock condition triggered"),
                   <div className="text-center pt-3">
                     <p className="text-sm text-red-500">Already out of stock</p>
                   </div>
