@@ -17,9 +17,14 @@ import { Button } from "@/components/ui/button";
 import { toast } from "@/lib/hooks/use-toast";
 
 const PaymentMethod = [
-  'Cash on delivery',
-  'Gcash', 
+  'Cash upon Pickup',
+  'External Delivery', 
  
+]
+
+const ExternalDelivery = [ 
+  'Abono',
+  'Gcash',
 ]
 
 function CheckoutModal({}: {}) {
@@ -34,6 +39,7 @@ function CheckoutModal({}: {}) {
   const { cartNumber, setCartNumber } = useCart();
   const [selectedValue, setSelectedValue] = useState('');
   const [method, setMethod] = useState("")
+  const [option, setOption] = useState("")
   const [error, setError] = useState("")
 
   // Function to handle the change event of the select element
@@ -120,6 +126,13 @@ function CheckoutModal({}: {}) {
       closeModal()
       return
     }
+    if(method === 'External Delivery'){
+      if(option === ""){
+        setError("You must select atleast 1 option")
+        closeModal()
+        return
+      }
+    }
     if(shippingInfo === undefined || shippingInfo === null){
       closeModal()
       toast({
@@ -137,12 +150,14 @@ function CheckoutModal({}: {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method }),
+        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method === "Cash Upon Pickup" ? method : option }),
       });
   
       if (response.ok) {
-        if(method==="Gcash"){
-          router.replace(`checkout/payment/${method}`)
+        if(method==="External Delivery"){
+          if(option === "Gcash") {
+            router.replace(`checkout/payment/${method}`)
+          }
         } else {
           router.replace("/cart/checkout/success");
         }
@@ -273,6 +288,7 @@ function CheckoutModal({}: {}) {
                 <RadioGroup value={method} onChange={setMethod} className="sm:min-h-32 sm:w-[20%] bg-gray-50 p-5 rounded-lg border-2 border-gray-300 shadow-md min-h-[20vh] drop-shadow-lg">
                   <RadioGroup.Label className="">Select payment method:</RadioGroup.Label>
                   {PaymentMethod.map((payment) => (
+                    <>
                     <RadioGroup.Option key={payment} value={payment} className={`flex ml-5 mt-3 items-center gap-4 text-xl font-poppins`}>
                        {({ checked }) => (
                         <>
@@ -282,12 +298,33 @@ function CheckoutModal({}: {}) {
                         </span>
                         {payment}
                         </>
-                        )}
+                      )}
+                    </RadioGroup.Option>
+                  
+                    </>
+                  ))}
+                  <div className={`${method === "External Delivery" ? "block" : "hidden" } transition-all duration-500 ease-linear pl-3`}>
+                  <RadioGroup value={option} onChange={setOption} className="sm:min-h-32 sm:w-[20%] min-h-[20vh] ">
+                  {ExternalDelivery.map((option) => (
+                    <RadioGroup.Option key={option} value={option} className={`flex ml-5 mt-3 items-center gap-4 text-xl font-poppins`}>
+                      {({ checked }) => (
+                        <>
+                        <span className={`${checked && 'text-green'} text-xl`}>
+                          {checked ? <IoIosRadioButtonOn  /> : <IoIosRadioButtonOff /> }
+                        
+                        </span>
+                        {option}
+                        </>
+                      )}
                     </RadioGroup.Option>
                   ))}
-                  <h1 className={`${method === '' ? "block":"hidden"} text-sm text-red-500`}>{error}</h1>
+                  </RadioGroup>
+                  <h1 className={`${method === 'External Delivery' && option === ""? "block":"hidden" } text-sm text-red-500` } >{error}</h1>
+                   </div>
+                  
+                  <h1 className={`${method === ''  ? "block":"hidden" } text-sm text-red-500` } >{error}</h1>
                   <div>
-                    <h1 className="mt-5">Note:</h1>
+                    <h1 className="">Note:</h1>
                     <p className="text-[0.8rem] text-gray-500">Each item may originate from a distinct community; therefore, kindly ensure that the selected payment method is acceptable to you. The choice made here will serve as the designated payment method for all items during the checkout process.</p>
                   </div>
                 </RadioGroup>
