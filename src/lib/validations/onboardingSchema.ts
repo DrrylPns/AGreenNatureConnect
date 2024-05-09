@@ -37,6 +37,9 @@ export const OnboardingSchema = z.object({
         required_error: "Street address is required"
     }),
     zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
+    barangay: z.string({
+        required_error: "Barangay must be valid!"
+    }),
 })
 
 export type OnboardingUserType = z.infer<typeof OnboardingUserSchema>
@@ -74,4 +77,7 @@ export const OnboardingUserSchema = z.object({
         required_error: "Street address is required"
     }),
     zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
+    barangay: z.string({
+        required_error: "Barangay must be valid!"
+    }),
 })

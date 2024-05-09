@@ -64,6 +64,7 @@ export const OnboardingUser = ({ user }: Props) => {
       blk,
       street,
       zip,
+      barangay,
     }: OnboardingUserType) => {
       const payload: OnboardingUserType = {
         username,
@@ -75,6 +76,7 @@ export const OnboardingUser = ({ user }: Props) => {
         blk,
         street,
         zip,
+        barangay,
       };
       const { data } = await axios.post("/api/user/onboardingUser", payload);
       return data;
@@ -154,6 +156,7 @@ export const OnboardingUser = ({ user }: Props) => {
       blk: data.blk,
       street: data.street,
       zip: data.zip,
+      barangay: data.barangay,
     };
 
     onboardingUpdate(payload);
