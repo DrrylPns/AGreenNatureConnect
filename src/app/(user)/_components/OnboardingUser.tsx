@@ -26,9 +26,10 @@ import {
 } from "@/lib/validations/onboardingSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Community, User } from "@prisma/client";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { signOut } from "next-auth/react";
+import React, { useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { getCommunitiesWithoutSession } from "../../../../actions/community";
 
@@ -79,7 +80,6 @@ export const OnboardingUser = ({ user }: Props) => {
       blk,
       street,
       zip,
-      barangay,
       community,
     }: OnboardingUserType) => {
       const payload: OnboardingUserType = {
