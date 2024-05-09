@@ -50,6 +50,7 @@ interface DataTableProps<TData, TValue> {
   isReport?: boolean;
   isArchived?: boolean;
   isInventory?: boolean;
+  isSalesReport?: boolean;
 }
 
 export function DataTable<TData, TValue>({
@@ -61,6 +62,7 @@ export function DataTable<TData, TValue>({
   isReport,
   isArchived,
   isInventory,
+  isSalesReport
 }: DataTableProps<TData, TValue>) {
   const [sorting, setSorting] = useState<SortingState>([])
   const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
@@ -90,7 +92,6 @@ export function DataTable<TData, TValue>({
     }
   })
 
-
   return (
     <div>
       <div className="flex flex-col lg:flex-row items-center py-4 justify-between">
@@ -101,14 +102,14 @@ export function DataTable<TData, TValue>({
 
           {isTransaction ? (
             <>
-            <Input
-              placeholder="Search"
-              value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
-              onChange={(event) =>
-                table.getColumn("status")?.setFilterValue(event.target.value)
-              }
-              className="max-w-sm"
-            />
+              <Input
+                placeholder="Search"
+                value={(table.getColumn("status")?.getFilterValue() as string) ?? ""}
+                onChange={(event) =>
+                  table.getColumn("status")?.setFilterValue(event.target.value)
+                }
+                className="max-w-sm"
+              />
             </>
 
           ) : (
@@ -172,19 +173,19 @@ export function DataTable<TData, TValue>({
           )}
         </div>
 
-        {     isInventory && (
-                <Legend
-                className="mt-3 ml-5 w-full"
-                categories={["In Stock", "Out of Stock", "Low Stock"]}
-                colors={["emerald", "red", "yellow"]}
-              />
-              )}
+        {isInventory && (
+          <Legend
+            className="mt-3 ml-5 w-full"
+            categories={["In Stock", "Out of Stock", "Low Stock"]}
+            colors={["emerald", "red", "yellow"]}
+          />
+        )}
 
 
         <div className="flex justify-center items-center gap-3 w-full">
           {!isTransaction || !isReport &&
             <div className="flex flex-row justify-end items-center w-[300px]">
-              
+
               {/*<Legend
                 className="mt-3"
                 categories={["In", "Out of Stock", "Low Stock"]}

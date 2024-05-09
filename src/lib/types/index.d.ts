@@ -546,3 +546,5 @@ export type ConsignorApplicantsExtended = Prisma.ConsignorApplicantsGetPayload<{
 export type DeactivatedEmployees = Prisma.UserGetPayload<{
 
 }>
+
+export type CompletedTransaction = Prisma.TransactionGetPayload<{}>

@@ -58,7 +58,7 @@ export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) =
             },
         },
         include: {
-           
+
         },
     });
 
@@ -90,47 +90,40 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
             id: loggedInUser?.Community?.id,
         },
         include: {
-            products: true,
-        },
-    });
-
-    const salesByDates = await prisma.transaction.findMany({
-        where: {
-            status: "COMPLETED",
-            sellerId: community?.id,
-            createdAt: {
-                gte: startDate,
-                lte: endDate,
+            products: {
+                include: {
+                    orderedProducts: {
+                        where: {
+                            transaction: {
+                                status: "COMPLETED",
+                                createdAt: {
+                                    gte: startDate,
+                                    lte: endDate,
+                                },
+                            },
+                        },
+                    },
+                },
             },
         },
-        include: {
-          
-            
-        },
-        orderBy: {
-            createdAt: "asc",
-        },
     });
 
-    const salesByDate: Record<string, Record<string, number>> = {};
+    const salesByCategory: Record<string, number> = {};
 
-    salesByDates.forEach((transaction) => {
-        const transactionDate = new Date(transaction.createdAt);
-        const formattedDate = transactionDate.toISOString().slice(0, 10); // Group by date
+    // Loop through each product and count the total orders
+    community?.products.forEach((product) => {
+        const totalOrders = product.orderedProducts.reduce((acc, orderedProduct) => {
+            return acc + orderedProduct.quantity;
+        }, 0);
 
-        if (!salesByDate[formattedDate]) {
-            salesByDate[formattedDate] = {};
+        // Store the total orders for each category
+        if (!salesByCategory[product.category]) {
+            salesByCategory[product.category] = 0;
         }
-
+        salesByCategory[product.category] += totalOrders;
     });
 
-    // Convert the sales data to the required format
-    const salesData = Object.entries(salesByDate).map(([date, sales]) => ({
-        date,
-        ...sales,
-    }));
-
-    return salesData;
+    return salesByCategory;
 };
 
 
@@ -223,7 +216,7 @@ export const fetchMostSoldProduct = async () => {
         include: {
             products: {
                 include: {
-                    
+
                 },
             },
         },
@@ -234,7 +227,7 @@ export const fetchMostSoldProduct = async () => {
             communityId: loggedInUser?.Community?.id,
             status: "APPROVED",
         },
-        include:{
+        include: {
             Stock: true,
             community: true,
             reviews: true,
@@ -242,7 +235,7 @@ export const fetchMostSoldProduct = async () => {
     })
 
     // Sort products by the number of units sold (orderedVariant count) in descending order
-   
+
 
     return products.slice(0, 10); // Return the top 10 most sold products
 }
@@ -265,4 +258,42 @@ export const totalNumberOfProducts = async () => {
     })
 
     return products
+}
+
+export const salesReport = async (startDate: Date, endDate: Date) => {
+    const session = await getAuthSession()
+
+    const loggedInUser = await prisma.user.findFirst({
+        where: { id: session?.user.id },
+        include: { Community: true },
+    });
+
+    const community = await prisma.community.findFirst({
+        where: {
+            id: loggedInUser?.Community?.id,
+        },
+        include: {
+            products: true,
+        },
+    });
+
+    const salesByDates = await prisma.transaction.findMany({
+        where: {
+            status: "COMPLETED",
+            sellerId: community?.id,
+            createdAt: {
+                gte: startDate,
+                lte: endDate,
+            },
+        },
+        include: {
+
+
+        },
+        orderBy: {
+            createdAt: "asc",
+        },
+    });
+
+    return salesByDates
 }

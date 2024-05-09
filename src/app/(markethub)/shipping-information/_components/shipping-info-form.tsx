@@ -195,18 +195,18 @@ export const ShippingInfoForm = ({ user }: Props) => {
                 )}
 
                 <div className="space-y-2 mt-2">
-                    <h1 className="ml-1 text-sm font-medium">Address</h1>
+                    <h1 className="ml-1 text-sm font-medium">Area</h1>
                     <Select
                         // value={area}
                         onValueChange={handleSelectChange}
                         {...register("address")}
                     >
                         <SelectTrigger className="">
-                            <SelectValue placeholder="Select an address" />
+                            <SelectValue placeholder="Select an area" />
                         </SelectTrigger>
                         <SelectContent>
                             <SelectGroup>
-                                <SelectLabel>Address</SelectLabel>
+                                <SelectLabel>Area</SelectLabel>
                                 <>
                                     {user?.Community?.address === "Bagbag" && (
                                         <>

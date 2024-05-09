@@ -7,18 +7,19 @@ import { DataTable } from '../../_components/stocks/DataTable'
 
 
 async function Stocks({
-   params
-}:{
-    params:{
-        slug: string
-    }
+  params
+}: {
+  params: {
+    slug: string
+  }
 }) {
-  
-    const stocks = await fetchStocks(params.slug)
+
+  const stocks = await fetchStocks(params.slug)
   return (
     <div className="">
-    <DataTable 
-        columns={columns} 
+      <DataTable
+        //@ts-ignore
+        columns={columns}
         //@ts-ignore
         data={stocks} />
     </div>

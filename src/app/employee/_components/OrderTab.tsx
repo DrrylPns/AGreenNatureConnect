@@ -10,6 +10,7 @@ import { FiRefreshCw } from 'react-icons/fi'
 import RotatingLinesLoading from '@/app/(markethub)/components/RotatingLinesLoading'
 import Orders from './Orders'
 import { transactionWithOrderedProducts } from '@/lib/types'
+import { toast } from '@/lib/hooks/use-toast'
 
 interface Transaction {
     id: string;
@@ -90,12 +91,29 @@ function OrderTab({
     }
 
     const handleApprove = async (transactionId: string) => {
-        setIsLoading(true)
-        await axios.post('/api/markethub/transaction/approved', { transactionId }).then(() => {
-            router.refresh()
-        })
-        setIsLoading(false)
-    }
+        setIsLoading(true);
+        try {
+            await axios.post('/api/markethub/transaction/approved', { transactionId });
+            toast({
+                description: "Transaction approved successfully!",
+            });
+            router.refresh();
+        } catch (error: any) {
+            if (error.response && error.response.status === 402) {
+                toast({
+                    description: "This order is not paid yet!",
+                    variant: "destructive"
+                });
+            } else {
+                toast({
+                    description: "Failed to approve transaction: " + error.message,
+                    variant: "destructive"
+                });
+            }
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     const handlePickup = async (transactionId: string) => {
         setIsLoading(true)

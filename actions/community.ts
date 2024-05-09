@@ -332,18 +332,18 @@ export const createUrbanFarm = async (values: CreateCommunityType, image: string
     }
 }
 export const createCommunity = async (
-    urbanFarmName: string, 
-    area: string, 
-    blk: string, 
-    street: string, 
-    zip:string, 
-    email:string,
-    firstName: string, 
-    lastName: string, 
-    contact: string, 
-    form: string, 
+    urbanFarmName: string,
+    area: string,
+    blk: string,
+    street: string,
+    zip: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    contact: string,
+    form: string,
     userId: string
-) =>{
+) => {
     const session = await getAuthSession()
 
     const currentUser = await prisma.user.findUnique({
@@ -356,7 +356,7 @@ export const createCommunity = async (
     if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" }
 
     const createdCommunity = await prisma.community.create({
-        data:{
+        data: {
             name: urbanFarmName,
             form: form,
             contactNumber: contact,
@@ -367,18 +367,18 @@ export const createCommunity = async (
             area,
         }
     })
-  
-   await prisma.user.update({
-    where:{
-        id: userId
-    },
-    data:{
-        name: firstName,
-        lastName,
-        role: "ADMIN",
-        communityId: createdCommunity.id
-    }
-   })
+
+    await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            name: firstName,
+            lastName,
+            role: "ADMIN",
+            communityId: createdCommunity.id
+        }
+    })
 
 
     return { success: "Urban farm created successfully!" }
@@ -397,7 +397,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
 
         if (!currentUser) return { error: "Error: No current user found!" }
 
-    
+
         const validatedFields = PasabuySchema.safeParse(values)
 
         if (!validatedFields.success) return { error: "Invalid fields" }
@@ -414,9 +414,9 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
             userPhone,
             zip,
             area,
-        
+
         } = validatedFields.data
-     
+
         // const emailExist = await prisma.user.findFirst({
         //     where: {
         //         email
@@ -440,12 +440,12 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
         // if (urbanFarmExists) return { error: "Urban farm already exist!" }
 
         const sameUserId = await prisma.urbanFarmApplicatants.findFirst({
-            where:{
+            where: {
                 userId: currentUser.id
             }
         })
 
-        if(!sameUserId) {
+        if (!sameUserId) {
             const successUserCreate = await prisma.urbanFarmApplicatants.create({
                 data: {
                     urbanFarmName: urbanFarmName,
@@ -462,15 +462,14 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
                     zip,
                     status: "Pending",
                     userId: currentUser.id,
-                   
                 }
             })
-            
+
             return { success: "Urban farm created successfully!" }
         } else {
-            return {error: "You already file your request to become a consignor!"}
+            return { error: "You already file your request to become a consignor!" }
         }
-        
+
     } catch (error) {
         throw new Error(error as any)
     }
@@ -495,16 +494,16 @@ export const handleFarmerStaff = async (id: string, handler: boolean) => {
     }
 }
 
-export const fetchUrbanFarms = async(barangay: string) =>{
+export const fetchUrbanFarms = async (barangay: string) => {
     const urbanFarms = await prisma.community.findMany({
-        where:{
+        where: {
             address: barangay
         },
-        include:{
-            
+        include: {
+
         }
     })
-    return urbanFarms 
+    return urbanFarms
 }
 
 export const createConsignorRequest = async(values: ConsignorType)=>{
