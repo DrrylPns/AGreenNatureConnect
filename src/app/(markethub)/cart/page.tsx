@@ -12,7 +12,9 @@
   import DeleteCartItemModal from "../components/DeleteCartItemModal";
   import { toast } from "@/lib/hooks/use-toast";
   import { CartwithProduct } from "@/lib/types";
-import { button } from "@nextui-org/react";
+  import { button } from "@nextui-org/react";
+  import { Button } from "@/components/ui/button"
+  import { BadgePlus, ShoppingCart } from 'lucide-react'
 
 
 
@@ -28,6 +30,10 @@ import { button } from "@nextui-org/react";
       fetchCartItems();
     }, []);
    
+    const handlebuynow = () => {
+      router.push('markethub');
+    }
+
     const handleCheckout = (value: CartwithProduct[]) => {
       try {
         setItem(value);
@@ -152,6 +158,19 @@ import { button } from "@nextui-org/react";
           </div>
           <h1 className="font-bold text-[2rem] text-center">Cart</h1>
         </div>
+        
+        {cartItems.length === 0 && (
+          <div className="flex flex-col items-center justify-center mt-10 gap-4 px-4 md:px-6">
+            <div className="mb-4 text-center text-gray-500 dark:text-gray-400">
+              You haven't added any products to your cart yet. Buy now to get started.
+            </div>
+            <Button className="flex items-center text-black border-2 border-green bg-transparent hover:bg-transparent" onClick={handlebuynow}>
+              < ShoppingCart className="mr-2 h-4 w-4" />
+              Shop now
+            </Button>
+          </div>
+        )}
+
         {/* <Suspense fallback={<Loading />}>
         {Object.entries(groupedItems).map(([communityName, items]) => (
         <div key={communityName}>
