@@ -355,9 +355,9 @@ export const Onboarding = () => {
                           {community.name}
                         </SelectItem>
                       ))}
-                      <SelectItem value="Others" key="others">
+                      {/* <SelectItem value="Others" key="others">
                         Others
-                      </SelectItem>
+                      </SelectItem> */}
                     </SelectGroup>
                   </SelectContent>
                 </Select>

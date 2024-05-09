@@ -28,7 +28,8 @@ const page = async () => {
             role: 'EMPLOYEE',
             Community: {
                 id: loggedInUser?.Community?.id
-            }
+            },
+            isDisabled: false,
         },
         include: {
             Community: true
@@ -72,7 +73,7 @@ const page = async () => {
 
             {/* shadcn table ----> */}
             <Card className='bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4]'>
-                <DataTable columns={columns} data={dataForDataTable} employees={employees} isEmployees />
+                <DataTable columns={columns} data={dataForDataTable} employees={employees} isEmployees isActivated />
             </Card>
         </div>
     )

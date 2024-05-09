@@ -288,7 +288,7 @@ export const createUrbanFarm = async (values: CreateCommunityType, image: string
             }
         })
 
-        if (urbanFarmExists) return { error: "Urban farm community already exist!" }
+        if (urbanFarmExists) return { error: "Urban farm already exist!" }
 
         const currentDate = new Date();
 
@@ -326,6 +326,25 @@ export const createUrbanFarm = async (values: CreateCommunityType, image: string
         }
 
         return { success: "Urban farm created successfully!" }
+    } catch (error) {
+        throw new Error(error as any)
+    }
+}
+
+export const handleFarmerStaff = async (id: string, handler: boolean) => {
+    try {
+        if (!id) return { error: "Error: No urban farm staff selected!" }
+
+        await prisma.user.update({
+            where: {
+                id
+            },
+            data: {
+                isDisabled: handler
+            }
+        })
+
+        return { success: "Success!" }
     } catch (error) {
         throw new Error(error as any)
     }

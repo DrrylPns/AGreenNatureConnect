@@ -21,7 +21,7 @@ const buttonVariants = cva(
           "bg-[#BAEBD4] px-3 py-2 font-medium font-poppins rounded-lg hover:shadow-lg hover:bg-[#4DE69E]/90 text-black font-bold",
         productTable: "bg-transparent text-white hover:text-opacity-50",
         newGreen:
-          "bg-[#099073] px-3 py-2 font-medium font-poppins rounded-lg hover:shadow-lg text-black font-bold text-white ",
+          "bg-[#099073] hover:bg-[#099073]/80 px-3 py-2 font-medium font-poppins rounded-lg hover:shadow-lg text-black font-bold text-white ",
         darkGreen:
           " font-medium font-poppins text-black dark:text-white font-bold bg-transparent top-24",
       },
@@ -43,7 +43,7 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   isLoading?: boolean;
 }
 

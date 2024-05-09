@@ -106,7 +106,7 @@ const LoginModal: React.FC<LogInModalProps> = ({ currentUser }) => {
         if (updatedSession?.user.role === "EMPLOYEE") {
           router.push("/employee");
         } else if (updatedSession?.user.role === "ADMIN") {
-          router.push("/admin");
+          router.push("/employee");
         } else if (updatedSession?.user.role === "SUPER_ADMIN") {
           router.push("/communities")
         }

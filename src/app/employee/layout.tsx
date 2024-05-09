@@ -19,6 +19,8 @@ import { GenderModal } from '@/components/settings/GenderModal'
 import { AvatarModal } from '@/components/settings/AvatarModal'
 import { ProfileModal } from '@/components/settings/ProfileModal'
 import { UsernameModal } from '@/components/settings/UsernameModal'
+import { StaffDeactivated } from '@/components/staff-deactivated'
+import { UrbanFarmDeactivated } from '@/components/urbanfarm-deactivated'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -50,30 +52,38 @@ export default async function RootLayout({
     return (
         <html lang="en">
             <body className={cn("bg-[#E3E1E1]", inter.className)}>
-                {user.role === "EMPLOYEE" || user?.role === "ADMIN" ?
-                    (<Providers>
-                        <LoginModal />
-                        <RegisterModal />
-                        <NavbarDashboard user={user as User} />
-                        <UserSettings user={user as User} />
-                        <GenderModal user={user as User} />
-                        <AvatarModal />
-                        <ProfileModal user={user as User} />
-                        <UsernameModal user={user as User} />
-                        <Sidebar />
-                        <main className='lg:pl-[350px] bg-[#E3E1E1] h-screen p-12'>
-                            {children}
-                        </main>
-                        <Toaster />
-                    </Providers >)
-                    :
-                    (
-                        <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>
-                            <PageNotFound />
-                        </div>
-                    )
-                }
+                {user.role === "EMPLOYEE" || user?.role === "ADMIN" ? (
+                    <>
+                        {user.isDisabled ? (
+                            <StaffDeactivated />
+                        ) : user.Community?.isArchived === true && user.role === "ADMIN" || user.role === "EMPLOYEE" ? (
+                            <UrbanFarmDeactivated />
+                        ) :
+                            (
+                                <Providers>
+                                    <LoginModal />
+                                    <RegisterModal />
+                                    <NavbarDashboard user={user as User} />
+                                    <UserSettings user={user as User} />
+                                    <GenderModal user={user as User} />
+                                    <AvatarModal />
+                                    <ProfileModal user={user as User} />
+                                    <UsernameModal user={user as User} />
+                                    <Sidebar user={user} />
+                                    <main className='lg:pl-[350px] bg-[#E3E1E1] h-screen p-12'>
+                                        {children}
+                                    </main>
+                                    <Toaster />
+                                </Providers>)
+                        }
+
+                    </>
+                ) : (
+                    <div className='flex flex-col gap-3 justify-center items-center h-screen w-full'>
+                        <PageNotFound />
+                    </div>
+                )}
             </body>
-        </html>
+        </html >
     )
 }
