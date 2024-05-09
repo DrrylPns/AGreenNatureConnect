@@ -252,7 +252,7 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                     <div>
                       {comment.author.role === "EMPLOYEE" && (
                         <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-medium">
-                          Farmer 🌳
+                          Urban Staff 🌳
                         </h6>
                       )}
                       {comment.author.role === "ADMIN" && (
@@ -345,7 +345,7 @@ export default function Comments({ posts }: { posts: PostTypes }) {
                                   </h3>
                                   {reply.user.role === "EMPLOYEE" && (
                                     <h6 className="text-sm text-green font-poppins font-medium dark:text-[#49D393]">
-                                      Farmer 🌳
+                                      Urban Staff 🌳
                                     </h6>
                                   )}
                                   {reply.user.role === "ADMIN" && (
