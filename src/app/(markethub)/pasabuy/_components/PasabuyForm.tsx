@@ -33,7 +33,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { createUrbanFarm } from "../../../../../actions/community";
+import { createPasabuy } from "../../../../../actions/community";
 import { useMutation } from "@tanstack/react-query";
 import { PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy";
 
@@ -210,7 +210,7 @@ export const PasabuyForm = ({ user }: Props) => {
 
   function onSubmit(values: PasabuyType) {
     startTransition(() => {
-      createUrbanFarm(values, formUrl).then((callback) => {
+      createPasabuy(values, formUrl).then((callback) => {
         if (callback.error) {
           toast({
             description: callback.error,
