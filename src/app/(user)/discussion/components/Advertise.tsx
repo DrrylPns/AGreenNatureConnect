@@ -28,12 +28,12 @@ export default async function Advertise() {
               <DialogDescription>
                 <div className="mb-5">
                   Are you part of any registered urban farms in Barangay Bagbag, Novaliches Proper, or Bagong Silangan?
-                  <Link href={'/'} className=""><Button variant={'link'} className=" text-blue-600">Click here</Button> </Link>
+                  <Link href={'/pasabuy'} className=""><Button variant={'link'} className=" text-blue-600">Click here</Button> </Link>
                 </div>
                 <Separator className="my-5" />
                 <div>
                   Do you want to be part of urban farm community and become a consignor?
-                  <Link href={'/pasabuy'} className=""><Button variant={'link'} className=" text-blue-600">Click here</Button> </Link>
+                  <Link href={'/'} className=""><Button variant={'link'} className=" text-blue-600">Click here</Button> </Link>
                 </div>
                 
               </DialogDescription>

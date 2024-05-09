@@ -331,6 +331,58 @@ export const createUrbanFarm = async (values: CreateCommunityType, image: string
         throw new Error(error as any)
     }
 }
+export const createCommunity = async (
+    urbanFarmName: string, 
+    area: string, 
+    blk: string, 
+    street: string, 
+    zip:string, 
+    email:string,
+    firstName: string, 
+    lastName: string, 
+    contact: string, 
+    form: string, 
+    userId: string
+) =>{
+    const session = await getAuthSession()
+
+    const currentUser = await prisma.user.findUnique({
+        where: {
+            id: session?.user.id
+        }
+    })
+    if (!currentUser) return { error: "Error: No current user found!" }
+
+    if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" }
+
+    const createdCommunity = await prisma.community.create({
+        data:{
+            name: urbanFarmName,
+            form: form,
+            contactNumber: contact,
+            blk: blk,
+            street: street,
+            email,
+            zip,
+            area,
+        }
+    })
+  
+   await prisma.user.update({
+    where:{
+        id: userId
+    },
+    data:{
+        name: firstName,
+        lastName,
+        role: "ADMIN",
+        communityId: createdCommunity.id
+    }
+   })
+
+
+    return { success: "Urban farm created successfully!" }
+}
 
 export const createPasabuy = async (values: PasabuyType, image: string) => {
     try {
@@ -362,7 +414,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
             userPhone,
             zip,
             area,
-            form,
+        
         } = validatedFields.data
 
         // const emailExist = await prisma.user.findFirst({
@@ -398,7 +450,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
                 data: {
                     urbanFarmName: urbanFarmName,
                     firstName: firstname,
-                    form: form || '',
+                    form: image,
                     address: communityAddress,
                     contact: userPhone,
                     gender,

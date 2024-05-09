@@ -20,8 +20,9 @@ import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableH
 import { MoreHorizontal, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { handleCommunity } from "../../../../actions/community";
+import { createCommunity, handleCommunity } from "../../../../actions/community";
 import useSpeechRecognition from "@/lib/hooks/useSpeechRecognition";
+import Image from "next/image";
 
 interface SearchEmployeesProps {
     // employees: Array<User & { Community: Community | null }>;
@@ -144,7 +145,7 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                         <Text>{formatDate(community.createdAt)}</Text>
                                     </TableCell>
                                     <TableCell>
-                                        {/* <DropdownMenu>
+                                        <DropdownMenu>
                                             <DropdownMenuTrigger asChild>
                                                 <Button variant="ghost" className="h-8 w-8 p-0">
                                                     <span className="sr-only">Open menu</span>
@@ -162,19 +163,25 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                             onClick={() => setOpen(true)}
                                                             className="text-sm p-3"
                                                         >
-                                                            {
-                                                                isArchivePanel ? (<>Restore</>) : (<>Archive</>)
-                                                            }
+                                                           Review
                                                         </AlertDialogTrigger>
-                                                        <AlertDialogContent>
+                                                        <AlertDialogContent className="m max-w-4xl">
                                                             <AlertDialogHeader>
-                                                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                                                <AlertDialogTitle>Submitted Details</AlertDialogTitle>
                                                                 <AlertDialogDescription>
-                                                                    {
-                                                                        isArchivePanel ? (<>This will restore the selected community.</>) : (
-                                                                            <>This will archive the selected community.</>
-                                                                        )
-                                                                    }
+                                                                   <div>
+                                                                        <h1>Urban Farm Name: {community.urbanFarmName}</h1>                                                                     
+                                                                        <h1>Area: {community.area}</h1>
+                                                                        <h1>Blk / lot: {community.blk}</h1>
+                                                                        <h1>Email: {community.email}</h1>
+                                                                        <h1>Firstname: {community.firstName}</h1>
+                                                                        <h1>Lastname: {community.lastName}</h1>
+                                                                        <h1>Contact no: {community.contact}</h1>
+                                                                        <h1>Gender: {community.gender}</h1>
+                                                                        <div className="w-20 h-20">
+                                                                            <Image src={community.form} alt="" width={100} height={100} className="object-cover w-full h-full"/>
+                                                                        </div>
+                                                                   </div>
                                                                 </AlertDialogDescription>
                                                             </AlertDialogHeader>
                                                             <AlertDialogFooter>
@@ -188,7 +195,19 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                                     disabled={isPending}
                                                                     onClick={() => {
                                                                         startTransition(() => {
-                                                                            handleCommunity(community.id, isArchivePanel).then((callback) => {
+                                                                            createCommunity(
+                                                                                community.urbanFarmName, 
+                                                                                community.area, 
+                                                                                community.blk, 
+                                                                                community.street, 
+                                                                                community.zip, 
+                                                                                community.email,
+                                                                                community.firstName, 
+                                                                                community.lastName, 
+                                                                                community.contact, 
+                                                                                community.form, 
+                                                                                community.userId
+                                                                            ).then((callback) => {
                                                                                 if (callback.error) {
                                                                                     toast({
                                                                                         description: callback.error,
@@ -210,7 +229,7 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                     </AlertDialog>
                                                 </DropdownMenuItem>
                                             </DropdownMenuContent>
-                                        </DropdownMenu> */}
+                                        </DropdownMenu>
                                     </TableCell>
                                 </TableRow>
                             ))}
