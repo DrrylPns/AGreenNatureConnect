@@ -169,7 +169,7 @@ export default function Post() {
                           </div>
                           {post.author.role === "EMPLOYEE" && (
                             <h6 className="text-sm text-green dark:text-[#49D393] font-poppins font-semibold flow-root">
-                              Urban Farmer 🌳
+                              Urban Staff 🌳
                             </h6>
                           )}
                           {post.author.role === "ADMIN" && (
