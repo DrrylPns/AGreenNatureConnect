@@ -84,6 +84,7 @@ function Card({
                 {barangay === "Bagong Silangan" && "New Greenland Urban Farm"}
             </h3>
             <h3 className='text-xs dark:text-white font-poppins font-normal'>{barangay}</h3>
+            <h3 className='text-xs dark:text-white font-poppins font-normal'>{product.community.address}</h3>
             {productReviews.length > 0 ?(
                 <div  className="flex max-h-14 flex-col z-30 items-center justify-center my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden  dark:bg-slate-800/25">
                     {productReviews.length > 0 && (

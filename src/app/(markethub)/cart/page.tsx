@@ -71,7 +71,7 @@
         setCartNumber((prevCartNumber) => prevCartNumber - 1);
         toast({
           title: productName,
-          description: productName + " deleted successfully!",
+          description: productName + " has been removed from your cart!",
           variant: "default",
         });
         fetchCartItems();
@@ -203,12 +203,13 @@
                 disabled={item.kilograms > item.product.quantity}
                 onChange={() => handleToggleSelect(item)}
               />
-              <div className="w-10 h-10">
+              <div className={` w-10 h-10  ${item.kilograms > item.product.quantity? " opacity-35" : "opacity-100"}`}>
                 <Image src={item.product.productImage} width={50} height={50} alt={item.product.name} className="w-full h-full object-cover"/>
               </div>
-              <h3 className="text-sm font-medium pl-2">{item.product.name}</h3>
-              <div className="text-sm font-medium pl-2 ml-2">{item.kilograms}Kg</div>
-              <p className="text-sm font-medium">Price: ₱{item.totalPrice.toFixed(2)}</p>
+              <h3 className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>{item.product.name}</h3>
+              <div className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>{item.kilograms}Kg</div>
+              <p className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>Price: ₱{item.totalPrice.toFixed(2)}</p>
+              <DeleteCartItemModal cartId={item.id} deleteCartItem={deleteCartItem} itemName={item.product.name} />
           </div>
           
             
