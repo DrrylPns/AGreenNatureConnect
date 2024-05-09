@@ -214,16 +214,6 @@
               <p className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>Price: ₱{item.totalPrice.toFixed(2)}</p>
               <DeleteCartItemModal cartId={item.id} deleteCartItem={deleteCartItem} itemName={item.product.name} />
               </div> 
-                {(item.kilograms > item.product.quantity && item.product.quantity !== 0) && (
-                  <div className="text-center pt-3">
-                    <p className="text-sm text-red-500">You have exceeded the available quantity</p>
-                  </div>
-                )}
-                {item.product.quantity === 0 && (
-                  <div className="text-center pt-3">
-                    <p className="text-sm text-red-500">Already out of stock</p>
-                  </div>
-                )}
                             
           </div>
           
