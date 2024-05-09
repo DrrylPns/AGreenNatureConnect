@@ -29,8 +29,8 @@ import { Community, User } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { signOut } from "next-auth/react";
-import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
+import { getCommunitiesWithoutSession } from "../../../../actions/community";
 
 interface Props {
   user: User & {
@@ -39,10 +39,13 @@ interface Props {
 }
 
 export const OnboardingUser = ({ user }: Props) => {
+  const [selectedCommunity, setSelectedCommunity] = useState("")
+
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<OnboardingUserType>({
     resolver: zodResolver(OnboardingUserSchema),
@@ -52,6 +55,18 @@ export const OnboardingUser = ({ user }: Props) => {
       address: "",
     },
   });
+
+  const { data: communities, refetch } = useQuery({
+    queryKey: ["communities"],
+    queryFn: async () => await getCommunitiesWithoutSession(),
+  });
+
+  useEffect(() => {
+    if (communities) {
+      const currentCommunity = communities.find((community) => community.name === getValues("community"));
+      setSelectedCommunity(currentCommunity?.address ?? "");
+    }
+  }, [getValues, communities]);
 
   const { mutate: onboardingUpdate, isLoading } = useMutation({
     mutationFn: async ({
@@ -65,6 +80,7 @@ export const OnboardingUser = ({ user }: Props) => {
       street,
       zip,
       barangay,
+      community,
     }: OnboardingUserType) => {
       const payload: OnboardingUserType = {
         username,
@@ -76,7 +92,7 @@ export const OnboardingUser = ({ user }: Props) => {
         blk,
         street,
         zip,
-        barangay,
+        community,
       };
       const { data } = await axios.post("/api/user/onboardingUser", payload);
       return data;
@@ -156,7 +172,7 @@ export const OnboardingUser = ({ user }: Props) => {
       blk: data.blk,
       street: data.street,
       zip: data.zip,
-      barangay: data.barangay,
+      community: data.community,
     };
 
     onboardingUpdate(payload);
@@ -178,6 +194,11 @@ export const OnboardingUser = ({ user }: Props) => {
   const handleSelectChange = (selectedValue: string) => {
     setValue('address', selectedValue);
   };
+
+  const handleCommunityChange = (selectedValue: string) => {
+    refetch();
+    setValue("community", selectedValue);
+  }
 
   return (
     <main className="flex flex-col items-center justify-center border min-h-screen">
@@ -290,6 +311,54 @@ export const OnboardingUser = ({ user }: Props) => {
                 {errors.phoneNumber.message}
               </span>
             )}
+
+            <div>
+              <Label htmlFor="communities">Urban Farm</Label>
+              <div className="w-full flex items-center justify-center">
+                <Select
+                  {...register("community")}
+                  onValueChange={handleCommunityChange}
+                >
+                  <SelectTrigger
+                    className="
+                                md:w-[620px]
+                                rounded-md
+                                h-[30px]
+                                mt-2
+                                p-4
+                                dark:bg-[#09090B]
+                                font-light 
+                                bg-white 
+                                border-2
+                                outline-none
+                                transition
+                                disabled:opacity-70
+                                disabled:cursor-not-allowed"
+                  >
+                    <SelectValue placeholder="Select your urban farms" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Urban Farms</SelectLabel>
+                      {communities
+                        ?.filter((community) => community.address === user.barangay)
+                        .map((community, i) => (
+                          <SelectItem key={i} value={community.name}>
+                            {community.name}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              {errors.community && (
+                <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                  {errors.community.message}
+                </span>
+              )}
+            </div>
+
             <div className="space-y-2">
               <h1 className="ml-1 text-sm font-medium">Area</h1>
               <Select
@@ -304,7 +373,7 @@ export const OnboardingUser = ({ user }: Props) => {
                   <SelectGroup>
                     <SelectLabel>Areas</SelectLabel>
                     <>
-                      {user.Community.address === "Bagbag" && (
+                      {user.barangay === "Bagbag" && (
                         <>
                           <SelectItem value="Pagkabuhay Road">Pagkabuhay Road</SelectItem>
                           <SelectItem value="Sinforosa">Sinforosa</SelectItem>
@@ -380,7 +449,7 @@ export const OnboardingUser = ({ user }: Props) => {
                         </>
                       )}
 
-                      {user.Community.address === "Nova Proper" && (
+                      {user.barangay === "Nova Proper" && (
                         <>
                           <SelectItem value="Doña Rosario">Doña Rosario</SelectItem>
                           <SelectItem value="Doña Isaura">Doña Isaura</SelectItem>
@@ -397,7 +466,7 @@ export const OnboardingUser = ({ user }: Props) => {
                         </>
                       )}
 
-                      {user.Community.address === "Bagong Silangan" && (
+                      {user.barangay === "Bagong Silangan" && (
                         <>
                           <SelectItem value="Area B">Area B</SelectItem>
                           <SelectItem value="Area C">Area C</SelectItem>

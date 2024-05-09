@@ -243,15 +243,26 @@ const RegisterModal = () => {
                     disabled:opacity-70
                     disabled:cursor-not-allowed"
         >
-          <SelectValue placeholder="Select your community" />
+          <SelectValue placeholder="Choose your specified barangay" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
-            <SelectLabel>Communities</SelectLabel>
+            {/* <SelectLabel>Barangay</SelectLabel>
             {communities?.map((community, i) => (
               <SelectItem key={i} value={community.name}>{community.name}</SelectItem>
-            ))}
-            {/* <SelectItem value="Others" key="others">Others</SelectItem> */}
+            ))} */}
+            <SelectGroup>
+              <SelectLabel>Barangay</SelectLabel>
+              <SelectItem value="Nova Proper">
+                Nova Proper
+              </SelectItem>
+              <SelectItem value="Bagbag">
+                Bagbag
+              </SelectItem>
+              <SelectItem value="Bagong Silangan">
+                Bagong Silangan
+              </SelectItem>
+            </SelectGroup>
           </SelectGroup>
         </SelectContent>
       </Select>
