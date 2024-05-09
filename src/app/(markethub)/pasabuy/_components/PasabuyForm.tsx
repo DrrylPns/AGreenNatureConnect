@@ -208,7 +208,7 @@ export const PasabuyForm = ({ user }: Props) => {
   // });
   console.log(form.watch());
 
-  function onSubmit(values: CreateCommunityType) {
+  function onSubmit(values: PasabuyType) {
     startTransition(() => {
       createUrbanFarm(values, formUrl).then((callback) => {
         if (callback.error) {
@@ -770,15 +770,6 @@ export const PasabuyForm = ({ user }: Props) => {
                             <FormControl>
                               <Input
                                 placeholder="..."
-                                defaultValue={
-                                  user && user.barangay === "Bagong Silangan"
-                                    ? "1116"
-                                    : user && user.barangay === "Nova Proper"
-                                    ? "1123"
-                                    : user && user.barangay === "Bagbag"
-                                    ? "1119"
-                                    : ""
-                                }
                                 {...field}
                                 type="number"
                                 className=""
