@@ -3,7 +3,10 @@
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
 import { UpdateStocksSchema, UpdateStocksType } from "@/lib/validations/employee/products"
+import { Stocks } from "@prisma/client"
 import { revalidatePath } from "next/cache"
+const cron = require('node-cron');
+
 
 export const fetchProducts = async () => {
     const session = await getAuthSession()
@@ -26,7 +29,6 @@ export const fetchProducts = async () => {
             id: user.Community?.id
         }
     })
-
     const products = await prisma.product.findMany({
         where: {
             community: {
@@ -44,12 +46,28 @@ export const fetchProducts = async () => {
             createdAt: "desc"
         },
     })
-    const expiredStocks = await prisma.stocks.findMany({
-        where:{
-            expiration:{
-                lt: new Date()
+
+   const latestProducts = await products.forEach(async(product)=>{
+        let totalStocks = 0
+        const currentDate = new Date()
+        const productStock = await prisma.stocks.findMany({
+            where:{
+                productId: product.id
             }
-        }           
+        })
+        const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+            const expirationDate = new Date(stock.expiration);
+            return expirationDate >= currentDate;
+        });
+        notExpiredStocks.map((stock)=>{
+            totalStocks += stock.numberOfStocks
+        })
+        await prisma.product.update({
+            where: { id: product.id },
+            data: {
+                quantity: totalStocks
+            },
+        });
     })
 
     await prisma.product.updateMany({
@@ -70,7 +88,7 @@ export const fetchProducts = async () => {
 
 
     revalidatePath("/employee/inventory")
-    return products
+    return latestProducts
 }
 
 export const archiveProduct = async (id: string) => {
