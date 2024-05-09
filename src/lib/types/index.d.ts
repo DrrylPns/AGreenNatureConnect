@@ -535,6 +535,14 @@ export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
   }
 }>
 
+export type ConsignorApplicantsExtended = Prisma.ConsignorApplicantsGetPayload<{
+  include:{
+    urbanFarm: true,
+    user: true,
+    
+  }
+}>
+
 export type DeactivatedEmployees = Prisma.UserGetPayload<{
 
 }>
