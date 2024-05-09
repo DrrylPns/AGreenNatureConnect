@@ -33,7 +33,7 @@ import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
-import { createUrbanFarm } from "../../../../../actions/community";
+import { createPasabuy } from "../../../../../actions/community";
 import { useMutation } from "@tanstack/react-query";
 import { PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy";
 
@@ -208,9 +208,9 @@ export const PasabuyForm = ({ user }: Props) => {
   // });
   console.log(form.watch());
 
-  function onSubmit(values: CreateCommunityType) {
+  function onSubmit(values: PasabuyType) {
     startTransition(() => {
-      createUrbanFarm(values, formUrl).then((callback) => {
+      createPasabuy(values, formUrl).then((callback) => {
         if (callback.error) {
           toast({
             description: callback.error,
@@ -770,15 +770,6 @@ export const PasabuyForm = ({ user }: Props) => {
                             <FormControl>
                               <Input
                                 placeholder="..."
-                                defaultValue={
-                                  user && user.barangay === "Bagong Silangan"
-                                    ? "1116"
-                                    : user && user.barangay === "Nova Proper"
-                                    ? "1123"
-                                    : user && user.barangay === "Bagbag"
-                                    ? "1119"
-                                    : ""
-                                }
                                 {...field}
                                 type="number"
                                 className=""
