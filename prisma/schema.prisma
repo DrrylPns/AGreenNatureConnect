@@ -66,7 +66,8 @@ model User {
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
-
+  urbanFarmApplicatants UrbanFarmApplicatants[]
+  Consignor        ConsignorApplicants[]
   cart             Cart[]
   Account          Account[]
   posts            Post[]
@@ -173,6 +174,7 @@ model Community {
   street           String?
   zip              String?
   isArchived       Boolean            @default(false)
+  ConsignorApplication ConsignorApplicants[]
   posts            Post[]
   blogs            Blog[]
   articles         Article[]
@@ -560,7 +562,7 @@ model Product {
   isFreeUntil DateTime?
 
   Stock Stocks[]
-
+  StockLogs StockLogs[]
   creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId String
 
@@ -581,12 +583,49 @@ model Product {
 
 model Stocks {
   id             String   @id @default(cuid())
-  batchNo        String
   numberOfStocks Float
   expiration     DateTime
   harvestedFrom  String
   productId      String?
   product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model StockLogs {
+  id      String   @id @default(cuid())
+  numberOfStocks Float
+  expiration     DateTime
+  harvestedFrom  String
+  productId      String?
+  product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model UrbanFarmApplicatants {
+  id      String   @id @default(cuid())
+  urbanFarmName String
+  area      String
+  blk       String
+  street    String
+  zip       String
+  form      String
+  userId    String
+  status    String
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model ConsignorApplicants {
+  id      String   @id @default(cuid())
+  urbanFarmId String
+  urbanFarm Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
+  userId  String
+  user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  status String
+  description String
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

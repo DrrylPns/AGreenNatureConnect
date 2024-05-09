@@ -106,7 +106,6 @@ export async function POST(req: NextRequest) {
 
             const addStocks = await prisma.stocks.create({
                 data: {
-                    batchNo: "batch",
                     numberOfStocks: quantity,
                     harvestedFrom: harvestedFrom,
                     expiration: expiration,
@@ -115,6 +114,14 @@ export async function POST(req: NextRequest) {
                 }
             })
 
+            await prisma.stockLogs.create({
+                data: {
+                    numberOfStocks: quantity,
+                    harvestedFrom: harvestedFrom,
+                    expiration: expiration,
+                    productId: createProduct.id,
+                }
+            })
             await prisma.employeeActivityHistory.create({
                 data: {
                     type: "MARKETHUB_PRODUCTS",

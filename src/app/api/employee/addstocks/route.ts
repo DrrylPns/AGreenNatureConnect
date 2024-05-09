@@ -65,10 +65,18 @@ export async function PUT(req: NextRequest) {
                     quantity: totalStocks + quantity
                 },
             });
-
+            
+            await prisma.stockLogs.create({
+                data:{
+                    numberOfStocks: quantity,
+                    harvestedFrom: harvestedFrom,
+                    expiration: expiration,
+                    productId: existingProduct.id,
+                }
+            })
             await prisma.stocks.create({
                 data: {
-                    batchNo: "batch",
+                  
                     numberOfStocks: quantity,
                     harvestedFrom: harvestedFrom,
                     expiration: expiration,
