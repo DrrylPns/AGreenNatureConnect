@@ -1,6 +1,6 @@
 import prisma from '@/lib/db/db'
 import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
-import { fetchMostSoldProduct, fetchSalesByDate } from '../../../actions/sales'
+import { fetchMostSoldProduct } from '../../../actions/sales'
 import { getAuthSession } from '../../lib/auth'
 import CntSales from '../admin/_components/CntSales'
 import SearchEmployees from '../admin/_components/SearchEmployees'

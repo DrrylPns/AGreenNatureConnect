@@ -58,12 +58,29 @@ export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) =
             },
         },
         include: {
-
+            orderedProducts: {
+                include: {
+                    product: true,
+                },
+            },
         },
     });
 
     const categorySalesMap: Record<string, number> = {};
 
+    // Aggregate sales value by category
+    sales.forEach((transaction) => {
+        transaction.orderedProducts.forEach((orderedProduct) => {
+            const productCategory = orderedProduct.product.category;
+            const saleAmount = orderedProduct.totalPrice;
+
+            if (categorySalesMap[productCategory]) {
+                categorySalesMap[productCategory] += saleAmount;
+            } else {
+                categorySalesMap[productCategory] = saleAmount;
+            }
+        });
+    });
 
     // Format data for DonutChart component
     const salesByCategories = Object.entries(categorySalesMap).map(([category, sales]) => ({
@@ -75,7 +92,7 @@ export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) =
 };
 
 
-export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
+export const fetchSalesCountByDate = async (startDate: Date, endDate: Date) => {
     const session = await getAuthSession();
 
     if (!session) return { error: "Unauthorized" };
@@ -87,43 +104,59 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
 
     const community = await prisma.community.findFirst({
         where: {
-            id: loggedInUser?.Community?.id,
+            id: loggedInUser?.Community?.id
         },
         include: {
-            products: {
-                include: {
-                    orderedProducts: {
-                        where: {
-                            transaction: {
-                                status: "COMPLETED",
-                                createdAt: {
-                                    gte: startDate,
-                                    lte: endDate,
-                                },
-                            },
-                        },
-                    },
-                },
+            products: true
+        }
+    });
+
+    const salesByDates = await prisma.transaction.findMany({
+        where: {
+            status: "COMPLETED",
+            sellerId: community?.id,
+            createdAt: {
+                gte: startDate,
+                lte: endDate,
             },
+        },
+        include: {
+            orderedProducts: {
+                include: {
+                    product: true,
+                    transaction: true,
+                }
+            }
         },
     });
 
-    const salesByCategory: Record<string, number> = {};
+    const salesByDateMap: Record<string, Record<string, number>> = {};
 
-    // Loop through each product and count the total orders
-    community?.products.forEach((product) => {
-        const totalOrders = product.orderedProducts.reduce((acc, orderedProduct) => {
-            return acc + orderedProduct.quantity;
-        }, 0);
+    salesByDates.forEach((transaction) => {
+        const transactionDate = new Date(transaction.createdAt);
+        const formattedDate = transactionDate.toISOString().slice(0, 10); // Extract date part only
 
-        // Store the total orders for each category
-        if (!salesByCategory[product.category]) {
-            salesByCategory[product.category] = 0;
+        // Initialize sales data for the date if it doesn't exist
+        if (!salesByDateMap[formattedDate]) {
+            salesByDateMap[formattedDate] = {};
         }
-        salesByCategory[product.category] += totalOrders;
+
+        // Aggregate sales count by category for the date
+        transaction.orderedProducts.forEach((orderedProduct) => {
+            const productCategory = orderedProduct.product.category;
+
+            // Increase count for the category on the date
+            salesByDateMap[formattedDate][productCategory] = (salesByDateMap[formattedDate][productCategory] || 0) + 1;
+        });
     });
 
-    return salesByCategory;
+    // Format data for BarChart component
+    const salesByDate = Object.entries(salesByDateMap).map(([date, sales]) => ({
+        date,
+        ...sales,
+    }));
+
+    return salesByDate;
 };
 
 
