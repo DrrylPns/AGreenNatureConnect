@@ -332,6 +332,7 @@ export const createUrbanFarm = async (values: CreateCommunityType, image: string
     }
 }
 
+
 export const createPasabuy = async (values: PasabuyType, image: string) => {
     try {
         const currentYear = new Date().getFullYear()
@@ -362,7 +363,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
             userPhone,
             zip,
             area,
-            form,
+        
         } = validatedFields.data
      
         // const emailExist = await prisma.user.findFirst({
@@ -398,7 +399,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
                 data: {
                     urbanFarmName: urbanFarmName,
                     firstName: firstname,
-                    form: form || '',
+                    form: image,
                     address: communityAddress,
                     contact: userPhone,
                     gender,
