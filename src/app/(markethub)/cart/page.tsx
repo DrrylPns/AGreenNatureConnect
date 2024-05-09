@@ -189,18 +189,21 @@
       ))}
         </Suspense> */}
         {Object.entries(groupedItems).map(([communityName, items]) => (
-          <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 max-w-md mx-auto" key={communityName}>
+          
+          <div className="bg-white dark:bg-gray-950 rounded-lg shadow-lg p-6 max-w-md mx-auto mb-4" key={communityName}>
             {/* Render community name */}
             
             <h2 className="font-bold text-lg">{communityName}</h2>
             {/* Render items in this community */}
             {items.map((item) => (
+              <div>
             <div className="flex items-center justify-between" key={item.id}>
               <input
                 type="checkbox"
                 className="h-5 w-5 ui-checked:text-green"
                 checked={selectedItems.some(selectedItem => selectedItem.id === item.id)}
                 disabled={item.kilograms > item.product.quantity}
+               
                 onChange={() => handleToggleSelect(item)}
               />
               <div className={` w-10 h-10  ${item.kilograms > item.product.quantity? " opacity-35" : "opacity-100"}`}>
@@ -210,6 +213,18 @@
               <div className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>{item.kilograms}Kg</div>
               <p className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>Price: ₱{item.totalPrice.toFixed(2)}</p>
               <DeleteCartItemModal cartId={item.id} deleteCartItem={deleteCartItem} itemName={item.product.name} />
+              </div> 
+                {(item.kilograms > item.product.quantity && item.product.quantity !== 0) && (
+                  <div className="text-center pt-3">
+                    <p className="text-sm text-red-500">You have exceeded the available quantity</p>
+                  </div>
+                )}
+                {item.product.quantity === 0 && (
+                  <div className="text-center pt-3">
+                    <p className="text-sm text-red-500">Already out of stock</p>
+                  </div>
+                )}
+                            
           </div>
           
             
