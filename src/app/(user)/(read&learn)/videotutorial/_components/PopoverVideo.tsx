@@ -45,7 +45,7 @@ export function PopoverVideo({ onSelectCommunity }: any) {
                 >
                     {value
                         ? communities?.find((community) => community.id === value)?.name
-                        : "Select community..."}
+                        : "Select barangay..."}
                     <ArrowDownUp className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>
             </PopoverTrigger>
