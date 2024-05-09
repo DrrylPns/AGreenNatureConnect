@@ -18,7 +18,8 @@ import React from 'react'
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { CheckProofPayment } from './CheckProofPayment';
-import { CancelType, TransactionStatus } from '@prisma/client';
+import { CancelType, OrderedProducts, TransactionStatus } from '@prisma/client';
+import { orderedProductsWithProducts } from '@/lib/types';
 
 interface OrdersProps {
     selectedIndex: number;
@@ -58,7 +59,7 @@ interface Transaction {
     paymentStatus: string | null;
     buyerId: string;
     sellerId: string;
-    orderedVariant: OrderedVariant[]
+    orderedProducts: orderedProductsWithProducts[]
     seller: Community
 }
 
@@ -189,21 +190,21 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
 
                             <div className='flex px-5 md:px-10 w-full my-5 gap-7 sm:gap-10 md:gap-x-20 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>
                                 <div className='w-1/2'>
-                                    {transaction.orderedVariant.map((variant) => (
+                                    {transaction.orderedProducts.map((product) => (
                                         <Link href={`/order-status/${transaction.id}`} className='w-full flex text-sm flex-1 gap-5 sm:gap-10 justify-between items-center transition-all ease-in-out duration-500'>
                                             <Image
-                                                src={variant.product.productImage}
-                                                alt={variant.product.name}
+                                                src={product.product.productImage}
+                                                alt={product.product.name}
                                                 height={50}
                                                 width={50}
                                                 className=''
                                             />
                                             <div className=''>
-                                                <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{variant.product.name}</h1>
-                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{variant.variant.variant} <span>{variant.variant.unitOfMeasurement}</span> <span className='text-black text-sm'>(x{variant.quantity})</span></p>
+                                                <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{product.product.name}</h1>
+                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{product.quantity}Kg</p>
                                             </div>
                                             <div className='ml-auto font-semibold text-[0.6rem] sm:text-xs md:text-lg'>
-                                                <h1>{variant.product.isFree ? "Free" : `₱ ${variant.variant.price * variant.quantity}`}</h1>
+                                                <h1>{product.product.isFree ? "Free" : `₱ ${product.totalPrice}`}</h1>
                                             </div>
                                         </Link>
                                     ))}

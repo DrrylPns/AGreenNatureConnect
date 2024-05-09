@@ -80,7 +80,7 @@ function OrderTab({
     const [selectedIndex, setSelectedIndex] = useState(0)
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [animate, setAnimate] = useState<boolean>(false)
-
+    console.log(pending)
     const handleDecline = async (transactionId: string) => {
         setIsLoading(true)
         await axios.post('/api/markethub/transaction/cancelled', { transactionId }).then(() => {

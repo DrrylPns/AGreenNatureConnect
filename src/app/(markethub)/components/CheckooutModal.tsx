@@ -151,7 +151,7 @@ function CheckoutModal({ }: {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method === "Cash Upon Pickup" ? method : option }),
+        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method === "Cash upon Pickup" ? method : option }),
       });
 
       if (response.ok) {
