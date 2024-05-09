@@ -320,7 +320,11 @@ export const salesReport = async (startDate: Date, endDate: Date) => {
             },
         },
         include: {
-
+            orderedProducts: {
+                include: {
+                    product: true
+                }
+            }
 
         },
         orderBy: {

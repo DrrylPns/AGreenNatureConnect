@@ -90,7 +90,6 @@ export const SalesReportTable = () => {
                 <DataTable
                     columns={ColumnSalesReport}
                     data={sales ?? []}
-                    isAdmin
                     isSalesReport
                 />
             </Card>
