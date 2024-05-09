@@ -211,7 +211,7 @@ function ProductModal({
                         <h1 className='text-center font-livvic font-semibold text-3xl'>{selectedProduct?.name}</h1>
                         <h1 className='text-center  font-poppins text-sm'>
                            From {selectedProduct?.community.name}, Brgy.  
-                          <span className=' font-semibold'> {selectedProduct?.community.name}</span>
+                          <span className=' font-semibold'> {selectedProduct?.community.address}</span>
                         </h1>
                       </div>
                       <span className='text-center font-livvic'>

@@ -216,11 +216,23 @@ export const fetchStocks = async (productId: string) =>{
         }
     })
 
+    const community = await prisma.community.findFirst({
+        where:{
+            products:{
+                every:{
+                    id: productId
+                }
+            }
+        }
+    })
     if (!user) return { error: "No user found!" }
 
     const stocks = await prisma.stocks.findMany({
         where:{
             productId,
+            product:{
+                communityId: community?.id
+            }
         },
         include:{
             product: true,

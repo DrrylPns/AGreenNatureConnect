@@ -71,7 +71,7 @@
         setCartNumber((prevCartNumber) => prevCartNumber - 1);
         toast({
           title: productName,
-          description: productName + " deleted successfully!",
+          description: productName + " has been removed from your cart!",
           variant: "default",
         });
         fetchCartItems();
@@ -171,7 +171,7 @@
           </div>
         )}
 
-        {/* <Suspense fallback={<Loading />}>
+        {/* <Suspense fallback={<Loading />}>F
         {Object.entries(groupedItems).map(([communityName, items]) => (
         <div key={communityName}>
         
@@ -196,14 +196,20 @@
             {/* Render items in this community */}
             {items.map((item) => (
             <div className="flex items-center justify-between" key={item.id}>
-            <input
-              type="checkbox"
-              checked={selectedItems.some(selectedItem => selectedItem.id === item.id)}
-              onChange={() => handleToggleSelect(item)}
-            />
-            <h3 className="text-sm font-medium pl-2">{item.product.name}</h3>
-            <div className="flex-grow"></div>
-            <p className="text-sm font-medium">Price: ₱{item.totalPrice.toFixed(2)}</p>
+              <input
+                type="checkbox"
+                className="h-5 w-5 ui-checked:text-green"
+                checked={selectedItems.some(selectedItem => selectedItem.id === item.id)}
+                disabled={item.kilograms > item.product.quantity}
+                onChange={() => handleToggleSelect(item)}
+              />
+              <div className={` w-10 h-10  ${item.kilograms > item.product.quantity? " opacity-35" : "opacity-100"}`}>
+                <Image src={item.product.productImage} width={50} height={50} alt={item.product.name} className="w-full h-full object-cover"/>
+              </div>
+              <h3 className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>{item.product.name}</h3>
+              <div className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>{item.kilograms}Kg</div>
+              <p className={`text-sm font-medium pl-2 ${item.kilograms > item.product.quantity? "text-gray-400" : ""}`}>Price: ₱{item.totalPrice.toFixed(2)}</p>
+              <DeleteCartItemModal cartId={item.id} deleteCartItem={deleteCartItem} itemName={item.product.name} />
           </div>
           
             
