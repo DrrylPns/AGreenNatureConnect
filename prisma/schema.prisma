@@ -66,6 +66,8 @@ model User {
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
+  Stocks     Stocks[]
+  StocksLogs  StockLogs[]
   urbanFarmApplicatants UrbanFarmApplicatants[]
   Consignor        ConsignorApplicants[]
   cart             Cart[]
@@ -587,6 +589,8 @@ model Stocks {
   expiration     DateTime
   harvestedFrom  String
   productId      String?
+  userId         String?
+  user           User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
@@ -599,6 +603,8 @@ model StockLogs {
   harvestedFrom  String
   productId      String?
   product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User? @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
@@ -625,7 +631,8 @@ model ConsignorApplicants {
   userId  String
   user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
   status String
-  description String
+  products  String
+  description String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }

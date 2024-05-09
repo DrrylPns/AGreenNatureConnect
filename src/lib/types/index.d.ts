@@ -406,6 +406,7 @@ export type ProductWithStocks = Prisma.ProductGetPayload<{
 export type StocksWitProducts = Prisma.StocksGetPayload<{
   include: {
     product: true,
+    user: true,
   }
 }>
 export type ProductMarkethub = Prisma.ProductGetPayload<{

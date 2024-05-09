@@ -165,7 +165,7 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { id, name, category, productImage } = UpdateProductSchema.parse(body)
+        const { id, name, category, productImage, price } = UpdateProductSchema.parse(body)
 
         await prisma.product.update({
             where: {
@@ -176,6 +176,7 @@ export async function PUT(req: NextRequest) {
                 productImage,
                 name,
                 category,
+                priceInKg: price
             }
         })
 

@@ -46,6 +46,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       id: product?.id,
       name: product?.name,
       category: product?.category,
+      price: product?.priceInKg,
     }
   })
 
@@ -55,12 +56,14 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       name,
       category,
       productImage,
+      price,
     }: UpdateProductType) => {
       const payload: UpdateProductType = {
         id: product?.id,
         name,
         category,
         productImage,
+        price
       }
 
       const { data } = await axios.put("/api/employee/products", payload)
@@ -117,6 +120,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       productImage: imageUrl,
       name: values.name,
       category: values.category,
+      price: values.price
     }
 
     updateProduct(payload)
@@ -206,6 +210,20 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
                 <FormLabel className='text-[#f7d126]'>Name of the Product</FormLabel>
                 <FormControl>
                   <Input placeholder="Product Name" {...field} className='rounded-full' />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="price"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-[#f7d126]'>Price ₱</FormLabel>
+                <FormControl>
+                  <Input placeholder="Product Name ₱" type='number' {...field} className='rounded-full' />
                 </FormControl>
 
                 <FormMessage />
