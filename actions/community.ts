@@ -332,18 +332,18 @@ export const createUrbanFarm = async (values: CreateCommunityType, image: string
     }
 }
 export const createCommunity = async (
-    urbanFarmName: string, 
-    area: string, 
-    blk: string, 
-    street: string, 
-    zip:string, 
-    email:string,
-    firstName: string, 
-    lastName: string, 
-    contact: string, 
-    form: string, 
+    urbanFarmName: string,
+    area: string,
+    blk: string,
+    street: string,
+    zip: string,
+    email: string,
+    firstName: string,
+    lastName: string,
+    contact: string,
+    form: string,
     userId: string
-) =>{
+) => {
     const session = await getAuthSession()
 
     const currentUser = await prisma.user.findUnique({
@@ -356,7 +356,7 @@ export const createCommunity = async (
     if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" }
 
     const createdCommunity = await prisma.community.create({
-        data:{
+        data: {
             name: urbanFarmName,
             form: form,
             contactNumber: contact,
@@ -367,18 +367,18 @@ export const createCommunity = async (
             area,
         }
     })
-  
-   await prisma.user.update({
-    where:{
-        id: userId
-    },
-    data:{
-        name: firstName,
-        lastName,
-        role: "ADMIN",
-        communityId: createdCommunity.id
-    }
-   })
+
+    await prisma.user.update({
+        where: {
+            id: userId
+        },
+        data: {
+            name: firstName,
+            lastName,
+            role: "ADMIN",
+            communityId: createdCommunity.id
+        }
+    })
 
 
     return { success: "Urban farm created successfully!" }
@@ -414,7 +414,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
             userPhone,
             zip,
             area,
-        
+
         } = validatedFields.data
 
         // const emailExist = await prisma.user.findFirst({

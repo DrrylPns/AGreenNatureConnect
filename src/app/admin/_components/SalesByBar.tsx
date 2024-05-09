@@ -50,6 +50,11 @@ export const SalesByBar = () => {
         fetchData();
     }, [date]);
 
+    const salesData = Object.entries(sales).map(([category, count]) => ({
+        name: category,
+        "Number of orders": count,
+    }));
+
     return (
         <div className="h-full">
             <div className="flex flex-col md:flex-row justify-between items-center gap-3">
@@ -100,7 +105,7 @@ export const SalesByBar = () => {
             {sales && (
                 <BarChart
                     className="h-72 mt-4"
-                    data={sales}
+                    data={salesData}
                     index="date"
                     categories={["Others", "Vegetables", "Fruits"]}
                     colors={["indigo", "gray", "lime"]}

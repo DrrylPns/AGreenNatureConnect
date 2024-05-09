@@ -90,47 +90,40 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
             id: loggedInUser?.Community?.id,
         },
         include: {
-            products: true,
-        },
-    });
-
-    const salesByDates = await prisma.transaction.findMany({
-        where: {
-            status: "COMPLETED",
-            sellerId: community?.id,
-            createdAt: {
-                gte: startDate,
-                lte: endDate,
+            products: {
+                include: {
+                    orderedProducts: {
+                        where: {
+                            transaction: {
+                                status: "COMPLETED",
+                                createdAt: {
+                                    gte: startDate,
+                                    lte: endDate,
+                                },
+                            },
+                        },
+                    },
+                },
             },
         },
-        include: {
-
-
-        },
-        orderBy: {
-            createdAt: "asc",
-        },
     });
 
-    const salesByDate: Record<string, Record<string, number>> = {};
+    const salesByCategory: Record<string, number> = {};
 
-    salesByDates.forEach((transaction) => {
-        const transactionDate = new Date(transaction.createdAt);
-        const formattedDate = transactionDate.toISOString().slice(0, 10); // Group by date
+    // Loop through each product and count the total orders
+    community?.products.forEach((product) => {
+        const totalOrders = product.orderedProducts.reduce((acc, orderedProduct) => {
+            return acc + orderedProduct.quantity;
+        }, 0);
 
-        if (!salesByDate[formattedDate]) {
-            salesByDate[formattedDate] = {};
+        // Store the total orders for each category
+        if (!salesByCategory[product.category]) {
+            salesByCategory[product.category] = 0;
         }
-
+        salesByCategory[product.category] += totalOrders;
     });
 
-    // Convert the sales data to the required format
-    const salesData = Object.entries(salesByDate).map(([date, sales]) => ({
-        date,
-        ...sales,
-    }));
-
-    return salesData;
+    return salesByCategory;
 };
 
 

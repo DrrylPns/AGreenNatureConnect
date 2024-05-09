@@ -69,7 +69,7 @@ export async function POST(req: Request) {
       });
     }
 
-    if (transaction?.paymentStatus === "Not Paid") {
+    if (transaction?.paymentStatus === "Not Paid" && transaction.paymentMethod !== "Abono") {
       return new Response("This order is not paid yet!", {
         status: 402,
       })
