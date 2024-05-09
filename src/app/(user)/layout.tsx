@@ -73,7 +73,8 @@ export default async function RootLayout({
                 ) : //normal user registration
                   session?.user.name === null && session?.user.role === "USER" ? (
                     <>
-                      <OnboardingUser />
+                      {/* @ts-ignore */}
+                      <OnboardingUser user={user!} />
                     </>
                   ) : session?.user && session.user.numberOfViolations >= 3 ? (
                     <>

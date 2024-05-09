@@ -31,7 +31,7 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { id, harvestedFrom, quantity, expiration} = AddStocksScehma.parse(body)
+        const { id, harvestedFrom, quantity, expiration } = AddStocksScehma.parse(body)
 
         const existingProduct = await prisma.product.findUnique({
             where: {
@@ -46,7 +46,7 @@ export async function PUT(req: NextRequest) {
 
         if (existingProduct) {
             const productStock = await prisma.stocks.findMany({
-                where:{
+                where: {
                     productId: existingProduct.id
                 }
             })
@@ -56,7 +56,7 @@ export async function PUT(req: NextRequest) {
                 const expirationDate = new Date(stock.expiration);
                 return expirationDate >= currentDate;
             });
-            notExpiredStocks.map((stock)=>{
+            notExpiredStocks.map((stock) => {
                 totalStocks += stock.numberOfStocks
             })
             await prisma.product.update({
@@ -67,7 +67,7 @@ export async function PUT(req: NextRequest) {
             });
 
             await prisma.stocks.create({
-                data:{
+                data: {
                     batchNo: "batch",
                     numberOfStocks: quantity,
                     harvestedFrom: harvestedFrom,

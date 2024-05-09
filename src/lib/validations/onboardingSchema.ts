@@ -19,19 +19,24 @@ export const OnboardingSchema = z.object({
         .min(5, { message: "Minimum length of address is 5" })
         .max(100, { message: "Maximum length of address is 100" })
         .optional(),
-        name: z
+    name: z
         .string()
         .min(3, { message: "Name is too short." })
         .max(50, { message: "Name is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Name must contain only letters." }),
-      lastName: z
+    lastName: z
         .string()
         .min(3, { message: "Lastname is too short." })
         .max(50, { message: "Lastname is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
-
-        suffix: z.string()
-      
+    suffix: z.string(),
+    blk: z.string({
+        required_error: "Blk / House # is required"
+    }),
+    street: z.string({
+        required_error: "Street address is required"
+    }),
+    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
 })
 
 export type OnboardingUserType = z.infer<typeof OnboardingUserSchema>
@@ -51,17 +56,22 @@ export const OnboardingUserSchema = z.object({
         .min(5, { message: "Minimum length of address is 5" })
         .max(100, { message: "Maximum length of address is 100" })
         .optional(),
-        name: z
+    name: z
         .string()
         .min(3, { message: "Name is too short." })
         .max(50, { message: "Name is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Name must contain only letters." }),
-      lastName: z
+    lastName: z
         .string()
         .min(3, { message: "Lastname is too short." })
         .max(50, { message: "Lastname is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
-
-        suffix: z.string()
-      
+    suffix: z.string(),
+    blk: z.string({
+        required_error: "Blk / House # is required"
+    }),
+    street: z.string({
+        required_error: "Street address is required"
+    }),
+    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
 })

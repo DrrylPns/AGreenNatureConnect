@@ -41,7 +41,7 @@ export default function Edit() {
                         <input type='text' value={'dummyUsername'} placeholder='username' className='w-full text-gray-400 px-5 py-1 rounded-2xl drop-shadow-sm shadow-sm'/>
                     </div>
                     <div className='w-1/2'>
-                        <h3 className='font-bold text-[0.8rem] pl-2'>Postal Code<span className='text-red-600'>*</span></h3>
+                        <h3 className='font-bold text-[0.8rem] pl-2'>Zip Code<span className='text-red-600'>*</span></h3>
                         <input type='number' className='w-full text-gray-400 px-5 py-1 rounded-2xl drop-shadow-sm shadow-sm'/>
                     </div>
                 </div>

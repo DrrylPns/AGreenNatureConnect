@@ -602,7 +602,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                                                 name="zip"
                                                 render={({ field }) => (
                                                     <FormItem>
-                                                        <FormLabel>Postal Code</FormLabel>
+                                                        <FormLabel>Zip Code</FormLabel>
                                                         <FormControl>
                                                             <Input
                                                                 placeholder="..."
