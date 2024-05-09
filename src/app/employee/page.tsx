@@ -11,6 +11,7 @@ import { ProductWithOrderdProducts, ProductWithOrderedVariant } from '@/lib/type
 import CntProducts from '../admin/_components/CntProducts'
 import { SalesByBar } from '../admin/_components/SalesByBar'
 import { HotProducts } from '../admin/_components/HotProducts'
+import { SalesReportTable } from './_components/SalesReportTable'
 
 const page = async () => {
 
@@ -56,6 +57,7 @@ const page = async () => {
                     <Tab>Overview</Tab>
                     {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
                     <Tab>Farmers</Tab>
+                    <Tab>Reports</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
@@ -102,6 +104,10 @@ const page = async () => {
 
                             </Card>
                         </div>
+                    </TabPanel>
+
+                    <TabPanel>
+                        <SalesReportTable />
                     </TabPanel>
                 </TabPanels>
             </TabGroup>

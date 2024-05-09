@@ -538,3 +538,5 @@ export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
 export type DeactivatedEmployees = Prisma.UserGetPayload<{
 
 }>
+
+export type CompletedTransaction = Prisma.TransactionGetPayload<{}>

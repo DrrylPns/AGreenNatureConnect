@@ -345,7 +345,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
 
         if (!currentUser) return { error: "Error: No current user found!" }
 
-    
+
         const validatedFields = PasabuySchema.safeParse(values)
 
         if (!validatedFields.success) return { error: "Invalid fields" }
@@ -364,7 +364,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
             area,
             form,
         } = validatedFields.data
-     
+
         // const emailExist = await prisma.user.findFirst({
         //     where: {
         //         email
@@ -388,12 +388,12 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
         // if (urbanFarmExists) return { error: "Urban farm already exist!" }
 
         const sameUserId = await prisma.urbanFarmApplicatants.findFirst({
-            where:{
+            where: {
                 userId: currentUser.id
             }
         })
 
-        if(!sameUserId) {
+        if (!sameUserId) {
             const successUserCreate = await prisma.urbanFarmApplicatants.create({
                 data: {
                     urbanFarmName: urbanFarmName,
@@ -410,15 +410,14 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
                     zip,
                     status: "Pending",
                     userId: currentUser.id,
-                   
                 }
             })
-            
+
             return { success: "Urban farm created successfully!" }
         } else {
-            return {error: "You already file your request to become a consignor!"}
+            return { error: "You already file your request to become a consignor!" }
         }
-        
+
     } catch (error) {
         throw new Error(error as any)
     }
@@ -443,14 +442,14 @@ export const handleFarmerStaff = async (id: string, handler: boolean) => {
     }
 }
 
-export const fetchUrbanFarms = async(barangay: string) =>{
+export const fetchUrbanFarms = async (barangay: string) => {
     const urbanFarms = await prisma.community.findMany({
-        where:{
+        where: {
             address: barangay
         },
-        include:{
-            
+        include: {
+
         }
     })
-    return urbanFarms 
+    return urbanFarms
 }

@@ -49,7 +49,7 @@ export default async function RootLayout({
                 {user.role === "EMPLOYEE" || user?.role === "ADMIN" ?
                     (
                         <>
-                            {user.isDisabled ? (<StaffDeactivated />) : user.Community?.isArchived === true && user.role === "ADMIN" || user.role === "EMPLOYEE" ?
+                            {user.isDisabled ? (<StaffDeactivated />) : (user.Community?.isArchived === true && (user.role === "ADMIN" || user.role === "EMPLOYEE")) ?
                                 (<UrbanFarmDeactivated />) :
                                 (
                                     <CartProvider>

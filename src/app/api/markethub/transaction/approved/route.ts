@@ -29,7 +29,7 @@ export async function GET(req: Request) {
         }
       }
     })
-  
+
     return new Response(JSON.stringify(approvedTransactions), { status: 200 })
   } catch (error) {
     return new Response(JSON.stringify({ message: 'Error:', error }))
@@ -44,6 +44,8 @@ export async function POST(req: Request) {
     }
     const body = await req.json()
     const { transactionId } = body
+
+
 
     const transaction = await prisma.transaction.findUnique({
       where: {
@@ -67,11 +69,17 @@ export async function POST(req: Request) {
       });
     }
 
+    if (transaction?.paymentStatus === "Not Paid") {
+      return new Response("This order is not paid yet!", {
+        status: 402,
+      })
+    }
+
     const acceptOrderById = await prisma.transaction.update({
-      where: { 
+      where: {
         id: transactionId
       },
-      include:{
+      include: {
         buyer: true
       },
       data: {
@@ -80,7 +88,7 @@ export async function POST(req: Request) {
     })
 
     const orderedProduct = await prisma.orderedProducts.findFirst({
-      where:{
+      where: {
         transactionId: transactionId
       }
     })
@@ -89,59 +97,59 @@ export async function POST(req: Request) {
       where: {
         productId: orderedProduct?.productId
       },
-      include:{
+      include: {
         product: true
       },
-      orderBy:{
+      orderBy: {
         expiration: 'desc'
       }
     })
     const currentDate = new Date()
 
     const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
-        const expirationDate = new Date(stock.expiration);
-        return expirationDate >= currentDate;
+      const expirationDate = new Date(stock.expiration);
+      return expirationDate >= currentDate;
     });
-    for (const orderstock of transaction.orderedProducts){
+    for (const orderstock of transaction.orderedProducts) {
 
-    
-    let remainingQuantity = orderstock.quantity; // Variable to keep track of remaining quantity
 
-    // Loop through each not expired stock until you find one with enough quantity
-    for (const stock of notExpiredStocks) {
+      let remainingQuantity = orderstock.quantity; // Variable to keep track of remaining quantity
+
+      // Loop through each not expired stock until you find one with enough quantity
+      for (const stock of notExpiredStocks) {
         if (remainingQuantity <= 0) {
-            // If remaining quantity is 0 or less, exit the loop
-            break;
+          // If remaining quantity is 0 or less, exit the loop
+          break;
         }
         if (stock.numberOfStocks >= remainingQuantity) {
-            // Subtract the required quantity from the available stock
-            await prisma.stocks.update({
-                where: {
-                    id: stock.id
-                },
-                data: {
-                    numberOfStocks: {
-                        decrement: remainingQuantity // Subtract the remaining quantity
-                    }
-                }
-            });
-            remainingQuantity = 0; // All required quantity has been subtracted
-            if(remainingQuantity === 0){
-              break
+          // Subtract the required quantity from the available stock
+          await prisma.stocks.update({
+            where: {
+              id: stock.id
+            },
+            data: {
+              numberOfStocks: {
+                decrement: remainingQuantity // Subtract the remaining quantity
+              }
             }
+          });
+          remainingQuantity = 0; // All required quantity has been subtracted
+          if (remainingQuantity === 0) {
+            break
+          }
         } else {
-            // If the available stock is less than remaining quantity, deduct available quantity
-            await prisma.stocks.update({
-                where: {
-                    id: stock.id
-                },
-                data: {
-                    numberOfStocks: 0 // Set the available stock to 0 since all are taken
-                }
-            });
-            remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
+          // If the available stock is less than remaining quantity, deduct available quantity
+          await prisma.stocks.update({
+            where: {
+              id: stock.id
+            },
+            data: {
+              numberOfStocks: 0 // Set the available stock to 0 since all are taken
+            }
+          });
+          remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
         }
-    }
+      }
     }
 
     await prisma.notification.create({
@@ -201,7 +209,7 @@ export async function POST(req: Request) {
     // );
 
     await prisma.employeeActivityHistory.create({
-      data:{
+      data: {
         type: "MARKETHUB_ORDERS",
         transactionId: acceptOrderById.id,
         employeeId: session.user.id,
