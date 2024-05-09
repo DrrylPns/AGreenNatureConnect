@@ -20,7 +20,7 @@ import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableH
 import { MoreHorizontal, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { handleCommunity } from "../../../../actions/community";
+import { createCommunity, handleCommunity } from "../../../../actions/community";
 import useSpeechRecognition from "@/lib/hooks/useSpeechRecognition";
 import Image from "next/image";
 
@@ -195,20 +195,32 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                                     disabled={isPending}
                                                                     onClick={() => {
                                                                         startTransition(() => {
-                                                                            // handleCommunity(community.id, isArchivePanel).then((callback) => {
-                                                                            //     if (callback.error) {
-                                                                            //         toast({
-                                                                            //             description: callback.error,
-                                                                            //             variant: "destructive"
-                                                                            //         })
-                                                                            //     }
+                                                                            createCommunity(
+                                                                                community.urbanFarmName, 
+                                                                                community.area, 
+                                                                                community.blk, 
+                                                                                community.street, 
+                                                                                community.zip, 
+                                                                                community.email,
+                                                                                community.firstName, 
+                                                                                community.lastName, 
+                                                                                community.contact, 
+                                                                                community.form, 
+                                                                                community.userId
+                                                                            ).then((callback) => {
+                                                                                if (callback.error) {
+                                                                                    toast({
+                                                                                        description: callback.error,
+                                                                                        variant: "destructive"
+                                                                                    })
+                                                                                }
 
-                                                                            //     if (callback.success) {
-                                                                            //         toast({
-                                                                            //             description: callback.success,
-                                                                            //         })
-                                                                            //     }
-                                                                            // })
+                                                                                if (callback.success) {
+                                                                                    toast({
+                                                                                        description: callback.success,
+                                                                                    })
+                                                                                }
+                                                                            })
                                                                         })
                                                                     }}
                                                                 >Continue</AlertDialogAction>

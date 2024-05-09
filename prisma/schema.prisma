@@ -166,6 +166,7 @@ model Community {
   carouselImage    CommunityImage[]
   displayPhoto     String?
   // urbanFarmName    String?            @unique
+  area             String?
   form             String?
   qrCode           String?
   address          String? // barangay
