@@ -39,3 +39,19 @@ export const PasabuySchema = z.object({
     }),
     zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
 })
+
+export type ConsignorType = z.infer<typeof ConsignorSchema>
+
+export const ConsignorSchema = z.object({
+    
+    urbanFarmId: z.string({
+        required_error: "Urban farm name required!"
+    }),
+    products: z.string({
+        required_error: "Urban farm name required!"
+    }),
+    description: z.string({
+        required_error: "Urban farm name required!"
+    }),
+   
+})

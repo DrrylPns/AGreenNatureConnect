@@ -7,7 +7,7 @@ import { CreateCommunitySchema, CreateCommunityType } from "@/lib/validations/su
 import { Community, Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { sendEmployeePasswordLink } from "./set-employee-password"
-import { PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy"
+import { ConsignorType, PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy"
 
 export const addQR = async (id: string, qrCode: string) => {
     try {
@@ -504,4 +504,60 @@ export const fetchUrbanFarms = async (barangay: string) => {
         }
     })
     return urbanFarms
+}
+
+export const createConsignorRequest = async(values: ConsignorType)=>{
+    const session = await getAuthSession()
+
+    const currentUser = await prisma.user.findUnique({
+        where: {
+            id: session?.user.id
+        }
+    })
+
+    if (!currentUser) return { error: "Error: No current user found!" }
+
+    const existingRequest = await prisma.consignorApplicants.findFirst({
+        where:{
+            userId: currentUser.id
+        }
+    })
+    if(!existingRequest){
+        await prisma.consignorApplicants.create({
+            data:{
+                urbanFarmId: values.urbanFarmId,
+                userId: currentUser.id,
+                status: "Pending",
+                products: values.products,
+                description: values.products,
+            }
+        })
+        return {success: "Successfully submitted your request!"}
+    } else{
+        return { error: "You already submitted your request!" }
+    }
+   
+}
+export const approvedConsignor = async(id: string)=>{
+    const session = await getAuthSession()
+
+    const currentUser = await prisma.user.findUnique({
+        where: {
+            id: session?.user.id
+        }
+    })
+    if (!currentUser) return { error: "Error: No current user found!" }
+
+    if (currentUser.role !== "ADMIN") return { error: "Error: Unauthorized!" }
+  
+const updateConsignor = await prisma.consignorApplicants.update({
+    where:{
+        id:id
+    },
+    data:{
+        status: 'Approved'
+    }
+})
+
+    return {success: "Successfully approved the consignor!"}
 }

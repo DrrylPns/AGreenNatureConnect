@@ -9,6 +9,7 @@ import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PiCaretDown } from 'react-icons/pi';
+import { VscRequestChanges } from "react-icons/vsc";
 
 const Sidebar = () => {
 
@@ -419,6 +420,10 @@ const Sidebar = () => {
                         <Link href="/admin/activity-logs" className='flex flex-row gap-3 hover:bg-pale py-2'>
                             <ActivityIcon strokeWidth={1} />
                             <span className="text-sm font-medium">Activity logs</span>
+                        </Link>
+                        <Link href="/admin/requests" className='flex flex-row gap-3 hover:bg-pale py-2'>
+                            <VscRequestChanges/>
+                            <span className="text-sm font-medium">Requests</span>
                         </Link>
                     </div>
 
