@@ -42,7 +42,7 @@ const page = async () => {
 
     // if (!salesByDate) return <>Error fetching Sales</>
 
-    const products = await fetchMostSoldProduct() as ProductWithOrderdProducts[]
+    const products = await fetchMostSoldProduct();
 
     if (!products) return <>Error fetching products</>
 
@@ -87,7 +87,8 @@ const page = async () => {
                             <Card>
                                 <div className='h-full'>
                                     <Title>Top 10 sold products</Title>
-                                    <HotProducts products={products} />
+                                    {/* @ts-ignore */}
+                                    <HotProducts products={products as ProductWithOrderdProducts[]} />
                                 </div>
                             </Card>
                         </Grid>
