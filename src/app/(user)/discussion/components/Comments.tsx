@@ -27,6 +27,12 @@ import { FiPlus } from "react-icons/fi";
 import { fetchReplies } from "../../../../../actions/reply";
 import { EditReplyDialog } from "@/app/components/dialogs/EditReplyDialog";
 import DeleteReply from "@/app/components/dialogs/DeleteReply";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/app/components/Ui/Dropdown-Menu";
 
 export default function Comments({ posts }: { posts: PostTypes }) {
   const router = useRouter();
