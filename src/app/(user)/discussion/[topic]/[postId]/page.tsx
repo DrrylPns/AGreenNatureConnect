@@ -20,6 +20,13 @@ import Comments from "../../components/Comments";
 import PostButtons from "../../components/postButtons";
 import { ReportPost } from "./_components/ReportPost";
 import { useQuery } from "@tanstack/react-query";
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/app/components/Ui/Dropdown-Menu";
 
 interface Props {
   params: { postId: string };
@@ -135,56 +142,49 @@ const page: FC<Props> = ({ params }) => {
                   </div>
                 </div>
                 {posts.authorId === session?.user?.id && (
-                  <Popover>
-                    <Popover.Button>
-                      <FaEllipsis />
-                    </Popover.Button>
-                    <Transition
-                      enter="transition duration-100 ease-out"
-                      enterFrom="transform scale-95 opacity-0"
-                      enterTo="transform scale-100 opacity-100"
-                      leave="transition duration-75 ease-out"
-                      leaveFrom="transform scale-100 opacity-100"
-                      leaveTo="transform scale-95 opacity-0"
-                    >
-                      <Popover.Panel className="absolute top-0 max-md:right-2 right-0  bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                        <button
-                          type="button"
-                          className="flex gap-1 hover:underline w-full"
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon">
+                        <FaEllipsis />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <button
+                        type="button"
+                        className="flex gap-1 hover:underline w-full"
+                      >
+                        <Link
+                          href={`/edit/${posts.topic.name}/${posts.id}`}
+                          className="flex gap-1"
                         >
                           <AiOutlineEdit /> Edit
-                        </button>
-                        <button
-                          type="button"
-                          className="flex gap-1 hover:underline w-full"
-                        >
-                          <AiOutlineEdit /> Delete
-                        </button>
-                      </Popover.Panel>
-                    </Transition>
-                  </Popover>
+                        </Link>
+                      </button>
+                      <button
+                        type="button"
+                        className="flex gap-1 hover:underline w-full"
+                      ></button>
+                      <DeleteDialog
+                        postId={posts.id}
+                        onDelete={handlePostDeleted}
+                      />
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
                 {posts.authorId !== session?.user.id && session?.user && (
-                  <Popover>
-                    <Popover.Button>
-                      <FaEllipsis />
-                    </Popover.Button>
-                    <Transition
-                      enter="transition duration-100 ease-out"
-                      enterFrom="transform scale-95 opacity-0"
-                      enterTo="transform scale-100 opacity-100"
-                      leave="transition duration-75 ease-out"
-                      leaveFrom="transform scale-100 opacity-100"
-                      leaveTo="transform scale-95 opacity-0"
-                    >
-                      <Popover.Panel className="absolute top-0 max-md:right-2 right-0  bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                        <ReportPost
-                          //@ts-ignore
-                          post={posts}
-                        />
-                      </Popover.Panel>
-                    </Transition>
-                  </Popover>
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="outline" size="icon">
+                        <FaEllipsis />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <ReportPost
+                        //@ts-ignore
+                        post={posts}
+                      />
+                    </DropdownMenuContent>
+                  </DropdownMenu>
                 )}
               </div>
               <h1 className="text-[1.5rem] font-poppins font-extrabold">
@@ -204,10 +204,7 @@ const page: FC<Props> = ({ params }) => {
                 </div>
                 {/**Like, Comment, Share(if there is any) Section*/}
                 <div className="mt-10">
-                  <PostButtons
-                    postId={posts.id}
-                    comments={posts.comments}
-                  />
+                  <PostButtons postId={posts.id} comments={posts.comments} />
                 </div>
               </div>
               {comments ? (
@@ -262,64 +259,51 @@ const page: FC<Props> = ({ params }) => {
                   </h3>
                 </div>
               </div>
+
               {posts.authorId === session?.user?.id && (
-                <Popover>
-                  <Popover.Button>
-                    <FaEllipsis />
-                  </Popover.Button>
-                  <Transition
-                    enter="transition duration-100 ease-out"
-                    enterFrom="transform scale-95 opacity-0"
-                    enterTo="transform scale-100 opacity-100"
-                    leave="transition duration-75 ease-out"
-                    leaveFrom="transform scale-100 opacity-100"
-                    leaveTo="transform scale-95 opacity-0"
-                  >
-                    <Popover.Panel className="absolute top-0 max-md:right-2 right-0  bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                      <button
-                        type="button"
-                        className="flex gap-1 hover:underline w-full"
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      <FaEllipsis />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <button
+                      type="button"
+                      className="flex gap-1 hover:underline w-full"
+                    >
+                      <Link
+                        href={`/edit/${posts.topic.name}/${posts.id}`}
+                        className="flex gap-1"
                       >
-                        <Link
-                          href={`/edit/${posts.topic.name}/${posts.id}`}
-                          className="flex gap-1"
-                        >
-                          <AiOutlineEdit /> Edit
-                        </Link>
-                      </button>
-                      <button
-                        type="button"
-                        className="flex gap-1 hover:underline w-full"
-                      ></button>
-                      <DeleteDialog
-                        postId={posts.id}
-                        onDelete={handlePostDeleted}
-                      />
-                    </Popover.Panel>
-                  </Transition>
-                </Popover>
+                        <AiOutlineEdit /> Edit
+                      </Link>
+                    </button>
+                    <button
+                      type="button"
+                      className="flex gap-1 hover:underline w-full"
+                    ></button>
+                    <DeleteDialog
+                      postId={posts.id}
+                      onDelete={handlePostDeleted}
+                    />
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
               {posts.authorId !== session?.user.id && session?.user && (
-                <Popover>
-                  <Popover.Button>
-                    <FaEllipsis />
-                  </Popover.Button>
-                  <Transition
-                    enter="transition duration-100 ease-out"
-                    enterFrom="transform scale-95 opacity-0"
-                    enterTo="transform scale-100 opacity-100"
-                    leave="transition duration-75 ease-out"
-                    leaveFrom="transform scale-100 opacity-100"
-                    leaveTo="transform scale-95 opacity-0"
-                  >
-                    <Popover.Panel className="absolute top-0 max-md:right-2 right-0  bg-white dark:bg-black z-30 px-2 py-1 text-sm drop-shadow-sm shadow-md rounded-lg">
-                      <ReportPost
-                        //@ts-ignore
-                        post={posts}
-                      />
-                    </Popover.Panel>
-                  </Transition>
-                </Popover>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      <FaEllipsis />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    <ReportPost
+                      //@ts-ignore
+                      post={posts}
+                    />
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
             </div>
             <h1 className="text-[1.5rem] font-poppins font-extrabold">
@@ -339,10 +323,7 @@ const page: FC<Props> = ({ params }) => {
               </div>
               {/**Like, Comment, Share(if there is any) Section*/}
               <div className="mt-10">
-                <PostButtons
-                  postId={posts.id}
-                  comments={posts.comments}
-                />
+                <PostButtons postId={posts.id} comments={posts.comments} />
               </div>
             </div>
             {comments ? (
