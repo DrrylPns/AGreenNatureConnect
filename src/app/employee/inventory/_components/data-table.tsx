@@ -111,8 +111,7 @@ export function DataTable<TData, TValue>({
                 className="max-w-sm"
               />
             </>
-
-          ) : (
+          ) : isSalesReport ? (<></>) : (
             <>
               {isReport ? (
                 <Input
@@ -137,7 +136,7 @@ export function DataTable<TData, TValue>({
           )}
 
           {/* Add Product */}
-          {isAdmin || isTransaction || isReport || isArchived ? null : (
+          {isAdmin || isTransaction || isReport || isArchived || isSalesReport ? null : (
             <>
               <Link
                 href="/employee/create-products"
@@ -204,9 +203,11 @@ export function DataTable<TData, TValue>({
             {/* VIEW FUNCTIONALITY */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="lg:ml-auto">
-                  <Settings2 className="mr-1 w-5 h-5" /> View
-                </Button>
+                {!isSalesReport && (
+                  <Button variant="outline" className="lg:ml-auto">
+                    <Settings2 className="mr-1 w-5 h-5" /> View
+                  </Button>
+                )}
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 {table

@@ -547,4 +547,12 @@ export type DeactivatedEmployees = Prisma.UserGetPayload<{
 
 }>
 
-export type CompletedTransaction = Prisma.TransactionGetPayload<{}>
+export type CompletedTransaction = Prisma.TransactionGetPayload<{
+  include: {
+    orderedProducts: {
+      include: {
+        product: true
+      }
+    }
+  }
+}>

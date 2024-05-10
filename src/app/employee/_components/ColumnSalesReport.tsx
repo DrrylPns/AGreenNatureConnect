@@ -20,4 +20,21 @@ export const ColumnSalesReport: ColumnDef<CompletedTransaction>[] = [
             )
         },
     },
+    // {
+    //     accessorKey: "products",
+    //     header: ({ column }) => {
+    //         return (
+    //             <DataTableColumnHeader column={column} title="Ordered Products" />
+    //         );
+    //     },
+    //     cell: ({ row }) => {
+    //         const id = row.original.orderedProducts.
+
+    //         return (
+    //             <>
+    //                 {id}
+    //             </>
+    //         )
+    //     },
+    // }
 ]
