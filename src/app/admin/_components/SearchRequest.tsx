@@ -141,7 +141,7 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                     <TableBody>
                         {request.filter((req) => isEmployeeSelected(req))
                             .map((community) => (
-                                <TableRow key={community.id}>
+                                <TableRow key={community.id} className={`${community.status !== "Approve"?" text-red-600":"text-black"}`}>
                                     <TableCell>{community.urbanFarm.name}</TableCell>
                                     <TableCell>
                                         <Text>{community.urbanFarm.address}</Text>
