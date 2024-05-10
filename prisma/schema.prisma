@@ -359,6 +359,12 @@ model Notification {
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
 
+  consignorApplicationId String?
+  consignor ConsignorApplicants? @relation(fields: [consignorApplicationId], references: [id], onDelete: Cascade)
+
+  urbanFarmApplicationId String?
+  urbanFarmApplication UrbanFarmApplicatants? @relation(fields: [urbanFarmApplicationId], references: [id], onDelete: Cascade)
+
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
@@ -629,6 +635,7 @@ model UrbanFarmApplicatants {
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  notification Notification[]
 }
 
 model ConsignorApplicants {
@@ -642,6 +649,7 @@ model ConsignorApplicants {
   description String?
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+  notification Notification[]
 }
 
 model Review {

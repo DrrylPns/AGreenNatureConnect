@@ -132,8 +132,9 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                     <TableHead className="bg-gray-200">
                         <TableRow>
                             <TableHeaderCell className="text-black">Name</TableHeaderCell>
-                            <TableHeaderCell className="text-black">Address</TableHeaderCell>
-                            <TableHeaderCell className="text-black">Date of Request</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Barangay</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Products</TableHeaderCell>
+                            <TableHeaderCell className="text-black">Description</TableHeaderCell>
                             <TableHeaderCell className="text-black">Status</TableHeaderCell>
                             <TableHeaderCell className="text-black">Actions</TableHeaderCell>
                         </TableRow>
@@ -141,13 +142,17 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                     <TableBody>
                         {request.filter((req) => isEmployeeSelected(req))
                             .map((community) => (
-                                <TableRow key={community.id} className={`${community.status !== "Approve"?" text-red-600":"text-black"}`}>
-                                    <TableCell>{community.urbanFarm.name}</TableCell>
+                                <TableRow key={community.id} className={`${community.status !== "Approved"?" text-red-600":"text-black"}`}>
+                                    <TableCell>{community.user.name + " " + community.user.lastName}</TableCell>
                                     <TableCell>
                                         <Text>{community.urbanFarm.address}</Text>
                                     </TableCell>
                                     <TableCell>
-                                        <Text>{formatDate(community.createdAt)}</Text>
+                                        <Text>{community.products}</Text>
+                                    </TableCell>
+                                    <TableCell>
+                                        <Text>{community.description}</Text>
+                                        
                                     </TableCell>
                                     <TableCell>
                                         <Text>{community.status}</Text>

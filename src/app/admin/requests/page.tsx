@@ -18,8 +18,8 @@ const RequestPage = async () => {
             createdAt: "desc"
         },
         where: {
-            user:{
-                address: user.address
+            urbanFarm:{
+                id: user.communityId || ""
             }
         },
         include:{

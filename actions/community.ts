@@ -554,11 +554,14 @@ const updateConsignor = await prisma.consignorApplicants.update({
     where:{
         id:id
     },
+    include:{
+        user: true
+    },
     data:{
         status: 'Approved'
     }
 })
-
+    revalidatePath("/admin/requests", "page")
     return {success: "Successfully approved the consignor!"}
 }
 
@@ -586,7 +589,17 @@ export const fetchNumberOfConsignor = async()=>{
             }
         }
     })
-
+    const s = await prisma.consignorApplicants.findMany({
+        where:{
+            urbanFarm:{
+                id: currentUser.communityId || ""
+            },
+            status: {
+                not: "Approved"
+            }
+        }
+    })
+    console.log(s)
     return count 
 
 }
