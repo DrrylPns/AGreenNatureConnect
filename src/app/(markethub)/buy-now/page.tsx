@@ -119,7 +119,7 @@ function page() {
         setTimeout(() => {
             setLoading(false);
           }, 2000);
-    },[])
+    },[]) 
 
     return (
         <div>

@@ -66,22 +66,23 @@ model User {
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
-  Stocks                 Stocks[]
-  StocksLogs             StockLogs[]
-  urbanFarmApplicatants  UrbanFarmApplicatants[]
-  Consignor              ConsignorApplicants[]
-  cart                   Cart[]
-  Account                Account[]
-  posts                  Post[]
-  comments               Comment[]
-  likes                  Like[]
-  notifications          Notification[]
-  reporter               Report[]                  @relation("Reporter")
-  reported               Report[]                  @relation("Reported")
-  Blog                   Blog[]
-  LearningMaterial       LearningMaterial[]
-  VideoTutorial          VideoTutorial[]
-  FAQ                    FAQ[]
+  ProductRequest ProductRequest[]
+  Stocks     Stocks[]
+  StocksLogs  StockLogs[]
+  urbanFarmApplicatants UrbanFarmApplicatants[]
+  Consignor        ConsignorApplicants[]
+  cart             Cart[]
+  Account          Account[]
+  posts            Post[]
+  comments         Comment[]
+  likes            Like[]
+  notifications    Notification[]
+  reporter         Report[]                  @relation("Reporter")
+  reported         Report[]                  @relation("Reported")
+  Blog             Blog[]
+  LearningMaterial LearningMaterial[]
+  VideoTutorial    VideoTutorial[]
+  FAQ              FAQ[]
   // ProductPost     ProductPost[]
   // Product         Product[]      @relation("CreateProduct")
   Product                Product[]
@@ -166,17 +167,19 @@ model Community {
   carouselImage        CommunityImage[]
   displayPhoto         String?
   // urbanFarmName    String?            @unique
-  area                 String?
-  form                 String?
-  qrCode               String?
-  address              String? // barangay
-  email                String?
-  contactNumber        String?
-  description          String?
-  blk                  String?
-  street               String?
-  zip                  String?
-  isArchived           Boolean               @default(false)
+
+  area             String?
+  form             String?
+  qrCode           String?
+  address          String? // barangay
+  email            String?
+  contactNumber    String?
+  description      String?
+  blk              String?
+  street           String?
+  zip              String?
+  isArchived       Boolean            @default(false)
+  ProductRequest  ProductRequest[]
   ConsignorApplication ConsignorApplicants[]
   posts                Post[]
   blogs                Blog[]
@@ -347,6 +350,17 @@ model Like {
   @@id([userId, postId])
   @@index([userId])
   @@index([postId])
+}
+
+model ProductRequest {
+  id        String           @id @default(cuid())
+  urbanFarmId String
+  urbanFarm   Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
+  userId  String
+  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
+  request String
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
 }
 
 model Notification {

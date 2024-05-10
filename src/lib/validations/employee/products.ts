@@ -77,6 +77,12 @@ export const UpdateStocksSchema = z.object({
     quantity: z.coerce.number().min(0, numberError),
 })
 
+export type CreateProductRequestType = z.infer<typeof CreateProductRequestSchema>
+
+export const CreateProductRequestSchema = z.object({
+    request: z.string().min(3)
+})
+
 
 export type FormType = z.infer<typeof DeclineProductSchema>
 
