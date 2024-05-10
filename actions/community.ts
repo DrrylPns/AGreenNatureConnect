@@ -561,3 +561,32 @@ const updateConsignor = await prisma.consignorApplicants.update({
 
     return {success: "Successfully approved the consignor!"}
 }
+
+export const fetchNumberOfConsignor = async()=>{
+    const session = await getAuthSession()
+    const currentUser = await prisma.user.findUnique({
+        where: {
+            id: session?.user.id
+        },
+        include:{
+            Community: true
+        }
+    })
+    if (!currentUser) return { error: "Error: No current user found!" }
+
+    if (currentUser.role !== "ADMIN") return { error: "Error: Unauthorized!" } 
+
+    const count = await prisma.consignorApplicants.count({
+        where:{
+            urbanFarm:{
+                id: currentUser.communityId || ""
+            },
+            status: {
+                not: "Approved"
+            }
+        }
+    })
+
+    return count 
+
+}

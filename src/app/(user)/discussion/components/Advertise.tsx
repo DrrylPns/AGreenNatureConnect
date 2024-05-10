@@ -33,7 +33,7 @@ export default async function Advertise() {
                 <Separator className="my-5" />
                 <div>
                   Do you want to be part of urban farm community and become a consignor?
-                  <Link href={'/'} className=""><Button variant={'link'} className=" text-blue-600">Click here</Button> </Link>
+                  <Link href={'/consignor'} className=""><Button variant={'link'} className=" text-blue-600">Click here</Button> </Link>
                 </div>
                 
               </DialogDescription>

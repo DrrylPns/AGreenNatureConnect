@@ -45,6 +45,10 @@ export const OnboardingSchema = z.object({
 export type OnboardingUserType = z.infer<typeof OnboardingUserSchema>
 
 export const OnboardingUserSchema = z.object({
+    barangay : z.string()
+    .min(3, { message: "Minimum length of username is 3" })
+    .max(20, { message: "Maximum length of username is 20" })
+    .optional(),
     username: z.string()
         .min(3, { message: "Minimum length of username is 3" })
         .max(20, { message: "Maximum length of username is 20" })

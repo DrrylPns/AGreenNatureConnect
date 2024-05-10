@@ -1,6 +1,7 @@
 "use client"
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
 import useSettingsModal from '@/lib/hooks/useSettingsModal';
+import { useQuery } from '@tanstack/react-query';
 // import { BookOpen, Cog, FileText, Home, LogOutIcon, PlaySquare, Settings, Store, User, Activity } from 'lucide-react';
 import { AnimatePresence, motion } from "framer-motion";
 import { ActivityIcon, BookOpen, FileClock, FileText, FileWarning, Home, ListChecks, LogOut, MessagesSquareIcon, PlaySquare, Settings, Speech, Store, Upload, User, Warehouse } from 'lucide-react';
@@ -10,6 +11,7 @@ import { usePathname, useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { PiCaretDown } from 'react-icons/pi';
 import { VscRequestChanges } from "react-icons/vsc";
+import { fetchNumberOfConsignor } from '../../../../actions/community';
 
 const Sidebar = () => {
 
@@ -27,7 +29,17 @@ const Sidebar = () => {
     const toggleDown = () => {
         setDropdownrOpen(!DropdownrOpen);
     };
-
+    const {
+        data: numberOfConsignor,
+        isError,
+        isLoading,
+      } = useQuery({
+        queryKey: ["consignor"],
+        queryFn: async () => (await fetchNumberOfConsignor()) as number,
+    })
+    
+    console.log(numberOfConsignor)
+    if (isError) return <div>Error</div>
     return (
         // <div>
         //     {/* MOBILE NAV */}
@@ -421,9 +433,10 @@ const Sidebar = () => {
                             <ActivityIcon strokeWidth={1} />
                             <span className="text-sm font-medium">Activity logs</span>
                         </Link>
-                        <Link href="/admin/requests" className='flex flex-row gap-3 hover:bg-pale py-2'>
+                        <Link href="/admin/requests" className='relative flex flex-row gap-3 hover:bg-pale py-2'>
                             <VscRequestChanges/>
                             <span className="text-sm font-medium">Requests</span>
+                            <span className='absolute top-0 right-0 rounded-full w-5 h-5 text-center bg-red-600 text-white'>{numberOfConsignor}</span>
                         </Link>
                     </div>
 

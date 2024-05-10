@@ -85,6 +85,7 @@ export const ConsignorForm = ({ user }: Props) => {
   },[])
 
   const urbanFarms = async()=>{
+    console.log(user.barangay)
     const farms = await fetchUrbanFarms(user.barangay || "")
     setFarm(farms)
 

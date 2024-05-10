@@ -163,6 +163,7 @@ export const OnboardingUser = ({ user }: Props) => {
     data: OnboardingUserType
   ) => {
     const payload: OnboardingUserType = {
+      barangay: data.barangay,
       username: data.username,
       phoneNumber: data.phoneNumber,
       address: data.address,
@@ -552,6 +553,31 @@ export const OnboardingUser = ({ user }: Props) => {
             {errors.street && (
               <span className="text-rose-500 ml-1 max-sm:text-[13px]">
                 {errors.street.message}
+              </span>
+            )}
+              <div className="space-y-2">
+              <h1 className="ml-1 text-sm font-medium">Area</h1>
+              <Select
+                // value={area}
+                onValueChange={handleSelectChange}
+                {...register("barangay")}
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Select a barangay" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Barangay</SelectLabel>
+                    <SelectItem value="Bagbag">Bagbag</SelectItem>
+                    <SelectItem value="Nova Proper">Nova Proper</SelectItem>
+                    <SelectItem value="Bagong Silangan">Bagong Silangan</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            {errors.address && (
+              <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                {errors.address.message}
               </span>
             )}
           </CardContent>

@@ -20,10 +20,11 @@ import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableH
 import { MoreHorizontal, Plus } from "lucide-react";
 import Link from "next/link";
 import { useState, useTransition } from "react";
-import { approvedConsignor, createCommunity, handleCommunity } from "../../../../actions/community";
+import { approvedConsignor, createCommunity, fetchNumberOfConsignor, handleCommunity } from "../../../../actions/community";
 import useSpeechRecognition from "@/lib/hooks/useSpeechRecognition";
 import Image from "next/image";
 import { ConsignorApplicantsExtended } from "@/lib/types";
+import { useQuery } from "@tanstack/react-query";
 
 interface SearchEmployeesProps {
     // employees: Array<User & { Community: Community | null }>;
@@ -44,6 +45,8 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
     //     stopListening,
     //     text,
     // } = useSpeechRecognition()
+
+  
 
     const isEmployeeSelected = (community: ConsignorApplicantsExtended) =>
         selectedNames.length === 0 || selectedNames.includes(community.urbanFarm.name || "");
