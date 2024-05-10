@@ -30,7 +30,7 @@ const RequestPage = async () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen">
-            <Card className='lg:w-[1280px] lg:ml-[300px]'>
+            <Card className='lg:w-[1280px] lg:ml-[5%] lg:mt-[-40%]'>
 
                 <Title>List of Requests</Title>
         
