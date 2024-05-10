@@ -1,6 +1,6 @@
 "use client"
 import { AnimatePresence, motion } from "framer-motion";
-import { ActivityIcon, BookOpen, FileClock, FileText, FileWarning, Home, ListChecks, LogOut, MessagesSquareIcon, PlaySquare, Settings, Speech, Store, Upload, UserIcon, Warehouse } from 'lucide-react';
+import { ActivityIcon, BookOpen, FileClock, FileText, FileWarning, Home, ListChecks, LogOut, MessagesSquareIcon, PackageSearchIcon, PlaySquare, Settings, Speech, Store, Upload, UserIcon, Warehouse } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -237,6 +237,19 @@ const Sidebar = ({ user }: Props) => {
                         <FileClock strokeWidth={1} />
                       </div>
                       Transaction History
+                    </Link>
+                    <Link
+                      href={"/employee/product-requests"}
+                      className={`link ${pathname === "/employee/product-requests"
+                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                        : ""
+                        }
+                  flex gap-3 ml-5 hover:bg-pale py-2`}
+                    >
+                      <div className="text-[1.5rem]">
+                        <PackageSearchIcon strokeWidth={1} />
+                      </div>
+                      Product Requests
                     </Link>
                   </motion.div>
                 )}

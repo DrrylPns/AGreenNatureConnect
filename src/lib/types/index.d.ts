@@ -556,3 +556,9 @@ export type CompletedTransaction = Prisma.TransactionGetPayload<{
     }
   }
 }>
+
+export type ProductRequestWithConsignee = Prisma.ProductRequestGetPayload<{
+  include: {
+    consignee: true
+  }
+}>

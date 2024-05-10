@@ -97,9 +97,18 @@ export type NotificationsWithRelation = Prisma.NotificationGetPayload<{
     };
     consignor: {
       include: {
+        urbanFarm: {
+          include: {
+            ProductRequest: true
+          }
+        }
+      }
+    },
+    productRequest: {
+      include: {
         urbanFarm: true
       }
-    };
+    },
     urbanFarmApplication: {
       include: {
         user: true

@@ -103,10 +103,10 @@ export function DataTable<TData, TValue>({
 
   const form = useForm<CreateProductRequestType>({
     resolver: zodResolver(CreateProductRequestSchema),
-});
+  });
 
-const onSubmit = (values: CreateProductRequestType) => {
-  
+  const onSubmit = (values: CreateProductRequestType) => {
+
     startTransition(() => {
       createNotificationRequest(values.request).then((callback) => {
         if (callback?.error) {
@@ -124,7 +124,7 @@ const onSubmit = (values: CreateProductRequestType) => {
 
       })
     });
-};
+  };
 
   return (
     <div>
@@ -192,46 +192,46 @@ const onSubmit = (values: CreateProductRequestType) => {
                 Archived Products
               </Link>
               <Dialog>
-                  <DialogTrigger>
-                      <Button variant={'outline'}>
-                        Request Products
-                      </Button>
-                  </DialogTrigger>
-                  <DialogContent>
-                      <DialogHeader className='flex flex-col items-start gap-1'>
-                          <DialogTitle>Request a product</DialogTitle>
-                          <DialogDescription className="w-full">
-                              
-                          </DialogDescription>
-                      </DialogHeader>
+                <DialogTrigger asChild>
+                  <Button variant={'outline'}>
+                    Request Products
+                  </Button>
+                </DialogTrigger>
+                <DialogContent>
+                  <DialogHeader className='flex flex-col items-start gap-1'>
+                    <DialogTitle>Request a product</DialogTitle>
+                    <DialogDescription className="w-full">
 
-                      <Form {...form}>
-                          <form onSubmit={form.handleSubmit((values) => onSubmit(values))} className="w-2/3 space-y-6">
-                            
-                              <div className="grid gap-4">
-                                  <FormField
-                                      control={form.control}
-                                      name="request"
-                                      render={({ field }) => (
-                                          <FormItem>
-                                              <FormLabel>Products you want to request</FormLabel>
-                                              <FormControl>
-                                                  <Textarea
-                                                      placeholder="Include the quantity and products you want to request..."
-                                                      className="resize-none w-[270px] sm:w-[460px]"
-                                                      {...field}
-                                                  />
-                                              </FormControl>
-                                              <FormMessage />
-                                          </FormItem>
-                                      )}
-                                  />
-                              </div>
+                    </DialogDescription>
+                  </DialogHeader>
 
-                              <Button type="submit" className='bg-lime-600 hover:bg-lime-600/80' isLoading={isPending}>Submit</Button>
-                          </form>
-                      </Form>
-                  </DialogContent>
+                  <Form {...form}>
+                    <form onSubmit={form.handleSubmit((values) => onSubmit(values))} className="w-2/3 space-y-6">
+
+                      <div className="grid gap-4">
+                        <FormField
+                          control={form.control}
+                          name="request"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Products you want to request</FormLabel>
+                              <FormControl>
+                                <Textarea
+                                  placeholder="Include the quantity and products you want to request..."
+                                  className="resize-none w-[270px] sm:w-[460px]"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                      </div>
+
+                      <Button type="submit" className='bg-lime-600 hover:bg-lime-600/80' isLoading={isPending}>Submit</Button>
+                    </form>
+                  </Form>
+                </DialogContent>
               </Dialog>
 
             </>

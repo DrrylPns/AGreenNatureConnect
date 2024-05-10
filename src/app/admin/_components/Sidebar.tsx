@@ -4,7 +4,7 @@ import useSettingsModal from '@/lib/hooks/useSettingsModal';
 import { useQuery } from '@tanstack/react-query';
 // import { BookOpen, Cog, FileText, Home, LogOutIcon, PlaySquare, Settings, Store, User, Activity } from 'lucide-react';
 import { AnimatePresence, motion } from "framer-motion";
-import { ActivityIcon, BookOpen, FileClock, FileText, FileWarning, Home, ListChecks, LogOut, MessagesSquareIcon, PlaySquare, Settings, Speech, Store, Upload, User, Warehouse } from 'lucide-react';
+import { ActivityIcon, BookOpen, FileClock, FileText, FileWarning, Home, ListChecks, LogOut, MessagesSquareIcon, PackageSearchIcon, PlaySquare, Settings, Speech, Store, Upload, User, Warehouse } from 'lucide-react';
 import { signOut } from 'next-auth/react';
 import Link from 'next/link';
 import { usePathname, useRouter } from 'next/navigation';
@@ -33,11 +33,11 @@ const Sidebar = () => {
         data: numberOfConsignor,
         isError,
         isLoading,
-      } = useQuery({
+    } = useQuery({
         queryKey: ["consignor"],
         queryFn: async () => (await fetchNumberOfConsignor()) as number,
     })
-    
+
     console.log(numberOfConsignor)
     if (isError) return <div>Error</div>
     return (
@@ -416,6 +416,19 @@ const Sidebar = () => {
                                         </div>
                                         Transaction History
                                     </Link>
+                                    <Link
+                                        href={"/employee/product-requests"}
+                                        className={`link ${pathname === "/employee/product-requests"
+                                            ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
+                                            : ""
+                                            }
+                  flex gap-3 ml-5 hover:bg-pale py-2`}
+                                    >
+                                        <div className="text-[1.5rem]">
+                                            <PackageSearchIcon strokeWidth={1} />
+                                        </div>
+                                        Product Requests
+                                    </Link>
                                 </motion.div>
                             )}
                         </AnimatePresence>
@@ -434,7 +447,7 @@ const Sidebar = () => {
                             <span className="text-sm font-medium">Activity logs</span>
                         </Link>
                         <Link href="/admin/requests" className='relative flex flex-row gap-3 hover:bg-pale py-2'>
-                            <VscRequestChanges/>
+                            <VscRequestChanges />
                             <span className="text-sm font-medium">Requests</span>
                             <span className='absolute top-0 right-0 rounded-full w-5 h-5 text-center bg-red-600 text-white'>{numberOfConsignor}</span>
                         </Link>

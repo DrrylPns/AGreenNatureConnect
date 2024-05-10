@@ -66,23 +66,24 @@ model User {
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
-  ProductRequest ProductRequest[]
-  Stocks     Stocks[]
-  StocksLogs  StockLogs[]
-  urbanFarmApplicatants UrbanFarmApplicatants[]
-  Consignor        ConsignorApplicants[]
-  cart             Cart[]
-  Account          Account[]
-  posts            Post[]
-  comments         Comment[]
-  likes            Like[]
-  notifications    Notification[]
-  reporter         Report[]                  @relation("Reporter")
-  reported         Report[]                  @relation("Reported")
-  Blog             Blog[]
-  LearningMaterial LearningMaterial[]
-  VideoTutorial    VideoTutorial[]
-  FAQ              FAQ[]
+  ProductRequest         ProductRequest[]          @relation("UserRelation")
+  consignee              ProductRequest[]          @relation("Consignee")
+  Stocks                 Stocks[]
+  StocksLogs             StockLogs[]
+  urbanFarmApplicatants  UrbanFarmApplicatants[]
+  Consignor              ConsignorApplicants[]
+  cart                   Cart[]
+  Account                Account[]
+  posts                  Post[]
+  comments               Comment[]
+  likes                  Like[]
+  notifications          Notification[]
+  reporter               Report[]                  @relation("Reporter")
+  reported               Report[]                  @relation("Reported")
+  Blog                   Blog[]
+  LearningMaterial       LearningMaterial[]
+  VideoTutorial          VideoTutorial[]
+  FAQ                    FAQ[]
   // ProductPost     ProductPost[]
   // Product         Product[]      @relation("CreateProduct")
   Product                Product[]
@@ -160,26 +161,26 @@ model Account {
 
 // urban farm head
 model Community {
-  id                   String                @id @default(cuid())
-  name                 String                @unique // urban farm name
-  createdAt            DateTime              @default(now())
-  updatedAt            DateTime              @updatedAt
-  carouselImage        CommunityImage[]
-  displayPhoto         String?
+  id            String           @id @default(cuid())
+  name          String           @unique // urban farm name
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  carouselImage CommunityImage[]
+  displayPhoto  String?
   // urbanFarmName    String?            @unique
 
-  area             String?
-  form             String?
-  qrCode           String?
-  address          String? // barangay
-  email            String?
-  contactNumber    String?
-  description      String?
-  blk              String?
-  street           String?
-  zip              String?
-  isArchived       Boolean            @default(false)
-  ProductRequest  ProductRequest[]
+  area                 String?
+  form                 String?
+  qrCode               String?
+  address              String? // barangay
+  email                String?
+  contactNumber        String?
+  description          String?
+  blk                  String?
+  street               String?
+  zip                  String?
+  isArchived           Boolean               @default(false)
+  ProductRequest       ProductRequest[]
   ConsignorApplication ConsignorApplicants[]
   posts                Post[]
   blogs                Blog[]
@@ -353,14 +354,29 @@ model Like {
 }
 
 model ProductRequest {
-  id        String           @id @default(cuid())
+  id          String    @id @default(cuid())
   urbanFarmId String
   urbanFarm   Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
-  userId  String
-  user    User  @relation(fields: [userId], references: [id], onDelete: Cascade)
-  request String
-  createdAt DateTime         @default(now())
-  updatedAt DateTime         @updatedAt
+  request     String
+  answer      String?
+  status      PrType    @default(REQUESTING)
+
+  consigneeId String?
+  consignee   User?   @relation("Consignee", fields: [consigneeId], references: [id], onDelete: Cascade)
+
+  // Relation with user
+  userId String
+  user   User   @relation("UserRelation", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Notification Notification[]
+}
+
+enum PrType {
+  REQUESTING
+  PROCESSING
+  RECEIVED
 }
 
 model Notification {
@@ -396,6 +412,9 @@ model Notification {
 
   Reply   Reply?  @relation(fields: [replyId], references: [id], onDelete: Cascade)
   replyId String?
+
+  productRequest   ProductRequest? @relation(fields: [productRequestId], references: [id], onDelete: Cascade)
+  productRequestId String?
 
   @@index([userId])
   @@index([communityId])

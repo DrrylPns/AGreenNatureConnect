@@ -61,6 +61,15 @@ export const fetchNotifications = async () => {
             },
             consignor: {
                 include: {
+                    urbanFarm: {
+                        include: {
+                            ProductRequest: true
+                        }
+                    }
+                }
+            },
+            productRequest: {
+                include: {
                     urbanFarm: true
                 }
             },

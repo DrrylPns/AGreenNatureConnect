@@ -530,7 +530,7 @@ export const createConsignorRequest = async (values: ConsignorType) => {
     if (!currentUser) return { error: "Error: No current user found!" }
 
     const existingRequest = await prisma.consignorApplicants.findFirst({
-        where:{
+        where: {
             userId: currentUser.id,
             urbanFarmId: values.urbanFarmId
         }
@@ -680,7 +680,7 @@ export const createNotificationRequest = async (values: string) => {
         const consignors = await prisma.consignorApplicants.findMany({
             where: {
                 urbanFarm: {
-                    address: currentUser.barangay
+                    address: currentUser.Community?.address
                 },
                 status: "Approved"
             },
@@ -689,8 +689,8 @@ export const createNotificationRequest = async (values: string) => {
             }
         });
 
-        await prisma.productRequest.create({
-            data:{
+        const productRequest = await prisma.productRequest.create({
+            data: {
                 urbanFarmId: currentUser.Community?.id || "",
                 userId: currentUser.id,
                 request: values,
@@ -704,17 +704,103 @@ export const createNotificationRequest = async (values: string) => {
                     isRead: false,
                     userId: consignor.userId,
                     consignorApplicationId: consignor.id,
-                    communityId: consignor.urbanFarm?.id // Assuming the consignor's urban farm has a communityId
-                    // Add other fields as needed
+                    communityId: consignor.urbanFarm?.id, // Assuming the consignor's urban farm has a communityId
+                    productRequestId: productRequest.id,
                 }
             });
 
-           
+
         });
-       
+
 
         return { success: "Request successfully sent to your consignors notification!" };
     } catch (error: any) {
         return { error: error.message || "An error occurred while creating notifications" };
     }
 };
+
+export const sendProductRequestAnswer = async (productRequestId: string, answer: string) => {
+    try {
+
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        await prisma.productRequest.update({
+            where: {
+                id: productRequestId
+            },
+            data: {
+                answer,
+                consigneeId: session?.user.id,
+                status: "PROCESSING",
+            }
+        })
+
+        return { success: "Success: Please send the item to the urban farm!" }
+    } catch (error) {
+        throw new Error(error as any)
+    }
+}
+
+export const fetchAllRequestByCommunity = async () => {
+    try {
+        const session = await getAuthSession();
+        const currentUser = await prisma.user.findUnique({
+            where: {
+                id: session?.user.id,
+            },
+            include: {
+                Community: true
+            }
+        });
+
+        const productRequests = await prisma.productRequest.findMany({
+            where: {
+                urbanFarmId: currentUser?.communityId as string,
+                status: {
+                    not: "REQUESTING"
+                },
+            },
+            include: {
+                consignee: true
+            }
+        })
+
+        return productRequests
+    } catch (error) {
+        throw new Error(error as any)
+    }
+}
+
+export const productRequestReceived = async (productRequestId: string) => {
+    try {
+
+        const session = await getAuthSession()
+
+        if (!session) return { error: "Unauthorized" }
+
+        const currentproductRequest = await prisma.productRequest.findUnique({
+            where: {
+                id: productRequestId
+            }
+        })
+
+        if (!currentproductRequest) return { error: "Can't find current request!" }
+
+        if (currentproductRequest.status !== "PROCESSING") return { error: "Can't process a status if it is not processing" }
+
+        await prisma.productRequest.update({
+            where: {
+                id: productRequestId
+            },
+            data: {
+                status: "RECEIVED",
+            }
+        })
+
+        return { success: "Success: The product was successfully dropped in the urban farm" }
+    } catch (error) {
+        throw new Error(error as any)
+    }
+}
