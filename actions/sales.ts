@@ -2,6 +2,7 @@
 
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
+import { ProductWithOrderdProducts } from "@/lib/types"
 import { formatDate } from "@/lib/utils"
 
 export const fetchSales = async () => {
@@ -234,14 +235,12 @@ export const fetchSalesCountByDate = async (startDate: Date, endDate: Date) => {
 // };
 
 export const fetchMostSoldProduct = async () => {
-    const session = await getAuthSession()
-
-    if (!session) return { error: "Unauthorized" }
+    const session = await getAuthSession();
 
     const loggedInUser = await prisma.user.findFirst({
-        where: { id: session.user.id },
+        where: { id: session?.user.id },
         include: { Community: true }
-    })
+    });
 
     const community = await prisma.community.findFirst({
         where: {
@@ -249,30 +248,38 @@ export const fetchMostSoldProduct = async () => {
         },
         include: {
             products: {
-                include: {
-
-                },
+                include: {}
             },
         },
-    })
+    });
 
-    const products = await prisma.product.findMany({
+    const productsWithOrderedProducts = await prisma.product.findMany({
         where: {
-            communityId: loggedInUser?.Community?.id,
             status: "APPROVED",
+            communityId: community?.id,
         },
         include: {
-            Stock: true,
+            orderedProducts: {
+                select: { quantity: true }
+            },
             community: true,
+            Stock: true,
             reviews: true,
         }
-    })
+    });
 
-    // Sort products by the number of units sold (orderedVariant count) in descending order
+    // Calculate the total quantity sold for each product and add it to the returned object
+    const productsWithTotalSold = productsWithOrderedProducts.map(product => ({
+        ...product,
+        totalSold: product.orderedProducts.reduce((total, { quantity }) => total + quantity, 0)
+    }));
 
+    // Sort products by total quantity sold in descending order
+    const sortedProducts = productsWithTotalSold.sort((a, b) => b.totalSold - a.totalSold);
 
-    return products.slice(0, 10); // Return the top 10 most sold products
-}
+    // Return only the top 10 most sold products
+    return sortedProducts.slice(0, 10)
+};
 
 export const totalNumberOfProducts = async () => {
     const session = await getAuthSession()
