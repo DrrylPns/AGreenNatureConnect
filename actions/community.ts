@@ -8,6 +8,8 @@ import { Community, Prisma } from "@prisma/client"
 import { revalidatePath } from "next/cache"
 import { sendEmployeePasswordLink } from "./set-employee-password"
 import { ConsignorType, PasabuySchema, PasabuyType } from "@/lib/validations/pasabuy"
+import { user } from "@nextui-org/react"
+import { forEach } from "lodash"
 
 export const addQR = async (id: string, qrCode: string) => {
     try {
@@ -519,7 +521,8 @@ export const createConsignorRequest = async(values: ConsignorType)=>{
 
     const existingRequest = await prisma.consignorApplicants.findFirst({
         where:{
-            userId: currentUser.id
+            userId: currentUser.id,
+            urbanFarmId: values.urbanFarmId
         }
     })
     if(!existingRequest){
@@ -637,3 +640,59 @@ export const fetchNumberOfApplicants = async()=>{
     return count 
 
 }
+
+export const createNotificationRequest = async (values: string) => {
+    const session = await getAuthSession();
+    const currentUser = await prisma.user.findUnique({
+        where: {
+            id: session?.user.id
+        },
+        include: {
+            Community: true
+        }
+    });
+
+    if (!currentUser) return { error: "Error: No current user found!" };
+
+    try {
+        const consignors = await prisma.consignorApplicants.findMany({
+            where: {
+                urbanFarm: {
+                    address: currentUser.barangay
+                },
+                status: "Approved"
+            },
+            include: {
+                urbanFarm: true
+            }
+        });
+
+        await prisma.productRequest.create({
+            data:{
+                urbanFarmId: currentUser.Community?.id || "",
+                userId: currentUser.id,
+                request: values,
+            }
+        })
+
+        consignors.forEach(async (consignor) => {
+            const newNotification = await prisma.notification.create({
+                data: {
+                    type: "REQUEST", // Use the NotificationType enum value
+                    isRead: false,
+                    userId: consignor.userId,
+                    consignorApplicationId: consignor.id,
+                    communityId: consignor.urbanFarm?.id // Assuming the consignor's urban farm has a communityId
+                    // Add other fields as needed
+                }
+            });
+
+           
+        });
+       
+
+        return { success: "Request successfully sent to your consignors notification!" };
+    } catch (error: any) {
+        return { error: error.message || "An error occurred while creating notifications" };
+    }
+};
