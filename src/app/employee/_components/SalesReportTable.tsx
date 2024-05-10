@@ -1,13 +1,13 @@
 "use client"
 
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { CompletedTransaction } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { format } from "date-fns";
-import { CalendarIcon } from "lucide-react";
+import { CalendarIcon, FileUp } from "lucide-react";
 import { useEffect, useState } from "react";
 import { DateRange } from "react-day-picker";
 import { salesReport } from "../../../../actions/sales";
@@ -17,6 +17,8 @@ import { ColumnSalesReport } from "./ColumnSalesReport";
 export const SalesReportTable = () => {
     const [date, setDate] = useState<DateRange | undefined>(undefined);
     const [sales, setSales] = useState<CompletedTransaction[]>([])
+    const [totalSalesAmount, setTotalSalesAmount] = useState<number>(0);
+    const [totalProductsSold, setTotalProductsSold] = useState<number>(0);
 
     useEffect(() => {
         const fetchData = async () => {
@@ -34,8 +36,10 @@ export const SalesReportTable = () => {
                     endDate = new Date(today.getFullYear(), 11, 31); // End date is last day of current year
                 }
 
-                const data = await salesReport(startDate, endDate);
-                setSales(data as CompletedTransaction[])
+                const { salesData, totalSalesAmount, totalProductsSold } = await salesReport(startDate, endDate);
+                setSales(salesData as CompletedTransaction[]);
+                setTotalSalesAmount(totalSalesAmount);
+                setTotalProductsSold(totalProductsSold);
             } catch (error) {
                 console.error("Error fetching sales data:", error);
             }
@@ -44,9 +48,45 @@ export const SalesReportTable = () => {
         fetchData();
     }, [date]);
 
+    console.log(`Sales: ${JSON.stringify(sales)}`)
+
+    function getSoldProductsSummary(sales: CompletedTransaction[]) {
+        const summaryMap: { [productName: string]: number } = {};
+
+        sales.forEach((transaction) => {
+            transaction.orderedProducts.forEach((orderedProduct) => {
+                const { name, quantity } = orderedProduct.product;
+
+                if (summaryMap[name]) {
+                    summaryMap[name] += orderedProduct.quantity; // Accumulate the quantity sold
+                } else {
+                    summaryMap[name] = orderedProduct.quantity;
+                }
+            });
+        });
+
+        return summaryMap;
+    }
+
     return (
         <div className="space-y-3">
-            <h1>Select a date range to generate the report:</h1>
+            <div className="w-full flex justify-between">
+                <h1>Select a date range to generate the report:</h1>
+                <div
+                    className={cn(
+                        buttonVariants({
+                            variant: "outline"
+                        }),
+                        "cursor-pointer flex flex-row"
+                    )}
+                    onClick={() => window.print()}
+                >
+
+                    <FileUp className="mr-2" strokeWidth={1} />
+                    Generate Report
+                    {/* Make this generate report work where it can be a printed data report */}
+                </div>
+            </div>
             <Popover>
                 <PopoverTrigger asChild>
                     <Button
@@ -84,8 +124,35 @@ export const SalesReportTable = () => {
                 </PopoverContent>
             </Popover>
 
-            <Card className="mx-auto max-w-full h-full drop-shadow-lg p-3">
+            <Card className="mx-auto max-w-full h-full drop-shadow-lg p-3 print-card">
+                <div className="text-xl font-semibold flex flex-row gap-2 mb-2">
+                    <h1>Date Report:</h1>
+                    {date && date.from && date.to ? (
+                        <p>
+                            {format(date.from, "LLL dd, y")} - {format(date.to, "LLL dd, y")}
+                        </p>
+                    ) : (
+                        <p>This report includes the overall summary of data.</p>
+                    )}
+                </div>
 
+                <div className="flex justify-between mb-4">
+                    <div>
+                        <h2>Total Sales Amount: PHP {totalSalesAmount.toLocaleString()}</h2>
+                        <h2>Total Products Sold: {totalProductsSold.toLocaleString()}</h2>
+                    </div>
+                </div>
+
+                <div>
+                    <h2>Sold Products Summary:</h2>
+                    <ul>
+                        {Object.entries(getSoldProductsSummary(sales)).map(([name, quantity]) => (
+                            <li key={name}>
+                                {name}: {quantity}
+                            </li>
+                        ))}
+                    </ul>
+                </div>
 
                 <DataTable
                     columns={ColumnSalesReport}

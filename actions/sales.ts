@@ -2,6 +2,7 @@
 
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
+import { formatDate } from "@/lib/utils"
 
 export const fetchSales = async () => {
     const session = await getAuthSession()
@@ -134,7 +135,7 @@ export const fetchSalesCountByDate = async (startDate: Date, endDate: Date) => {
 
     salesByDates.forEach((transaction) => {
         const transactionDate = new Date(transaction.createdAt);
-        const formattedDate = transactionDate.toISOString().slice(0, 10); // Extract date part only
+        const formattedDate = formatDate(transactionDate);
 
         // Initialize sales data for the date if it doesn't exist
         if (!salesByDateMap[formattedDate]) {
@@ -294,7 +295,7 @@ export const totalNumberOfProducts = async () => {
 }
 
 export const salesReport = async (startDate: Date, endDate: Date) => {
-    const session = await getAuthSession()
+    const session = await getAuthSession();
 
     const loggedInUser = await prisma.user.findFirst({
         where: { id: session?.user.id },
@@ -322,15 +323,29 @@ export const salesReport = async (startDate: Date, endDate: Date) => {
         include: {
             orderedProducts: {
                 include: {
-                    product: true
-                }
-            }
-
+                    product: true,
+                },
+            },
         },
         orderBy: {
             createdAt: "asc",
         },
     });
 
-    return salesByDates
-}
+    // Initialize variables to store total sales amount and total products sold
+    let totalSalesAmount = 0;
+    let totalProductsSold = 0;
+
+    // Calculate total sales amount and total products sold
+    salesByDates.forEach((transaction) => {
+        totalSalesAmount += transaction.amount;
+        totalProductsSold += transaction.orderedProducts.length;
+    });
+
+    // Return an object containing both the sales data and the computed totals
+    return {
+        salesData: salesByDates,
+        totalSalesAmount,
+        totalProductsSold,
+    };
+};

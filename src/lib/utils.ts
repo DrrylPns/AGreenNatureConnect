@@ -6,7 +6,7 @@ import locale from 'date-fns/locale/en-US'
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-export const formatStatus = (status:string)=>{
+export const formatStatus = (status: string) => {
   const correctStatus = status === "APPROVED" ? "Approved" : "Declined"
   return correctStatus
 }
@@ -101,3 +101,8 @@ export function getMinBirthDate() {
 export const formatCreatedAt = (createdAt: Date): string => {
   return formatDistanceToNow(new Date(createdAt), { addSuffix: true });
 };
+
+export function formatDateWithTime(date: any) {
+  // Format date with time using toLocaleString
+  return new Date(date).toLocaleString();
+}
