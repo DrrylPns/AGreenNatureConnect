@@ -61,22 +61,17 @@ const page = async ({
         <div className='absolute top-2 left-0'>
           <Back/>
         </div>
-        <h1 className='text-lg md:text-2xl text-center font-poppins font-bold'>{communityName} Urban Farm</h1>
+        <h1 className='text-lg md:text-2xl text-center font-poppins font-bold'>{communityName}</h1>
       </div>
       <div className='w-full my-5 bg-gray-50 dark:bg-[#1f2933] pb-5 px-5 shadow-sm drop-shadow-md'>
         <BagbagCarousel carouselImage={community?.carouselImage}/>
         <div className='font-livvic'>
-          <h1 className='text-lg  text-center tracking-widest font-semibold'>{community?.name}</h1>
+          
           <div className='flex flex-col sm:flex-row sm:my-3 sm:items-center md:gap-5 sm:gap-3 justify-center items-center'>
             <Link className='flex items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white' href={'https://www.google.com/maps/dir//P428%2B79Q+New+Greenland,+Quezon+City,+Rizal/@14.700727,121.1160022,17z/data=!4m8!4m7!1m0!1m5!1m1!1s0x3397bb35978a95fb:0x3748a3771671970!2m2!1d121.1159989!2d14.7007173?entry=ttu'}>
               <span className='text-red-600 text-[0.5rem] sm:text-sm'><CiLocationOn /></span> {community?.address}
             </Link>
-            <div className='flex items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white'>
-              <span className='text-red-600 text-[0.5rem] sm:text-sm'><TfiEmail /></span> {community?.email}
-            </div>
-            <div className='flex items-center gap-3 text-[0.6rem] sm:text-sm text-gray-500 dark:text-white'>
-              <span className='text-red-600 text-[0.5rem] sm:text-sm'><CiPhone /></span> {community?.contactNumber}
-            </div>
+            
           </div>
 
 
