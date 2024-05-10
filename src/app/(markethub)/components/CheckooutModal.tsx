@@ -155,13 +155,9 @@ function CheckoutModal({ }: {}) {
       });
 
       if (response.ok) {
-        if (method === "External Delivery") {
-          if (option === "Gcash") {
-            router.replace(`checkout/payment/${method}`)
-          }
-        } else {
+      
           router.replace("/cart/checkout/success");
-        }
+        
         setCartNumber((prevCartNumber) => prevCartNumber - checkoutItems.length);
       } else {
         console.error("Failed to place order:", response.statusText);

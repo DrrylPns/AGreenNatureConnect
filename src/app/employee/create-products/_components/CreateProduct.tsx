@@ -417,9 +417,9 @@ const CreateProduct = () => {
                             name="harvestedFrom"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel className='text-[#f7d126]'>Harvested from</FormLabel>
+                                <FormLabel className='text-[#f7d126]'>From</FormLabel>
                                 <FormControl>
-                                    <Input placeholder="Farm name" {...field} type='text' className='rounded-full' />
+                                    <Input placeholder="Farm/Consignor name" {...field} type='text' className='rounded-full' />
                                 </FormControl>
                                 <FormMessage />
                             </FormItem>

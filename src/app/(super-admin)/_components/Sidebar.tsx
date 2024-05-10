@@ -9,6 +9,8 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/pop
 import useSettingsModal from '@/lib/hooks/useSettingsModal';
 import { TbUserSquareRounded } from 'react-icons/tb';
 import { VscRequestChanges } from "react-icons/vsc";
+import { fetchNumberOfApplicants } from '../../../../actions/community';
+import { useQuery } from '@tanstack/react-query';
 
 const Sidebar = () => {
 
@@ -16,8 +18,14 @@ const Sidebar = () => {
     const pathname = usePathname()
     const url = pathname.replace("/", "")
     const { onOpen } = useSettingsModal()
-
-    console.log(url)
+    const {
+        data: numberOfApplications,
+        isError,
+        isLoading,
+      } = useQuery({
+        queryKey: ["urbanFarmApplicants"],
+        queryFn: async () => (await fetchNumberOfApplicants()) as number,
+    })
 
     return (
         <div>
@@ -86,10 +94,12 @@ const Sidebar = () => {
                             <TbUserSquareRounded />
                             <span className="text-sm font-medium">Urban Farms</span>
                         </Link>
-                        <Link href="/request" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "request" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <Link href="/request" className={`relative w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "request" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <VscRequestChanges />
                             <span className="text-sm font-medium">Request</span>
+                            <span className='absolute top-0 right-0 rounded-full w-5 h-5 text-center bg-red-600 text-white'>{numberOfApplications}</span>
                         </Link>
+                       
 
                         {/* <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <User strokeWidth={1} />

@@ -603,3 +603,37 @@ export const fetchNumberOfConsignor = async()=>{
     return count 
 
 }
+export const fetchNumberOfApplicants = async()=>{
+    const session = await getAuthSession()
+    const currentUser = await prisma.user.findUnique({
+        where: {
+            id: session?.user.id
+        },
+        include:{
+            Community: true
+        }
+    })
+    if (!currentUser) return { error: "Error: No current user found!" }
+
+    if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" } 
+
+    const count = await prisma.urbanFarmApplicatants.count({
+        where:{
+            address: currentUser.barangay || '',
+            status: {
+                not: "Approved"
+            }
+        }
+    })
+    const s = await prisma.urbanFarmApplicatants.findMany({
+        where:{
+            address: currentUser.barangay || '',
+            status: {
+                not: "Approved"
+            }
+        }
+    })
+    console.log(s)
+    return count 
+
+}
