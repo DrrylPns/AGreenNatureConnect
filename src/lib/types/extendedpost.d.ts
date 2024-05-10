@@ -95,5 +95,15 @@ export type NotificationsWithRelation = Prisma.NotificationGetPayload<{
         topic: true,
       }
     };
+    consignor: {
+      include: {
+        urbanFarm: true
+      }
+    };
+    urbanFarmApplication: {
+      include: {
+        user: true
+      }
+    };
   }
 }>

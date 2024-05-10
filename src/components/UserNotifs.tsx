@@ -25,7 +25,7 @@ export const UserNotifs = () => {
 
     const handleButtonClick = () => {
         router.push('all-notification');
-      }
+    }
 
 
     // const [notifications, setNotifications] = useState<NotificationWithUser[]>([])
@@ -86,20 +86,20 @@ export const UserNotifs = () => {
                         <h4 className="mb-2 text-[16px] leading-none ml-2 pb-3 font-semibold border-b-2  border-black dark:border-[#f8fdfd]">Notifications</h4>
                         <div className="px-4 text-center items-center">
                             <Button className="mr-2 bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600" onClick={handleButtonClick}>Show all</Button>
-                            <Button 
+                            <Button
                                 disabled={isPending}
                                 className='bg-white dark:bg-[#424444] text-[#000000] dark:text-white hover:bg-slate-200 dark:hover:bg-slate-600'
                                 onClick={() => {
                                     startTransition(() => {
                                         notificationReadAll(session?.user.id).then((callback) => {
-                                            if(callback.error) {
+                                            if (callback.error) {
                                                 toast({
                                                     description: callback.error,
                                                     variant: "destructive"
                                                 })
                                             }
 
-                                            if(callback.success) {
+                                            if (callback.success) {
                                                 toast({
                                                     description: callback.success
                                                 })
@@ -275,6 +275,36 @@ export const UserNotifs = () => {
                                                     </div>
                                                 </Link> // Reply.author.name
                                             )}
+
+                                            {notification.type === "CONSIGNOR_ACCEPTED" && notification.consignor && (
+                                                <Link className='flex gap-3 items-center' href={``}>
+                                                    <UserAvatar
+                                                        user={{
+                                                            name: notification.consignor.urbanFarm.name || null,
+                                                            image: notification.consignor.urbanFarm.displayPhoto as string
+                                                        }}
+                                                        className="h-8 w-8"
+                                                    />
+                                                    <div>
+                                                        {notification.consignor.urbanFarm.name} has accepted your request to be a consignor!
+                                                    </div>
+                                                </Link>
+                                            )}
+
+                                            {/* {notification.type === "URBANFARM_ACCEPTED" && notification.urbanFarmApplication && (
+                                                <Link className='flex gap-3 items-center' href={``}>
+                                                    <UserAvatar
+                                                        user={{
+                                                            name: notification.consignor.urbanFarm.name || null,
+                                                            image: notification.consignor.urbanFarm.displayPhoto as string
+                                                        }}
+                                                        className="h-8 w-8"
+                                                    />
+                                                    <div>
+                                                        {notification.consignor.urbanFarm.name} has accepted your request to be a consignor!
+                                                    </div>
+                                                </Link> // Reply.author.name
+                                            )} */}
                                         </div>
 
                                         <time className={`ml-14 text-[13px]  ${!notification.isRead ? " text-[#4662ff]" : "text-[#7f99b3] dark:text-gray"} `}>

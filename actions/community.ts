@@ -465,6 +465,16 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
                 }
             })
 
+            if (successUserCreate) {
+                await prisma.notification.create({
+                    data: {
+                        type: "URBANFARM_ACCEPTED",
+                        userId: successUserCreate.userId,
+                        urbanFarmApplicationId: successUserCreate.id
+                    }
+                })
+            }
+
             return { success: "Urban farm created successfully!" }
         } else {
             return { error: "You already file your request to become a consignor!" }
@@ -506,7 +516,7 @@ export const fetchUrbanFarms = async (barangay: string) => {
     return urbanFarms
 }
 
-export const createConsignorRequest = async(values: ConsignorType)=>{
+export const createConsignorRequest = async (values: ConsignorType) => {
     const session = await getAuthSession()
 
     const currentUser = await prisma.user.findUnique({
@@ -518,27 +528,27 @@ export const createConsignorRequest = async(values: ConsignorType)=>{
     if (!currentUser) return { error: "Error: No current user found!" }
 
     const existingRequest = await prisma.consignorApplicants.findFirst({
-        where:{
+        where: {
             userId: currentUser.id
         }
     })
-    if(!existingRequest){
+    if (!existingRequest) {
         await prisma.consignorApplicants.create({
-            data:{
+            data: {
                 urbanFarmId: values.urbanFarmId,
                 userId: currentUser.id,
                 status: "Pending",
                 products: values.products,
-                description: values.products,
+                description: values.description,
             }
         })
-        return {success: "Successfully submitted your request!"}
-    } else{
+        return { success: "Successfully submitted your request!" }
+    } else {
         return { error: "You already submitted your request!" }
     }
-   
+
 }
-export const approvedConsignor = async(id: string)=>{
+export const approvedConsignor = async (id: string) => {
     const session = await getAuthSession()
 
     const currentUser = await prisma.user.findUnique({
@@ -549,39 +559,51 @@ export const approvedConsignor = async(id: string)=>{
     if (!currentUser) return { error: "Error: No current user found!" }
 
     if (currentUser.role !== "ADMIN") return { error: "Error: Unauthorized!" }
-  
-const updateConsignor = await prisma.consignorApplicants.update({
-    where:{
-        id:id
-    },
-    include:{
-        user: true
-    },
-    data:{
-        status: 'Approved'
+
+    const updateConsignor = await prisma.consignorApplicants.update({
+        where: {
+            id: id
+        },
+        include: {
+            user: true,
+            urbanFarm: true,
+        },
+        data: {
+            status: 'Approved'
+        }
+    })
+
+    if (updateConsignor) {
+        await prisma.notification.create({
+            data: {
+                type: "CONSIGNOR_ACCEPTED",
+                userId: updateConsignor.userId,
+                consignorApplicationId: updateConsignor.id
+            }
+        })
     }
-})
+
     revalidatePath("/admin/requests", "page")
-    return {success: "Successfully approved the consignor!"}
+    return { success: "Successfully approved the consignor!" }
 }
 
-export const fetchNumberOfConsignor = async()=>{
+export const fetchNumberOfConsignor = async () => {
     const session = await getAuthSession()
     const currentUser = await prisma.user.findUnique({
         where: {
             id: session?.user.id
         },
-        include:{
+        include: {
             Community: true
         }
     })
     if (!currentUser) return { error: "Error: No current user found!" }
 
-    if (currentUser.role !== "ADMIN") return { error: "Error: Unauthorized!" } 
+    if (currentUser.role !== "ADMIN") return { error: "Error: Unauthorized!" }
 
     const count = await prisma.consignorApplicants.count({
-        where:{
-            urbanFarm:{
+        where: {
+            urbanFarm: {
                 id: currentUser.communityId || ""
             },
             status: {
@@ -590,8 +612,8 @@ export const fetchNumberOfConsignor = async()=>{
         }
     })
     const s = await prisma.consignorApplicants.findMany({
-        where:{
-            urbanFarm:{
+        where: {
+            urbanFarm: {
                 id: currentUser.communityId || ""
             },
             status: {
@@ -600,25 +622,25 @@ export const fetchNumberOfConsignor = async()=>{
         }
     })
     console.log(s)
-    return count 
+    return count
 
 }
-export const fetchNumberOfApplicants = async()=>{
+export const fetchNumberOfApplicants = async () => {
     const session = await getAuthSession()
     const currentUser = await prisma.user.findUnique({
         where: {
             id: session?.user.id
         },
-        include:{
+        include: {
             Community: true
         }
     })
     if (!currentUser) return { error: "Error: No current user found!" }
 
-    if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" } 
+    if (currentUser.role !== "SUPER_ADMIN") return { error: "Error: Unauthorized!" }
 
     const count = await prisma.urbanFarmApplicatants.count({
-        where:{
+        where: {
             address: currentUser.barangay || '',
             status: {
                 not: "Approved"
@@ -626,7 +648,7 @@ export const fetchNumberOfApplicants = async()=>{
         }
     })
     const s = await prisma.urbanFarmApplicatants.findMany({
-        where:{
+        where: {
             address: currentUser.barangay || '',
             status: {
                 not: "Approved"
@@ -634,6 +656,6 @@ export const fetchNumberOfApplicants = async()=>{
         }
     })
     console.log(s)
-    return count 
+    return count
 
 }

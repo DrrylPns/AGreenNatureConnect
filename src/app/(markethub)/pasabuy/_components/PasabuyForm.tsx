@@ -73,7 +73,6 @@ export const PasabuyForm = ({ user }: Props) => {
       lastName: user.lastName || '',
       userPhone: user.phoneNumber || '',
       gender: user.gender || ''
-      
     }
   });
 

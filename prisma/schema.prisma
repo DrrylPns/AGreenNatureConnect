@@ -29,11 +29,11 @@ datasource db {
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na
 // isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                     String           @id @default(cuid()) // string
+  id                     String                    @id @default(cuid()) // string
   name                   String? // nullable | optional 
-  EmployeeId             String?          @unique
-  username               String?          @unique
-  email                  String?          @unique
+  EmployeeId             String?                   @unique
+  username               String?                   @unique
+  email                  String?                   @unique
   emailVerified          DateTime?
   image                  String?
   hashedPassword         String?
@@ -41,9 +41,9 @@ model User {
   lastName               String?
   barangay               String?
   suffix                 String?
-  phoneNumber            String?          @unique
+  phoneNumber            String?                   @unique
   address                String?
-  role                   Role             @default(USER)
+  role                   Role                      @default(USER)
   specialization         SpecializedRole?
   gender                 String?
   birthday               DateTime?
@@ -51,51 +51,51 @@ model User {
   zip                    String?
   street                 String?
   bio                    String?
-  isDisabled             Boolean          @default(false)
-  createdAt              DateTime         @default(now())
-  updatedAt              DateTime         @updatedAt
-  isBanned               Boolean          @default(false)
-  numberOfViolations     Int              @default(0)
-  isNotificationsEnabled Boolean          @default(true)
+  isDisabled             Boolean                   @default(false)
+  createdAt              DateTime                  @default(now())
+  updatedAt              DateTime                  @updatedAt
+  isBanned               Boolean                   @default(false)
+  numberOfViolations     Int                       @default(0)
+  isNotificationsEnabled Boolean                   @default(true)
   lastUsernameChange     DateTime?
   isBannedFromPosting    DateTime?
-  createdTopics          Topic[]          @relation("CreatedBy")
-  buyerTransactions      Transaction[]    @relation("Buyer")
+  createdTopics          Topic[]                   @relation("CreatedBy")
+  buyerTransactions      Transaction[]             @relation("Buyer")
   shippingInfo           ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
-  Stocks     Stocks[]
-  StocksLogs  StockLogs[]
-  urbanFarmApplicatants UrbanFarmApplicatants[]
-  Consignor        ConsignorApplicants[]
-  cart             Cart[]
-  Account          Account[]
-  posts            Post[]
-  comments         Comment[]
-  likes            Like[]
-  notifications    Notification[]
-  reporter         Report[]                  @relation("Reporter")
-  reported         Report[]                  @relation("Reported")
-  Blog             Blog[]
-  LearningMaterial LearningMaterial[]
-  VideoTutorial    VideoTutorial[]
-  FAQ              FAQ[]
+  Stocks                 Stocks[]
+  StocksLogs             StockLogs[]
+  urbanFarmApplicatants  UrbanFarmApplicatants[]
+  Consignor              ConsignorApplicants[]
+  cart                   Cart[]
+  Account                Account[]
+  posts                  Post[]
+  comments               Comment[]
+  likes                  Like[]
+  notifications          Notification[]
+  reporter               Report[]                  @relation("Reporter")
+  reported               Report[]                  @relation("Reported")
+  Blog                   Blog[]
+  LearningMaterial       LearningMaterial[]
+  VideoTutorial          VideoTutorial[]
+  FAQ                    FAQ[]
   // ProductPost     ProductPost[]
   // Product         Product[]      @relation("CreateProduct")
-  Product          Product[]
-  Article          Article[]
-  Community        Community?                @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId      String?
-  reactions        Reaction[]
-  reply            Reply[]
-  Review           Review[]
-  ReviewLike       ReviewLike[]
-  ReviewDislike    ReviewDislike[]
-  ChatRoom         ChatRoom[]
-  Message          Message[]
-  Activity         EmployeeActivityHistory[]
+  Product                Product[]
+  Article                Article[]
+  Community              Community?                @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId            String?
+  reactions              Reaction[]
+  reply                  Reply[]
+  Review                 Review[]
+  ReviewLike             ReviewLike[]
+  ReviewDislike          ReviewDislike[]
+  ChatRoom               ChatRoom[]
+  Message                Message[]
+  Activity               EmployeeActivityHistory[]
 
   @@index([id])
   @@index([communityId])
@@ -159,38 +159,38 @@ model Account {
 
 // urban farm head
 model Community {
-  id               String             @id @default(cuid())
-  name             String             @unique // urban farm name
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  carouselImage    CommunityImage[]
-  displayPhoto     String?
+  id                   String                @id @default(cuid())
+  name                 String                @unique // urban farm name
+  createdAt            DateTime              @default(now())
+  updatedAt            DateTime              @updatedAt
+  carouselImage        CommunityImage[]
+  displayPhoto         String?
   // urbanFarmName    String?            @unique
-  area             String?
-  form             String?
-  qrCode           String?
-  address          String? // barangay
-  email            String?
-  contactNumber    String?
-  description      String?
-  blk              String?
-  street           String?
-  zip              String?
-  isArchived       Boolean            @default(false)
+  area                 String?
+  form                 String?
+  qrCode               String?
+  address              String? // barangay
+  email                String?
+  contactNumber        String?
+  description          String?
+  blk                  String?
+  street               String?
+  zip                  String?
+  isArchived           Boolean               @default(false)
   ConsignorApplication ConsignorApplicants[]
-  posts            Post[]
-  blogs            Blog[]
-  articles         Article[]
-  products         Product[]
-  User             User[]
-  LearningMaterial LearningMaterial[]
-  VideoTutorial    VideoTutorial[]
-  FAQ              FAQ[]
-  Transaction      Transaction[]
-  cart             Cart[]
-  notifications    Notification[]
-  ChatRoom         ChatRoom[]
-  messages         Message[]
+  posts                Post[]
+  blogs                Blog[]
+  articles             Article[]
+  products             Product[]
+  User                 User[]
+  LearningMaterial     LearningMaterial[]
+  VideoTutorial        VideoTutorial[]
+  FAQ                  FAQ[]
+  Transaction          Transaction[]
+  cart                 Cart[]
+  notifications        Notification[]
+  ChatRoom             ChatRoom[]
+  messages             Message[]
 }
 
 model CommunityImage {
@@ -360,10 +360,10 @@ model Notification {
   userId String
 
   consignorApplicationId String?
-  consignor ConsignorApplicants? @relation(fields: [consignorApplicationId], references: [id], onDelete: Cascade)
+  consignor              ConsignorApplicants? @relation(fields: [consignorApplicationId], references: [id], onDelete: Cascade)
 
   urbanFarmApplicationId String?
-  urbanFarmApplication UrbanFarmApplicatants? @relation(fields: [urbanFarmApplicationId], references: [id], onDelete: Cascade)
+  urbanFarmApplication   UrbanFarmApplicatants? @relation(fields: [urbanFarmApplicationId], references: [id], onDelete: Cascade)
 
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
@@ -397,6 +397,9 @@ enum NotificationType {
   REACT
   COMMENT
   REPLY
+  REQUEST
+  CONSIGNOR_ACCEPTED
+  URBANFARM_ACCEPTED
 }
 
 model Report {
@@ -570,9 +573,9 @@ model Product {
   isFree      Boolean        @default(false)
   isFreeUntil DateTime?
 
-  Stock Stocks[]
+  Stock     Stocks[]
   StockLogs StockLogs[]
-  creator   User   @relation(fields: [creatorId], references: [id], onDelete: Cascade)
+  creator   User        @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId String
 
   createdAt               DateTime                  @default(now())
@@ -597,58 +600,63 @@ model Stocks {
   harvestedFrom  String
   productId      String?
   userId         String?
-  user           User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
 
 model StockLogs {
-  id      String   @id @default(cuid())
+  id             String   @id @default(cuid())
   numberOfStocks Float
   expiration     DateTime
   harvestedFrom  String
   productId      String?
   product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
   userId         String?
-  user           User? @relation(fields: [userId], references: [id], onDelete: Cascade)
+  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
 }
 
 model UrbanFarmApplicatants {
-  id      String   @id @default(cuid())
+  id            String @id @default(cuid())
   urbanFarmName String
-  address   String
-  area      String
-  blk       String
-  street    String
-  zip       String
-  form      String
-  status    String
-  email     String
-  firstName String
-  lastName  String
-  contact   String
-  gender    String
-  userId    String
-  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  address       String
+  area          String
+  blk           String
+  street        String
+  zip           String
+  form          String
+  status        String
+  email         String
+  firstName     String
+  lastName      String
+  contact       String
+  gender        String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
   notification Notification[]
 }
 
 model ConsignorApplicants {
-  id      String   @id @default(cuid())
+  id String @id @default(cuid())
+
   urbanFarmId String
-  urbanFarm Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
-  userId  String
-  user  User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  status String
-  products  String
-  description String?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  urbanFarm   Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status       String
+  products     String
+  description  String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
   notification Notification[]
 }
 
