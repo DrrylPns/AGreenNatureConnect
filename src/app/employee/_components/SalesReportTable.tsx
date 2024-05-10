@@ -48,7 +48,16 @@ export const SalesReportTable = () => {
         fetchData();
     }, [date]);
 
-    console.log(`Sales: ${JSON.stringify(sales)}`)
+    function handlePrint() {
+        const card = document.querySelector('.print-card');
+        if (card) {
+            card.classList.add('print-visible'); // Add a class to make the card visible for printing
+            window.print(); // Trigger printing
+            card.classList.remove('print-visible'); // Remove the class after printing
+        } else {
+            console.error('Card element not found.');
+        }
+    }
 
     function getSoldProductsSummary(sales: CompletedTransaction[]) {
         const summaryMap: { [productName: string]: number } = {};
@@ -70,7 +79,7 @@ export const SalesReportTable = () => {
 
     return (
         <div className="space-y-3">
-            <div className="w-full flex justify-between">
+            <div className="w-full flex justify-between print-card">
                 <h1>Select a date range to generate the report:</h1>
                 <div
                     className={cn(
@@ -93,7 +102,7 @@ export const SalesReportTable = () => {
                         id="date"
                         variant={"outline"}
                         className={cn(
-                            "w-full md:w-full justify-start text-left font-normal",
+                            "w-full md:w-full justify-start text-left font-normal print-card",
                             !date && "text-muted-foreground"
                         )}
                     >
@@ -124,7 +133,7 @@ export const SalesReportTable = () => {
                 </PopoverContent>
             </Popover>
 
-            <Card className="mx-auto max-w-full h-full drop-shadow-lg p-3 print-card">
+            <Card className="mx-auto max-w-full h-full drop-shadow-lg p-3 ">
                 <div className="text-xl font-semibold flex flex-row gap-2 mb-2">
                     <h1>Date Report:</h1>
                     {date && date.from && date.to ? (

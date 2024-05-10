@@ -53,7 +53,7 @@ const page = async () => {
             <Title>{loggedInUser?.Community?.name} Dashboard</Title>
 
             <TabGroup className="mt-6">
-                <TabList>
+                <TabList className='print-card'>
                     <Tab>Overview</Tab>
                     {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
                     <Tab>Farmers</Tab>

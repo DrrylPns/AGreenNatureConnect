@@ -36,7 +36,7 @@ const Sidebar = ({ user }: Props) => {
   return (
     <>
       {user.role === "ADMIN" ? (
-        <section className='max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
+        <section className='max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex print-card'>
           <div className='flex flex-col gap-3 justify-between'>
             <div>
               <Link href={"/discussion"}>
@@ -260,7 +260,7 @@ const Sidebar = ({ user }: Props) => {
           </div>
         </section>
       ) : user.specialization === "MarketHub" ? (
-        <section className='max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
+        <section className='print-card max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
           <div className='flex flex-col gap-3 justify-between'>
             <div>
               <Link href={"/discussion"}>
@@ -437,7 +437,7 @@ const Sidebar = ({ user }: Props) => {
           </div>
         </section>
       ) : (
-        <section className='max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
+        <section className='print-card max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
           <div className='flex flex-col gap-3 justify-between'>
             <div>
               <Link href={"/discussion"}>
@@ -649,7 +649,7 @@ const Sidebar = ({ user }: Props) => {
         </section>
       )}
 
-      <div className='w-full border-b shadow-md'>
+      <div className='w-full border-b shadow-md print-card'>
         <div className='grid grid-cols-10 p-3 items-center justify-center text-center lg:hidden bg-[#7ef9bf]'>
 
           <Link href="/employee" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "employee" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>

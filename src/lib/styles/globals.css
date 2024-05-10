@@ -193,4 +193,8 @@
   .print-card ul {
       margin-top: 0;
   }
+
+  .print-card:not(.print-visible) {
+    display: none;
+}
 }
