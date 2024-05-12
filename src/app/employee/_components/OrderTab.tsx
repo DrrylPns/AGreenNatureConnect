@@ -101,7 +101,7 @@ function OrderTab({
         } catch (error: any) {
             if (error.response && error.response.status === 402) {
                 toast({
-                    description: "This order is not paid yet!",
+                    description: error.message,
                     variant: "destructive"
                 });
             } else {

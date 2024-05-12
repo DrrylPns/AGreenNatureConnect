@@ -2,6 +2,8 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
+import { LatestProduct, ProductWithOrderdProducts } from "./types"
+import { isWithinInterval } from 'date-fns';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -27,6 +29,27 @@ const formatDistanceLocale = {
   xYears: '{{count}}y',
   overXYears: '{{count}}y',
   almostXYears: '{{count}}y',
+}
+
+export async function calculateTotalSalesValue(latestProducts: LatestProduct[], startDate: Date | null = null, endDate: Date | null = null) {
+  const productSalesValues: number[] = [];
+
+  // Iterate over each product
+  for (const product of latestProducts) {
+      let totalSalesValue = 0;
+
+      // Sum up the total price from orderedProducts within the specified date range for each product
+      for (const order of product.orderedProducts) {
+          if (!startDate || !endDate || isWithinInterval(new Date(order.createdAt), { start: startDate, end: endDate })) {
+              totalSalesValue += order.totalPrice;
+          }
+      }
+
+      // Store the total sales value for the product
+      productSalesValues.push(totalSalesValue);
+  }
+
+  return productSalesValues;
 }
 
 function formatDistance(token: string, count: number, options?: any): string {

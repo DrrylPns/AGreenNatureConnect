@@ -435,8 +435,16 @@ export type ProductWithOrderdProducts = Prisma.ProductGetPayload<{
       include: {
         product: true
       }
-    }
+    },
+    creator:true
   }
+}>
+export type LatestProduct = Prisma.ProductGetPayload<{
+  include: {
+    creator: true,
+    Stock: true,
+    orderedProducts: true,
+},
 }>
 export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
   include: {

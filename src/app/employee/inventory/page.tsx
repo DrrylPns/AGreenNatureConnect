@@ -3,8 +3,9 @@ import { Products, columns } from './_components/columns'
 import { useQuery } from '@tanstack/react-query'
 import axios from 'axios'
 import { DataTable } from './_components/data-table'
-import { fetchProducts } from '../../../../actions/products'
+import { fetchAllProducts, fetchProducts } from '../../../../actions/products'
 import { Legend } from "@tremor/react"
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Ui/tabs'
 
 const InventoryPage = async () => {
 
@@ -17,24 +18,60 @@ const InventoryPage = async () => {
   // })
 
   const products = await fetchProducts()
+  const allProducts = await fetchAllProducts()
 
   return (
 
     <div className="container mx-auto py-10">
-       {/*<Legend
-                className="mt-3"
-                categories={["In", "Out of Stock", "Low Stock"]}
-                colors={["emerald", "red", "yellow"]}
-              />
-          */}
+      <Tabs defaultValue="classA" className="w-full">
+        <TabsList>
+          <TabsTrigger value="allProducts">All Products</TabsTrigger>
+          <TabsTrigger value="classA">Class A</TabsTrigger>
+          <TabsTrigger value="classB">Class B</TabsTrigger>
+          <TabsTrigger value="classC">Class C</TabsTrigger>
+        </TabsList>
+        <TabsContent value="allProducts">
+         
+          <DataTable
+            //@ts-ignore
+            columns={columns}
+            //@ts-ignore
+            data={allProducts ?? []}
+            isInventory
+          />
+        </TabsContent>
+        <TabsContent value="classA">
+          <h1>*Top 1% to 20% based on their total sales value</h1>
+          <h1>*All products in this class is subject for 10% markup.</h1>
+          <DataTable
+            //@ts-ignore
+            columns={columns}
+            //@ts-ignore
+            data={products.categoryAProducts ?? []}
+            isInventory
+          />
+        </TabsContent>
+        <TabsContent value="classB">
+          <DataTable
+            //@ts-ignore
+            columns={columns}
+            //@ts-ignore
+            data={products.categoryBProducts ?? []}
+            isInventory
+          />
+        </TabsContent>
+        <TabsContent value="classC">
+          <DataTable
+            //@ts-ignore
+            columns={columns}
+            //@ts-ignore
+            data={products.categoryCProducts ?? []}
+            isInventory
+          />
+        </TabsContent>
+      </Tabs>
      
-      <DataTable
-        //@ts-ignore
-        columns={columns}
-        //@ts-ignore
-        data={products ?? []}
-        isInventory
-      />
+      
     </div>
   )
 }

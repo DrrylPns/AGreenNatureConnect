@@ -187,7 +187,6 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                 )}
                             </div>
 
-
                             <div className='flex px-5 md:px-10 w-full my-5 gap-7 sm:gap-10 md:gap-x-20 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>
                                 <div className='w-1/2'>
                                     {transaction.orderedProducts.map((product) => (

@@ -2,6 +2,7 @@
 
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
+import { calculateTotalSalesValue } from "@/lib/utils"
 import { UpdateStocksSchema, UpdateStocksType } from "@/lib/validations/employee/products"
 import { Stocks } from "@prisma/client"
 import { id } from "date-fns/locale"
@@ -9,7 +10,7 @@ import { revalidatePath } from "next/cache"
 const cron = require('node-cron');
 
 
-export const fetchProducts = async () => {
+export const fetchAllProducts = async () => {
     const session = await getAuthSession()
 
     if (!session) return { error: "Unauthorized" }
@@ -82,12 +83,18 @@ export const fetchProducts = async () => {
         },
         include: {
             creator: true,
-            Stock: true
+            Stock: true,
+            orderedProducts: true,
         },
         orderBy: {
             createdAt: "desc"
         },
     })
+
+    const totalSalesValue = await calculateTotalSalesValue(latestProducts);
+    const sumOfValues = totalSalesValue.reduce((total, value) => total + value, 0);
+    console.log(sumOfValues);
+
 
     await prisma.product.updateMany({
         where:{
@@ -109,6 +116,109 @@ export const fetchProducts = async () => {
     revalidatePath("/employee/inventory")
     return latestProducts
 }
+export const fetchProducts = async () => {
+    const session = await getAuthSession();
+
+    if (!session) return { error: "Unauthorized" };
+
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session?.user.id
+        },
+        include: {
+            Community: true
+        }
+    });
+
+    if (!user) return { error: "No user found!" };
+
+    const community = await prisma.community.findFirst({
+        where: {
+            id: user.Community?.id
+        }
+    });
+
+    // Fetch all products
+    const products = await prisma.product.findMany({
+        where: {
+            community: {
+                name: community?.name
+            },
+            status: {
+                not: "ARCHIVED"
+            }
+        },
+        include: {
+            creator: true,
+            Stock: true,
+            orderedProducts: true,
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+    });
+
+    await products.forEach(async(product)=>{
+        let totalStocks = 0
+        const currentDate = new Date()
+        const productStock = await prisma.stocks.findMany({
+            where:{
+                productId: product.id
+            }
+        })
+        const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+            const expirationDate = new Date(stock.expiration);
+            return expirationDate >= currentDate;
+        });
+        notExpiredStocks.map((stock)=>{
+            totalStocks += stock.numberOfStocks
+        })
+        await prisma.product.update({
+            where: { id: product.id },
+            data: {
+                quantity: totalStocks
+            },
+        });
+    })
+
+    const latestProducts = await prisma.product.findMany({
+                where: {
+                    community: {
+                        name: community?.name
+                    },
+                    status: {
+                        not: "ARCHIVED"
+                    }
+                },
+                include: {
+                    creator: true,
+                    Stock: true,
+                    orderedProducts: true,
+                },
+                orderBy: {
+                    createdAt: "desc"
+                },
+            })
+
+    // Calculate total sales value for each product
+    const totalSalesValue = await calculateTotalSalesValue(products);
+
+    // Sort products based on total sales value in descending order
+    const sortedProducts = products.slice().sort((a, b) => totalSalesValue[products.indexOf(b)] - totalSalesValue[products.indexOf(a)]);
+
+    // Determine the number of products for each category
+    const totalProducts = sortedProducts.length;
+    const top20PercentCount = Math.ceil(totalProducts * 0.2);
+    const bottom5PercentCount = Math.ceil(totalProducts * 0.05);
+
+    // Get products for each category
+    const categoryAProducts = sortedProducts.slice(0, top20PercentCount);
+    const categoryBProducts = sortedProducts.slice(top20PercentCount, totalProducts - bottom5PercentCount);
+    const categoryCProducts = sortedProducts.slice(totalProducts - bottom5PercentCount);
+
+ 
+    return { categoryAProducts, categoryBProducts, categoryCProducts };
+};
 
 export const archiveProduct = async (id: string) => {
     const session = await getAuthSession()

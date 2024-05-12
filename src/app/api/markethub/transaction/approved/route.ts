@@ -69,11 +69,11 @@ export async function POST(req: Request) {
       });
     }
 
-    if (transaction?.paymentStatus === "Not Paid" && transaction.paymentMethod !== "Abono") {
-      return new Response("This order is not paid yet!", {
-        status: 402,
-      })
-    }
+    // if (transaction?.paymentStatus === "Not Paid" && transaction.paymentMethod !== "Abono") {
+    //   return new Response("This order is not paid yet!", {
+    //     status: 402,
+    //   })
+    // }
 
     const acceptOrderById = await prisma.transaction.update({
       where: {

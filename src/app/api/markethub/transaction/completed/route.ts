@@ -106,6 +106,7 @@ export async function POST(req: Request) {
         })
 
         revalidatePath('/orders', 'layout')
+        revalidatePath('/employee/inventory', 'page')
         return new Response(JSON.stringify(acceptOrderById));
     } catch (error) {
 
