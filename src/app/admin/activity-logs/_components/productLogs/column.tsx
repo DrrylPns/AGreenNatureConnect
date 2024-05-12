@@ -100,11 +100,13 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
         cell: ({ row }) => {
           
             const role = row.original.employee.role
+            const specialization = row.original.employee.specialization
            
             return <div
                 className="text-xs"
             >
-                {role}
+                {role === "EMPLOYEE" && specialization === "MarketHub" ? "Markethub Staff" : "Information Staff"}
+                {role === "ADMIN" && "Urban Farm Head"}
             </div>
         },
     },

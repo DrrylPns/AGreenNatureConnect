@@ -20,13 +20,15 @@ import { OrderedVariant } from './Orders'
 import { RatingStars } from './Rating'
 import { UploadDropzone } from '@/lib/uploadthing'
 import Image from 'next/image'
+import { OrderedProducts } from '@prisma/client'
+import { orderedProductsWithProducts } from '@/lib/types'
 
 
 function ReviewModal({
     orderedVariant,
     transactionId
 }: {
-    orderedVariant: OrderedVariant[]
+    orderedVariant: orderedProductsWithProducts[]
     transactionId: string,
 }) {
     const form = useForm<AddReviewType>({
@@ -163,8 +165,8 @@ function ReviewModal({
                                                 </SelectTrigger>
                                             </FormControl>
                                             <SelectContent>
-                                                {orderedVariant && orderedVariant.map((variant) => (
-                                                    <SelectItem key={variant.id} value={variant.product.id}>{variant.product.name}</SelectItem>
+                                                {orderedVariant && orderedVariant.map((product) => (
+                                                    <SelectItem key={product.id} value={product.product.id}>{product.product.name}</SelectItem>
                                                 ))}
 
                                             </SelectContent>

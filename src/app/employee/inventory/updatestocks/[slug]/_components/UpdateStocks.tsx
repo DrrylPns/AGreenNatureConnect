@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { cn } from '@/lib/utils';
 import { UpdateStocksSchema, UpdateStocksType } from '@/lib/validations/employee/products';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Product, Variant } from '@prisma/client';
+import { Product } from '@prisma/client';
 import React, { useState, useTransition } from 'react';
 import { useForm } from 'react-hook-form';
 import { updateStocks } from '../../../../../../../actions/products';
@@ -23,7 +23,7 @@ import { useRouter } from 'next/navigation';
 
 interface Props {
     product: Product & {
-        variants: Variant[];
+       
     } | null
 }
 

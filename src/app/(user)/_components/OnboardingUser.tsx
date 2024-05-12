@@ -1,46 +1,52 @@
 "use client";
+import { Input } from "@/app/components/Ui/Input";
+import { Label } from "@/app/components/Ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue
+} from "@/app/components/Ui/select";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { SelectItem } from "@/components/ui/select";
 import { toast } from "@/lib/hooks/use-toast";
-import { getMinBirthDate } from "@/lib/utils";
 import {
   OnboardingUserSchema,
   OnboardingUserType,
 } from "@/lib/validations/onboardingSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useMutation } from "@tanstack/react-query";
+import { Community, User } from "@prisma/client";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
-import { useRouter } from "next/navigation";
-import React from "react";
-import { SubmitHandler, useForm } from "react-hook-form";
-import { X } from "lucide-react";
 import { signOut } from "next-auth/react";
-import {
-  Select,
-  SelectContent,
-  SelectGroup,
-  SelectItem,
-  SelectLabel,
-  SelectTrigger,
-  SelectValue,
-} from "@/app/components/Ui/select";
-import {
-  CardTitle,
-  CardDescription,
-  CardHeader,
-  CardContent,
-  CardFooter,
-  Card,
-} from "@/components/ui/card";
-import { Label } from "@/app/components/Ui/label";
-import { Input } from "@/app/components/Ui/Input";
-import { Textarea } from "@/app/components/Ui/textarea";
-import { Checkbox } from "@/app/components/Ui/checkbox";
-import { Button } from "@/components/ui/button";
+import React, { useEffect, useState } from "react";
+import { SubmitHandler, useForm } from "react-hook-form";
+import { getCommunitiesWithoutSession } from "../../../../actions/community";
 
-export const OnboardingUser = () => {
+interface Props {
+  user: User & {
+    Community: Community;
+  };
+}
+
+export const OnboardingUser = ({ user }: Props) => {
+  const [selectedCommunity, setSelectedCommunity] = useState("")
+
   const {
     register,
     handleSubmit,
     setValue,
+    getValues,
     formState: { errors },
   } = useForm<OnboardingUserType>({
     resolver: zodResolver(OnboardingUserSchema),
@@ -51,24 +57,42 @@ export const OnboardingUser = () => {
     },
   });
 
+  const { data: communities, refetch } = useQuery({
+    queryKey: ["communities"],
+    queryFn: async () => await getCommunitiesWithoutSession(),
+  });
+
+  useEffect(() => {
+    if (communities) {
+      const currentCommunity = communities.find((community) => community.name === getValues("community"));
+      setSelectedCommunity(currentCommunity?.address ?? "");
+    }
+  }, [getValues, communities]);
+
   const { mutate: onboardingUpdate, isLoading } = useMutation({
     mutationFn: async ({
       username,
       phoneNumber,
-      birthday,
       address,
       lastName,
       name,
       suffix,
+      blk,
+      street,
+      zip,
+      community,
     }: OnboardingUserType) => {
       const payload: OnboardingUserType = {
         username,
         phoneNumber,
-        birthday,
         address,
         lastName,
         name,
         suffix,
+        blk,
+        street,
+        zip,
+        community,
       };
       const { data } = await axios.post("/api/user/onboardingUser", payload);
       return data;
@@ -139,13 +163,17 @@ export const OnboardingUser = () => {
     data: OnboardingUserType
   ) => {
     const payload: OnboardingUserType = {
+      barangay: data.barangay,
       username: data.username,
       phoneNumber: data.phoneNumber,
-      birthday: data.birthday,
       address: data.address,
       lastName: data.lastName,
       name: data.name,
       suffix: data.suffix,
+      blk: data.blk,
+      street: data.street,
+      zip: data.zip,
+      community: data.community,
     };
 
     onboardingUpdate(payload);
@@ -163,6 +191,15 @@ export const OnboardingUser = () => {
       signOut();
     }, 2000);
   };
+
+  const handleSelectChange = (selectedValue: string) => {
+    setValue('address', selectedValue);
+  };
+
+  const handleCommunityChange = (selectedValue: string) => {
+    refetch();
+    setValue("community", selectedValue);
+  }
 
   return (
     <main className="flex flex-col items-center justify-center border min-h-screen">
@@ -275,28 +312,268 @@ export const OnboardingUser = () => {
                 {errors.phoneNumber.message}
               </span>
             )}
-            <div className="space-y-2">
-              <Label htmlFor="birthday">Birthday</Label>
-              <Input
-                type="date"
-                id="birthday"
-                placeholder=""
-                {...register("birthday")}
-                max={getMinBirthDate()}
-              />
+
+            <div>
+              <Label htmlFor="communities">Urban Farm</Label>
+              <div className="w-full flex items-center justify-center">
+                <Select
+                  {...register("community")}
+                  onValueChange={handleCommunityChange}
+                >
+                  <SelectTrigger
+                    className="
+                                md:w-[620px]
+                                rounded-md
+                                h-[30px]
+                                mt-2
+                                p-4
+                                dark:bg-[#09090B]
+                                font-light 
+                                bg-white 
+                                border-2
+                                outline-none
+                                transition
+                                disabled:opacity-70
+                                disabled:cursor-not-allowed"
+                  >
+                    <SelectValue placeholder="Select your urban farms" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Urban Farms</SelectLabel>
+                      {communities
+                        ?.filter((community) => community.address === user.barangay)
+                        .map((community, i) => (
+                          <SelectItem key={i} value={community.name}>
+                            {community.name}
+                          </SelectItem>
+                        ))
+                      }
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
+              {errors.community && (
+                <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                  {errors.community.message}
+                </span>
+              )}
             </div>
-            {errors.birthday && (
+
+            <div className="space-y-2">
+              <h1 className="ml-1 text-sm font-medium">Area</h1>
+              <Select
+                // value={area}
+                onValueChange={handleSelectChange}
+                {...register("address")}
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Select an area" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Areas</SelectLabel>
+                    <>
+                      {user.barangay === "Bagbag" && (
+                        <>
+                          <SelectItem value="Pagkabuhay Road">Pagkabuhay Road</SelectItem>
+                          <SelectItem value="Sinforosa">Sinforosa</SelectItem>
+                          <SelectItem value="Urbano">Urbano</SelectItem>
+                          <SelectItem value="Sementeryo">Sementeryo</SelectItem>
+                          <SelectItem value="Alipio">Alipio</SelectItem>
+                          <SelectItem value="Goodwill 2">Goodwill 2</SelectItem>
+                          <SelectItem value="Goodwill Town Homes">Goodwill Town Homes</SelectItem>
+                          <SelectItem value="Biglang-awa">Biglang-awa</SelectItem>
+                          <SelectItem value="625">625</SelectItem>
+                          <SelectItem value="Wings Sampalokan">Wings Sampalokan</SelectItem>
+                          <SelectItem value="Blas Roque">Blas Roque</SelectItem>
+                          <SelectItem value="Celina Drive">Celina Drive</SelectItem>
+                          <SelectItem value="Tolentino">Tolentino</SelectItem>
+                          <SelectItem value="615">615</SelectItem>
+                          <SelectItem value="Callejon">Callejon</SelectItem>
+                          <SelectItem value="Quirino Highway">Quirino Highway</SelectItem>
+                          <SelectItem value="Ngi Yaw (604)">Ngi Yaw (604)</SelectItem>
+                          <SelectItem value="Carreon">Carreon</SelectItem>
+                          <SelectItem value="Goldhill">Goldhill</SelectItem>
+                          <SelectItem value="Sinagtala">Sinagtala</SelectItem>
+                          <SelectItem value="Kingspoint Subdivision">Kingspoint Subdivision</SelectItem>
+                          <SelectItem value="Alipio Compound">Alipio Compound</SelectItem>
+                          <SelectItem value="Oro Compound">Oro Compound</SelectItem>
+                          <SelectItem value="Uping">Uping</SelectItem>
+                          <SelectItem value="Pinera">Pinera</SelectItem>
+                          <SelectItem value="San Pedro 9">San Pedro 9</SelectItem>
+                          <SelectItem value="Maloles Compound">Maloles Compound</SelectItem>
+                          <SelectItem value="Babina Compound">Babina Compound</SelectItem>
+                          <SelectItem value="Unang Tangke">Unang Tangke</SelectItem>
+                          <SelectItem value="Daniac">Daniac</SelectItem>
+                          <SelectItem value="Kasiyahan">Kasiyahan</SelectItem>
+                          <SelectItem value="Enclave">Enclave</SelectItem>
+                          <SelectItem value="Grand Villas">Grand Villas</SelectItem>
+                          <SelectItem value="Dupax">Dupax</SelectItem>
+                          <SelectItem value="Wings">Wings</SelectItem>
+                          <SelectItem value="Santos Compound">Santos Compound</SelectItem>
+                          <SelectItem value="Camp Grezar">Camp Grezar</SelectItem>
+                          <SelectItem value="Franco">Franco</SelectItem>
+                          <SelectItem value="Katipunan Kaliwa">Katipunan Kaliwa</SelectItem>
+                          <SelectItem value="Coronel Compound">Coronel Compound</SelectItem>
+                          <SelectItem value="Mantikaan">Mantikaan</SelectItem>
+                          <SelectItem value="Likas">Likas</SelectItem>
+                          <SelectItem value="Don Julio Gregorio">Don Julio Gregorio</SelectItem>
+                          <SelectItem value="Richland V">Richland V</SelectItem>
+                          <SelectItem value="Marides">Marides</SelectItem>
+                          <SelectItem value="Abbey Road">Abbey Road</SelectItem>
+                          <SelectItem value="Manggahan">Manggahan</SelectItem>
+                          <SelectItem value="RD 1-4">RD 1-4</SelectItem>
+                          <SelectItem value="R7">R7</SelectItem>
+                          <SelectItem value="Narra">Narra</SelectItem>
+                          <SelectItem value="Progressive Phase 1">Progressive Phase 1</SelectItem>
+                          <SelectItem value="Progressive Phase 2">Progressive Phase 2</SelectItem>
+                          <SelectItem value="Progressive Phase 3">Progressive Phase 3</SelectItem>
+                          <SelectItem value="De Asis Compound">De Asis Compound</SelectItem>
+                          <SelectItem value="Ibayo II (Taas, Baba)">Ibayo II (Taas, Baba)</SelectItem>
+                          <SelectItem value="Maligay">Maligay</SelectItem>
+                          <SelectItem value="Ibayo I (Leon Cleofas St.)">Ibayo I (Leon Cleofas St.)</SelectItem>
+                          <SelectItem value="Karaan">Karaan</SelectItem>
+                          <SelectItem value="St. Michael">St. Michael</SelectItem>
+                          <SelectItem value="Urcia">Urcia</SelectItem>
+                          <SelectItem value="Magno">Magno</SelectItem>
+                          <SelectItem value="Bernarty">Bernarty</SelectItem>
+                          <SelectItem value="Seminaryo">Seminaryo</SelectItem>
+                          <SelectItem value="Remarville Ave.">Remarville Avenue</SelectItem>
+                          <SelectItem value="Zodiac">Zodiac</SelectItem>
+                          <SelectItem value="Apollo">Apollo</SelectItem>
+                          <SelectItem value="Old Paliguan">Old Paliguan</SelectItem>
+                          <SelectItem value="Gawad Kalinga">Gawad Kalinga</SelectItem>
+                          <SelectItem value="Remarville Subdivision">Remarville Subdivision</SelectItem>
+                          <SelectItem value="Mangilog Compound">Mangilog Compound</SelectItem>
+                          <SelectItem value="Princess Homes">Princess Homes</SelectItem>
+                        </>
+                      )}
+
+                      {user.barangay === "Nova Proper" && (
+                        <>
+                          <SelectItem value="Doña Rosario">Doña Rosario</SelectItem>
+                          <SelectItem value="Doña Isaura">Doña Isaura</SelectItem>
+                          <SelectItem value="Prinsipe Tupas">Prinsipe Tupas</SelectItem>
+                          <SelectItem value="F. Balagtas">F. Balagtas</SelectItem>
+                          <SelectItem value="M Agoncillo">M Agoncillo</SelectItem>
+                          <SelectItem value="Buenamar">Buenamar</SelectItem>
+                          <SelectItem value="Ramirez">Ramirez</SelectItem>
+                          <SelectItem value="Susano">Susano</SelectItem>
+                          <SelectItem value="Austria">Austria</SelectItem>
+                          <SelectItem value="Gold">Gold</SelectItem>
+                          <SelectItem value="Diamond">Diamond</SelectItem>
+                          <SelectItem value="Emerald">Emerald</SelectItem>
+                        </>
+                      )}
+
+                      {user.barangay === "Bagong Silangan" && (
+                        <>
+                          <SelectItem value="Area B">Area B</SelectItem>
+                          <SelectItem value="Area C">Area C</SelectItem>
+                          <SelectItem value="Sitio Kumunoy">Sitio Kumunoy</SelectItem>
+                          <SelectItem value="Sitio Bakal">Sitio Bakal</SelectItem>
+                          <SelectItem value="Sitio Pugot">Sitio Pugot</SelectItem>
+                          <SelectItem value="Sitio Veterans">Sitio Veterans</SelectItem>
+                          <SelectItem value="Sitio Rolling Hills">Sitio Rolling Hills</SelectItem>
+                          <SelectItem value="Filside">Filside</SelectItem>
+                          <SelectItem value="San Policarpio">San Policarpio</SelectItem>
+                          <SelectItem value="Comia">Comia</SelectItem>
+                          <SelectItem value="Jubilee Phase 1">Jubilee Phase 1</SelectItem>
+                          <SelectItem value="Jubilee Phase 2">Jubilee Phase 2</SelectItem>
+                          <SelectItem value="Jubilee Phase 3">Jubilee Phase 3</SelectItem>
+                          <SelectItem value="Jubilee Phase 4">Jubilee Phase 4</SelectItem>
+                          <SelectItem value="Jubilee Phase 5">Jubilee Phase 5</SelectItem>
+                          <SelectItem value="Jubilee Phase 6">Jubilee Phase 6</SelectItem>
+                          <SelectItem value="Jubilee Phase 7">Jubilee Phase 7</SelectItem>
+                          <SelectItem value="Jubilee Phase 8">Jubilee Phase 8</SelectItem>
+                          <SelectItem value="Isla Pulang Bato">Isla Pulang Bato</SelectItem>
+                          <SelectItem value="Mt. Carmel">Mt. Carmel</SelectItem>
+                          <SelectItem value="Mapayapa">Mapayapa</SelectItem>
+                          <SelectItem value="Brookside">Brookside</SelectItem>
+                          <SelectItem value="Hilltop">Hilltop</SelectItem>
+                          <SelectItem value="Calamiong">Calamiong</SelectItem>
+                          <SelectItem value="Pinagbuklod">Pinagbuklod</SelectItem>
+                          <SelectItem value="Tumana">Tumana</SelectItem>
+                          <SelectItem value="New Greenland">New Greenland</SelectItem>
+                        </>
+                      )}
+                    </>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
+            </div>
+            {errors.address && (
               <span className="text-rose-500 ml-1 max-sm:text-[13px]">
-                {errors.birthday.message}
+                {errors.address.message}
               </span>
             )}
+
+            <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-2">
+              <div>
+                <Label htmlFor="phone">House / Blk no.</Label>
+                <Input
+                  placeholder="..."
+                  {...register("blk")}
+                  type="text"
+                  className=""
+                />
+                {errors.blk && (
+                  <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                    {errors.blk.message}
+                  </span>
+                )}
+              </div>
+
+              <div>
+                <Label htmlFor="phone">Zip Code</Label>
+                <Input
+                  placeholder="..."
+                  {...register("zip")}
+                  type="text"
+                  className=""
+                />
+              </div>
+              {errors.zip && (
+                <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                  {errors.zip.message}
+                </span>
+              )}
+            </div>
+
             <div className="space-y-2">
-              <Label htmlFor="address">Address</Label>
+              <Label htmlFor="phone">Street Name</Label>
               <Input
-                id="address"
-                {...register("address")}
-                placeholder="Enter your address"
+                placeholder="..."
+                {...register("street")}
+                type="text"
+                className=""
               />
+            </div>
+            {errors.street && (
+              <span className="text-rose-500 ml-1 max-sm:text-[13px]">
+                {errors.street.message}
+              </span>
+            )}
+              <div className="space-y-2">
+              <h1 className="ml-1 text-sm font-medium">Area</h1>
+              <Select
+                // value={area}
+                onValueChange={handleSelectChange}
+                {...register("barangay")}
+              >
+                <SelectTrigger className="">
+                  <SelectValue placeholder="Select a barangay" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectGroup>
+                    <SelectLabel>Barangay</SelectLabel>
+                    <SelectItem value="Bagbag">Bagbag</SelectItem>
+                    <SelectItem value="Nova Proper">Nova Proper</SelectItem>
+                    <SelectItem value="Bagong Silangan">Bagong Silangan</SelectItem>
+                  </SelectGroup>
+                </SelectContent>
+              </Select>
             </div>
             {errors.address && (
               <span className="text-rose-500 ml-1 max-sm:text-[13px]">

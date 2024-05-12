@@ -1,9 +1,9 @@
 // import { Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Text, Title } from '@tremor/react'
 import prisma from '@/lib/db/db'
-import { ProductWithOrderedVariant } from '@/lib/types'
+import { ProductWithOrderdProducts, ProductWithOrderedVariant } from '@/lib/types'
 import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
 import Image from 'next/image'
-import { fetchMostSoldProduct, fetchSalesByDate } from '../../../actions/sales'
+import { fetchMostSoldProduct } from '../../../actions/sales'
 import { getAuthSession } from '../../lib/auth'
 import { CntEmployeesCard } from '../employee/_components/CntEmployeesCard'
 import { CntUserCard } from '../employee/_components/CntTopicCard'
@@ -52,7 +52,7 @@ const page = async () => {
 
   // if (!salesByDate) return <>Error fetching Sales</>
 
-  const products = await fetchMostSoldProduct() as ProductWithOrderedVariant[]
+  const products = await fetchMostSoldProduct() as any[]
 
   if (!products) return <>Error fetching products</>
 
@@ -93,7 +93,7 @@ const page = async () => {
               <Card>
                 <div className='h-full'>
                   <Title>Top 10 sold products</Title>
-                  <HotProducts products={products} />
+                  <HotProducts products={products as ProductWithOrderdProducts[]} />
                 </div>
               </Card>
             </Grid>

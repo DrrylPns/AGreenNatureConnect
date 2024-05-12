@@ -59,7 +59,7 @@ export async function POST(req: NextRequest) {
     const session = await getAuthSession()
     if (!session?.user) {
         return new Response("Unauthorized", { status: 401 });
-      }
+    }
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
         }
     })
 
-    if (user?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
+    // if (user?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
 
     try {
         const body = await req.json()
@@ -90,7 +90,7 @@ export async function POST(req: NextRequest) {
             expiration,
         } = CreateProductSchema.parse(body)
 
-        if(community && user){
+        if (community && user) {
             const createProduct = await prisma.product.create({
                 data: {
                     productImage: productImage as string,
@@ -98,14 +98,14 @@ export async function POST(req: NextRequest) {
                     category,
                     priceInKg,
                     quantity,
-                    creatorId: user?.EmployeeId as string,
+                    creatorId: user?.id as string,
                     communityId: community?.id,
+                    status: "APPROVED"
                 }
             });
 
             const addStocks = await prisma.stocks.create({
-                data:{
-                    batchNo: "batch",
+                data: {
                     numberOfStocks: quantity,
                     harvestedFrom: harvestedFrom,
                     expiration: expiration,
@@ -113,18 +113,26 @@ export async function POST(req: NextRequest) {
 
                 }
             })
-            
+
+            await prisma.stockLogs.create({
+                data: {
+                    numberOfStocks: quantity,
+                    harvestedFrom: harvestedFrom,
+                    expiration: expiration,
+                    productId: createProduct.id,
+                }
+            })
             await prisma.employeeActivityHistory.create({
-                data:{
-                type: "MARKETHUB_PRODUCTS",
-                employeeId: session.user.id,
-                productId: createProduct.id,
-                typeOfActivity: `Created new product: ${quantity}kg. ${name} from ${harvestedFrom}`
+                data: {
+                    type: "MARKETHUB_PRODUCTS",
+                    employeeId: session.user.id,
+                    productId: createProduct.id,
+                    typeOfActivity: `Created new product: ${quantity}kg. ${name} from ${harvestedFrom}`
                 }
             })
         }
 
-        revalidatePath("/employee/inventory")
+        revalidatePath("/employee/inventory", "page")
        console.log("created Product")
         return new NextResponse(`Successfully added product!`);
     } catch (error) {
@@ -152,12 +160,12 @@ export async function PUT(req: NextRequest) {
         }
     })
 
-    if (loggedInUser?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
+    // if (loggedInUser?.role !== "EMPLOYEE") return new Response("Error: Unauthorized", { status: 401 })
 
     try {
         const body = await req.json()
 
-        const { id, name, category, productImage } = UpdateProductSchema.parse(body)
+        const { id, name, category, productImage, price } = UpdateProductSchema.parse(body)
 
         await prisma.product.update({
             where: {
@@ -168,6 +176,7 @@ export async function PUT(req: NextRequest) {
                 productImage,
                 name,
                 category,
+                priceInKg: price
             }
         })
 

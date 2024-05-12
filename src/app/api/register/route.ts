@@ -68,11 +68,12 @@ export async function POST(req: Request) {
                     email,
                     hashedPassword,
                     birthday,
-                    Community: {
-                        connect: {
-                            name: community
-                        }
-                    }
+                    barangay: community,
+                    // Community: {
+                    //     connect: {
+                    //         name: community
+                    //     }
+                    // }
                 }
             });
         }

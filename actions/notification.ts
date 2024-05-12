@@ -59,6 +59,25 @@ export const fetchNotifications = async () => {
                     topic: true,
                 }
             },
+            consignor: {
+                include: {
+                    urbanFarm: {
+                        include: {
+                            ProductRequest: true
+                        }
+                    }
+                }
+            },
+            productRequest: {
+                include: {
+                    urbanFarm: true
+                }
+            },
+            urbanFarmApplication: {
+                include: {
+                    user: true
+                }
+            },
         },
         orderBy: {
             createdAt: "desc"
@@ -88,18 +107,18 @@ export const notificationRead = async (notificationId: string) => {
 export const notificationReadAll = async (userId: string | undefined) => {
     try {
 
-        if(!userId) return {error: "No user found!"}
+        if (!userId) return { error: "No user found!" }
 
         await prisma.notification.updateMany({
             where: {
-                userId 
+                userId
             },
-            data:{
+            data: {
                 isRead: true
             },
         })
 
-        return {success: "Notification read."}
+        return { success: "Notification read." }
     } catch (error) {
         throw new Error(error as any)
     }

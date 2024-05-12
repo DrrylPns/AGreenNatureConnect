@@ -2,11 +2,13 @@ import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
+import { LatestProduct, ProductWithOrderdProducts } from "./types"
+import { isWithinInterval } from 'date-fns';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
-export const formatStatus = (status:string)=>{
+export const formatStatus = (status: string) => {
   const correctStatus = status === "APPROVED" ? "Approved" : "Declined"
   return correctStatus
 }
@@ -27,6 +29,27 @@ const formatDistanceLocale = {
   xYears: '{{count}}y',
   overXYears: '{{count}}y',
   almostXYears: '{{count}}y',
+}
+
+export async function calculateTotalSalesValue(latestProducts: LatestProduct[], startDate: Date | null = null, endDate: Date | null = null) {
+  const productSalesValues: number[] = [];
+
+  // Iterate over each product
+  for (const product of latestProducts) {
+      let totalSalesValue = 0;
+
+      // Sum up the total price from orderedProducts within the specified date range for each product
+      for (const order of product.orderedProducts) {
+          if (!startDate || !endDate || isWithinInterval(new Date(order.createdAt), { start: startDate, end: endDate })) {
+              totalSalesValue += order.totalPrice;
+          }
+      }
+
+      // Store the total sales value for the product
+      productSalesValues.push(totalSalesValue);
+  }
+
+  return productSalesValues;
 }
 
 function formatDistance(token: string, count: number, options?: any): string {
@@ -101,3 +124,27 @@ export function getMinBirthDate() {
 export const formatCreatedAt = (createdAt: Date): string => {
   return formatDistanceToNow(new Date(createdAt), { addSuffix: true });
 };
+
+export function formatDateWithTime(date: any) {
+  // Format date with time using toLocaleString
+  return new Date(date).toLocaleString();
+}
+
+export function formatPrice(
+  price: number | string,
+  options: {
+    currency?: "PHP",
+    notation?: Intl.NumberFormatOptions["notation"]
+  } = {}
+) {
+  const { currency = "PHP", notation = "standard" } = options
+
+  const numericPrice = typeof price === "string" ? parseFloat(price) : price
+
+  return new Intl.NumberFormat("fil-PH", {
+    style: "currency",
+    currency,
+    notation,
+    maximumFractionDigits: 2
+  }).format(numericPrice)
+}

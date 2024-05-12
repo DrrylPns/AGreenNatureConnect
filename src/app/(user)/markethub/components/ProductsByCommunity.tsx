@@ -1,5 +1,5 @@
 'use client'
-import { Product, Variants } from '@/lib/types'
+import { Product, ProductMarkethub, Variants } from '@/lib/types'
 import { Listbox, Transition } from '@headlessui/react'
 import axios from 'axios'
 import React, { Fragment, useEffect, useState } from 'react'
@@ -19,7 +19,7 @@ function ProductsByCommunity({
 }) {
     const [selectedCategory, setSelectedCategory] = useState<string>(Categories[0])
     const [isLoading, setIsLoading] = useState<boolean>(true)
-    const [products, setProducts] = useState<Product[]>()
+    const [products, setProducts] = useState<ProductMarkethub[]>()
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(8);
     const lastItemIndex = currentPage * itemsPerPage;
@@ -32,6 +32,7 @@ function ProductsByCommunity({
       
        },[selectedCategory])
 
+       console.log(products)
     const getPostByCategory = async () => {
     try {
         const res = (await axios.post(`/api/markethub/community/products?communityId=${communityId}`,{category:selectedCategory})).data;
@@ -76,18 +77,12 @@ function ProductsByCommunity({
                 <>
                 {currentItems && currentItems?.length > 0 ? 
                     currentItems.map((product)=>{
-                        const prices = product.variants.map((variant: Variants) => variant.price);
-                        const lowestPrice = Math.min(...prices);
-                        const highestPrice = Math.max(...prices);
-                        if (product.variants.length < 1) {
-                            return null
-                        }
-                        if (product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1) {
+                        if (product.quantity < 1) {
                             return null
                         } else {
                             return (
                             <div key={product.id} className=''>
-                                <ProductModal  product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
+                                <ProductModal product={product}/>
                             </div>
                             )
                         }

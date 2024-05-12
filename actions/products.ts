@@ -2,10 +2,15 @@
 
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
+import { calculateTotalSalesValue } from "@/lib/utils"
 import { UpdateStocksSchema, UpdateStocksType } from "@/lib/validations/employee/products"
+import { Stocks } from "@prisma/client"
+import { id } from "date-fns/locale"
 import { revalidatePath } from "next/cache"
+const cron = require('node-cron');
 
-export const fetchProducts = async () => {
+
+export const fetchAllProducts = async () => {
     const session = await getAuthSession()
 
     if (!session) return { error: "Unauthorized" }
@@ -26,7 +31,6 @@ export const fetchProducts = async () => {
             id: user.Community?.id
         }
     })
-
     const products = await prisma.product.findMany({
         where: {
             community: {
@@ -38,15 +42,230 @@ export const fetchProducts = async () => {
         },
         include: {
             creator: true,
-           
+            Stock: true
         },
         orderBy: {
             createdAt: "desc"
         },
     })
 
-    return products
+    await products.forEach(async(product)=>{
+        let totalStocks = 0
+        const currentDate = new Date()
+        const productStock = await prisma.stocks.findMany({
+            where:{
+                productId: product.id
+            }
+        })
+        const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+            const expirationDate = new Date(stock.expiration);
+            return expirationDate >= currentDate;
+        });
+        notExpiredStocks.map((stock)=>{
+            totalStocks += stock.numberOfStocks
+        })
+        await prisma.product.update({
+            where: { id: product.id },
+            data: {
+                quantity: totalStocks
+            },
+        });
+    })
+
+    const latestProducts = await prisma.product.findMany({
+        where: {
+            community: {
+                name: community?.name
+            },
+            status: {
+                not: "ARCHIVED"
+            }
+        },
+        include: {
+            creator: true,
+            Stock: true,
+            orderedProducts: true,
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+    })
+
+  
+
+    await prisma.product.updateMany({
+        where:{
+            Stock: {
+                every:{
+                    expiration:{
+                        lt: new Date()
+                    }
+                }
+            }
+        },
+        data:{
+
+        }
+    })
+
+
+
+    revalidatePath("/employee/inventory")
+    return latestProducts
 }
+
+export const numberOfProducts = async ()=>{
+    const session = await getAuthSession();
+    if (!session) return { error: "Unauthorized" };
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session?.user.id,
+        },
+        include: {
+            Community: true
+        }
+    });
+
+    if (!user) return { error: "No user found!" };
+    const productsCount = await prisma.product.count({
+        where:{
+            community:{
+                id:user.Community?.id
+            },
+            status: {
+                not: "ARCHIVED"
+            },
+            
+        }
+    })
+
+    return productsCount
+}
+export const fetchProducts = async (startDate: Date | null = null, endDate: Date | null = null) => {
+    const session = await getAuthSession();
+
+    if (!session) return { error: "Unauthorized" };
+
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session?.user.id
+            
+        },
+        include: {
+            Community: true
+        }
+    });
+
+    if (!user) return { error: "No user found!" };
+
+    const community = await prisma.community.findFirst({
+        where: {
+            id: user.Community?.id
+        }
+    });
+
+    // Fetch all products within the specified date range
+    const products = await prisma.product.findMany({
+        where: {
+            community: {
+                name: community?.name
+            },
+            status: {
+                not: "ARCHIVED"
+            },
+            orderedProducts: {
+                some: {
+                    createdAt: {
+                        gte: startDate || undefined,
+                        lte: endDate || undefined
+                    },
+                    transaction:{
+                        status: "COMPLETED"
+                    }
+                },
+            }
+        },
+        include: {
+            creator: true,
+            Stock: true,
+            orderedProducts: true,
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+    });
+
+    await products.forEach(async(product)=>{
+        let totalStocks = 0
+        const currentDate = new Date()
+        const productStock = await prisma.stocks.findMany({
+            where:{
+                productId: product.id
+            }
+        })
+        const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+            const expirationDate = new Date(stock.expiration);
+            return expirationDate >= currentDate;
+        });
+        notExpiredStocks.map((stock)=>{
+            totalStocks += stock.numberOfStocks
+        })
+        await prisma.product.update({
+            where: { id: product.id },
+            data: {
+                quantity: totalStocks
+            },
+        });
+    })
+
+    const latestProducts = await prisma.product.findMany({
+        where: {
+            community: {
+                name: community?.name
+            },
+            status: {
+                not: "ARCHIVED"
+            },
+            orderedProducts: {
+                some: {
+                    createdAt: {
+                        gte: startDate || undefined,
+                        lte: endDate || undefined
+                    },
+                    transaction:{
+                        status: "COMPLETED"
+                    }
+                },
+            }
+        },
+        include: {
+            creator: true,
+            Stock: true,
+            orderedProducts: true,
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+    })
+
+    // Calculate total sales value for each product within the specified date range
+    const totalSalesValue = await calculateTotalSalesValue(latestProducts, startDate, endDate);
+    console.log(totalSalesValue)
+    // Sort products based on total sales value in descending order
+    const sortedProducts = latestProducts.slice().sort((a, b) => totalSalesValue[latestProducts.indexOf(b)] - totalSalesValue[latestProducts.indexOf(a)]);
+
+    // Determine the number of products for each category
+    const totalProducts = sortedProducts.length;
+    const top20PercentCount = Math.ceil(totalProducts * 0.2);
+    const bottom5PercentCount = Math.ceil(totalProducts * 0.05);
+
+    // Get products for each category
+    const categoryAProducts = sortedProducts.slice(0, top20PercentCount);
+    const categoryBProducts = sortedProducts.slice(top20PercentCount, totalProducts - bottom5PercentCount);
+    const categoryCProducts = sortedProducts.slice(totalProducts - bottom5PercentCount);
+
+    return { categoryAProducts, categoryBProducts, categoryCProducts };
+};
 
 export const archiveProduct = async (id: string) => {
     const session = await getAuthSession()
@@ -154,4 +373,47 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
     } catch (error: any) {
         throw new Error(error)
     }
+}
+
+export const fetchStocks = async (productId: string) =>{
+    const session = await getAuthSession()
+
+    if (!session) return { error: "Unauthorized" }
+
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session?.user.id
+        },
+        include: {
+            Community: true
+        },
+        orderBy:{
+            createdAt: 'desc'
+        }
+    })
+
+    const community = await prisma.community.findFirst({
+        where:{
+            products:{
+                every:{
+                    id: productId
+                }
+            }
+        }
+    })
+    if (!user) return { error: "No user found!" }
+
+    const stocks = await prisma.stocks.findMany({
+        where:{
+            product:{
+                id: productId
+            },
+            
+        },
+        include:{
+            product: true,
+        }
+    })
+    console.log(productId)
+    return stocks
 }

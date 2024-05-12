@@ -1,5 +1,5 @@
 "use client"
-import { ProductWithOrderedVariant } from '@/lib/types'
+import { ProductWithOrderdProducts, ProductWithOrderedVariant } from '@/lib/types'
 import Image from 'next/image'
 import { Button } from "@/app/components/Ui/Button";
 import { formatDate } from "@/lib/utils";
@@ -8,7 +8,7 @@ import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableH
 import { useState } from "react";
 
 interface Props {
-    products: ProductWithOrderedVariant[]
+    products: ProductWithOrderdProducts[]
 }
 
 export const HotProducts = ({ products }: Props) => {
@@ -35,7 +35,7 @@ export const HotProducts = ({ products }: Props) => {
                                     <Text>{product.name}</Text>
                                 </TableCell>
                                 <TableCell>
-                                    <Text>{product.orderedVariant.length}</Text>
+                                    <Text>{product.orderedProducts?.length}</Text>
                                 </TableCell>
                             </TableRow>
                         ))}

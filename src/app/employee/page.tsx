@@ -1,16 +1,17 @@
 import prisma from '@/lib/db/db'
 import { BarChart, Card, Col, Grid, Tab, TabGroup, TabList, TabPanel, TabPanels, Title } from '@tremor/react'
-import { fetchMostSoldProduct, fetchSalesByDate } from '../../../actions/sales'
+import { fetchMostSoldProduct } from '../../../actions/sales'
 import { getAuthSession } from '../../lib/auth'
 import CntSales from '../admin/_components/CntSales'
 import SearchEmployees from '../admin/_components/SearchEmployees'
 import { CntEmployeesCard } from './_components/CntEmployeesCard'
 import { CntUserCard } from './_components/CntTopicCard'
 import PPSCard from './_components/PPSCard'
-import { ProductWithOrderedVariant } from '@/lib/types'
+import { ProductWithOrderdProducts, ProductWithOrderedVariant } from '@/lib/types'
 import CntProducts from '../admin/_components/CntProducts'
 import { SalesByBar } from '../admin/_components/SalesByBar'
 import { HotProducts } from '../admin/_components/HotProducts'
+import { SalesReportTable } from './_components/SalesReportTable'
 
 const page = async () => {
 
@@ -41,7 +42,7 @@ const page = async () => {
 
     // if (!salesByDate) return <>Error fetching Sales</>
 
-    const products = await fetchMostSoldProduct() as ProductWithOrderedVariant[]
+    const products = await fetchMostSoldProduct();
 
     if (!products) return <>Error fetching products</>
 
@@ -52,10 +53,11 @@ const page = async () => {
             <Title>{loggedInUser?.Community?.name} Dashboard</Title>
 
             <TabGroup className="mt-6">
-                <TabList>
+                <TabList className='print-card'>
                     <Tab>Overview</Tab>
                     {/* IF EVER LANG MAY MAILALAGAY IF WALA DELETE TAB */}
                     <Tab>Farmers</Tab>
+                    <Tab>Reports</Tab>
                 </TabList>
                 <TabPanels>
                     <TabPanel>
@@ -85,7 +87,8 @@ const page = async () => {
                             <Card>
                                 <div className='h-full'>
                                     <Title>Top 10 sold products</Title>
-                                    <HotProducts products={products} />
+                                    {/* @ts-ignore */}
+                                    <HotProducts products={products as ProductWithOrderdProducts[]} />
                                 </div>
                             </Card>
                         </Grid>
@@ -102,6 +105,10 @@ const page = async () => {
 
                             </Card>
                         </div>
+                    </TabPanel>
+
+                    <TabPanel>
+                        <SalesReportTable />
                     </TabPanel>
                 </TabPanels>
             </TabGroup>

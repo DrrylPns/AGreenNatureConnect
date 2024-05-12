@@ -2,6 +2,8 @@
 
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
+import { ProductWithOrderdProducts } from "@/lib/types"
+import { formatDate } from "@/lib/utils"
 
 export const fetchSales = async () => {
     const session = await getAuthSession()
@@ -58,12 +60,29 @@ export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) =
             },
         },
         include: {
-           
+            orderedProducts: {
+                include: {
+                    product: true,
+                },
+            },
         },
     });
 
     const categorySalesMap: Record<string, number> = {};
 
+    // Aggregate sales value by category
+    sales.forEach((transaction) => {
+        transaction.orderedProducts.forEach((orderedProduct) => {
+            const productCategory = orderedProduct.product.category;
+            const saleAmount = orderedProduct.totalPrice;
+
+            if (categorySalesMap[productCategory]) {
+                categorySalesMap[productCategory] += saleAmount;
+            } else {
+                categorySalesMap[productCategory] = saleAmount;
+            }
+        });
+    });
 
     // Format data for DonutChart component
     const salesByCategories = Object.entries(categorySalesMap).map(([category, sales]) => ({
@@ -75,7 +94,7 @@ export const fetchSalesByCategories = async (startDate?: Date, endDate?: Date) =
 };
 
 
-export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
+export const fetchSalesCountByDate = async (startDate: Date, endDate: Date) => {
     const session = await getAuthSession();
 
     if (!session) return { error: "Unauthorized" };
@@ -87,11 +106,11 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
 
     const community = await prisma.community.findFirst({
         where: {
-            id: loggedInUser?.Community?.id,
+            id: loggedInUser?.Community?.id
         },
         include: {
-            products: true,
-        },
+            products: true
+        }
     });
 
     const salesByDates = await prisma.transaction.findMany({
@@ -104,33 +123,42 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
             },
         },
         include: {
-          
-            
-        },
-        orderBy: {
-            createdAt: "asc",
+            orderedProducts: {
+                include: {
+                    product: true,
+                    transaction: true,
+                }
+            }
         },
     });
 
-    const salesByDate: Record<string, Record<string, number>> = {};
+    const salesByDateMap: Record<string, Record<string, number>> = {};
 
     salesByDates.forEach((transaction) => {
         const transactionDate = new Date(transaction.createdAt);
-        const formattedDate = transactionDate.toISOString().slice(0, 10); // Group by date
+        const formattedDate = formatDate(transactionDate);
 
-        if (!salesByDate[formattedDate]) {
-            salesByDate[formattedDate] = {};
+        // Initialize sales data for the date if it doesn't exist
+        if (!salesByDateMap[formattedDate]) {
+            salesByDateMap[formattedDate] = {};
         }
 
+        // Aggregate sales count by category for the date
+        transaction.orderedProducts.forEach((orderedProduct) => {
+            const productCategory = orderedProduct.product.category;
+
+            // Increase count for the category on the date
+            salesByDateMap[formattedDate][productCategory] = (salesByDateMap[formattedDate][productCategory] || 0) + 1;
+        });
     });
 
-    // Convert the sales data to the required format
-    const salesData = Object.entries(salesByDate).map(([date, sales]) => ({
+    // Format data for BarChart component
+    const salesByDate = Object.entries(salesByDateMap).map(([date, sales]) => ({
         date,
         ...sales,
     }));
 
-    return salesData;
+    return salesByDate;
 };
 
 
@@ -207,14 +235,12 @@ export const fetchSalesByDate = async (startDate: Date, endDate: Date) => {
 // };
 
 export const fetchMostSoldProduct = async () => {
-    const session = await getAuthSession()
-
-    if (!session) return { error: "Unauthorized" }
+    const session = await getAuthSession();
 
     const loggedInUser = await prisma.user.findFirst({
-        where: { id: session.user.id },
+        where: { id: session?.user.id },
         include: { Community: true }
-    })
+    });
 
     const community = await prisma.community.findFirst({
         where: {
@@ -222,28 +248,38 @@ export const fetchMostSoldProduct = async () => {
         },
         include: {
             products: {
-                include: {
-                    
-                },
+                include: {}
             },
         },
-    })
+    });
 
-    const products = await prisma.product.findMany({
+    const productsWithOrderedProducts = await prisma.product.findMany({
         where: {
-            communityId: loggedInUser?.Community?.id,
             status: "APPROVED",
+            communityId: community?.id,
         },
         include: {
-        
-        },
-    })
+            orderedProducts: {
+                select: { quantity: true }
+            },
+            community: true,
+            Stock: true,
+            reviews: true,
+        }
+    });
 
-    // Sort products by the number of units sold (orderedVariant count) in descending order
-   
+    // Calculate the total quantity sold for each product and add it to the returned object
+    const productsWithTotalSold = productsWithOrderedProducts.map(product => ({
+        ...product,
+        totalSold: product.orderedProducts.reduce((total, { quantity }) => total + quantity, 0)
+    }));
 
-    return products.slice(0, 10); // Return the top 10 most sold products
-}
+    // Sort products by total quantity sold in descending order
+    const sortedProducts = productsWithTotalSold.sort((a, b) => b.totalSold - a.totalSold);
+
+    // Return only the top 10 most sold products
+    return sortedProducts.slice(0, 10)
+};
 
 export const totalNumberOfProducts = async () => {
     const session = await getAuthSession()
@@ -264,3 +300,60 @@ export const totalNumberOfProducts = async () => {
 
     return products
 }
+
+export const salesReport = async (startDate: Date, endDate: Date) => {
+    const session = await getAuthSession();
+
+    const loggedInUser = await prisma.user.findFirst({
+        where: { id: session?.user.id },
+        include: { Community: true },
+    });
+
+    const community = await prisma.community.findFirst({
+        where: {
+            id: loggedInUser?.Community?.id,
+        },
+        include: {
+            products: true,
+        },
+    });
+
+    const salesByDates = await prisma.transaction.findMany({
+        where: {
+            status: "COMPLETED",
+            sellerId: community?.id,
+            createdAt: {
+                gte: startDate,
+                lte: endDate,
+            },
+        },
+        include: {
+            orderedProducts: {
+                include: {
+                    product: true,
+                },
+            },
+            buyer: true,
+        },
+        orderBy: {
+            createdAt: "asc",
+        },
+    });
+
+    // Initialize variables to store total sales amount and total products sold
+    let totalSalesAmount = 0;
+    let totalProductsSold = 0;
+
+    // Calculate total sales amount and total products sold
+    salesByDates.forEach((transaction) => {
+        totalSalesAmount += transaction.amount;
+        totalProductsSold += transaction.orderedProducts.length;
+    });
+
+    // Return an object containing both the sales data and the computed totals
+    return {
+        salesData: salesByDates,
+        totalSalesAmount,
+        totalProductsSold,
+    };
+};

@@ -9,6 +9,7 @@ import { columns } from './_components/column'
 import ProductLogs from './_components/productLogs/ProductLogs'
 import DiscussionLogs from './_components/discussionLogs/DiscussionLogs'
 import MaterialsLogs from './_components/materialsLogs/MaterialsLogs'
+import Stocks from './_components/stocks/Stocks'
 
 export const dynamic = 'force-dynamic';
 
@@ -37,16 +38,16 @@ const page = async() => {
         include: {
             product:{
                 include:{
-                    orderedVariant:true
+                    orderedProducts:true
                 }
             },
             employee: true,
             transaction: {
                 include:{
-                    orderedVariant:{
+                    orderedProducts:{
                         include:{
                             product: true,
-                            variant: true
+                            transaction: true
                         }
                     }
                 }
@@ -67,16 +68,16 @@ const page = async() => {
         include: {
             product:{
                 include:{
-                    orderedVariant:true
+                    orderedProducts:true
                 }
             },
             employee: true,
             transaction: {
                 include:{
-                    orderedVariant:{
+                    orderedProducts:{
                         include:{
                             product: true,
-                            variant: true
+                            transaction: true
                         }
                     }
                 }
@@ -128,16 +129,16 @@ const page = async() => {
             learningMaterial: true,
             product:{
                 include:{
-                    orderedVariant:true
+                    orderedProducts:true
                 }
             },
             employee: true,
             transaction: {
                 include:{
-                    orderedVariant:{
+                    orderedProducts:{
                         include:{
                             product: true,
-                            variant: true
+                            transaction: true
                         }
                     }
                 }
@@ -146,6 +147,18 @@ const page = async() => {
             orderBy:{
             createdAt: 'desc'
             }
+    })
+
+    const stockLogs = await prisma.stockLogs.findMany({
+        where:{
+            product:{
+                communityId: loggedInUser?.Community?.id
+            }
+        },
+        include:{
+            product: true,
+            user: true,
+        }
     })
 
 
@@ -216,6 +229,7 @@ const page = async() => {
                     <TabsTrigger value="productLogs">Product</TabsTrigger>
                     {/* <TabsTrigger value="discussionLogs">Discussion</TabsTrigger> */}
                     <TabsTrigger value="materialsLogs">Materials</TabsTrigger>
+                    <TabsTrigger value="stocks">Stocks</TabsTrigger>
                 </TabsList>
                 <TabsContent value="orderLogs">
                     <div className="">
@@ -239,6 +253,11 @@ const page = async() => {
                     <MaterialsLogs
                     //@ts-ignore 
                     materialsLogs={materialLogs}/>
+                </TabsContent>
+                <TabsContent value="stocks">
+                    <Stocks
+                    //@ts-ignore 
+                    stockLogs={stockLogs}/>
                 </TabsContent>
             </Tabs>
             

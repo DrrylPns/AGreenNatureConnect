@@ -12,11 +12,25 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from "@/app/components/Ui/Dropdown-Menu"
+import {
+    AlertDialog,
+    AlertDialogAction,
+    AlertDialogCancel,
+    AlertDialogContent,
+    AlertDialogDescription,
+    AlertDialogFooter,
+    AlertDialogHeader,
+    AlertDialogTitle,
+    AlertDialogTrigger,
+} from "@/app/components/Ui/alert-dialog"
 import { Button } from "@/app/components/Ui/Button"
 import { Checkbox } from "@/app/components/Ui/checkbox"
 import { useRouter } from "next/navigation";
 import { toast } from "@/lib/hooks/use-toast";
 import { DataTableColumnHeader } from "@/app/employee/inventory/_components/DateTableColumnHeader";
+import { useState, useTransition } from "react";
+import { buttonVariants } from "@/app/components/Ui/Button";
+import { handleFarmerStaff } from "../../../../../actions/community";
 
 export type Employees = {
     id: string;
@@ -190,31 +204,82 @@ export const columns: ColumnDef<Employees>[] = [
         header: "Actions",
         cell: ({ row }) => {
             const employee = row.original
+            const farmerId = row.original.id
             const router = useRouter()
-
-            // const handleArchive = () => {
-            //     console.log(`Hiding product with ID: ${employee.id}`);
-            // };
+            const [open, setOpen] = useState(false)
+            const [isPending, startTransition] = useTransition()
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open </span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem
-                            onClick={() => router.push(`manage-employees/${employee.id}`)}
-                        >Edit</DropdownMenuItem>
-                        {/* <DropdownMenuItem
+                <>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open </span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                                onClick={() => router.push(`manage-employees/${employee.id}`)}
+                            >
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => setOpen(true)}
+                                className="text-rose-500 hover:text-rose-500/70 cursor-pointer"
+                            >
+                                Deactivate
+                            </DropdownMenuItem>
+                            {/* <DropdownMenuItem
                             onClick={handleArchive}
                         >Archive</DropdownMenuItem> */}
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+
+                    <AlertDialog open={open} onOpenChange={setOpen}>
+                        <AlertDialogContent>
+                            <AlertDialogHeader>
+                                <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+                                <AlertDialogDescription>
+                                    Note: This will deactivate the account of this urban staff. They can't use their account to manage the urban farm unless activated again.
+                                </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                                <AlertDialogCancel className={buttonVariants({
+                                    variant: "destructive"
+                                })}>Cancel</AlertDialogCancel>
+                                <AlertDialogAction
+                                    className={buttonVariants({
+                                        variant: "newGreen"
+                                    })}
+                                    onClick={() => {
+                                        startTransition(() => {
+                                            handleFarmerStaff(farmerId, true).then((callback) => {
+                                                if (callback.error) {
+                                                    toast({
+                                                        description: callback.error,
+                                                        variant: "destructive",
+                                                    })
+                                                }
+
+                                                if (callback.success) {
+                                                    toast({
+                                                        description: callback.success
+                                                    })
+                                                }
+
+                                            })
+                                        })
+                                    }}
+                                >Continue</AlertDialogAction>
+                            </AlertDialogFooter>
+                        </AlertDialogContent>
+                    </AlertDialog>
+
+                </>
+
             )
         },
     },

@@ -23,12 +23,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
+            orderedProducts: {
+                include:{
+                    product: true
                 }
             }
+           
         }
     });
 
@@ -43,12 +43,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
+            orderedProducts: {
+                include:{
+                    product: true
                 }
             }
+           
         }
     })
 
@@ -63,12 +63,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
+            orderedProducts: {
+                include:{
+                    product: true
                 }
             }
+           
         }
     })
 
@@ -83,10 +83,9 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
+            orderedProducts: {
+                include:{
+                    product: true
                 }
             }
         }
@@ -103,12 +102,12 @@ async function page() {
         include: {
             buyer: true,
             seller: true,
-            orderedVariant: {
-                include: {
-                    product: true,
-                    variant: true
+            orderedProducts: {
+                include:{
+                    product: true
                 }
             }
+           
         }
     })
 

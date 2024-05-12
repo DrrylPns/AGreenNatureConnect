@@ -13,13 +13,16 @@ export async function GET(req: Request) {
                 status:{
                     equals: "APPROVED"
                 },
-                variants:{
-                    some: {
-                        variant: {
-                            not: 0
-                        }
-                    }
+                quantity:{
+                    not: 0
                 }
+                // variants:{
+                //     some: {
+                //         variant: {
+                //             not: 0
+                //         }
+                //     }
+                // }
             }
         });
         const posts = await prisma.post.findMany({

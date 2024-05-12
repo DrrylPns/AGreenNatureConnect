@@ -27,7 +27,7 @@ export const NotifOwnPage = ({
     <>
     <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold">Notifications</h1>
-        <Button className="border border-transparent bg-transparent text-black hover:bg-transparent"
+        <Button className="bg-white dark:bg-[#18191A] text-[#000000] dark:text-white"
          onClick={() => {
           startTransition(() => {
               notificationReadAll(user.id).then((callback) => {
@@ -57,7 +57,7 @@ export const NotifOwnPage = ({
           <div className="grid gap-1 p-1 text-sm shadow">
             {allNotification.map((notification: NotificationsWithRelation) => (
               <div className="" key={notification.id}>
-                <div className={`${!notification.isRead ? "bg-[#6ffdf2]" : "bg-[#ffffff]"}`}>
+                <div className={`p-2 rounded-md ${!notification.isRead ? "bg-[#caf0f8] dark:bg-[#1b2026]" : "bg-[#ffffff]"}`}>
                 <div className='flex items-center gap-3 pl-3 pt-2 mt-2 text-[#1F2937] dark:text-[#ffffff]'>
                                             {/* <MailIcon className="mr-2 h-7 w-7" /> */}
                                             {notification.type === "PENDING" && notification.community && (

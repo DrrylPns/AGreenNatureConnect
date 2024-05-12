@@ -1,5 +1,5 @@
 'use server'
-import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom, Prisma } from '@prisma/client';
+import { Message, NotificationType, ReviewDislike, ReviewLike, User, ChatRoom, Prisma, Stocks } from '@prisma/client';
 
 export interface CustomButtonProps {
   title: string,
@@ -117,12 +117,9 @@ export interface Product {
   itemNumber: number | null;
   productImage: string;
   name: string;
-  kilograms: number;
-  grams: number;
-  pounds: number;
-  pieces: number;
-  packs: number;
-  variants: Variants[]
+  quantity: number;
+  priceInKg: number;
+  Stocks: Stocks[]
   category: string;
   status: string;
   isFree: boolean;
@@ -244,9 +241,9 @@ export interface ResultItem {
 
 export interface ProductVariant {
   productId: string;
-  variant: Variants;
+  kilograms: number;
+  totalPrice: number;
   isFree: boolean;
-  quantity: number;
 }
 
 export interface Transaction {
@@ -366,6 +363,12 @@ export type UserWithCommunityMessages = Prisma.UserGetPayload<{
   }
 }>
 
+export type UserWithCommunity = Prisma.UserGetPayload<{
+  include: {
+    Community: true
+  }
+}>
+
 export type ProductWithOrderedVariant = Prisma.ProductGetPayload<{
   include: {
     orderedVariant: true,
@@ -392,21 +395,88 @@ export type ChatRoomWithAllRelation = Prisma.ChatRoomGetPayload<{
     user: true,
   }
 }>
+export type ProductWithStocks = Prisma.ProductGetPayload<{
+  include: {
+    community: true,
+    Stock: true,
+    creator: true,
+    reviews: true,
+  }
+}>
+export type StocksWitProducts = Prisma.StocksGetPayload<{
+  include: {
+    product: true,
+    user: true,
+  }
+}>
+export type ProductMarkethub = Prisma.ProductGetPayload<{
+  include: {
+    Stock: true,
+    reviews: true,
+    community: true
+  }
+}>
+export type CartwithProduct = Prisma.CartGetPayload<{
+  include: {
+    community: true,
+    product: {
+      include: {
+        community: true
+      }
+    },
+  }
+}>
+export type ProductWithOrderdProducts = Prisma.ProductGetPayload<{
+  include: {
+    Stock: true,
+    reviews: true,
+    community: true,
+    orderedProducts: {
+      include: {
+        product: true
+      }
+    },
+    creator:true
+  }
+}>
+export type LatestProduct = Prisma.ProductGetPayload<{
+  include: {
+    creator: true,
+    Stock: true,
+    orderedProducts: true,
+},
+}>
+export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
+  include: {
+    buyer: true,
+    seller: true,
+    orderedProducts: {
+      include: {
+        product: true
+      }
+    }
+  }
+}>
+export type orderedProductsWithProducts = Prisma.OrderedProductsGetPayload<{
+  include: {
+    product: true,
+  }
+}>
+
 
 export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHistoryGetPayload<{
   include: {
-    product:{
-      include:{
-        orderedVariant: true
+    product: {
+      include: {
+        orderedProducts: true
       },
     },
     employee: true,
     transaction: {
       include: {
-        orderedVariant: {
+        orderedProducts: {
           include: {
-            product: true,
-            variant: true
+            product: true
           }
         }
       }
@@ -418,50 +488,86 @@ export type employeeActivityHistoryWithTransaction = Prisma.EmployeeActivityHist
 }>
 
 export type NotificationWithUser = Prisma.NotificationGetPayload<{
-  error: String, 
+  error: String,
   include: {
     user: true,
     community: true,
     transaction: true,
     Reaction: {
-        include: {
-            post: {
-                include: {
-                    topic: true
-                }
-            },
-            user: true
-        }
+      include: {
+        post: {
+          include: {
+            topic: true
+          }
+        },
+        user: true
+      }
     },
     Reply: {
-        include: {
-            user: true,
-            comment: {
-                include: {
-                    post: {
-                        include: {
-                            topic: true
-                        }
-                    }
-                }
+      include: {
+        user: true,
+        comment: {
+          include: {
+            post: {
+              include: {
+                topic: true
+              }
             }
+          }
         }
+      }
     },
     Comment: {
-        include: {
-            post: {
-                include: {
-                    topic: true
-                }
-            },
-            author: true
-        }
+      include: {
+        post: {
+          include: {
+            topic: true
+          }
+        },
+        author: true
+      }
     },
     Post: {
-        include: {
-            author: true,
-            topic: true,
-        }
+      include: {
+        author: true,
+        topic: true,
+      }
     },
-},
+  },
+}>
+
+export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
+  include: {
+    reviews: true,
+    community: true,
+  }
+}>
+
+export type ConsignorApplicantsExtended = Prisma.ConsignorApplicantsGetPayload<{
+  include: {
+    urbanFarm: true,
+    user: true,
+
+  }
+}>
+
+export type DeactivatedEmployees = Prisma.UserGetPayload<{
+
+}>
+
+export type CompletedTransaction = Prisma.TransactionGetPayload<{
+  include: {
+    orderedProducts: {
+      include: {
+        product: true,
+      }
+    },
+    buyer: true,
+  }
+}>
+
+export type ProductRequestWithConsignee = Prisma.ProductRequestGetPayload<{
+  include: {
+    consignee: true
+  }
 }>

@@ -181,4 +181,20 @@
     }
   }
 
-  
+@media print {
+  .print-card {
+      page-break-after: always;
+      margin: 0;
+      box-shadow: none;
+      border: none;
+      font-size: 12pt;
+  }
+
+  .print-card ul {
+      margin-top: 0;
+  }
+
+  .print-card:not(.print-visible) {
+    display: none;
+}
+}

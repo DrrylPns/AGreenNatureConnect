@@ -17,9 +17,9 @@ export async function POST(req: Request) {
             }
         })
 
-        if (loggedIn?.role !== "EMPLOYEE" || !session?.user) {
-            return new Response("Unauthorized", { status: 401 })
-        }
+        // if (loggedIn?.role !== "EMPLOYEE" || !session?.user) {
+        //     return new Response("Unauthorized", { status: 401 })
+        // }
 
         const body = await req.json()
 
@@ -30,17 +30,18 @@ export async function POST(req: Request) {
                 title,
                 content,
                 thumbnail,
-                authorId: session.user.id,
-                communityId: loggedIn?.Community?.id as string
+                authorId: session?.user.id as string,
+                communityId: loggedIn?.Community?.id as string,
+                isApproved: "APPROVED",
             }
         })
 
         await prisma.employeeActivityHistory.create({
-            data:{
-              type: "LEARNINGMATERIALS",
-              employeeId: session.user.id,
-              blogId: blog.id,
-              typeOfActivity: `Added ${blog.title} to Blogs.`
+            data: {
+                type: "LEARNINGMATERIALS",
+                employeeId: session?.user.id as string,
+                blogId: blog.id,
+                typeOfActivity: `Added ${blog.title} to Blogs.`
             }
         })
 

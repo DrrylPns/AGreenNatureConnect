@@ -1,5 +1,6 @@
 import React from 'react'
 import ProductModal from './ProductModal';
+import { ProductMarkethub } from '@/lib/types';
 
 interface Product {
     id: string;
@@ -67,7 +68,7 @@ function Products({
     noProducts,
     selectedIndex
 }:{
-    products: Product[],
+    products: ProductMarkethub[],
     noProducts: string,
     selectedIndex: number,
 }) {
@@ -76,22 +77,15 @@ function Products({
   {selectedIndex == selectedIndex && (
   <div className="grid grid-cols-12 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
     {products.length > 0 ? products.map((product) => {
-    const prices = product.variants.map((variant) => variant.price);
-    const lowestPrice = Math.min(...prices);
-    const highestPrice = Math.max(...prices);
-    if (product.variants.length < 1) {
-        return null
-    }
-
-    if (product.kilograms < 1 && product.grams < 1 && product.pounds < 1 && product.packs < 1 && product.pieces < 1) {
-        return null
-    } else {
-        return (
-        <div key={product.id} className='col-span-6 sm:col-span-4 md:col-span-3 lg:col-span-2'>
-            <ProductModal product={product} lowestPrice={lowestPrice} highestPrice={highestPrice}/>
-        </div>
-        )
-    }
+        if (product.quantity < 1) {
+          return null
+      } else {
+          return (
+          <div key={product.id} className=''>
+              <ProductModal  product={product}/>
+          </div>
+          )
+      }
     }) : (
     <div className='col-span-12 flex justify-center w-full h-1/2 text-center'>
         <h1 className='text-2xl font-livvic font-semibold text-gray-500'>{noProducts}</h1>

@@ -4,6 +4,7 @@ import { Rating } from 'react-simple-star-rating'
 import Image from 'next/image';
 import { RatingStars } from './Rating';
 import Link from 'next/link';
+import { ProductMarkethub } from '@/lib/types';
 
 interface Reviews {
     id:     string
@@ -25,18 +26,20 @@ function Card({
     imageUrl,
     productName,
     barangay,
-    lowestPrice,
-    highestPrice,
+    quantity,
+    priceInKg,
     productReviews,
     productId,
+    product,
 }:{
     imageUrl: string,
     productName: string,
     barangay:string,
-    lowestPrice: number,
-    highestPrice: number,
+    quantity: number,
+    priceInKg: number,
     productReviews: Reviews[],
     productId: string
+    product: ProductMarkethub
 }) {
     
     let sumOfRatings = 0;
@@ -81,6 +84,7 @@ function Card({
                 {barangay === "Bagong Silangan" && "New Greenland Urban Farm"}
             </h3>
             <h3 className='text-xs dark:text-white font-poppins font-normal'>{barangay}</h3>
+            <h3 className='text-xs dark:text-white font-poppins font-normal'>{product.community.address}</h3>
             {productReviews.length > 0 ?(
                 <div  className="flex max-h-14 flex-col z-30 items-center justify-center my-2 px-2 gap-2 w-full relative rounded-xl overflow-hidden  dark:bg-slate-800/25">
                     {productReviews.length > 0 && (
@@ -96,7 +100,7 @@ function Card({
             )}            
            
         </div>
-        {lowestPrice == 0 && highestPrice == 0 ?(
+        {product.isFree ?(
             <div className='flex justify-between p-3 border-t-2 border-gray  px-3 '>
                 <span className='text-xs sm:text-xs md:text-xs font-poppins'>Price:</span>
                 <span className='text-xs sm:text-xs md:text-xs font-poppins'>Free</span>
@@ -104,7 +108,7 @@ function Card({
         ):(
             <div className='flex justify-between items-center border-t-2 border-gray dark:text-white pt-3 px-3'>
                 <span className='text-[0.55rem] sm:text-xs md:text-[0.6rem] font-poppins font-bold'>Price:</span>
-                <span className='text-[0.55rem] sm:text-xs md:text-[0.6rem] font-poppins font-bold border border-black rounded-xl px-2 py-1'>₱ {lowestPrice} - ₱ {highestPrice}</span>
+                <span className='text-[0.55rem] sm:text-xs md:text-[0.6rem] font-poppins font-bold border border-black rounded-xl px-2 py-1'>₱ {product.priceInKg}</span>
             </div>
         )}
         

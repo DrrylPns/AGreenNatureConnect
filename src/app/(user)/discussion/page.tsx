@@ -3,7 +3,7 @@ import FeaturedTopics from "./components/FeaturedTopics";
 import Post from "./components/Post";
 
 import { getAuthSession } from "../../../lib/auth";
-import LatestProducts from "./components/LatestProducts";
+import LatestProducts from "./components/Advertise";
 
 export default async function Discussion() {
   const session = await getAuthSession()

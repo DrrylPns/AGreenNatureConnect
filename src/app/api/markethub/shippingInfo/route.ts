@@ -28,6 +28,7 @@ export async function POST(req: Request) {
         }
 
         const { data } = await req.json()
+
         // Check if shipping info already exists for the user
         const existingShippingInfo = await prisma.shippingInfo.findFirst({
             where: {
@@ -47,6 +48,9 @@ export async function POST(req: Request) {
                     phoneNumber: data.contactNumber,
                     facebook: data.facebook,
                     email: data.email,
+                    blk: data.blk,
+                    street: data.street,
+                    zip: data.zip,
                 },
             });
 
@@ -61,6 +65,9 @@ export async function POST(req: Request) {
                     phoneNumber: data.contactNumber,
                     facebook: data.facebook,
                     email: data.email,
+                    blk: data.blk,
+                    street: data.street,
+                    zip: data.zip,
                 },
             });
             revalidatePath(`/cart/checkout`, 'page')

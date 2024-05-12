@@ -29,11 +29,11 @@ datasource db {
 // numberOfViolations Int - add number of times na ban if 3 na then banned ka na
 // isBanned boolean? if 3 violations na then permanent true na yung isBanned
 model User {
-  id                     String         @id @default(cuid()) // string
+  id                     String                    @id @default(cuid()) // string
   name                   String? // nullable | optional 
-  EmployeeId             String?        @unique
-  username               String?        @unique
-  email                  String?        @unique
+  EmployeeId             String?                   @unique
+  username               String?                   @unique
+  email                  String?                   @unique
   emailVerified          DateTime?
   image                  String?
   hashedPassword         String?
@@ -41,56 +41,63 @@ model User {
   lastName               String?
   barangay               String?
   suffix                 String?
-  phoneNumber            String?        @unique
+  phoneNumber            String?                   @unique
   address                String?
-  role                   Role           @default(USER)
+  role                   Role                      @default(USER)
+  specialization         SpecializedRole?
   gender                 String?
   birthday               DateTime?
   blk                    String?
   zip                    String?
   street                 String?
   bio                    String?
-  createdAt              DateTime       @default(now())
-  updatedAt              DateTime       @updatedAt
-  isBanned               Boolean        @default(false)
-  numberOfViolations     Int            @default(0)
-  isNotificationsEnabled Boolean        @default(true)
+  isDisabled             Boolean                   @default(false)
+  createdAt              DateTime                  @default(now())
+  updatedAt              DateTime                  @updatedAt
+  isBanned               Boolean                   @default(false)
+  numberOfViolations     Int                       @default(0)
+  isNotificationsEnabled Boolean                   @default(true)
   lastUsernameChange     DateTime?
   isBannedFromPosting    DateTime?
-  createdTopics          Topic[]        @relation("CreatedBy")
-  buyerTransactions      Transaction[]  @relation("Buyer")
+  createdTopics          Topic[]                   @relation("CreatedBy")
+  buyerTransactions      Transaction[]             @relation("Buyer")
   shippingInfo           ShippingInfo[]
   // buyerTransactions   Transaction[] @relation("Buyer")
   // sellerTransactions  Transaction[] @relation("Seller")
   // buyerOrder          Order[]       @relation("BuyerOrders")
   // sellerOrder         Order[]       @relation("SellerOrders")
-
-  cart             Cart[]
-  Account          Account[]
-  posts            Post[]
-  comments         Comment[]
-  likes            Like[]
-  notifications    Notification[]
-  reporter         Report[]                  @relation("Reporter")
-  reported         Report[]                  @relation("Reported")
-  Blog             Blog[]
-  LearningMaterial LearningMaterial[]
-  VideoTutorial    VideoTutorial[]
-  FAQ              FAQ[]
+  ProductRequest         ProductRequest[]          @relation("UserRelation")
+  consignee              ProductRequest[]          @relation("Consignee")
+  Stocks                 Stocks[]
+  StocksLogs             StockLogs[]
+  urbanFarmApplicatants  UrbanFarmApplicatants[]
+  Consignor              ConsignorApplicants[]
+  cart                   Cart[]
+  Account                Account[]
+  posts                  Post[]
+  comments               Comment[]
+  likes                  Like[]
+  notifications          Notification[]
+  reporter               Report[]                  @relation("Reporter")
+  reported               Report[]                  @relation("Reported")
+  Blog                   Blog[]
+  LearningMaterial       LearningMaterial[]
+  VideoTutorial          VideoTutorial[]
+  FAQ                    FAQ[]
   // ProductPost     ProductPost[]
   // Product         Product[]      @relation("CreateProduct")
-  Product          Product[]
-  Article          Article[]
-  Community        Community?                @relation(fields: [communityId], references: [id], onDelete: Cascade)
-  communityId      String?
-  reactions        Reaction[]
-  reply            Reply[]
-  Review           Review[]
-  ReviewLike       ReviewLike[]
-  ReviewDislike    ReviewDislike[]
-  ChatRoom         ChatRoom[]
-  Message          Message[]
-  Activity         EmployeeActivityHistory[]
+  Product                Product[]
+  Article                Article[]
+  Community              Community?                @relation(fields: [communityId], references: [id], onDelete: Cascade)
+  communityId            String?
+  reactions              Reaction[]
+  reply                  Reply[]
+  Review                 Review[]
+  ReviewLike             ReviewLike[]
+  ReviewDislike          ReviewDislike[]
+  ChatRoom               ChatRoom[]
+  Message                Message[]
+  Activity               EmployeeActivityHistory[]
 
   @@index([id])
   @@index([communityId])
@@ -122,6 +129,11 @@ enum Role {
   SUPER_ADMIN // barangay admin
 }
 
+enum SpecializedRole {
+  MarketHub
+  Informational
+}
+
 model EmployeeIdCounter {
   year    Int @id
   counter Int
@@ -149,36 +161,40 @@ model Account {
 
 // urban farm head
 model Community {
-  id               String             @id @default(cuid())
-  name             String             @unique // urban farm name
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime           @updatedAt
-  carouselImage    CommunityImage[]
-  displayPhoto     String?
+  id            String           @id @default(cuid())
+  name          String           @unique // urban farm name
+  createdAt     DateTime         @default(now())
+  updatedAt     DateTime         @updatedAt
+  carouselImage CommunityImage[]
+  displayPhoto  String?
   // urbanFarmName    String?            @unique
-  form             String?
-  qrCode           String?
-  address          String?
-  email            String?
-  contactNumber    String?
-  description      String?
-  blk              String?
-  street           String?
-  zip              String?
-  isArchived       Boolean            @default(false)
-  posts            Post[]
-  blogs            Blog[]
-  articles         Article[]
-  products         Product[]
-  User             User[]
-  LearningMaterial LearningMaterial[]
-  VideoTutorial    VideoTutorial[]
-  FAQ              FAQ[]
-  Transaction      Transaction[]
-  cart             Cart[]
-  notifications    Notification[]
-  ChatRoom         ChatRoom[]
-  messages         Message[]
+
+  area                 String?
+  form                 String?
+  qrCode               String?
+  address              String? // barangay
+  email                String?
+  contactNumber        String?
+  description          String?
+  blk                  String?
+  street               String?
+  zip                  String?
+  isArchived           Boolean               @default(false)
+  ProductRequest       ProductRequest[]
+  ConsignorApplication ConsignorApplicants[]
+  posts                Post[]
+  blogs                Blog[]
+  articles             Article[]
+  products             Product[]
+  User                 User[]
+  LearningMaterial     LearningMaterial[]
+  VideoTutorial        VideoTutorial[]
+  FAQ                  FAQ[]
+  Transaction          Transaction[]
+  cart                 Cart[]
+  notifications        Notification[]
+  ChatRoom             ChatRoom[]
+  messages             Message[]
 }
 
 model CommunityImage {
@@ -337,6 +353,32 @@ model Like {
   @@index([postId])
 }
 
+model ProductRequest {
+  id          String    @id @default(cuid())
+  urbanFarmId String
+  urbanFarm   Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
+  request     String
+  answer      String?
+  status      PrType    @default(REQUESTING)
+
+  consigneeId String?
+  consignee   User?   @relation("Consignee", fields: [consigneeId], references: [id], onDelete: Cascade)
+
+  // Relation with user
+  userId String
+  user   User   @relation("UserRelation", fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  Notification Notification[]
+}
+
+enum PrType {
+  REQUESTING
+  PROCESSING
+  RECEIVED
+}
+
 model Notification {
   id        String           @id @default(cuid())
   type      NotificationType
@@ -346,6 +388,12 @@ model Notification {
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String
+
+  consignorApplicationId String?
+  consignor              ConsignorApplicants? @relation(fields: [consignorApplicationId], references: [id], onDelete: Cascade)
+
+  urbanFarmApplicationId String?
+  urbanFarmApplication   UrbanFarmApplicatants? @relation(fields: [urbanFarmApplicationId], references: [id], onDelete: Cascade)
 
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
@@ -365,6 +413,9 @@ model Notification {
   Reply   Reply?  @relation(fields: [replyId], references: [id], onDelete: Cascade)
   replyId String?
 
+  productRequest   ProductRequest? @relation(fields: [productRequestId], references: [id], onDelete: Cascade)
+  productRequestId String?
+
   @@index([userId])
   @@index([communityId])
   @@index([transactionId])
@@ -379,6 +430,9 @@ enum NotificationType {
   REACT
   COMMENT
   REPLY
+  REQUEST
+  CONSIGNOR_ACCEPTED
+  URBANFARM_ACCEPTED
 }
 
 model Report {
@@ -438,7 +492,7 @@ model Blog {
   content    Json
   createdAt  DateTime       @default(now())
   updatedAt  DateTime       @updatedAt
-  isApproved ApprovalStatus @default(PENDING)
+  isApproved ApprovalStatus @default(APPROVED)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -459,7 +513,7 @@ model LearningMaterial {
   description String         @db.VarChar(1000)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  isApproved  ApprovalStatus @default(PENDING)
+  isApproved  ApprovalStatus @default(APPROVED)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -481,7 +535,7 @@ model VideoTutorial {
   description String         @db.VarChar(1000)
   createdAt   DateTime       @default(now())
   updatedAt   DateTime       @updatedAt
-  isApproved  ApprovalStatus @default(PENDING)
+  isApproved  ApprovalStatus @default(APPROVED)
 
   author   User   @relation(fields: [authorId], references: [id], onDelete: Cascade)
   authorId String
@@ -548,20 +602,22 @@ model Product {
   priceInKg    Float
 
   category    String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
-  status      ApprovalStatus @default(PENDING)
+  status      ApprovalStatus @default(APPROVED)
   isFree      Boolean        @default(false)
   isFreeUntil DateTime?
 
   Stock     Stocks[]
-  creator   User     @relation(fields: [creatorId], references: [EmployeeId], onDelete: Cascade)
+  StockLogs StockLogs[]
+  creator   User        @relation(fields: [creatorId], references: [id], onDelete: Cascade)
   creatorId String
 
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-
+  createdAt               DateTime                  @default(now())
+  updatedAt               DateTime                  @updatedAt
+  cart                    Cart[]
   community               Community                 @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId             String
   // orderedVariant OrderedVariant[]
+  orderedProducts         OrderedProducts[]
   reviews                 Review[]
   EmployeeActivityHistory EmployeeActivityHistory[]
   // ProductTransaction ProductTransaction[]
@@ -572,14 +628,69 @@ model Product {
 
 model Stocks {
   id             String   @id @default(cuid())
-  batchNo        String
+  numberOfStocks Float
+  expiration     DateTime
+  harvestedFrom  String
+  productId      String?
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model StockLogs {
+  id             String   @id @default(cuid())
   numberOfStocks Float
   expiration     DateTime
   harvestedFrom  String
   productId      String?
   product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  userId         String?
+  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
+}
+
+model UrbanFarmApplicatants {
+  id            String @id @default(cuid())
+  urbanFarmName String
+  address       String
+  area          String
+  blk           String
+  street        String
+  zip           String
+  form          String
+  status        String
+  email         String
+  firstName     String
+  lastName      String
+  contact       String
+  gender        String
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  notification Notification[]
+}
+
+model ConsignorApplicants {
+  id String @id @default(cuid())
+
+  urbanFarmId String
+  urbanFarm   Community @relation(fields: [urbanFarmId], references: [id], onDelete: Cascade)
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  status       String
+  products     String
+  description  String?
+  createdAt    DateTime       @default(now())
+  updatedAt    DateTime       @updatedAt
+  notification Notification[]
 }
 
 model Review {
@@ -654,10 +765,10 @@ model Transaction {
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
 
-  review Review[]
-
-  seller   Community @relation(fields: [sellerId], references: [id], onDelete: Cascade)
-  sellerId String
+  review          Review[]
+  orderedProducts OrderedProducts[]
+  seller          Community         @relation(fields: [sellerId], references: [id], onDelete: Cascade)
+  sellerId        String
 
   // orderedVariant          OrderedVariant[]
   notifications           Notification[]
@@ -665,6 +776,20 @@ model Transaction {
 
   @@index([buyerId])
   @@index([sellerId])
+}
+
+model OrderedProducts {
+  id         String   @id @default(cuid())
+  priceInKg  Float
+  quantity   Float
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  totalPrice Float
+  productId  String
+  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  transactionId String
+  transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
 }
 
 enum CancelType {
@@ -730,22 +855,21 @@ enum TransactionStatus {
 // }
 
 model Cart {
-  id        String   @id @default(cuid())
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  quantity  Float
+  id         String   @id @default(cuid())
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  kilograms  Float
+  totalPrice Float
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId     String
 
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId String
-
-  // variant   Variant? @relation(fields: [variantId], references: [id], onDelete: Cascade)
-  variantId String?
+  productId String
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
 
   @@index([userId])
-  @@index([variantId])
   @@index([communityId])
 }
 
@@ -753,6 +877,9 @@ model ShippingInfo {
   id          String   @id @default(cuid())
   name        String
   address     String
+  blk         String?
+  zip         String?
+  street      String?
   phoneNumber String
   facebook    String
   email       String

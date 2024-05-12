@@ -15,7 +15,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { toast } from "@/lib/hooks/use-toast";
 import { cn, formatDate } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Product, User } from "@prisma/client";
+import { Product, Stocks, User } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
 import { ColumnDef } from "@tanstack/react-table";
 import axios from "axios";
@@ -43,6 +43,7 @@ import {
   AlertDialogTrigger,
 } from "@/app/components/Ui/alert-dialog";
 import { buttonVariants } from "@/app/components/Ui/Button";
+import { LatestProduct, ProductWithStocks } from "@/lib/types";
 
 export type Products = {
   id: string;
@@ -59,7 +60,7 @@ export type Products = {
   isFree: boolean;
 }
 
-export const columns: ColumnDef<Products>[] =
+export const columns: ColumnDef<LatestProduct>[] =
   [
     {
       accessorKey: "productImage",
@@ -71,13 +72,14 @@ export const columns: ColumnDef<Products>[] =
       cell: ({ row }) => {
         const ProductImage = row.original.productImage
         return <div
-          className="cursor-pointer flex items-center justify-center"
+          className="cursor-pointer w-20 h-20 flex items-center justify-center"
         >
           <Image
             unoptimized
             quality={100}
             src={ProductImage}
             alt="product image"
+            className="object-cover w-full h-full"
             width={50}
             height={50}
           />
@@ -121,10 +123,39 @@ export const columns: ColumnDef<Products>[] =
       },
       cell: ({ row }) => {
         const stockKilo = row.original.quantity;
-        const outOfStock = row.original.quantity === 0
+        const outOfStock = row.original.quantity === 0;
+        const numberOfStocks = row.original.quantity
+        // const stocks = row.original.Stock;
+        // const currentDate = new Date()
+        // console.log(stocks)
+        // const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
+        //   const expirationDate = new Date(stock.expiration);
+        //   // Return true if the expiration date is greater than or equal to the current date
+        //   return expirationDate >= currentDate;
+        // });
+
+        // let totalNumberOfStocks = 0
+        // const s = notExpiredStocks.map((stocks: Stocks)=>{
+        //   totalNumberOfStocks += stocks.numberOfStocks
+        // })
+
+
         return <div
           className={`${outOfStock && "text-rose-500"} text-center`}
-        >{stockKilo}</div>;
+        >{numberOfStocks}</div>;
+      },
+    },
+    {
+      accessorKey: "price",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Price" />
+        );
+      },
+      cell: ({ row }) => {
+        const price = row.original.priceInKg;
+        return <div className="text-center">₱{price}</div>;
       },
     },
     {
@@ -140,6 +171,7 @@ export const columns: ColumnDef<Products>[] =
         return <div className="text-center">{category}</div>;
       },
     },
+   
     {
       accessorKey: "isFree",
       header: ({ column }) => {
@@ -159,16 +191,20 @@ export const columns: ColumnDef<Products>[] =
       },
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "revenue",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Date" />
+          <DataTableColumnHeader column={column} title="Revenue" />
         );
       },
       cell: ({ row }) => {
-        const createdAt = row.original.createdAt;
-        return <div>{formatDate(createdAt)}</div>;
+        const orderedProducts = row.original.orderedProducts;
+        let revenue = 0
+        orderedProducts.map((product)=>{
+          revenue += product.totalPrice
+        })
+        return <div>₱{revenue}</div>;
       },
     },
     {
@@ -297,6 +333,13 @@ export const columns: ColumnDef<Products>[] =
                 >
                   <Link href={`inventory/addstocks/${product.id}`}>
                     Add new stocks
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
+                >
+                  <Link href={`inventory/stocks/${product.id}`}>
+                    View stocks
                   </Link>
                 </DropdownMenuItem>
                 {/* <DropdownMenuItem

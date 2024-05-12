@@ -10,7 +10,7 @@ import {
 } from "@/app/components/Ui/select"
 import { BarChart, Title } from '@tremor/react'
 import { useEffect, useState } from "react"
-import { fetchSalesByDate } from "../../../../actions/sales"
+import { fetchSalesCountByDate } from "../../../../actions/sales"
 import { cn } from "@/lib/utils"
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover"
 import { Button } from "@/app/components/Ui/Button"
@@ -40,7 +40,7 @@ export const SalesByBar = () => {
                     endDate = new Date(today.getFullYear(), 11, 31); // End date is last day of current year
                 }
 
-                const data = await fetchSalesByDate(startDate, endDate);
+                const data = await fetchSalesCountByDate(startDate, endDate);
                 setSales(data);
             } catch (error) {
                 console.error("Error fetching sales data:", error);

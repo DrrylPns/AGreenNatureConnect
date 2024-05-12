@@ -16,18 +16,11 @@ async function Free({
             communityId: communityId,
             status: "APPROVED",
             isFree: true,
-            variants:{
-                some:{
-                    variant:{
-                        not:0
-                    }
-                }
-            }
         },
         include:{
-            community:true,
-            variants: true,
-            reviews: true
+            Stock: true,
+            community: true,
+            reviews: true,
         }
     })
   return (  
@@ -40,7 +33,7 @@ async function Free({
             {getFreeProductByCommunity.length > 0 ? (
                 getFreeProductByCommunity.map((freeProduct)=>(
                 <div key={freeProduct.id} className=' w-32 sm:w-[20%] pb-5 flex-shrink-0'>
-                    <ProductModal product={freeProduct} lowestPrice={0} highestPrice={0} />
+                    <ProductModal product={freeProduct} />
                 </div> 
             ))):(
                 <div className='w-full text-center text-md text-gray-400 font-semibold font-poppins'>

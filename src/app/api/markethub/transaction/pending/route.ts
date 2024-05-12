@@ -19,10 +19,10 @@ export async function GET(req: Request) {
             include: {
                 buyer: true,
                 seller: true,
-                orderedVariant: {
+                orderedProducts: {
                     include: {
                         product: true,
-                        variant: true
+                        transaction: true
                     }
                 }
             }

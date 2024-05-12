@@ -14,43 +14,19 @@ export const columns: ColumnDef<employeeActivityHistoryWithTransaction>[] = [
             )
         },
         cell: ({ row }) => {
-            const orderedVariants = row.original.transaction?.orderedVariant;
+            const orderedProducts = row.original.transaction?.orderedProducts;
             const product = row.original.product?.name
-            const formattedProducts = orderedVariants?.map((variant) => {
-                const productName = variant.product?.name || 'N/A';
-                const quantity = variant.variant?.variant;
-                const unitOfMeasurement = variant.variant?.unitOfMeasurement;
+            const formattedProducts = orderedProducts?.map((product) => {
+                const productName = product.product?.name || 'N/A';
 
-                let displayQuantity = '';
-                switch (unitOfMeasurement) {
-                    case 'kilograms':
-                        displayQuantity = `${quantity} kg`;
-                        break;
-                    case 'grams':
-                        displayQuantity = `${quantity} g`;
-                        break;
-                    case 'pounds':
-                        displayQuantity = `${quantity} lbs`;
-                        break;
-                    case 'pieces':
-                        displayQuantity = `${quantity} pcs`;
-                        break;
-                    case 'packs':
-                        displayQuantity = `${quantity} pcks`;
-                        break;
-                    default:
-                        displayQuantity = `${quantity} ${unitOfMeasurement}`;
-                        break;
-                }
-
-                return `${productName} (${displayQuantity})`;
+                return `${productName} (${product.quantity}Kg)`;
             });
 
             const formattedProductNames = formattedProducts?.join(', ') || 'N/A';
             
             return (
                 <div className="text-xs">
-                    {product}
+                    {formattedProductNames}
                 </div>
             );
         },

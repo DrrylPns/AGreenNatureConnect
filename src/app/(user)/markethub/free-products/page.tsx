@@ -9,17 +9,11 @@ async function page() {
     where:{
       isFree: true,
       status: 'APPROVED',
-      variants:{
-        some:{
-          variant:{
-            not: 0
-          }
-        }
-      }
+      
     },
     include:{
       community: true,
-      variants: true,
+      Stock: true,
       reviews: true
     },
     orderBy:{
@@ -27,7 +21,6 @@ async function page() {
     }
   })
 
-  console.log(freeProducts)
   return (
       <div className='w-full border-4 shadow-md bg-gray-50 drop-shadow-md border-gray-300 rounded-lg p-5'>
         <Back/>
@@ -36,7 +29,7 @@ async function page() {
           <div className='grid grid-cols-2 gap-3 md:grid-cols-5 w-full bg-white'>
               {freeProducts.map((product)=>(
                 <div key={product.id} className=''>
-                  <ProductModal product={product} lowestPrice={0} highestPrice={0} />
+                  <ProductModal product={product} />
                 </div>
               ))}
           </div>

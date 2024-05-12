@@ -20,6 +20,7 @@ import { toast } from "@/lib/hooks/use-toast";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { insertProof } from "../../../../actions/transaction";
+import { transactionWithOrderedProducts } from "@/lib/types";
 
 interface Transaction {
     id: string;
@@ -31,7 +32,6 @@ interface Transaction {
     paymentStatus: string | null;
     gcashReciept: string | null;
     seller: Community
-    orderedVariant: OrderedVariant[]
     createdAt: Date;
     updatedAt: Date;
 }
@@ -84,7 +84,7 @@ interface Product {
 function QrCodeDrawer({
     transaction
 }: {
-    transaction: Transaction
+    transaction: transactionWithOrderedProducts
 }) {
     const [isPending, startTransition] = useTransition()
     const [imageUrl, setImageUrl] = useState<string>('')

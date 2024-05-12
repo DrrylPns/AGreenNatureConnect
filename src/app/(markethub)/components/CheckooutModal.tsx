@@ -4,7 +4,7 @@ import React, { Fragment, useEffect, useState } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosRadioButtonOff, IoIosRadioButtonOn } from "react-icons/io";
 import { useRouter } from "next/navigation";
-import { Cart, ShippingInfo } from "@/lib/types";
+import { Cart, CartwithProduct } from "@/lib/types";
 import Image from "next/image";
 import { RotatingLines } from "react-loader-spinner";
 import { FaArrowLeft } from "react-icons/fa";
@@ -15,17 +15,23 @@ import { useQuery } from "@tanstack/react-query";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/lib/hooks/use-toast";
+import { ShippingInfo } from "@prisma/client";
 
 const PaymentMethod = [
-  'Cash on delivery',
-  'Gcash', 
- 
+  'Cash upon Pickup',
+  'External Delivery',
+
 ]
 
-function CheckoutModal({}: {}) {
-  const [checkoutItems, setCheckoutItems] = useState<Cart[]>([]);
+const ExternalDelivery = [
+  'Abono',
+  'Gcash',
+]
+
+function CheckoutModal({ }: {}) {
+  const [checkoutItems, setCheckoutItems] = useState<CartwithProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
-  const [shippingInfo , setShippingInfo] = useState<ShippingInfo>()
+  const [shippingInfo, setShippingInfo] = useState<ShippingInfo>()
   const [isProcessing, setisProcessing] = useState<boolean>(false);
   const [disableBtn, setDisableBtn] = useState<boolean>(false);
   const { getItem } = useLocalStorage("value");
@@ -34,6 +40,7 @@ function CheckoutModal({}: {}) {
   const { cartNumber, setCartNumber } = useCart();
   const [selectedValue, setSelectedValue] = useState('');
   const [method, setMethod] = useState("")
+  const [option, setOption] = useState("")
   const [error, setError] = useState("")
 
   // Function to handle the change event of the select element
@@ -48,16 +55,16 @@ function CheckoutModal({}: {}) {
       setLoading(false);
     }, 2000);
   }, []);
-  useEffect(()=>{
+  useEffect(() => {
     setError('')
-  },[method])
+  }, [method])
 
   const setItems = () => {
     setCheckoutItems(getItem);
   };
 
   //get Shipping info from db
-  const getShippingInfo = async()=>{
+  const getShippingInfo = async () => {
     try {
       const res = await axios.get(`/api/markethub/shippingInfo`);
       setShippingInfo(res.data)
@@ -76,10 +83,10 @@ function CheckoutModal({}: {}) {
   }
   // Function to group items by community name
   const groupItemsByCommunity = () => {
-    const groupedItems: Record<string, Cart[]> = {};
+    const groupedItems: Record<string, CartwithProduct[]> = {};
 
-    checkoutItems.forEach((item: Cart) => {
-      const communityName = item.variant.product.community.name;
+    checkoutItems.forEach((item: CartwithProduct) => {
+      const communityName = item.product.community.name;
       if (!groupedItems[communityName]) {
         groupedItems[communityName] = [];
       }
@@ -92,9 +99,9 @@ function CheckoutModal({}: {}) {
   const groupedItems = groupItemsByCommunity();
 
   // Calculate total price for each barangay and get the sum of total prices
-  const calculateSubtotal = (selectedItems: Cart[]) => {
+  const calculateSubtotal = (selectedItems: CartwithProduct[]) => {
     return selectedItems.reduce((total, item) => {
-      const priceToAdd = item.variant.product.isFree ? 0 : (item.variant.price * item.quantity);
+      const priceToAdd = item.product.isFree ? 0 : (item.totalPrice);
       return total + priceToAdd;
     }, 0);
   };
@@ -115,12 +122,19 @@ function CheckoutModal({}: {}) {
   };
 
   const handlePlaceOrder = async () => {
-    if(method === ''){
+    if (method === '') {
       setError("You must select a payment method first!")
       closeModal()
       return
     }
-    if(shippingInfo === undefined || shippingInfo === null){
+    if (method === 'External Delivery') {
+      if (option === "") {
+        setError("You must select atleast 1 option")
+        closeModal()
+        return
+      }
+    }
+    if (shippingInfo === undefined || shippingInfo === null) {
       closeModal()
       toast({
         title: "Not Allowed",
@@ -137,15 +151,13 @@ function CheckoutModal({}: {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method }),
+        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method === "Cash upon Pickup" ? method : option }),
       });
-  
+
       if (response.ok) {
-        if(method==="Gcash"){
-          router.replace(`checkout/payment/${method}`)
-        } else {
+      
           router.replace("/cart/checkout/success");
-        }
+        
         setCartNumber((prevCartNumber) => prevCartNumber - checkoutItems.length);
       } else {
         console.error("Failed to place order:", response.statusText);
@@ -182,115 +194,137 @@ function CheckoutModal({}: {}) {
                 </button>
               </div>
             </div>
-          )} 
-          
+          )}
+
           {shippingInfo && (
             <div className="mx-3 border-gray-300 border-2 bg-gray-50 sm:mx-[10%] shadow-md drop-shadow-lg p-5">
               <h1 className="text-sm md:text-2xl font-poppins font-semibold text-center">Shipping Information</h1>
-            <div className="block sm:flex px-3  md:px-10 py-5 text-black">
-              <div className="hidden sm:block text-4xl text-red-600">
-                <FaLocationDot />
+              <div className="block sm:flex px-3  md:px-10 py-5 text-black">
+                <div className="hidden sm:block text-4xl text-red-600">
+                  <FaLocationDot />
+                </div>
+                <div className="ml-10 text-sm md:text-md lg:text-lg">
+                  <h3>Full Name : {shippingInfo.name}</h3>
+                  <h3 className="text text-wrap">
+                    Address: {shippingInfo.address}{", "} {shippingInfo.blk}{", "} {shippingInfo.street}
+                  </h3>
+                  <h3>
+                    Zip: {shippingInfo.zip}
+                  </h3>
+                  <h3>Email : {shippingInfo.email}</h3>
+                  <h3>Contact Number : {shippingInfo.phoneNumber}</h3>
+                  <h3>Facebook : {shippingInfo.facebook}</h3>
+                </div>
+                <div className="flex justify-center items-center ml-auto">
+                  <button
+                    onClick={() => {
+                      router.push(`/shipping-information`);
+                    }}
+                    className="bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black"
+                  >
+                    Edit
+                  </button>
+                </div>
               </div>
-              <div className="ml-10 text-sm md:text-md lg:text-lg">
-                <h3>Full Name : {shippingInfo.name}</h3>
-                <h3 className="text text-wrap">
-                  Address: {shippingInfo.address}{" "}
-                </h3>
-                <h3>Email : {shippingInfo.email}</h3>
-                <h3>Contact Number : {shippingInfo.phoneNumber}</h3>
-                <h3>Facebook : {shippingInfo.facebook}</h3>
-              </div>
-              <div className="flex justify-center items-center ml-auto">
-                <button
-                  onClick={() => {
-                    router.push(`/shipping-information`);
-                  }}
-                  className="bg-yellow-400 rounded-xl px-10 py-2 text-xl font-poppins font-medium text-black"
-                >
-                  Edit
-                </button>
-              </div>
-            </div>
             </div>
           )}
 
           {loading != true ? (
             <>
               <div className="flex flex-col-reverse sm:flex-row sm:justify-around px-3 pb-32 md:px-[5%] md:mt-5">
-                
+
                 <div className="w-full sm:w-[60%] p-5 rounded-lg border-2 bg-white border-gray-300 shadow-md min-h-[20vh] drop-shadow-lg">
-                <h3 className="text-center  font-medium">Check out items</h3>
-                {Object.entries(groupedItems).map(
-                  ([communityName, communityItems]) => (
-                    <div
-                      key={communityName}
-                      className="mb-5 pb-2 w-full bg-gray-50 shadow-sm drop-shadow-md"
-                    >
-                      <div className="flex items-center gap-20 border-y-2 bg-gray-100 border-gray-300 py-2 px-10">
-                        <h2
-                          id={`selectAll_${communityName}`}
-                          className="text-[0.7rem] sm:text-[1rem] font-poppins font-bold"
-                        >
-                          Barangay {communityName}
-                        </h2>
-                      </div>
-                      {communityItems.map((item: Cart) => (
-                        <div
-                          key={item.id}
-                          className="flex gap-5 justify-between pb-2 items-center border-b-2 border-b-gray-300 mx-10 md:mx-[25%] mt-5"
-                        >
-                          <Image
-                            src={item.variant.product.productImage}
-                            alt={item.variant.product.name}
-                            height={50}
-                            width={50}
-                            className="w-[20%]"
-                          />
-                          <div className="text-[0.6rem] sm:text-sm ">
-                            <h3>{item.variant.product.name}</h3>
-                            <h3>
-                              {item.variant.variant}{" "}
-                              <span>{item.variant.unitOfMeasurement}</span>
-                            </h3>
-                          </div>
-                          <div className="ml-auto">
-                            <h3 className="font-semibold text-[0.6rem] sm:text-sm font-poppins">
-                              {" "}
-                              {item.variant.product.isFree == true
-                                ? "Free"
-                                : `₱ ${(item.variant.price * item.quantity)}`}
-                            </h3>
-                          </div>
+                  <h3 className="text-center  font-medium">Check out items</h3>
+                  {Object.entries(groupedItems).map(
+                    ([communityName, communityItems]) => (
+                      <div
+                        key={communityName}
+                        className="mb-5 pb-2 w-full bg-gray-50 shadow-sm drop-shadow-md"
+                      >
+                        <div className="flex items-center gap-20 border-y-2 bg-gray-100 border-gray-300 py-2 px-10">
+                          <h2
+                            id={`selectAll_${communityName}`}
+                            className="text-[0.7rem] sm:text-[1rem] font-poppins font-bold"
+                          >
+                            Barangay {communityName}
+                          </h2>
                         </div>
-                      ))}
-                      <div className="flex justify-between p-5 font-semibold text-[0.6rem] md:text-lg">
-                        <h1 className="">
-                          Order Total:{" "}
-                          <span>₱ {subtotalByBarangay[communityName]}</span>
-                        </h1>
+                        {communityItems.map((item: CartwithProduct) => (
+                          <div
+                            key={item.id}
+                            className="flex gap-5 justify-between pb-2 items-center border-b-2 border-b-gray-300 mx-10 md:mx-[25%] mt-5"
+                          >
+                            <Image
+                              src={item.product.productImage}
+                              alt={item.product.name}
+                              height={50}
+                              width={50}
+                              className="w-[20%]"
+                            />
+                            <div className="text-[0.6rem] sm:text-sm ">
+                              <h3>{item.product.name}</h3>
+                              <h3>{item.kilograms}Kg</h3>
+                            </div>
+                            <div className="ml-auto">
+                              <h3 className="font-semibold text-[0.6rem] sm:text-sm font-poppins">
+                                {" "}
+                                {item.product.isFree == true
+                                  ? "Free"
+                                  : `₱ ${(item.totalPrice)}`}
+                              </h3>
+                            </div>
+                          </div>
+                        ))}
+                        <div className="flex justify-between p-5 font-semibold text-[0.6rem] md:text-lg">
+                          <h1 className="">
+                            Order Total:{" "}
+                            <span>₱ {subtotalByBarangay[communityName]}</span>
+                          </h1>
+                        </div>
                       </div>
-                    </div>
-                  )
-                )}
+                    )
+                  )}
                 </div>
                 <RadioGroup value={method} onChange={setMethod} className="sm:min-h-32 sm:w-[20%] bg-gray-50 p-5 rounded-lg border-2 border-gray-300 shadow-md min-h-[20vh] drop-shadow-lg">
                   <RadioGroup.Label className="">Select payment method:</RadioGroup.Label>
                   {PaymentMethod.map((payment) => (
-                    <RadioGroup.Option key={payment} value={payment} className={`flex ml-5 mt-3 items-center gap-4 text-xl font-poppins`}>
-                       {({ checked }) => (
-                        <>
-                        <span className={`${checked && 'text-green'} text-xl`}>
-                          {checked ? <IoIosRadioButtonOn  /> : <IoIosRadioButtonOff /> }
-                        
-                        </span>
-                        {payment}
-                        </>
+                    <>
+                      <RadioGroup.Option key={payment} value={payment} className={`flex ml-5 mt-3 items-center gap-4 text-xl font-poppins`}>
+                        {({ checked }) => (
+                          <>
+                            <span className={`${checked && 'text-green'} text-xl`}>
+                              {checked ? <IoIosRadioButtonOn /> : <IoIosRadioButtonOff />}
+
+                            </span>
+                            {payment}
+                          </>
                         )}
-                    </RadioGroup.Option>
+                      </RadioGroup.Option>
+
+                    </>
                   ))}
-                  <h1 className={`${method === '' ? "block":"hidden"} text-sm text-red-500`}>{error}</h1>
+                  <div className={`${method === "External Delivery" ? "block" : "hidden"} transition-all duration-500 ease-linear pl-3`}>
+                    <RadioGroup value={option} onChange={setOption} className="sm:min-h-32 sm:w-[20%] min-h-[20vh] ">
+                      {ExternalDelivery.map((option) => (
+                        <RadioGroup.Option key={option} value={option} className={`flex ml-5 mt-3 items-center gap-4 text-xl font-poppins`}>
+                          {({ checked }) => (
+                            <>
+                              <span className={`${checked && 'text-green'} text-xl`}>
+                                {checked ? <IoIosRadioButtonOn /> : <IoIosRadioButtonOff />}
+
+                              </span>
+                              {option}
+                            </>
+                          )}
+                        </RadioGroup.Option>
+                      ))}
+                    </RadioGroup>
+                    <h1 className={`${method === 'External Delivery' && option === "" ? "block" : "hidden"} text-sm text-red-500`} >{error}</h1>
+                  </div>
+
+                  <h1 className={`${method === '' ? "block" : "hidden"} text-sm text-red-500`} >{error}</h1>
                   <div>
-                    <h1 className="mt-5">Note:</h1>
+                    <h1 className="">Note:</h1>
                     <p className="text-[0.8rem] text-gray-500">Each item may originate from a distinct community; therefore, kindly ensure that the selected payment method is acceptable to you. The choice made here will serve as the designated payment method for all items during the checkout process.</p>
                   </div>
                 </RadioGroup>
@@ -380,10 +414,10 @@ function CheckoutModal({}: {}) {
                           type="button"
                           onClick={handlePlaceOrder}
                           className="inline-flex justify-center rounded-md border border-transparent  bg-green px-10 py-2 text-sm font-medium text-white hover:bg-blue-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-green focus-visible:ring-offset-2"
-                          >
+                        >
                           Yes
                         </button>
-                        
+
                       </div>
                     </Dialog.Panel>
                   </Transition.Child>

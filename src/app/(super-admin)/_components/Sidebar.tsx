@@ -8,6 +8,9 @@ import { FiRefreshCw } from 'react-icons/fi';
 import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/popover';
 import useSettingsModal from '@/lib/hooks/useSettingsModal';
 import { TbUserSquareRounded } from 'react-icons/tb';
+import { VscRequestChanges } from "react-icons/vsc";
+import { fetchNumberOfApplicants } from '../../../../actions/community';
+import { useQuery } from '@tanstack/react-query';
 
 const Sidebar = () => {
 
@@ -15,8 +18,14 @@ const Sidebar = () => {
     const pathname = usePathname()
     const url = pathname.replace("/", "")
     const { onOpen } = useSettingsModal()
-
-    console.log(url)
+    const {
+        data: numberOfApplications,
+        isError,
+        isLoading,
+      } = useQuery({
+        queryKey: ["urbanFarmApplicants"],
+        queryFn: async () => (await fetchNumberOfApplicants()) as number,
+    })
 
     return (
         <div>
@@ -26,6 +35,9 @@ const Sidebar = () => {
 
                     <Link href="/communities" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <Home strokeWidth={1} />
+                    </Link>
+                    <Link href="/request" className={`mx-auto text-neutral-500 p-1 rounded-lg ${url === "request" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                        <VscRequestChanges />
                     </Link>
                     {/* <Link href="/admin/manage-employees" className={`mx-auto text-neutral-500 p-2 m rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                         <User strokeWidth={1} />
@@ -59,7 +71,8 @@ const Sidebar = () => {
                                         redirect: false
                                     }).then(() => {
                                         router.push("/discussion")
-                                    })}>
+                                    })}
+                                >
                                     <LogOutIcon className='w-4 h-4' />
                                     <span className='text-sm font-medium'>Log Out</span>
                                 </div>
@@ -79,8 +92,14 @@ const Sidebar = () => {
 
                         <Link href="/communities" className={`w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "communities" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <TbUserSquareRounded />
-                            <span className="text-sm font-medium">Communities</span>
+                            <span className="text-sm font-medium">Urban Farms</span>
                         </Link>
+                        <Link href="/request" className={`relative w-full flex items-center space-x-2 py-2 pl-12 px-2 rounded-lg ${url === "request" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
+                            <VscRequestChanges />
+                            <span className="text-sm font-medium">Request</span>
+                            <span className='absolute top-0 right-0 rounded-full w-5 h-5 text-center bg-red-600 text-white'>{numberOfApplications}</span>
+                        </Link>
+                       
 
                         {/* <Link href="/admin/manage-employees" className={`w-full flex items-center space-x-2 pl-12 py-2 px-2 rounded-lg ${url === "admin/manage-employees" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`}>
                             <User strokeWidth={1} />
@@ -106,7 +125,7 @@ const Sidebar = () => {
                             <Store strokeWidth={1} />
                             <span className="text-sm font-medium">Market Hub</span>
                         </Link> */}
-                        
+
                     </nav>
                     <div className='space-y-2 absolute bottom-10 w-[85%]'>
                         <div className={`w-full flex items-center space-x-2 py-2 px-2 rounded-lg ${url === "adminSettings" ? "bg-[#00B207] hover:bg-[#00B207]/80 text-white" : "hover:bg-gray-200 text-black"}`} onClick={onOpen}>
