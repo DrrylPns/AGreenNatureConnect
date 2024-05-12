@@ -8,7 +8,9 @@ const Consignor = async () => {
 
   const user = await getUserById(session?.user.id as string);
 
-  if (!user) return <>You need to be logged in to apply as a consignor</>;
+  if (!user) return (
+    <div className="text-center mt-4">You need to be logged in to apply as a consignor</div>
+  );
 
   return (
     <>
