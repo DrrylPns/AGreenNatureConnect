@@ -3,9 +3,11 @@
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
 import { useTotalSalesValueStore } from "@/lib/hooks/useCalculatedRevenue"
+import { LatestProduct } from "@/lib/types"
 import { calculateTotalSalesValue } from "@/lib/utils"
 import { UpdateStocksSchema, UpdateStocksType } from "@/lib/validations/employee/products"
 import { Stocks } from "@prisma/client"
+import { addDays } from "date-fns"
 import { id } from "date-fns/locale"
 import { revalidatePath } from "next/cache"
 const cron = require('node-cron');
@@ -13,7 +15,8 @@ const cron = require('node-cron');
 
 export const fetchAllProducts = async (startDate: Date | null = null, endDate: Date | null = null) => {
     const session = await getAuthSession()
-
+    const nextDayStartDate = startDate ? addDays(startDate, 1) : undefined;
+    const nextDayEndDate = endDate ? addDays(endDate, 1) : undefined;
     if (!session) return { error: "Unauthorized" }
 
     const user = await prisma.user.findFirst({
@@ -81,35 +84,83 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
             status: {
                 not: "ARCHIVED"
             },
-            orderedProducts: {
-                some: {
-                    createdAt: {
-                        gte: startDate || undefined,
-                        lte: endDate || undefined
-                    },
-                    transaction:{
-                        status: "COMPLETED"
-                    }
-                },
-            }
         },
         include: {
             creator: true,
             Stock: true,
-            orderedProducts: true,
+            // orderedProducts: true,
         },
         orderBy: {
             createdAt: "desc"
         },
     })
 
-    const totalSalesValues = await calculateTotalSalesValue(latestProducts);
+    const modifiedProducts: LatestProduct[] = [];
+
+    for (const product of latestProducts) {
+        // Fetch orderedProducts associated with the current product
+        const orderedProducts = await prisma.orderedProducts.findMany({
+            where: {
+                
+                transaction: {
+                    status: "COMPLETED"
+                },
+                productId: product.id
+            },
+            
+        });
+        if(nextDayStartDate === undefined && nextDayEndDate === undefined){
+            const modifiedProduct = {
+                ...product,
+                orderedProducts: orderedProducts
+            };  
+            modifiedProducts.push(modifiedProduct);
+        }
+        if (nextDayStartDate !== undefined && nextDayEndDate === undefined) {
+            const filteredOrderedProducts = orderedProducts.filter((prod) => {
+                const productDate = new Date(prod.updatedAt).toISOString().split('T')[0];
+                const startDate = new Date(nextDayStartDate).toISOString().split('T')[0];
+                return  productDate === startDate ;
+            });
+               // Add the associated orderedProducts to the current product
+            const modifiedProduct = {
+                ...product,
+                orderedProducts: filteredOrderedProducts
+            };
+        
+            // Push the modified product into the modifiedProducts array
+            modifiedProducts.push(modifiedProduct);
+        }
+        if (nextDayStartDate !== undefined && nextDayEndDate !== undefined) {
+            const filteredOrderedProducts = orderedProducts.filter((prod) => {
+                const productDate = new Date(prod.updatedAt).toISOString().split('T')[0];
+                const startDate = new Date(nextDayStartDate).toISOString().split('T')[0];
+                const endDate = new Date(nextDayEndDate).toISOString().split('T')[0];
+                console.log()
+                return productDate >= startDate && productDate <= endDate;
+            });
+            // Add the associated orderedProducts to the current product
+            const modifiedProduct = {
+                ...product,
+                orderedProducts: filteredOrderedProducts
+            };
+        
+            // Push the modified product into the modifiedProducts array
+            modifiedProducts.push(modifiedProduct);
+        
+        }
+        
+     
+    }
+   
+
+    const totalSalesValues = await calculateTotalSalesValue(modifiedProducts);
     const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
     
     const salesRevPercentageCatA = (sum / sum) * 100;
     console.log(salesRevPercentageCatA)
     revalidatePath("/employee/inventory")
-    return {latestProducts, sum}
+    return {modifiedProducts, sum}
 }
 export const numberOfProducts = async ()=>{
     const session = await getAuthSession();
@@ -140,7 +191,8 @@ export const numberOfProducts = async ()=>{
 }
 export const fetchProducts = async (startDate: Date | null = null, endDate: Date | null = null) => {
     const session = await getAuthSession();
-
+    const nextDayStartDate = startDate ? addDays(startDate, 1) : undefined;
+    const nextDayEndDate = endDate ? addDays(endDate, 1) : undefined;
     if (!session) return { error: "Unauthorized" };
 
     const user = await prisma.user.findFirst({
@@ -152,7 +204,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
             Community: true
         }
     });
-
+ 
     if (!user) return { error: "No user found!" };
 
     const community = await prisma.community.findFirst({
@@ -195,6 +247,8 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     await products.forEach(async(product)=>{
         let totalStocks = 0
         const currentDate = new Date()
+       
+  
         const productStock = await prisma.stocks.findMany({
             where:{
                 productId: product.id
@@ -214,6 +268,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
             },
         });
     })
+   
 
     const latestProducts = await prisma.product.findMany({
         where: {
@@ -223,34 +278,86 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
             status: {
                 not: "ARCHIVED"
             },
-            orderedProducts: {
-                some: {
-                    createdAt: {
-                        gte: startDate || undefined,
-                        lte: endDate || undefined
-                    },
-                    transaction:{
-                        status: "COMPLETED"
-                    }
-                },
-            }
         },
         include: {
             creator: true,
             Stock: true,
-            orderedProducts: true,
+            // orderedProducts: true,
         },
         orderBy: {
             createdAt: "desc"
         },
     })
+   
 
+    const modifiedProducts: LatestProduct[] = [];
+
+    for (const product of latestProducts) {
+        // Fetch orderedProducts associated with the current product
+        const orderedProducts = await prisma.orderedProducts.findMany({
+            where: {
+                
+                transaction: {
+                    status: "COMPLETED"
+                },
+                productId: product.id
+            },
+            
+        });
+        if(nextDayStartDate === undefined && nextDayEndDate === undefined){
+            const modifiedProduct = {
+                ...product,
+                orderedProducts: orderedProducts
+            };  
+            modifiedProducts.push(modifiedProduct);
+        }
+        if (nextDayStartDate !== undefined && nextDayEndDate === undefined) {
+            const filteredOrderedProducts = orderedProducts.filter((prod) => {
+                const productDate = new Date(prod.updatedAt).toISOString().split('T')[0];
+                const startDate = new Date(nextDayStartDate).toISOString().split('T')[0];
+                return  productDate === startDate ;
+            });
+               // Add the associated orderedProducts to the current product
+            const modifiedProduct = {
+                ...product,
+                orderedProducts: filteredOrderedProducts
+            };
+        
+            // Push the modified product into the modifiedProducts array
+            modifiedProducts.push(modifiedProduct);
+        }
+        if (nextDayStartDate !== undefined && nextDayEndDate !== undefined) {
+            const filteredOrderedProducts = orderedProducts.filter((prod) => {
+                const productDate = new Date(prod.updatedAt).toISOString().split('T')[0];
+                const startDate = new Date(nextDayStartDate).toISOString().split('T')[0];
+                const endDate = new Date(nextDayEndDate).toISOString().split('T')[0];
+                console.log()
+                return productDate >= startDate && productDate <= endDate;
+            });
+            // Add the associated orderedProducts to the current product
+            const modifiedProduct = {
+                ...product,
+                orderedProducts: filteredOrderedProducts
+            };
+        
+            // Push the modified product into the modifiedProducts array
+            modifiedProducts.push(modifiedProduct);
+        
+        }
+        
+     
+    }
+    const filteredProducts = modifiedProducts.filter((product) => {
+        return product.orderedProducts.length >= 1;
+    });
+    
     // Calculate total sales value for each product within the specified date range
-    const totalSalesValues = await calculateTotalSalesValue(latestProducts);
+    const totalSalesValues = await calculateTotalSalesValue(filteredProducts);
+
     const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
 
     // Sort products based on total sales value in descending order
-    const sortedProducts = latestProducts.slice().sort((a, b) => totalSalesValues[latestProducts.indexOf(b)] - totalSalesValues[latestProducts.indexOf(a)]);
+    const sortedProducts = filteredProducts.slice().sort((a, b) => totalSalesValues[filteredProducts.indexOf(b)] - totalSalesValues[filteredProducts.indexOf(a)]);
 
     // Determine the number of products for each category
     const totalProducts = sortedProducts.length;
@@ -262,11 +369,11 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     const categoryBProducts = sortedProducts.slice(top20PercentCount, totalProducts - bottom5PercentCount);
     const categoryCProducts = sortedProducts.slice(totalProducts - bottom5PercentCount);
 
-    const totalSalesValueCatA = await calculateTotalSalesValue(categoryAProducts);
+    const totalSalesValueCatA = await calculateTotalSalesValue(categoryAProducts, startDate, endDate);
     const sumCatA = totalSalesValueCatA.reduce((acc, curr) => acc + curr, 0);
-    const totalSalesValueCatB = await calculateTotalSalesValue(categoryBProducts);
+    const totalSalesValueCatB = await calculateTotalSalesValue(categoryBProducts, startDate, endDate);
     const sumCatB = totalSalesValueCatB.reduce((acc, curr) => acc + curr, 0);
-    const totalSalesValueCatC = await calculateTotalSalesValue(categoryCProducts);
+    const totalSalesValueCatC = await calculateTotalSalesValue(categoryCProducts, startDate, endDate);
     const sumCatC = totalSalesValueCatC.reduce((acc, curr) => acc + curr, 0);
 
     const totalSalesRevenue = sumCatA + sumCatB + sumCatC;

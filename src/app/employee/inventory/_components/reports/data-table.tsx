@@ -78,6 +78,8 @@ interface DataTableProps<TData, TValue> {
   salesRevPercentageCatA?: number,
   salesRevPercentageCatB?: number,
   salesRevPercentageCatC?: number,
+  isAllProduct?: boolean,
+  sum?: number
 }
 
 export function DataTable<TData, TValue>({
@@ -89,6 +91,8 @@ export function DataTable<TData, TValue>({
   isCatA,
   isCatB,
   isCatC,
+  isAllProduct,
+  sum,
   totalSalectedCatA,
   totalSalectedCatB,
   totalSalectedCatC,
@@ -211,13 +215,18 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>  
-      <div className="flex justify-end gap-x-24 my-2 text-xl font-medium pr-10">
-        <h1>Total:</h1>
-        <h1>₱{isCatA ?totalSalectedCatA : isCatB ? totalSalectedCatB : isCatC ? totalSalectedCatC : null}</h1>
-        <h1>{isCatA ?salesRevPercentageCatA?.toFixed(2) : isCatB ? salesRevPercentageCatB?.toFixed(2) : isCatC ? salesRevPercentageCatC?.toFixed(2) : null}%</h1>
       </div>
-     
+      {isCatA || isCatB || isCatC || isAllProduct ? (
+        <div className="flex justify-end gap-x-20 my-2 text-xl font-medium ">
+          <h1>Total:</h1>
+          <h1>₱{isAllProduct? sum :isCatA ?totalSalectedCatA : isCatB ? totalSalectedCatB : isCatC ? totalSalectedCatC : null}</h1>
+        <h1>{isAllProduct? 100 :isCatA ?salesRevPercentageCatA?.toFixed(2) : isCatB ? salesRevPercentageCatB?.toFixed(2) : isCatC ? salesRevPercentageCatC?.toFixed(2) : null}%</h1>
+      </div>
+      ):(
+        null
+      )
+      
+      }
       <br />
       <DataTablePagination table={table} />
     </div >

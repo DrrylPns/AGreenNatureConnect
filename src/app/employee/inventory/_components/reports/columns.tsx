@@ -116,7 +116,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       accessorKey: "kilogram",
       header: ({ column }) => {
         return (
-          <DataTableColumnHeader column={column} title="Available stocks(kg)" />
+          <DataTableColumnHeader column={column} title="Available stocks" className="text-center" />
         );
       },
       cell: ({ row }) => {
@@ -140,7 +140,26 @@ export const columns: ColumnDef<LatestProduct>[] =
 
         return <div
           className={`${outOfStock && "text-rose-500"} text-center`}
-        >{numberOfStocks}</div>;
+        >{numberOfStocks}kg.</div>;
+      },
+    },
+    {
+      accessorKey: "kilogram",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Sold-Out Items" />
+        );
+      },
+      cell: ({ row }) => {
+        const orderedProducts = row.original.orderedProducts;
+        let soldProducts = 0
+        orderedProducts.map((product)=>{
+          soldProducts += product.quantity
+        })
+      
+        return <div
+          className={` text-center`}
+        >{soldProducts}kg.</div>;
       },
     },
     {
@@ -153,7 +172,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       },
       cell: ({ row }) => {
         const price = row.original.priceInKg;
-        return <div className="text-center">₱{price}</div>;
+        return <div className="text-right">₱{price}</div>;
       },
     },
     {
@@ -166,7 +185,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       },
       cell: ({ row }) => {
         const category = row.original.category;
-        return <div className="text-center">{category}</div>;
+        return <div className="text-right">{category}</div>;
       },
     },
     {
@@ -183,7 +202,7 @@ export const columns: ColumnDef<LatestProduct>[] =
         orderedProducts.map((product)=>{
           revenue += product.totalPrice
         })
-        return <div className="text-center">₱{revenue}</div>;
+        return <div className="text-right">₱{revenue}</div>;
       },
     },
     {
@@ -205,7 +224,7 @@ export const columns: ColumnDef<LatestProduct>[] =
         })
         const percentage = (revenue/totalSale)*100
   
-        return <div className="text-center">{percentage.toFixed(2)}%</div>;
+        return <div className="text-right">{percentage.toFixed(2)}%</div>;
       },
     },
   ]

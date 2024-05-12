@@ -40,9 +40,9 @@ export async function calculateTotalSalesValue(latestProducts: LatestProduct[], 
 
       // Sum up the total price from orderedProducts within the specified date range for each product
       for (const order of product.orderedProducts) {
-          if (!startDate || !endDate || isWithinInterval(new Date(order.createdAt), { start: startDate, end: endDate })) {
+         
               totalSalesValue += order.totalPrice;
-          }
+     
       }
 
       // Store the total sales value for the product

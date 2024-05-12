@@ -77,15 +77,27 @@ export async function POST(req: Request) {
 
     const acceptOrderById = await prisma.transaction.update({
       where: {
-        id: transactionId
+          id: transactionId
       },
       include: {
-        buyer: true
+          buyer: true
       },
       data: {
-        status: "APPROVED"
+          status: "APPROVED",
+          orderedProducts: {
+              updateMany: {
+                where:{
+
+                },
+                  data: {
+                      updatedAt: new Date() // Set updatedAt to the current date and time
+                  }
+              }
+          }
       }
-    })
+  });
+
+    
 
     const orderedProduct = await prisma.orderedProducts.findFirst({
       where: {

@@ -22,7 +22,7 @@ import { useTotalSalesValueStore } from '@/lib/hooks/useCalculatedRevenue'
 import { useSaleValue } from '@/contexts/TotalSaleContext'
 
 const InventoryPage = () => {
-  const [date, setDate] = useState<DateRange | null>(null);
+  const [date, setDate] = useState<DateRange>();
   const { totalSalesValue } = useTotalSalesValueStore.getState();
   const { totalSale, 
     setTotalSale,
@@ -45,8 +45,8 @@ const InventoryPage = () => {
     data: allProducts,
    
   } = useQuery({
-      queryKey: ["allProducts"],
-      queryFn: async () => (await fetchAllProducts()),
+      queryKey: ["allProducts",date],
+      queryFn: async () => (await fetchAllProducts(date && date.from ? date.from : null, date?.to ? date?.to : null)),
   })
   const {
     data: products,
@@ -57,7 +57,7 @@ const InventoryPage = () => {
   })
 
   useEffect(()=>{
-    if(allProducts?.latestProducts){
+    if(allProducts?.modifiedProducts){
       setTotalSale(products?.sum || 0)
     }
     setTotalSalectedCatA(products?.sumCatA || 0)
@@ -76,26 +76,69 @@ const InventoryPage = () => {
           <TabsTrigger value="classC" className='border-x-1 border-gray-300'>Least Performers</TabsTrigger>
         </TabsList>
         <TabsContent value="allProducts">
-        <div className=' flex justify-end items-center w-full'>
+        <div className=' flex justify-between items-center w-full'>
+        <Popover>
+          <PopoverTrigger asChild>
+              <Button
+                  id="date"
+                  variant={"outline"}
+                  className={cn(
+                      "w-full md:w-[300px] justify-start text-left font-normal",
+                      !date && "text-muted-foreground"
+                  )}
+              >
+                  <CalendarIcon className="mr-2 h-4 w-4" />
+                  {date?.from ? (
+                      date.to ? (
+                          <>
+                              {format(date.from, "LLL dd, y")} -{" "}
+                              {format(date.to, "LLL dd, y")}
+                          </>
+                      ) : (
+                          format(date.from, "LLL dd, y")
+                      )
+                  ) : (
+                      <span>Pick a date</span>
+                  )}
+              </Button>
+          </PopoverTrigger>
+          <PopoverContent className="w-auto p-0" align="start">
+              {/* Replace Calendar with your @shadcn/ui Calendar component */}
+              <Calendar
+                  initialFocus
+                  mode="range"
+                  defaultMonth={date?.from}
+                  //@ts-ignore
+                  selected={date}
+                  //@ts-ignore
+                  onSelect={setDate}
+                  numberOfMonths={2}
+              />
+          </PopoverContent>
+          </Popover>
           <Dialog>
-            <DialogTrigger className='flex gap-3 py-2 px-2 text-xl bg-white rounded-xl'>                            
+            <Button variant={'outline'}>
+            <DialogTrigger className='flex gap-3 py-2 px-2 text-xl'>                            
               Generate Report
               <TbReportAnalytics />
             </DialogTrigger>
+            </Button>
             <DialogContent className=' max-w-5xl'>
               <DialogHeader>
                 <DialogTitle>
                 
                 </DialogTitle>
                 <DialogDescription>
+                  <h1>From: {date?.from ? formatDate(date.from) : 'None'} To: {date?.to ? formatDate(date.to) : 'None'}</h1>
                   <ReportDT
                     //@ts-ignore
                     columns={ReportCol}
+                    isAllProduct={true}
+                    sum={allProducts?.sum}
                     //@ts-ignore
-                    data={allProducts?.latestProducts ?? []}
+                    data={allProducts?.modifiedProducts ?? []}
                     isInventory
                   />
-                  <h1>Total: </h1>
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
@@ -105,7 +148,7 @@ const InventoryPage = () => {
             //@ts-ignore
             columns={columns}
             //@ts-ignore
-            data={allProducts?.latestProducts ?? []}
+            data={allProducts?.modifiedProducts ?? []}
             isInventory
           />
         </TabsContent>
@@ -152,12 +195,12 @@ const InventoryPage = () => {
           </Popover>
           
           <Dialog>
-            <DialogTrigger className='flex gap-3 py-2 px-2 text-xl bg-white rounded-xl'>
-             
+            <Button variant={'outline'}>
+              <DialogTrigger className='flex gap-3 py-2 px-2 text-xl'>                            
                 Generate Report
                 <TbReportAnalytics />
-          
-            </DialogTrigger>
+              </DialogTrigger>
+            </Button>
             <DialogContent className=' max-w-5xl'>
               <DialogHeader>
                 <DialogTitle>
@@ -233,12 +276,12 @@ const InventoryPage = () => {
           </Popover>
           
           <Dialog>
-            <DialogTrigger className='flex gap-3 py-2 px-2 text-xl bg-white rounded-xl'>
-             
+            <Button variant={'outline'}>
+              <DialogTrigger className='flex gap-3 py-2 px-2 text-xl'>                            
                 Generate Report
                 <TbReportAnalytics />
-          
-            </DialogTrigger>
+              </DialogTrigger>
+            </Button>
             <DialogContent className=' max-w-5xl'>
               <DialogHeader>
                 <DialogTitle>
