@@ -282,6 +282,7 @@ const InventoryPage = () => {
                 <TbReportAnalytics />
           
             </DialogTrigger>
+            </Button>
             <DialogContent className=' max-w-5xl'>
               <DialogHeader>
                 <DialogTitle>
