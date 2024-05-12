@@ -273,7 +273,6 @@ export function DataTable<TData, TValue>({
           />
         )}
 
-
         <div className="flex justify-center items-center gap-3 w-full">
           {!isTransaction || !isReport &&
             <div className="flex flex-row justify-end items-center w-[300px]">

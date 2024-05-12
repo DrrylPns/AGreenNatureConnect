@@ -2,6 +2,7 @@
 
 import { getAuthSession } from "@/lib/auth"
 import prisma from "@/lib/db/db"
+import { useTotalSalesValueStore } from "@/lib/hooks/useCalculatedRevenue"
 import { calculateTotalSalesValue } from "@/lib/utils"
 import { UpdateStocksSchema, UpdateStocksType } from "@/lib/validations/employee/products"
 import { Stocks } from "@prisma/client"
@@ -10,7 +11,7 @@ import { revalidatePath } from "next/cache"
 const cron = require('node-cron');
 
 
-export const fetchAllProducts = async () => {
+export const fetchAllProducts = async (startDate: Date | null = null, endDate: Date | null = null) => {
     const session = await getAuthSession()
 
     if (!session) return { error: "Unauthorized" }
@@ -79,6 +80,17 @@ export const fetchAllProducts = async () => {
             },
             status: {
                 not: "ARCHIVED"
+            },
+            orderedProducts: {
+                some: {
+                    createdAt: {
+                        gte: startDate || undefined,
+                        lte: endDate || undefined
+                    },
+                    transaction:{
+                        status: "COMPLETED"
+                    }
+                },
             }
         },
         include: {
@@ -91,29 +103,13 @@ export const fetchAllProducts = async () => {
         },
     })
 
-  
-
-    await prisma.product.updateMany({
-        where:{
-            Stock: {
-                every:{
-                    expiration:{
-                        lt: new Date()
-                    }
-                }
-            }
-        },
-        data:{
-
-        }
-    })
-
+    const totalSalesValues = await calculateTotalSalesValue(latestProducts,startDate,endDate);
+    const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
 
 
     revalidatePath("/employee/inventory")
-    return latestProducts
+    return {latestProducts, sum}
 }
-
 export const numberOfProducts = async ()=>{
     const session = await getAuthSession();
     if (!session) return { error: "Unauthorized" };
@@ -249,10 +245,11 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     })
 
     // Calculate total sales value for each product within the specified date range
-    const totalSalesValue = await calculateTotalSalesValue(latestProducts, startDate, endDate);
-    console.log(totalSalesValue)
+    const totalSalesValues = await calculateTotalSalesValue(latestProducts);
+    const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
+
     // Sort products based on total sales value in descending order
-    const sortedProducts = latestProducts.slice().sort((a, b) => totalSalesValue[latestProducts.indexOf(b)] - totalSalesValue[latestProducts.indexOf(a)]);
+    const sortedProducts = latestProducts.slice().sort((a, b) => totalSalesValues[latestProducts.indexOf(b)] - totalSalesValues[latestProducts.indexOf(a)]);
 
     // Determine the number of products for each category
     const totalProducts = sortedProducts.length;
@@ -264,7 +261,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     const categoryBProducts = sortedProducts.slice(top20PercentCount, totalProducts - bottom5PercentCount);
     const categoryCProducts = sortedProducts.slice(totalProducts - bottom5PercentCount);
 
-    return { categoryAProducts, categoryBProducts, categoryCProducts };
+    return { categoryAProducts, categoryBProducts, categoryCProducts, sum };
 };
 
 export const archiveProduct = async (id: string) => {

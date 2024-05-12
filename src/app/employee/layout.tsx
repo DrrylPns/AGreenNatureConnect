@@ -24,6 +24,8 @@ import { UrbanFarmDeactivated } from '@/components/urbanfarm-deactivated'
 import { CommunityAvatarModal } from '@/components/settings/CommunityAvatarModal'
 import { CommunityModal } from '@/components/settings/CommunityModal'
 import { CommunityCarouselModal } from '@/components/settings/CommunityCarouselModal'
+import { CartProvider } from '@/contexts/CartContext'
+import { TotalSalesProvider } from '@/contexts/TotalSaleContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -62,7 +64,7 @@ export default async function RootLayout({
                         ) : (user.Community?.isArchived && (user.role === "ADMIN" || user.role === "EMPLOYEE")) ? (
                             <UrbanFarmDeactivated />
                         ) :
-                            (
+                            (   <TotalSalesProvider>
                                 <Providers>
                                     <LoginModal />
                                     <RegisterModal />
@@ -85,7 +87,8 @@ export default async function RootLayout({
                                         {children}
                                     </main>
                                     <Toaster />
-                                </Providers>)
+                                </Providers>
+                                </TotalSalesProvider>)
                         }
 
                     </>
