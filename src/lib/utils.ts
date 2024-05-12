@@ -106,3 +106,22 @@ export function formatDateWithTime(date: any) {
   // Format date with time using toLocaleString
   return new Date(date).toLocaleString();
 }
+
+export function formatPrice(
+  price: number | string,
+  options: {
+    currency?: "PHP",
+    notation?: Intl.NumberFormatOptions["notation"]
+  } = {}
+) {
+  const { currency = "PHP", notation = "standard" } = options
+
+  const numericPrice = typeof price === "string" ? parseFloat(price) : price
+
+  return new Intl.NumberFormat("fil-PH", {
+    style: "currency",
+    currency,
+    notation,
+    maximumFractionDigits: 2
+  }).format(numericPrice)
+}

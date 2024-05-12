@@ -5,7 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import { Card } from "@/components/ui/card";
 import { CompletedTransaction } from "@/lib/types";
-import { cn } from "@/lib/utils";
+import { cn, formatPrice } from "@/lib/utils";
 import { format } from "date-fns";
 import { CalendarIcon, FileUp } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -147,7 +147,7 @@ export const SalesReportTable = () => {
 
                 <div className="flex justify-between mb-4">
                     <div>
-                        <h2>Total Sales Amount: PHP {totalSalesAmount.toLocaleString()}</h2>
+                        <h2>Total Sales Amount: {formatPrice(totalSalesAmount)}</h2>
                         <h2>Total Products Sold: {totalProductsSold.toLocaleString()}</h2>
                     </div>
                 </div>

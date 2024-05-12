@@ -1,7 +1,7 @@
 import { CompletedTransaction } from "@/lib/types";
 import { ColumnDef } from "@tanstack/react-table";
 import { DataTableColumnHeader } from "../inventory/_components/DateTableColumnHeader";
-import { formatDate, formatDateWithTime } from "@/lib/utils";
+import { formatDate, formatDateWithTime, formatPrice } from "@/lib/utils";
 
 export const ColumnSalesReport: ColumnDef<CompletedTransaction>[] = [
     {
@@ -50,7 +50,7 @@ export const ColumnSalesReport: ColumnDef<CompletedTransaction>[] = [
 
             return (
                 <>
-                    {amnt}
+                    {formatPrice(amnt)}
                 </>
             )
         },
@@ -80,11 +80,13 @@ export const ColumnSalesReport: ColumnDef<CompletedTransaction>[] = [
             );
         },
         cell: ({ row }) => {
-            const status = row.original.buyer.name
+            const firstName = row.original.buyer.name
+            const lastName = row.original.buyer.lastName
+
 
             return (
                 <>
-                    {status}
+                    {firstName} {" "} {lastName}
                 </>
             )
         },
