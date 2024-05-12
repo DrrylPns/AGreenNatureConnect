@@ -50,7 +50,7 @@ function AllProducts() {
             {page.getAllProducts !== undefined && page.getAllProducts.length > 0 ?
             page.getAllProducts.map((product)=>{
                     if (product.quantity < 1) {
-                        return null
+                        return 
                     } else {
                         return (
                         <div key={product.id} className=''>

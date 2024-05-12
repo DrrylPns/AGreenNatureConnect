@@ -15,6 +15,9 @@ export async function GET(req: Request, res: NextApiResponse) {
               status:{
                   equals: "APPROVED"
               },
+                quantity:{
+                    gte: 1
+                },
               category:{
                   equals:"Vegetables"
               },

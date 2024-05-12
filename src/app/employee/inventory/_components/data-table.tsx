@@ -48,6 +48,14 @@ import { zodResolver } from "@hookform/resolvers/zod"
 import { CreateProductRequestSchema, CreateProductRequestType } from "@/lib/validations/employee/products"
 import { createNotificationRequest } from "../../../../../actions/community"
 import { toast } from "@/lib/hooks/use-toast"
+import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover"
+import { CalendarIcon } from "lucide-react"
+import { addDays, format } from "date-fns"
+import { Calendar } from "@/components/ui/calendar"
+import { DateRange } from "react-day-picker"
+import { numberOfProducts } from "../../../../../actions/products"
+import { useQuery } from "@tanstack/react-query"
+
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[]
@@ -81,6 +89,14 @@ export function DataTable<TData, TValue>({
 
   const [rowSelection, setRowSelection] = React.useState({})
   const [isPending, startTransition] = useTransition();
+
+  const {
+    data: productsCount,
+  
+  } = useQuery({
+      queryKey: ["productsCount"],
+      queryFn: async () => (await  numberOfProducts() as number),
+  })
 
   const table = useReactTable({
     data,
@@ -278,7 +294,7 @@ export function DataTable<TData, TValue>({
               colors={["emerald", "red", "yellow"]}
             /> */}
             {/* VIEW FUNCTIONALITY */}
-            <DropdownMenu>
+            {/* <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 {!isSalesReport && (
                   <Button variant="outline" className="lg:ml-auto">
@@ -307,9 +323,13 @@ export function DataTable<TData, TValue>({
                     )
                   })}
               </DropdownMenuContent>
-            </DropdownMenu>
+            </DropdownMenu> */}
+            <h1>Total number of products: {productsCount}</h1>
           </div>
+
+      
         </div>
+    
       </div>
       <div className="rounded-md border">
         <Table className="bg-white rounded-lg">

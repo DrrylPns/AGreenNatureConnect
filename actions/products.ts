@@ -91,10 +91,7 @@ export const fetchAllProducts = async () => {
         },
     })
 
-    const totalSalesValue = await calculateTotalSalesValue(latestProducts);
-    const sumOfValues = totalSalesValue.reduce((total, value) => total + value, 0);
-    console.log(sumOfValues);
-
+  
 
     await prisma.product.updateMany({
         where:{
@@ -116,7 +113,35 @@ export const fetchAllProducts = async () => {
     revalidatePath("/employee/inventory")
     return latestProducts
 }
-export const fetchProducts = async () => {
+
+export const numberOfProducts = async ()=>{
+    const session = await getAuthSession();
+    if (!session) return { error: "Unauthorized" };
+    const user = await prisma.user.findFirst({
+        where: {
+            id: session?.user.id,
+        },
+        include: {
+            Community: true
+        }
+    });
+
+    if (!user) return { error: "No user found!" };
+    const productsCount = await prisma.product.count({
+        where:{
+            community:{
+                id:user.Community?.id
+            },
+            status: {
+                not: "ARCHIVED"
+            },
+            
+        }
+    })
+
+    return productsCount
+}
+export const fetchProducts = async (startDate: Date | null = null, endDate: Date | null = null) => {
     const session = await getAuthSession();
 
     if (!session) return { error: "Unauthorized" };
@@ -124,6 +149,7 @@ export const fetchProducts = async () => {
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
+            
         },
         include: {
             Community: true
@@ -138,7 +164,7 @@ export const fetchProducts = async () => {
         }
     });
 
-    // Fetch all products
+    // Fetch all products within the specified date range
     const products = await prisma.product.findMany({
         where: {
             community: {
@@ -146,6 +172,17 @@ export const fetchProducts = async () => {
             },
             status: {
                 not: "ARCHIVED"
+            },
+            orderedProducts: {
+                some: {
+                    createdAt: {
+                        gte: startDate || undefined,
+                        lte: endDate || undefined
+                    },
+                    transaction:{
+                        status: "COMPLETED"
+                    }
+                },
             }
         },
         include: {
@@ -182,29 +219,40 @@ export const fetchProducts = async () => {
     })
 
     const latestProducts = await prisma.product.findMany({
-                where: {
-                    community: {
-                        name: community?.name
+        where: {
+            community: {
+                name: community?.name
+            },
+            status: {
+                not: "ARCHIVED"
+            },
+            orderedProducts: {
+                some: {
+                    createdAt: {
+                        gte: startDate || undefined,
+                        lte: endDate || undefined
                     },
-                    status: {
-                        not: "ARCHIVED"
+                    transaction:{
+                        status: "COMPLETED"
                     }
                 },
-                include: {
-                    creator: true,
-                    Stock: true,
-                    orderedProducts: true,
-                },
-                orderBy: {
-                    createdAt: "desc"
-                },
-            })
+            }
+        },
+        include: {
+            creator: true,
+            Stock: true,
+            orderedProducts: true,
+        },
+        orderBy: {
+            createdAt: "desc"
+        },
+    })
 
-    // Calculate total sales value for each product
-    const totalSalesValue = await calculateTotalSalesValue(products);
-
+    // Calculate total sales value for each product within the specified date range
+    const totalSalesValue = await calculateTotalSalesValue(latestProducts, startDate, endDate);
+    console.log(totalSalesValue)
     // Sort products based on total sales value in descending order
-    const sortedProducts = products.slice().sort((a, b) => totalSalesValue[products.indexOf(b)] - totalSalesValue[products.indexOf(a)]);
+    const sortedProducts = latestProducts.slice().sort((a, b) => totalSalesValue[latestProducts.indexOf(b)] - totalSalesValue[latestProducts.indexOf(a)]);
 
     // Determine the number of products for each category
     const totalProducts = sortedProducts.length;
@@ -216,7 +264,6 @@ export const fetchProducts = async () => {
     const categoryBProducts = sortedProducts.slice(top20PercentCount, totalProducts - bottom5PercentCount);
     const categoryCProducts = sortedProducts.slice(totalProducts - bottom5PercentCount);
 
- 
     return { categoryAProducts, categoryBProducts, categoryCProducts };
 };
 

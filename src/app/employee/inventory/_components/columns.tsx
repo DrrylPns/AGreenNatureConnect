@@ -43,7 +43,7 @@ import {
   AlertDialogTrigger,
 } from "@/app/components/Ui/alert-dialog";
 import { buttonVariants } from "@/app/components/Ui/Button";
-import { ProductWithStocks } from "@/lib/types";
+import { LatestProduct, ProductWithStocks } from "@/lib/types";
 
 export type Products = {
   id: string;
@@ -60,7 +60,7 @@ export type Products = {
   isFree: boolean;
 }
 
-export const columns: ColumnDef<ProductWithStocks>[] =
+export const columns: ColumnDef<LatestProduct>[] =
   [
     {
       accessorKey: "productImage",
@@ -72,13 +72,14 @@ export const columns: ColumnDef<ProductWithStocks>[] =
       cell: ({ row }) => {
         const ProductImage = row.original.productImage
         return <div
-          className="cursor-pointer flex items-center justify-center"
+          className="cursor-pointer w-20 h-20 flex items-center justify-center"
         >
           <Image
             unoptimized
             quality={100}
             src={ProductImage}
             alt="product image"
+            className="object-cover w-full h-full"
             width={50}
             height={50}
           />
@@ -145,6 +146,19 @@ export const columns: ColumnDef<ProductWithStocks>[] =
       },
     },
     {
+      accessorKey: "price",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Price" />
+        );
+      },
+      cell: ({ row }) => {
+        const price = row.original.priceInKg;
+        return <div className="text-center">₱{price}</div>;
+      },
+    },
+    {
       accessorKey: "category",
       header: ({ column }) => {
 
@@ -157,6 +171,7 @@ export const columns: ColumnDef<ProductWithStocks>[] =
         return <div className="text-center">{category}</div>;
       },
     },
+   
     {
       accessorKey: "isFree",
       header: ({ column }) => {
@@ -176,16 +191,20 @@ export const columns: ColumnDef<ProductWithStocks>[] =
       },
     },
     {
-      accessorKey: "createdAt",
+      accessorKey: "revenue",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Date" />
+          <DataTableColumnHeader column={column} title="Revenue" />
         );
       },
       cell: ({ row }) => {
-        const createdAt = row.original.createdAt;
-        return <div>{formatDate(createdAt)}</div>;
+        const orderedProducts = row.original.orderedProducts;
+        let revenue = 0
+        orderedProducts.map((product)=>{
+          revenue += product.totalPrice
+        })
+        return <div>₱{revenue}</div>;
       },
     },
     {

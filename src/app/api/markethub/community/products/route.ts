@@ -19,6 +19,9 @@ export async function POST(req: Request, res: NextApiResponse) {
               },
               category:{
                 equals: category === "All" ? undefined : category
+              },
+              quantity:{
+                  gte: 1
               }
             },
             include:{
