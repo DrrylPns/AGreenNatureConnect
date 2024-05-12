@@ -50,11 +50,11 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
         },
     })
 
-    await products.forEach(async(product)=>{
+    await products.forEach(async (product) => {
         let totalStocks = 0
         const currentDate = new Date()
         const productStock = await prisma.stocks.findMany({
-            where:{
+            where: {
                 productId: product.id
             }
         })
@@ -62,7 +62,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
         });
-        notExpiredStocks.map((stock)=>{
+        notExpiredStocks.map((stock) => {
             totalStocks += stock.numberOfStocks
         })
         await prisma.product.update({
@@ -87,7 +87,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
                         gte: startDate || undefined,
                         lte: endDate || undefined
                     },
-                    transaction:{
+                    transaction: {
                         status: "COMPLETED"
                     }
                 },
@@ -105,13 +105,13 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
 
     const totalSalesValues = await calculateTotalSalesValue(latestProducts);
     const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
-    
+
     const salesRevPercentageCatA = (sum / sum) * 100;
     console.log(salesRevPercentageCatA)
     revalidatePath("/employee/inventory")
-    return {latestProducts, sum}
+    return { latestProducts, sum }
 }
-export const numberOfProducts = async ()=>{
+export const numberOfProducts = async () => {
     const session = await getAuthSession();
     if (!session) return { error: "Unauthorized" };
     const user = await prisma.user.findFirst({
@@ -124,15 +124,13 @@ export const numberOfProducts = async ()=>{
     });
 
     if (!user) return { error: "No user found!" };
+
     const productsCount = await prisma.product.count({
-        where:{
-            community:{
-                id:user.Community?.id
+        where: {
+            community: {
+                id: user.Community?.id
             },
-            status: {
-                not: "ARCHIVED"
-            },
-            
+            status: "APPROVED",
         }
     })
 
@@ -146,7 +144,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     const user = await prisma.user.findFirst({
         where: {
             id: session?.user.id
-            
+
         },
         include: {
             Community: true
@@ -176,7 +174,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
                         gte: startDate || undefined,
                         lte: endDate || undefined
                     },
-                    transaction:{
+                    transaction: {
                         status: "COMPLETED"
                     }
                 },
@@ -192,11 +190,11 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
         },
     });
 
-    await products.forEach(async(product)=>{
+    await products.forEach(async (product) => {
         let totalStocks = 0
         const currentDate = new Date()
         const productStock = await prisma.stocks.findMany({
-            where:{
+            where: {
                 productId: product.id
             }
         })
@@ -204,7 +202,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
         });
-        notExpiredStocks.map((stock)=>{
+        notExpiredStocks.map((stock) => {
             totalStocks += stock.numberOfStocks
         })
         await prisma.product.update({
@@ -229,7 +227,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
                         gte: startDate || undefined,
                         lte: endDate || undefined
                     },
-                    transaction:{
+                    transaction: {
                         status: "COMPLETED"
                     }
                 },
@@ -275,14 +273,14 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     const salesRevPercentageCatA = (sumCatA / totalSalesRevenue) * 100;
     const salesRevPercentageCatB = (sumCatB / totalSalesRevenue) * 100;
     const salesRevPercentageCatC = (sumCatC / totalSalesRevenue) * 100;
-    return { 
-        categoryAProducts, 
-        categoryBProducts, 
-        categoryCProducts, 
-        sum, 
+    return {
+        categoryAProducts,
+        categoryBProducts,
+        categoryCProducts,
+        sum,
         sumCatA,
         sumCatB,
-        sumCatC, 
+        sumCatC,
         salesRevPercentageCatA,
         salesRevPercentageCatB,
         salesRevPercentageCatC,
@@ -330,7 +328,7 @@ export const fetchArchivedProducts = async () => {
         where: { status: "ARCHIVED" },
         include: {
             creator: true,
-           
+
         },
     })
 
@@ -374,19 +372,19 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
                 communityId: community?.id,
             },
             include: {
-               
+
             },
         });
 
         if (!existingProduct) return { error: "Can't update because there is no product found!" }
 
-       
+
         await prisma.employeeActivityHistory.create({
-            data:{
-              type: "MARKETHUB_PRODUCTS",
-              employeeId: session.user.id,
-              productId: existingProduct.id,
-              typeOfActivity: `Added ${quantity + " " + typeOfMeasurement}`
+            data: {
+                type: "MARKETHUB_PRODUCTS",
+                employeeId: session.user.id,
+                productId: existingProduct.id,
+                typeOfActivity: `Added ${quantity + " " + typeOfMeasurement}`
             }
         })
 
@@ -397,7 +395,7 @@ export const updateStocks = async (id: string | undefined, values: UpdateStocksT
     }
 }
 
-export const fetchStocks = async (productId: string) =>{
+export const fetchStocks = async (productId: string) => {
     const session = await getAuthSession()
 
     if (!session) return { error: "Unauthorized" }
@@ -409,15 +407,15 @@ export const fetchStocks = async (productId: string) =>{
         include: {
             Community: true
         },
-        orderBy:{
+        orderBy: {
             createdAt: 'desc'
         }
     })
 
     const community = await prisma.community.findFirst({
-        where:{
-            products:{
-                every:{
+        where: {
+            products: {
+                every: {
                     id: productId
                 }
             }
@@ -426,13 +424,13 @@ export const fetchStocks = async (productId: string) =>{
     if (!user) return { error: "No user found!" }
 
     const stocks = await prisma.stocks.findMany({
-        where:{
-            product:{
+        where: {
+            product: {
                 id: productId
             },
-            
+
         },
-        include:{
+        include: {
             product: true,
         }
     })
