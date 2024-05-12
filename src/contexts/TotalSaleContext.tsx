@@ -10,7 +10,15 @@ import {
 
 type TotalSalesContextType = {
 totalSale: number;
+totalSalectedCatA: number;
+totalSalectedCatB: number;
+totalSalectedCatC: number;
+revPercentage: number;
 setTotalSale: Dispatch<SetStateAction<number>>;
+setTotalSalectedCatA: Dispatch<SetStateAction<number>>
+setTotalSalectedCatB: Dispatch<SetStateAction<number>>
+setTotalSalectedCatC: Dispatch<SetStateAction<number>>
+setRevPercentage: Dispatch<SetStateAction<number>>
 };
 
 // Create a context
@@ -19,10 +27,22 @@ const TotalSalesContext = createContext<TotalSalesContextType | undefined>(undef
 
 export const TotalSalesProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
     const [totalSale, setTotalSale] = useState<number>(0);
+    const [totalSalectedCatA, setTotalSalectedCatA] = useState<number>(0);
+    const [totalSalectedCatB, setTotalSalectedCatB] = useState<number>(0);
+    const [totalSalectedCatC, setTotalSalectedCatC] = useState<number>(0);
+    const [revPercentage, setRevPercentage] = useState<number>(0);
   
     const contextValue: TotalSalesContextType = {
         totalSale,
         setTotalSale,
+        totalSalectedCatA,
+        setTotalSalectedCatA,
+        totalSalectedCatB,
+        setTotalSalectedCatB,
+        totalSalectedCatC,
+        setTotalSalectedCatC,
+        revPercentage,
+        setRevPercentage
     };
   
     return <TotalSalesContext.Provider value={contextValue}>{children}</TotalSalesContext.Provider>;

@@ -183,7 +183,7 @@ export const columns: ColumnDef<LatestProduct>[] =
         orderedProducts.map((product)=>{
           revenue += product.totalPrice
         })
-        return <div>₱{revenue}</div>;
+        return <div className="text-center">₱{revenue}</div>;
       },
     },
     {
@@ -197,14 +197,15 @@ export const columns: ColumnDef<LatestProduct>[] =
       cell: ({ row }) => {
         const orderedProducts = row.original.orderedProducts;
         let revenue = 0
-        const { totalSale } = useSaleValue();
+        const { totalSale, setRevPercentage } = useSaleValue();
 
       
         orderedProducts.map((product)=>{
           revenue += product.totalPrice
         })
         const percentage = (revenue/totalSale)*100
-        return <div>{percentage.toFixed(2)}%</div>;
+  
+        return <div className="text-center">{percentage.toFixed(2)}%</div>;
       },
     },
   ]

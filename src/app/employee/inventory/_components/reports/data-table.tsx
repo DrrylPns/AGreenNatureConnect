@@ -68,7 +68,16 @@ interface DataTableProps<TData, TValue> {
   isArchived?: boolean;
   isInventory?: boolean;
   isSalesReport?: boolean;
+  isCatA?: boolean;
+  isCatB?: boolean;
+  isCatC?: boolean;
   totalSalesValue?: number;
+  totalSalectedCatA?:number,
+  totalSalectedCatB?:number,
+  totalSalectedCatC?:number,
+  salesRevPercentageCatA?: number,
+  salesRevPercentageCatB?: number,
+  salesRevPercentageCatC?: number,
 }
 
 export function DataTable<TData, TValue>({
@@ -77,6 +86,15 @@ export function DataTable<TData, TValue>({
   isFetching,
   isAdmin,
   totalSalesValue,
+  isCatA,
+  isCatB,
+  isCatC,
+  totalSalectedCatA,
+  totalSalectedCatB,
+  totalSalectedCatC,
+  salesRevPercentageCatA,
+  salesRevPercentageCatB,
+  salesRevPercentageCatC,
   isTransaction,
   isReport,
   isArchived,
@@ -194,7 +212,12 @@ export function DataTable<TData, TValue>({
           </TableBody>
         </Table>
       </div>  
-      <h1>{totalSalesValue}</h1>
+      <div className="flex justify-end gap-x-24 my-2 text-xl font-medium pr-10">
+        <h1>Total:</h1>
+        <h1>₱{isCatA ?totalSalectedCatA : isCatB ? totalSalectedCatB : isCatC ? totalSalectedCatC : null}</h1>
+        <h1>{isCatA ?salesRevPercentageCatA?.toFixed(2) : isCatB ? salesRevPercentageCatB?.toFixed(2) : isCatC ? salesRevPercentageCatC?.toFixed(2) : null}%</h1>
+      </div>
+     
       <br />
       <DataTablePagination table={table} />
     </div >

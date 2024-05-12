@@ -24,7 +24,16 @@ import { useSaleValue } from '@/contexts/TotalSaleContext'
 const InventoryPage = () => {
   const [date, setDate] = useState<DateRange | null>(null);
   const { totalSalesValue } = useTotalSalesValueStore.getState();
-  const { totalSale, setTotalSale } = useSaleValue();
+  const { totalSale, 
+    setTotalSale,
+    totalSalectedCatA, 
+    setTotalSalectedCatA, 
+    totalSalectedCatB, 
+    setTotalSalectedCatB,
+    totalSalectedCatC, 
+    setTotalSalectedCatC  ,
+    revPercentage
+  } = useSaleValue();
   // const { data: products, isFetching } = useQuery({
   //   queryKey: ['products'],
   //   queryFn: async () => {
@@ -51,7 +60,10 @@ const InventoryPage = () => {
     if(allProducts?.latestProducts){
       setTotalSale(products?.sum || 0)
     }
-  },[products,allProducts])
+    setTotalSalectedCatA(products?.sumCatA || 0)
+    setTotalSalectedCatB(products?.sumCatB || 0)
+    setTotalSalectedCatC(products?.sumCatC || 0)
+  },[products,allProducts,date])
 
   return (
 
@@ -59,9 +71,9 @@ const InventoryPage = () => {
       <Tabs defaultValue="classA" className="w-full">
         <TabsList>
           <TabsTrigger value="allProducts">All Products</TabsTrigger>
-          <TabsTrigger value="classA">Class A</TabsTrigger>
-          <TabsTrigger value="classB">Class B</TabsTrigger>
-          <TabsTrigger value="classC">Class C</TabsTrigger>
+          <TabsTrigger value="classA">Top Performers</TabsTrigger>
+          <TabsTrigger value="classB">Moderate Performers</TabsTrigger>
+          <TabsTrigger value="classC" className='border-x-1 border-gray-300'>Least Performers</TabsTrigger>
         </TabsList>
         <TabsContent value="allProducts">
         <div className=' flex justify-end items-center w-full'>
@@ -83,6 +95,7 @@ const InventoryPage = () => {
                     data={allProducts?.latestProducts ?? []}
                     isInventory
                   />
+                  <h1>Total: </h1>
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
@@ -154,10 +167,14 @@ const InventoryPage = () => {
                   <ReportDT
                     //@ts-ignore
                     columns={ReportCol}
+                    isCatA={true}
+                    salesRevPercentageCatA={products?.salesRevPercentageCatA}
+                    totalSalectedCatA={totalSalectedCatA}
                     //@ts-ignore
                     data={products?.categoryAProducts ?? []}
                     isInventory
                   />
+                    
                 </DialogDescription>
               </DialogHeader>
             </DialogContent>
@@ -171,6 +188,7 @@ const InventoryPage = () => {
             data={products?.categoryAProducts ?? []}
             isInventory
           />
+     
         </TabsContent>
         <TabsContent value="classB">
         <div className=' flex justify-between items-center w-full'>
@@ -232,6 +250,9 @@ const InventoryPage = () => {
                     <ReportDT
                       //@ts-ignore
                       columns={ReportCol}
+                      isCatB={true}
+                      salesRevPercentageCatB={products?.salesRevPercentageCatB}
+                      totalSalectedCatB={totalSalectedCatB}
                       //@ts-ignore
                       data={products?.categoryBProducts ?? []}
                       isInventory
@@ -311,6 +332,9 @@ const InventoryPage = () => {
                   <ReportDT
                     //@ts-ignore
                     columns={ReportCol}
+                    isCatC={true}
+                    salesRevPercentageCatC={products?.salesRevPercentageCatC}
+                    totalSalectedCatC={totalSalectedCatC}
                     //@ts-ignore
                     data={products?.categoryCProducts ?? []}
                     isInventory

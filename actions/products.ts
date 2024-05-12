@@ -103,10 +103,11 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
         },
     })
 
-    const totalSalesValues = await calculateTotalSalesValue(latestProducts,startDate,endDate);
+    const totalSalesValues = await calculateTotalSalesValue(latestProducts);
     const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
-
-
+    
+    const salesRevPercentageCatA = (sum / sum) * 100;
+    console.log(salesRevPercentageCatA)
     revalidatePath("/employee/inventory")
     return {latestProducts, sum}
 }
@@ -261,7 +262,31 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
     const categoryBProducts = sortedProducts.slice(top20PercentCount, totalProducts - bottom5PercentCount);
     const categoryCProducts = sortedProducts.slice(totalProducts - bottom5PercentCount);
 
-    return { categoryAProducts, categoryBProducts, categoryCProducts, sum };
+    const totalSalesValueCatA = await calculateTotalSalesValue(categoryAProducts);
+    const sumCatA = totalSalesValueCatA.reduce((acc, curr) => acc + curr, 0);
+    const totalSalesValueCatB = await calculateTotalSalesValue(categoryBProducts);
+    const sumCatB = totalSalesValueCatB.reduce((acc, curr) => acc + curr, 0);
+    const totalSalesValueCatC = await calculateTotalSalesValue(categoryCProducts);
+    const sumCatC = totalSalesValueCatC.reduce((acc, curr) => acc + curr, 0);
+
+    const totalSalesRevenue = sumCatA + sumCatB + sumCatC;
+
+    // Calculate sales revenue percentage for each category
+    const salesRevPercentageCatA = (sumCatA / totalSalesRevenue) * 100;
+    const salesRevPercentageCatB = (sumCatB / totalSalesRevenue) * 100;
+    const salesRevPercentageCatC = (sumCatC / totalSalesRevenue) * 100;
+    return { 
+        categoryAProducts, 
+        categoryBProducts, 
+        categoryCProducts, 
+        sum, 
+        sumCatA,
+        sumCatB,
+        sumCatC, 
+        salesRevPercentageCatA,
+        salesRevPercentageCatB,
+        salesRevPercentageCatC,
+    };
 };
 
 export const archiveProduct = async (id: string) => {
