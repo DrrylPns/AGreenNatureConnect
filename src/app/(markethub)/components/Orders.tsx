@@ -146,7 +146,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                 <div className=' '>
                     {transactions.length > 0 ? transactions.map((transaction: transactionWithOrderedProducts) => (
                         <div key={transaction.id} className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
-                            <div className='flex justify-start items-center w-full ml-10 px-5 md:px-10 py-3 border-gray-200 border-b-2 overflow-x-auto'>
+                            <div className='flex justify-start items-center w-full pl-[65%] md:pl-[80%] px-5 md:px-10 py-3 border-gray-200 border-b-2 overflow-x-auto'>
                                 
                                 {/* {transaction.paymentMethod !== 'Gcash' || selectedIndex === 4 ? (
                                     null
