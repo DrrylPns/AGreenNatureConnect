@@ -41,7 +41,7 @@ import Link from "next/link"
 import React, { useState, useTransition } from "react"
 import { DataTablePagination } from "./DataTablePagination"
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Ui/Dialog"
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form"
 import { Textarea } from "@/app/components/Ui/textarea"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -215,6 +215,7 @@ export function DataTable<TData, TValue>({
                           render={({ field }) => (
                             <FormItem>
                               <FormLabel>Products you want to request</FormLabel>
+                              <FormDescription>Note: this will send a request to your consignors</FormDescription>
                               <FormControl>
                                 <Textarea
                                   placeholder="Include the quantity and products you want to request..."
