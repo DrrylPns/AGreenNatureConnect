@@ -24,14 +24,14 @@ import { useSaleValue } from '@/contexts/TotalSaleContext'
 const InventoryPage = () => {
   const [date, setDate] = useState<DateRange>();
   const { totalSalesValue } = useTotalSalesValueStore.getState();
-  const { totalSale, 
+  const { totalSale,
     setTotalSale,
-    totalSalectedCatA, 
-    setTotalSalectedCatA, 
-    totalSalectedCatB, 
+    totalSalectedCatA,
+    setTotalSalectedCatA,
+    totalSalectedCatB,
     setTotalSalectedCatB,
-    totalSalectedCatC, 
-    setTotalSalectedCatC  ,
+    totalSalectedCatC,
+    setTotalSalectedCatC,
     revPercentage
   } = useSaleValue();
   // const { data: products, isFetching } = useQuery({
@@ -43,17 +43,17 @@ const InventoryPage = () => {
   // })
   const {
     data: allProducts,
-   
+
   } = useQuery({
       queryKey: ["allProducts",date],
       queryFn: async () => (await fetchAllProducts(date && date.from ? date.from : null, date?.to ? date?.to : null)),
   })
   const {
     data: products,
-  
+
   } = useQuery({
-      queryKey: ["products", date],
-      queryFn: async () => (await fetchProducts(date && date.from ? date.from : null, date?.to ? date?.to : null)),
+    queryKey: ["products", date],
+    queryFn: async () => (await fetchProducts(date && date.from ? date.from : null, date?.to ? date?.to : null)),
   })
 
   useEffect(()=>{
@@ -63,7 +63,7 @@ const InventoryPage = () => {
     setTotalSalectedCatA(products?.sumCatA || 0)
     setTotalSalectedCatB(products?.sumCatB || 0)
     setTotalSalectedCatC(products?.sumCatC || 0)
-  },[products,allProducts,date])
+  }, [products, allProducts, date])
 
   return (
 
@@ -154,34 +154,34 @@ const InventoryPage = () => {
         </TabsContent>
         <TabsContent value="classA">
           <div className=' flex justify-between items-center w-full'>
-          <Popover>
-          <PopoverTrigger asChild>
-              <Button
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
                   id="date"
                   variant={"outline"}
                   className={cn(
-                      "w-full md:w-[300px] justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
+                    "w-full md:w-[300px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
                   )}
-              >
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date?.from ? (
-                      date.to ? (
-                          <>
-                              {format(date.from, "LLL dd, y")} -{" "}
-                              {format(date.to, "LLL dd, y")}
-                          </>
-                      ) : (
-                          format(date.from, "LLL dd, y")
-                      )
+                    date.to ? (
+                      <>
+                        {format(date.from, "LLL dd, y")} -{" "}
+                        {format(date.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(date.from, "LLL dd, y")
+                    )
                   ) : (
-                      <span>Pick a date</span>
+                    <span>Pick a date</span>
                   )}
-              </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-              {/* Replace Calendar with your @shadcn/ui Calendar component */}
-              <Calendar
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                {/* Replace Calendar with your @shadcn/ui Calendar component */}
+                <Calendar
                   initialFocus
                   mode="range"
                   defaultMonth={date?.from}
@@ -223,7 +223,7 @@ const InventoryPage = () => {
             </DialogContent>
           </Dialog>
           </div>
-          
+
           <DataTable
             //@ts-ignore
             columns={columns}
@@ -231,38 +231,38 @@ const InventoryPage = () => {
             data={products?.categoryAProducts ?? []}
             isInventory
           />
-     
+
         </TabsContent>
         <TabsContent value="classB">
-        <div className=' flex justify-between items-center w-full'>
-          <Popover>
-          <PopoverTrigger asChild>
-              <Button
+          <div className=' flex justify-between items-center w-full'>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
                   id="date"
                   variant={"outline"}
                   className={cn(
-                      "w-full md:w-[300px] justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
+                    "w-full md:w-[300px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
                   )}
-              >
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date?.from ? (
-                      date.to ? (
-                          <>
-                              {format(date.from, "LLL dd, y")} -{" "}
-                              {format(date.to, "LLL dd, y")}
-                          </>
-                      ) : (
-                          format(date.from, "LLL dd, y")
-                      )
+                    date.to ? (
+                      <>
+                        {format(date.from, "LLL dd, y")} -{" "}
+                        {format(date.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(date.from, "LLL dd, y")
+                    )
                   ) : (
-                      <span>Pick a date</span>
+                    <span>Pick a date</span>
                   )}
-              </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-              {/* Replace Calendar with your @shadcn/ui Calendar component */}
-              <Calendar
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                {/* Replace Calendar with your @shadcn/ui Calendar component */}
+                <Calendar
                   initialFocus
                   mode="range"
                   defaultMonth={date?.from}
@@ -280,8 +280,8 @@ const InventoryPage = () => {
               <DialogTrigger className='flex gap-3 py-2 px-2 text-xl'>                            
                 Generate Report
                 <TbReportAnalytics />
-              </DialogTrigger>
-            </Button>
+          
+            </DialogTrigger>
             <DialogContent className=' max-w-5xl'>
               <DialogHeader>
                 <DialogTitle>
@@ -306,7 +306,7 @@ const InventoryPage = () => {
             </DialogContent>
           </Dialog>
           </div>
-          
+
           <DataTable
             //@ts-ignore
             columns={columns}
@@ -316,35 +316,35 @@ const InventoryPage = () => {
           />
         </TabsContent>
         <TabsContent value="classC">
-        <div className=' flex justify-between items-center w-full'>
-          <Popover>
-          <PopoverTrigger asChild>
-              <Button
+          <div className=' flex justify-between items-center w-full'>
+            <Popover>
+              <PopoverTrigger asChild>
+                <Button
                   id="date"
                   variant={"outline"}
                   className={cn(
-                      "w-full md:w-[300px] justify-start text-left font-normal",
-                      !date && "text-muted-foreground"
+                    "w-full md:w-[300px] justify-start text-left font-normal",
+                    !date && "text-muted-foreground"
                   )}
-              >
+                >
                   <CalendarIcon className="mr-2 h-4 w-4" />
                   {date?.from ? (
-                      date.to ? (
-                          <>
-                              {format(date.from, "LLL dd, y")} -{" "}
-                              {format(date.to, "LLL dd, y")}
-                          </>
-                      ) : (
-                          format(date.from, "LLL dd, y")
-                      )
+                    date.to ? (
+                      <>
+                        {format(date.from, "LLL dd, y")} -{" "}
+                        {format(date.to, "LLL dd, y")}
+                      </>
+                    ) : (
+                      format(date.from, "LLL dd, y")
+                    )
                   ) : (
-                      <span>Pick a date</span>
+                    <span>Pick a date</span>
                   )}
-              </Button>
-          </PopoverTrigger>
-          <PopoverContent className="w-auto p-0" align="start">
-              {/* Replace Calendar with your @shadcn/ui Calendar component */}
-              <Calendar
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent className="w-auto p-0" align="start">
+                {/* Replace Calendar with your @shadcn/ui Calendar component */}
+                <Calendar
                   initialFocus
                   mode="range"
                   defaultMonth={date?.from}
@@ -353,42 +353,42 @@ const InventoryPage = () => {
                   //@ts-ignore
                   onSelect={setDate}
                   numberOfMonths={2}
-              />
-          </PopoverContent>
-          </Popover>
-          
-          <Dialog>
-            <DialogTrigger className='flex gap-3 py-2 px-2 text-xl bg-white rounded-xl'>
-             
+                />
+              </PopoverContent>
+            </Popover>
+
+            <Dialog>
+              <DialogTrigger className='flex gap-3 py-2 px-2 text-xl bg-white rounded-xl items-center'>
+
                 Generate Report
                 <TbReportAnalytics />
-          
-            </DialogTrigger>
-            <DialogContent className=' max-w-5xl'>
-              <DialogHeader>
-                <DialogTitle>
-                
-                </DialogTitle>
-                <DialogDescription>
-                  <div>
-                    <h1>From: {date?.from ? formatDate(date.from) : 'None'} To: {date?.to ? formatDate(date.to) : 'None'}</h1>
-                  <ReportDT
-                    //@ts-ignore
-                    columns={ReportCol}
-                    isCatC={true}
-                    salesRevPercentageCatC={products?.salesRevPercentageCatC}
-                    totalSalectedCatC={totalSalectedCatC}
-                    //@ts-ignore
-                    data={products?.categoryCProducts ?? []}
-                    isInventory
-                  />
-                  </div>
-                </DialogDescription>
-              </DialogHeader>
-            </DialogContent>
-          </Dialog>
+
+              </DialogTrigger>
+              <DialogContent className=' max-w-5xl'>
+                <DialogHeader>
+                  <DialogTitle>
+
+                  </DialogTitle>
+                  <DialogDescription>
+                    <div>
+                      <h1>From: {date?.from ? formatDate(date.from) : 'None'} To: {date?.to ? formatDate(date.to) : 'None'}</h1>
+                      <ReportDT
+                        //@ts-ignore
+                        columns={ReportCol}
+                        isCatC={true}
+                        salesRevPercentageCatC={products?.salesRevPercentageCatC}
+                        totalSalectedCatC={totalSalectedCatC}
+                        //@ts-ignore
+                        data={products?.categoryCProducts ?? []}
+                        isInventory
+                      />
+                    </div>
+                  </DialogDescription>
+                </DialogHeader>
+              </DialogContent>
+            </Dialog>
           </div>
-          
+
           <DataTable
             //@ts-ignore
             columns={columns}
@@ -398,8 +398,8 @@ const InventoryPage = () => {
           />
         </TabsContent>
       </Tabs>
-     
-      
+
+
     </div>
   )
 }

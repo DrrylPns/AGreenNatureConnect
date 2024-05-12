@@ -1,8 +1,5 @@
 "use client"
 
-import {
-  Settings2
-} from "lucide-react"
 
 import {
   ColumnDef,
@@ -26,35 +23,24 @@ import {
   TableRow,
 } from "@/app/components/Ui/table"
 
-import {
-  DropdownMenu,
-  DropdownMenuCheckboxItem,
-  DropdownMenuContent,
-  DropdownMenuTrigger,
-} from "@/app/components/Ui/Dropdown-Menu"
 
 import { Button, buttonVariants } from "@/app/components/Ui/Button"
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Ui/Dialog"
 import { Input } from "@/app/components/Ui/Input"
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form"
+import { Textarea } from "@/app/components/Ui/textarea"
+import { toast } from "@/lib/hooks/use-toast"
 import { cn } from "@/lib/utils"
+import { CreateProductRequestSchema, CreateProductRequestType } from "@/lib/validations/employee/products"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { useQuery } from "@tanstack/react-query"
 import { Legend } from "@tremor/react"
 import Link from "next/link"
 import React, { useState, useTransition } from "react"
-import { DataTablePagination } from "./DataTablePagination"
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/app/components/Ui/Dialog"
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form"
-import { Textarea } from "@/app/components/Ui/textarea"
 import { useForm } from "react-hook-form"
-import { zodResolver } from "@hookform/resolvers/zod"
-import { CreateProductRequestSchema, CreateProductRequestType } from "@/lib/validations/employee/products"
 import { createNotificationRequest } from "../../../../../actions/community"
-import { toast } from "@/lib/hooks/use-toast"
-import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover"
-import { CalendarIcon } from "lucide-react"
-import { addDays, format } from "date-fns"
-import { Calendar } from "@/components/ui/calendar"
-import { DateRange } from "react-day-picker"
 import { numberOfProducts } from "../../../../../actions/products"
-import { useQuery } from "@tanstack/react-query"
+import { DataTablePagination } from "./DataTablePagination"
 
 
 interface DataTableProps<TData, TValue> {
@@ -92,10 +78,10 @@ export function DataTable<TData, TValue>({
 
   const {
     data: productsCount,
-  
+
   } = useQuery({
-      queryKey: ["productsCount"],
-      queryFn: async () => (await  numberOfProducts() as number),
+    queryKey: ["productsCount"],
+    queryFn: async () => (await numberOfProducts() as number),
   })
 
   const table = useReactTable({
@@ -323,12 +309,11 @@ export function DataTable<TData, TValue>({
                   })}
               </DropdownMenuContent>
             </DropdownMenu> */}
-            <h1>Total number of products: {productsCount}</h1>
+            {isSalesReport ? (null) : (
+              <h1>Total number of products: {productsCount}</h1>
+            )}
           </div>
-
-      
         </div>
-    
       </div>
       <div className="rounded-md border">
         <Table className="bg-white rounded-lg">

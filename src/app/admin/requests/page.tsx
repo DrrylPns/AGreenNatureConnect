@@ -30,15 +30,15 @@ const RequestPage = async () => {
 
     return (
         <div className="flex items-center justify-center min-h-screen">
-            <Card className='lg:w-[1280px] lg:mt-[-20%]'>
-
+            <Card className='w-full md:h-full h-[60%] md:ml-[5%] mt-[-65%] md:mt-[-20%] overflow-hidden shadow-lg bg-gradient-to-r from-[#6CFFBA] to-[#dce7c4]'>
                 <Title>List of Requests</Title>
-        
                 <SearchRequest 
                     request={requests} />
             </Card>
         </div>
     )
+    
+    
 }
 
 export default RequestPage

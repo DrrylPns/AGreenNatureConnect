@@ -35,7 +35,7 @@ import {
 
 import { Button, buttonVariants } from "@/app/components/Ui/Button"
 import { Input } from "@/app/components/Ui/Input"
-import { cn } from "@/lib/utils"
+import { cn, formatPrice } from "@/lib/utils"
 import { Legend } from "@tremor/react"
 import Link from "next/link"
 import React, { useState, useTransition } from "react"
@@ -72,9 +72,9 @@ interface DataTableProps<TData, TValue> {
   isCatB?: boolean;
   isCatC?: boolean;
   totalSalesValue?: number;
-  totalSalectedCatA?:number,
-  totalSalectedCatB?:number,
-  totalSalectedCatC?:number,
+  totalSalectedCatA?: number,
+  totalSalectedCatB?: number,
+  totalSalectedCatC?: number,
   salesRevPercentageCatA?: number,
   salesRevPercentageCatB?: number,
   salesRevPercentageCatC?: number,
@@ -117,10 +117,10 @@ export function DataTable<TData, TValue>({
 
   const {
     data: productsCount,
-  
+
   } = useQuery({
-      queryKey: ["productsCount"],
-      queryFn: async () => (await  numberOfProducts() as number),
+    queryKey: ["productsCount"],
+    queryFn: async () => (await numberOfProducts() as number),
   })
 
   const table = useReactTable({
@@ -169,7 +169,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      
+
       <div className="rounded-md border">
         <Table className="bg-white rounded-lg">
           <TableHeader>
@@ -225,7 +225,7 @@ export function DataTable<TData, TValue>({
       ):(
         null
       )
-      
+ 
       }
       <br />
       <DataTablePagination table={table} />

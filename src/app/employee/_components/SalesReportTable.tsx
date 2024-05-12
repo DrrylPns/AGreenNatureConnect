@@ -20,6 +20,7 @@ export const SalesReportTable = () => {
     const [totalSalesAmount, setTotalSalesAmount] = useState<number>(0);
     const [totalProductsSold, setTotalProductsSold] = useState<number>(0);
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -28,7 +29,9 @@ export const SalesReportTable = () => {
 
                 if (date && date.from && date.to) {
                     startDate = date.from;
-                    endDate = date.to;
+                    endDate = new Date(date.to)
+
+                    endDate.setHours(23, 59, 59, 999)
                 } else {
                     // Default to current year if date range not selected
                     const today = new Date();
@@ -59,23 +62,52 @@ export const SalesReportTable = () => {
         }
     }
 
-    function getSoldProductsSummary(sales: CompletedTransaction[]) {
-        const summaryMap: { [productName: string]: number } = {};
+    // function getSoldProductsSummary(sales: CompletedTransaction[]) {
+    //     const summaryMap: { [productName: string]: number } = {};
+
+    //     sales.forEach((transaction) => {
+    //         transaction.orderedProducts.forEach((orderedProduct) => {
+    //             const { name, quantity } = orderedProduct.product;
+
+    //             if (summaryMap[name]) {
+    //                 summaryMap[name] += orderedProduct.quantity; // Accumulate the quantity sold
+    //             } else {
+    //                 summaryMap[name] = orderedProduct.quantity;
+    //             }
+    //         });
+    //     });
+
+    //     return summaryMap;
+    // }
+
+    const groupSoldProductsByCategory = (sales: CompletedTransaction[]) => {
+        const productsByCategory: { [key: string]: { [key: string]: { quantity: number; totalSales: number } } } = {};
 
         sales.forEach((transaction) => {
             transaction.orderedProducts.forEach((orderedProduct) => {
-                const { name, quantity } = orderedProduct.product;
+                const { name, category } = orderedProduct.product;
+                const { quantity, priceInKg } = orderedProduct;
+                const totalSales = quantity * priceInKg; // Calculate total sales amount for this product
 
-                if (summaryMap[name]) {
-                    summaryMap[name] += orderedProduct.quantity; // Accumulate the quantity sold
-                } else {
-                    summaryMap[name] = orderedProduct.quantity;
+                if (!productsByCategory[category]) {
+                    productsByCategory[category] = {};
                 }
+
+                if (!productsByCategory[category][name]) {
+                    productsByCategory[category][name] = { quantity: 0, totalSales: 0 };
+                }
+
+                productsByCategory[category][name].quantity += quantity;
+                productsByCategory[category][name].totalSales += totalSales;
             });
         });
 
-        return summaryMap;
-    }
+        return productsByCategory;
+    };
+
+    // Group sold products by category and calculate total sales amount for each product
+    const soldProductsByCategory = groupSoldProductsByCategory(sales);
+
 
     return (
         <div className="space-y-3">
@@ -88,7 +120,7 @@ export const SalesReportTable = () => {
                         }),
                         "cursor-pointer flex flex-row"
                     )}
-                    onClick={() => window.print()}
+                    onClick={handlePrint}
                 >
 
                     <FileUp className="mr-2" strokeWidth={1} />
@@ -153,14 +185,19 @@ export const SalesReportTable = () => {
                 </div>
 
                 <div>
-                    <h2 className="font-bold">Sold Products Summary</h2>
-                    <ul className="text-muted-foreground">
-                        {Object.entries(getSoldProductsSummary(sales)).map(([name, quantity]) => (
-                            <li key={name}>
-                                {name}: {quantity}
-                            </li>
-                        ))}
-                    </ul>
+                    <h2 className="font-bold text-xl">Sold Products Summary</h2>
+                    {Object.entries(soldProductsByCategory).map(([category, products]) => (
+                        <div key={category}>
+                            <h3 className="text-lg font-medium">{category}:</h3>
+                            <ul className="text-muted-foreground">
+                                {Object.entries(products).map(([name, { quantity, totalSales }]) => (
+                                    <li key={name}>
+                                        {name}: {quantity} kg (Total Sale: {formatPrice(totalSales)})
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
 
                 <DataTable

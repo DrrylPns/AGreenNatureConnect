@@ -13,7 +13,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover";
 import { Calendar } from "@/components/ui/calendar";
 import { toast } from "@/lib/hooks/use-toast";
-import { cn, formatDate } from "@/lib/utils";
+import { cn, formatDate, formatPrice } from "@/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Product, Stocks, User } from "@prisma/client";
 import { useMutation } from "@tanstack/react-query";
@@ -63,7 +63,7 @@ export type Products = {
 
 export const columns: ColumnDef<LatestProduct>[] =
   [
-    
+
     {
       accessorKey: "itemNumber",
       header: ({ column }) => {
@@ -173,6 +173,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       cell: ({ row }) => {
         const price = row.original.priceInKg;
         return <div className="text-right">₱{price}</div>;
+        return <div className="text-center">{formatPrice(price)}</div>;
       },
     },
     {
@@ -199,10 +200,10 @@ export const columns: ColumnDef<LatestProduct>[] =
       cell: ({ row }) => {
         const orderedProducts = row.original.orderedProducts;
         let revenue = 0
-        orderedProducts.map((product)=>{
+        orderedProducts.map((product) => {
           revenue += product.totalPrice
         })
-        return <div className="text-right">₱{revenue}</div>;
+        return <div className="text-center">{formatPrice(revenue)}</div>;
       },
     },
     {
@@ -218,8 +219,8 @@ export const columns: ColumnDef<LatestProduct>[] =
         let revenue = 0
         const { totalSale, setRevPercentage } = useSaleValue();
 
-      
-        orderedProducts.map((product)=>{
+
+        orderedProducts.map((product) => {
           revenue += product.totalPrice
         })
         const percentage = (revenue/totalSale)*100
