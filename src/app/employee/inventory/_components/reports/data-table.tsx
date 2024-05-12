@@ -35,7 +35,7 @@ import {
 
 import { Button, buttonVariants } from "@/app/components/Ui/Button"
 import { Input } from "@/app/components/Ui/Input"
-import { cn } from "@/lib/utils"
+import { cn, formatPrice } from "@/lib/utils"
 import { Legend } from "@tremor/react"
 import Link from "next/link"
 import React, { useState, useTransition } from "react"
@@ -72,9 +72,9 @@ interface DataTableProps<TData, TValue> {
   isCatB?: boolean;
   isCatC?: boolean;
   totalSalesValue?: number;
-  totalSalectedCatA?:number,
-  totalSalectedCatB?:number,
-  totalSalectedCatC?:number,
+  totalSalectedCatA?: number,
+  totalSalectedCatB?: number,
+  totalSalectedCatC?: number,
   salesRevPercentageCatA?: number,
   salesRevPercentageCatB?: number,
   salesRevPercentageCatC?: number,
@@ -113,10 +113,10 @@ export function DataTable<TData, TValue>({
 
   const {
     data: productsCount,
-  
+
   } = useQuery({
-      queryKey: ["productsCount"],
-      queryFn: async () => (await  numberOfProducts() as number),
+    queryKey: ["productsCount"],
+    queryFn: async () => (await numberOfProducts() as number),
   })
 
   const table = useReactTable({
@@ -165,7 +165,7 @@ export function DataTable<TData, TValue>({
 
   return (
     <div>
-      
+
       <div className="rounded-md border">
         <Table className="bg-white rounded-lg">
           <TableHeader>
@@ -211,13 +211,13 @@ export function DataTable<TData, TValue>({
             )}
           </TableBody>
         </Table>
-      </div>  
+      </div>
       <div className="flex justify-end gap-x-24 my-2 text-xl font-medium pr-10">
         <h1>Total:</h1>
-        <h1>₱{isCatA ?totalSalectedCatA : isCatB ? totalSalectedCatB : isCatC ? totalSalectedCatC : null}</h1>
-        <h1>{isCatA ?salesRevPercentageCatA?.toFixed(2) : isCatB ? salesRevPercentageCatB?.toFixed(2) : isCatC ? salesRevPercentageCatC?.toFixed(2) : null}%</h1>
+        <h1>{isCatA ? formatPrice(totalSalectedCatA as number) : isCatB ? formatPrice(totalSalectedCatB as number) : isCatC ? formatPrice(totalSalectedCatC as number) : null}</h1>
+        <h1>{isCatA ? salesRevPercentageCatA?.toFixed(2) : isCatB ? salesRevPercentageCatB?.toFixed(2) : isCatC ? salesRevPercentageCatC?.toFixed(2) : null}%</h1>
       </div>
-     
+
       <br />
       <DataTablePagination table={table} />
     </div >
