@@ -294,7 +294,6 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
         // Fetch orderedProducts associated with the current product
         const orderedProducts = await prisma.orderedProducts.findMany({
             where: {
-                
                 transaction: {
                     status: "COMPLETED"
                 },
@@ -340,7 +339,6 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
         
             // Push the modified product into the modifiedProducts array
             modifiedProducts.push(modifiedProduct);
-        
         }
         
      

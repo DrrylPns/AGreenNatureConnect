@@ -44,7 +44,7 @@ import { Popover, PopoverContent, PopoverTrigger } from '@/app/components/Ui/pop
 import { Calendar } from '@/components/ui/calendar'
 
 
-const CreateProduct = () => { 
+const CreateProduct = () => {
     const [imageUrl, setImageUrl] = useState<string>('')
     const [formStep, setFormStep] = useState(0)
     // const [perMeasurementSlots, setPerMeasurementSlots] = useState([{ measurement: 0, price: 0, estPieces: '' }]);
@@ -256,7 +256,7 @@ const CreateProduct = () => {
 
                 {/* STEP 2 */}
                 <div className={
-                    cn('h-full', {
+                    cn('h-full space-y-3', {
                         'hidden': formStep == 0
                     })
                 }>
@@ -381,21 +381,24 @@ const CreateProduct = () => {
                     <h1 className='text-[#f7d126] mb-5 font-bold'>
                         Add stocks to {prodName}
                     </h1>
-                    <div className='flex flex-row items-center justify-center w-full gap-11 space-x-3 mb-11'>
+                    <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
                             name="priceInKg"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel className='text-[#f7d126]'>Price per Kilograms(kg)</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="100" {...field} type='number' className='rounded-full' />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                    <FormLabel className='text-[#f7d126]'>Price per Kilograms(kg)</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="100" {...field} type='number' className='rounded-full' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
                             )}
                         />
 
+                    </div>
+
+                    <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
                             name="quantity"
@@ -411,56 +414,61 @@ const CreateProduct = () => {
                             )}
                         />
                     </div>
-                    <div className='flex flex-row items-center justify-center w-full gap-11 space-x-3 mb-11'>
+
+                    <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
                             name="harvestedFrom"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel className='text-[#f7d126]'>From</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="Farm/Consignor name" {...field} type='text' className='rounded-full' />
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                    <FormLabel className='text-[#f7d126]'>From</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="Farm/Consignor name" {...field} type='text' className='rounded-full' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
                             )}
                         />
+
+                    </div>
+
+                    <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
                             name="expiration"
                             render={({ field }) => (
                                 <FormItem>
-                                <FormLabel className='text-[#f7d126]'>Expiration Date</FormLabel>
-                                <FormControl>
-                                <Popover>
-                                    <PopoverTrigger asChild>
-                                        <Button
-                                        variant={"outline"}
-                                        className={cn(
-                                            "w-[280px] justify-start text-left font-normal",
-                                            !field.value && "text-muted-foreground"
-                                        )}
-                                        >
-                                        <CalendarIcon className="mr-2 h-4 w-4" />
-                                        {field.value ? (
-                                            format(field.value, "PPP")
-                                        ) : (
-                                            <span>Pick a date</span>
-                                        )}
-                                        </Button>
-                                    </PopoverTrigger>
-                                    <PopoverContent className="w-auto p-0">
-                                        <Calendar
-                                        mode="single"
-                                        selected={field.value}
-                                        onSelect={field.onChange}
-                                        initialFocus
-                                        />
-                                    </PopoverContent>
-                                </Popover>
-                                </FormControl>
-                                <FormMessage />
-                            </FormItem>
+                                    <FormLabel className='text-[#f7d126] mr-3'>Expiration Date</FormLabel>
+                                    <FormControl>
+                                        <Popover>
+                                            <PopoverTrigger asChild>
+                                                <Button
+                                                    variant={"outline"}
+                                                    className={cn(
+                                                        "w-full justify-start text-left font-normal",
+                                                        !field.value && "text-muted-foreground"
+                                                    )}
+                                                >
+                                                    <CalendarIcon className="mr-2 h-4 w-4" />
+                                                    {field.value ? (
+                                                        format(field.value, "PPP")
+                                                    ) : (
+                                                        <span>Pick a date</span>
+                                                    )}
+                                                </Button>
+                                            </PopoverTrigger>
+                                            <PopoverContent className="w-auto p-0">
+                                                <Calendar
+                                                    mode="single"
+                                                    selected={field.value}
+                                                    onSelect={field.onChange}
+                                                    initialFocus
+                                                />
+                                            </PopoverContent>
+                                        </Popover>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
                             )}
                         />
                     </div>
@@ -532,7 +540,7 @@ const CreateProduct = () => {
                                 // console.log("GEY" + perMeasurementValues)
                             }}
                             disabled={
-                                imageIsEmpty || isLoading 
+                                imageIsEmpty || isLoading
                             }
                         >Save</AlertDialogTrigger>
                         <AlertDialogContent>
@@ -572,9 +580,9 @@ const CreateProduct = () => {
                                         </div>
                                         <div>
                                             Expiration Date:
-                                            {}
+                                            { }
                                             <span className='font-bold text-black ml-1'>
-                                                {formatDate(form.getValues("expiration")) }
+                                                {formatDate(form.getValues("expiration"))}
                                             </span>
                                         </div>
                                     </div>
@@ -613,7 +621,7 @@ const CreateProduct = () => {
                                         ))}
                                     </div> */}
 
-                                  
+
 
                                 </AlertDialogDescription>
                             </AlertDialogHeader>

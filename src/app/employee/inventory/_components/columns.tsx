@@ -321,12 +321,12 @@ export const columns: ColumnDef<LatestProduct>[] =
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
                 <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                <DropdownMenuItem
+                {/* <DropdownMenuItem
                   onClick={() => navigator.clipboard.writeText(product.id)}
                 >
                   Copy Product ID
-                </DropdownMenuItem>
-                <DropdownMenuSeparator />
+                </DropdownMenuItem> */}
+                {/* <DropdownMenuSeparator /> */}
                 <DropdownMenuItem
                 // onClick={() => router.push(`inventory/addstocks/${product.id}`)}
                 >

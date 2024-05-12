@@ -3,7 +3,7 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { CompletedTransaction } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
 import { format } from "date-fns";
@@ -165,7 +165,7 @@ export const SalesReportTable = () => {
                 </PopoverContent>
             </Popover>
 
-            <Card className="mx-auto max-w-full h-full drop-shadow-lg p-3 ">
+            <Card className="mx-auto max-w-full h-full drop-shadow-lg p-3 space-y-5">
                 <div className="text-xl font-semibold flex flex-row gap-2 mb-2">
                     <h1>Date Report:</h1>
                     {date && date.from && date.to ? (
@@ -177,11 +177,29 @@ export const SalesReportTable = () => {
                     )}
                 </div>
 
-                <div className="flex justify-between mb-4">
-                    <div>
-                        <h2>Total Sales Amount: {formatPrice(totalSalesAmount)}</h2>
-                        <h2>Total Products Sold: {totalProductsSold.toLocaleString()}</h2>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>
+                                Total Sales Amount:
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="font-semibold">
+                            {formatPrice(totalSalesAmount)}
+                        </CardContent>
+                    </Card>
+
+                    <Card>
+                        <CardHeader>
+                            <CardTitle>
+                                Total Products Sold:
+                            </CardTitle>
+                        </CardHeader>
+                        <CardContent className="font-semibold">
+                            {totalProductsSold.toLocaleString()}
+                        </CardContent>
+                    </Card>
                 </div>
 
                 <div>
