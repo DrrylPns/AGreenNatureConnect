@@ -416,7 +416,7 @@ export const unarchiveProduct = async (id: string) => {
     await prisma.product.update({
         where: { id },
         data: {
-            status: "PENDING"
+            status: "APPROVED"
         }
     })
 
