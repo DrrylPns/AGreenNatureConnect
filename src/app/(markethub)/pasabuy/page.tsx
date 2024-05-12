@@ -1,4 +1,3 @@
-import React from "react";
 import { getAuthSession } from "@/lib/auth";
 import { getUserById } from "../../../../data/user";
 import { PasabuyForm } from "./_components/PasabuyForm";
@@ -8,7 +7,7 @@ const PasabuyPage = async () => {
 
   const user = await getUserById(session?.user.id as string);
 
-  if (!user) return <>Error fetching current user</>;
+  if (!user) return <>You need to be logged in to join as an urban farm in AGreen Nature Connect</>;
 
   return (
     <>

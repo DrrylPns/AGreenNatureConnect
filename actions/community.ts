@@ -563,6 +563,14 @@ export const approvedConsignor = async (id: string) => {
 
     if (currentUser.role !== "ADMIN") return { error: "Error: Unauthorized!" }
 
+    const currentConsignor = await prisma.consignorApplicants.findUnique({
+        where: {
+            id,
+        }
+    })
+
+    if (currentConsignor?.status === "Approved") return { error: "This consignor has already been accepted" }
+
     const updateConsignor = await prisma.consignorApplicants.update({
         where: {
             id: id
@@ -788,6 +796,7 @@ export const productRequestReceived = async (productRequestId: string) => {
 
         if (!currentproductRequest) return { error: "Can't find current request!" }
 
+        if (currentproductRequest.status === "RECEIVED") return { error: "Item already received!" }
         if (currentproductRequest.status !== "PROCESSING") return { error: "Can't process a status if it is not processing" }
 
         await prisma.productRequest.update({
