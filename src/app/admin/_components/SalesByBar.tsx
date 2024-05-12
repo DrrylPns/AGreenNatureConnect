@@ -32,7 +32,9 @@ export const SalesByBar = () => {
 
                 if (date && date.from && date.to) {
                     startDate = date.from;
-                    endDate = date.to;
+                    endDate = new Date(date.to);
+
+                    endDate.setHours(23, 59, 59, 999)
                 } else {
                     // Default to current year if date range not selected
                     const today = new Date();
