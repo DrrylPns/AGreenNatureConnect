@@ -59,23 +59,49 @@ export const SalesReportTable = () => {
         }
     }
 
-    function getSoldProductsSummary(sales: CompletedTransaction[]) {
-        const summaryMap: { [productName: string]: number } = {};
+    // function getSoldProductsSummary(sales: CompletedTransaction[]) {
+    //     const summaryMap: { [productName: string]: number } = {};
+
+    //     sales.forEach((transaction) => {
+    //         transaction.orderedProducts.forEach((orderedProduct) => {
+    //             const { name, quantity } = orderedProduct.product;
+
+    //             if (summaryMap[name]) {
+    //                 summaryMap[name] += orderedProduct.quantity; // Accumulate the quantity sold
+    //             } else {
+    //                 summaryMap[name] = orderedProduct.quantity;
+    //             }
+    //         });
+    //     });
+
+    //     return summaryMap;
+    // }
+
+    const groupSoldProductsByCategory = (sales: CompletedTransaction[]) => {
+        const productsByCategory: { [key: string]: { [key: string]: number } } = {};
 
         sales.forEach((transaction) => {
             transaction.orderedProducts.forEach((orderedProduct) => {
-                const { name, quantity } = orderedProduct.product;
+                const { name, category } = orderedProduct.product;
 
-                if (summaryMap[name]) {
-                    summaryMap[name] += orderedProduct.quantity; // Accumulate the quantity sold
-                } else {
-                    summaryMap[name] = orderedProduct.quantity;
+                if (!productsByCategory[category]) {
+                    productsByCategory[category] = {};
                 }
+
+                if (!productsByCategory[category][name]) {
+                    productsByCategory[category][name] = 0;
+                }
+
+                productsByCategory[category][name] += orderedProduct.quantity;
             });
         });
 
-        return summaryMap;
-    }
+        return productsByCategory;
+    };
+
+    // Group sold products by category
+    const soldProductsByCategory = groupSoldProductsByCategory(sales);
+
 
     return (
         <div className="space-y-3">
@@ -153,14 +179,19 @@ export const SalesReportTable = () => {
                 </div>
 
                 <div>
-                    <h2 className="font-bold">Sold Products Summary</h2>
-                    <ul className="text-muted-foreground">
-                        {Object.entries(getSoldProductsSummary(sales)).map(([name, quantity]) => (
-                            <li key={name}>
-                                {name}: {quantity}
-                            </li>
-                        ))}
-                    </ul>
+                    <h2 className="font-bold text-xl">Sold Products Summary</h2>
+                    {Object.entries(soldProductsByCategory).map(([category, products]) => (
+                        <div key={category}>
+                            <h3 className="text-lg font-medium">{category}:</h3>
+                            <ul className="text-muted-foreground">
+                                {Object.entries(products).map(([name, quantity]) => (
+                                    <li key={name}>
+                                        {name}: {quantity}
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    ))}
                 </div>
 
                 <DataTable

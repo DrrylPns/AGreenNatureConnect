@@ -330,7 +330,12 @@ export const salesReport = async (startDate: Date, endDate: Date) => {
         include: {
             orderedProducts: {
                 include: {
-                    product: true,
+                    product: {
+                        select: {
+                            name: true,
+                            category: true,
+                        }
+                    }
                 },
             },
             buyer: true,
