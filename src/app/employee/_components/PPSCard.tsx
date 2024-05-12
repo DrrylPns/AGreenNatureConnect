@@ -16,14 +16,53 @@ const PPSCard = () => {
 
     const [date, setDate] = useState<DateRange | undefined>(undefined);
 
-    useEffect(() => {
-        fetchSalesPieChart();
-    }, [date]);
+    // useEffect(() => {
+    //     const fetchData = async () => {
+    //         if (date && date.from && date.to) {
 
-    const fetchSalesPieChart = async () => {
-        const sales = await fetchSalesByCategories(date?.from, date?.to);
-        setSales(sales);
-    };
+    //             let startDate: Date | undefined;
+    //             let endDate: Date | undefined;
+
+    //             startDate = date.from
+    //             endDate = new Date(date.to)
+
+    //             endDate.setHours(23, 59, 59, 999)
+
+    //             const sales = await fetchSalesByCategories(startDate, endDate);
+    //             setSales(sales);
+    //         }
+    //     }
+
+    //     fetchData();
+    // }, [date]);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                let startDate: Date | undefined;
+                let endDate: Date | undefined;
+
+                if (date && date.from && date.to) {
+                    startDate = date.from;
+                    endDate = new Date(date.to);
+
+                    endDate.setHours(23, 59, 59, 999)
+                } else {
+                    // Default to current year if date range not selected
+                    const today = new Date();
+                    startDate = new Date(today.getFullYear(), 0, 1); // Start date is first day of current year
+                    endDate = new Date(today.getFullYear(), 11, 31); // End date is last day of current year
+                }
+
+                const sales = await fetchSalesByCategories(startDate, endDate);
+                setSales(sales);
+            } catch (error) {
+                console.error("Error fetching sales data:", error);
+            }
+        };
+
+        fetchData();
+    }, [date]);
 
     return (
         <>
@@ -79,7 +118,7 @@ const PPSCard = () => {
                     data={sales}
                     category="sales"
                     index="category"
-                    colors={["indigo", "gray", "lime"]}
+                    colors={["gray", "indigo", "lime"]}
                     onValueChange={(v) => setValue(v)}
                 />
 
