@@ -73,6 +73,23 @@ export const ColumnSalesReport: ColumnDef<CompletedTransaction>[] = [
         },
     },
     {
+        accessorKey: "buyer",
+        header: ({ column }) => {
+            return (
+                <DataTableColumnHeader column={column} title="Buyer" />
+            );
+        },
+        cell: ({ row }) => {
+            const status = row.original.buyer.name
+
+            return (
+                <>
+                    {status}
+                </>
+            )
+        },
+    },
+    {
         accessorKey: "orderedProducts",
         header: ({ column }) => {
             return (

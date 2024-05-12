@@ -294,7 +294,7 @@ const Sidebar = ({ user }: Props) => {
 
           </div>
         </section>
-      ) : user.specialization === "MarketHub" ? (
+      ) : user.specialization === "Informational" ? (
         <section className='print-card max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
           <div className='flex flex-col gap-3 justify-between'>
             <div>
@@ -309,184 +309,7 @@ const Sidebar = ({ user }: Props) => {
                 <span className="text-sm font-medium">Dashboard</span>
               </Link>
 
-              <AnimatePresence>
-                {isDropdownrOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      stiffness: 100,
-                      damping: 20,
-                      duration: 0.2,
-                      delay: 0.5,
-                    }}
-                    exit={{ opacity: 0, y: -50 }}
-                  >
-                    <Link
-                      href={"/employee/create-video"}
-                      className={`link ${pathname === "/employee/create-video"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-[1.5rem]">
-                        <PlaySquare strokeWidth={1} />
-                      </div>
-                      Video Tutorial
-                    </Link>
-                    <Link
-                      href={"/employee/create-materials"}
-                      className={`link ${pathname === "/employee/create-materials"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-icons">
-                        <BookOpen strokeWidth={1} />
-                      </div>
-                      Learning Materials
-                    </Link>
-                    <Link
-                      href={"/employee/create-blog"}
-                      className={`link ${pathname === "/employee/create-blog"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-[1.5rem]">
-                        <FileText strokeWidth={1} />
-                      </div>
-                      Blogs
-                    </Link>
-                    <Link
-                      href={"/employee/create-topic"}
-                      className={`link ${pathname === "/employee/create-topic"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-[1.5rem]">
-                        <Speech strokeWidth={1} />
-                      </div>
-                      Topics
-                    </Link>
-
-                  </motion.div>
-                )}
-              </AnimatePresence>
               <button
-                type="button"
-                onClick={toggleDown}
-                className={`flex items-center gap-3 w-full "justify-start" : "justify-center"
-              } hover:bg-pale`}
-              >
-                <div className="text-icons ">
-                  <Store strokeWidth={1} />
-                </div>
-                <div className="text-sm font-medium">
-
-                  Market Hub
-
-                </div>
-                <div
-                  className={`font-poppins text-[1rem] "opacity-100 block self-end"
-                  : "opacity-0 hidden"
-                }`}
-                >
-                  <div className="text-icons ml-12">
-                    <PiCaretDown />
-                  </div>
-                </div>
-              </button>
-              <AnimatePresence>
-                {DropdownrOpen && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -50 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{
-                      stiffness: 100,
-                      damping: 20,
-                      duration: 0.2,
-                      delay: 0.5,
-                    }}
-                    exit={{ opacity: 0, y: -50 }}
-                  >
-                    <Link
-                      href={"/employee/inventory"}
-                      className={`link ${pathname === "/employee/inventory"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-[1.5rem]">
-                        <Warehouse strokeWidth={1} />
-                      </div>
-                      Inventory
-                    </Link>
-                    <Link
-                      href={"/orders"}
-                      className={`link ${pathname === "/orders"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-icons">
-                        <ListChecks strokeWidth={1} />
-                      </div>
-                      Orders Status
-                    </Link>
-                    <Link
-                      href={"/employee/history"}
-                      className={`link ${pathname === "/employee/history"
-                        ? "border-l-[4px] border-[#4DE69E] bg-[#baebd4] dark:bg-[#24643b]"
-                        : ""
-                        }
-                  flex gap-3 ml-5 hover:bg-pale py-2`}
-                    >
-                      <div className="text-[1.5rem]">
-                        <FileClock strokeWidth={1} />
-                      </div>
-                      Transaction History
-                    </Link>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-
-
-            <div className='mb-[30px] flex flex-row gap-3 cursor-pointer' onClick={() => signOut({
-              redirect: false
-            }).then(() => {
-              router.push("/discussion")
-            })}>
-              <LogOut strokeWidth={1} />
-              Logout
-            </div>
-
-          </div>
-        </section>
-      ) : (
-        <section className='print-card max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
-          <div className='flex flex-col gap-3 justify-between'>
-            <div>
-              <Link href={"/discussion"}>
-                <h1 className='text-lg text-[#25643b] font-bold'>AGreen <span className='text-[#f7c25f]'>Nature</span> Connect</h1>
-              </Link>
-            </div>
-
-            <div className='flex flex-col text-[16px] gap-2 mb-[350px] mt-11 '>
-              <Link className='flex flex-row gap-3 hover:bg-pale py-2' href={"/employee"}>
-                <Home strokeWidth={1} />
-                <span className="text-sm font-medium">Dashboard</span>
-              </Link>
-
-              {/* <button
                 type="button"
                 onClick={toggleDropdown}
                 className={`flex items-center gap-3 w-full py-2 "justify-start" : "justify-center"
@@ -509,8 +332,8 @@ const Sidebar = ({ user }: Props) => {
                     <PiCaretDown />
                   </div>
                 </div>
-              </button> */}
-              {/* <AnimatePresence>
+              </button>
+              <AnimatePresence>
                 {isDropdownrOpen && (
                   <motion.div
                     initial={{ opacity: 0, y: -50 }}
@@ -578,7 +401,45 @@ const Sidebar = ({ user }: Props) => {
 
                   </motion.div>
                 )}
-              </AnimatePresence> */}
+              </AnimatePresence>
+
+              <Link href="/employee/reports"
+                className='flex flex-row gap-3 hover:bg-pale py-2'>
+
+                <FileWarning strokeWidth={1} />
+                <span className="text-sm font-medium">
+                  Issues
+                </span>
+              </Link>
+              
+            </div>
+
+
+            <div className='mb-[30px] flex flex-row gap-3 cursor-pointer' onClick={() => signOut({
+              redirect: false
+            }).then(() => {
+              router.push("/discussion")
+            })}>
+              <LogOut strokeWidth={1} />
+              Logout
+            </div>
+
+          </div>
+        </section>
+      ) : user.specialization === "MarketHub" ? (
+        <section className='print-card max-w-[320px] hidden left-0 top-0 fixed py-3 px-11 h-screen border-r shadow-sm bg-[#7ef9bf] lg:flex'>
+          <div className='flex flex-col gap-3 justify-between'>
+            <div>
+              <Link href={"/discussion"}>
+                <h1 className='text-lg text-[#25643b] font-bold'>AGreen <span className='text-[#f7c25f]'>Nature</span> Connect</h1>
+              </Link>
+            </div>
+
+            <div className='flex flex-col text-[16px] gap-2 mb-[350px] mt-11 '>
+              <Link className='flex flex-row gap-3 hover:bg-pale py-2' href={"/employee"}>
+                <Home strokeWidth={1} />
+                <span className="text-sm font-medium">Dashboard</span>
+              </Link>
 
               <button
                 type="button"
@@ -659,17 +520,7 @@ const Sidebar = ({ user }: Props) => {
                   </motion.div>
                 )}
               </AnimatePresence>
-
-              {/* <Link href="/employee/reports"
-                className='flex flex-row gap-3 hover:bg-pale py-2'>
-
-                <FileWarning strokeWidth={1} />
-                <span className="text-sm font-medium">
-                  Issues
-                </span>
-              </Link> */}
             </div>
-
 
             <div className='mb-[30px] flex flex-row gap-3 cursor-pointer' onClick={() => signOut({
               redirect: false
@@ -682,7 +533,7 @@ const Sidebar = ({ user }: Props) => {
 
           </div>
         </section>
-      )}
+      ) : null}
 
       <div className='w-full border-b shadow-md print-card'>
         <div className='grid grid-cols-10 p-3 items-center justify-center text-center lg:hidden bg-[#7ef9bf]'>

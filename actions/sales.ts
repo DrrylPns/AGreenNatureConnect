@@ -333,6 +333,7 @@ export const salesReport = async (startDate: Date, endDate: Date) => {
                     product: true,
                 },
             },
+            buyer: true,
         },
         orderBy: {
             createdAt: "asc",

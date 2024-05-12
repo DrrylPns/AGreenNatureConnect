@@ -536,10 +536,10 @@ export type ProductWithCommunityReviews = Prisma.ProductGetPayload<{
 }>
 
 export type ConsignorApplicantsExtended = Prisma.ConsignorApplicantsGetPayload<{
-  include:{
+  include: {
     urbanFarm: true,
     user: true,
-    
+
   }
 }>
 
@@ -551,9 +551,10 @@ export type CompletedTransaction = Prisma.TransactionGetPayload<{
   include: {
     orderedProducts: {
       include: {
-        product: true
+        product: true,
       }
-    }
+    },
+    buyer: true,
   }
 }>
 

@@ -153,8 +153,8 @@ export const SalesReportTable = () => {
                 </div>
 
                 <div>
-                    <h2>Sold Products Summary:</h2>
-                    <ul>
+                    <h2 className="font-bold">Sold Products Summary</h2>
+                    <ul className="text-muted-foreground">
                         {Object.entries(getSoldProductsSummary(sales)).map(([name, quantity]) => (
                             <li key={name}>
                                 {name}: {quantity}
