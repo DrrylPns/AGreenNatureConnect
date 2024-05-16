@@ -12,6 +12,7 @@ import CntProducts from '../admin/_components/CntProducts'
 import { SalesByBar } from '../admin/_components/SalesByBar'
 import { HotProducts } from '../admin/_components/HotProducts'
 import { SalesReportTable } from './_components/SalesReportTable'
+import { User } from '@prisma/client'
 
 const page = async () => {
 
@@ -108,7 +109,7 @@ const page = async () => {
                     </TabPanel>
 
                     <TabPanel>
-                        <SalesReportTable />
+                        <SalesReportTable user={loggedInUser as User} />
                     </TabPanel>
                 </TabPanels>
             </TabGroup>
