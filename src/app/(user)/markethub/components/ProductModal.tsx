@@ -68,10 +68,17 @@ function ProductModal({
         //   form.setError("kilograms", {type: "custom", message:"Quantity exceeds available stock"}, { shouldFocus: true });
         //   return; // Exit function if validati on fails
         // }
-        if(price > selectedQuantity || price <= 0){
-          return
+        
+      
+        if (!selectedProduct) {
+          throw new Error("No product selected.");
         }
-        form.clearErrors('kilograms')
+        if (price <= 0 || price > selectedProduct?.quantity) {
+          form.setError("kilograms", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+          return
+        } else {
+          form.clearErrors('kilograms')
+        }
         // If validation passes, proceed with adding to cart
         const addToCart = await axios.post('/api/markethub/cart', {
           kilograms: price, 
@@ -113,10 +120,11 @@ function ProductModal({
       loginModal.onOpen()
     }
 
-    console.log(price <= 0)
     const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-
       setPrice( Number(e.target.value));
+      if (!selectedProduct) {
+        throw new Error("No product selected.");
+      }
   };
     const handleBuyNow = async ()=>{
       if(price > selectedQuantity || price <= 0){
