@@ -5,6 +5,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { Product, ProductMarkethub, Variants } from '@/lib/types';
 import { useInView } from 'react-intersection-observer';
 import axios from 'axios';
+import { useCart } from '@/contexts/CartContext';
 
 
 type ProductProps = {
@@ -14,6 +15,7 @@ type ProductProps = {
 function OtherProducts() {
     const pref = useRef<HTMLDivElement>(null);
     const { ref, inView } = useInView();
+    const {barangay} = useCart()
 
     useEffect(() => {
         if (inView && hasNextPage) {
@@ -29,10 +31,10 @@ function OtherProducts() {
         fetchNextPage,
         isFetchingNextPage,
     } = useInfiniteQuery({
-        queryKey: ["products"],
+        queryKey: ["products",barangay],
         queryFn: async ({ pageParam = "" }) => {
         try {
-            const { data } = await axios.get(`/api/markethub/products/others?cursor=${pageParam}`);
+            const { data } = await axios.get(`/api/markethub/products/others?cursor=${pageParam}&barangay=${barangay}`);
             return data as ProductProps;
         } catch (error: any) {
             throw new Error(`Error fetching post: ${error.message}`);

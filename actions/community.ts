@@ -344,7 +344,8 @@ export const createCommunity = async (
     lastName: string,
     contact: string,
     form: string,
-    userId: string
+    userId: string,
+    address: string,
 ) => {
     const session = await getAuthSession()
 
@@ -367,6 +368,7 @@ export const createCommunity = async (
             email,
             zip,
             area,
+            address
         }
     })
 

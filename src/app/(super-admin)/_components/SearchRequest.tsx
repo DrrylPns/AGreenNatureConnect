@@ -206,7 +206,8 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                                                 community.lastName, 
                                                                                 community.contact, 
                                                                                 community.form, 
-                                                                                community.userId
+                                                                                community.userId,
+                                                                                community.address
                                                                             ).then((callback) => {
                                                                                 if (callback.error) {
                                                                                     toast({

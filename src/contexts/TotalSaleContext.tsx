@@ -14,11 +14,13 @@ totalSalectedCatA: number;
 totalSalectedCatB: number;
 totalSalectedCatC: number;
 revPercentage: number;
+barangay: string;
 setTotalSale: Dispatch<SetStateAction<number>>;
 setTotalSalectedCatA: Dispatch<SetStateAction<number>>
 setTotalSalectedCatB: Dispatch<SetStateAction<number>>
 setTotalSalectedCatC: Dispatch<SetStateAction<number>>
 setRevPercentage: Dispatch<SetStateAction<number>>
+setBarangay: Dispatch<SetStateAction<string>>
 };
 
 // Create a context
@@ -31,6 +33,7 @@ export const TotalSalesProvider: React.FC<{ children: ReactNode }> = ({ children
     const [totalSalectedCatB, setTotalSalectedCatB] = useState<number>(0);
     const [totalSalectedCatC, setTotalSalectedCatC] = useState<number>(0);
     const [revPercentage, setRevPercentage] = useState<number>(0);
+    const [barangay, setBarangay] = useState<string>('');
   
     const contextValue: TotalSalesContextType = {
         totalSale,
@@ -42,7 +45,9 @@ export const TotalSalesProvider: React.FC<{ children: ReactNode }> = ({ children
         totalSalectedCatC,
         setTotalSalectedCatC,
         revPercentage,
-        setRevPercentage
+        setRevPercentage,
+        barangay,
+        setBarangay,
     };
   
     return <TotalSalesContext.Provider value={contextValue}>{children}</TotalSalesContext.Provider>;

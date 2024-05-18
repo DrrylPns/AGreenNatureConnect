@@ -99,6 +99,7 @@ export async function POST(req: NextRequest) {
             data: {
                 name: communityName,
                 // userId: user.id,
+                address: ''
             }
         })
 

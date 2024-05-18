@@ -32,8 +32,7 @@ export default async function Markethub() {
       <Link href={'/markethub/free-products'} className="hidden md:block">
         <ShadcnCarousel />
       </Link>
-      <div>
-        <h1 className="text-sm md:text-xl font-bold mt-3 dark:text-white">Urban Farms:</h1>
+      <div className="my-2">
         <BarangayDropdown />
       </div>
       <div className="my-5 flex flex-col-reverse md:flex-row md:flex justify-between items-center w-full">

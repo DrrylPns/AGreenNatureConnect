@@ -17,7 +17,7 @@ const ArchivedCommunitiesPage = async () => {
             createdAt: "desc"
         },
         where: {
-            address: user.barangay,
+            address: user.barangay || "",
             isArchived: true
         },
     })

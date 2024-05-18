@@ -85,7 +85,8 @@ export async function POST(req: Request) {
             } else {
                 const newCommunity = await prisma.community.create({
                     data: {
-                        name: community
+                        name: community,
+                        address: address || ''
                     }
                 });
 

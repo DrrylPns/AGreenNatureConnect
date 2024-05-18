@@ -16,7 +16,7 @@ const CommunitiesPage = async () => {
             createdAt: "desc"
         },
         where: {
-            address: user.barangay,
+            address: user.barangay || "",
             isArchived: false
         },
     })

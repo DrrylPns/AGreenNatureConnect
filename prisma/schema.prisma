@@ -172,7 +172,7 @@ model Community {
   area                 String?
   form                 String?
   qrCode               String?
-  address              String? // barangay
+  address              String // barangay
   email                String?
   contactNumber        String?
   description          String?

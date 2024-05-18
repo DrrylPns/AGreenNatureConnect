@@ -6,6 +6,7 @@ export async function GET(req: NextRequest) {
     const { searchParams } = new URL(req.url);
     try {
         const param = searchParams.get("cursor");
+        const barangay = searchParams.get("barangay");
         const limit = 12
         const getAllProducts = await prisma.product.findMany({
             cursor: param ? {
@@ -19,10 +20,12 @@ export async function GET(req: NextRequest) {
                 },
                 quantity:{
                     gte: 1
+                },
+                status: "APPROVED",
+                community:{
+                    address: barangay === null || barangay === "" || barangay === "all" || barangay === undefined ? undefined : barangay  
                 }
-                // status:{
-                //     equals: "APPROVED"
-                // },
+                
             },
             include:{
                 Stock: true,
