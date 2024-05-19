@@ -35,11 +35,13 @@ const variantError = { message: "Variant must be 1 or more" }
 export const CreateProductSchema = z.object({
     productImage: z.string(),
     name: z.string().min(3).max(20),
-    quantity: z.coerce.number().min(0, numberError),
+    // quantity: z.coerce.number().min(0, numberError),
     category: z.string().min(2).max(21),
-    priceInKg: z.coerce.number().min(0, numberError),
-    harvestedFrom: z.string().min(3).max(20),
-    expiration: z.coerce.date({required_error: "Expiration date is required"})
+    priceInKg: z.coerce.number().min(0, numberError).optional(),
+    priceInPieces: z.coerce.number().min(0, numberError).optional(),
+    priceInPacks: z.coerce.number().min(0, numberError).optional(),
+    // harvestedFrom: z.string().min(3).max(20),
+    // expiration: z.coerce.date({required_error: "Expiration date is required"})
 });
 
 export type UpdateProductType = z.infer<typeof UpdateProductSchema>
@@ -50,7 +52,9 @@ export const UpdateProductSchema = z.object({
     name: z.string().min(3).max(20).optional(),
     // quantity: z.coerce.number().min(0, numberError),
     category: z.string().min(2).max(21).optional(),
-    price: z.coerce.number()
+    priceInKg: z.coerce.number(),
+    priceInPacks: z.coerce.number(),
+    priceInPieces: z.coerce.number(),
     // typeOfMeasurement: z.string().min(1).max(21),
     // perMeasurement: z.array(
     // z.object({
@@ -67,6 +71,7 @@ export const AddStocksScehma = z.object({
     id: z.string().optional(),
     quantity: z.coerce.number().min(0, numberError),
     harvestedFrom: z.string().min(1).max(21),
+    unitOfMeasurement: z.string().min(1).max(21),
     expiration: z.coerce.date({required_error: "Expiration date is required"})
 })
 

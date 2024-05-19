@@ -31,7 +31,7 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { id, harvestedFrom, quantity, expiration } = AddStocksScehma.parse(body)
+        const { id, harvestedFrom, quantity, unitOfMeasurement, expiration } = AddStocksScehma.parse(body)
 
         const existingProduct = await prisma.product.findUnique({
             where: {
@@ -45,26 +45,73 @@ export async function PUT(req: NextRequest) {
         }
 
         if (existingProduct) {
-            const productStock = await prisma.stocks.findMany({
+            const productStockinKg = await prisma.stocks.findMany({
                 where: {
-                    productId: existingProduct.id
+                    productId: existingProduct.id,
+                    unitOfMeasurement: "Kilograms"
                 }
             })
-            let totalStocks = 0
+            const productStockinPacks = await prisma.stocks.findMany({
+                where: {
+                    productId: existingProduct.id,
+                    unitOfMeasurement: "Packs"
+                }
+            })
+            const productStockinPieces = await prisma.stocks.findMany({
+                where: {
+                    productId: existingProduct.id,
+                    unitOfMeasurement: "Pieces"
+                }
+            })
+            let totalStocksInKg = 0
+            let totalStocksInPacks = 0
+            let totalStocksInPieces = 0
             const currentDate = new Date()
-            const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+            const notExpiredStocksInKg: Stocks[] | null = productStockinKg.filter(stock => {
                 const expirationDate = new Date(stock.expiration);
                 return expirationDate >= currentDate;
             });
-            notExpiredStocks.map((stock) => {
-                totalStocks += stock.numberOfStocks
-            })
-            await prisma.product.update({
-                where: { id: existingProduct.id },
-                data: {
-                    quantity: totalStocks + quantity
-                },
+            const notExpiredStocksInPacks: Stocks[] | null = productStockinPacks.filter(stock => {
+                const expirationDate = new Date(stock.expiration);
+                return expirationDate >= currentDate;
             });
+            const notExpiredStocksInPieces: Stocks[] | null = productStockinPieces.filter(stock => {
+                const expirationDate = new Date(stock.expiration);
+                return expirationDate >= currentDate;
+            });
+            notExpiredStocksInKg.map((stock) => {
+                totalStocksInKg += stock.numberOfStocks
+            })
+            notExpiredStocksInPacks.map((stock) => {
+                totalStocksInPacks += stock.numberOfStocks
+            })
+            notExpiredStocksInPieces.map((stock) => {
+                totalStocksInPieces += stock.numberOfStocks
+            })
+            if(unitOfMeasurement === "Kilograms"){
+                await prisma.product.update({
+                    where: { id: existingProduct.id },
+                    data: {
+                        quantity: totalStocksInKg + quantity,
+                    },
+                });
+            }
+            if(unitOfMeasurement === "Packs"){
+                await prisma.product.update({
+                    where: { id: existingProduct.id },
+                    data: {
+                        quantity: totalStocksInPacks + quantity,
+                    },
+                });
+            }
+            if(unitOfMeasurement === "Pieces"){
+                await prisma.product.update({
+                    where: { id: existingProduct.id },
+                    data: {
+                        quantity: totalStocksInPieces + quantity,
+                    },
+                });
+            }
             
             await prisma.stockLogs.create({
                 data:{
@@ -76,9 +123,9 @@ export async function PUT(req: NextRequest) {
             })
             await prisma.stocks.create({
                 data: {
-                  
                     numberOfStocks: quantity,
                     harvestedFrom: harvestedFrom,
+                    unitOfMeasurement: unitOfMeasurement,
                     expiration: expiration,
                     productId: existingProduct.id,
                 }

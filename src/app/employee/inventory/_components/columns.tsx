@@ -72,7 +72,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       cell: ({ row }) => {
         const ProductImage = row.original.productImage
         return <div
-          className="cursor-pointer w-20 h-20 flex items-center justify-center"
+          className="cursor-pointer w-10 h-10 flex items-center justify-center"
         >
           <Image
             unoptimized
@@ -98,140 +98,187 @@ export const columns: ColumnDef<LatestProduct>[] =
         const product = row.original.name
         const outOfStock = row.original.quantity === 0
         return <div
-          onClick={() => {
-            toast({
-              title: "Success!",
-              description: "Product name copied to clipboard.",
-              variant: "default"
-            })
-            navigator.clipboard.writeText(product)
-          }}
-          className={cn("cursor-pointer font-bold",
-            outOfStock ? "text-rose-500" : "text-emerald-600"
-          )}
+          // onClick={() => {
+          //   toast({
+          //     title: "Success!",
+          //     description: "Product name copied to clipboard.",
+          //     variant: "default"
+          //   })
+          //   navigator.clipboard.writeText(product)
+          // }}
+          // className={cn("cursor-pointer font-bold text-sm",
+          //   outOfStock ? "text-rose-500" : "text-emerald-600"
+          // )} 
+          className="font-bold text-sm"
         >
           {product}
         </div>
       },
     },
     {
-      accessorKey: "kilogram",
+      accessorKey: "quantity",
       header: ({ column }) => {
         return (
-          <DataTableColumnHeader column={column} title="Available stocks(kg)" />
+          <DataTableColumnHeader column={column} title="Stocks(kg)" />
         );
       },
       cell: ({ row }) => {
         const stockKilo = row.original.quantity;
         const outOfStock = row.original.quantity === 0;
         const numberOfStocks = row.original.quantity
-        // const stocks = row.original.Stock;
-        // const currentDate = new Date()
-        // console.log(stocks)
-        // const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
-        //   const expirationDate = new Date(stock.expiration);
-        //   // Return true if the expiration date is greater than or equal to the current date
-        //   return expirationDate >= currentDate;
-        // });
-
-        // let totalNumberOfStocks = 0
-        // const s = notExpiredStocks.map((stocks: Stocks)=>{
-        //   totalNumberOfStocks += stocks.numberOfStocks
-        // })
-
-
+      
         return <div
-          className={`${outOfStock && "text-rose-500"} text-center`}
+          className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
         >{numberOfStocks}</div>;
       },
     },
     {
-      accessorKey: "price",
+      accessorKey: "quantityInPieces",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Stocks(pcs)" />
+        );
+      },
+      cell: ({ row }) => {
+       
+        const outOfStock = row.original.quantityInPieces === 0;
+        const numberOfStocks = row.original.quantityInPieces
+      
+        return <div
+          className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
+        >{numberOfStocks}</div>;
+      },
+    },
+    {
+      accessorKey: "quantityInPacks",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Stocks(pcks)" />
+        );
+      },
+      cell: ({ row }) => {
+        const stockPacks = row.original.quantityIPacks;
+        const outOfStock = row.original.quantityIPacks === 0;
+        const numberOfStocks = row.original.quantityIPacks
+      
+        return <div
+          className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
+        >{numberOfStocks}</div>;
+      },
+    },
+    {
+      accessorKey: "priceInKg",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Price" />
+          <DataTableColumnHeader column={column} title="Price in Kg" />
         );
       },
       cell: ({ row }) => {
         const price = row.original.priceInKg;
-        return <div className="text-center">{formatPrice(price)}</div>;
+        return <div className="text-center text-sm">{formatPrice(price)}</div>;
       },
     },
     {
-      accessorKey: "category",
+      accessorKey: "priceInPieces",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Category" />
+          <DataTableColumnHeader column={column} title="Price in Pieces" />
         );
       },
       cell: ({ row }) => {
-        const category = row.original.category;
-        return <div className="text-center">{category}</div>;
+        const price = row.original.priceInPieces;
+        return <div className="text-center text-sm">{formatPrice(price)}</div>;
       },
     },
     {
-      accessorKey: "isFree",
+      accessorKey: "priceInPacks",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Free" />
+          <DataTableColumnHeader column={column} title="Price in Packs" />
         );
       },
       cell: ({ row }) => {
-        let status
-        if (row.original.isFree) {
-          status = "Yes"
-        } else {
-          status = "No"
-        }
-        return <div>{status}</div>;
+        const price = row.original.priceInPacks;
+        return <div className="text-center text-sm">{formatPrice(price)}</div>;
       },
     },
-    {
-      accessorKey: "revenue",
-      header: ({ column }) => {
+    // {
+    //   accessorKey: "category",
+    //   header: ({ column }) => {
 
-        return (
-          <DataTableColumnHeader column={column} title="Revenue" />
-        );
-      },
-      cell: ({ row }) => {
-        const orderedProducts = row.original.orderedProducts;
-        let revenue = 0
-        orderedProducts.map((product) => {
-          revenue += product.totalPrice
-        })
-        return <div>{formatPrice(revenue)}</div>;
-      },
-    },
-    {
-      accessorKey: "creatorId",
-      header: ({ column }) => {
-        return (
-          <DataTableColumnHeader column={column} title="Inserted by" />
-        )
-      },
-      cell: ({ row }) => {
-        const creator = row.original
-        const creatorName = row.original.creator.name;
-        const creatorLastName = row.original.creator.lastName;
-        return <div
-          onClick={() => {
-            toast({
-              title: "Success!",
-              description: "Farmer ID copied to clipboard.",
-              variant: "default"
-            })
-            navigator.clipboard.writeText(creator.creatorId)
-          }}
-          className="cursor-pointer"
-        >
-          {creatorName + " " + creatorLastName}
-        </div>
-      },
-    },
+    //     return (
+    //       <DataTableColumnHeader column={column} title="Category" />
+    //     );
+    //   },
+    //   cell: ({ row }) => {
+    //     const category = row.original.category;
+    //     return <div className="text-center text-sm">{category}</div>;
+    //   },
+    // },
+    // {
+    //   accessorKey: "isFree",
+    //   header: ({ column }) => {
+
+    //     return (
+    //       <DataTableColumnHeader column={column} title="Free" />
+    //     );
+    //   },
+    //   cell: ({ row }) => {
+    //     let status
+    //     if (row.original.isFree) {
+    //       status = "Yes"
+    //     } else {
+    //       status = "No"
+    //     }
+    //     return <div className="text-sm">{status}</div>;
+    //   },
+    // },
+    // {
+    //   accessorKey: "revenue",
+    //   header: ({ column }) => {
+
+    //     return (
+    //       <DataTableColumnHeader column={column} title="Revenue" />
+    //     );
+    //   },
+    //   cell: ({ row }) => {
+    //     const orderedProducts = row.original.orderedProducts;
+    //     let revenue = 0
+    //     orderedProducts.map((product) => {
+    //       revenue += product.totalPrice
+    //     })
+    //     return <div className="text-sm">{formatPrice(revenue)}</div>;
+    //   },
+    // },
+    // {
+    //   accessorKey: "creatorId",
+    //   header: ({ column }) => {
+    //     return (
+    //       <DataTableColumnHeader column={column} title="Inserted by" />
+    //     )
+    //   },
+    //   cell: ({ row }) => {
+    //     const creator = row.original
+    //     const creatorName = row.original.creator.name;
+    //     const creatorLastName = row.original.creator.lastName;
+    //     return <div
+    //       onClick={() => {
+    //         toast({
+    //           title: "Success!",
+    //           description: "Farmer ID copied to clipboard.",
+    //           variant: "default"
+    //         })
+    //         navigator.clipboard.writeText(creator.creatorId)
+    //       }}
+    //       className="cursor-pointer"
+    //     >
+    //       {creatorName + " " + creatorLastName}
+    //     </div>
+    //   },
+    // },
     {
       id: "actions",
       header: "Actions",

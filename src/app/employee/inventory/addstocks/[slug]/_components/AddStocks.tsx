@@ -69,11 +69,13 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
             id,
             quantity,
             harvestedFrom,
+            unitOfMeasurement,
             expiration
         }: AddStocksType) => {
             const payload: AddStocksType = {
                 id: product?.id,
                 quantity,
+                unitOfMeasurement,
                 harvestedFrom,
                 expiration
             }
@@ -129,6 +131,7 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
             // productImage: imageUrl,
             // category: values.category,
             // name: values.name,
+            unitOfMeasurement: values.unitOfMeasurement,
             quantity: values.quantity,
             harvestedFrom: values.harvestedFrom,
             expiration: values.expiration
@@ -151,7 +154,31 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                         Add stocks to {product?.name}
                     </h1>
 
-                    <div>
+                    <div className='flex flex-col gap-y-5'>
+                        <FormField
+                            control={form.control}
+                            name={`unitOfMeasurement`}
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className="text-[#f7d126]">Unit of Measurement</FormLabel>
+                                    <FormControl>
+                                        <Select onValueChange={field.onChange} defaultValue={field.value}>
+                                            <FormControl>
+                                                <SelectTrigger className=' border-gray-400 border'>
+                                                    <SelectValue placeholder="Product Name" />
+                                                </SelectTrigger>
+                                            </FormControl>
+                                            <SelectContent>
+                                                <SelectItem value={"Kilograms"}>Kilograms</SelectItem>
+                                                <SelectItem value={"Packs"}>Packs</SelectItem>
+                                                <SelectItem value={"Pieces"}>Pieces</SelectItem>
+                                            </SelectContent>
+                                        </Select>
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
                         <FormField
                             control={form.control}
                             name={`quantity`}
@@ -160,7 +187,7 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                                     <FormLabel className="text-[#f7d126]">Quantity</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Enter the number of quantity in kg"
+                                            placeholder="Enter the number of quantity"
                                             {...field}
                                             className="rounded-full"
                                             type='number'
@@ -176,10 +203,10 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                             name={`harvestedFrom`}
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className="text-[#f7d126]">Harvested From</FormLabel>
+                                    <FormLabel className="text-[#f7d126]">From</FormLabel>
                                     <FormControl>
                                         <Input
-                                            placeholder="Farm name"
+                                            placeholder="Farm/Consignor name"
                                             {...field}
                                             className="rounded-full"
                                             type='text'
@@ -258,7 +285,7 @@ export const AddStocks: React.FC<UpdateProductProps> = ({
                                     <div>
                                         Total quantity to add in stock:
                                         <span className='font-bold text-black ml-1'>
-                                            {quantityProd}Kg
+                                            {quantityProd} {form.getValues("unitOfMeasurement")}
                                         </span>
                                     </div>
                                     <div>

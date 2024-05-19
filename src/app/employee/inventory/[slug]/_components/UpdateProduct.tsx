@@ -46,7 +46,9 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       id: product?.id,
       name: product?.name,
       category: product?.category,
-      price: product?.priceInKg,
+      priceInKg: product?.priceInKg,
+      priceInPacks: product?.priceInPacks,
+      priceInPieces: product?.priceInPieces,
     }
   })
 
@@ -56,14 +58,18 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       name,
       category,
       productImage,
-      price,
+      priceInKg,
+      priceInPacks,
+      priceInPieces,
     }: UpdateProductType) => {
       const payload: UpdateProductType = {
         id: product?.id,
         name,
         category,
         productImage,
-        price
+        priceInKg,
+        priceInPacks,
+        priceInPieces,
       }
 
       const { data } = await axios.put("/api/employee/products", payload)
@@ -120,7 +126,9 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       productImage: imageUrl,
       name: values.name,
       category: values.category,
-      price: values.price
+      priceInKg: values.priceInKg,
+      priceInPacks: values.priceInPacks,
+      priceInPieces: values.priceInPieces,
     }
 
     updateProduct(payload)
@@ -174,8 +182,8 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
               <Image
                 src={imageUrl}
                 alt="productImage"
-                width={376}
-                height={190}
+                width={100}
+                height={100}
               />
             </div> : <UploadDropzone
               className="text-green"
@@ -216,20 +224,51 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
               </FormItem>
             )}
           />
-          <FormField
-            control={form.control}
-            name="price"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel className='text-[#f7d126]'>Price ₱</FormLabel>
-                <FormControl>
-                  <Input placeholder="Product Name ₱" type='number' {...field} className='rounded-full' />
-                </FormControl>
+          <div className='grid grid-cols-3 gap-x-5'>
+            <FormField
+              control={form.control}
+              name="priceInKg"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-[#f7d126]'>Price In Kilograms</FormLabel>
+                  <FormControl>
+                    <Input placeholder="₱" type='number' {...field} className='rounded-full' />
+                  </FormControl>
 
-                <FormMessage />
-              </FormItem>
-            )}
-          />
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="priceInPacks"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-[#f7d126]'>Price In Packs</FormLabel>
+                  <FormControl>
+                    <Input placeholder="₱" type='number' {...field} className='rounded-full' />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="priceInPieces"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className='text-[#f7d126]'>Price In Pieces</FormLabel>
+                  <FormControl>
+                    <Input placeholder="₱" type='number' {...field} className='rounded-full' />
+                  </FormControl>
+
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+          </div>
+         
 
           {/* Category */}
           <FormField

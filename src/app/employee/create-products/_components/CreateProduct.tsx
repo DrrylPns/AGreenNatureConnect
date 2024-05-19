@@ -50,12 +50,12 @@ const CreateProduct = () => {
     // const [perMeasurementSlots, setPerMeasurementSlots] = useState([{ measurement: 0, price: 0, estPieces: '' }]);
     const [prodName, setProdName] = useState<string>("")
     // const [typeMeasurementProd, setTypeMeasurementProd] = useState<string>("")
-    const [quantityProd, setQuantityProd] = useState<number>()
-    const [perKilogram, setPerKilogram] = useState<number>()
-    const [harvestedFrom, setHarvestedFrom] = useState<string>()
+  
+    const [perKilogram, setPerKilogram] = useState<number>(0)
+    const [perPieces, setPerPieces] = useState<number>(0)
+    const [perPacks, setPerPacks] = useState<number>(0)
     const [category, setCategory] = useState<string>()
     const router = useRouter()
-    const [date, setDate] = React.useState<Date>()
 
     const imageIsEmpty = imageUrl.length === 0
 
@@ -70,19 +70,19 @@ const CreateProduct = () => {
             productImage,
             name,
             category,
-            quantity,
             priceInKg,
-            harvestedFrom,
-            expiration
+            priceInPieces,
+            priceInPacks,
+       
         }: CreateProductType) => {
             const payload: CreateProductType = {
                 productImage,
                 category,
                 name,
-                quantity,
                 priceInKg,
-                harvestedFrom,
-                expiration
+                priceInPieces,
+                priceInPacks,
+             
             }
 
             const { data } = await axios.post("/api/employee/products", payload)
@@ -129,14 +129,13 @@ const CreateProduct = () => {
             productImage: imageUrl,
             category: values.category,
             name: values.name,
-            quantity: values.quantity,
             priceInKg: values.priceInKg,
-            harvestedFrom: values.harvestedFrom,
-            expiration: values.expiration
+            priceInPieces: values.priceInPieces,
+            priceInPacks: values.priceInPacks,
+          
         }
 
         createProduct(payload)
-
         router.replace('/employee/inventory')
     }
 
@@ -378,8 +377,8 @@ const CreateProduct = () => {
 
 
                     {/* NEW DRAFT */}
-                    <h1 className='text-[#f7d126] mb-5 font-bold'>
-                        Add stocks to {prodName}
+                    <h1 className='text-[#f7d126] text-center mb-5 font-bold'>
+                        Prices of {prodName}
                     </h1>
                     <div className='grid grid-cols-1'>
                         <FormField
@@ -387,7 +386,7 @@ const CreateProduct = () => {
                             name="priceInKg"
                             render={({ field }) => (
                                 <FormItem>
-                                    <FormLabel className='text-[#f7d126]'>Price per Kilograms(kg)</FormLabel>
+                                    <FormLabel className='text-[#f7d126]'>Price per Kilograms</FormLabel>
                                     <FormControl>
                                         <Input placeholder="100" {...field} type='number' className='rounded-full' />
                                     </FormControl>
@@ -397,7 +396,39 @@ const CreateProduct = () => {
                         />
 
                     </div>
+                    <div className='grid grid-cols-1'>
+                        <FormField
+                            control={form.control}
+                            name="priceInPacks"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className='text-[#f7d126]'>Price per Packs</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="100" {...field} type='number' className='rounded-full' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
 
+                    </div>
+                    <div className='grid grid-cols-1'>
+                        <FormField
+                            control={form.control}
+                            name="priceInPieces"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className='text-[#f7d126]'>Price per Pieces</FormLabel>
+                                    <FormControl>
+                                        <Input placeholder="100" {...field} type='number' className='rounded-full' />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                    </div>
+{/* 
                     <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
@@ -413,8 +444,8 @@ const CreateProduct = () => {
                                 </FormItem>
                             )}
                         />
-                    </div>
-
+                    </div> */}
+{/* 
                     <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
@@ -430,9 +461,9 @@ const CreateProduct = () => {
                             )}
                         />
 
-                    </div>
+                    </div> */}
 
-                    <div className='grid grid-cols-1'>
+                    {/* <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
                             name="expiration"
@@ -471,7 +502,7 @@ const CreateProduct = () => {
                                 </FormItem>
                             )}
                         />
-                    </div>
+                    </div> */}
                 </div>
 
                 {/* <div className='flex items-center w-full'> */}
@@ -491,7 +522,7 @@ const CreateProduct = () => {
 
                             const imageState = form.getFieldState('productImage')
                             const nameState = form.getFieldState('name')
-                            const quantityState = form.getFieldState('quantity')
+                         
                             const categoryState = form.getFieldState('category')
 
                             if (imageUrl.length === 0) {
@@ -534,9 +565,11 @@ const CreateProduct = () => {
                                 })
                             }
                             onClick={() => {
-                                setQuantityProd(form.getValues("quantity"))
-                                setPerKilogram(form.getValues("priceInKg"))
-                                setHarvestedFrom(form.getValues("harvestedFrom"))
+                                // setQuantityProd(form.getValues("quantity"))
+                                setPerKilogram(form.getValues("priceInKg") || 0)
+                                setPerPieces(form.getValues("priceInPieces")|| 0)
+                                setPerPacks(form.getValues("priceInPacks")|| 0)
+                                
                                 // console.log("GEY" + perMeasurementValues)
                             }}
                             disabled={
@@ -561,30 +594,42 @@ const CreateProduct = () => {
                                             </span>
                                         </div>
                                         <div>
-                                            Price in Kilogram(Kg):
+                                            Price in Kilogram:
                                             <span className='font-bold text-black ml-1'>
-                                                {perKilogram}
+                                            ₱{perKilogram}
                                             </span>
                                         </div>
                                         <div>
+                                            Price in Pieces:
+                                            <span className='font-bold text-black ml-1'>
+                                            ₱{perPieces}
+                                            </span>
+                                        </div>
+                                        <div>
+                                            Price in Packs:
+                                            <span className='font-bold text-black ml-1'>
+                                            ₱{perPacks}
+                                            </span>
+                                        </div>
+                                        {/* <div>
                                             Total Number of Stocks(Kg):
                                             <span className='font-bold text-black ml-1'>
                                                 {quantityProd}
                                             </span>
-                                        </div>
-                                        <div>
+                                        </div> */}
+                                        {/* <div>
                                             Harvested from:
                                             <span className='font-bold text-black ml-1'>
                                                 {harvestedFrom}
                                             </span>
-                                        </div>
-                                        <div>
+                                        </div> */}
+                                        {/* <div>
                                             Expiration Date:
                                             { }
                                             <span className='font-bold text-black ml-1'>
                                                 {formatDate(form.getValues("expiration"))}
                                             </span>
-                                        </div>
+                                        </div> */}
                                     </div>
 
                                     {/* <div className='flex flex-col w-full mt-3 mb-1'>

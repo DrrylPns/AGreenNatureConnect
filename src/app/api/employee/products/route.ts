@@ -85,9 +85,8 @@ export async function POST(req: NextRequest) {
             name,
             category,
             priceInKg,
-            quantity,
-            harvestedFrom,
-            expiration,
+            priceInPieces,
+            priceInPacks,
         } = CreateProductSchema.parse(body)
 
         if (community && user) {
@@ -96,38 +95,41 @@ export async function POST(req: NextRequest) {
                     productImage: productImage as string,
                     name,
                     category,
-                    priceInKg,
-                    quantity,
+                    priceInKg: priceInKg === undefined ? 0 : priceInKg,
+                    priceInPieces: priceInPieces === undefined ? 0 : priceInPieces,
+                    priceInPacks: priceInPacks === undefined ? 0 : priceInPacks,
+                    // quantity,
                     creatorId: user?.id as string,
                     communityId: community?.id,
                     status: "APPROVED"
                 }
             });
 
-            const addStocks = await prisma.stocks.create({
-                data: {
-                    numberOfStocks: quantity,
-                    harvestedFrom: harvestedFrom,
-                    expiration: expiration,
-                    productId: createProduct.id,
+            // const addStocks = await prisma.stocks.create({
+            //     data: {
+            //         numberOfStocks: quantity,
+            //         harvestedFrom: harvestedFrom,
+            //         unitOfMeasurement,
+            //         expiration: expiration,
+            //         productId: createProduct.id,
 
-                }
-            })
+            //     }
+            // })
 
-            await prisma.stockLogs.create({
-                data: {
-                    numberOfStocks: quantity,
-                    harvestedFrom: harvestedFrom,
-                    expiration: expiration,
-                    productId: createProduct.id,
-                }
-            })
+            // await prisma.stockLogs.create({
+            //     data: {
+            //         numberOfStocks: quantity,
+            //         harvestedFrom: harvestedFrom,
+            //         expiration: expiration,
+            //         productId: createProduct.id,
+            //     }
+            // })
             await prisma.employeeActivityHistory.create({
                 data: {
                     type: "MARKETHUB_PRODUCTS",
                     employeeId: session.user.id,
                     productId: createProduct.id,
-                    typeOfActivity: `Created new product: ${quantity}kg. ${name} from ${harvestedFrom}`
+                    typeOfActivity: `Created new product: ${createProduct.name}, Prices: Kg = ₱${priceInKg}, Pieces = ₱${priceInPieces}, Packs = ₱${priceInPacks}  `
                 }
             })
         }
@@ -165,7 +167,7 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { id, name, category, productImage, price } = UpdateProductSchema.parse(body)
+        const { id, name, category, productImage, priceInKg,priceInPacks,priceInPieces } = UpdateProductSchema.parse(body)
 
         await prisma.product.update({
             where: {
@@ -176,7 +178,9 @@ export async function PUT(req: NextRequest) {
                 productImage,
                 name,
                 category,
-                priceInKg: price
+                priceInKg,
+                priceInPacks,
+                priceInPieces
             }
         })
 

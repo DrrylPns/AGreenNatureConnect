@@ -598,9 +598,12 @@ model Product {
   itemNumber   Int?   @unique @default(autoincrement())
   productImage String @unique
   name         String
-  quantity     Float
+  quantity     Float @default(0)
+  quantityIPacks     Float @default(0)
+  quantityInPieces     Float @default(0)
   priceInKg    Float
-
+  priceInPacks    Float @default(0)
+  priceInPieces    Float @default(0)
   category    String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status      ApprovalStatus @default(APPROVED)
   isFree      Boolean        @default(false)
@@ -629,6 +632,7 @@ model Product {
 model Stocks {
   id             String   @id @default(cuid())
   numberOfStocks Float
+  unitOfMeasurement String @default("Kilograms")
   expiration     DateTime
   harvestedFrom  String
   productId      String?

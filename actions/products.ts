@@ -54,24 +54,58 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
     })
 
     await products.forEach(async (product) => {
-        let totalStocks = 0
+        let totalStocksInKg = 0
+        let totalStocksInPacks = 0
+        let totalStocksInPieces = 0
+
         const currentDate = new Date()
-        const productStock = await prisma.stocks.findMany({
+        const productStockInKg = await prisma.stocks.findMany({
             where: {
-                productId: product.id
+                productId: product.id,
+                unitOfMeasurement: "Kilograms"
             }
         })
-        const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
+        const productStockInPacks = await prisma.stocks.findMany({
+            where: {
+                productId: product.id,
+                unitOfMeasurement: "Packs"
+            }
+        })
+        const productStockInPieces = await prisma.stocks.findMany({
+            where: {
+                productId: product.id,
+                unitOfMeasurement: "Pieces"
+            }
+        })
+        const notExpiredStocksInKg: Stocks[] | null = productStockInKg.filter(stock => {
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
         });
-        notExpiredStocks.map((stock) => {
-            totalStocks += stock.numberOfStocks
+        const notExpiredStocksInPacks: Stocks[] | null = productStockInPacks.filter(stock => {
+            const expirationDate = new Date(stock.expiration);
+            return expirationDate >= currentDate;
+        });
+        const notExpiredStocksInPieces: Stocks[] | null = productStockInPieces.filter(stock => {
+            const expirationDate = new Date(stock.expiration);
+            return expirationDate >= currentDate;
+        });
+
+        notExpiredStocksInKg.map((stock) => {
+            totalStocksInKg += stock.numberOfStocks
         })
+        notExpiredStocksInPacks.map((stock) => {
+            totalStocksInPacks += stock.numberOfStocks
+        })
+        notExpiredStocksInPieces.map((stock) => {
+            totalStocksInPieces += stock.numberOfStocks
+        })
+
         await prisma.product.update({
             where: { id: product.id },
             data: {
-                quantity: totalStocks
+                quantity: totalStocksInKg,
+                quantityIPacks: totalStocksInPacks,
+                quantityInPieces: totalStocksInPieces
             },
         });
     })
