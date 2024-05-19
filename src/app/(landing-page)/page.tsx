@@ -78,6 +78,7 @@ export default function Home() {
             id="my-player"
             className="video-js shadow-lg shadow-black rounded-lg md:w-full"
             autoPlay
+            muted
             controls
             preload="auto"
             data-setup="{}"
