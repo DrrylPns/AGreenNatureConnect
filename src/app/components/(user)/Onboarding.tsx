@@ -729,7 +729,6 @@ export const Onboarding = ({ user }: Props) => {
                   type="text"
                   value={zipCode}
                   className=""
-                  disabled={true}
                 />
               </div>
             </div>

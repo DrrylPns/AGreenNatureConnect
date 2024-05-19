@@ -31,8 +31,10 @@ export const OnboardingSchema = z.object({
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
     suffix: z.string(),
     blk: z.string(),
-    street: z.string(),
-    zip: z.string(),
+    street: z.string({
+        required_error: "Street address is required"
+    }),
+    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
     barangay: z.string({
         required_error: "Barangay must be valid!"
     }),
@@ -74,7 +76,7 @@ export const OnboardingUserSchema = z.object({
     street: z.string({
         required_error: "Street address is required"
     }),
-    zip: z.string(),
+    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
     community: z.string({
         required_error: "Community is required!"
     }),
