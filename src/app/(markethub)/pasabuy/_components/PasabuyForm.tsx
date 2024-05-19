@@ -76,15 +76,6 @@ export const PasabuyForm = ({ user }: Props) => {
       lastName: user.lastName || "",
       userPhone: user.phoneNumber || "",
       gender: user.gender || "",
-      zip:
-        user?.barangay === "Bagong Silangan"
-          ? "1119"
-          : user?.barangay === "Nova Proper"
-          ? "1121"
-          : user?.barangay === "Bagbag"
-          ? "1116"
-          : "",
-      blk: undefined, 
     },
   });
 
@@ -609,18 +600,17 @@ export const PasabuyForm = ({ user }: Props) => {
                                 placeholder="..."
                                 defaultValue={
                                   user?.barangay === "Bagong Silangan"
-                                    ? "1119"
+                                    ? "1144"
                                     : user?.barangay === "Nova Proper"
-                                    ? "1121"
+                                    ? "2256"
                                     : user?.barangay === "Bagbag"
-                                    ? "1116"
+                                    ? "5566"
                                     : ""
                                 }
                                 {...field}
                                 type="text"
                                 className=""
-                                readOnly
-                                //disabled={true}
+                                disabled
                               />
                             </FormControl>
 
@@ -629,7 +619,6 @@ export const PasabuyForm = ({ user }: Props) => {
                         )}
                       />
                     </div>
-
                     <div className="grid grid-cols-1">
                       <h1 className="text-sm font-medium">Form</h1>
                       {formUrl.length ? (
@@ -686,32 +675,28 @@ export const PasabuyForm = ({ user }: Props) => {
                       className="w-full mt-5"
                       variant="newGreen"
                       disabled={formUrlIsEmpty}
-                      onClick={(e) => {
-                        e.preventDefault();
-                        form.trigger(["urbanFarmName", "area", "blk", "street", "zip"]).then(() => {
-                          const urbanFarmNameState = form.getFieldState("urbanFarmName");
-                          const areaState = form.getFieldState("area");
-                          const zipState = form.getFieldState("zip");
-                          const blkState = form.getFieldState("blk");
-                          const streetState = form.getFieldState("street");
+                      onClick={() => {
+                        form.trigger(["urbanFarmName", "blk", "street", "zip"]);
 
-                          form.setValue("communityAddress", user?.barangay as string);
+                        const cpState = form.getFieldState("urbanFarmName");
+                        const pwState = form.getFieldState("zip");
+                        const lnState = form.getFieldState("blk");
+                        const emState = form.getFieldState("street");
 
-                          if (
-                            !urbanFarmNameState.invalid || urbanFarmNameState.isDirty &&
-                            !areaState.invalid || areaState.isDirty &&
-                            !zipState.invalid || zipState.isDirty &&
-                            !blkState.invalid || blkState.isDirty &&
-                            !streetState.invalid || streetState.isDirty
-                          ) 
-                          {
-                            setFormStep(2);
-                          }
-                        });
+                        form.setValue(
+                          "communityAddress",
+                          user?.barangay as string
+                        );
+
+                        if (!cpState.isDirty || cpState.invalid) return;
+                        // if (!fnState.isDirty || fnState.invalid) return;
+                        if (!emState.isDirty || emState.invalid) return;
+
+                        setFormStep(2);
                       }}
                     >
                       Next Step
-                  </Button>
+                    </Button>
                   </>
                 )}
 
