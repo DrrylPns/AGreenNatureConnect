@@ -30,13 +30,9 @@ export const OnboardingSchema = z.object({
         .max(50, { message: "Lastname is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
     suffix: z.string(),
-    blk: z.string({
-        required_error: "Blk / House # is required"
-    }),
-    street: z.string({
-        required_error: "Street address is required"
-    }),
-    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
+    blk: z.string(),
+    street: z.string(),
+    zip: z.string(),
     barangay: z.string({
         required_error: "Barangay must be valid!"
     }),
@@ -74,13 +70,11 @@ export const OnboardingUserSchema = z.object({
         .max(50, { message: "Lastname is too long" })
         .regex(/^[A-Za-z]+$/, { message: "Lastname must contain only letters." }),
     suffix: z.string(),
-    blk: z.string({
-        required_error: "Blk / House # is required"
-    }),
+    blk: z.string(),
     street: z.string({
         required_error: "Street address is required"
     }),
-    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
+    zip: z.string(),
     community: z.string({
         required_error: "Community is required!"
     }),
