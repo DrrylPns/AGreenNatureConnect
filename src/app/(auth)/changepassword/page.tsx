@@ -129,7 +129,7 @@ const changePassword = () => {
           </div>
         </CardHeader>
         <CardContent className="space-y-4">
-          <form onSubmit={handleSubmit(onSubmit)}>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-3">
             <div className="space-y-2">
               <Label htmlFor="current-password">Current Password</Label>
               <Input
@@ -137,6 +137,9 @@ const changePassword = () => {
                 placeholder=""
                 {...register("oldPassword")}
               />
+              <p className="text-muted-foreground text-sm">
+                Enter your old password
+              </p>
             </div>
             {errors.oldPassword && (
               <span className="text-rose-500 ml-1 max-sm:text-[13px]">
@@ -151,6 +154,9 @@ const changePassword = () => {
                 {...register("newPassword")}
                 type="password"
               />
+              <p className="text-muted-foreground text-sm">
+                Password must contain at least one lowercase letter, one uppercase letter, and one special character.
+              </p>
             </div>
             {errors.newPassword && (
               <span className="text-rose-500 ml-1 max-sm:text-[13px]">
@@ -171,7 +177,7 @@ const changePassword = () => {
                 {errors.confirmNewPassword.message}
               </span>
             )}
-            <Button className="w-full mt-8 bg-[#099073]">Save Changes</Button>
+            <Button className="w-full mt-8 bg-[#099073] dark:text-white">Save Changes</Button>
           </form>
         </CardContent>
       </Card>

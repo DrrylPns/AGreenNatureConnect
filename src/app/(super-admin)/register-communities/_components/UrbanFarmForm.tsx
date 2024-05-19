@@ -74,6 +74,15 @@ export const UrbanFarmForm = ({ user }: Props) => {
 
   const form = useForm<CreateCommunityType>({
     resolver: zodResolver(CreateCommunitySchema),
+    defaultValues: {
+      zip: user?.barangay === "Bagong Silangan"
+        ? "1119"
+        : user?.barangay === "Nova Proper"
+          ? "1121"
+          : user?.barangay === "Bagbag"
+            ? "1116"
+            : ""
+    }
   });
 
   const router = useRouter();
@@ -732,7 +741,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                         name="blk"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>House / Blk no.</FormLabel>
+                            <FormLabel>House / Blk no. (Optional)</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="..."
@@ -780,15 +789,6 @@ export const UrbanFarmForm = ({ user }: Props) => {
                             <FormControl>
                               <Input
                                 placeholder="..."
-                                defaultValue={
-                                  user?.barangay === "Bagong Silangan"
-                                    ? "1144"
-                                    : user?.barangay === "Nova Proper"
-                                    ? "2256"
-                                    : user?.barangay === "Bagbag"
-                                    ? "5566"
-                                    : ""
-                                }
                                 {...field}
                                 type="text"
                                 className=""

@@ -12,11 +12,17 @@ export async function POST(req: Request) {
 
     if (session?.user.role !== "ADMIN") return new Response("Unauthorized", { status: 401 })
 
+    // const currentAdmin = await prisma.user.findUnique({
+    //     where: {
+    //         id: session.user.id
+    //     }
+    // })
+
     try {
         const body = await req.json()
 
         const {
-            address,
+            // address,
             avatar,
             email,
             firstname,
@@ -84,6 +90,8 @@ export async function POST(req: Request) {
 
         const currentDate = new Date();
 
+        // const currentAddress = currentAdmin?.address
+
         const successUserCreate = await prisma.user.create({
             data: {
                 name: firstname,
@@ -91,7 +99,7 @@ export async function POST(req: Request) {
                 phoneNumber: phone,
                 image: avatar,
                 gender,
-                address,
+                // address: currentAddress,
                 email,
                 lastName,
                 role: "EMPLOYEE",

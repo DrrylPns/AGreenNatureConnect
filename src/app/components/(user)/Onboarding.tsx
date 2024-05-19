@@ -712,7 +712,7 @@ export const Onboarding = ({ user }: Props) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-2">
               <div>
-                <Label htmlFor="phone">House / Blk no.</Label>
+                <Label htmlFor="phone">House / Blk no. (Optional)</Label>
                 <Input
                   placeholder="..."
                   {...register("blk")}

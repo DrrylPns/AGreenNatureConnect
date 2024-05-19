@@ -594,20 +594,20 @@ enum ApprovalStatus {
 }
 
 model Product {
-  id           String @id @default(cuid())
-  itemNumber   Int?   @unique @default(autoincrement())
-  productImage String @unique
-  name         String
-  quantity     Float @default(0)
-  quantityIPacks     Float @default(0)
-  quantityInPieces     Float @default(0)
-  priceInKg    Float
-  priceInPacks    Float @default(0)
-  priceInPieces    Float @default(0)
-  category    String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
-  status      ApprovalStatus @default(APPROVED)
-  isFree      Boolean        @default(false)
-  isFreeUntil DateTime?
+  id               String         @id @default(cuid())
+  itemNumber       Int?           @unique @default(autoincrement())
+  productImage     String         @unique
+  name             String
+  quantity         Float          @default(0)
+  quantityIPacks   Float          @default(0)
+  quantityInPieces Float          @default(0)
+  priceInKg        Float
+  priceInPacks     Float          @default(0)
+  priceInPieces    Float          @default(0)
+  category         String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
+  status           ApprovalStatus @default(APPROVED)
+  isFree           Boolean        @default(false)
+  isFreeUntil      DateTime?
 
   Stock     Stocks[]
   StockLogs StockLogs[]
@@ -630,17 +630,17 @@ model Product {
 }
 
 model Stocks {
-  id             String   @id @default(cuid())
-  numberOfStocks Float
-  unitOfMeasurement String @default("Kilograms")
-  expiration     DateTime
-  harvestedFrom  String
-  productId      String?
-  userId         String?
-  user           User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
-  product        Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id                String   @id @default(cuid())
+  numberOfStocks    Float
+  unitOfMeasurement String   @default("Kilograms")
+  expiration        DateTime
+  harvestedFrom     String
+  productId         String?
+  userId            String?
+  user              User?    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product           Product? @relation(fields: [productId], references: [id], onDelete: Cascade)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
 }
 
 model StockLogs {
@@ -657,12 +657,12 @@ model StockLogs {
 }
 
 model UrbanFarmApplicatants {
-  id            String @id @default(cuid())
+  id            String  @id @default(cuid())
   urbanFarmName String
   address       String
   area          String
-  blk           String
-  street        String
+  blk           String?
+  street        String?
   zip           String
   form          String
   status        String
