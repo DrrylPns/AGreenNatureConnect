@@ -53,13 +53,11 @@ export const CreateCommunitySchema = z.object({
     //     }, { message: "Password must contain at least one lowercase letter, one uppercase letter, and one special character." })
     //     .optional(),
     // confirmPassword: z.string().min(8, { message: "Password does not match" }).optional(),
-    blk: z.string({
-        required_error: "Blk / House # is required"
-    }),
+    blk: z.optional(z.string()),
     street: z.string({
         required_error: "Street address is required"
     }),
-    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
+    zip: z.optional(z.string())
 })
 // .refine(data => data.password === data.confirmPassword, {
 //     message: "Password does not match",
