@@ -76,6 +76,14 @@ export const PasabuyForm = ({ user }: Props) => {
       lastName: user.lastName || "",
       userPhone: user.phoneNumber || "",
       gender: user.gender || "",
+      zip:
+        user?.barangay === "Bagong Silangan"
+          ? "1119"
+          : user?.barangay === "Nova Proper"
+          ? "1121"
+          : user?.barangay === "Bagbag"
+          ? "1116"
+          : "",
     },
   });
 
@@ -600,16 +608,17 @@ export const PasabuyForm = ({ user }: Props) => {
                                 placeholder="..."
                                 defaultValue={
                                   user?.barangay === "Bagong Silangan"
-                                    ? "1144"
+                                    ? "1119"
                                     : user?.barangay === "Nova Proper"
-                                    ? "2256"
+                                    ? "1121"
                                     : user?.barangay === "Bagbag"
-                                    ? "5566"
+                                    ? "1116"
                                     : ""
                                 }
                                 {...field}
                                 type="text"
                                 className=""
+                                readOnly
                                 //disabled={true}
                               />
                             </FormControl>
