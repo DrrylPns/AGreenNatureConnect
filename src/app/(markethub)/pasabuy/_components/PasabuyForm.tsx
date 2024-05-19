@@ -84,6 +84,7 @@ export const PasabuyForm = ({ user }: Props) => {
           : user?.barangay === "Bagbag"
           ? "1116"
           : "",
+      blk: undefined, 
     },
   });
 
@@ -685,30 +686,32 @@ export const PasabuyForm = ({ user }: Props) => {
                       className="w-full mt-5"
                       variant="newGreen"
                       disabled={formUrlIsEmpty}
-                      onClick={() => {
-                        form.trigger(["urbanFarmName", "blk", "street", "zip"]);
+                      onClick={(e) => {
+                        e.preventDefault();
+                        form.trigger(["urbanFarmName", "area", "blk", "street", "zip"]).then(() => {
+                          const urbanFarmNameState = form.getFieldState("urbanFarmName");
+                          const areaState = form.getFieldState("area");
+                          const zipState = form.getFieldState("zip");
+                          const blkState = form.getFieldState("blk");
+                          const streetState = form.getFieldState("street");
 
-                        const cpState = form.getFieldState("urbanFarmName");
-                        const pwState = form.getFieldState("zip");
-                        const lnState = form.getFieldState("blk");
-                        const emState = form.getFieldState("street");
+                          form.setValue("communityAddress", user?.barangay as string);
 
-                        form.setValue(
-                          "communityAddress",
-                          user?.barangay as string
-                        );
-
-                        if (!cpState.isDirty || cpState.invalid) return;
-                        if (!pwState.isDirty || pwState.invalid) return;
-                        if (!lnState.isDirty || lnState.invalid) return;
-                        // if (!fnState.isDirty || fnState.invalid) return;
-                        if (!emState.isDirty || emState.invalid) return;
-
-                        setFormStep(2);
+                          if (
+                            !urbanFarmNameState.invalid || urbanFarmNameState.isDirty &&
+                            !areaState.invalid || areaState.isDirty &&
+                            !zipState.invalid || zipState.isDirty &&
+                            !blkState.invalid || blkState.isDirty &&
+                            !streetState.invalid || streetState.isDirty
+                          ) 
+                          {
+                            setFormStep(2);
+                          }
+                        });
                       }}
                     >
                       Next Step
-                    </Button>
+                  </Button>
                   </>
                 )}
 

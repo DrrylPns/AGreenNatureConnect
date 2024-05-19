@@ -10,7 +10,7 @@ export const PasabuySchema = z.object({
         required_error: "Urban farm name required!"
     }),
     area: z.string({
-        required_error: "Urban farm name required!"
+        required_error: "Urban farm area required!"
     }),
     communityAddress: z.string({
         required_error: "Urban farm address required!"
