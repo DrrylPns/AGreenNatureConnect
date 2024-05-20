@@ -196,7 +196,7 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
 
                                             <div className=''>
                                                 <h1 className='font-semibold text-[0.6rem] sm:text-xs md:text-lg'>{product.product.name}</h1>
-                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{product.quantity}Kg </p>
+                                                <p className='font-semibold text-gray-400 text-[0.5rem] sm:text-xs md:text-lg'>{product.quantity} {product.unitOfMeasurement} </p>
                                             </div>
                                             <div className='ml-auto font-semibold text-[0.6rem] sm:text-xs md:text-lg'>
                                                 {product.priceInKg === 0 ? (

@@ -16,7 +16,8 @@ function transformItems(Items: CartwithProduct[]): ResultItem[] {
                 productId: item.product.id,
                 totalPrice: item.totalPrice,
                 isFree: item.product.isFree,
-                kilograms: item.kilograms
+                kilograms: item.kilograms,
+                unitOfMeasurement: item.unitOfMeasurement,
             });
             item.product.isFree ? existingItem.totalPrice += 0 : existingItem.totalPrice += item.totalPrice
 
@@ -29,7 +30,8 @@ function transformItems(Items: CartwithProduct[]): ResultItem[] {
                     productId: item.product.id,
                     totalPrice: item.totalPrice,
                     isFree: item.product.isFree,
-                    kilograms: item.kilograms
+                    kilograms: item.kilograms,
+                    unitOfMeasurement: item.unitOfMeasurement,
                 }],
             };
 
@@ -86,9 +88,10 @@ export async function POST(req: Request) {
                 data: item.products.map((product)=>({
                     productId: product.productId,
                     priceInKg: product.totalPrice,
+                    unitOfMeasurement: product.unitOfMeasurement,
                     quantity: product.kilograms,
                     transactionId: transaction.id,
-                    totalPrice: product.totalPrice
+                    totalPrice: product.totalPrice,
                 })
             )})
 

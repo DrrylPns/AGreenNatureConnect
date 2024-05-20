@@ -9,7 +9,7 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 });
         }
         const body = await req.json();
-        const { totalPrice, sellerId, kilograms, productId, paymentMethod, priceInKg } = body;
+        const { totalPrice, sellerId, kilograms, productId, paymentMethod, priceInKg, unitOfMeasurement} = body;
         const referenceId = uuidv4();
         const transaction = await prisma.transaction.create({
             data: {
@@ -25,7 +25,8 @@ export async function POST(req: Request) {
                         totalPrice: totalPrice,
                         productId,
                         quantity: kilograms,
-                        priceInKg: priceInKg
+                        priceInKg: totalPrice,
+                        unitOfMeasurement
                     },
                 },
             },

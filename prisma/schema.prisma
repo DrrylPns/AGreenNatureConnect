@@ -784,8 +784,9 @@ model Transaction {
 
 model OrderedProducts {
   id         String   @id @default(cuid())
-  priceInKg  Float
+  priceInKg  Float // PRICE
   quantity   Float
+  unitOfMeasurement String @default("kilograms")
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   totalPrice Float
@@ -866,7 +867,7 @@ model Cart {
   totalPrice Float
   user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId     String
-
+  unitOfMeasurement String @default("kilograms")
   productId String
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 

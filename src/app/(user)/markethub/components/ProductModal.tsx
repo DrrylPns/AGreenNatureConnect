@@ -22,6 +22,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { NewPasswordType } from '@/lib/validations/changePasswordSchema';
 import { CartSchema, CreateAddToCartType } from '@/lib/validations/addToCartSchema';
 import { FormError } from '@/components/form-error';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/app/components/Ui/tabs';
+import { formatPrice } from '@/lib/utils';
 
 
 function ProductModal({
@@ -38,8 +40,11 @@ function ProductModal({
     const router = useRouter()
     const [isLoading, setIsLoading] = useState(false);
     const { setItem } = useLocalStorage('product')
+    const [ tabValue, setTabValue ] = useState<string>('kilograms')
     const [isPending, startTransition] = useTransition();
     const [price, setPrice] = useState<number>(0)
+    const [priceInPacks, setPriceInPacks] = useState<number>(0)
+    const [priceInPieces, setPriceInPieces] = useState<number>(0)
     const [selectedQuantity, setSelectedQuantity] = useState<number>(0)
 
     function closeModal() {
@@ -71,20 +76,44 @@ function ProductModal({
         
       
         if (!selectedProduct) {
-          throw new Error("No product selected.");
-        }
-        if (price <= 0 || price > selectedProduct?.quantity) {
-          form.setError("kilograms", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+          toast({
+            title: "No selected Product",
+         
+            variant: "destructive",
+          });
           return
-        } else {
-          form.clearErrors('kilograms')
+        }
+        if(tabValue === "kilograms"){
+          if (price <= 0 || price > selectedProduct?.quantity) {
+            form.setError("kilograms", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+            return
+          } else {
+            form.clearErrors('kilograms')
+          }
+        }
+        if(tabValue === "packs"){
+          if (priceInPacks <= 0 || priceInPacks > selectedProduct?.quantityIPacks) {
+            form.setError("packs", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+            return
+          } else {
+            form.clearErrors('packs')
+          }
+        }
+        if(tabValue === "pieces") {
+          if (priceInPieces <= 0 || priceInPieces > selectedProduct?.quantityInPieces) {
+            form.setError("pieces", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+            return
+          } else {
+            form.clearErrors('pieces')
+          }
         }
         // If validation passes, proceed with adding to cart
         const addToCart = await axios.post('/api/markethub/cart', {
-          kilograms: price, 
+          kilograms: tabValue === "kilograms" ? price : tabValue === "packs" ? priceInPacks : priceInPieces , //quantity
           communityId: selectedProduct?.communityId,
-          totalPrice: price * product.priceInKg,
-          productId: product.id
+          totalPrice: tabValue === "kilograms" ? price * product.priceInKg : tabValue === 'packs' ? priceInPacks * product.priceInPacks : priceInPieces * product.priceInPieces,
+          productId: product.id,
+          unitOfMeasurement: tabValue
         });
     
         closeModal();
@@ -121,17 +150,69 @@ function ProductModal({
     }
 
     const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
-      setPrice( Number(e.target.value));
+      if(tabValue === "kilograms"){
+        setPrice( Number(e.target.value));
+        setPriceInPacks(0)
+        setPriceInPieces(0)
+      }
+      if(tabValue === "packs"){
+        setPriceInPacks( Number(e.target.value));
+        setPrice(0)
+        setPriceInPieces(0)
+      }
+      if(tabValue === "pieces"){
+        setPriceInPieces( Number(e.target.value));
+        setPrice(0)
+        setPriceInPacks(0)
+      }
+      
       if (!selectedProduct) {
-        throw new Error("No product selected.");
+        toast({
+          title: "No selected Product",
+       
+          variant: "destructive",
+        });
       }
   };
+
     const handleBuyNow = async ()=>{
-      if(price > selectedQuantity || price <= 0){
+      if (!selectedProduct) {
+        toast({
+          title: "No selected Product",
+       
+          variant: "destructive",
+        });
         return
       }
+      if(tabValue === "kilograms"){
+        if (price <= 0 || price > selectedProduct?.quantity) {
+          form.setError("kilograms", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+          return
+        } else {
+          form.clearErrors('kilograms')
+        }
+        setItem({selectedProduct,price,tabValue})
+      }
+      if(tabValue === "packs"){
+        if (priceInPacks <= 0 || priceInPacks > selectedProduct?.quantityIPacks) {
+          form.setError("packs", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+          return
+        } else {
+          form.clearErrors('packs')
+        }
+        setItem({selectedProduct,priceInPacks,tabValue})
+      }
+      if(tabValue === "pieces") {
+        if (priceInPieces <= 0 || priceInPieces > selectedProduct?.quantityInPieces) {
+          form.setError("pieces", {type: "custom", message:"Invalid quantity or exceeds available stock."}, { shouldFocus: true });
+          return
+        } else {
+          form.clearErrors('pieces')
+        }
+        setItem({selectedProduct,priceInPieces,tabValue})
+      }
       router.push('/buy-now')
-      setItem({selectedProduct,price})
+     
     }
 
     let sumOfRatings = 0;
@@ -223,7 +304,10 @@ function ProductModal({
                         </h1>
                       </div>
                       <span className='text-center font-livvic'>
-                        Available Stocks: {selectedProduct?.quantity}
+                        Available Stocks:
+                      </span>
+                      <span className='text-center text-sm mb-3'>
+                      Kilograms: {selectedProduct?.quantity}, Packs: {selectedProduct?.quantityIPacks}, Pieces: {selectedProduct?.quantityInPieces}
                       </span>
                       {selectedProduct && selectedProduct?.reviews.length > 0 ? (
                       <Link href={`/markethub/reviews/${product.id}`} className="flex z-30 items-center justify-center my-2 px-2 gap-5 w-full relative rounded-xl overflow-hidden dark:bg-slate-800/25">
@@ -242,17 +326,58 @@ function ProductModal({
                         onSubmit={form.handleSubmit(onSubmit)}
                         className="space-y-6"
                     >
-                        <div className="space-y-4">
+                      <Tabs onValueChange={e=>{
+                        setTabValue(e)
+                        form.clearErrors()
+                        setPrice(0)
+                        setPriceInPacks(0)
+                        setPriceInPieces(0)
+                      }} defaultValue={
+                        selectedProduct !== null && selectedProduct.quantity !== 0 ? "kilograms" : selectedProduct?.quantityIPacks !== 0 ? "packs": "pieces"
+                        } 
+                      className="w-[400px]"
+                      >
+                        <TabsList>
+                          <TabsTrigger disabled={selectedProduct !== null && selectedProduct?.quantity === 0} value="kilograms">Kilograms</TabsTrigger>
+                          <TabsTrigger disabled={selectedProduct !== null && selectedProduct?.quantityIPacks === 0}value="packs">Packs</TabsTrigger>
+                          <TabsTrigger disabled={selectedProduct !== null && selectedProduct?.quantityInPieces === 0}value="pieces">Pieces</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="kilograms">
+                          <div className="space-y-4">
+                              <FormField
+                                  control={form.control}
+                                  name="kilograms"
+                                  render={({ field }) => (
+                                      <FormItem>
+                                          <FormLabel>Kilograms</FormLabel>
+                                          <FormControl>
+                                              <Input
+                                                  {...field}
+                                                  disabled={isPending || selectedProduct !== null && selectedProduct?.quantity === 0}
+                                                  defaultValue={0}
+                                                  onChange={handleOnchange}
+                                                  placeholder="ex. 1.5 for 1/2"
+                                                  type="number"
+                                              />
+                                          </FormControl>
+                                          <FormMessage />
+                                      </FormItem>
+                                  )}
+                              />
+                          </div>
+                        </TabsContent>
+                        <TabsContent value="packs">
+                          <div className="space-y-4">
                             <FormField
                                 control={form.control}
-                                name="kilograms"
+                                name="packs"
                                 render={({ field }) => (
                                     <FormItem>
-                                        <FormLabel>Kilograms</FormLabel>
+                                        <FormLabel>Packs</FormLabel>
                                         <FormControl>
                                             <Input
                                                 {...field}
-                                                disabled={isPending}
+                                                disabled={isPending || selectedProduct !== null && selectedProduct?.quantityIPacks === 0}
                                                 defaultValue={0}
                                                 onChange={handleOnchange}
                                                 placeholder="ex. 1.5 for 1/2"
@@ -262,8 +387,35 @@ function ProductModal({
                                         <FormMessage />
                                     </FormItem>
                                 )}
-                            />
-                        </div>
+                              />
+                          </div>
+                        </TabsContent>
+                        <TabsContent value='pieces'>
+                          <div className="space-y-4">
+                            <FormField
+                                control={form.control}
+                                name="pieces"
+                                render={({ field }) => (
+                                    <FormItem>
+                                        <FormLabel>Pieces</FormLabel>
+                                        <FormControl>
+                                            <Input
+                                                {...field}
+                                                disabled={isPending || selectedProduct !== null && selectedProduct?.quantityInPieces === 0}
+                                                defaultValue={0}
+                                                onChange={handleOnchange}
+                                                placeholder="ex. 1.5 for 1/2"
+                                                type="number"
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                    </FormItem>
+                                )}
+                              />
+                          </div>
+                        </TabsContent>
+                      </Tabs>
+                       
                         {/* <Button
                             disabled={isPending}
                             type="submit"
@@ -279,7 +431,7 @@ function ProductModal({
                   <div className='w-full bg-gray-100 border-gray-200 border-t-2 shadow-md drop-shadow-xl mt-10 py-5 px-5'>
                     <span className='text-right text-lg font-poppins text-black'>
                       Total Price:
-                      <span className='font-semibold font-poppins text-lg'> ₱ {price  * product.priceInKg }
+                      <span className='font-semibold font-poppins text-lg'>  {tabValue === "kilograms"? formatPrice(price  * product.priceInKg) : tabValue === "packs" ? formatPrice(priceInPacks  * product.priceInPacks) : formatPrice(priceInPieces * product.priceInPieces)  }
                       </span>
                     </span>
                   </div>

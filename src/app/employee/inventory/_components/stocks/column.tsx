@@ -67,7 +67,24 @@ export const columns: ColumnDef<StocksWitProducts>[] = [
             return <div
                 className="text-xs"
             >
-                {numberOfStocks}Kg
+                {numberOfStocks}
+            </div>
+        },
+    },
+    {
+        accessorKey: "unitOfMeasurement",
+        header: ({ column }) => {
+
+            return (
+                <DataTableColumnHeader column={column} title="Unit" />
+            );
+        },
+        cell: ({ row }) => {
+            const unit = row.original.unitOfMeasurement
+            return <div
+                className="text-xs"
+            >
+                {unit}
             </div>
         },
     },
@@ -76,7 +93,7 @@ export const columns: ColumnDef<StocksWitProducts>[] = [
         header: ({ column }) => {
 
             return (
-                <DataTableColumnHeader column={column} title="Harvested From" />
+                <DataTableColumnHeader column={column} title="From" />
             );
         },
         cell: ({ row }) => {

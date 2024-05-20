@@ -129,7 +129,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       
         return <div
           className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
-        >{numberOfStocks}</div>;
+        >{stockKilo}</div>;
       },
     },
     {

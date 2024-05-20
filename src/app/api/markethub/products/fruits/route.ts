@@ -17,9 +17,29 @@ export async function GET(req: NextRequest) {
                 isFree: {
                     equals: false
                 },
-                quantity:{
-                    gte: 1
-                },
+                OR:[
+                    {
+                        quantity:{
+                        not:{
+                            lte: 0
+                        }
+                        }
+                    },
+                    {
+                        quantityIPacks:{
+                            not:{
+                                lte: 0
+                            }
+                        },
+                    },
+                    {
+                        quantityInPieces:{
+                            not:{
+                                lte: 0
+                            }
+                        },
+                    }
+                ],
                 status: {
                     equals: "APPROVED"
                 },
@@ -34,6 +54,9 @@ export async function GET(req: NextRequest) {
                 Stock: true,
                 community: true,
                 reviews: true,
+            },
+            orderBy:{
+                updatedAt: 'desc'
             }
         })
         const myCursor = getAllProducts.length === limit ? getAllProducts[getAllProducts.length - 1].id : undefined;

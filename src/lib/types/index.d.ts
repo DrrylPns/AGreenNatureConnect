@@ -236,7 +236,8 @@ export interface ShippingInfo {
 export interface ResultItem {
   communityId: string;
   totalPrice: number;
-  products: ProductVariant[]
+  products: ProductVariant[];
+  
 }
 
 export interface ProductVariant {
@@ -244,6 +245,7 @@ export interface ProductVariant {
   kilograms: number;
   totalPrice: number;
   isFree: boolean;
+  unitOfMeasurement: string;
 }
 
 export interface Transaction {

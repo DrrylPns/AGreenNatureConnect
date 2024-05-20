@@ -65,6 +65,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
                 unitOfMeasurement: "Kilograms"
             }
         })
+    
         const productStockInPacks = await prisma.stocks.findMany({
             where: {
                 productId: product.id,
@@ -81,6 +82,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
         });
+        console.log(notExpiredStocksInKg)
         const notExpiredStocksInPacks: Stocks[] | null = productStockInPacks.filter(stock => {
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
@@ -170,7 +172,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
                 const productDate = new Date(prod.updatedAt).toISOString().split('T')[0];
                 const startDate = new Date(nextDayStartDate).toISOString().split('T')[0];
                 const endDate = new Date(nextDayEndDate).toISOString().split('T')[0];
-                console.log()
+              
                 return productDate >= startDate && productDate <= endDate;
             });
             // Add the associated orderedProducts to the current product
@@ -192,7 +194,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
     const sum = totalSalesValues.reduce((acc, curr) => acc + curr, 0);
 
     const salesRevPercentageCatA = (sum / sum) * 100;
-    console.log(salesRevPercentageCatA)
+
     revalidatePath("/employee/inventory")
     return {modifiedProducts, sum}
 }
@@ -283,7 +285,8 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
   
         const productStock = await prisma.stocks.findMany({
             where: {
-                productId: product.id
+                productId: product.id,
+                unitOfMeasurement: "Kilograms"
             }
         })
         const notExpiredStocks: Stocks[] | null = productStock.filter(stock => {
@@ -362,7 +365,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
                 const productDate = new Date(prod.updatedAt).toISOString().split('T')[0];
                 const startDate = new Date(nextDayStartDate).toISOString().split('T')[0];
                 const endDate = new Date(nextDayEndDate).toISOString().split('T')[0];
-                console.log()
+            
                 return productDate >= startDate && productDate <= endDate;
             });
             // Add the associated orderedProducts to the current product
@@ -573,6 +576,6 @@ export const fetchStocks = async (productId: string) => {
             product: true,
         }
     })
-    console.log(productId)
+
     return stocks
 }

@@ -34,9 +34,8 @@ const page = async ({
   const allProducts = await prisma.product.findMany({
     where:{
       communityId:{
-        equals: searchParams?.communityId
+        equals: community?.id
       },
-      isFree: true,
       status: 'APPROVED',
     },
     include:{
@@ -64,7 +63,7 @@ const page = async ({
         <h1 className='text-lg md:text-2xl text-center font-poppins font-bold'>{communityName}</h1>
       </div>
       <div className='w-full my-5 bg-gray-50 dark:bg-[#1f2933] pb-5 px-5 shadow-sm drop-shadow-md'>
-        <BagbagCarousel carouselImage={community?.carouselImage}/>
+       
         <div className='font-livvic'>
           
           <div className='flex flex-col sm:flex-row sm:my-3 sm:items-center md:gap-5 sm:gap-3 justify-center items-center'>

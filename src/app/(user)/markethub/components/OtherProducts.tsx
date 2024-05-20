@@ -43,7 +43,7 @@ function OtherProducts() {
         getNextPageParam: (lastPage) => lastPage.nextId || undefined,
     });
 
-    if (isLoading) return <div>Loading...</div>
+    if (isLoading) return <div className=' w-full text-center'>Loading...</div>
     if (isError) return <div>Error!</div>;
     
     console.log(Products)
@@ -53,15 +53,11 @@ function OtherProducts() {
          <div key={page.nextId} className="grid grid-cols-2 sm:grid-cols-span-3 md:grid-cols-4 gap-5 border-x-[1px]  border-t-2 p-5 border-gray-300 font-poppins font-medium ">
             {page.getAllProducts !== undefined && page.getAllProducts.length > 0 ?
             page.getAllProducts.map((product)=>{
-                if (product.quantity < 1) {
-                    return null
-                } else {
                     return (
                     <div key={product.id} className=''>
                         <ProductModal  product={product}/>
                     </div>
                     )
-                }
             }) : (
                 <div className='flex col-span-2 sm:col-span-3 md:col-span-4 justify-center w-full h-1/2 text-center'>
                     <h1 className='text-2xl font-livvic font-semibold text-gray-500'>There are no available fruits right now!</h1>

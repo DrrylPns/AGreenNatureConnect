@@ -13,22 +13,23 @@ export async function POST(req: Request) {
             return new Response("Unauthorized", { status: 401 })
         }
         const body = await req.json()
-        const { kilograms, communityId, totalPrice, productId } = CartSchema.parse(body)
+        const { kilograms, communityId, totalPrice, productId, unitOfMeasurement } = body
 
         const isExisting = await prisma.cart.findFirst({
             where:{
                 userId: session.user.id,
                 productId,
+                unitOfMeasurement
             }
         })
 
-        if(isExisting){
+        if(isExisting ){
             await prisma.cart.update({
                 where:{
                     id: isExisting.id,
                 },
                 data: {
-                    kilograms: isExisting.kilograms + kilograms,
+                    kilograms: kilograms === undefined ? undefined : isExisting.kilograms + kilograms,
                     totalPrice: isExisting.totalPrice + totalPrice
                 }
             })
@@ -39,12 +40,12 @@ export async function POST(req: Request) {
          await prisma.cart.create({
                 data: {
                     userId: session.user.id,
-                    kilograms: kilograms,
+                    kilograms: kilograms === undefined ? 0 : kilograms,
                     totalPrice: totalPrice,
                     communityId: communityId,
-                    productId
+                    productId,
+                    unitOfMeasurement
                 }
-    
             })
         
 

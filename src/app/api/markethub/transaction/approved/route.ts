@@ -99,15 +99,44 @@ export async function POST(req: Request) {
 
     
 
-    const orderedProduct = await prisma.orderedProducts.findFirst({
+    const orderedProducts = await prisma.orderedProducts.findFirst({
       where: {
         transactionId: transactionId
       }
     })
+    // for (const orderedProduct of orderedProducts){
 
-    const stocks = await prisma.stocks.findMany({
+    // }
+    const stocksInKg = await prisma.stocks.findMany({
       where: {
-        productId: orderedProduct?.productId
+        productId: orderedProducts?.productId,
+        unitOfMeasurement: "Kilograms"
+      },
+      include: {
+        product: true
+      },
+      orderBy: {
+        expiration: 'desc'
+      }
+    })
+
+    console.log(stocksInKg)
+    const stocksInPacks = await prisma.stocks.findMany({
+      where: {
+        productId: orderedProducts?.productId,
+        unitOfMeasurement: "Packs"
+      },
+      include: {
+        product: true
+      },
+      orderBy: {
+        expiration: 'desc'
+      }
+    })
+    const stocksInPieces = await prisma.stocks.findMany({
+      where: {
+        productId: orderedProducts?.productId,
+        unitOfMeasurement: "Pieces"
       },
       include: {
         product: true
@@ -118,48 +147,154 @@ export async function POST(req: Request) {
     })
     const currentDate = new Date()
 
-    const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
+    const notExpiredStocksInKg: Stocks[] | null = stocksInKg.filter(stock => {
       const expirationDate = new Date(stock.expiration);
       return expirationDate >= currentDate;
     });
+    const notExpiredStocksInPacks: Stocks[] | null = stocksInPacks.filter(stock => {
+      const expirationDate = new Date(stock.expiration);
+      return expirationDate >= currentDate;
+    });
+    const notExpiredStocksInPieces: Stocks[] | null = stocksInPieces.filter(stock => {
+      const expirationDate = new Date(stock.expiration);
+      return expirationDate >= currentDate;
+    });
+  
     for (const orderstock of transaction.orderedProducts) {
 
 
       let remainingQuantity = orderstock.quantity; // Variable to keep track of remaining quantity
 
-      // Loop through each not expired stock until you find one with enough quantity
-      for (const stock of notExpiredStocks) {
-        if (remainingQuantity <= 0) {
-          // If remaining quantity is 0 or less, exit the loop
-          break;
-        }
-        if (stock.numberOfStocks >= remainingQuantity) {
-          // Subtract the required quantity from the available stock
-          await prisma.stocks.update({
-            where: {
-              id: stock.id
-            },
-            data: {
-              numberOfStocks: {
-                decrement: remainingQuantity // Subtract the remaining quantity
-              }
-            }
-          });
-          remainingQuantity = 0; // All required quantity has been subtracted
-          if (remainingQuantity === 0) {
-            break
+      if(orderstock.unitOfMeasurement === "kilograms"){
+        let availableStocks = 0
+        notExpiredStocksInKg.map((stock)=>{
+          availableStocks += stock.numberOfStocks
+        })
+         if(availableStocks < remainingQuantity){
+          throw new Error(`Not enought stocks`)
+         }
+         // Loop through each not expired stock until you find one with enough quantity
+        for (const stock of notExpiredStocksInKg) {
+          if (remainingQuantity <= 0) {
+            // If remaining quantity is 0 or less, exit the loop
+            break;
           }
-        } else {
-          // If the available stock is less than remaining quantity, deduct available quantity
-          await prisma.stocks.update({
-            where: {
-              id: stock.id
-            },
-            data: {
-              numberOfStocks: 0 // Set the available stock to 0 since all are taken
+          if (stock.numberOfStocks >= remainingQuantity) {
+            // Subtract the required quantity from the available stock
+            await prisma.stocks.update({
+              where: {
+                id: stock.id
+              },
+              data: {
+                numberOfStocks: {
+                  decrement: remainingQuantity // Subtract the remaining quantity
+                }
+              }
+            });
+            remainingQuantity = 0; // All required quantity has been subtracted
+            if (remainingQuantity === 0) {
+              break
             }
-          });
-          remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
+          } else {
+            // If the available stock is less than remaining quantity, deduct available quantity
+            await prisma.stocks.update({
+              where: {
+                id: stock.id
+              },
+              data: {
+                numberOfStocks: 0 // Set the available stock to 0 since all are taken
+              }
+            });
+            remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
+          }
+        }
+      }
+      if(orderstock.unitOfMeasurement === "packs"){
+        let availableStocks = 0
+        notExpiredStocksInPacks.map((stock)=>{
+          availableStocks += stock.numberOfStocks
+        })
+         if(availableStocks < remainingQuantity){
+          throw new Error(`Not enought stocks`)
+         }
+         // Loop through each not expired stock until you find one with enough quantity
+        for (const stock of notExpiredStocksInPacks) {
+          if (remainingQuantity <= 0) {
+            // If remaining quantity is 0 or less, exit the loop
+            break;
+          }
+          if (stock.numberOfStocks >= remainingQuantity) {
+            // Subtract the required quantity from the available stock
+            await prisma.stocks.update({
+              where: {
+                id: stock.id
+              },
+              data: {
+                numberOfStocks: {
+                  decrement: remainingQuantity // Subtract the remaining quantity
+                }
+              }
+            });
+            remainingQuantity = 0; // All required quantity has been subtracted
+            if (remainingQuantity === 0) {
+              break
+            }
+          } else {
+            // If the available stock is less than remaining quantity, deduct available quantity
+            await prisma.stocks.update({
+              where: {
+                id: stock.id
+              },
+              data: {
+                numberOfStocks: 0 // Set the available stock to 0 since all are taken
+              }
+            });
+            remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
+          }
+        }
+      }
+      if(orderstock.unitOfMeasurement === "pieces"){
+        let availableStocks = 0
+        notExpiredStocksInPieces.map((stock)=>{
+          availableStocks += stock.numberOfStocks
+        })
+         if(availableStocks < remainingQuantity){
+          throw new Error(`Not enought stocks`)
+         }
+          // Loop through each not expired stock until you find one with enough quantity
+        for (const stock of notExpiredStocksInPieces) {
+          if (remainingQuantity <= 0) {
+            // If remaining quantity is 0 or less, exit the loop
+            break;
+          }
+          if (stock.numberOfStocks >= remainingQuantity) {
+            // Subtract the required quantity from the available stock
+            await prisma.stocks.update({
+              where: {
+                id: stock.id
+              },
+              data: {
+                numberOfStocks: {
+                  decrement: remainingQuantity // Subtract the remaining quantity
+                }
+              }
+            });
+            remainingQuantity = 0; // All required quantity has been subtracted
+            if (remainingQuantity === 0) {
+              break
+            }
+          } else {
+            // If the available stock is less than remaining quantity, deduct available quantity
+            await prisma.stocks.update({
+              where: {
+                id: stock.id
+              },
+              data: {
+                numberOfStocks: 0 // Set the available stock to 0 since all are taken
+              }
+            });
+            remainingQuantity -= stock.numberOfStocks; // Deduct the quantity taken from this stock
+          }
         }
       }
     }

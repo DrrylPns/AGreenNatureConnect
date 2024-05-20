@@ -19,7 +19,6 @@ import { ShippingInfo } from "@prisma/client";
 
 const PaymentMethod = [
   'Cash upon Pickup',
-  'External Delivery',
 
 ]
 
@@ -263,7 +262,7 @@ function CheckoutModal({ }: {}) {
                             />
                             <div className="text-[0.6rem] sm:text-sm ">
                               <h3>{item.product.name}</h3>
-                              <h3>{item.kilograms}Kg</h3>
+                              <h3>{item.kilograms} {item.unitOfMeasurement}</h3>
                             </div>
                             <div className="ml-auto">
                               <h3 className="font-semibold text-[0.6rem] sm:text-sm font-poppins">

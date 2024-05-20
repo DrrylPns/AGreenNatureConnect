@@ -1,7 +1,7 @@
 'use client'
 import React, { Fragment, useEffect, useState } from 'react'
 import { useLocalStorage } from '../hooks/useLocalStorage';
-import { Product, ShippingInfo, Variants } from '@/lib/types';
+import { ProductWithCommunityReviews, ShippingInfo, Variants } from '@/lib/types';
 import { useRouter } from 'next/navigation';
 import axios from 'axios';
 import { Dialog, RadioGroup, Transition } from '@headlessui/react';
@@ -12,14 +12,19 @@ import Leaf from '@/../public/images/leaf.png';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaArrowLeft } from 'react-icons/fa';
 import { toast } from '@/lib/hooks/use-toast';
+import { Product } from '@prisma/client';
+import { formatPrice } from '@/lib/utils';
 
 type buyNowType = {
-    selectedProduct: Product;
-    price: number
+    selectedProduct: ProductWithCommunityReviews;
+    price?: number
+    priceInPacks?: number
+    priceInPieces?: number
+    tabValue: string
 }
 const PaymentMethod = [
   'Cash upon Pickup',
-  'External Delivery',
+
 
 ]
 
@@ -94,11 +99,12 @@ function page() {
       if(item !== undefined){
         const response = await axios.post("/api/markethub/transaction/buyNow", {
           sellerId:item?.selectedProduct.communityId,
-          kilograms: item?.price,
-          totalPrice: item?.price * item?.selectedProduct.priceInKg,
+          kilograms: item.price !== undefined ? item?.price : item.priceInPacks !== undefined ? item.priceInPacks : item.priceInPieces !== undefined && item.priceInPieces,
+          totalPrice: item.price !== undefined ? item?.price * item?.selectedProduct.priceInKg : item.priceInPacks !== undefined ? item?.priceInPacks * item?.selectedProduct.priceInPacks : item?.priceInPieces !== undefined && item?.priceInPieces * item?.selectedProduct.priceInPieces,
           productId: item?.selectedProduct.id,
           paymentMethod: method, 
-          priceInKg: item.selectedProduct.priceInKg
+          priceInKg: item.selectedProduct.priceInKg,
+          unitOfMeasurement: item.tabValue
         
       }).then(res=>{
         
@@ -212,7 +218,7 @@ function page() {
                               <div className="text-[0.6rem] sm:text-sm ">
                                 <h3>{item?.selectedProduct.name}</h3>
                                 <h3>
-                                  {item?.price}Kg
+                                  {item.price !== undefined ? item?.price : item.priceInPacks !== undefined ? item.priceInPacks : item.priceInPieces !== undefined && item.priceInPieces} {item?.tabValue}
                                   {/* <span>{item?.selectedVariant.unitOfMeasurement}</span> */}
                                 </h3>
                               </div>
@@ -221,7 +227,7 @@ function page() {
                                   {" "}
                                   {item?.selectedProduct.isFree == true
                                     ? "Free"
-                                    : `₱ ${item?.price * item.selectedProduct.priceInKg}`}
+                                    : `${item?.price !== undefined ? formatPrice(item?.price * item.selectedProduct.priceInKg) : item.priceInPacks !== undefined ? formatPrice(item?.priceInPacks * item.selectedProduct.priceInPacks) : item.priceInPieces !== undefined && formatPrice(item?.priceInPieces * item.selectedProduct.priceInPieces)}`}
                                 </h3>
                               </div>
                             </div>
@@ -231,7 +237,7 @@ function page() {
                               Order Total:{" "}
                               <span> {item?.selectedProduct.isFree == true
                                     ? "Free"
-                                    : `₱ ${item?.price * item.selectedProduct.priceInKg}`}</span>
+                                    : `${item?.price !== undefined ? formatPrice(item?.price * item.selectedProduct.priceInKg) : item.priceInPacks !== undefined ? formatPrice(item?.priceInPacks * item.selectedProduct.priceInPacks) : item.priceInPieces !== undefined && formatPrice(item?.priceInPieces * item.selectedProduct.priceInPieces)}`}</span>
                             </h1>
                           </div>
                         </div>
@@ -298,7 +304,7 @@ function page() {
                   <h1 className="text-center">
                     Sub Total:
                     <span className="text-xs sm:text-2xl font-bold ml-10">
-                      ₱ {item?.selectedProduct.isFree? 0 : item !== undefined && Number(item?.selectedProduct.priceInKg)  * Number(item?.price) }
+                      {item?.selectedProduct.isFree? 0 : item?.price !== undefined ? formatPrice(item?.price * item.selectedProduct.priceInKg) : item?.priceInPacks !== undefined ? formatPrice(item?.priceInPacks * item.selectedProduct.priceInPacks) : item?.priceInPieces !== undefined && formatPrice(item?.priceInPieces * item?.selectedProduct.priceInPieces) }
                     </span>
                   </h1>
                 </div>

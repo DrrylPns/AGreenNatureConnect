@@ -66,6 +66,7 @@ export async function PUT(req: NextRequest) {
             let totalStocksInKg = 0
             let totalStocksInPacks = 0
             let totalStocksInPieces = 0
+            
             const currentDate = new Date()
             const notExpiredStocksInKg: Stocks[] | null = productStockinKg.filter(stock => {
                 const expirationDate = new Date(stock.expiration);
@@ -100,7 +101,7 @@ export async function PUT(req: NextRequest) {
                 await prisma.product.update({
                     where: { id: existingProduct.id },
                     data: {
-                        quantity: totalStocksInPacks + quantity,
+                        quantityIPacks: totalStocksInPacks + quantity,
                     },
                 });
             }
@@ -108,7 +109,7 @@ export async function PUT(req: NextRequest) {
                 await prisma.product.update({
                     where: { id: existingProduct.id },
                     data: {
-                        quantity: totalStocksInPieces + quantity,
+                        quantityInPieces: totalStocksInPieces + quantity,
                     },
                 });
             }

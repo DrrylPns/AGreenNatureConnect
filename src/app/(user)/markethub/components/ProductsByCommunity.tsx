@@ -32,7 +32,6 @@ function ProductsByCommunity({
       
        },[selectedCategory])
 
-       console.log(products)
     const getPostByCategory = async () => {
     try {
         const res = (await axios.post(`/api/markethub/community/products?communityId=${communityId}`,{category:selectedCategory})).data;
