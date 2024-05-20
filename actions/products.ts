@@ -384,6 +384,7 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
         return product.orderedProducts.length >= 1;
     });
     
+    console.log(filteredProducts)
     // Calculate total sales value for each product within the specified date range
     const totalSalesValues = await calculateTotalSalesValue(filteredProducts);
 

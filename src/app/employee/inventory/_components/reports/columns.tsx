@@ -113,10 +113,10 @@ export const columns: ColumnDef<LatestProduct>[] =
       },
     },
     {
-      accessorKey: "kilogram",
+      accessorKey: "quantity",
       header: ({ column }) => {
         return (
-          <DataTableColumnHeader column={column} title="Available stocks" className="text-center" />
+          <DataTableColumnHeader column={column} title="Available stocks(kg)" className="text-center" />
         );
       },
       cell: ({ row }) => {
@@ -144,22 +144,132 @@ export const columns: ColumnDef<LatestProduct>[] =
       },
     },
     {
+      accessorKey: "quantityIPacks",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Available stocks(packs)" className="text-center" />
+        );
+      },
+      cell: ({ row }) => {
+        const stockKilo = row.original.quantity;
+        const outOfStock = row.original.quantity === 0;
+        const numberOfStocks = row.original.quantityIPacks
+        // const stocks = row.original.Stock;
+        // const currentDate = new Date()
+        // console.log(stocks)
+        // const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
+        //   const expirationDate = new Date(stock.expiration);
+        //   // Return true if the expiration date is greater than or equal to the current date
+        //   return expirationDate >= currentDate;
+        // });
+
+        // let totalNumberOfStocks = 0
+        // const s = notExpiredStocks.map((stocks: Stocks)=>{
+        //   totalNumberOfStocks += stocks.numberOfStocks
+        // })
+
+
+        return <div
+          className={`${outOfStock && "text-rose-500"} text-center`}
+        >{numberOfStocks}kg.</div>;
+      },
+    },
+    {
+      accessorKey: "quantityInPieces",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Available stocks(pieces)" className="text-center" />
+        );
+      },
+      cell: ({ row }) => {
+        const stockKilo = row.original.quantity;
+        const outOfStock = row.original.quantity === 0;
+        const numberOfStocks = row.original.quantityInPieces
+        // const stocks = row.original.Stock;
+        // const currentDate = new Date()
+        // console.log(stocks)
+        // const notExpiredStocks: Stocks[] | null = stocks.filter(stock => {
+        //   const expirationDate = new Date(stock.expiration);
+        //   // Return true if the expiration date is greater than or equal to the current date
+        //   return expirationDate >= currentDate;
+        // });
+
+        // let totalNumberOfStocks = 0
+        // const s = notExpiredStocks.map((stocks: Stocks)=>{
+        //   totalNumberOfStocks += stocks.numberOfStocks
+        // })
+
+
+        return <div
+          className={`${outOfStock && "text-rose-500"} text-center`}
+        >{numberOfStocks}kg.</div>;
+      },
+    },
+    {
       accessorKey: "kilogram",
       header: ({ column }) => {
         return (
-          <DataTableColumnHeader column={column} title="Sold-Out Items" />
+          <DataTableColumnHeader column={column} title="Sold-Out Items (kg)" />
         );
       },
       cell: ({ row }) => {
         const orderedProducts = row.original.orderedProducts;
         let soldProducts = 0
-        orderedProducts.map((product)=>{
+        const fileterProduct = orderedProducts.filter((product)=>{
+          return product.unitOfMeasurement === "kilograms"
+        })
+        fileterProduct.map((product)=>{
           soldProducts += product.quantity
         })
       
         return <div
           className={` text-center`}
-        >{soldProducts}kg.</div>;
+        >{soldProducts}kg</div>;
+      },
+    },
+    {
+      accessorKey: "packs",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Sold-Out Items (packs)" />
+        );
+      },
+      cell: ({ row }) => {
+        const orderedProducts = row.original.orderedProducts;
+        let soldProducts = 0
+        const fileterProduct = orderedProducts.filter((product)=>{
+          return product.unitOfMeasurement === "packs"
+        })
+        fileterProduct.map((product)=>{
+          soldProducts += product.quantity
+        })
+      
+        return <div
+          className={` text-center`}
+        >{soldProducts} packs</div>;
+      },
+    },
+    {
+      accessorKey: "pieces",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Sold-Out Items (pieces)" />
+        );
+      },
+      cell: ({ row }) => {
+        const orderedProducts = row.original.orderedProducts;
+        let soldProducts = 0
+        const fileterProduct = orderedProducts.filter((product)=>{
+          return product.unitOfMeasurement === "pieces"
+        })
+        fileterProduct.map((product)=>{
+          soldProducts += product.quantity
+        })
+      
+      
+        return <div
+          className={` text-center`}
+        >{soldProducts} pieces</div>;
       },
     },
     {
