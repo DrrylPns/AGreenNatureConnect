@@ -96,7 +96,7 @@ export const columns: ColumnDef<LatestProduct>[] =
       },
       cell: ({ row }) => {
         const product = row.original.name
-        const outOfStock = row.original.quantity === 0
+        const outOfStock = row.original.quantity === 0 || row.original.quantityIPacks === 0 || row.original.quantityInPieces === 0
         return <div
           // onClick={() => {
           //   toast({
@@ -109,7 +109,7 @@ export const columns: ColumnDef<LatestProduct>[] =
           // className={cn("cursor-pointer font-bold text-sm",
           //   outOfStock ? "text-rose-500" : "text-emerald-600"
           // )} 
-          className="font-bold text-sm"
+          className={`font-bold text-sm ${outOfStock? "text-rose-500" : "text-emerald-600"}`}
         >
           {product}
         </div>

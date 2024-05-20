@@ -125,7 +125,7 @@ const InventoryPage = () => {
               <TbReportAnalytics />
             </DialogTrigger>
             </Button>
-            <DialogContent className=' max-w-7xl'>
+            <DialogContent className=' max-w-full'>
               <DialogHeader>
                 <DialogTitle>
                   <div>
@@ -210,7 +210,7 @@ const InventoryPage = () => {
                 <TbReportAnalytics />
               </DialogTrigger>
             </Button>
-            <DialogContent className=' max-w-7xl'>
+            <DialogContent className='max-w-full'>
               <DialogHeader>
               <DialogTitle>
                   <div>
@@ -300,7 +300,7 @@ const InventoryPage = () => {
           
             </DialogTrigger>
             </Button>
-            <DialogContent className=' max-w-7xl'>
+            <DialogContent className='max-w-full'>
               <DialogHeader>
               <DialogTitle>
                   <div>
@@ -389,7 +389,7 @@ const InventoryPage = () => {
                 <TbReportAnalytics />
 
               </DialogTrigger>
-              <DialogContent className=' max-w-7xl'>
+              <DialogContent className=' max-w-full'>
                 <DialogHeader>
                 <DialogTitle>
                   <div>

@@ -273,16 +273,59 @@ export const columns: ColumnDef<LatestProduct>[] =
       },
     },
     {
+      accessorKey: "pieces",
+      header: ({ column }) => {
+        return (
+          <DataTableColumnHeader column={column} title="Aggregate units sold" />
+        );
+      },
+      cell: ({ row }) => {
+        const orderedProducts = row.original.orderedProducts.length;
+        
+        return <div
+          className={` text-center`}
+        >{orderedProducts} time(s)</div>;
+      },
+    },
+    {
       accessorKey: "priceInKg",
       header: ({ column }) => {
 
         return (
-          <DataTableColumnHeader column={column} title="Price" />
+          <DataTableColumnHeader column={column} title="Price in kg" />
         );
       },
       cell: ({ row }) => {
         const price = row.original.priceInKg;
-        return <div className="text-right">₱{price}</div>;
+
+        return <div className="text-center">{formatPrice(price)}</div>;
+      },
+    },
+    {
+      accessorKey: "priceIPacks",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Price in packs" />
+        );
+      },
+      cell: ({ row }) => {
+        const price = row.original.priceInPacks;
+      
+        return <div className="text-center">{formatPrice(price)}</div>;
+      },
+    },
+    {
+      accessorKey: "priceInPieces",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Price in pieces" />
+        );
+      },
+      cell: ({ row }) => {
+        const price = row.original.priceInPieces;
+
         return <div className="text-center">{formatPrice(price)}</div>;
       },
     },
@@ -313,7 +356,7 @@ export const columns: ColumnDef<LatestProduct>[] =
         orderedProducts.map((product) => {
           revenue += product.totalPrice
         })
-        return <div className="text-center">{formatPrice(revenue)}</div>;
+        return <div className="text-right">{formatPrice(revenue)}</div>;
       },
     },
     {

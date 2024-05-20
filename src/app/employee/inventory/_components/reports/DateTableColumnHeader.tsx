@@ -39,9 +39,9 @@ export function DataTableColumnHeader<TData, TValue>({
           <Button
             variant="productTable"
             size="sm"
-            className="-ml-3 h-8 text-center"
+            className="-ml-3 h-8 text-center text-xs"
           >
-            <span className="text-xs text-center">{title}</span>
+            <span className="text-xs font-semibold text-center">{title}</span>
             {/* {column.getIsSorted() === "desc" ? (
               <ArrowDown className="ml-2 h-4 w-4" />
             ) : column.getIsSorted() === "asc" ? (
