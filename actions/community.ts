@@ -463,7 +463,7 @@ export const createPasabuy = async (values: PasabuyType, image: string) => {
                     street,
                     blk,
                     area,
-                    zip,
+                    zip: zip as string,
                     status: "Pending",
                     userId: currentUser.id,
                 }

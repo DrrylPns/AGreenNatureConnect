@@ -74,6 +74,15 @@ export const UrbanFarmForm = ({ user }: Props) => {
 
   const form = useForm<CreateCommunityType>({
     resolver: zodResolver(CreateCommunitySchema),
+    defaultValues: {
+      zip: user?.barangay === "Bagong Silangan"
+        ? "1119"
+        : user?.barangay === "Nova Proper"
+          ? "1121"
+          : user?.barangay === "Bagbag"
+            ? "1116"
+            : ""
+    }
   });
 
   const router = useRouter();
@@ -732,7 +741,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                         name="blk"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>House / Blk no.</FormLabel>
+                            <FormLabel>House / Blk no. (Optional)</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="..."
@@ -776,13 +785,14 @@ export const UrbanFarmForm = ({ user }: Props) => {
                         name="zip"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>Postal Code</FormLabel>
+                            <FormLabel>Zip Code</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="..."
                                 {...field}
-                                type="number"
+                                type="text"
                                 className=""
+                                disabled
                               />
                             </FormControl>
 
@@ -791,7 +801,6 @@ export const UrbanFarmForm = ({ user }: Props) => {
                         )}
                       />
                     </div>
-
                     <div className="grid grid-cols-1">
                       <h1 className="text-sm font-medium">Form</h1>
                       {formUrl.length ? (
@@ -849,7 +858,7 @@ export const UrbanFarmForm = ({ user }: Props) => {
                       variant="newGreen"
                       disabled={areaIsEmpty || formUrlIsEmpty}
                       onClick={() => {
-                        form.trigger(["urbanFarmName", "blk", "street", "zip"]);
+                        form.trigger(["urbanFarmName", "street"]);
 
                         const cpState = form.getFieldState("urbanFarmName");
                         const pwState = form.getFieldState("zip");
@@ -862,8 +871,6 @@ export const UrbanFarmForm = ({ user }: Props) => {
                         );
 
                         if (!cpState.isDirty || cpState.invalid) return;
-                        if (!pwState.isDirty || pwState.invalid) return;
-                        if (!lnState.isDirty || lnState.invalid) return;
                         // if (!fnState.isDirty || fnState.invalid) return;
                         if (!emState.isDirty || emState.invalid) return;
 

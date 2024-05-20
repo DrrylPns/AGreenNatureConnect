@@ -76,6 +76,13 @@ export const PasabuyForm = ({ user }: Props) => {
       lastName: user.lastName || "",
       userPhone: user.phoneNumber || "",
       gender: user.gender || "",
+      zip: user?.barangay === "Bagong Silangan"
+        ? "1119"
+        : user?.barangay === "Nova Proper"
+          ? "1121"
+          : user?.barangay === "Bagbag"
+            ? "1116"
+            : ""
     },
   });
 
@@ -550,7 +557,7 @@ export const PasabuyForm = ({ user }: Props) => {
                         name="blk"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>House / Blk no.</FormLabel>
+                            <FormLabel>House / Blk no. (Optional)</FormLabel>
                             <FormControl>
                               <Input
                                 placeholder="..."
@@ -600,17 +607,16 @@ export const PasabuyForm = ({ user }: Props) => {
                                 placeholder="..."
                                 defaultValue={
                                   user?.barangay === "Bagong Silangan"
-                                    ? "1144"
+                                    ? "1119"
                                     : user?.barangay === "Nova Proper"
-                                    ? "2256"
-                                    : user?.barangay === "Bagbag"
-                                    ? "5566"
-                                    : ""
+                                      ? "1121"
+                                      : user?.barangay === "Bagbag"
+                                        ? "1116"
+                                        : ""
                                 }
                                 {...field}
                                 type="text"
-                                className=""
-                                //disabled={true}
+                                disabled
                               />
                             </FormControl>
 
@@ -690,8 +696,6 @@ export const PasabuyForm = ({ user }: Props) => {
                         );
 
                         if (!cpState.isDirty || cpState.invalid) return;
-                        if (!pwState.isDirty || pwState.invalid) return;
-                        if (!lnState.isDirty || lnState.invalid) return;
                         // if (!fnState.isDirty || fnState.invalid) return;
                         if (!emState.isDirty || emState.invalid) return;
 

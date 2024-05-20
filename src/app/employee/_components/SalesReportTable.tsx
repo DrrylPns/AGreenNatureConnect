@@ -3,9 +3,10 @@
 import { Popover, PopoverContent, PopoverTrigger } from "@/app/components/Ui/popover";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { CompletedTransaction } from "@/lib/types";
 import { cn, formatPrice } from "@/lib/utils";
+import { User } from "@prisma/client";
 import { format } from "date-fns";
 import { CalendarIcon, FileUp } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -13,7 +14,6 @@ import { DateRange } from "react-day-picker";
 import { salesReport } from "../../../../actions/sales";
 import { DataTable } from "../inventory/_components/data-table";
 import { ColumnSalesReport } from "./ColumnSalesReport";
-import { Community, User } from "@prisma/client";
 
 interface Props {
     user: User;
@@ -67,23 +67,8 @@ export const SalesReportTable = ({ user }: Props) => {
         }
     }
 
-    // function getSoldProductsSummary(sales: CompletedTransaction[]) {
-    //     const summaryMap: { [productName: string]: number } = {};
 
-    //     sales.forEach((transaction) => {
-    //         transaction.orderedProducts.forEach((orderedProduct) => {
-    //             const { name, quantity } = orderedProduct.product;
 
-    //             if (summaryMap[name]) {
-    //                 summaryMap[name] += orderedProduct.quantity; // Accumulate the quantity sold
-    //             } else {
-    //                 summaryMap[name] = orderedProduct.quantity;
-    //             }
-    //         });
-    //     });
-
-    //     return summaryMap;
-    // }
 
     const groupSoldProductsByCategory = (sales: CompletedTransaction[]) => {
         const productsByCategory: { [key: string]: { [key: string]: { quantity: number; totalSales: number } } } = {};
@@ -130,7 +115,6 @@ export const SalesReportTable = ({ user }: Props) => {
 
                     <FileUp className="mr-2" strokeWidth={1} />
                     Generate Report
-                    {/* Make this generate report work where it can be a printed data report */}
                 </div>
             </div>
             <Popover>

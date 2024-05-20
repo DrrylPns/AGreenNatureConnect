@@ -1,9 +1,10 @@
-import { type ClassValue, clsx } from "clsx"
-import { twMerge } from "tailwind-merge"
+import { clsx, type ClassValue } from "clsx"
 import { formatDistanceToNow, formatDistanceToNowStrict } from 'date-fns'
 import locale from 'date-fns/locale/en-US'
-import { LatestProduct, ProductWithOrderdProducts } from "./types"
-import { isWithinInterval } from 'date-fns';
+import { mkConfig, generateCsv, download } from 'export-to-csv'
+import { Row } from "@tanstack/react-table";
+import { twMerge } from "tailwind-merge"
+import { CompletedTransaction, LatestProduct } from "./types"
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -36,17 +37,17 @@ export async function calculateTotalSalesValue(latestProducts: LatestProduct[], 
 
   // Iterate over each product
   for (const product of latestProducts) {
-      let totalSalesValue = 0;
+    let totalSalesValue = 0;
 
-      // Sum up the total price from orderedProducts within the specified date range for each product
-      for (const order of product.orderedProducts) {
-         
-              totalSalesValue += order.totalPrice;
-     
-      }
+    // Sum up the total price from orderedProducts within the specified date range for each product
+    for (const order of product.orderedProducts) {
 
-      // Store the total sales value for the product
-      productSalesValues.push(totalSalesValue);
+      totalSalesValue += order.totalPrice;
+
+    }
+
+    // Store the total sales value for the product
+    productSalesValues.push(totalSalesValue);
   }
 
   return productSalesValues;
@@ -148,3 +149,16 @@ export function formatPrice(
     maximumFractionDigits: 2
   }).format(numericPrice)
 }
+
+// export const csvConfig = mkConfig({
+//   fieldSeparator: ',',
+//   filename: 'generated-report',
+//   decimalSeparator: '.',
+//   useKeysAsHeaders: true,
+// })
+
+// export const exportExcel = (rows: Row<CompletedTransaction>[]) => {
+//   const rowData = rows.map((row) => row.original)
+//   const csv = generateCsv(csvConfig)(rowData)
+//   download(csvConfig)(csv)
+// }

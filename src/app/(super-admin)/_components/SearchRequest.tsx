@@ -14,24 +14,22 @@ import {
     AlertDialogTrigger,
 } from "@/app/components/Ui/alert-dialog";
 import { toast } from "@/lib/hooks/use-toast";
-import { cn, formatDate } from "@/lib/utils";
-import { Community, UrbanFarmApplicatants } from "@prisma/client";
+import { formatDate } from "@/lib/utils";
+import { UrbanFarmApplicatants } from "@prisma/client";
 import { Card, MultiSelect, MultiSelectItem, Table, TableBody, TableCell, TableHead, TableHeaderCell, TableRow, Text } from '@tremor/react';
-import { MoreHorizontal, Plus } from "lucide-react";
-import Link from "next/link";
-import { useState, useTransition } from "react";
-import { createCommunity, handleCommunity } from "../../../../actions/community";
-import useSpeechRecognition from "@/lib/hooks/useSpeechRecognition";
+import { MoreHorizontal } from "lucide-react";
 import Image from "next/image";
+import { useState, useTransition } from "react";
+import { createCommunity } from "../../../../actions/community";
 
 interface SearchEmployeesProps {
     // employees: Array<User & { Community: Community | null }>;
-   request: UrbanFarmApplicatants[]
+    request: UrbanFarmApplicatants[]
 }
 
 const SearchRequest: React.FC<SearchEmployeesProps> = ({
     request,
-    
+
 }) => {
     const [selectedNames, setSelectedNames] = useState<string[]>([]);
     const [open, setOpen] = useState(false)
@@ -163,14 +161,14 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                             onClick={() => setOpen(true)}
                                                             className="text-sm p-3"
                                                         >
-                                                           Review
+                                                            Review
                                                         </AlertDialogTrigger>
                                                         <AlertDialogContent className="m max-w-4xl">
                                                             <AlertDialogHeader>
                                                                 <AlertDialogTitle>Submitted Details</AlertDialogTitle>
                                                                 <AlertDialogDescription>
-                                                                   <div>
-                                                                        <h1>Urban Farm Name: {community.urbanFarmName}</h1>                                                                     
+                                                                    <div>
+                                                                        <h1>Urban Farm Name: {community.urbanFarmName}</h1>
                                                                         <h1>Area: {community.area}</h1>
                                                                         <h1>Blk / lot: {community.blk}</h1>
                                                                         <h1>Email: {community.email}</h1>
@@ -179,9 +177,9 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                                         <h1>Contact no: {community.contact}</h1>
                                                                         <h1>Gender: {community.gender}</h1>
                                                                         <div className="w-20 h-20">
-                                                                            <Image src={community.form} alt="" width={100} height={100} className="object-cover w-full h-full"/>
+                                                                            <Image src={community.form} alt="" width={100} height={100} className="object-cover w-full h-full" />
                                                                         </div>
-                                                                   </div>
+                                                                    </div>
                                                                 </AlertDialogDescription>
                                                             </AlertDialogHeader>
                                                             <AlertDialogFooter>
@@ -196,16 +194,17 @@ const SearchRequest: React.FC<SearchEmployeesProps> = ({
                                                                     onClick={() => {
                                                                         startTransition(() => {
                                                                             createCommunity(
-                                                                                community.urbanFarmName, 
-                                                                                community.area, 
-                                                                                community.blk, 
-                                                                                community.street, 
-                                                                                community.zip, 
+                                                                                community.urbanFarmName,
+                                                                                community.area,
+                                                                                //@ts-ignore
+                                                                                community.blk,
+                                                                                community.street,
+                                                                                community.zip,
                                                                                 community.email,
-                                                                                community.firstName, 
-                                                                                community.lastName, 
-                                                                                community.contact, 
-                                                                                community.form, 
+                                                                                community.firstName,
+                                                                                community.lastName,
+                                                                                community.contact,
+                                                                                community.form,
                                                                                 community.userId,
                                                                                 community.address
                                                                             ).then((callback) => {

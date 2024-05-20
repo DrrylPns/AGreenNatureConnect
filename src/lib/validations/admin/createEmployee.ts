@@ -17,9 +17,9 @@ export const CreateEmployeeSchema = z.object({
         required_error: "Please select a valid gender."
     }),
     email: z.string().email().refine(email => email.length <= 255, { message: "Email is too long" }),
-    address: z.string()
-        .min(5, { message: "Minimum length of address is 5" })
-        .max(100, { message: "Maximum length of address is 100" }),
+    // address: z.string()
+    //     .min(5, { message: "Minimum length of address is 5" })
+    //     .max(100, { message: "Maximum length of address is 100" }),
     password: z.string()
         .min(8, { message: "Minimum password length is 8 characters" })
         .max(20, { message: "Maximum password length is 20 characters" })

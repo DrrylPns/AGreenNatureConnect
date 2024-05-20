@@ -42,6 +42,13 @@ import { UserWithCommunity } from "@/lib/types";
 interface Props {
   user: UserWithCommunity;
 }
+type Barangay = "Nova Proper" | "Bagbag" | "Bagong Silangan";
+
+const barangayZipCodes: Record<Barangay, string> = {
+  "Nova Proper": "1121",
+  Bagbag: "1116",
+  "Bagong Silangan": "1119",
+};
 
 export const Onboarding = ({ user }: Props) => {
   const [selectedCommunity, setSelectedCommunity] = useState("");
@@ -74,11 +81,13 @@ export const Onboarding = ({ user }: Props) => {
     setValue("community", communityValue);
   };
 
-  const handleBarangayChange = (value: string) => {
+  const handleBarangayChange = (value: string | null) => {
     const selectedBrgy = value !== null ? value : "";
-
     setValue("barangay", selectedBrgy);
     setSelectedBrgy(selectedBrgy);
+    const selectedZip =
+      value !== null ? barangayZipCodes[value as Barangay] || "" : "";
+    setZipCode(selectedZip);
   };
 
   const handleAreaChange = (value: string) => {
@@ -221,6 +230,8 @@ export const Onboarding = ({ user }: Props) => {
       signOut();
     }, 2000);
   };
+
+  const [zipCode, setZipCode] = useState("");
 
   console.log(selectedCommunity);
 
@@ -701,7 +712,7 @@ export const Onboarding = ({ user }: Props) => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 items-center justify-center gap-2">
               <div>
-                <Label htmlFor="phone">House / Blk no.</Label>
+                <Label htmlFor="phone">House / Blk no. (Optional)</Label>
                 <Input
                   placeholder="..."
                   {...register("blk")}
@@ -711,11 +722,12 @@ export const Onboarding = ({ user }: Props) => {
               </div>
 
               <div>
-                <Label htmlFor="phone">Zip Code</Label>
+                <Label htmlFor="zip">Zip Code</Label>
                 <Input
                   placeholder="..."
                   {...register("zip")}
                   type="text"
+                  value={zipCode}
                   className=""
                 />
               </div>

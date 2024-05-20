@@ -7,7 +7,7 @@ import { FormError } from "@/components/form-error";
 import { FormSuccess } from "@/components/form-success";
 import { CardWrapper } from "@/components/card-wrapper";
 import { useSearchParams } from "next/navigation";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/app/components/Ui/form";
 import { Input } from "@/app/components/Ui/Input";
 import { Button } from "@/app/components/Ui/Button";
 import { NewPasswordSchema, NewPasswordType } from "@/lib/validations/changePasswordSchema";
@@ -68,6 +68,7 @@ export const SetPasswordForm = () => {
                                                 type="password"
                                             />
                                         </FormControl>
+                                        <FormDescription>Password must contain at least one lowercase letter, one uppercase letter, and one special character.</FormDescription>
                                         <FormMessage />
                                     </FormItem>
                                 )}
@@ -89,6 +90,7 @@ export const SetPasswordForm = () => {
                                                 type="password"
                                             />
                                         </FormControl>
+                                        <FormDescription>Password must contain at least one lowercase letter, one uppercase letter, and one special character.</FormDescription>
                                         <FormMessage />
                                     </FormItem>
                                 )}

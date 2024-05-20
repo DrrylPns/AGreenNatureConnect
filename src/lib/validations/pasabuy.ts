@@ -31,13 +31,11 @@ export const PasabuySchema = z.object({
             return phMobilePattern.test(phone)
         }),
   
-    blk: z.string({
-        required_error: "Blk / House # is required"
-    }),
+    blk: z.optional(z.string()),
     street: z.string({
         required_error: "Street address is required"
     }),
-    zip: z.string().min(4, { message: "Invalid zip code." }).max(4, { message: "Invalid zip code." }),
+    zip: z.optional(z.string()),
 })
 
 export type ConsignorType = z.infer<typeof ConsignorSchema>

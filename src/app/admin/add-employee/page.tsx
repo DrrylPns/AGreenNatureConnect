@@ -39,6 +39,7 @@ import { useForm } from "react-hook-form";
 const page = () => {
   const form = useForm<CreateEmployeeType>({
     resolver: zodResolver(CreateEmployeeSchema),
+
   })
 
   const router = useRouter()
@@ -55,7 +56,7 @@ const page = () => {
       phone,
       gender,
       email,
-      address,
+      // address,
       password,
       confirmPassword,
       specialization,
@@ -67,7 +68,7 @@ const page = () => {
         phone,
         gender,
         email,
-        address,
+        // address,
         password,
         confirmPassword,
         specialization,
@@ -122,7 +123,7 @@ const page = () => {
       phone: values.phone,
       gender: values.gender,
       email: values.email,
-      address: values.address,
+      // address: values.address,
       specialization: values.specialization,
     }
     createEmployee(payload)
@@ -365,7 +366,7 @@ const page = () => {
                   )}
                 />
 
-                <FormField
+                {/* <FormField
                   control={form.control}
                   name="address"
                   render={({ field }) => (
@@ -378,7 +379,7 @@ const page = () => {
                       <FormMessage />
                     </FormItem>
                   )}
-                />
+                /> */}
 
                 <FormField
                   control={form.control}
