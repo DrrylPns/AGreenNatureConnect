@@ -260,6 +260,7 @@ export interface Transaction {
   amount: number;
   status: string;
   buyer: Author;
+  checkOutSessionId: string | null;
   buyerId: string;
   seller: Community
   sellerId: string;

@@ -18,6 +18,7 @@ interface Transaction {
     amount: number;
     status: string;
     buyer: Buyer;
+    checkOutSessionId: string | null;
     seller: Community
     orderedVariant: OrderedVariant[]
     createdAt: Date;

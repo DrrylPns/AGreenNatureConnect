@@ -18,6 +18,7 @@ interface Transaction {
     buyer: Buyer;
     paymentMethod: string | null;
     paymentStatus: string | null;
+    checkOutSessionId: string | null;
     gcashReciept: string | null;
     seller: Community
     createdAt: Date;

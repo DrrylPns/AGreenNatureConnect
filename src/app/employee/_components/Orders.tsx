@@ -56,7 +56,8 @@ interface Transaction {
     cancelType: CancelType | null;
     paymentMethod: string | null;
     gcashReciept: string | null;
-    paymentStatus: string | null;
+    paymentStatus: string | null; 
+    checkOutSessionId:string | null;
     buyerId: string;
     sellerId: string;
     orderedProducts: orderedProductsWithProducts[]
