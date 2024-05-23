@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import React, { Fragment, useEffect, useState } from "react";
+import React, { Fragment, useEffect, useState, useTransition } from "react";
 import { FaLocationDot } from "react-icons/fa6";
 import { IoIosAddCircleOutline, IoIosRadioButtonOff, IoIosRadioButtonOn } from "react-icons/io";
-import { useRouter } from "next/navigation";
+import { redirect, useRouter } from "next/navigation";
 import { Cart, CartwithProduct } from "@/lib/types";
 import Image from "next/image";
 import { RotatingLines } from "react-loader-spinner";
@@ -16,10 +16,11 @@ import { useCart } from "@/contexts/CartContext";
 import { Button } from "@/components/ui/button";
 import { toast } from "@/lib/hooks/use-toast";
 import { ShippingInfo } from "@prisma/client";
+import { createCheckOutSession } from "../../../../actions/paymongo";
 
 const PaymentMethod = [
   'Cash upon Pickup',
-
+  'E-wallet'
 ]
 
 const ExternalDelivery = [
@@ -41,6 +42,8 @@ function CheckoutModal({ }: {}) {
   const [method, setMethod] = useState("")
   const [option, setOption] = useState("")
   const [error, setError] = useState("")
+  const [isPending, startTransition] = useTransition();
+
 
   // Function to handle the change event of the select element
   const handleSelectChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -116,6 +119,14 @@ function CheckoutModal({ }: {}) {
     0
   );
 
+  console.log(checkoutItems)
+
+  
+  const getUrl = async ()=>{
+    let checkOutUrl
+   
+    
+  }
   const handleAddShippingInfo = () => {
     router.push("/shipping-information");
   };
@@ -126,13 +137,8 @@ function CheckoutModal({ }: {}) {
       closeModal()
       return
     }
-    if (method === 'External Delivery') {
-      if (option === "") {
-        setError("You must select atleast 1 option")
-        closeModal()
-        return
-      }
-    }
+    console.log(method)
+   
     if (shippingInfo === undefined || shippingInfo === null) {
       closeModal()
       toast({
@@ -150,12 +156,18 @@ function CheckoutModal({ }: {}) {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method === "Cash upon Pickup" ? method : option }),
+        body: JSON.stringify({ Items: checkoutItems, paymentMethod: method }),
       });
 
       if (response.ok) {
-      
+        if(method === 'E-wallet'){
+          const data = await response.json()
+
+          router.push(data)
+        } else {
           router.replace("/cart/checkout/success");
+
+        }
         
         setCartNumber((prevCartNumber) => prevCartNumber - checkoutItems.length);
       } else {

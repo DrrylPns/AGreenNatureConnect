@@ -4,8 +4,10 @@ import prisma from "@/lib/db/db";
 import { Cart, CartwithProduct, ResultItem } from "@/lib/types";
 import { TransactionSchema } from "@/lib/validations/transactionSchema";
 import { v4 as uuidv4 } from 'uuid';
+import { createCheckOutSession, retrieveCheckOutSession } from "../../../../../actions/paymongo";
+import { redirect } from "next/navigation";
 
-function transformItems(Items: CartwithProduct[]): ResultItem[] {
+function transformItems(Items: CartwithProduct[],): ResultItem[] {
     const result: ResultItem[] = [];
 
     Items.forEach((item) => {
@@ -15,6 +17,7 @@ function transformItems(Items: CartwithProduct[]): ResultItem[] {
             existingItem.products.push({
                 productId: item.product.id,
                 totalPrice: item.totalPrice,
+                name: item.product.name,
                 isFree: item.product.isFree,
                 kilograms: item.kilograms,
                 unitOfMeasurement: item.unitOfMeasurement,
@@ -29,6 +32,7 @@ function transformItems(Items: CartwithProduct[]): ResultItem[] {
                 products: [{
                     productId: item.product.id,
                     totalPrice: item.totalPrice,
+                    name: item.product.name,
                     isFree: item.product.isFree,
                     kilograms: item.kilograms,
                     unitOfMeasurement: item.unitOfMeasurement,
@@ -83,6 +87,7 @@ export async function POST(req: Request) {
                     paymentMethod: paymentMethod,
                 },
             });
+
             
             await prisma.orderedProducts.createMany({
                 data: item.products.map((product)=>({
@@ -121,42 +126,16 @@ export async function POST(req: Request) {
                 )
             }
             
-            /*
-            item.products.forEach(async (product)=>{
-                if(product.variant.unitOfMeasurement === 'Kilograms'){
-                    await prisma.product.update({
-                        where:{id: product.productId},
-                        data:{kilograms: {decrement: product.variant.variant}}
-                    })
-                }
-                if(product.variant.unitOfMeasurement === 'Grams'){
-                    await prisma.product.update({
-                        where:{id: product.productId},
-                        data:{grams: {decrement: product.variant.variant}}
-                    })
-                }
-                if(product.variant.unitOfMeasurement === 'Pounds'){
-                    await prisma.product.update({
-                        where:{id: product.productId},
-                        data:{pounds: {decrement: product.variant.variant}}
-                    })
-                }
-                if(product.variant.unitOfMeasurement === 'Pieces'){
-                    await prisma.product.update({
-                        where:{id:product.productId},
-                        data:{pieces: {decrement: product.variant.variant}}
-                    })
-                }
-                if(product.variant.unitOfMeasurement === 'Packs'){
-                    await prisma.product.update({
-                        where:{id: product.productId},
-                        data:{packs: {decrement: product.variant.variant}}
-                    })
-                }
-            }) */
             transactions.push(transaction);
         }
+        
+        if(paymentMethod === 'E-wallet'){
+            await createCheckOutSession(transformedItems, transactions)
+            const checkoutUrl = await retrieveCheckOutSession(transactions)
 
+            return new Response(JSON.stringify(checkoutUrl))
+        }
+      
 
 
         return new Response(JSON.stringify(transactions));

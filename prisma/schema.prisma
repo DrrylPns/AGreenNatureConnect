@@ -763,6 +763,7 @@ model Transaction {
   cancelReason  String?
   cancelType    CancelType?
   paymentMethod String?
+  checkOutSessionId String?
   gcashReciept  String?
   paymentStatus String?           @default("Not Paid")
 

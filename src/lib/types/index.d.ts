@@ -111,7 +111,12 @@ export interface Data {
 export interface File {
   url: string
 }
-
+export interface listItemsTypes {
+  amount: number
+  currency: string,
+  name: string,
+  quantity: number
+}
 export interface Product {
   id: string;
   itemNumber: number | null;
@@ -242,6 +247,7 @@ export interface ResultItem {
 
 export interface ProductVariant {
   productId: string;
+  name: string;
   kilograms: number;
   totalPrice: number;
   isFree: boolean;
