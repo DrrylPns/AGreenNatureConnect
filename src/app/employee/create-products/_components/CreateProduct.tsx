@@ -388,7 +388,7 @@ const CreateProduct = () => {
                                 <FormItem>
                                     <FormLabel className='text-[#f7d126]'>Price per Kilograms</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="100" {...field} type='number' className='rounded-full' />
+                                        <Input placeholder="0" {...field} type='number' className='rounded-full' />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -404,7 +404,7 @@ const CreateProduct = () => {
                                 <FormItem>
                                     <FormLabel className='text-[#f7d126]'>Price per Packs</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="100" {...field} type='number' className='rounded-full' />
+                                        <Input placeholder="0" {...field} type='number' className='rounded-full' />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
@@ -420,7 +420,7 @@ const CreateProduct = () => {
                                 <FormItem>
                                     <FormLabel className='text-[#f7d126]'>Price per Pieces</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="100" {...field} type='number' className='rounded-full' />
+                                        <Input placeholder="0" {...field} type='number' className='rounded-full' />
                                     </FormControl>
                                     <FormMessage />
                                 </FormItem>
