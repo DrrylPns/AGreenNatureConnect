@@ -109,7 +109,7 @@ export const columns: ColumnDef<LatestProduct>[] =
           // className={cn("cursor-pointer font-bold text-sm",
           //   outOfStock ? "text-rose-500" : "text-emerald-600"
           // )} 
-          className={`font-bold text-sm ${outOfStock? "text-rose-500" : "text-emerald-600"}`}
+          className={`font-bold text-sm ${outOfStock ? "text-rose-500" : "text-emerald-600"}`}
         >
           {product}
         </div>
@@ -126,7 +126,7 @@ export const columns: ColumnDef<LatestProduct>[] =
         const stockKilo = row.original.quantity;
         const outOfStock = row.original.quantity === 0;
         const numberOfStocks = row.original.quantity
-      
+
         return <div
           className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
         >{stockKilo}</div>;
@@ -140,10 +140,10 @@ export const columns: ColumnDef<LatestProduct>[] =
         );
       },
       cell: ({ row }) => {
-       
+
         const outOfStock = row.original.quantityInPieces === 0;
         const numberOfStocks = row.original.quantityInPieces
-      
+
         return <div
           className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
         >{numberOfStocks}</div>;
@@ -160,7 +160,7 @@ export const columns: ColumnDef<LatestProduct>[] =
         const stockPacks = row.original.quantityIPacks;
         const outOfStock = row.original.quantityIPacks === 0;
         const numberOfStocks = row.original.quantityIPacks
-      
+
         return <div
           className={`${outOfStock ? "text-rose-500" : "text-emerald-600"}text-sm text-center`}
         >{numberOfStocks}</div>;
@@ -203,6 +203,19 @@ export const columns: ColumnDef<LatestProduct>[] =
       cell: ({ row }) => {
         const price = row.original.priceInPacks;
         return <div className="text-center text-sm">{formatPrice(price)}</div>;
+      },
+    },
+    {
+      accessorKey: "markUp",
+      header: ({ column }) => {
+
+        return (
+          <DataTableColumnHeader column={column} title="Mark Up" />
+        );
+      },
+      cell: ({ row }) => {
+        const price = row.original.markUp;
+        return <div className="text-center text-sm">{price} {"%"}</div>;
       },
     },
     // {

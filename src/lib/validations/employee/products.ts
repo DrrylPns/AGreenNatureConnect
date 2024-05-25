@@ -40,6 +40,9 @@ export const CreateProductSchema = z.object({
     priceInKg: z.coerce.number().min(0, numberError).optional(),
     priceInPieces: z.coerce.number().min(0, numberError).optional(),
     priceInPacks: z.coerce.number().min(0, numberError).optional(),
+    markup: z.coerce.number({
+        required_error: "Markup required"
+    }).min(0, numberError),
     // harvestedFrom: z.string().min(3).max(20),
     // expiration: z.coerce.date({required_error: "Expiration date is required"})
 });
@@ -55,6 +58,9 @@ export const UpdateProductSchema = z.object({
     priceInKg: z.coerce.number(),
     priceInPacks: z.coerce.number(),
     priceInPieces: z.coerce.number(),
+    markup: z.coerce.number({
+        required_error: "Markup required"
+    }).min(0, numberError),
     // typeOfMeasurement: z.string().min(1).max(21),
     // perMeasurement: z.array(
     // z.object({
@@ -72,7 +78,7 @@ export const AddStocksScehma = z.object({
     quantity: z.coerce.number().min(0, numberError),
     harvestedFrom: z.string().min(1).max(21),
     unitOfMeasurement: z.string().min(1).max(21),
-    expiration: z.coerce.date({required_error: "Expiration date is required"})
+    expiration: z.coerce.date({ required_error: "Expiration date is required" })
 })
 
 export type UpdateStocksType = z.infer<typeof UpdateStocksSchema>

@@ -28,7 +28,7 @@ import Image from 'next/image'
 
 interface UpdateProductProps {
   product: Product & {
-    
+
   } | null
 }
 
@@ -40,15 +40,21 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
 
   const imageIsEmpty = imageUrl.length === 0
 
+  // the current value of priceInKg is the total value with markup, now I want to roll it back, what is the correct formula?
+  const originalPriceInKg = product?.priceInKg as number / (1 + (product?.markUp as number / 100));
+  const originalPriceInPacks = product?.priceInPacks as number / (1 + (product?.markUp as number / 100));
+  const originalPriceInPieces = product?.priceInPieces as number / (1 + (product?.markUp as number / 100));
+
   const form = useForm<UpdateProductType>({
     resolver: zodResolver(UpdateProductSchema),
     defaultValues: {
       id: product?.id,
       name: product?.name,
       category: product?.category,
-      priceInKg: product?.priceInKg,
-      priceInPacks: product?.priceInPacks,
-      priceInPieces: product?.priceInPieces,
+      priceInKg: originalPriceInKg,
+      priceInPacks: originalPriceInPacks,
+      priceInPieces: originalPriceInPieces,
+      markup: product?.markUp as number | undefined,
     }
   })
 
@@ -61,6 +67,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       priceInKg,
       priceInPacks,
       priceInPieces,
+      markup,
     }: UpdateProductType) => {
       const payload: UpdateProductType = {
         id: product?.id,
@@ -70,6 +77,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
         priceInKg,
         priceInPacks,
         priceInPieces,
+        markup,
       }
 
       const { data } = await axios.put("/api/employee/products", payload)
@@ -129,6 +137,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
       priceInKg: values.priceInKg,
       priceInPacks: values.priceInPacks,
       priceInPieces: values.priceInPieces,
+      markup: values.markup,
     }
 
     updateProduct(payload)
@@ -224,6 +233,22 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
               </FormItem>
             )}
           />
+
+          <FormField
+            control={form.control}
+            name="markup"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel className='text-[#f7d126]'>Markup (%)</FormLabel>
+                <FormControl>
+                  <Input placeholder="0%" {...field} className='rounded-full' />
+                </FormControl>
+
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+
           <div className='grid grid-cols-3 gap-x-5'>
             <FormField
               control={form.control}
@@ -268,7 +293,7 @@ export const UpdateProduct: React.FC<UpdateProductProps> = ({ product }) => {
               )}
             />
           </div>
-         
+
 
           {/* Category */}
           <FormField

@@ -50,7 +50,7 @@ const CreateProduct = () => {
     // const [perMeasurementSlots, setPerMeasurementSlots] = useState([{ measurement: 0, price: 0, estPieces: '' }]);
     const [prodName, setProdName] = useState<string>("")
     // const [typeMeasurementProd, setTypeMeasurementProd] = useState<string>("")
-  
+
     const [perKilogram, setPerKilogram] = useState<number>(0)
     const [perPieces, setPerPieces] = useState<number>(0)
     const [perPacks, setPerPacks] = useState<number>(0)
@@ -73,7 +73,7 @@ const CreateProduct = () => {
             priceInKg,
             priceInPieces,
             priceInPacks,
-       
+            markup,
         }: CreateProductType) => {
             const payload: CreateProductType = {
                 productImage,
@@ -82,7 +82,7 @@ const CreateProduct = () => {
                 priceInKg,
                 priceInPieces,
                 priceInPacks,
-             
+                markup
             }
 
             const { data } = await axios.post("/api/employee/products", payload)
@@ -132,7 +132,7 @@ const CreateProduct = () => {
             priceInKg: values.priceInKg,
             priceInPieces: values.priceInPieces,
             priceInPacks: values.priceInPacks,
-          
+            markup: values.markup,
         }
 
         createProduct(payload)
@@ -377,9 +377,35 @@ const CreateProduct = () => {
 
 
                     {/* NEW DRAFT */}
+
+
                     <h1 className='text-[#f7d126] text-center mb-5 font-bold'>
                         Prices of {prodName}
                     </h1>
+
+                    <div className='grid grid-cols-1'>
+                        <FormField
+                            control={form.control}
+                            name="markup"
+                            render={({ field }) => (
+                                <FormItem>
+                                    <FormLabel className='text-[#f7d126]'>Mark up (%)</FormLabel>
+                                    <FormControl>
+                                        <Input
+                                            placeholder="0%"
+                                            {...field}
+                                            type='number'
+                                            className='rounded-full'
+                                            defaultValue={30}
+                                        />
+                                    </FormControl>
+                                    <FormMessage />
+                                </FormItem>
+                            )}
+                        />
+
+                    </div>
+
                     <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
@@ -428,7 +454,7 @@ const CreateProduct = () => {
                         />
 
                     </div>
-{/* 
+                    {/* 
                     <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
@@ -445,7 +471,7 @@ const CreateProduct = () => {
                             )}
                         />
                     </div> */}
-{/* 
+                    {/* 
                     <div className='grid grid-cols-1'>
                         <FormField
                             control={form.control}
@@ -522,7 +548,7 @@ const CreateProduct = () => {
 
                             const imageState = form.getFieldState('productImage')
                             const nameState = form.getFieldState('name')
-                         
+
                             const categoryState = form.getFieldState('category')
 
                             if (imageUrl.length === 0) {
@@ -567,9 +593,9 @@ const CreateProduct = () => {
                             onClick={() => {
                                 // setQuantityProd(form.getValues("quantity"))
                                 setPerKilogram(form.getValues("priceInKg") || 0)
-                                setPerPieces(form.getValues("priceInPieces")|| 0)
-                                setPerPacks(form.getValues("priceInPacks")|| 0)
-                                
+                                setPerPieces(form.getValues("priceInPieces") || 0)
+                                setPerPacks(form.getValues("priceInPacks") || 0)
+
                                 // console.log("GEY" + perMeasurementValues)
                             }}
                             disabled={
@@ -596,19 +622,19 @@ const CreateProduct = () => {
                                         <div>
                                             Price in Kilogram:
                                             <span className='font-bold text-black ml-1'>
-                                            ₱{perKilogram}
+                                                ₱{perKilogram}
                                             </span>
                                         </div>
                                         <div>
                                             Price in Pieces:
                                             <span className='font-bold text-black ml-1'>
-                                            ₱{perPieces}
+                                                ₱{perPieces}
                                             </span>
                                         </div>
                                         <div>
                                             Price in Packs:
                                             <span className='font-bold text-black ml-1'>
-                                            ₱{perPacks}
+                                                ₱{perPacks}
                                             </span>
                                         </div>
                                         {/* <div>

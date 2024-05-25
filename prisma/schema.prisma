@@ -604,6 +604,7 @@ model Product {
   priceInKg        Float
   priceInPacks     Float          @default(0)
   priceInPieces    Float          @default(0)
+  markUp           Float?
   category         String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status           ApprovalStatus @default(APPROVED)
   isFree           Boolean        @default(false)
@@ -754,18 +755,18 @@ model ReviewDislike {
 // }
 
 model Transaction {
-  id            String            @id @default(cuid())
-  referenceId   String            @unique
-  amount        Float // order total
-  status        TransactionStatus @default(PENDING)
-  createdAt     DateTime          @default(now())
-  updatedAt     DateTime          @updatedAt
-  cancelReason  String?
-  cancelType    CancelType?
-  paymentMethod String?
+  id                String            @id @default(cuid())
+  referenceId       String            @unique
+  amount            Float // order total
+  status            TransactionStatus @default(PENDING)
+  createdAt         DateTime          @default(now())
+  updatedAt         DateTime          @updatedAt
+  cancelReason      String?
+  cancelType        CancelType?
+  paymentMethod     String?
   checkOutSessionId String?
-  gcashReciept  String?
-  paymentStatus String?           @default("Not Paid")
+  gcashReciept      String?
+  paymentStatus     String?           @default("Not Paid")
 
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
@@ -784,15 +785,15 @@ model Transaction {
 }
 
 model OrderedProducts {
-  id         String   @id @default(cuid())
-  priceInKg  Float // PRICE
-  quantity   Float
-  unitOfMeasurement String @default("kilograms")
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  totalPrice Float
-  productId  String
-  product    Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  priceInKg         Float // PRICE
+  quantity          Float
+  unitOfMeasurement String   @default("kilograms")
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  totalPrice        Float
+  productId         String
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   transactionId String
   transaction   Transaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
@@ -861,16 +862,16 @@ enum TransactionStatus {
 // }
 
 model Cart {
-  id         String   @id @default(cuid())
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-  kilograms  Float
-  totalPrice Float
-  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId     String
-  unitOfMeasurement String @default("kilograms")
-  productId String
-  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  id                String   @id @default(cuid())
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  kilograms         Float
+  totalPrice        Float
+  user              User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId            String
+  unitOfMeasurement String   @default("kilograms")
+  productId         String
+  product           Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
 
   community   Community? @relation(fields: [communityId], references: [id], onDelete: Cascade)
   communityId String?
