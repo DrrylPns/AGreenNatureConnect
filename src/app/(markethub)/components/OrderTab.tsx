@@ -1,6 +1,6 @@
 "use client"
 import { Tab } from '@headlessui/react'
-import React, { Suspense, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import RotatingLinesLoading from './RotatingLinesLoading'
 import Orders from './Orders'
 import axios from 'axios'
@@ -9,6 +9,7 @@ import { FaArrowLeft, FaBullseye } from 'react-icons/fa'
 import { FiRefreshCw } from 'react-icons/fi'
 import Loading from '../loading'
 import { transactionWithOrderedProducts } from '@/lib/types'
+import { getPaymentIntentStatus } from '../../../../actions/paymongo'
 
 interface Transaction {
     id: string;
@@ -108,9 +109,6 @@ function OrderTab({
         }, 2000)
         console.log('clicked')
     }
-
-
-
     return (
         <Tab.Group defaultIndex={0} selectedIndex={selectedIndex} onChange={setSelectedIndex}>
             <div className='relative'>

@@ -1,7 +1,9 @@
 "use server"
 
+import { getAuthSession } from "@/lib/auth";
 import prisma from "@/lib/db/db";
-import { CartwithProduct, ProductVariant, ResultItem, listItemsTypes } from "@/lib/types";
+import { CartwithProduct, ProductVariant, ResultItem, listItemsTypes, transactionWithOrderedProducts } from "@/lib/types";
+import axios from "axios";
 
 export const createCheckOutSession = async (checkOutItems: ResultItem[], transactions:any[])=>{
     const listItems:listItemsTypes[] = []
@@ -13,8 +15,7 @@ export const createCheckOutSession = async (checkOutItems: ResultItem[], transac
 
             listItems.push({ amount: amount, currency: 'PHP', name: product.name, quantity: product.kilograms})
         })
-    })
-    console.log(listItems)   
+    })  
         const options = {
             method: 'POST',
             headers: {
@@ -25,7 +26,7 @@ export const createCheckOutSession = async (checkOutItems: ResultItem[], transac
             body: JSON.stringify({
               data: {
                 attributes: {
-                  payment_method_types: ['gcash'],
+                  payment_method_types: ['gcash','paymaya'],
                   line_items: listItems,
                   send_email_receipt: true,
                   success_url: 'https://www.agreennatureconnect.online/order-status',
@@ -41,13 +42,15 @@ export const createCheckOutSession = async (checkOutItems: ResultItem[], transac
         try {
             const response = await fetch('https://api.paymongo.com/v1/checkout_sessions', options);
             const data = await response.json();
+            console.log(data.data.attributes.payment_intent)
             for (const transaction of transactions){
                 await prisma.transaction.update({
                     where:{
                         id: transaction.id
                     },
                     data:{
-                        checkOutSessionId: data.data.id
+                        checkOutSessionId: data.data.id,
+                        checkOutUrlLink: data.data.attributes.checkout_url
                     }
                 })
             }
@@ -55,7 +58,81 @@ export const createCheckOutSession = async (checkOutItems: ResultItem[], transac
             return { error: err };
         }  
 }
+export const getPaymentIntentStatus = async (pending:transactionWithOrderedProducts[])=>{
+    const session = await getAuthSession()
 
+    if (!session?.user) {
+        return new Response("Unauthorized", { status: 401 });
+    }
+    const options = {
+        method: 'GET',
+        headers: {
+            accept: 'application/json',
+            authorization: 'Basic c2tfdGVzdF9YZDhHb1pxNEh6QVp2ZEFKb0Jub1o3MUM6'
+        }
+    };
+    const newPending:transactionWithOrderedProducts[] = []
+    if(pending !== null){
+     
+        pending.map(async(pending)=>{
+            if(pending.checkOutSessionId !== null){
+                const response = await fetch(`https://api.paymongo.com/v1/checkout_sessions/${pending.checkOutSessionId}`, options);
+                const data = await response.json();
+                const status = data.data.attributes.payment_intent.attributes.status
+                const transactionId = pending.id
+                if(status === "succeeded"){
+                    if(pending.paymentStatus === "Paid"){
+                      
+                    } else {
+                        const paymentStatus = await prisma.transaction.update({
+                            where:{
+                                id:transactionId
+                            },
+                            data:{
+                                paymentStatus: "Paid"
+                            },
+                            include: {
+                                buyer: true,
+                                seller: true,
+                                orderedProducts: {
+                                    include:{
+                                        product: true
+                                    }
+                                }
+                               
+                            }
+                        })
+                    }
+                }
+            }
+        })
+        
+    }
+
+    
+    const latestPending = await prisma.transaction.findMany({
+        where: {
+            buyerId: session.user.id,
+            status: "PENDING"
+        },
+        orderBy: {
+            updatedAt: 'desc'
+        },
+        include: {
+            buyer: true,
+            seller: true,
+            orderedProducts: {
+                include:{
+                    product: true
+                }
+            }
+           
+        }
+    });
+
+    return latestPending
+     
+}
 export const retrieveCheckOutSession = async(transactions: any[])=>{
     const options = {
         method: 'GET',
@@ -74,7 +151,6 @@ export const retrieveCheckOutSession = async(transactions: any[])=>{
                 id: transaction.id
             }
         })
-        console.log(existingTransaction)
         if(!existingTransaction){
             return {error: "No transaction found!"}
         }
@@ -84,7 +160,9 @@ export const retrieveCheckOutSession = async(transactions: any[])=>{
         }
         const response = await fetch(`https://api.paymongo.com/v1/checkout_sessions/${existingTransaction.checkOutSessionId}`, options);
         const data = await response.json();
-        return data.data.attributes.checkout_url
+
+        console.log(data.data.attributes.payment_intent.status)
+        return data.data.attributes
 
         // try {
         //     const response = await fetch(`https://api.paymongo.com/v1/checkout_sessions/${transaction.checkOutSessionId}`, options);

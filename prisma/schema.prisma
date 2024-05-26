@@ -608,7 +608,7 @@ model Product {
   status           ApprovalStatus @default(APPROVED)
   isFree           Boolean        @default(false)
   isFreeUntil      DateTime?
-
+  markUp            Float @default(0)
   Stock     Stocks[]
   StockLogs StockLogs[]
   creator   User        @relation(fields: [creatorId], references: [id], onDelete: Cascade)
@@ -766,7 +766,7 @@ model Transaction {
   checkOutSessionId String?
   gcashReciept  String?
   paymentStatus String?           @default("Not Paid")
-
+  checkOutUrlLink String?
   buyer   User   @relation("Buyer", fields: [buyerId], references: [id], onDelete: Cascade)
   buyerId String
 

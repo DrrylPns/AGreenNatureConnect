@@ -92,12 +92,14 @@ export async function POST(req: NextRequest) {
         if (community && user) {
             const createProduct = await prisma.product.create({
                 data: {
+            
                     productImage: productImage as string,
                     name,
                     category,
                     priceInKg: priceInKg === undefined ? 0 : priceInKg,
                     priceInPieces: priceInPieces === undefined ? 0 : priceInPieces,
                     priceInPacks: priceInPacks === undefined ? 0 : priceInPacks,
+                    
                     // quantity,
                     creatorId: user?.id as string,
                     communityId: community?.id,

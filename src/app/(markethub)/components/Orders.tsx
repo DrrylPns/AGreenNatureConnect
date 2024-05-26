@@ -149,36 +149,21 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                         <div key={transaction.id} className='mt-5 border bg-gray-100 border-gray-200 shadow-sm drop-shadow-lg w-[90%] md:w-[70%] lg:w-[60%] mx-auto'>
                             <div className='flex justify-start items-center w-full pl-[65%] md:pl-[80%] px-5 md:px-10 py-3 border-gray-200 border-b-2 overflow-x-auto'>
                                 
-                                {/* {transaction.paymentMethod !== 'Gcash' || selectedIndex === 4 ? (
+                                {transaction.paymentMethod !== 'E-wallet' || selectedIndex === 4 ? (
                                     null
                                 ) : (
                                     <>
-                                        {transaction.paymentStatus === 'Not Paid' && transaction.paymentMethod === "Gcash" ? (
-                                            <QrCodeDrawer transaction={transaction} />
-                                        ) : transaction.paymentStatus === "Not Paid" && transaction.paymentMethod === "Abono" ? (
-                                            <>Test</>
-                                        ) : <h1>Paid</h1>}
+                                        {transaction.paymentStatus === 'Not Paid'  ? (
+                                           <Link href={transaction.checkOutUrlLink || "/order-status"}>Pay Now</Link>
+                                          
+                                        ) : (
+                                            <>Paid</>
+                                        )}
 
                                     </>
-                                )} */}
-                                
-                                {(transaction.status === "PENDING" || transaction.status === "APPROVED" || transaction.status === "PICK_UP") && (
-                                    <>
-                                        {transaction.paymentMethod === "Gcash" ? (
-                                            <>
-                                                {transaction.paymentStatus === "Not Paid" ? (
-                                                    <QrCodeDrawer transaction={transaction} />
-                                                ) : (
-                                                    <h1>Paid</h1>
-                                                )}
-                                            </>
-                                        ) : transaction.paymentMethod === "Abono" ? (
-                                            <>
-                                                {/* Render something specific for "Abono" payment method */}
-                                            </>
-                                        ) : null}
-                                    </>
                                 )}
+                                
+                               
                             </div>
 
                             <div className='flex px-0 md:px-10 w-full my-5 gap-3 sm:gap-10 md:gap-14 items-center justify-center lg:justify-between transition-all ease-in-out duration-500'>

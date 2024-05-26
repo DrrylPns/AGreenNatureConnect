@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import prisma from "@/lib/db/db";
 import { getAuthSession } from "../../../lib/auth";
+import { getPaymentIntentStatus } from "../../../../actions/paymongo";
 
 async function page() {
     const session = await getAuthSession()
@@ -111,11 +112,12 @@ async function page() {
         }
     })
 
+    const newPending = await getPaymentIntentStatus(Pending)
     return (
         <div>
             <OrderTab
                 //@ts-ignore
-                pending={Pending}
+                pending={newPending}
                 //@ts-ignore
                 approved={Approved}
                 //@ts-ignore

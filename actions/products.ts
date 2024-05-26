@@ -82,7 +82,7 @@ export const fetchAllProducts = async (startDate: Date | null = null, endDate: D
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
         });
-        console.log(notExpiredStocksInKg)
+
         const notExpiredStocksInPacks: Stocks[] | null = productStockInPacks.filter(stock => {
             const expirationDate = new Date(stock.expiration);
             return expirationDate >= currentDate;
@@ -384,7 +384,6 @@ export const fetchProducts = async (startDate: Date | null = null, endDate: Date
         return product.orderedProducts.length >= 1;
     });
     
-    console.log(filteredProducts)
     // Calculate total sales value for each product within the specified date range
     const totalSalesValues = await calculateTotalSalesValue(filteredProducts);
 

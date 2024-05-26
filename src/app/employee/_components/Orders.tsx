@@ -182,7 +182,8 @@ const Orders: React.FC<OrdersProps> = ({ status, noOrders, selectedIndex, transa
                                         {transaction.gcashReciept?.length === 0 ? (
                                             <h1>Not Paid</h1>
                                         ) : (
-                                            <CheckProofPayment transaction={transaction} />
+                                            <></>
+                                            // <CheckProofPayment transaction={transaction} />
                                         )}
                                     </>
                                 )}

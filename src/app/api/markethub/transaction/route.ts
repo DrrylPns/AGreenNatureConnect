@@ -133,7 +133,7 @@ export async function POST(req: Request) {
             await createCheckOutSession(transformedItems, transactions)
             const checkoutUrl = await retrieveCheckOutSession(transactions)
 
-            return new Response(JSON.stringify(checkoutUrl))
+            return new Response(JSON.stringify(checkoutUrl.checkout_url))
         }
       
 

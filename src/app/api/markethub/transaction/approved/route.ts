@@ -370,6 +370,7 @@ export async function POST(req: Request) {
 
     revalidatePath('/orders', 'layout')
     revalidatePath('/employee/inventory', 'page')
+    revalidatePath('/order-status', 'page')
     return new Response(JSON.stringify(acceptOrderById));
   } catch (error) {
     return new Response(`Error: ${error}`, { status: 500 })
