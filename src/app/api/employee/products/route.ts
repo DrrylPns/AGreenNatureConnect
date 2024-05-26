@@ -87,7 +87,13 @@ export async function POST(req: NextRequest) {
             priceInKg,
             priceInPieces,
             priceInPacks,
+            markup,
         } = CreateProductSchema.parse(body)
+
+
+        const totalPriceInKg = priceInKg as number + (priceInKg as number * (markup / 100));
+        const totalPriceInPieces = priceInPieces as number + (priceInPieces as number * (markup / 100));
+        const totalPriceInPacks = priceInPacks as number + (priceInPacks as number * (markup / 100));
 
         if (community && user) {
             const createProduct = await prisma.product.create({
@@ -96,14 +102,15 @@ export async function POST(req: NextRequest) {
                     productImage: productImage as string,
                     name,
                     category,
-                    priceInKg: priceInKg === undefined ? 0 : priceInKg,
-                    priceInPieces: priceInPieces === undefined ? 0 : priceInPieces,
-                    priceInPacks: priceInPacks === undefined ? 0 : priceInPacks,
+                    priceInKg: priceInKg === undefined ? 0 : totalPriceInKg,
+                    priceInPieces: priceInPieces === undefined ? 0 : totalPriceInPieces,
+                    priceInPacks: priceInPacks === undefined ? 0 : totalPriceInPacks,
                     
                     // quantity,
                     creatorId: user?.id as string,
                     communityId: community?.id,
-                    status: "APPROVED"
+                    status: "APPROVED",
+                    markUp: markup,
                 }
             });
 
@@ -137,7 +144,7 @@ export async function POST(req: NextRequest) {
         }
 
         revalidatePath("/employee/inventory", "page")
-       console.log("created Product")
+        console.log("created Product")
         return new NextResponse(`Successfully added product!`);
     } catch (error) {
         return new NextResponse('Could not create a product' + error, { status: 500 })
@@ -169,7 +176,20 @@ export async function PUT(req: NextRequest) {
     try {
         const body = await req.json()
 
-        const { id, name, category, productImage, priceInKg,priceInPacks,priceInPieces } = UpdateProductSchema.parse(body)
+        const {
+            id,
+            name,
+            category,
+            productImage,
+            priceInKg,
+            priceInPacks,
+            priceInPieces,
+            markup,
+        } = UpdateProductSchema.parse(body)
+
+        const totalPriceInKg = priceInKg as number + (priceInKg as number * (markup / 100));
+        const totalPriceInPieces = priceInPieces as number + (priceInPieces as number * (markup / 100));
+        const totalPriceInPacks = priceInPacks as number + (priceInPacks as number * (markup / 100));
 
         await prisma.product.update({
             where: {
@@ -180,9 +200,10 @@ export async function PUT(req: NextRequest) {
                 productImage,
                 name,
                 category,
-                priceInKg,
-                priceInPacks,
-                priceInPieces
+                priceInKg: totalPriceInKg,
+                priceInPieces: totalPriceInPieces,
+                priceInPacks: totalPriceInPacks,
+                markUp: markup,
             }
         })
 
