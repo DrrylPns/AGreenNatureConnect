@@ -604,7 +604,6 @@ model Product {
   priceInKg        Float
   priceInPacks     Float          @default(0)
   priceInPieces    Float          @default(0)
-  markUp           Float?
   category         String //@unique // kapag sinabing pwede madagdagan gawin nang sariling model to at i-relation nalang. Igaya ang logic katulad sa Topic wherein employees / admin can create multiple categories.
   status           ApprovalStatus @default(APPROVED)
   isFree           Boolean        @default(false)
