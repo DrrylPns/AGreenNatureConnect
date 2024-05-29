@@ -27,7 +27,7 @@ const ExternalDelivery = [
   'Abono',
   'Gcash',
 ]
-
+ 
 function CheckoutModal({ }: {}) {
   const [checkoutItems, setCheckoutItems] = useState<CartwithProduct[]>([]);
   const [loading, setLoading] = useState<boolean>(true);

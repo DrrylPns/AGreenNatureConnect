@@ -24,8 +24,7 @@ type buyNowType = {
 }
 const PaymentMethod = [
   'Cash upon Pickup',
-
-
+  'E-wallet'
 ]
 
 const ExternalDelivery = [
@@ -96,24 +95,26 @@ function page() {
     setisProcessing(true);
     
     try {
-      if(item !== undefined){
-        const response = await axios.post("/api/markethub/transaction/buyNow", {
-          sellerId:item?.selectedProduct.communityId,
-          kilograms: item.price !== undefined ? item?.price : item.priceInPacks !== undefined ? item.priceInPacks : item.priceInPieces !== undefined && item.priceInPieces,
-          totalPrice: item.price !== undefined ? item?.price * item?.selectedProduct.priceInKg : item.priceInPacks !== undefined ? item?.priceInPacks * item?.selectedProduct.priceInPacks : item?.priceInPieces !== undefined && item?.priceInPieces * item?.selectedProduct.priceInPieces,
-          productId: item?.selectedProduct.id,
-          paymentMethod: method, 
-          priceInKg: item.selectedProduct.priceInKg,
-          unitOfMeasurement: item.tabValue
-        
-      }).then(res=>{
-        
-      
+      const response = await fetch("/api/markethub/transaction", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ Items: item, paymentMethod: method }),
+      });
+
+      if (response.ok) {
+        if(method === 'E-wallet'){
+          const data = await response.json()
+
+          router.push(data)
+        } else {
           router.replace("/cart/checkout/success");
-        
-      })
+
+        }
+      } else {
+        console.error("Failed to place order:", response.statusText);
       }
-      
     } catch (error) {
       console.error("Error placing order:", error);
     }
