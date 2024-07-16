@@ -138,17 +138,23 @@ export function formatPrice(
     notation?: Intl.NumberFormatOptions["notation"]
   } = {}
 ) {
-  const { currency = "PHP", notation = "standard" } = options
+  const { currency = "PHP", notation = "standard" } = options;
 
-  const numericPrice = typeof price === "string" ? parseFloat(price) : price
+  const numericPrice = typeof price === "string" ? parseFloat(price) : price;
 
-  return new Intl.NumberFormat("fil-PH", {
+  return new Intl.NumberFormat("en-PH", {
     style: "currency",
     currency,
     notation,
     maximumFractionDigits: 2
-  }).format(numericPrice)
+  }).format(numericPrice);
 }
+
+export function formatPriceManual(price: number) {
+  const numericPrice = typeof price === "string" ? parseFloat(price) : price;
+  return `₱${numericPrice.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,')}`;
+}
+
 
 // export const csvConfig = mkConfig({
 //   fieldSeparator: ',',
