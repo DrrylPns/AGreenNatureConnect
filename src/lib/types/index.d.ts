@@ -242,7 +242,7 @@ export interface ResultItem {
   communityId: string;
   totalPrice: number;
   products: ProductVariant[];
-  
+
 }
 
 export interface ProductVariant {
@@ -445,7 +445,7 @@ export type ProductWithOrderdProducts = Prisma.ProductGetPayload<{
         product: true
       }
     },
-    creator:true
+    creator: true
   }
 }>
 export type LatestProduct = Prisma.ProductGetPayload<{
@@ -453,7 +453,7 @@ export type LatestProduct = Prisma.ProductGetPayload<{
     creator: true,
     Stock: true,
     orderedProducts: true,
-},
+  },
 }>
 export type transactionWithOrderedProducts = Prisma.TransactionGetPayload<{
   include: {

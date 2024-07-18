@@ -90,7 +90,7 @@ export const SalesReportTable = ({ user }: Props) => {
         });
 
         doc.setFontSize(18);
-        doc.text("Sales Report", doc.internal.pageSize.getWidth() / 2, 20, { align: "center" });
+        doc.text(`Sales Report of ${user.Community?.name}`, doc.internal.pageSize.getWidth() / 2, 20, { align: "center" });
 
 
         doc.setFontSize(14);
